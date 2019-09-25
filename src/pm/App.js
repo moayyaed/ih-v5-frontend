@@ -1,11 +1,16 @@
 import React from 'react';
 
+import { BrowserRouter as Router } from 'react-router-dom';
+
+import NProgressBar from 'components/core/NProgressBar/NProgressBar';
+
 
 function App() {
   return (
-    <div>
+    <Router>
+      <NProgressBar />
       <p>INTRAHOUSE PM</p>
-    </div>
+    </Router>
   );
 }
 
