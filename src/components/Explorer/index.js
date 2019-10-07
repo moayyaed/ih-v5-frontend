@@ -16,6 +16,7 @@ const styles = {
     height: '100%',
     backgroundColor: '#ECEFF1',
     padding: 6,
+    flexShrink: 0,
   },
 };
 
