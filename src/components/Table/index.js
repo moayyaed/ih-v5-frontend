@@ -20,7 +20,10 @@ const useStyles = makeStyles({
 function Table() {
   return (
     <Box style={styles.box}>
-      <Grid />
+      <Grid
+        headerHeight={30}
+        cellHeight={30}
+      />
     </Box>
   );
 }

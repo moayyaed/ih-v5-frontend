@@ -1,8 +1,17 @@
+.BodyGrid {
+  width: 100%;
+}
+
+.HeaderGrid {
+  width: 100%;
+  overflow: hidden !important;
+}
+
 .headerButtonResize{
   position: absolute;
   top: 0px;
   right: 0px; 
-  width: 6px;
+  width: 4px;
   height: 100%;
 }
 
@@ -10,38 +19,12 @@
   background-color: #2196F3;
 }
 
-.GridRow {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-}
 .GridColumn {
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
   width: 100%;
   height: 100%;
-}
-.LeftSideGridContainer {
-  flex: 0 0 75px;
-  z-index: 10;
-}
-
-.LeftSideGrid {
-  overflow: hidden !important;
-}
-.HeaderGrid {
-  width: 100%;
-  overflow: hidden !important;
-}
-.BodyGrid {
-  width: 100%;
-}
-
-.evenRow {
-}
-.oddRow {
-  background-color: rgba(0, 0, 0, .1);
 }
 
 .cell,
@@ -52,11 +35,22 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  text-align: center;
+  align-items: start;
   padding: 0 .5em;
+  border-right: 1px solid #d3d3d3;
 }
+
 .headerCell,
 .leftCell {
-  font-weight: bold;
+  border-right: 1px solid #d3d3d3;
+  border-top: 1px solid #d3d3d3;
+  border-bottom: 1px solid #d3d3d3;
+  background-image: -webkit-linear-gradient(#fff,#efefef);
+  background-image: linear-gradient(#fff,#efefef);
+}
+
+.evenRow {
+}
+.oddRow {
+  background-color: #f6f7f8;
 }
