@@ -3,6 +3,7 @@ import React from 'react';
 import Box from 'components/core/Box';
 import AppToolBar from 'components/AppToolBar';
 import Explorer from 'components/Explorer';
+import Table from 'components/Table';
 
 const styles = {
   root: {
@@ -25,7 +26,7 @@ function Structure() {
       <AppToolBar />
       <div style={styles.container}>
         <Explorer />
-        <div>Table</div>
+        <Table />
       </div>
     </div>
   );
