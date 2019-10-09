@@ -38,6 +38,12 @@ class Table extends Component {
     }, callback);
   }
 
+  handleReorderColumn = (columns, callback) => {
+    this.setState((state) => {
+      return { ...state, columns: columns };
+    }, callback);
+  }
+
   render() {
     return (
       <Box style={styles.box}>
@@ -46,6 +52,7 @@ class Table extends Component {
           cellHeight={30}
           columns={this.state.columns}
           resizeColumn={this.handleResizeColumn}
+          reorderColumn={this.handleReorderColumn}
         />
       </Box>
     );

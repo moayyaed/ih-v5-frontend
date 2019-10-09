@@ -10,6 +10,8 @@ import Cells from './Cells';
 
 import css from './main.module.css';
 
+const MIN_WIDTH_COLUMN = 75;
+
 class Grid extends Component {
 
   renderBodyCell = ({ columnIndex, key, rowIndex, style }) => {
@@ -18,7 +20,7 @@ class Grid extends Component {
 
     return (
       <div className={classNames} key={key} style={style}>
-        {`I${columnIndex} R${rowIndex}, C${columnIndex}`}
+        {`I${this.props.columns[columnIndex].id} R${rowIndex}, C${columnIndex}`}
       </div>
     );
   }
@@ -37,10 +39,8 @@ class Grid extends Component {
           {this.props.columns[columnIndex].label}
           <Draggable
             axis='x'
-            onStop={(e, data) => this.handleColumnResizeStop({
-              x: data.x,
-              index: columnIndex
-            })}
+            onStart={(e, data) => this.handleColumnResizeStart(e, data, columnIndex)}
+            onStop={(e, data) => this.handleColumnResizeStop(e, data, columnIndex)}
             position={{ x: 0, y: 0 }}
           >
             <div className={css.headerButtonResize} />
@@ -60,20 +60,75 @@ class Grid extends Component {
 
   handleColumnDragStop = (e, data, index) => {
     data.node.style.zIndex = 0;
+    
+    const temp = [];
+    let lastWidth = 0;
+    let targetColumnIndex = null;
+
+    this.props.columns.forEach((i, key) => {
+      if (key === 0) {
+        temp.push(lastWidth)
+      } else {
+        temp.push(lastWidth)
+      }
+      lastWidth = lastWidth + i.width;
+    });
+
+    const curentColumnWidth = temp[index] + data.x;
+
+    temp.forEach((i, key) => {
+      if (targetColumnIndex === null && i - MIN_WIDTH_COLUMN > curentColumnWidth) {
+        targetColumnIndex = key - 1;
+      }
+    });
+   
+    if (targetColumnIndex === null) {
+      targetColumnIndex = temp.length - 1;
+    }
+    if (targetColumnIndex === -1) {
+      targetColumnIndex = 0;
+    }
+
+ 
+    const temp2 = this.props.columns.reduce((l, n, key, arr) => {
+      if (key === targetColumnIndex && key === index) {
+        return l.concat(n);
+      } 
+      if (key === targetColumnIndex) {
+        if (targetColumnIndex > index) {
+          return l.concat(n, arr[index]);
+        }
+        if (targetColumnIndex < index) {
+          return l.concat(arr[index], n);
+        }
+        return l.concat(n);
+      }
+      if (key === index) {
+        return l;
+      }
+      return l.concat(n);
+    }, []);
+    this.props.reorderColumn(temp2, this.forceUpdateAll);
   }
 
-  handleColumnResizeStop = ({ x, index }) => {
+  handleColumnResizeStart = (e, data, index) => {
+    data.node.parentNode.style.zIndex = 100;
+  }
+
+  handleColumnResizeStop = (e, data, index) => {
+    data.node.parentNode.style.zIndex = 0;
+
     const temp = this.props.columns.map((i, key) => {
       if (key === index) {
-        const value = i.width + x;
-        return { ...i, width: value < 75 ? 75 : value };
+        const value = i.width + data.x;
+        return { ...i, width: value < MIN_WIDTH_COLUMN ? MIN_WIDTH_COLUMN : value };
       }
       return i;
     });
-    this.props.resizeColumn(temp, this.recomputeGridSize);
+    this.props.resizeColumn(temp, this.forceUpdateAll);
   }
 
-  recomputeGridSize = () => {
+  forceUpdateAll = () => {
     this.linkHeaders.recomputeGridSize();
     this.linkCells.recomputeGridSize();
   }
