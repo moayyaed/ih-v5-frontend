@@ -18,13 +18,16 @@ class Grid extends Component {
 
   renderBodyCell = ({ columnIndex, key, rowIndex, style }) => {
     const rowClass = rowIndex % 2 === 0 ? css.evenRow : css.oddRow
-    const classNames = clsx(rowClass, css.cell);
-
+    const rowHover = this.state.hover === rowIndex ? css.hoverRow : rowClass;
+    const rowSelect = rowIndex === this.state.hover ? css.selectRowBorder : css.selectRow;
+    const classNames = clsx(this.props.selects[rowIndex] === undefined ? rowHover: rowSelect, css.cell);
     return (
       <div 
         key={key} 
         style={style} 
-        className={classNames} 
+        className={classNames}
+        onClick={(e) => this.handleClickRowOne(e, rowIndex)}
+        onContextMenu={(e) => this.handleClickRowMultiple(e, rowIndex)}
         onMouseEnter={() => this.handleHoverOn(rowIndex)}
         onMouseLeave={this.handleHoverOff}
       >
@@ -65,13 +68,13 @@ class Grid extends Component {
   handleHoverOn = (index) => {
     this.setState((state) => {
       return { ...state, hover: index };
-    });
+    }, this.forceUpdateCells);
   }
 
   handleHoverOff = () => {
     this.setState((state) => {
       return { ...state, hover: null };
-    });
+    }, this.forceUpdateCells);
   }
 
   handleColumnDragStart = (e, data, index) => {
@@ -147,8 +150,36 @@ class Grid extends Component {
     this.props.resizeColumn(temp, this.forceUpdateAll);
   }
 
+
+  handleClickRowOne = (e, index) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.onClickRow({ [index]: true }, this.forceUpdateCells);
+  }
+
+  handleClickRowMultiple = (e, index) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const temp = { ...this.props.selects };
+
+    if (temp[index] === undefined) {
+      temp[index] = true;
+    } else {
+      delete temp[index];
+    }
+
+    this.props.onClickRow(temp, this.forceUpdateCells);
+  }
+
+
+
   forceUpdateAll = () => {
     this.linkHeaders.recomputeGridSize();
+    this.linkCells.recomputeGridSize();
+  }
+
+  forceUpdateCells= () => {
     this.linkCells.recomputeGridSize();
   }
 

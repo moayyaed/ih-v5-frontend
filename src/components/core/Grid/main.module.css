@@ -86,3 +86,21 @@
 .oddRow {
   background-color: #f6f7f8;
 }
+
+.hoverRow {
+  border-top: 1px solid #9E9E9E;
+  border-bottom: 1px solid #9E9E9E;
+  background-color: #e3e9ec;
+}
+
+.selectRow {
+  background-color: #78909c80;
+}
+
+.selectRowBorder {
+  border-top: 1px solid #E0E0E0;
+  border-bottom: 1px solid #E0E0E0;
+  background-color: #78909c40;
+}
+
+

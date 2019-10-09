@@ -45,6 +45,18 @@ class Table extends Component {
     }, callback);
   }
 
+  handleReorderColumn = (columns, callback) => {
+    this.setState((state) => {
+      return { ...state, columns: columns };
+    }, callback);
+  }
+
+  handleClickRow = (selects, callback) => {
+    this.setState((state) => {
+      return { ...state, selects: selects };
+    }, callback);
+  }
+
   render() {
     return (
       <Box style={styles.box}>
@@ -52,9 +64,10 @@ class Table extends Component {
           headerHeight={30}
           cellHeight={30}
           columns={this.state.columns}
-          select={this.state.selects}
+          selects={this.state.selects}
           resizeColumn={this.handleResizeColumn}
           reorderColumn={this.handleReorderColumn}
+          onClickRow={this.handleClickRow}
         />
       </Box>
     );
