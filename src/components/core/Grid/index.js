@@ -20,7 +20,7 @@ class Grid extends Component {
     const rowClass = rowIndex % 2 === 0 ? css.evenRow : css.oddRow
     const rowHover = this.state.hover === rowIndex ? css.hoverRow : rowClass;
     const rowSelect = rowIndex === this.state.hover ? css.selectRowBorder : css.selectRow;
-    const classNames = clsx(this.props.selects[rowIndex] === undefined ? rowHover: rowSelect, css.cell);
+    const classNames = clsx(this.props.selects[rowIndex] === undefined ? rowHover: rowSelect, css.cell, css.noselect);
     return (
       <div 
         key={key} 
@@ -45,7 +45,7 @@ class Grid extends Component {
         onStart={(e, data) => this.handleColumnDragStart(e, data, columnIndex)}
         onStop={(e, data) => this.handleColumnDragStop(e, data, columnIndex)}
       >
-        <div className={css.headerCell} key={key} style={style}>
+        <div className={clsx(css.headerCell, css.noselect)} key={key} style={style}>
           <strong className={css.headerButtonDrag} >::</strong >
           {this.props.columns[columnIndex].label}
           <Draggable
