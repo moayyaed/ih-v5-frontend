@@ -4,16 +4,18 @@ import { Grid } from 'react-virtualized';
 
 import css from './main.module.css';
 
-function Cells({ scroll, size, render, columnWidth, headerHeight, rowHeight }) {
+
+function Cells({ scroll, size, render, columnCount, columnWidth, headerHeight, rowHeight }, ref) {
   return (
     <div style={{ height: size.height - headerHeight, width: size.width }}>
       <Grid
+        ref={ref}
         tabIndex={null}
         width={size.width}
         height={size.height - headerHeight}
         className={css.BodyGrid}
         columnWidth={columnWidth}
-        columnCount={50}
+        columnCount={columnCount}
         onScroll={scroll.onScroll}
         overscanColumnCount={2}
         overscanRowCount={5}
@@ -25,4 +27,4 @@ function Cells({ scroll, size, render, columnWidth, headerHeight, rowHeight }) {
   )
 }
 
-export default Cells;
+export default React.forwardRef(Cells) ;

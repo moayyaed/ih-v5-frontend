@@ -5,16 +5,18 @@ import scrollbarSize from 'dom-helpers/util/scrollbarSize';
 
 import css from './main.module.css';
 
-function Headers({ scroll, size, rowHeight, columnWidth, render }) {
+
+function Headers({ scroll, size, columnCount, rowHeight, columnWidth, render }, ref) {
   return (
     <div className={css.HeaderContainer} style={{ height: rowHeight, width: size.width - scrollbarSize()}}>
       <Grid
+        ref={ref}
         tabIndex={null}
         width={size.width - scrollbarSize()}
         height={rowHeight}
         className={css.HeaderGrid}
         columnWidth={columnWidth}
-        columnCount={50}
+        columnCount={columnCount}
         overscanColumnCount={0}
         cellRenderer={render}
         rowHeight={rowHeight}
@@ -25,4 +27,5 @@ function Headers({ scroll, size, rowHeight, columnWidth, render }) {
   )
 }
 
-export default Headers;
+
+export default React.forwardRef(Headers) ;
