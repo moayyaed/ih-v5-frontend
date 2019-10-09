@@ -26,7 +26,8 @@ const exemple = {
     { id: '6', label: 'Test6', width: 250 },
     { id: '7', label: 'Test7', width: 250 },
     { id: '8', label: 'Test8', width: 250 },
-  ]
+  ],
+  selects: {},
 };
 
 class Table extends Component {
@@ -51,6 +52,7 @@ class Table extends Component {
           headerHeight={30}
           cellHeight={30}
           columns={this.state.columns}
+          select={this.state.selects}
           resizeColumn={this.handleResizeColumn}
           reorderColumn={this.handleReorderColumn}
         />

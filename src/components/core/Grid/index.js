@@ -14,12 +14,20 @@ const MIN_WIDTH_COLUMN = 75;
 
 class Grid extends Component {
 
+  state = { hover: null }
+
   renderBodyCell = ({ columnIndex, key, rowIndex, style }) => {
     const rowClass = rowIndex % 2 === 0 ? css.evenRow : css.oddRow
     const classNames = clsx(rowClass, css.cell);
 
     return (
-      <div className={classNames} key={key} style={style}>
+      <div 
+        key={key} 
+        style={style} 
+        className={classNames} 
+        onMouseEnter={() => this.handleHoverOn(rowIndex)}
+        onMouseLeave={this.handleHoverOff}
+      >
         {`I${this.props.columns[columnIndex].id} R${rowIndex}, C${columnIndex}`}
       </div>
     );
@@ -52,6 +60,18 @@ class Grid extends Component {
   
   getColumnWidth = ({ index }) => {
     return this.props.columns[index].width;
+  }
+
+  handleHoverOn = (index) => {
+    this.setState((state) => {
+      return { ...state, hover: index };
+    });
+  }
+
+  handleHoverOff = () => {
+    this.setState((state) => {
+      return { ...state, hover: null };
+    });
   }
 
   handleColumnDragStart = (e, data, index) => {
@@ -89,7 +109,6 @@ class Grid extends Component {
       targetColumnIndex = 0;
     }
 
- 
     const temp2 = this.props.columns.reduce((l, n, key, arr) => {
       if (key === targetColumnIndex && key === index) {
         return l.concat(n);
