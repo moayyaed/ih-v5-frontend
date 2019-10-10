@@ -27,7 +27,10 @@ const exemple = {
     { id: '7', label: 'Test7', width: 250 },
     { id: '8', label: 'Test8', width: 250 },
   ],
-  selects: {},
+  selects: {
+    lastIndex: null,
+    data: {},
+  },
 };
 
 class Table extends Component {

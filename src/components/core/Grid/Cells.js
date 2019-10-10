@@ -7,12 +7,12 @@ import css from './main.module.css';
 
 function Cells({ scroll, size, render, columnCount, columnWidth, headerHeight, rowHeight }, ref) {
   return (
-    <div style={{ height: size.height - headerHeight, width: size.width }}>
+    <div style={{ height: size.height - headerHeight - 10, width: size.width - 1 }}>
       <Grid
         ref={ref}
         tabIndex={null}
-        width={size.width}
-        height={size.height - headerHeight}
+        width={size.width - 1}
+        height={size.height - headerHeight - 1}
         className={css.BodyGrid}
         columnWidth={columnWidth}
         columnCount={columnCount}

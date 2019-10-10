@@ -26,7 +26,7 @@ const styles = {
 const useStyles = makeStyles({
   root: {
     flexDirection: 'column',
-    justifyContent: 'end',
+    justifyContent: 'start',
     width: 70,
     height: '100%',
     backgroundColor: 'transparent',

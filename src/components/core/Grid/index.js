@@ -20,14 +20,14 @@ class Grid extends Component {
     const rowClass = rowIndex % 2 === 0 ? css.evenRow : css.oddRow
     const rowHover = this.state.hover === rowIndex ? css.hoverRow : rowClass;
     const rowSelect = rowIndex === this.state.hover ? css.selectRowBorder : css.selectRow;
-    const classNames = clsx(this.props.selects[rowIndex] === undefined ? rowHover: rowSelect, css.cell, css.noselect);
+    const classNames = clsx(this.props.selects.data[rowIndex] === undefined ? rowHover: rowSelect, css.cell, css.noselect);
     return (
       <div 
         key={key} 
         style={style} 
         className={classNames}
-        onClick={(e) => this.handleClickRowOne(e, rowIndex)}
-        onContextMenu={(e) => this.handleClickRowMultiple(e, rowIndex)}
+        onClick={(e) => this.handleClickRow(e, rowIndex)}
+        onContextMenu={(e) => this.handleClickContextMenu(e, rowIndex)}
         onMouseEnter={() => this.handleHoverOn(rowIndex)}
         onMouseLeave={this.handleHoverOff}
       >
@@ -151,25 +151,49 @@ class Grid extends Component {
   }
 
 
-  handleClickRowOne = (e, index) => {
+  handleClickRow = (e, index) => {
     e.preventDefault();
     e.stopPropagation();
-    this.props.onClickRow({ [index]: true }, this.forceUpdateCells);
+
+    if (e.ctrlKey || e.metaKey) {
+      const data = { ...this.props.selects.data };
+      let lastIndex = index;
+      if (data[index] === undefined) {
+        data[index] = true;
+      } else {
+        delete data[index];
+        if (this.props.selects.lastIndex === lastIndex) {
+          lastIndex = null;
+        }
+      }
+      this.props.onClickRow({ lastIndex, data }, this.forceUpdateCells);
+    } else if (e.shiftKey) {
+      const data = { ...this.props.selects.data };
+      let lastIndex = index;
+      if (this.props.selects.lastIndex === null) {
+        for (let i = 0; i <= index; i++) {
+          data[i] = true;
+        }
+      } else {
+        if (index > this.props.selects.lastIndex) {
+          for (let i = this.props.selects.lastIndex; i <= index; i++) {
+            data[i] = true;
+          }
+        } else {
+          for (let i = this.props.selects.lastIndex; i >= index; i--) {
+            data[i] = true;
+          }
+        }
+      }
+      this.props.onClickRow({ lastIndex, data }, this.forceUpdateCells);
+    } else {
+      this.props.onClickRow({ lastIndex: index, data: { [index]: true } }, this.forceUpdateCells);
+    }
   }
 
-  handleClickRowMultiple = (e, index) => {
+  handleClickContextMenu = (e, index) => {
     e.preventDefault();
     e.stopPropagation();
-
-    const temp = { ...this.props.selects };
-
-    if (temp[index] === undefined) {
-      temp[index] = true;
-    } else {
-      delete temp[index];
-    }
-
-    this.props.onClickRow(temp, this.forceUpdateCells);
   }
 
 
