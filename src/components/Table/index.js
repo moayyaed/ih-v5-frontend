@@ -28,6 +28,7 @@ const exemple = {
     { id: '8', label: 'Test8', width: 250 },
   ],
   selects: {
+    scrollToIndex: undefined,
     lastIndex: null,
     data: {},
   },

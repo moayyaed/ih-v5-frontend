@@ -6,7 +6,7 @@ import scrollbarSize from 'dom-helpers/util/scrollbarSize';
 import css from './main.module.css';
 
 
-function Headers({ scroll, size, columnCount, rowHeight, columnWidth, render }, ref) {
+function Headers({ scrollLeft, size, columnCount, rowHeight, columnWidth, render }, ref) {
   return (
     <div className={css.HeaderContainer} style={{ height: rowHeight, width: size.width - scrollbarSize()}}>
       <Grid
@@ -21,7 +21,7 @@ function Headers({ scroll, size, columnCount, rowHeight, columnWidth, render }, 
         cellRenderer={render}
         rowHeight={rowHeight}
         rowCount={1}
-        scrollLeft={scroll.scrollLeft}
+        scrollLeft={scrollLeft}
       />
     </div>
   )

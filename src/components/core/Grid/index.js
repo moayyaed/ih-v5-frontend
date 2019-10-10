@@ -16,6 +16,62 @@ class Grid extends Component {
 
   state = { hover: null }
 
+  componentDidMount() {
+    document.addEventListener('keyup', this.handleKeyPress);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keyup', this.handleKeyPress);
+  }
+
+  handleKeyPress = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    
+
+    if (e.keyCode === 38) {
+      if (this.props.selects.lastIndex !== null) {
+        index = this.props.selects.lastIndex - 1;
+      } else {
+        if (this.props.selects.scrollToIndex !== undefined) {
+          index = this.props.selects.scrollToIndex - 1;
+        }
+      }
+      if (index < 0) {
+        index = 999;
+      }
+
+      this.props.onClickRow({ 
+        ...this.props.selects,
+        lastIndex: index, 
+        scrollToIndex: index,
+        data: {[index]: true },
+      }, this.forceUpdateCells);
+    }
+
+    if (e.keyCode === 40) {
+      var index = 0;
+      if (this.props.selects.lastIndex !== null) {
+        index = this.props.selects.lastIndex + 1;
+      } else {
+        if (this.props.selects.scrollToIndex !== undefined) {
+          index = this.props.selects.scrollToIndex + 1;
+        }
+      }
+      if (index > 999) {
+        index = 0;
+      }
+    
+      this.props.onClickRow({ 
+        ...this.props.selects,
+        lastIndex: index, 
+        scrollToIndex: index,
+        data: {[index]: true },
+      }, this.forceUpdateCells);
+    }
+  }
+
   renderBodyCell = ({ columnIndex, key, rowIndex, style }) => {
     const rowClass = rowIndex % 2 === 0 ? css.evenRow : css.oddRow
     const rowHover = this.state.hover === rowIndex ? css.hoverRow : rowClass;
@@ -155,6 +211,8 @@ class Grid extends Component {
     e.preventDefault();
     e.stopPropagation();
 
+    this.linkCells.scrollToCell(10, 125)
+
     if (e.ctrlKey || e.metaKey) {
       const data = { ...this.props.selects.data };
       let lastIndex = index;
@@ -196,7 +254,16 @@ class Grid extends Component {
     e.stopPropagation();
   }
 
+  handleOnScroll = (e, scroll) => {
+    scroll.onScroll(e);
 
+    if (this.props.selects.scrollToIndex !== undefined) {
+      this.props.onClickRow({ 
+        ...this.props.selects, 
+        scrollToIndex: undefined,
+      }, this.forceUpdateCells);
+    }
+  }
 
   forceUpdateAll = () => {
     this.linkHeaders.recomputeGridSize();
@@ -215,7 +282,7 @@ class Grid extends Component {
     this.linkCells = e;
   }
   
-  render({ headerHeight, cellHeight, columns } = this.props) {
+  render({ headerHeight, cellHeight, columns, selects } = this.props) {
     return (
       <ScrollSync>
         {(scroll) => (
@@ -225,7 +292,7 @@ class Grid extends Component {
                 <>
                   <Headers 
                     ref={this.refHeaders}
-                    scroll={scroll} 
+                    scrollLeft={scroll.scrollLeft} 
                     size={size}
                     rowHeight={headerHeight}
                     columnCount={columns.length || 0}
@@ -235,12 +302,13 @@ class Grid extends Component {
                   />
                   <Cells 
                    ref={this.refCells}
-                    scroll={scroll} 
+                    scroll={(e) => this.handleOnScroll(e, scroll)} 
                     size={size}
                     headerHeight={headerHeight}
                     rowHeight={cellHeight}
                     columnCount={columns.length || 0}
                     columnWidth={this.getColumnWidth}
+                    scrollToIndex={selects.scrollToIndex}
                     render={this.renderBodyCell}
                   />
                 </>
