@@ -11,7 +11,6 @@ import Dashboard from './routes/dashboard';
 import Structure from './routes/structure';
 import Layout from './routes/layouts';
 import NotFound from './routes/404';
-import Test from './routes/test';
 
 
 function App() {
@@ -26,7 +25,6 @@ function App() {
             <Route path="/" exact component={Dashboard} />
             <Route path="/structure" component={Structure} />
             <Route path="/layouts" component={Layout} />
-            <Route path="/test" component={Test} />
             <Route component={NotFound} />
           </Switch>
         </div>
