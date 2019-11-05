@@ -15,7 +15,6 @@ const styles = {
 
 function Test(props) {
   const [count, setCount] = useState(0);
-  console.log('render')
   return (
     <div onClick={() => setCount(count + 1)} style={styles.root}>
       <Example id="test1" />

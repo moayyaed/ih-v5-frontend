@@ -6,12 +6,11 @@ import context from 'context';
 function test(e, dispatch, id) {
   e.preventDefault();
   e.stopPropagation();
-  context.actions.example.countbox(id);
+  context.actions.example.count(id);
 }
 
 function Example({ id, state, dispatch }) {
-  console.log('render example: ' + id);
-  return <div onClick={(e) => test(e, dispatch, id)}>{state}</div>;
+  return <div onClick={(e) => test(e, dispatch, id)}>{state.count}</div>;
 }
 
 

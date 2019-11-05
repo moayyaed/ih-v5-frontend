@@ -1,7 +1,7 @@
 import { TEST } from './constants';
 
 
-export function countbox(id) {
+export function count(id) {
   return {
     id,
     type: TEST,
@@ -10,5 +10,5 @@ export function countbox(id) {
 
 
 export default {
-  countbox,
+  count,
 }
