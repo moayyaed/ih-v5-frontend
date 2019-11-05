@@ -11,7 +11,7 @@ function result(state) {
 }
 
 const mapStateToProps = createSelector(selector, result);
-const store = connect(mapStateToProps);
+const con = connect(mapStateToProps);
 
 
-export default store;
+export default con;

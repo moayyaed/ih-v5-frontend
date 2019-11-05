@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Box from 'components/core/Box';
+import Box from 'components/basic/Box';
 
 import { makeStyles } from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';

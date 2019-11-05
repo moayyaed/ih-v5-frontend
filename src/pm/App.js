@@ -2,7 +2,7 @@ import React from 'react';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import NProgressBar from 'components/core/NProgressBar/NProgressBar';
+import NProgressBar from 'components/basic/NProgressBar/NProgressBar';
 
 import AppBar from 'components/AppBar';
 import AppMenu from 'components/AppMenu';

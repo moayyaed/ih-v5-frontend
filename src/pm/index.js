@@ -10,11 +10,13 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 
-import grey from '@material-ui/core/colors/grey';
+import context from 'context';
 
-import store from './store';
+import dependencies from './dependencies';
 
 import App from './App';
+
+context.create(dependencies);
 
 const theme = createMuiTheme({
   palette: {
@@ -25,7 +27,7 @@ const theme = createMuiTheme({
 });
 
 ReactDOM.render(
-  <Provider store={store}>
+  <Provider store={context.store}>
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <App />

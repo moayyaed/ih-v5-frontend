@@ -1,9 +1,13 @@
+import { TEST } from './constants';
+
+
 export function countbox(id) {
   return {
     id,
-    type: 'test',
+    type: TEST,
   };
 } 
+
 
 export default {
   countbox,

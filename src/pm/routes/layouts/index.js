@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Box from 'components/core/Box';
+import Box from 'components/basic/Box';
 import AppToolBar from 'components/AppToolBar';
 import Explorer from 'components/Explorer';
 import Editor from 'components/Editor';

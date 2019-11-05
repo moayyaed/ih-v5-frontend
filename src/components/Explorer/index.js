@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Box from 'components/core/Box';
+import Box from 'components/basic/Box';
 
 import { fade, makeStyles, withStyles } from '@material-ui/core/styles';
 import SvgIcon from '@material-ui/core/SvgIcon';

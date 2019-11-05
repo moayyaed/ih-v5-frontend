@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Box from 'components/core/Box';
+import Box from 'components/basic/Box';
 
 const styles = {
   box: {

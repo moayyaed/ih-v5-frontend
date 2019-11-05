@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import Box from 'components/core/Box';
-import Grid from 'components/core/Grid';
+import Box from 'components/basic/Box';
+import Grid from 'components/basic/Grid';
 
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 

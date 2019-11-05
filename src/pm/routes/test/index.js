@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import Box1 from './Box1';
+import Example from 'components/Example';
 
 
 const styles = {
@@ -15,10 +15,12 @@ const styles = {
 
 function Test(props) {
   const [count, setCount] = useState(0);
+  console.log('render')
   return (
     <div onClick={() => setCount(count + 1)} style={styles.root}>
-      <Box1 id="test1" />
-      <Box1 id="test2" />
+      <Example id="test1" />
+      <Example id="test2" />
+      {count}
     </div>
   );
 }
