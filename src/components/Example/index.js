@@ -18,8 +18,6 @@ function handleClick(e, id) {
     actions.example.count('test2')
   ]);
   */
-
- 
 }
 
 function Example({ id, state, dispatch }) {
