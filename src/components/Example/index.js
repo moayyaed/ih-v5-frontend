@@ -21,6 +21,7 @@ function handleClick(e, id) {
 }
 
 function Example({ id, state, dispatch }) {
+  console.log(`render ${id}`);
   return <div onClick={(e) => handleClick(e, id)}>{state.count}</div>;
 }
 
