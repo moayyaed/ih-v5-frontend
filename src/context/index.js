@@ -2,6 +2,7 @@ import bindActions from './actions';
 import bindStore from './store';
 
 import connect from './connect';
+import network from './network';
 
 
 function create(dep) {
@@ -23,9 +24,9 @@ function action(bind) {
 const context = {
   store: {},
   actions: {},
-  action,
   create,
   connect,
+  network,
 }
 
 
