@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import context from 'context';
+import shortid from 'shortid';
+
 
 import Example from 'components/Example';
 
@@ -17,11 +19,9 @@ class Test extends Component {
   state = { count: 0 }
 
   componentDidMount() {
-    const x = Array(29).fill(null).map((x,i) => i);
+    const x = Array(90).fill(null).map((x,i) => i);
     x.forEach(i => {
-      const s = new Date(2019, 10, i + 1, 0, 0, 0, 0).getTime();
-      const e = new Date(2019, 10, i + 1, 23, 59, 59, 999).getTime();
-      context.network.fetch(`http://localhost:8080/trend?id=${i}&uuid=0&chartid=12&dn=UPS_1_Input_V_L1,UPS_1_Input_V_L2,UPS_1_Input_V_L3&start=${s}&end=${e}&alias=&discrete=`);
+      context.network.fetch('123');
     })
   }
   

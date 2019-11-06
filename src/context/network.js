@@ -1,6 +1,6 @@
 
 function fetch(url) {
-  window.fetch(url);
+  console.log(url);
 }
 
 
