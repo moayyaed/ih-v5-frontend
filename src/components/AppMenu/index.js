@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
+import context from 'context';
 
-import Box from 'components/basic/Box';
-
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 
 import RestoreIcon from '@material-ui/icons/TableChart';
 import FavoriteIcon from '@material-ui/icons/Web';
 import LocationOnIcon from '@material-ui/icons/Extension';
+
+import { useHistory } from "react-router-dom";
 
 const styles = {
   box: {
@@ -23,7 +24,7 @@ const styles = {
   },
 };
 
-const useStyles = makeStyles({
+const classes = theme => ({
   root: {
     flexDirection: 'column',
     justifyContent: 'start',
@@ -39,26 +40,40 @@ const useStyles = makeStyles({
   }
 });
 
-function AppMenu() {
-  const classes = useStyles();
-  const [value, setValue] = React.useState(0);
-  return (
-    <Box style={styles.box}>
-      <BottomNavigation
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-        }}
-        showLabels
-        className={classes.root}
-      >
-        <BottomNavigationAction className={classes.bottom} label="Project structure" icon={<RestoreIcon />} />
-        <BottomNavigationAction className={classes.bottom} label="Layouts" icon={<FavoriteIcon />} />
-        <BottomNavigationAction className={classes.bottom} label="Plugins" icon={<LocationOnIcon />} />
-      </BottomNavigation>
-    </Box>
-  );
+class AppMenu extends Component {
+  componentDidMount() {
+    context.event('app:menu:init', this.props.id);
+  }
+
+  handleClick = (e, selectid) => {
+    const value = this.props.state.list.find(i => i.id === selectid);
+    context.event('app:menu:select', this.props.id, value);
+  }
+
+  render({ id, state, classes } = this.props) {
+    return (
+      <div style={styles.box}>
+        <BottomNavigation 
+          showLabels 
+          className={classes.root} 
+          onChange={this.handleClick}
+          value={state.select}
+        >
+          {state.list
+            .map((item) => 
+              <BottomNavigationAction 
+                key={item.id} 
+                value={item.id}
+                className={classes.bottom} 
+                label={item.label} 
+                icon={<RestoreIcon />} 
+              />
+            )}
+        </BottomNavigation>
+      </div>
+    );
+  }
 }
 
 
-export default AppMenu;
+export default context.connect(withStyles(classes)(AppMenu));

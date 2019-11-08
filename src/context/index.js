@@ -1,3 +1,5 @@
+import EventEmitter from 'events';
+
 import bindActions from './actions';
 import bindStore from './store';
 
@@ -9,6 +11,8 @@ function create(dep) {
   context.store = bindStore(dep.reducers);
   context.actions = bindActions(dep.actions, context.store.dispatch);
   context.rawActions = dep.actions;
+  
+  context.event('app', 'init')
 }
 
 function action(bind) {
@@ -20,6 +24,10 @@ function action(bind) {
   }
 }
 
+function event(name, id, value, action) {
+  context.events.emit(name, id, value, action);
+}
+
 
 const context = {
   store: {},
@@ -27,6 +35,8 @@ const context = {
   create,
   connect,
   network,
+  event,
+  events: new EventEmitter(),
 }
 
 

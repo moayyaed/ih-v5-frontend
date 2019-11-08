@@ -1,14 +1,13 @@
-import actionsExample from 'components/Example/actions';
-import reducerExample from 'components/Example/reducer';
+import actionsAppMenu from 'components/AppMenu/actions';
+import reducerAppMenu from 'components/AppMenu/reducer';
 
 
 const actions = {
-  example: actionsExample,
+  appmenu: actionsAppMenu,
 }
 
 const reducers = {
-  test1: reducerExample,
-  test2: reducerExample,
+  appmenu: reducerAppMenu,
 }
 
 

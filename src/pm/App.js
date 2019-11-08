@@ -20,7 +20,7 @@ function App() {
       <NProgressBar />
       <AppBar />
       <div className="container">
-        <AppMenu />
+        <AppMenu id="appmenu"/>
         <div className="content">
           <Switch>
             <Route path="/" exact component={Dashboard} />

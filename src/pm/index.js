@@ -13,6 +13,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import context from 'context';
 
 import dependencies from './dependencies';
+import './events';
 
 import App from './App';
 
@@ -30,7 +31,7 @@ ReactDOM.render(
   <Provider store={context.store}>
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <App />
+      <App id="app" />
     </ThemeProvider>
   </Provider>,
   document.getElementById('root')
