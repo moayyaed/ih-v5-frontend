@@ -1,6 +1,8 @@
 
-function fetch(url) {
-  console.log(url);
+function fetch(data) {
+  return new Promise((resolve) => {
+    resolve(data);
+  });
 }
 
 

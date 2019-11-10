@@ -1,4 +1,5 @@
 import EventEmitter from 'events';
+import { createBrowserHistory } from "history";
 
 import bindActions from './actions';
 import bindStore from './store';
@@ -7,9 +8,14 @@ import connect from './connect';
 import network from './network';
 
 
+function setRoute(id) {
+  context.history.push(id);
+}
+
+
 function create(dep) {
   context.store = bindStore(dep.reducers);
-  context.actions = bindActions(dep.actions, context.store.dispatch);
+  context.actions = bindActions({ setRoute } ,dep.actions, context.store.dispatch);
   context.rawActions = dep.actions;
   
   context.event('app', 'init')
@@ -32,11 +38,13 @@ function event(name, id, value, action) {
 const context = {
   store: {},
   actions: {},
+  action,
   create,
   connect,
   network,
   event,
   events: new EventEmitter(),
+  history: createBrowserHistory(),
 }
 
 
