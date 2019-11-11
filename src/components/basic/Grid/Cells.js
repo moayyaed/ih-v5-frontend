@@ -5,7 +5,7 @@ import { Grid } from 'react-virtualized';
 import css from './main.module.css';
 
 
-function Cells({ scroll, size, render, columnCount, columnWidth, headerHeight, rowHeight, scrollToIndex }, ref) {
+function Cells({ scroll, size, render, columnCount, columnWidth, headerHeight, rowHeight, rowCount, scrollToIndex }, ref) {
   return (
     <div style={{ height: size.height - headerHeight - 10, width: size.width - 1 }}>
       <Grid
@@ -21,7 +21,7 @@ function Cells({ scroll, size, render, columnCount, columnWidth, headerHeight, r
         overscanRowCount={5}
         cellRenderer={render}
         rowHeight={rowHeight}
-        rowCount={1000}
+        rowCount={rowCount}
         scrollToRow={scrollToIndex}
       />
     </div>

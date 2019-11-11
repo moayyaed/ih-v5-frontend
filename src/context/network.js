@@ -1,7 +1,9 @@
+import vserver from './vserver';
+
 
 function fetch(data) {
   return new Promise((resolve) => {
-    resolve(data);
+    vserver(data, resolve);
   });
 }
 

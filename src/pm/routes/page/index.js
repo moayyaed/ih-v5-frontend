@@ -25,8 +25,8 @@ function Page() {
     <div style={styles.root}>
       <AppToolBar />
       <div style={styles.container}>
-        <Explorer />
-        <Table />
+        <Explorer id="explorer" />
+        <Table id="table" />
       </div>
     </div>
   );

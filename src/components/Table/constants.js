@@ -1,0 +1,4 @@
+export const TABLE_SET_DATA = 'TABLE_SET_DATA';
+export const TABLE_SET_SELECTS = 'TABLE_SET_SELECTS';
+export const TABLE_SET_COLUMNS = 'TABLE_SET_COLUMNS';
+

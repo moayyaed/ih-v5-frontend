@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import context from 'context';
 
+import Box from 'components/basic/Box';
 import Grid from 'components/basic/Grid';
 
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-
 
 const styles = {
   box: {
@@ -12,6 +11,10 @@ const styles = {
     height: '100%',
   },
 };
+
+const useStyles = makeStyles({
+
+});
 
 const exemple = {
   columns: [
@@ -31,61 +34,49 @@ const exemple = {
   },
 };
 
-const classes = theme => ({
-  root: {
-    flexDirection: 'column',
-    justifyContent: 'start',
-    width: 70,
-    height: '100%',
-    backgroundColor: 'transparent',
-  },
-  bottom: {
-    padding: '0px!important',
-    maxWidth: 70,
-    minWidth: 70,
-    maxHeight: 70,
-  }
-});
-
 class Table extends Component {
-
-  componentDidMount() {
-    context.event('app:menu:init', this.props.id);
-  }
+  state = exemple;
 
   handleResizeColumn = (columns, callback) => {
-    context.actions.table.setColumns(this.props.id, columns);
-    callback();
+    this.setState((state) => {
+      return { ...state, columns: columns };
+    }, callback);
   }
 
   handleReorderColumn = (columns, callback) => {
-    context.actions.table.setColumns(this.props.id, columns);
-    callback();
+    this.setState((state) => {
+      return { ...state, columns: columns };
+    }, callback);
+  }
+
+  handleReorderColumn = (columns, callback) => {
+    this.setState((state) => {
+      return { ...state, columns: columns };
+    }, callback);
   }
 
   handleClickRow = (selects, callback) => {
-    context.actions.table.setSelects(this.props.id, selects);
-    callback();
+    this.setState((state) => {
+      return { ...state, selects: selects };
+    }, callback);
   }
 
-  render({ id, state, classes } = this.props) {
+  render() {
     return (
-      <div style={styles.box}>
+      <Box style={styles.box}>
         <Grid
-          key={state.id}
           headerHeight={30}
           cellHeight={30}
-          columns={state.columns}
-          selects={state.selects}
-          data={state.data}
+          columns={this.state.columns}
+          selects={this.state.selects}
           resizeColumn={this.handleResizeColumn}
           reorderColumn={this.handleReorderColumn}
           onClickRow={this.handleClickRow}
         />
-      </div>
+      </Box>
     );
   }
 }
 
 
-export default context.connect(withStyles(classes)(Table));
+export default Table;

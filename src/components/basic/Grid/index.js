@@ -39,7 +39,7 @@ class Grid extends Component {
         }
       }
       if (index < 0) {
-        index = 999;
+        index = this.props.data.length - 1;
       }
 
       this.props.onClickRow({ 
@@ -59,7 +59,7 @@ class Grid extends Component {
           index = this.props.selects.scrollToIndex + 1;
         }
       }
-      if (index > 999) {
+      if (index > this.props.data.length - 1) {
         index = 0;
       }
     
@@ -87,7 +87,7 @@ class Grid extends Component {
         onMouseEnter={() => this.handleHoverOn(rowIndex)}
         onMouseLeave={this.handleHoverOff}
       >
-        {`I${this.props.columns[columnIndex].id} R${rowIndex}, C${columnIndex}`}
+        {this.props.data[rowIndex][this.props.columns[columnIndex].id] || '-'}
       </div>
     );
   }
@@ -282,7 +282,7 @@ class Grid extends Component {
     this.linkCells = e;
   }
   
-  render({ headerHeight, cellHeight, columns, selects } = this.props) {
+  render({ headerHeight, cellHeight, columns, selects, data } = this.props) {
     return (
       <ScrollSync>
         {(scroll) => (
@@ -307,6 +307,7 @@ class Grid extends Component {
                     headerHeight={headerHeight}
                     rowHeight={cellHeight}
                     columnCount={columns.length || 0}
+                    rowCount={data.length}
                     columnWidth={this.getColumnWidth}
                     scrollToIndex={selects.scrollToIndex}
                     render={this.renderBodyCell}

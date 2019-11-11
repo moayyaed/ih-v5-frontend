@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import context from 'context';
+import React from 'react';
 
+import Box from 'components/basic/Box';
 
 import { fade, makeStyles, withStyles } from '@material-ui/core/styles';
 import SvgIcon from '@material-ui/core/SvgIcon';
@@ -20,7 +20,7 @@ const styles = {
   },
 };
 
-const classes = theme => ({
+const useStyles = makeStyles({
   root: {
     height: '100%',
     flexGrow: 1,
@@ -84,78 +84,33 @@ function TransitionComponent(props) {
   );
 }
 
-
-class Explorer extends Component {
-  componentDidMount() {
-    // context.event('app:menu:init', this.props.id);
-  }
-
-  handleClick = (value) => {
-    context.event('app:navigator:select', this.props.id, value);
-  }
-
-  render({ id, state, classes } = this.props) {
-    console.log(state)
-    return (
-      <div style={styles.box}>
-        <TreeView
-          className={classes.root}
-          defaultExpanded={['1']}
-          defaultCollapseIcon={<MinusSquare />}
-          defaultExpandIcon={<PlusSquare />}
-          defaultEndIcon={<CloseSquare />}
-        >
-          {state.list.map(item => {
-            if (item.children) {
-              return (
-                <StyledTreeItem
-                  key={item.id} 
-                  classes={{ label: classes.itemLabel }} 
-                  nodeId={item.id} 
-                  label={item.label} 
-                >
-                  {item.children.map(i => 
-                    <StyledTreeItem
-                      key={i.id} 
-                      classes={{ label: classes.itemLabel }} 
-                      nodeId={i.id} 
-                      label={i.label}
-                      onClick={() => this.handleClick(i)} 
-                    />
-                  )}
-                </StyledTreeItem>
-              );
-            }
-            return (
-              <StyledTreeItem
-                key={item.id} 
-                classes={{ label: classes.itemLabel }} 
-                nodeId={item.id} 
-                label={item.label} 
-              />
-            );
-          })}
-        </TreeView>
-      </div>
-    );
-  }
+function Explorer() {
+  const classes = useStyles();
+  return (
+    <Box style={styles.box}>
+      <TreeView
+        className={classes.root}
+        defaultExpanded={['1']}
+        defaultCollapseIcon={<MinusSquare />}
+        defaultExpandIcon={<PlusSquare />}
+        defaultEndIcon={<CloseSquare />}
+      >
+        <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="2" label="Hello" />
+        <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="3" label="Subtree with children">
+          <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="6" label="Hello" />
+          <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="7" label="Sub-subtree with children">
+            <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="9" label="Child 1" />
+            <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="10" label="Child 2" />
+            <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="11" label="Child 3" />
+          </StyledTreeItem>
+          <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="8" label="Hello" />
+        </StyledTreeItem>
+        <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="4" label="World" />
+        <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="5" label="Something something" />
+      </TreeView>
+    </Box>
+  );
 }
 
 
-export default context.connect(withStyles(classes)(Explorer));
-
-/*
-
-    <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="2" label="2" />
-          <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="3" label="3">
-            <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="6" label="6" />
-            <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="7" label="Sub-subtree with 7">
-              <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="9" label="Child 1" />
-              <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="10" label="Child 2" />
-              <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="11" label="Child 3" />
-            </StyledTreeItem>
-            <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="8" label="Hello" />
-          </StyledTreeItem>
-          <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="4" label="World" />
-          <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="5" label="Something something" />
-*/
+export default Explorer;
