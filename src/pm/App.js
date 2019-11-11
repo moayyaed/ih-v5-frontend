@@ -8,6 +8,8 @@ import AppBar from 'components/AppBar';
 import AppMenu from 'components/AppMenu';
 
 import Dashboard from './routes/dashboard';
+import Page from './routes/page';
+
 import Structure from './routes/structure';
 import Layout from './routes/layouts';
 import NotFound from './routes/404';
@@ -24,9 +26,7 @@ function App() {
         <div className="content">
           <Switch>
             <Route path="/" exact component={Dashboard} />
-            <Route path="/structure" component={Structure} />
-            <Route path="/layouts" component={Layout} />
-            <Route path="/test" component={Test} />
+            <Route path="/:id" exact component={Page} />
             <Route component={NotFound} />
           </Switch>
         </div>
