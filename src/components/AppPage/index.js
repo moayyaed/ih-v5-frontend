@@ -21,7 +21,6 @@ class AppPage extends Component {
   
   componentDidMount() {
     const { navid, pageid} = this.props.match.params;
-    console.log(navid, pageid);
   }
 
   render({ params, url } = this.props.match) {

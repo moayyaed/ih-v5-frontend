@@ -37,6 +37,7 @@ class AppNav extends Component {
             id="explorer"
             key={params.navid} 
             navid={params.navid}
+            history={this.props.history}
             path={url}
           />
           <Switch>

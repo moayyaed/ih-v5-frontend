@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 
 class Dasboard extends Component {
   componentDidMount() {
-    console.log('!!!');
   }
 
   render() {

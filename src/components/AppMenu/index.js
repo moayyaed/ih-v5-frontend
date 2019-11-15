@@ -45,37 +45,35 @@ class AppMenu extends Component {
   }
 
   handleClick = (e, selectid) => {
-  
-    // const value = this.props.state.list.find(i => i.id === selectid);
-    // context.event('app:menu:select', this.props.id, value);
+    this.props.history.push('/' + selectid);
   }
 
-  render({ id, state, classes } = this.props) {
+
+  render({ id, state, match, classes } = this.props) {
     return (
       <div style={styles.box}>
         <BottomNavigation 
           showLabels 
           className={classes.root} 
           onChange={this.handleClick}
-          value={state.select}
+          value={match.params.navid}
         >
           {state.list
             .map((item) =>
-              <Link key={item.id} to={'/' + item.id} >
-                <BottomNavigationAction
-                  value={item.id}
-                  className={classes.bottom} 
-                  label={item.label} 
-                  icon={<RestoreIcon />} 
-                />
-              </Link>
-
+              <BottomNavigationAction
+                key={item.id}
+                value={item.id}
+                className={classes.bottom} 
+                label={item.label} 
+                icon={<RestoreIcon />} 
+              />
             )}
         </BottomNavigation>
       </div>
     );
   }
 }
+
 
 
 export default context.connect(withStyles(classes)(AppMenu));

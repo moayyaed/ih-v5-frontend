@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+
 import context from 'context';
 
 
@@ -92,7 +92,8 @@ class Explorer extends Component {
   }
 
   handleClick = (value) => {
-    
+    const { path, history } = this.props;
+    history.push(`${path}/${value.scheme}/${value.tablename}`);
   }
 
   render({ id, state, path, classes } = this.props) {
@@ -105,6 +106,7 @@ class Explorer extends Component {
           defaultCollapseIcon={<MinusSquare />}
           defaultExpandIcon={<PlusSquare />}
           defaultEndIcon={<CloseSquare />}
+          onNodeToggle={(a,b,c,d) => console.log(a,b,c,d)}
         >
           {state.list.map(item => {
             if (item.children) {
@@ -116,14 +118,13 @@ class Explorer extends Component {
                   label={item.label} 
                 >
                   {item.children.map(i => 
-                    <Link to={`${path}/${i.scheme}/${i.tablename}`}>
-                      <StyledTreeItem
-                        key={i.id} 
-                        classes={{ label: classes.itemLabel }} 
-                        nodeId={i.id} 
-                        label={i.label}
-                      />
-                    </Link>
+                    <StyledTreeItem
+                      key={i.id} 
+                      classes={{ label: classes.itemLabel }} 
+                      nodeId={i.id} 
+                      label={i.label}
+                      onClick={() => this.handleClick(i)}
+                    />
                   )}
                 </StyledTreeItem>
               );
@@ -145,19 +146,3 @@ class Explorer extends Component {
 
 
 export default context.connect(withStyles(classes)(Explorer));
-
-/*
-
-    <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="2" label="2" />
-          <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="3" label="3">
-            <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="6" label="6" />
-            <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="7" label="Sub-subtree with 7">
-              <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="9" label="Child 1" />
-              <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="10" label="Child 2" />
-              <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="11" label="Child 3" />
-            </StyledTreeItem>
-            <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="8" label="Hello" />
-          </StyledTreeItem>
-          <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="4" label="World" />
-          <StyledTreeItem classes={{ label: classes.itemLabel }} nodeId="5" label="Something something" />
-*/

@@ -18,7 +18,7 @@ function App() {
       <NProgressBar />
       <AppBar />
       <div className="container">
-        <AppMenu id="appmenu"/>
+        <Route path={['/:navid', '/']} component={AppMenu} />
         <div className="content">
           <Switch>
             <Route path="/" component={Dashboard} exact />

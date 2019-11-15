@@ -4,7 +4,7 @@ import context from 'context';
 context.events.on('app:menu:init', (id) => {
   context.network.fetch({ component: 'appmenu' })
   .then(data => {
-    context.actions.appmenu.setData(id, data);
+    context.actions.appmenu.setData(data);
   });
 })
 
