@@ -50,7 +50,7 @@ const classes = theme => ({
 class Table extends Component {
 
   componentDidMount() {
-    context.event('app:menu:init', this.props.id);
+    context.event('app:table:init', this.props.id, { scheme: this.props.tablesh, tablename: this.props.tableid });
   }
 
   handleResizeColumn = (columns, callback) => {

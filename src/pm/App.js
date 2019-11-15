@@ -6,14 +6,10 @@ import NProgressBar from 'components/basic/NProgressBar/NProgressBar';
 
 import AppBar from 'components/AppBar';
 import AppMenu from 'components/AppMenu';
+import AppNav from 'components/AppNav';
 
 import Dashboard from './routes/dashboard';
-import Page from './routes/page';
-
-import Structure from './routes/structure';
-import Layout from './routes/layouts';
 import NotFound from './routes/404';
-import Test from './routes/test';
 
 
 function App() {
@@ -25,8 +21,8 @@ function App() {
         <AppMenu id="appmenu"/>
         <div className="content">
           <Switch>
-            <Route path="/" exact component={Dashboard} />
-            <Route path="/:id" exact component={Page} />
+            <Route path="/" component={Dashboard} exact />
+            <Route path="/:navid" component={AppNav} />
             <Route component={NotFound} />
           </Switch>
         </div>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import context from 'context';
 
 
@@ -87,20 +88,20 @@ function TransitionComponent(props) {
 
 class Explorer extends Component {
   componentDidMount() {
-    // context.event('app:menu:init', this.props.id);
+    context.event('app:navigator:init', this.props.id, this.props.navid);
   }
 
   handleClick = (value) => {
-    context.event('app:navigator:select', this.props.id, value);
+    
   }
 
-  render({ id, state, classes } = this.props) {
-    console.log(state)
+  render({ id, state, path, classes } = this.props) {
     return (
       <div style={styles.box}>
         <TreeView
+          key={state.id}
           className={classes.root}
-          defaultExpanded={['1']}
+          defaultExpanded={['0']}
           defaultCollapseIcon={<MinusSquare />}
           defaultExpandIcon={<PlusSquare />}
           defaultEndIcon={<CloseSquare />}
@@ -115,13 +116,14 @@ class Explorer extends Component {
                   label={item.label} 
                 >
                   {item.children.map(i => 
-                    <StyledTreeItem
-                      key={i.id} 
-                      classes={{ label: classes.itemLabel }} 
-                      nodeId={i.id} 
-                      label={i.label}
-                      onClick={() => this.handleClick(i)} 
-                    />
+                    <Link to={`${path}/${i.scheme}/${i.tablename}`}>
+                      <StyledTreeItem
+                        key={i.id} 
+                        classes={{ label: classes.itemLabel }} 
+                        nodeId={i.id} 
+                        label={i.label}
+                      />
+                    </Link>
                   )}
                 </StyledTreeItem>
               );

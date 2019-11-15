@@ -12,7 +12,7 @@ function Headers({ scrollLeft, size, columnCount, rowHeight, columnWidth, render
       <Grid
         ref={ref}
         tabIndex={null}
-        width={size.width - scrollbarSize()}
+        width={size.width - scrollbarSize() - 1}
         height={rowHeight}
         className={css.HeaderGrid}
         columnWidth={columnWidth}

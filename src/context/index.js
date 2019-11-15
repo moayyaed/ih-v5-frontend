@@ -10,7 +10,7 @@ import network from './network';
 
 
 function setRoute(id) {
-  context.history.push(id);
+  // context.history.push(id);
 }
 
 function getRoute(index) {
@@ -24,7 +24,7 @@ function create(dep) {
   context.actions = bindActions({ setRoute, getRoute } ,dep.actions, context.store.dispatch);
   context.rawActions = dep.actions;
   
-  context.event('app', 'init')
+  // context.event('app', 'init')
 }
 
 function action(bind) {

@@ -93,12 +93,13 @@ function vserver(data, res) {
   }
 
   if (data.component === 'route') {
+    const id = data.route;
     send({propname: "list", tablename: data.route })
     .then(data => {
       if (data.set) {
-        res({ list: data.set.list.map(parseExplorer) });
+        res({ id, list: data.set.list.map(parseExplorer) });
       } else {
-        res({ list: [] });
+        res({ id, list: [] });
       }
     });
   }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import context from 'context';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -34,6 +35,7 @@ const classes = theme => ({
     maxWidth: 70,
     minWidth: 70,
     maxHeight: 70,
+    marginBottom: 10,
   }
 });
 
@@ -43,8 +45,9 @@ class AppMenu extends Component {
   }
 
   handleClick = (e, selectid) => {
-    const value = this.props.state.list.find(i => i.id === selectid);
-    context.event('app:menu:select', this.props.id, value);
+  
+    // const value = this.props.state.list.find(i => i.id === selectid);
+    // context.event('app:menu:select', this.props.id, value);
   }
 
   render({ id, state, classes } = this.props) {
@@ -57,14 +60,16 @@ class AppMenu extends Component {
           value={state.select}
         >
           {state.list
-            .map((item) => 
-              <BottomNavigationAction 
-                key={item.id} 
-                value={item.id}
-                className={classes.bottom} 
-                label={item.label} 
-                icon={<RestoreIcon />} 
-              />
+            .map((item) =>
+              <Link key={item.id} to={'/' + item.id} >
+                <BottomNavigationAction
+                  value={item.id}
+                  className={classes.bottom} 
+                  label={item.label} 
+                  icon={<RestoreIcon />} 
+                />
+              </Link>
+
             )}
         </BottomNavigation>
       </div>
