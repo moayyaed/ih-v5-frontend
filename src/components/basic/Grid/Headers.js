@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Grid } from 'react-virtualized';
-import scrollbarSize from 'dom-helpers/util/scrollbarSize';
+import scrollbarSize from 'dom-helpers/scrollbarSize';
 
 import css from './main.module.css';
 
