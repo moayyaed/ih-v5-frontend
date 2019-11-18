@@ -25,7 +25,7 @@ class AppPage extends Component {
 
   render({ params, url } = this.props.match) {
     return (
-      <Table key={params.pageid} tablesh={params.pagesh}tableid={params.pageid} id="table"/>
+      <Table key={params.pageid} tablesh={params.pagesh} tableid={params.pageid} id="table"/>
     );
   }
 }
