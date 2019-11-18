@@ -97,16 +97,20 @@ class Explorer extends Component {
   }
 
   render({ id, state, path, classes } = this.props) {
+    const test = state.list
+      .map((i, key) => String(key))
+      .concat(String(state.list.length));
     return (
       <div style={styles.box}>
         <TreeView
           key={state.id}
           className={classes.root}
-          defaultExpanded={['0']}
+          defaultExpanded={test}
           defaultCollapseIcon={<MinusSquare />}
           defaultExpandIcon={<PlusSquare />}
           defaultEndIcon={<CloseSquare />}
           onNodeToggle={(a,b,c,d) => console.log(a,b,c,d)}
+          selected={['0', 'scenes']}
         >
           {state.list.map(item => {
             if (item.children) {
@@ -120,6 +124,7 @@ class Explorer extends Component {
                   {item.children.map(i => 
                     <StyledTreeItem
                       key={i.id} 
+                      nodeId={i.id}
                       classes={{ label: classes.itemLabel }} 
                       nodeId={i.id} 
                       label={i.label}
