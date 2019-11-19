@@ -92,9 +92,9 @@ function vserver(data, res) {
     return { id: item.id, label: item.header };
   }
 
-  if (data.component === 'route') {
+  if (data.component === 'navigator') {
     const id = data.route;
-    send({propname: "list", tablename: data.route })
+    send({propname: "list", tablename: data.id })
     .then(data => {
       if (data.set) {
         res({ id, list: data.set.list.map(parseExplorer) });
@@ -105,19 +105,21 @@ function vserver(data, res) {
   }
 
   if (data.component === 'table') {
-    const id = data.value.tablename;
-    send({ tablename: data.value.tablename, scheme: data.value.scheme })
+    const id = data.id.tablename;
+    send({ tablename: data.id.tablename, scheme: data.id.scheme })
     .then(data => {
-      res({ 
-        id,
-        columns: Object.keys(data.set.scheme).map(id => ({ id, label: data.set.scheme[id].name, width: data.set.scheme[id].width })),
-        selects: {
-          scrollToIndex: undefined,
-          lastIndex: null,
-          data: {},
-        },
-        data: data.set.data,
-      })
+      setTimeout(() => {
+        res({ 
+          id,
+          columns: Object.keys(data.set.scheme).map(id => ({ id, label: data.set.scheme[id].name, width: data.set.scheme[id].width })),
+          selects: {
+            scrollToIndex: undefined,
+            lastIndex: null,
+            data: {},
+          },
+          data: data.set.data,
+        })
+      }, 2500)
     });
   }
 }

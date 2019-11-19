@@ -50,25 +50,26 @@ const classes = theme => ({
 class Table extends Component {
 
   componentDidMount() {
-    context.event('app:table:init', this.props.id, { scheme: this.props.tablesh, tablename: this.props.tableid });
+    context.event('app:table', this.props.id, { scheme: this.props.tablesh, tablename: this.props.tableid });
   }
 
   handleResizeColumn = (columns, callback) => {
-    context.actions.table.setColumns(this.props.id, columns);
+    context.actions.table.columns(this.props.id, columns);
     callback();
   }
 
   handleReorderColumn = (columns, callback) => {
-    context.actions.table.setColumns(this.props.id, columns);
+    context.actions.table.columns(this.props.id, columns);
     callback();
   }
 
   handleClickRow = (selects, callback) => {
-    context.actions.table.setSelects(this.props.id, selects);
+    context.actions.table.selects(this.props.id, selects);
     callback();
   }
 
   render({ id, state, classes } = this.props) {
+    console.log(state.loading)
     return (
       <div style={styles.box}>
         <Grid

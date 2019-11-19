@@ -1,4 +1,6 @@
-export const TABLE_SET_DATA = 'TABLE_SET_DATA';
-export const TABLE_SET_SELECTS = 'TABLE_SET_SELECTS';
-export const TABLE_SET_COLUMNS = 'TABLE_SET_COLUMNS';
+export const TABLE_CLEAR = 'TABLE_CLEAR';
+export const TABLE_LOAD = 'TABLE_LOAD';
+export const TABLE_DATA = 'TABLE_DATA';
 
+export const TABLE_SELECTS = 'TABLE_SELECTS';
+export const TABLE_COLUMNS = 'TABLE_COLUMNS';

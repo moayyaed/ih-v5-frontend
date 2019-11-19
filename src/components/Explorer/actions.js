@@ -1,15 +1,15 @@
-import { EXPLORER_SET_DATA } from './constants';
+import { EXPLORER_DATA } from './constants';
 
 
-export function setData(id, data) {
+export function data(id, data) {
   return {
     id,
-    type: EXPLORER_SET_DATA,
+    type: EXPLORER_DATA,
     data,
   };
 }
 
 
 export default {
-  setData,
+  data,
 }

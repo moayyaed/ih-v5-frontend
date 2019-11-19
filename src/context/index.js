@@ -6,7 +6,8 @@ import bindStore from './store';
 
 import connect from './connect';
 import network from './network';
-// import tools from './tools';
+
+import { Request } from './tools';
 
 
 function setRoute(id) {
@@ -24,7 +25,7 @@ function create(dep) {
   context.actions = bindActions({ setRoute, getRoute } ,dep.actions, context.store.dispatch);
   context.rawActions = dep.actions;
   
-  // context.event('app', 'init')
+  context.event('app:init');
 }
 
 function action(bind) {
@@ -40,6 +41,13 @@ function event(name, id, value, action) {
   context.events.emit(name, id, value, action);
 }
 
+function request(component, id) {
+  console.log();
+  return new Request((ok, error) => {
+    context.event('network:' + component, id, ok, error)
+  });
+}
+
 
 const context = {
   store: {},
@@ -47,6 +55,7 @@ const context = {
   action,
   create,
   connect,
+  request,
   network,
   event,
   events: new EventEmitter(),

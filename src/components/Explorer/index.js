@@ -88,7 +88,7 @@ function TransitionComponent(props) {
 
 class Explorer extends Component {
   componentDidMount() {
-    context.event('app:navigator:init', this.props.id, this.props.navid);
+    context.event('app:navigator', this.props.id, this.props.navid);
   }
 
   handleClick = (value) => {

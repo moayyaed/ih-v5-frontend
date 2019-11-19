@@ -1,8 +1,8 @@
-import { TABLE_SET_DATA, TABLE_SET_SELECTS, TABLE_SET_COLUMNS } from './constants';
+import { TABLE_CLEAR, TABLE_LOAD, TABLE_DATA, TABLE_SELECTS, TABLE_COLUMNS } from './constants';
 
 
 const defaultState = {
-  id: '',
+  loading: true,
   selects: {
     scrollToIndex: undefined,
     lastIndex: null,
@@ -15,11 +15,15 @@ const defaultState = {
 
 function reducer(state = defaultState, action) {
   switch (action.type) {
-    case TABLE_SET_DATA:
-      return { ...state, ...action.data };
-    case TABLE_SET_SELECTS:
+    case TABLE_CLEAR:
+      return defaultState;
+    case TABLE_LOAD:
+      return { ...state, loading: true, };
+    case TABLE_DATA:
+      return { ...state, loading: false, ...action.data };
+    case TABLE_SELECTS:
       return { ...state, selects: action.selects };
-    case TABLE_SET_COLUMNS:
+    case TABLE_COLUMNS:
       return { ...state, columns: action.columns };
     default:
       return state;

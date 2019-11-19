@@ -1,33 +1,46 @@
-import { TABLE_SET_DATA, TABLE_SET_SELECTS, TABLE_SET_COLUMNS } from './constants';
+import { TABLE_CLEAR, TABLE_LOAD, TABLE_DATA, TABLE_SELECTS, TABLE_COLUMNS } from './constants';
 
 
-export function setData(id, data) {
+export function clear() {
   return {
-    id,
-    type: TABLE_SET_DATA,
+    type: TABLE_CLEAR,
+  };
+}
+
+export function load() {
+  return {
+    type: TABLE_LOAD,
+  };
+}
+
+export function data(data) {
+  return {
+    type: TABLE_DATA,
     data,
   };
 }
 
-export function setSelects(id, selects) {
+export function selects(id, selects) {
   return {
     id,
-    type: TABLE_SET_SELECTS,
+    type: TABLE_SELECTS,
     selects,
   };
 }
 
-export function setColumns(id, columns) {
+export function columns(id, columns) {
   return {
     id,
-    type: TABLE_SET_COLUMNS,
+    type: TABLE_COLUMNS,
     columns,
   };
 } 
 
 
 export default {
-  setData,
-  setSelects,
-  setColumns,
+  clear,
+  load,
+  data,
+  selects,
+  columns,
 }

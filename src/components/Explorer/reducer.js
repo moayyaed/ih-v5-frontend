@@ -1,4 +1,4 @@
-import { EXPLORER_SET_DATA } from './constants';
+import { EXPLORER_DATA } from './constants';
 
 
 const defaultState = {
@@ -8,7 +8,7 @@ const defaultState = {
 
 function reducer(state = defaultState, action) {
   switch (action.type) {
-    case EXPLORER_SET_DATA:
+    case EXPLORER_DATA:
       return { ...state, ...action.data };
     default:
       return state;
