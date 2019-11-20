@@ -5,6 +5,8 @@ import clsx from 'clsx';
 import { ScrollSync, AutoSizer } from 'react-virtualized';
 import Draggable from 'react-draggable';
 
+import Skeleton from '@material-ui/lab/Skeleton';
+
 import Headers from './Headers';
 import Cells from './Cells';
 
@@ -77,6 +79,15 @@ class Grid extends Component {
     const rowHover = this.state.hover === rowIndex ? css.hoverRow : rowClass;
     const rowSelect = rowIndex === this.state.hover ? css.selectRowBorder : css.selectRow;
     const classNames = clsx(this.props.selects.data[rowIndex] === undefined ? rowHover: rowSelect, css.cell, css.noselect);
+    
+    if (this.props.isLoading) {
+      return (
+        <div key={key} key={key} style={style} className={classNames}>
+          <Skeleton width={this.props.data[rowIndex][columnIndex]} />
+        </div>
+      )
+    }
+    
     return (
       <div 
         key={key} 
@@ -93,6 +104,14 @@ class Grid extends Component {
   }
   
   renderHeaderCell = ({ columnIndex, key, rowIndex, style}) => {
+    if (this.props.isLoading) {
+      return (
+        <div className={clsx(css.headerCell, css.noselect)} key={key} style={style}>
+          <Skeleton width={this.props.columns[columnIndex].label} />
+        </div>
+      )
+    }
+
     return (
       <Draggable
         axis='x'

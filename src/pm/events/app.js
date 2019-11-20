@@ -1,6 +1,5 @@
 import context from 'context';
 
-
 context.events.on('app:init', () => {
 })
 
@@ -12,14 +11,19 @@ context.events.on('app:menu:init', (id) => {
 })
 
 context.events.on('app:navigator', (id, routeid) => {
+  context.actions.explorer.clear();
   context.request('navigator', routeid)
   .load(() => {
-    // context.actions.explorer.load();
+    context.actions.explorer.load();
   })
   .ok((data) => {
-    context.actions.table.clear();
     context.actions.explorer.data(id, data);
   })
+})
+
+context.events.on('app:navigator:exit', (id, routeid) => {
+  console.log('!!!')
+  context.actions.table.load();
 })
 
 context.events.on('app:table', (id, tableid) => {

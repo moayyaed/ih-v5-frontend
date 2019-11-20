@@ -69,11 +69,11 @@ class Table extends Component {
   }
 
   render({ id, state, classes } = this.props) {
-    console.log(state.loading)
     return (
       <div style={styles.box}>
         <Grid
           key={state.id}
+          isLoading={state.loading}
           headerHeight={30}
           cellHeight={30}
           columns={state.columns}

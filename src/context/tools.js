@@ -27,7 +27,7 @@ export class Request extends Promise {
   }
 
   load(_load) {
-    this._timer = setTimeout(_load, 200);
+    this._timer = setTimeout(_load, 250);
     return this;
   }
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import context from 'context';
-
+import Skeleton from '@material-ui/lab/Skeleton';
 
 import { fade, makeStyles, withStyles } from '@material-ui/core/styles';
 import SvgIcon from '@material-ui/core/SvgIcon';
@@ -18,6 +18,14 @@ const styles = {
     backgroundColor: '#ECEFF1',
     padding: 6,
     flexShrink: 0,
+  },
+  box2: {
+    width: 200,
+    height: '100%',
+    backgroundColor: '#ECEFF1',
+    padding: 6,
+    flexShrink: 0,
+    overflow: 'hidden'
   },
 };
 
@@ -90,6 +98,9 @@ class Explorer extends Component {
   componentDidMount() {
     context.event('app:navigator', this.props.id, this.props.navid);
   }
+  componentWillUnmount() {
+    context.event('app:navigator:exit', this.props.id, this.props.navid);
+  }
 
   handleClick = (value) => {
     const { path, history } = this.props;
@@ -97,6 +108,18 @@ class Explorer extends Component {
   }
 
   render({ id, state, path, classes } = this.props) {
+    if (state.loading) {
+      return (
+        <div style={styles.box2}>
+          {state.list.map(item => 
+            <div style={{ marginLeft: 10 }}>
+              <Skeleton width={item.width}  />
+              {item.list.map(i => <Skeleton style={{ marginLeft: 15 }} width={i} height={8} />)}
+            </div>
+          )}
+        </div>
+      );
+    }
     const test = state.list
       .map((i, key) => String(key))
       .concat(String(state.list.length));

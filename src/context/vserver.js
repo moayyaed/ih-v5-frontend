@@ -97,12 +97,15 @@ function vserver(data, res) {
     send({propname: "list", tablename: data.id })
     .then(data => {
       if (data.set) {
-        res({ id, list: data.set.list.map(parseExplorer) });
+        setTimeout(() => {
+          res({ id, list: data.set.list.map(parseExplorer) });
+        }, getRandom(150, 1500))
       } else {
         res({ id, list: [] });
       }
     });
   }
+  
 
   if (data.component === 'table') {
     const id = data.id.tablename;
@@ -119,10 +122,13 @@ function vserver(data, res) {
           },
           data: data.set.data,
         })
-      }, 2500)
+      }, getRandom(150, 2500))
     });
   }
 }
 
+function getRandom(min, max) {
+  return Math.round(Math.random() * (max - min) + min);
+}
 
 export default vserver;
