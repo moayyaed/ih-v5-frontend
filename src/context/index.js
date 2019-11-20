@@ -1,4 +1,5 @@
 import EventEmitter from 'events';
+import NProgress from 'nprogress';
 import { createBrowserHistory } from "history";
 
 import bindActions from './actions';
@@ -42,8 +43,8 @@ function event(name, id, value, action) {
 }
 
 function request(component, id) {
-  console.log();
   return new Request((ok, error) => {
+   // NProgress.start();
     context.event('network:' + component, id, ok, error)
   });
 }

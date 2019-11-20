@@ -22,7 +22,6 @@ context.events.on('app:navigator', (id, routeid) => {
 })
 
 context.events.on('app:navigator:exit', (id, routeid) => {
-  console.log('!!!')
   context.actions.table.load();
 })
 

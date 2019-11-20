@@ -1,28 +1,38 @@
 import React from 'react';
 import context from 'context';
 
+import { withStyles } from '@material-ui/core/styles';
 
-function handleClick(e, id) {
-  e.preventDefault();
-  e.stopPropagation();
 
-  context.actions.example.count(id);
+const styles = {
+  box: {
+  },
+};
 
-  // ----- custom action 
-  // context.action(actions => actions.example.count('test1'));
+const classes = theme => ({
+  root: {
+  },
+});
 
-  /* ----- custom multiple actions 
-  context.action(actions => [
-    actions.example.count('test1'),
-    actions.example.count('test2')
-  ]);
-  */
+
+class Example extends Component {
+
+  componentDidMount() {
+    // context.event('app:example', this.props.id);
+  }
+  componentWillUnmount() {
+    // context.event('app:example', this.props.id);
+  }
+
+  render({ id, state, classes } = this.props) {
+    return (
+      <div style={styles.box}>
+        Example
+      </div>
+    );
+  }
+
 }
 
-function Example({ id, state, dispatch }) {
-  console.log(`render ${id}`);
-  return <div onClick={(e) => handleClick(e, id)}>{state.count}</div>;
-}
-
-
+// export default context.connect(withStyles(classes)(Example));
 export default context.connect(Example);

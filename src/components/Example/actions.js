@@ -1,14 +1,28 @@
-import { TEST } from './constants';
+import { EXAMPLE_CLEAR, EXAMPLE_LOAD, EXAMPLE_DATA } from './constants';
 
 
-export function count(id) {
+export function clear() {
   return {
-    id,
-    type: TEST,
+    type: EXAMPLE_CLEAR,
   };
-} 
+}
+
+export function load() {
+  return {
+    type: EXAMPLE_LOAD,
+  };
+}
+
+export function data(data) {
+  return {
+    type: EXAMPLE_DATA,
+    data,
+  };
+}
 
 
 export default {
-  count,
+  clear,
+  load,
+  data,
 }
