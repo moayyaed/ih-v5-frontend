@@ -9,10 +9,10 @@ const styles = {
   },
   dragLeft: {
     position: 'absolute',
-    top: 0,
+    top: 70,
     left: 0,
     width: 5,
-    height: '100%',
+    height: 'calc(100% - 70px)',
     flexShrink: 0,
     cursor: 'col-resize',
     zIndex: 80,
