@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import context from 'context';
 import Skeleton from '@material-ui/lab/Skeleton';
 
+import Panel from 'components/basic/Panel';
+
 import { fade, makeStyles, withStyles } from '@material-ui/core/styles';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import TreeView from '@material-ui/lab/TreeView';
@@ -13,11 +15,11 @@ import { useSpring, animated } from 'react-spring';
 
 const styles = {
   box: {
-    width: 200,
     height: '100%',
     backgroundColor: '#ECEFF1',
     padding: 6,
     flexShrink: 0,
+    overflow: 'hidden',
   },
   box2: {
     width: 200,
@@ -33,7 +35,6 @@ const classes = theme => ({
   root: {
     height: '100%',
     flexGrow: 1,
-    maxWidth: 200 - 12,
   },
   itemLabel: {
     fontSize: '0.9rem',
@@ -124,7 +125,7 @@ class Explorer extends Component {
       .map((i, key) => String(key))
       .concat(String(state.list.length));
     return (
-      <div style={styles.box}>
+      <Panel width={200} position="right" style={styles.box}>
         <TreeView
           key={state.id}
           className={classes.root}
@@ -167,7 +168,7 @@ class Explorer extends Component {
             );
           })}
         </TreeView>
-      </div>
+      </Panel>
     );
   }
 }

@@ -3,10 +3,15 @@ import context from 'context';
 
 import { withStyles } from '@material-ui/core/styles';
 
+import Drawer from 'components/basic/Drawer';
+
 
 const styles = {
   box: {
   },
+  content: {
+    padding: 10,
+  }
 };
 
 const classes = theme => ({
@@ -15,7 +20,7 @@ const classes = theme => ({
 });
 
 
-class Example extends Component {
+class Properties extends Component {
 
   componentDidMount() {
     // context.event('app:example', this.props.id);
@@ -26,13 +31,18 @@ class Example extends Component {
 
   render({ id, state, classes } = this.props) {
     return (
-      <div style={styles.box}>
-        Example
+      <Drawer >
+        <div style={styles.content}>
+        CONTENT
+        <br />
+        <br />
+          CHANGE POSITION
       </div>
+      </Drawer>
     );
   }
 
 }
 
-// export default context.connect(withStyles(classes)(Example));
-export default context.connect(Example);
+
+export default context.connect(withStyles(classes)(Properties));

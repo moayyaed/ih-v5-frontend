@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import context from 'context';
 
+import Properties from 'components/Properties';
 import Grid from 'components/basic/Grid';
 
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -83,6 +84,7 @@ class Table extends Component {
           reorderColumn={this.handleReorderColumn}
           onClickRow={this.handleClickRow}
         />
+        <Properties id="properties" />
       </div>
     );
   }
