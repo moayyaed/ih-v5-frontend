@@ -12,9 +12,20 @@ const styles = {
   content: {
     width: '100%',
     height: '100%',
-    background: 'white',
+    backgroundColor: '#fff',
     paddingTop: 35,
     boxShadow: 'rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px',
+  },
+  toolbar: {
+    width: '100%',
+    height: 35,
+    backgroundColor: '#90a4ae',
+  },
+  tabs: {
+    width: '100%',
+    height: 35,
+    backgroundColor: '#b0bec5',
+    borderBottom: '2px solid #006064'
   }
 };
 
@@ -37,11 +48,9 @@ class Properties extends Component {
     return (
       <Drawer >
         <div style={styles.content}>
-        CONTENT
-        <br />
-        <br />
-          CHANGE POSITION
-      </div>
+          <div style={styles.toolbar}></div>
+          <div style={styles.tabs}></div>
+        </div>
       </Drawer>
     );
   }
