@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Draggable from 'react-draggable';
 
+import css from './main.module.css';
 
 const styles = {
   box: {
@@ -126,7 +127,7 @@ class Panel extends Component {
           onDrag={this.handleDrag}
           onStop={this.handleDragStop}
         >
-          <div ref={this.linkDrag} style={getStyleDrag(position)}/>
+          <div ref={this.linkDrag} className={css.dragLine} style={getStyleDrag(position)} />
         </Draggable>
         <div ref={this.link} style={getStyleBox(width, position, this.props.style)}>
           <div style={styles.content}>
