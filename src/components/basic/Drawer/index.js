@@ -9,7 +9,6 @@ const styles = {
     height: '100%',
     width: 250,
     top: 0,
-    background: 'red',
     transition: 'transform 225ms cubic-bezier(0, 0, 0.2, 1) 0ms',
     transform: 'none',
   },
@@ -20,7 +19,6 @@ const styles = {
     width: 5,
     height: '100%',
     flexShrink: 0,
-    background: 'rgba(255, 235, 59, 1)',
     cursor: 'col-resize',
     zIndex: 80,
   },
@@ -31,7 +29,6 @@ const styles = {
     width: 5,
     height: '100%',
     flexShrink: 0,
-    background: 'rgba(255, 235, 59, 1)',
     cursor: 'col-resize',
     zIndex: 80,
   },
@@ -39,7 +36,6 @@ const styles = {
     width: '100%',
     height: '100%',
     paddingTop: 35,
-    background: 'blue',
   },
 }
 
@@ -187,9 +183,7 @@ class Drawer extends Component {
           <div ref={this.linkDrag} style={getStyleDrag(position, offsetLeft, offsetRight)}/>
         </Draggable>
         <div ref={this.link} style={getStyleBox(width, position, offsetLeft, offsetRight)}>
-          <div style={styles.content}>
-            {this.props.children}
-          </div>
+          {this.props.children}
         </div>
       </>
     )

@@ -20,6 +20,7 @@ const styles = {
     padding: 6,
     flexShrink: 0,
     overflow: 'hidden',
+    borderRight: '1px solid #d3d3d3',
   },
   box2: {
     width: 200,
@@ -27,7 +28,8 @@ const styles = {
     backgroundColor: '#ECEFF1',
     padding: 6,
     flexShrink: 0,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    borderRight: '1px solid #d3d3d3',
   },
 };
 
