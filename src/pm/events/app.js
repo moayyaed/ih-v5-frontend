@@ -25,12 +25,15 @@ context.events.on('app:navigator:exit', (id, routeid) => {
   context.actions.table.load();
 })
 
-context.events.on('app:table', (id, tableid) => {
+context.events.on('app:table', (id, tableid, params) => {
   context.request('table', tableid)
   .load(() => {
     context.actions.table.load();
   })
   .ok((data) => {
+    if (params) {
+      data.selects = params
+    }
     context.actions.table.data(data);
   })
 })

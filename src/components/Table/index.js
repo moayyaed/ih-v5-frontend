@@ -51,7 +51,31 @@ const classes = theme => ({
 class Table extends Component {
 
   componentDidMount() {
-    context.event('app:table', this.props.id, { scheme: this.props.tablesh, tablename: this.props.tableid });
+    const params = this.props.match.params
+    const _params = params.select ? {
+      data: { [params.select]: true },
+      lastIndex: params.select,
+      scrollToIndex: params.select,
+    } : {
+      scrollToIndex: undefined,
+      lastIndex: null,
+      data: {},
+    }
+    this.l = this.props.history.listen((location, action) => {
+        const p = location.pathname.split('/');
+        if (action === 'POP' && p[4] !== undefined) {
+          context.actions.table.selects(this.props.id, {
+            scrollToIndex: p[4],
+            lastIndex: p[4],
+            data: { [p[4]]: true},
+          });
+        }
+    });
+    context.event('app:table', this.props.id, { scheme: params.pagesh, tablename: params.pageid }, _params);
+  }
+
+  componentWillUnmount() {
+    this.l();
   }
 
   handleResizeColumn = (columns, callback) => {
@@ -65,11 +89,21 @@ class Table extends Component {
   }
 
   handleClickRow = (selects, callback) => {
+    const params = this.props.match.params;
+
+    const rows = Object.keys(selects.data);
+    if (rows.length === 1) {
+     this.props.history.push(`/${params.navid}/${params.pagesh}/${params.pageid}/${rows[0]}`);
+    } else {
+      if (params.selects === undefined) {
+        this.props.history.push(`/${params.navid}/${params.pagesh}/${params.pageid}`);
+      }
+    }
     context.actions.table.selects(this.props.id, selects);
     callback();
   }
 
-  render({ id, state, classes } = this.props) {
+  render({ id, state, classes, match } = this.props) {
     return (
       <div style={styles.box}>
         <Grid

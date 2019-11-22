@@ -276,7 +276,7 @@ class Grid extends Component {
   handleOnScroll = (e, scroll) => {
     scroll.onScroll(e);
 
-    if (this.props.selects.scrollToIndex !== undefined) {
+    if (scroll.clientWidth !== 0 && this.props.selects.scrollToIndex !== undefined) {
       this.props.onClickRow({ 
         ...this.props.selects, 
         scrollToIndex: undefined,
@@ -290,7 +290,7 @@ class Grid extends Component {
   }
 
   forceUpdateCells= () => {
-    this.linkCells.recomputeGridSize();
+    this.linkCells && this.linkCells.recomputeGridSize();
   }
 
   refHeaders = (e) => {

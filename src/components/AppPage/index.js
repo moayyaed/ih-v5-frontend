@@ -23,9 +23,9 @@ class AppPage extends Component {
     const { navid, pageid} = this.props.match.params;
   }
 
-  render({ params, url } = this.props.match) {
+  render({ match, history } = this.props) {
     return (
-      <Table key={params.pageid} tablesh={params.pagesh} tableid={params.pageid} id="table"/>
+      <Table key={match.params.pageid} match={match} history={history} id="table"/>
     );
   }
 }
