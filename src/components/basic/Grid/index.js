@@ -243,7 +243,7 @@ class Grid extends Component {
           lastIndex = null;
         }
       }
-      this.props.onClickRow({ lastIndex, data }, this.forceUpdateCells);
+      this.props.onClickRow({ lastIndex, data, scrollToIndex: undefined }, this.forceUpdateCells);
     } else if (e.shiftKey) {
       const data = { ...this.props.selects.data };
       let lastIndex = index;
@@ -262,15 +262,16 @@ class Grid extends Component {
           }
         }
       }
-      this.props.onClickRow({ lastIndex, data }, this.forceUpdateCells);
+      this.props.onClickRow({ lastIndex, data, scrollToIndex: undefined }, this.forceUpdateCells);
     } else {
-      this.props.onClickRow({ lastIndex: index, data: { [index]: true } }, this.forceUpdateCells);
+      this.props.onClickRow({ lastIndex: index, data: { [index]: true }, scrollToIndex: undefined }, this.forceUpdateCells);
     }
   }
 
   handleClickContextMenu = (e, index) => {
     e.preventDefault();
     e.stopPropagation();
+    this.props.onClickRowContextMenu({ lastIndex: index, data: { [index]: true }, scrollToIndex: undefined }, this.forceUpdateCells);
   }
 
   handleOnScroll = (e, a, b, scroll) => {

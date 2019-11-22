@@ -41,18 +41,20 @@ const styles = {
 }
 
 
-function getStyleBox(width, position, offsetLeft, offsetRight) {
+function getStyleBox(open, width, position, offsetLeft, offsetRight) {
   if (position === 'right') {
     return {
       ...styles.box,
       width,
       right: offsetRight,
+      transform: open ? 'none' : 'translateX(350px)',
     }
   }
   return {
     ...styles.box,
     width,
     left: offsetLeft,
+    transform: open ? 'none' : 'translateX(350px)',
   }
 }
 
@@ -187,7 +189,7 @@ class Drawer extends Component {
             style={getStyleDrag(position, offsetLeft, offsetRight)}
           />
         </Draggable>
-        <div ref={this.link} style={getStyleBox(width, position, offsetLeft, offsetRight)}>
+        <div ref={this.link} style={getStyleBox(this.props.open, width, position, offsetLeft, offsetRight)}>
           {this.props.children}
         </div>
       </>

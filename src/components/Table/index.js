@@ -101,7 +101,11 @@ class Table extends Component {
       const params = this.props.match.params;
       const rows = Object.keys(selects.data);
       if (rows.length === 1) {
-       this.props.history.push(`/${params.navid}/${params.pagesh}/${params.pageid}/${rows[0]}`);
+        if (params.property) {
+          this.props.history.push(`/${params.navid}/${params.pagesh}/${params.pageid}/${rows[0]}/property`);
+        } else {
+          this.props.history.push(`/${params.navid}/${params.pagesh}/${params.pageid}/${rows[0]}`);
+        }
       } else {
         if (params.selects === undefined) {
           this.props.history.push(`/${params.navid}/${params.pagesh}/${params.pageid}`);
@@ -109,7 +113,25 @@ class Table extends Component {
       }
     }
     context.actions.table.selects(this.props.id, selects);
-    callback();
+    // callback();
+  }
+
+  handleClickRowContextMenu = (selects, callback) => {
+    const params = this.props.match.params;
+    const rows = Object.keys(selects.data);
+    if (rows.length === 1) {
+      if (rows[0] === params.select && params.property) {
+        this.props.history.push(`/${params.navid}/${params.pagesh}/${params.pageid}/${rows[0]}`);
+      } else {
+        this.props.history.push(`/${params.navid}/${params.pagesh}/${params.pageid}/${rows[0]}/property`);
+      }
+    } else {
+      if (params.selects === undefined) {
+        this.props.history.push(`/${params.navid}/${params.pagesh}/${params.pageid}`);
+      }
+    }
+    context.actions.table.selects(this.props.id, selects);
+    // callback();
   }
 
   render({ id, state, classes, match } = this.props) {
@@ -126,8 +148,9 @@ class Table extends Component {
           resizeColumn={this.handleResizeColumn}
           reorderColumn={this.handleReorderColumn}
           onClickRow={this.handleClickRow}
+          onClickRowContextMenu={this.handleClickRowContextMenu}
         />
-        <Properties id="properties" />
+        <Properties isLoading={state.loading} open={match.params.property} data={state.data[match.params.select]} id="properties" />
       </div>
     );
   }

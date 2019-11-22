@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import context from 'context';
 
+import Skeleton from '@material-ui/lab/Skeleton';
+
 import { withStyles } from '@material-ui/core/styles';
 
 import Drawer from 'components/basic/Drawer';
@@ -26,6 +28,12 @@ const styles = {
     height: 35,
     backgroundColor: '#b0bec5',
     borderBottom: '2px solid #006064'
+  },
+  form: {
+    width: '100%',
+    height: '100%',
+    whiteSpace: 'pre',
+    padding: 10,
   }
 };
 
@@ -44,12 +52,38 @@ class Properties extends Component {
     // context.event('app:example', this.props.id);
   }
 
-  render({ id, state, classes } = this.props) {
+  render({ id, state, classes, isLoading, data } = this.props) {
+    if (isLoading) {
+      return (
+        <Drawer open={this.props.open}>
+          <div style={styles.content}>
+            <div style={styles.toolbar}></div>
+            <div style={styles.tabs}></div>
+            <div style={styles.form}>
+              <Skeleton width='100%' height={40}/>
+              <Skeleton width='100%' height={40}/>
+              <Skeleton width='100%' height={40}/>
+              <Skeleton width='100%' height={40}/>
+              <Skeleton width='100%' height={40}/>
+              <Skeleton width='100%' height={40}/>
+              <Skeleton width='100%' height={40}/>
+              <Skeleton width='100%' height={40}/>
+              <Skeleton width='100%' height={40}/>
+              <Skeleton width='100%' height={40}/>
+              <Skeleton width='100%' height={40}/>
+              <Skeleton width='100%' height={40}/>
+              <Skeleton width='100%' height={40}/>
+            </div>
+          </div>
+        </Drawer>
+      );
+    }
     return (
-      <Drawer >
+      <Drawer open={this.props.open}>
         <div style={styles.content}>
           <div style={styles.toolbar}></div>
           <div style={styles.tabs}></div>
+          <div style={styles.form}>{JSON.stringify(data, null, 2)}</div>
         </div>
       </Drawer>
     );

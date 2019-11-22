@@ -41,7 +41,7 @@ class AppNav extends Component {
             path={url}
           />
           <Switch>
-            <Route path={`${path}/:pagesh/:pageid/:select?`} component={AppPage} />
+            <Route path={`${path}/:pagesh/:pageid/:select?/:property?`} component={AppPage} />
           </Switch>
         </div>
       </div>
