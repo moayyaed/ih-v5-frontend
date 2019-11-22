@@ -97,9 +97,7 @@ function vserver(data, res) {
     send({propname: "list", tablename: data.id })
     .then(data => {
       if (data.set) {
-        setTimeout(() => {
-          res({ id, list: data.set.list.map(parseExplorer) });
-        }, getRandom(150, 1500))
+        res({ id, list: data.set.list.map(parseExplorer) });
       } else {
         res({ id, list: [] });
       }
@@ -111,18 +109,16 @@ function vserver(data, res) {
     const id = data.id.tablename;
     send({ tablename: data.id.tablename, scheme: data.id.scheme })
     .then(data => {
-      setTimeout(() => {
-        res({ 
-          id,
-          columns: Object.keys(data.set.scheme).map(id => ({ id, label: data.set.scheme[id].name, width: data.set.scheme[id].width })),
-          selects: {
-            scrollToIndex: undefined,
-            lastIndex: null,
-            data: {},
-          },
-          data: data.set.data,
-        })
-      }, getRandom(150, 2500))
+      res({ 
+        id,
+        columns: Object.keys(data.set.scheme).map(id => ({ id, label: data.set.scheme[id].name, width: data.set.scheme[id].width })),
+        selects: {
+          scrollToIndex: undefined,
+          lastIndex: null,
+          data: {},
+        },
+        data: data.set.data,
+      })
     });
   }
 }

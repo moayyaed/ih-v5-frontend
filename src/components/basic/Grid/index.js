@@ -273,14 +273,13 @@ class Grid extends Component {
     e.stopPropagation();
   }
 
-  handleOnScroll = (e, scroll) => {
+  handleOnScroll = (e, a, b, scroll) => {
     scroll.onScroll(e);
-
     if (scroll.clientWidth !== 0 && this.props.selects.scrollToIndex !== undefined) {
       this.props.onClickRow({ 
         ...this.props.selects, 
         scrollToIndex: undefined,
-      }, this.forceUpdateCells);
+      }, () => {}, true);
     }
   }
 
@@ -321,7 +320,7 @@ class Grid extends Component {
                   />
                   <Cells 
                    ref={this.refCells}
-                    scroll={(e) => this.handleOnScroll(e, scroll)} 
+                    scroll={(e, a, b) => this.handleOnScroll(e, a, b, scroll)} 
                     size={size}
                     headerHeight={headerHeight}
                     rowHeight={cellHeight}

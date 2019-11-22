@@ -62,14 +62,22 @@ class Table extends Component {
       data: {},
     }
     this.l = this.props.history.listen((location, action) => {
-        const p = location.pathname.split('/');
-        if (action === 'POP' && p[4] !== undefined) {
+      const p = location.pathname.split('/');
+      if (action === 'POP') {
+        if (p[4] !== undefined) {
           context.actions.table.selects(this.props.id, {
             scrollToIndex: p[4],
             lastIndex: p[4],
             data: { [p[4]]: true},
           });
+        } else {
+          context.actions.table.selects(this.props.id, {
+            scrollToIndex: undefined,
+            lastIndex: null,
+            data: {},
+          });
         }
+      }
     });
     context.event('app:table', this.props.id, { scheme: params.pagesh, tablename: params.pageid }, _params);
   }
@@ -88,15 +96,16 @@ class Table extends Component {
     callback();
   }
 
-  handleClickRow = (selects, callback) => {
-    const params = this.props.match.params;
-
-    const rows = Object.keys(selects.data);
-    if (rows.length === 1) {
-     this.props.history.push(`/${params.navid}/${params.pagesh}/${params.pageid}/${rows[0]}`);
-    } else {
-      if (params.selects === undefined) {
-        this.props.history.push(`/${params.navid}/${params.pagesh}/${params.pageid}`);
+  handleClickRow = (selects, callback, flag = false) => {
+    if (flag === false) {
+      const params = this.props.match.params;
+      const rows = Object.keys(selects.data);
+      if (rows.length === 1) {
+       this.props.history.push(`/${params.navid}/${params.pagesh}/${params.pageid}/${rows[0]}`);
+      } else {
+        if (params.selects === undefined) {
+          this.props.history.push(`/${params.navid}/${params.pagesh}/${params.pageid}`);
+        }
       }
     }
     context.actions.table.selects(this.props.id, selects);

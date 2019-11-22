@@ -25,7 +25,12 @@ class AppPage extends Component {
 
   render({ match, history } = this.props) {
     return (
-      <Table key={match.params.pageid} match={match} history={history} id="table"/>
+      <Table 
+        key={match.params.pageid} 
+        match={match} 
+        history={history} 
+        id="table"
+      />
     );
   }
 }
