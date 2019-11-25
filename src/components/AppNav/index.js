@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch, useRouteMatch } from 'react-router-dom';
 
+import Tabs from 'components/basic/Tabs';
 import AppToolBar from 'components/AppToolBar';
 import AppPage from 'components/AppPage';
 
@@ -26,12 +27,13 @@ const styles = {
 class AppNav extends Component {
 
   componentDidMount() {
+    //    <AppToolBar />
   }
 
   render({ path, url, params } = this.props.match) {
     return (
       <div style={styles.root}>
-        <AppToolBar />
+        <Tabs />
         <div style={styles.container}>
           <Explorer 
             id="explorer"

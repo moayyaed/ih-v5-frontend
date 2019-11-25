@@ -177,7 +177,7 @@ class Drawer extends Component {
   render({ x, width, position, offsetLeft, offsetRight } = this.state) {
     return (
       <>
-        <Draggable 
+        {this.props.open ? <Draggable 
           axis='x'
           position={{ x, y: 0 }}
           onDrag={this.handleDrag}
@@ -188,7 +188,7 @@ class Drawer extends Component {
             className={css.dragLine} 
             style={getStyleDrag(position, offsetLeft, offsetRight)}
           />
-        </Draggable>
+        </Draggable> : null}
         <div ref={this.link} style={getStyleBox(this.props.open, width, position, offsetLeft, offsetRight)}>
           {this.props.children}
         </div>

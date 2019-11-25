@@ -106,7 +106,8 @@ class Explorer extends Component {
   }
 
   handleClick = (value) => {
-    const { path, history } = this.props;
+    const { path, history, match } = this.props;
+    context.event('app:navigator:click', path, history, value);
     history.push(`${path}/${value.scheme}/${value.tablename}`);
   }
 
