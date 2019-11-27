@@ -18,10 +18,9 @@ const classes = theme => ({
 class Example extends Component {
 
   componentDidMount() {
-    // context.event('app:example', this.props.id);
   }
+
   componentWillUnmount() {
-    // context.event('app:example', this.props.id);
   }
 
   render({ id, state, classes } = this.props) {
