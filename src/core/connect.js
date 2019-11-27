@@ -1,9 +1,12 @@
 import { connect as reduxConnect } from 'react-redux';
 import { createSelector } from 'reselect';
 
+const empty = {
+  warning: 'Component not set id!'
+}
 
 function selector(state, props) {
-  return state || {};
+  return state[props.id] || empty;
 }
 
 function result(state) {

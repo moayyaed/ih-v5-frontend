@@ -1,15 +1,24 @@
 import React from 'react';
 
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
 import './App.css';
 
-import Example from 'components/Example';
+import AppBar from 'components/AppBar';
+import AppMenu from 'components/AppMenu';
 
 
 function App() {
   return (
-    <div>
-      <Example />
-    </div>
+    <Router>
+      <AppBar />
+      <div className="container">
+        <Route path="/:menuid?" component={AppMenu} />
+        <div className="content">
+          content
+        </div>
+      </div>
+    </Router>
   );
 }
 

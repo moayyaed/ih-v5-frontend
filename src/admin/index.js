@@ -14,6 +14,7 @@ import dependencies from './dependencies';
 
 import App from './App';
 
+core.dependencies(dependencies);
 
 ReactDOM.render(
   <Provider store={core.store}>
