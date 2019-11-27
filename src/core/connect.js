@@ -14,7 +14,14 @@ function result(state) {
 }
 
 const mapStateToProps = createSelector(selector, result);
-const connect = reduxConnect(mapStateToProps);
+const connecter = reduxConnect(mapStateToProps);
 
+function connect(item) {
+  const component = connecter(item);
+  component.defaultProps = {
+    id: item.Naked.name.toLowerCase(),
+  }
+  return component;
+}
 
 export default connect;
