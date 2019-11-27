@@ -13,4 +13,5 @@ function result(state) {
 const mapStateToProps = createSelector(selector, result);
 const connect = reduxConnect(mapStateToProps);
 
+
 export default connect;
