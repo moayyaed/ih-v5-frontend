@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import core from 'core';
+import context from 'context';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -34,4 +34,5 @@ class Example extends Component {
 
 }
 
-export default core.connect(withStyles(classes)(Example));
+// export default context.connect(withStyles(classes)(Example));
+export default context.connect(Example);

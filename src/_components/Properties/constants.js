@@ -1,0 +1,3 @@
+export const EXAMPLE_CLEAR = 'EXAMPLE_CLEAR';
+export const EXAMPLE_LOAD = 'EXAMPLE_LOAD';
+export const EXAMPLE_DATA = 'EXAMPLE_DATA';
