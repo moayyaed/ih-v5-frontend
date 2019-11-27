@@ -15,7 +15,6 @@ function App() {
       <div className="container">
         <Route path="/:menuid?" component={AppMenu} />
         <div className="content">
-          content
         </div>
       </div>
     </Router>

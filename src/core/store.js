@@ -18,7 +18,7 @@ function store(deps) {
   .keys(deps)
   .reduce((p, c) => {
     const item = deps[c];
-    return { ...p, [item.id || c]: preparation(item.id || c, item.reducer) };
+    return { ...p, [c]: preparation(c, item.reducer) };
   }, {});
   
   const reduxStore = createStore(combineReducers(reducers), applyMiddleware(thunk));

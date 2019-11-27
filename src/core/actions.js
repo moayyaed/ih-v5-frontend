@@ -20,7 +20,10 @@ function actions(deps, dispatch) {
     .keys(deps)
     .reduce((p, c) => {
       const item = deps[c];
-      return { ...p, [item.id || c]: preparation(item.id || c, item.actions, dispatch) };
+      if (p[item.id] === undefined) {
+        return { ...p, [item.id || c]: preparation(item.id || c, item.actions, dispatch) };
+      }
+      return p;
     }, {});
   return temp;
 }
