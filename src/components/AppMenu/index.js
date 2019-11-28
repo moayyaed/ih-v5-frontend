@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import core from 'core';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -42,15 +41,14 @@ const classes = theme => ({
 
 class AppMenu extends Component {
   componentDidMount() {
-    core.actions.appmenu.test(1);
+    core.event('app:menu', this.props.id);
   }
 
-  handleClick = (e, selectid) => {
-    // this.props.history.push('/' + selectid);
+  handleClick = (e, id) => {
+    this.props.history.push('/' + id);
   }
 
   render({ id, state, match, classes } = this.props) {
-    console.log(state);
     return (
       <div style={styles.box}>
         <BottomNavigation 
@@ -59,11 +57,11 @@ class AppMenu extends Component {
           onChange={this.handleClick}
           value={match.params.menuid}
         >
-          {[] // state.list
+          {state.list
             .map((item) =>
               <BottomNavigationAction
                 key={item.id}
-                value={item.id}
+                value={item.route}
                 className={classes.bottom} 
                 label={item.label} 
                 icon={<RestoreIcon />} 

@@ -12,6 +12,8 @@ import core from 'core';
 import theme from './theme';
 import dependencies from './dependencies';
 
+import './events';
+
 import App from './App';
 
 core.dependencies(dependencies);
