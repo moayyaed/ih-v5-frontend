@@ -23,11 +23,11 @@ class AppNav extends Component {
     core.event('app:nav', this.props.params.navid);
   }
 
-  render({ onClick } = this.props) {
+  render({ params, onClick } = this.props) {
     return (
       <Panel width={200} position="right" style={styles.box}>
         APP_NAV
-        <Explorer onClick={onClick}/>
+        <Explorer select={params.pageid} onClick={onClick}/>
       </Panel>
     );
   }

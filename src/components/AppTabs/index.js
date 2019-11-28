@@ -15,11 +15,6 @@ const styles = {
     height: 60,
     borderBottom: '2px solid #eceff1',
   },
-  stub: {
-    width: 200,
-    height: '100%',
-    flexShrink: 0,
-  },
   box: {
     display: 'flex',
     width: '100%',
@@ -124,18 +119,17 @@ class Tabs extends Component {
     }
   }
 
-  render() {
+  render({ onClick } = this.props) {
     return (
       <div style={this.props.data.length === 0 ? styles.root : styles.rootA }>
         <div style={styles.box}>
-          <div style={styles.stub} />
           {this.props.data.map(i => 
           <Tab 
             key={i.id} 
-            select={this.state.select}
+            select={this.props.select}
             value={i.id} 
             label={i.label}
-            onClick={this.handleClick}
+            onClick={() => onClick(i)}
           />)}
         </div>
       </div>

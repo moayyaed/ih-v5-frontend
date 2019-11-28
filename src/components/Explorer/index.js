@@ -9,6 +9,13 @@ const styles = {
     width: '100%',
     height: '100%',
   },
+  active: {
+    cursor: 'pointer',
+    backgroundColor: 'rgba(158, 158, 158, 0.2)',
+  },
+  noactive: {
+    cursor: 'pointer',
+  }
 };
 
 const classes = theme => ({
@@ -20,14 +27,19 @@ class Explorer extends Component {
   componentDidMount() {
   }
 
-  render({ id, state, match, classes, onClick } = this.props) {
+  render({ id, state, classes, select, onClick } = this.props) {
     return (
       <div style={styles.box}>
         EXPLORER
         <ul>
           {state.list
             .map(i => 
-              <li onClick={() => onClick(i)}>{i.id}</li>
+              <li 
+                style={select === i.id ? styles.active : styles.noactive} 
+                onClick={() => onClick(i)}
+              >
+                {i.id}
+              </li>
           )}
         </ul>
       </div>
