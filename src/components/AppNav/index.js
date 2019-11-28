@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import core from 'core';
 
+import Panel from 'components/#basic/Panel';
+
 
 const styles = {
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: 200,
+  box: {
     height: '100%',
-    backgroundColor: 'red',
+    backgroundColor: '#ECEFF1',
+    padding: 6,
+    flexShrink: 0,
+    overflow: 'hidden',
+    borderRight: '1px solid #d3d3d3',
   }
 };
 
@@ -21,9 +24,9 @@ class AppNav extends Component {
 
   render() {
     return (
-      <div style={styles.root}>
-      
-      </div>
+      <Panel width={200} position="right" style={styles.box}>
+        APP_NAV
+      </Panel>
     );
   }
 }

@@ -8,7 +8,6 @@ const styles = {
     flexDirection: 'column',
     width: '100%',
     height: '100%',
-    backgroundColor: 'blue',
   }
 };
 
@@ -22,7 +21,7 @@ class AppPage extends Component {
   render() {
     return (
       <div style={styles.root}>
-      
+        APP_PAGE
       </div>
     );
   }

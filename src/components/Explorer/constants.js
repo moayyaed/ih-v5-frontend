@@ -1,0 +1,3 @@
+export const EXPLORER_CLEAR = 'EXPLORER_CLEAR';
+export const EXPLORER_LOAD = 'EXPLORER_LOAD';
+export const EXPLORER_DATA = 'EXPLORER_DATA';
