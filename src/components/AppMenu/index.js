@@ -74,5 +74,4 @@ class AppMenu extends Component {
 }
 
 
-
 export default core.connect(withStyles(classes)(AppMenu));

@@ -20,7 +20,7 @@ core.events.on('app:nav', (navid) => {
 });
 
 core.events.on('app:nav:devices', (navid) => {
-  core.action.appnav({ navid }, [
+  core.action.appnav({ navid, tabs: false }, [
     { component: 'table', id: 'lamp_1'},
     { component: 'table', id: 'lamp_2'},
     { component: 'table', id: 'lamp_3'},
@@ -28,7 +28,7 @@ core.events.on('app:nav:devices', (navid) => {
 });
 
 core.events.on('app:nav:layouts', (navid) => {
-  core.action.appnav({ navid }, [
+  core.action.appnav({ navid, tabs: true }, [
     { component: 'graph', id: 'layout_1'},
     { component: 'graph', id: 'layout_2'},
     { component: 'graph', id: 'layout_3'},
@@ -38,7 +38,7 @@ core.events.on('app:nav:layouts', (navid) => {
 });
 
 core.events.on('app:nav:scripts', (navid) => {
-  core.action.appnav({ navid }, [
+  core.action.appnav({ navid, tabs: false }, [
     { component: 'options', id: 'script_1'},
     { component: 'options', id: 'script_2'},
     { component: 'options', id: 'script_3'},
@@ -48,7 +48,7 @@ core.events.on('app:nav:scripts', (navid) => {
 });
 
 core.events.on('app:nav:datasource', (navid) => {
-  core.action.appnav({ navid }, [
+  core.action.appnav({ navid, tabs: true }, [
     { component: 'table', id: 'plugins'},
     { component: 'table', id: 'snippet'},
     { component: 'table', id: 'hubs'},

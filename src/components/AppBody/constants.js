@@ -1,0 +1,1 @@
+export const APP_BODY_SET_DATA = 'APP_BODY_SET_DATA';

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import core from 'core';
 
-import { Route } from 'react-router-dom';
+import { withStyles } from '@material-ui/core/styles';
 
 import AppNav from 'components/AppNav';
 import AppTabs from 'components/AppTabs';
@@ -21,6 +22,11 @@ const styles = {
   }
 };
 
+const classes = theme => ({
+  root: {
+  },
+});
+
 
 class AppBody extends Component {
 
@@ -34,15 +40,18 @@ class AppBody extends Component {
       <div style={styles.box}>
         <AppNav key={params.navid} params={params} onClick={this.handleClick}/>
         <div style={styles.body}>
-          <AppTabs />
-          {params.pageid ? <AppPage 
-            key={params.pageid} 
-            params={params} 
-          /> : null}
+          <AppTabs data={this.props.state.tabs}/>
+          {params.pageid ? 
+            <AppPage 
+              key={params.pageid} 
+              params={params} 
+            /> : null
+          }
         </div>
       </div>
     );
   }
 }
 
-export default AppBody;
+
+export default core.connect(withStyles(classes)(AppBody));

@@ -126,10 +126,10 @@ class Tabs extends Component {
 
   render() {
     return (
-      <div style={this.state.data.length === 0 ? styles.root : styles.rootA }>
+      <div style={this.props.data.length === 0 ? styles.root : styles.rootA }>
         <div style={styles.box}>
           <div style={styles.stub} />
-          {this.state.data.map(i => 
+          {this.props.data.map(i => 
           <Tab 
             key={i.id} 
             select={this.state.select}
