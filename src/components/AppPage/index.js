@@ -6,17 +6,17 @@ const styles = {
   root: {
     display: 'flex',
     flexDirection: 'column',
-    width: 200,
+    width: '100%',
     height: '100%',
-    backgroundColor: 'red',
+    backgroundColor: 'blue',
   }
 };
 
 
-class AppNav extends Component {
+class AppPage extends Component {
 
   componentDidMount() {
-    core.event('app:nav', this.props.navid);
+    core.event('app:page', this.props.navid);
   }
 
   render() {
@@ -28,4 +28,4 @@ class AppNav extends Component {
   }
 }
 
-export default AppNav;
+export default AppPage;

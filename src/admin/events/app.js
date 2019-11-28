@@ -14,6 +14,7 @@ core.events.on('app:menu', () => {
   ]);
 });
 
+
 core.events.on('app:nav', (navid) => {
   console.log('nav main', navid);
 });

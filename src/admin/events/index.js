@@ -1,2 +1,2 @@
-import './hook.js';
-import './app.js';
+import './hook';
+import './app';
