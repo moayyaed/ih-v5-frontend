@@ -1,0 +1,1 @@
+export const OPTIONS_SET_DATA = 'OPTIONS_SET_DATA';
