@@ -15,7 +15,7 @@ function preparation(id, actions, dispatch) {
 }
 
 
-function actions(deps, dispatch) {
+function components(deps, dispatch) {
   const temp = Object
     .keys(deps)
     .reduce((p, c) => {
@@ -29,4 +29,4 @@ function actions(deps, dispatch) {
 }
 
 
-export default actions;
+export default components;

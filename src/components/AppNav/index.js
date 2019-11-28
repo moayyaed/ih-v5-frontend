@@ -15,7 +15,7 @@ const styles = {
 class AppNav extends Component {
 
   componentDidMount() {
-    core.event('app:nav', null, this.props.navid);
+    core.event('app:nav', this.props.navid);
   }
 
   render() {
