@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import './App.css';
 
@@ -15,7 +15,7 @@ function App() {
       <AppBar />
       <div className="container">
         <Route path="/:menuid?" component={AppMenu} />
-        <Route path="/:navid" component={AppBody} />
+        <Route path="/:navid/:pageid?" component={AppBody} />
       </div>
     </Router>
   );

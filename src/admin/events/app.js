@@ -50,3 +50,8 @@ core.events.on('app:nav:database', (navid) => {
 core.events.on('app:nav:resources', (navid) => {
   console.log('nav id', navid);
 });
+
+
+core.events.on('app:page', (pageid) => {
+  console.log('page main', pageid);
+});

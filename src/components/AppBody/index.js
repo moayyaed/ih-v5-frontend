@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { Route } from 'react-router-dom';
+
 import AppNav from 'components/AppNav';
 import AppPage from 'components/AppPage';
 
@@ -19,7 +21,10 @@ class AppBody extends Component {
     return (
       <div style={styles.root}>
         <AppNav key={params.navid} navid={params.navid} />
-        <AppPage />
+        {params.pageid ? <AppPage 
+          key={params.pageid} 
+          params={params} 
+        /> : null}
       </div>
     );
   }

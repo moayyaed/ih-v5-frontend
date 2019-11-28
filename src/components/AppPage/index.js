@@ -16,7 +16,7 @@ const styles = {
 class AppPage extends Component {
 
   componentDidMount() {
-    core.event('app:page', this.props.navid);
+    core.event('app:page', this.props.params.pageid);
   }
 
   render() {
