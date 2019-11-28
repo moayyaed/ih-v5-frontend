@@ -15,7 +15,7 @@ const styles = {
 class AppPage extends Component {
 
   componentDidMount() {
-    core.event('app:page', this.props.params.pageid);
+    core.event('app:page', this.props.params.pageid, this.props.params.component);
   }
 
   render() {

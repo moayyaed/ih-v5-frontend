@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import core from 'core';
 
 import Panel from 'components/#basic/Panel';
+import Explorer from 'components/Explorer';
 
 
 const styles = {
@@ -19,13 +20,14 @@ const styles = {
 class AppNav extends Component {
 
   componentDidMount() {
-    core.event('app:nav', this.props.navid);
+    core.event('app:nav', this.props.params.navid);
   }
 
-  render() {
+  render({ onClick } = this.props) {
     return (
       <Panel width={200} position="right" style={styles.box}>
         APP_NAV
+        <Explorer onClick={onClick}/>
       </Panel>
     );
   }

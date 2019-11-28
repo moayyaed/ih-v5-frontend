@@ -3,7 +3,7 @@ import reducer from './reducer';
 
 
 export default {
-  id: 'appmenu',
+  id: 'explorer',
   actions,
   reducer,
 }

@@ -20,38 +20,58 @@ core.events.on('app:nav', (navid) => {
 });
 
 core.events.on('app:nav:devices', (navid) => {
-  console.log('nav id', navid);
+  core.action.appnav({ navid }, [
+    { component: 'table', id: 'lamp_1'},
+    { component: 'table', id: 'lamp_2'},
+    { component: 'table', id: 'lamp_3'},
+  ])
 });
 
 core.events.on('app:nav:layouts', (navid) => {
-  console.log('nav id', navid);
+  core.action.appnav({ navid }, [
+    { component: 'graph', id: 'layout_1'},
+    { component: 'graph', id: 'layout_2'},
+    { component: 'graph', id: 'layout_3'},
+    { component: 'graph', id: 'layout_4'},
+    { component: 'graph', id: 'layout_5'},
+  ])
 });
 
 core.events.on('app:nav:scripts', (navid) => {
-  console.log('nav id', navid);
+  core.action.appnav({ navid }, [
+    { component: 'options', id: 'script_1'},
+    { component: 'options', id: 'script_2'},
+    { component: 'options', id: 'script_3'},
+    { component: 'options', id: 'script_4'},
+    { component: 'options', id: 'script_5'},
+  ])
 });
 
 core.events.on('app:nav:datasource', (navid) => {
-  console.log('nav id', navid);
+  core.action.appnav({ navid }, [
+    { component: 'table', id: 'plugins'},
+    { component: 'table', id: 'snippet'},
+    { component: 'table', id: 'hubs'},
+  ])
 });
 
 core.events.on('app:nav:analytics', (navid) => {
-  console.log('nav id', navid);
+  core.action.appnav({ navid }, [])
 });
 
 core.events.on('app:nav:access', (navid) => {
-  console.log('nav id', navid);
+  core.action.appnav({ navid }, [])
 });
 
 core.events.on('app:nav:database', (navid) => {
-  console.log('nav id', navid);
+  core.action.appnav({ navid }, [])
 });
 
 core.events.on('app:nav:resources', (navid) => {
-  console.log('nav id', navid);
+  core.action.appnav({ navid }, [])
 });
 
 
-core.events.on('app:page', (pageid) => {
-  console.log('page main', pageid);
+core.events.on('app:page', (pageid, component) => {
+  core.action.apppage({ component, pageid }, [])
 });

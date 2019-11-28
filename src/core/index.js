@@ -11,10 +11,10 @@ function dependencies(deps) {
 }
 
 function event(name, id, data) {
-  const eventid = `${name}:${id}`;
-
-  if (core.events._events[eventid] !== undefined) {
-    core.events.emit(eventid, id, data);
+  if (core.events._events[`${name}:${id}`] !== undefined) {
+    core.events.emit(`${name}:${id}`, id, data);
+  } else if (name === 'app:page' && core.events._events[`${name}:${data}`] !== undefined) {
+    core.events.emit(`${name}:${data}`, id, data);
   } else {
     core.events.emit(name, id, data);
   }

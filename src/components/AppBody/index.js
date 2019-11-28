@@ -24,10 +24,15 @@ const styles = {
 
 class AppBody extends Component {
 
+  handleClick = (item) => {
+    const { navid, type, pageid } = this.props.match.params; 
+    this.props.history.push(`/${navid}/${item.component}/${item.id}`);
+  }
+
   render({ path, url, params } = this.props.match) {
     return (
       <div style={styles.box}>
-        <AppNav key={params.navid} navid={params.navid} />
+        <AppNav key={params.navid} params={params} onClick={this.handleClick}/>
         <div style={styles.body}>
           <AppTabs />
           {params.pageid ? <AppPage 
