@@ -11,7 +11,7 @@ const styles = {
     position: 'absolute',
     left: 0,
     width: 5,
-    height: '100%',
+    height: 'calc(100% - 35px)',
     flexShrink: 0,
     cursor: 'col-resize',
     zIndex: 80,
