@@ -68,15 +68,15 @@ function Tab(props) {
   >
     <div 
       className={css.tab} 
-      style={props.select === props.value ? styles.tabA : styles.tab} 
-      onClick={(e) => props.onClick(e,'select', props.value)}
+      style={props.select === props.item.id ? styles.tabA : styles.tab} 
+      onClick={(e) => props.onClick(e,'select', props.item)}
     >
-      {props.label}
+      {props.item.label}
       <IconButton
         size="small"
         className={css.button} 
-        style={props.select === props.value ? styles.iconA : styles.icon} 
-        onClick={(e) => props.onClick(e, 'close', props.value)} 
+        style={props.select === props.item.id ? styles.iconA : styles.icon} 
+        onClick={(e) => props.onClick(e, 'close', props.item)} 
       >
         <CloseIcon fontSize="inherit" />
       </IconButton>
@@ -98,24 +98,14 @@ class Tabs extends Component {
   
   }
 
-  handleClick = (e, type, value) => {
+  handleClick = (e, type, item) => {
     e.preventDefault();
     e.stopPropagation();
     if (type === 'select') {
-      this.setState((state) => {
-        return {
-          ...state,
-          select: value,
-        }
-      });
+      this.props.onClick(item);
     }
     if (type === 'close') {
-      this.setState((state) => {
-        return {
-          ...state,
-          data: state.data.filter(i => i.id !== value),
-        }
-      });
+      this.props.onClose(item);
     }
   }
 
@@ -127,9 +117,8 @@ class Tabs extends Component {
           <Tab 
             key={i.id} 
             select={this.props.select}
-            value={i.id} 
-            label={i.label}
-            onClick={() => onClick(i)}
+            item={i} 
+            onClick={this.handleClick}
           />)}
         </div>
       </div>

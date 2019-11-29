@@ -54,6 +54,22 @@ class AppBody extends Component {
     this.props.history.push(`/${navid}/${item.component}/${item.id}`);
   }
 
+  handleCloseNav = (item) => {
+    const { navid } = this.props.match.params; 
+    const { tabs } = this.props.state;
+
+    const temp = tabs.filter(i => i.id !== item.id);
+
+    core.components.appbody.setData({ 
+      tabs: temp,
+    });
+    if (temp.length !== 0) {
+      this.props.history.push(`/${navid}/${item.component}/${temp[temp.length - 1].id}`);
+    } else {
+      this.props.history.push(`/${navid}/${item.component}`);
+    }
+  }
+
   render({ path, url, params } = this.props.match) {
     return (
       <div style={styles.box}>
@@ -63,6 +79,7 @@ class AppBody extends Component {
             select={this.props.match.params.pageid} 
             data={this.props.state.tabs}
             onClick={this.handleClickTab}
+            onClose={this.handleCloseNav}
           />
           {params.pageid ? 
             <AppPage 
