@@ -6,7 +6,7 @@ core.action.appmenu = function(list) {
 }
 
 core.action.appnav = function(options, list) {
-  core.components.appbody.setData({ options, tabs: [] });
+  core.components.appbody.setData({ options, tabs: [], list });
   core.components.explorer.setData({ list });
 }
 

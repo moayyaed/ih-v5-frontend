@@ -21,37 +21,37 @@ core.events.on('app:nav', (navid) => {
 
 core.events.on('app:nav:devices', (navid) => {
   core.action.appnav({ navid, tabs: false }, [
-    { component: 'table', id: 'lamp_1'},
-    { component: 'table', id: 'lamp_2'},
-    { component: 'table', id: 'lamp_3'},
+    { id: 'lamp_1', component: 'table', label: 'lamp_1' },
+    { id: 'lamp_2', component: 'table', label: 'lamp_2' },
+    { id: 'lamp_3', component: 'table', label: 'lamp_3' },
   ])
 });
 
 core.events.on('app:nav:layouts', (navid) => {
   core.action.appnav({ navid, tabs: true }, [
-    { component: 'graph', id: 'layout_1'},
-    { component: 'graph', id: 'layout_2'},
-    { component: 'graph', id: 'layout_3'},
-    { component: 'graph', id: 'layout_4'},
-    { component: 'graph', id: 'layout_5'},
+    { id: 'layout_1', component: 'graph', label: 'layout_1' },
+    { id: 'layout_2', component: 'graph', label: 'layout_2' },
+    { id: 'layout_3', component: 'graph', label: 'layout_3' },
+    { id: 'layout_4', component: 'graph', label: 'layout_4' },
+    { id: 'layout_5', component: 'graph', label: 'layout_5' },
   ])
 });
 
 core.events.on('app:nav:scripts', (navid) => {
   core.action.appnav({ navid, tabs: false }, [
-    { component: 'options', id: 'script_1'},
-    { component: 'options', id: 'script_2'},
-    { component: 'options', id: 'script_3'},
-    { component: 'options', id: 'script_4'},
-    { component: 'options', id: 'script_5'},
+    { id: 'script_1', component: 'options', label: 'script_1' },
+    { id: 'script_2', component: 'options', label: 'script_2' },
+    { id: 'script_3', component: 'options', label: 'script_3' },
+    { id: 'script_4', component: 'options', label: 'script_4' },
+    { id: 'script_5', component: 'options', label: 'script_5' },
   ])
 });
 
 core.events.on('app:nav:datasource', (navid) => {
   core.action.appnav({ navid, tabs: true }, [
-    { component: 'table', id: 'plugins'},
-    { component: 'table', id: 'snippet'},
-    { component: 'table', id: 'hubs'},
+    { id: 'plugins', component: 'table', label: 'plugins' },
+    { id: 'snippet', component: 'table', label: 'snippet' },
+    { id: 'hubs', component: 'table', label: 'hubs' },
   ])
 });
 

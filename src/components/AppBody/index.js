@@ -30,16 +30,23 @@ const classes = theme => ({
 
 class AppBody extends Component {
 
-  checkTabs = (item) => {
+  handleOpenTab = (item) => {
     const { options, tabs } = this.props.state;
     if (options.tabs) {
       const find = tabs.find(i => i.id === item.id);
       if (find === undefined) {
         core.components.appbody.setData({ 
-          tabs: tabs.concat({ ...item, label: item.id }),
+          tabs: tabs.concat(item),
         });
       }
     }
+  }
+
+  handleClickNav = (item) => {
+    const { navid } = this.props.match.params; 
+
+    this.handleOpenTab(item)
+    this.props.history.push(`/${navid}/${item.component}/${item.id}`);
   }
 
   handleClickTab = (item) => {
@@ -47,14 +54,7 @@ class AppBody extends Component {
     this.props.history.push(`/${navid}/${item.component}/${item.id}`);
   }
 
-  handleClickNav = (item) => {
-    const { navid } = this.props.match.params; 
-
-    this.checkTabs(item);
-    this.props.history.push(`/${navid}/${item.component}/${item.id}`);
-  }
-
-  handleCloseNav = (item) => {
+  handleCloseTab = (item) => {
     const { navid } = this.props.match.params; 
     const { tabs } = this.props.state;
 
@@ -79,12 +79,13 @@ class AppBody extends Component {
             select={this.props.match.params.pageid} 
             data={this.props.state.tabs}
             onClick={this.handleClickTab}
-            onClose={this.handleCloseNav}
+            onClose={this.handleCloseTab}
           />
           {params.pageid ? 
             <AppPage 
               key={params.pageid} 
               params={params} 
+              onOpenTab={this.handleOpenTab}
             /> : null
           }
         </div>

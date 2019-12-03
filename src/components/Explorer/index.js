@@ -35,6 +35,7 @@ class Explorer extends Component {
           {state.list
             .map(i => 
               <li 
+                key={i.id}
                 style={select === i.id ? styles.active : styles.noactive} 
                 onClick={() => onClick(i)}
               >
