@@ -6,6 +6,7 @@ import './App.css';
 
 import AppBar from 'components/AppBar';
 import AppMenu from 'components/AppMenu';
+import AppRouter from 'components/AppRouter';
 import AppBody from 'components/AppBody';
 
 
@@ -13,6 +14,7 @@ function App() {
   return (
     <Router>
       <AppBar />
+      <Route path="*" component={AppRouter} />
       <div className="container">
         <Route path="/:menuid?" component={AppMenu} />
         <Route path="/:navid/:component?/:pageid?" component={AppBody} />

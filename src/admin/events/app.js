@@ -76,7 +76,6 @@ core.events.on('app:page', (pageid, component) => {
   core.action.apppage({ component, pageid }, [])
 });
 
-core.events.on('app:page:table', (pageid, component) => {
-  console.log('table')
+core.events.on('app:page:table:layot_1', (pageid, component) => {
   core.action.apppage({ component, pageid }, [])
 });
