@@ -75,3 +75,8 @@ core.events.on('app:nav:resources', (navid) => {
 core.events.on('app:page', (pageid, component) => {
   core.action.apppage({ component, pageid }, [])
 });
+
+core.events.on('app:page:table', (pageid, component) => {
+  console.log('table')
+  core.action.apppage({ component, pageid }, [])
+});

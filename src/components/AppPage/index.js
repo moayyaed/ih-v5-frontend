@@ -34,8 +34,11 @@ class AppPage extends Component {
 
   componentDidMount() {
     const { pageid, component } = this.props.params;
-    this.props.onOpenTab({ id: pageid, component, label: pageid })
     core.event('app:page', this.props.params.pageid, this.props.params.component);
+  }
+
+  componentWillUnmount() {
+    // console.log(this.props.params)
   }
 
   render() {
