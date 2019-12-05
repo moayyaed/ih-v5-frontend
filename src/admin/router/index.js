@@ -7,22 +7,26 @@ core.nav.last = {
   init: false,
   pathname: '',
   menuid: null,
+  navid: null,
+  navcomponent: null,
 }
 
 core.router = function(location) {
-  let { last, state } =  core.nav;
+  const { last } =  core.nav;
 
   if (last.pathname !== location.pathname) {
     last.lastPathName = location.pathname;
 
-    state = parsePath(location.pathname);
+    core.nav.state = parsePath(location.pathname);
+    const { state } =  core.nav;
     
-    
+    // init
     if (last.init === false) {
       last.init = true;
       core.event('route', null, 'init', state);
     }
 
+    // menu
     if (last.menuid !== state.menuid) {
       if (last.menuid === null) {
         core.event('route', 'menu', 'init', state);
@@ -32,9 +36,22 @@ core.router = function(location) {
       } else {
         core.event('route', 'menu', 'change', state);
       }
-      last.menuid = state.menuid;
     }
 
+    // nav
+    if (state.navcomponent && last.navid !== state.navid) {
+      if (last.navid === null) {
+        core.event('route', 'nav', 'init', state);
+      }
+  
+      core.event('route', 'nav', 'change', state);
+    }
+
+    if ((state.navcomponent === null || state.navid === null) && last.navcomponent && last.navid) {
+      core.event('route', 'nav', 'exit', state);
+    }
+
+    core.nav.last = state;
   }
 
 

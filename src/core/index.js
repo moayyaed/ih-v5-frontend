@@ -18,13 +18,21 @@ function eventRoute(type, status, params) {
   }
 }
 
-function event(name, param1, param2, param3) {
+function eventOther(name, id, param2, param3) {
+  if (core.events._events[`${name}:${id}`] !== undefined) {
+    core.events.emit(`${name}:${id}`, id, param2, param3);
+  } else {
+    core.events.emit(name, id, param2, param3);
+  }
+}
 
+function event(name, param1, param2, param3) {
   if (name === 'route') {
     eventRoute(param1, param2, param3);
   } else {
-    core.events.emit(name, param1, param2, param3);
+    eventOther(name, param1, param2, param3);
   }
+}
 
 
     
@@ -36,12 +44,17 @@ function event(name, param1, param2, param3) {
   } else {
     core.events.emit(name, id, data);
   }
+  }
   */
-}
+
 
 
 const core = {
-  action: {},
+  action: {
+    appmenu: {},
+    appnav: {},
+    apppage: {},
+  },
   store: {},
   connect,
   dependencies,

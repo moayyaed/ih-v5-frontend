@@ -1,8 +1,8 @@
 import core from 'core';
 
 
-core.events.on('app:menu', (params) => {
-  core.action.appmenu([
+core.events.on('app:menu', (id, params) => {
+  core.action.appmenu.data([
     { id: '1', route: 'devices', label: 'Устройства', tooltip: 'Устройства', icon: '' },
     { id: '2', route: 'layouts', label: 'Экраны', tooltip: 'Экраны', icon: '' },
     { id: '3', route: 'scripts', label: 'Сценарии', tooltip: 'Сценарии', icon: '' },
@@ -15,12 +15,12 @@ core.events.on('app:menu', (params) => {
 });
 
 
-core.events.on('app:nav', (navid) => {
+core.events.on('app:nav', (navid, params) => {
   // console.log('nav main', navid);
 });
 
 core.events.on('app:nav:devices', (navid) => {
-  core.action.appnav({ navid, tabs: false }, [
+  core.action.appnav.data({ navid, tabs: false }, [
     { id: 'lamp_1', component: 'table', label: 'lamp_1' },
     { id: 'lamp_2', component: 'table', label: 'lamp_2' },
     { id: 'lamp_3', component: 'table', label: 'lamp_3' },
@@ -28,7 +28,7 @@ core.events.on('app:nav:devices', (navid) => {
 });
 
 core.events.on('app:nav:layouts', (navid) => {
-  core.action.appnav({ navid, tabs: true }, [
+  core.action.appnav.data({ navid, tabs: true }, [
     { id: 'layout_1', component: 'graph', label: 'layout_1' },
     { id: 'layout_2', component: 'graph', label: 'layout_2' },
     { id: 'layout_3', component: 'graph', label: 'layout_3' },
@@ -38,7 +38,7 @@ core.events.on('app:nav:layouts', (navid) => {
 });
 
 core.events.on('app:nav:scripts', (navid) => {
-  core.action.appnav({ navid, tabs: false }, [
+  core.action.appnav.data({ navid, tabs: false }, [
     { id: 'script_1', component: 'options', label: 'script_1' },
     { id: 'script_2', component: 'options', label: 'script_2' },
     { id: 'script_3', component: 'options', label: 'script_3' },
@@ -48,7 +48,7 @@ core.events.on('app:nav:scripts', (navid) => {
 });
 
 core.events.on('app:nav:datasource', (navid) => {
-  core.action.appnav({ navid, tabs: true }, [
+  core.action.appnav.data({ navid, tabs: true }, [
     { id: 'plugins', component: 'table', label: 'plugins' },
     { id: 'snippet', component: 'table', label: 'snippet' },
     { id: 'hubs', component: 'table', label: 'hubs' },
@@ -56,26 +56,22 @@ core.events.on('app:nav:datasource', (navid) => {
 });
 
 core.events.on('app:nav:analytics', (navid) => {
-  core.action.appnav({ navid }, [])
+  core.action.appnav.data({ navid }, [])
 });
 
 core.events.on('app:nav:access', (navid) => {
-  core.action.appnav({ navid }, [])
+  core.action.appnav.data({ navid }, [])
 });
 
 core.events.on('app:nav:database', (navid) => {
-  core.action.appnav({ navid }, [])
+  core.action.appnav.data({ navid }, [])
 });
 
 core.events.on('app:nav:resources', (navid) => {
-  core.action.appnav({ navid }, [])
+  core.action.appnav.data({ navid }, [])
 });
 
 
 core.events.on('app:page', (pageid, component) => {
-  core.action.apppage({ component, pageid }, [])
-});
-
-core.events.on('app:page:table:layot_1', (pageid, component) => {
   core.action.apppage({ component, pageid }, [])
 });

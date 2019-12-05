@@ -27,7 +27,7 @@ class AppNav extends Component {
     return (
       <Panel width={200} position="right" style={styles.box}>
         APP_NAV
-        <Explorer select={params.pageid} onClick={onClick}/>
+        <Explorer />
       </Panel>
     );
   }

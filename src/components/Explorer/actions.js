@@ -1,4 +1,4 @@
-import { EXPLORER_SET_DATA } from './constants';
+import { EXPLORER_SET_DATA, EXPLORER_SET_SELECT } from './constants';
 
 
 export function setData(data) {
@@ -8,7 +8,15 @@ export function setData(data) {
   };
 }
 
+export function setSelect(selectid) {
+  return {
+    type: EXPLORER_SET_SELECT,
+    selectid,
+  };
+}
+
 
 export default {
   setData,
+  setSelect,
 }

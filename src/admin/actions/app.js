@@ -1,15 +1,28 @@
 import core from 'core';
 
 
-core.action.appmenu = function(list) {
+//menu
+core.action.appmenu.data = function(list) {
   core.components.appmenu.setData({ list });
 }
 
-core.action.appnav = function(options, list) {
-  core.components.appbody.setData({ options, tabs: [], list });
-  core.components.explorer.setData({ list });
+core.action.appmenu.select = function(id) {
+  core.components.appmenu.setSelect(id);
 }
 
+
+//nav
+core.action.appnav.data = function(options, list) {
+  // core.components.appbody.setData({ options, tabs: [], list });
+  core.components.explorer.setData({ selectid: null, list });
+}
+
+core.action.appnav.select = function(id) {
+  core.components.explorer.setSelect(id);
+}
+
+
+//page
 core.action.apppage = function(options, data) {
   if (options.component === 'table') {
     core.components.table.setData({ text: options.component + ':' + options.pageid });

@@ -27,7 +27,12 @@ class Explorer extends Component {
   componentDidMount() {
   }
 
-  render({ id, state, classes, select, onClick } = this.props) {
+  handleClick = (item) => {
+    const { menuid } = core.nav.state;
+    core.nav.history.push(`/${menuid}/${item.component}/${item.id}`);
+  }
+
+  render({ id, state, classes } = this.props) {
     return (
       <div style={styles.box}>
         EXPLORER
@@ -36,8 +41,8 @@ class Explorer extends Component {
             .map(i => 
               <li 
                 key={i.id}
-                style={select === i.id ? styles.active : styles.noactive} 
-                onClick={() => onClick(i)}
+                style={state.selectid === i.id ? styles.active : styles.noactive} 
+                onClick={() => this.handleClick(i)}
               >
                 {i.id}
               </li>
