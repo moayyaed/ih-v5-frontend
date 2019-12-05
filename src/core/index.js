@@ -28,6 +28,7 @@ const core = {
   dependencies,
   event,
   events: new EventEmitter(),
+  router: null,
 }
 
 
