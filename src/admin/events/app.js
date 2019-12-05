@@ -1,7 +1,7 @@
 import core from 'core';
 
 
-core.events.on('app:menu', () => {
+core.events.on('app:menu', (params) => {
   core.action.appmenu([
     { id: '1', route: 'devices', label: 'Устройства', tooltip: 'Устройства', icon: '' },
     { id: '2', route: 'layouts', label: 'Экраны', tooltip: 'Экраны', icon: '' },
@@ -16,7 +16,7 @@ core.events.on('app:menu', () => {
 
 
 core.events.on('app:nav', (navid) => {
-  console.log('nav main', navid);
+  // console.log('nav main', navid);
 });
 
 core.events.on('app:nav:devices', (navid) => {

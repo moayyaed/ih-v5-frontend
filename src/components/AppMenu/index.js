@@ -40,22 +40,19 @@ const classes = theme => ({
 });
 
 class AppMenu extends Component {
-  componentDidMount() {
-    core.event('app:menu', this.props.id);
-  }
 
   handleClick = (e, id) => {
-    this.props.history.push('/' + id);
+    core.nav.history.push('/' + id);
   }
 
-  render({ id, state, match, classes } = this.props) {
+  render({ id, state, classes } = this.props) {
     return (
       <div style={styles.box}>
         <BottomNavigation 
           showLabels 
           className={classes.root} 
           onChange={this.handleClick}
-          value={match.params.menuid}
+          value={state.selectid}
         >
           {state.list
             .map((item) =>

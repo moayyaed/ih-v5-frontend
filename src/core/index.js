@@ -10,7 +10,25 @@ function dependencies(deps) {
   core.components = components(deps, core.store.dispatch);
 }
 
-function event(name, id, data) {
+function eventRoute(type, status, params) {
+  if (type === null) {
+    core.events.emit(`route:${status}`, params);
+  } else {
+    core.events.emit(`route:${type}:${status}`, params);
+  }
+}
+
+function event(name, param1, param2, param3) {
+
+  if (name === 'route') {
+    eventRoute(param1, param2, param3);
+  } else {
+    core.events.emit(name, param1, param2, param3);
+  }
+
+
+    
+  /*
   if (core.events._events[`${name}:${id}`] !== undefined) {
     core.events.emit(`${name}:${id}`, id, data);
   } else if (name === 'app:page' && core.events._events[`${name}:${data}`] !== undefined) {
@@ -18,6 +36,7 @@ function event(name, id, data) {
   } else {
     core.events.emit(name, id, data);
   }
+  */
 }
 
 
@@ -29,6 +48,11 @@ const core = {
   event,
   events: new EventEmitter(),
   router: null,
+  nav: {
+    last: {},
+    state: {},
+    history: {},
+  }
 }
 
 

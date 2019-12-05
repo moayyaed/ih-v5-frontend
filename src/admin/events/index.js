@@ -1,2 +1,3 @@
-import './hook';
 import './app';
+import './route';
+import './hook';

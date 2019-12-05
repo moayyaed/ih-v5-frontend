@@ -20,7 +20,7 @@ const styles = {
 class AppNav extends Component {
 
   componentDidMount() {
-    core.event('app:nav', this.props.params.navid);
+    // core.event('app:nav', this.props.params.navid);
   }
 
   render({ params, onClick } = this.props) {

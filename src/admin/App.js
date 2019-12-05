@@ -16,7 +16,7 @@ function App() {
       <AppBar />
       <Route path="*" component={AppRouter} />
       <div className="container">
-        <Route path="/:menuid?" component={AppMenu} />
+        <AppMenu />
         <Route path="/:navid/:component?/:pageid?" component={AppBody} />
       </div>
     </Router>

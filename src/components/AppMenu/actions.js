@@ -8,17 +8,10 @@ export function setData(data) {
   };
 }
 
-export function setSelect(id, selectid) {
+export function setSelect(selectid) {
   return {
     type: APP_MENU_SET_SELECT,
     selectid,
-  };
-} 
-
-export function test(i) {
-  return {
-    type: 'TEST',
-    i,
   };
 } 
 
@@ -26,5 +19,4 @@ export function test(i) {
 export default {
   setData,
   setSelect,
-  test,
 }

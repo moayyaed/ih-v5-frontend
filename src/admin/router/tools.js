@@ -9,29 +9,29 @@ export function parseValue(value) {
   return value;
 }
 
-export function parsePathOfComponent(navid, component, pageid, list) {
-  switch(component) {
+export function parsePathOfComponent(menuid, navcomponent, navid, list) {
+  switch(navcomponent) {
     case 'table':
-        return { navid, component, pageid, selectid: parseValue(list[4])};
+        return { menuid, navcomponent, navid, selectid: parseValue(list[4])};
     case 'graph':
-        return { navid, component, pageid };
+        return { menuid, navcomponent, navid };
     case 'options':
-        return { navid, component, pageid };
+        return { menuid, navcomponent, navid };
     default:
-        return { navid, component, pageid };
+        return { menuid, navcomponent, navid };
   }
 }
 
 export function parsePath(path) {
   const list = path.split('/');
 
-  const navid = parseValue(list[1]);
-  const component = parseValue(list[2]);
-  const pageid = parseValue(list[3]);
+  const menuid = parseValue(list[1]);
+  const navcomponent = parseValue(list[2]);
+  const navid = parseValue(list[3]);
 
-  if (component) {
-    return parsePathOfComponent(navid, component, pageid, list)
+  if (navcomponent) {
+    return parsePathOfComponent(menuid, navcomponent, navid, list)
   }
 
-  return { navid, component, pageid };
+  return { menuid, navcomponent, navid };
 }
