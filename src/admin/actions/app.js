@@ -13,6 +13,7 @@ core.action.appmenu.select = function(id) {
 
 //nav
 core.action.appnav.data = function(options, list) {
+  console.log(options);
   // core.components.appbody.setData({ options, tabs: [], list });
   core.components.explorer.setData({ selectid: null, list });
 }
