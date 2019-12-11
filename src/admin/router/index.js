@@ -43,7 +43,6 @@ core.router = function(location) {
       if (last.navid === null) {
         core.event('route', 'nav', 'init', state);
       }
-  
       core.event('route', 'nav', 'change', state);
     }
 

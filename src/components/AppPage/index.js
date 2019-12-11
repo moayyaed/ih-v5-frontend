@@ -33,8 +33,6 @@ function getComponent(type) {
 class AppPage extends Component {
 
   componentDidMount() {
-    const { pageid, component } = this.props.params;
-    core.event('app:page', this.props.params.pageid, this.props.params.component);
   }
 
   componentWillUnmount() {

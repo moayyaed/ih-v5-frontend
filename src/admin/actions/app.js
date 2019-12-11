@@ -13,7 +13,7 @@ core.action.appmenu.select = function(id) {
 
 //nav
 core.action.appnav.data = function(options, list) {
-  console.log(options);
+  // console.log(options);
   // core.components.appbody.setData({ options, tabs: [], list });
   core.components.explorer.setData({ selectid: null, list });
 }
@@ -25,6 +25,7 @@ core.action.appnav.select = function(id) {
 
 //page
 core.action.apppage = function(options, data) {
+  console.log(options);
   if (options.component === 'table') {
     core.components.table.setData({ text: options.component + ':' + options.pageid });
   }
