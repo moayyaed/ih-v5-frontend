@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import core from 'core';
+
+import { withStyles } from '@material-ui/core/styles';
+
 import Draggable from 'react-draggable';
 
 import IconButton from '@material-ui/core/IconButton';
@@ -57,7 +61,12 @@ const styles = {
     right: 5,
     display: 'inline-flex',
   }
-}
+};
+
+const classes = theme => ({
+
+});
+
 
 function Tab(props) {
   return (
@@ -85,41 +94,43 @@ function Tab(props) {
   )
 }
 
-const data = [
-]
-
-class Tabs extends Component {
-  state = { data: data, select: null }
-
-  componentDidMount() {
-  }
-
-  componentWillUnmount() {
-  
-  }
+class AppTabs extends Component {
 
   handleClick = (e, type, item) => {
     e.preventDefault();
     e.stopPropagation();
+
+    const { menuid, navcomponent } = core.nav.state;
+    
     if (type === 'select') {
-      this.props.onClick(item);
+      core.nav.history.push(`/${menuid}/${navcomponent}/${item.id}`);
     }
     if (type === 'close') {
-      this.props.onClose(item);
+      core.components.apptabs.removeItem(item);
+
+      const store = core.store.getState()
+      const index = store.apptabs.list.length;
+
+      if (index !== 0) {
+        const item = store.apptabs.list[index - 1];
+        core.nav.history.push(`/${menuid}/${navcomponent}/${item.id}`);
+      } else {
+        core.nav.history.push(`/${menuid}`);
+      }
     }
   }
 
-  render({ onClick } = this.props) {
+  render({ id, state, classes } = this.props) {
     return (
       <div style={this.props.data.length === 0 ? styles.root : styles.rootA }>
         <div style={styles.box}>
-          {this.props.data.map(i => 
-          <Tab 
-            key={i.id} 
-            select={this.props.select}
-            item={i} 
-            onClick={this.handleClick}
-          />)}
+          {state.list.map(i => 
+            <Tab 
+              key={i.id} 
+              select={state.selectid}
+              item={i} 
+              onClick={this.handleClick}
+            />)}
         </div>
       </div>
     );
@@ -127,4 +138,4 @@ class Tabs extends Component {
 }
 
 
-export default Tabs;
+export default core.connect(withStyles(classes)(AppTabs));

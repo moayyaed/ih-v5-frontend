@@ -13,9 +13,17 @@ core.action.appmenu.select = function(id) {
 
 //nav
 core.action.appnav.data = function(options, list) {
-  // console.log(options);
-  // core.components.appbody.setData({ options, tabs: [], list });
-  core.components.explorer.setData({ selectid: null, list });
+  if (core.nav.last.menuid !== null) {
+    core.cache.paths[core.nav.last.menuid] = core.nav.last.pathname;
+    core.cache.apptabs[core.nav.last.menuid] = core.store.getState().apptabs;
+  }
+  if (core.cache.apptabs[options.navid] !== undefined) {
+    core.components.apptabs.setData(core.cache.apptabs[options.navid]);
+    core.components.explorer.setData({ selectid: null, list });
+  } else {
+    core.components.apptabs.setData({ selectid: null, list: [] });
+    core.components.explorer.setData({ selectid: null, list });
+  }
 }
 
 core.action.appnav.select = function(id) {
@@ -25,7 +33,9 @@ core.action.appnav.select = function(id) {
 
 //page
 core.action.apppage = function(options, data) {
-  console.log(options);
+  const { pageid, component } = options;
+  core.components.apptabs.addItem({ id: pageid, label: pageid, component });
+
   if (options.component === 'table') {
     core.components.table.setData({ text: options.component + ':' + options.pageid });
   }

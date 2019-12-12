@@ -30,5 +30,7 @@ core.events.on('route:nav:change', (params) => {
 });
 
 core.events.on('route:nav:exit', (params) => {
+  core.action.appnav.select(null);
+  core.components.apptabs.setData({ selectid: null, list: [] });
   // console.log('route:nav:exit', params)
 });

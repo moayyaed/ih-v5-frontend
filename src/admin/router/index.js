@@ -15,7 +15,6 @@ core.router = function(location) {
   const { last } =  core.nav;
 
   if (last.pathname !== location.pathname) {
-    last.lastPathName = location.pathname;
 
     core.nav.state = parsePath(location.pathname);
     const { state } =  core.nav;
@@ -49,7 +48,7 @@ core.router = function(location) {
     if ((state.navcomponent === null || state.navid === null) && last.navcomponent && last.navid) {
       core.event('route', 'nav', 'exit', state);
     }
-
+    state.pathname = location.pathname;
     core.nav.last = state;
   }
 

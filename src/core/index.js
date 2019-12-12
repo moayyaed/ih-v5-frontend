@@ -65,6 +65,10 @@ const core = {
     last: {},
     state: {},
     history: {},
+  },
+  cache: {
+    paths: {},
+    apptabs: {},
   }
 }
 

@@ -42,7 +42,11 @@ const classes = theme => ({
 class AppMenu extends Component {
 
   handleClick = (e, id) => {
-    core.nav.history.push('/' + id);
+    if (core.cache.apptabs[id] !== undefined) {
+      core.nav.history.push(core.cache.paths[id]);
+    } else {
+      core.nav.history.push('/' + id);
+    }
   }
 
   render({ id, state, classes } = this.props) {
