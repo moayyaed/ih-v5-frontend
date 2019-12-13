@@ -254,7 +254,7 @@ class AppTabs extends Component {
 
   render({ id, state, classes } = this.props) {
     return (
-      <div style={this.props.data.length === 0 ? styles.root : styles.rootA }>
+      <div style={state.list.length === 0 ? styles.root : styles.rootA }>
         <div ref={this.linkFake} style={styles.fake}>
           <div ref={this.linkFakeText} style={styles.fakeText} />
           <div style={styles.fake3} />

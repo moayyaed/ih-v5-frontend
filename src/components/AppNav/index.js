@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import core from 'core';
 
 import Panel from 'components/#basic/Panel';
 import Explorer from 'components/Explorer';
@@ -17,20 +16,16 @@ const styles = {
 };
 
 
-class AppNav extends Component {
-
-  componentDidMount() {
-    // core.event('app:nav', this.props.params.navid);
-  }
-
-  render({ params, onClick } = this.props) {
+function AppNav (props) {
+  if (props.state.open) {
     return (
       <Panel width={200} position="right" style={styles.box}>
-        APP_NAV
         <Explorer />
       </Panel>
     );
   }
+  return null;
 }
+
 
 export default AppNav;

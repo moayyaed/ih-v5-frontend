@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-
 import './App.css';
 
 import AppBar from 'components/AppBar';
@@ -12,14 +10,14 @@ import AppBody from 'components/AppBody';
 
 function App() {
   return (
-    <Router>
+    <>
       <AppBar />
-      <Route path="*" component={AppRouter} />
+      <AppRouter />
       <div className="container">
         <AppMenu />
-        <Route path="/:navid/:component?/:pageid?" component={AppBody} />
+        <AppBody />
       </div>
-    </Router>
+    </>
   );
 }
 

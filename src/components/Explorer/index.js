@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import core from 'core';
 
+import SortableTree from 'react-sortable-tree';
+import FileExplorerTheme from 'react-sortable-tree-theme-file-explorer';
+
 import { withStyles } from '@material-ui/core/styles';
 
 
@@ -27,27 +30,47 @@ class Explorer extends Component {
   componentDidMount() {
   }
 
+  handleChange = (list) => {
+    core.components.explorer.setData({ ...this.props.state, list })
+  }
+
   handleClick = (item) => {
-    const { menuid } = core.nav.state;
-    core.nav.history.push(`/${menuid}/${item.component}/${item.id}`);
+    if (item.children === undefined) {
+      const { menuid } = core.nav.state;
+      core.nav.history.push(`/${menuid}/${item.component}/${item.id}`);
+    }
+  }
+
+  generateNodeProps = (rowinfo) => {
+    const style = {};
+    const id = rowinfo.node.id;
+
+    if (this.props.state.selectid === id) {
+      style.backgroundColor = 'rgba(158, 158, 158, 0.2)';
+    }
+
+    return {
+      style,
+      onClick: () => this.handleClick(rowinfo.node),
+    };
+  }
+
+  handleCheckChild = (node) => {
+    return node.children !== undefined && node.children === undefined;
   }
 
   render({ id, state, classes } = this.props) {
     return (
       <div style={styles.box}>
-        EXPLORER
-        <ul>
-          {state.list
-            .map(i => 
-              <li 
-                key={i.id}
-                style={state.selectid === i.id ? styles.active : styles.noactive} 
-                onClick={() => this.handleClick(i)}
-              >
-                {i.id}
-              </li>
-          )}
-        </ul>
+        <div style={{ height: 400 }}>
+          <SortableTree
+            treeData={state.list}
+            onChange={this.handleChange}
+            generateNodeProps={this.generateNodeProps}
+            canNodeHaveChildren={this.handleCheckChild}
+            theme={FileExplorerTheme}
+          />
+        </div>
       </div>
     );
   }

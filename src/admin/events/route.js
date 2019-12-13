@@ -12,11 +12,13 @@ core.events.on('route:menu:init', (params) => {
 
 core.events.on('route:menu:change', (params) => {
   core.action.appmenu.select(params.menuid);
+  core.components.appbody.setNav({ open: true, id: params.menuid });
+
   core.event('app:nav', params.menuid, params);
 });
 
 core.events.on('route:menu:exit', (params) => {
-  // console.log('route:menu:exit', params)
+  core.components.appbody.setNav({ open: false, id: null });
 });
 
 // nav

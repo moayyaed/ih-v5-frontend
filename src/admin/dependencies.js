@@ -10,8 +10,8 @@ import graph from 'components/Graph/link';
 
 const dependencies = {
   appmenu: appmenu,
-  appbody: appbody,
   apptabs: apptabs,
+  appbody: appbody,
 
   explorer: explorer,
   table: table,

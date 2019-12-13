@@ -29,7 +29,7 @@ function getComponent(type) {
       return null;
   }
 }
-
+// {getComponent(this.props.params.component)}
 class AppPage extends Component {
 
   componentDidMount() {
@@ -42,7 +42,7 @@ class AppPage extends Component {
   render() {
     return (
       <div style={styles.root}>
-        {getComponent(this.props.params.component)}
+        
       </div>
     );
   }

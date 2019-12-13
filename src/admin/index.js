@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
+import { DragDropContextProvider } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+
 import AppProgressBar from 'components/AppProgressBar';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -25,7 +28,9 @@ ReactDOM.render(
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AppProgressBar />
-      <App />
+      <DragDropContextProvider backend={HTML5Backend}>
+        <App />
+      </DragDropContextProvider>
     </ThemeProvider>
   </Provider>,
   document.getElementById('root')
