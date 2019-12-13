@@ -102,6 +102,7 @@ function Tab(props) {
     axis='x'
     position={{ x: 0, y: 0 }}
     onStart={(e, data) => props.onClick(e, 'dragstart', props.item, data, props.index)}
+    onDrag={(e, data) => props.onClick(e, 'drag', props.item, data, props.index)}
     onStop={(e, data) => props.onClick(e, 'dragstop', props.item, data, props.index)}
   >
     <div 
@@ -225,12 +226,16 @@ class AppTabs extends Component {
 
     const { menuid, navcomponent } = core.nav.state;
 
-    if (type === 'dragstart') {
-      core.nav.history.push(`/${menuid}/${navcomponent}/${item.id}`);
-      this.handleDragStart(e, item, data, index);
+    if (type === 'drag') {
+      if (this.drag === undefined) {
+        this.drag = true;
+        core.nav.history.push(`/${menuid}/${navcomponent}/${item.id}`);
+        this.handleDragStart(e, item, data, index);
+      }
     }
 
     if (type === 'dragstop') {
+      this.drag = undefined;
       this.handleDragStop(e, item, data, index);
     }
     
