@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import core from 'core';
 
 
 import Table from 'components/Table';
@@ -29,23 +28,14 @@ function getComponent(type) {
       return null;
   }
 }
-// {getComponent(this.props.params.component)}
-class AppPage extends Component {
 
-  componentDidMount() {
-  }
 
-  componentWillUnmount() {
-    // console.log(this.props.params)
+function AppPage(props) {
+  if (props.state.open) {
+    return getComponent(props.state.component);
   }
-
-  render() {
-    return (
-      <div style={styles.root}>
-        
-      </div>
-    );
-  }
+  return null
 }
+
 
 export default AppPage;
