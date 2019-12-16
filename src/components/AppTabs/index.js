@@ -229,7 +229,7 @@ class AppTabs extends Component {
     if (type === 'drag') {
       if (this.drag === undefined) {
         this.drag = true;
-        core.nav.history.push(`/${menuid}/${navcomponent}/${item.id}`);
+        core.nav.push(`/${menuid}/${navcomponent}/${item.id}`);
         this.handleDragStart(e, item, data, index);
       }
     }
@@ -240,7 +240,7 @@ class AppTabs extends Component {
     }
     
     if (type === 'select') {
-      core.nav.history.push(`/${menuid}/${navcomponent}/${item.id}`);
+      core.nav.push(`/${menuid}/${navcomponent}/${item.id}`);
     }
     if (type === 'close') {
       core.components.apptabs.removeItem(item);
@@ -250,9 +250,9 @@ class AppTabs extends Component {
 
       if (index !== 0) {
         const item = store.apptabs.list[index - 1];
-        core.nav.history.push(`/${menuid}/${navcomponent}/${item.id}`);
+        core.nav.push(`/${menuid}/${navcomponent}/${item.id}`);
       } else {
-        core.nav.history.push(`/${menuid}`);
+        core.nav.push(`/${menuid}`);
       }
     }
   }

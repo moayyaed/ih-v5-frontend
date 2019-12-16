@@ -37,7 +37,7 @@ class Explorer extends Component {
   handleClick = (item) => {
     if (item.children === undefined) {
       const { menuid } = core.nav.state;
-      core.nav.history.push(`/${menuid}/${item.component}/${item.id}`);
+      core.nav.push(`/${menuid}/${item.component}/${item.id}`);
     }
   }
 

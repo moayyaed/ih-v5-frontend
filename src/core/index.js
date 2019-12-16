@@ -34,6 +34,11 @@ function event(name, param1, param2, param3) {
   }
 }
 
+function navpush(path) {
+  if (core.nav.last.pathname !== path) {
+    core.nav.history.push(path);
+  }
+}
 
     
   /*
@@ -65,6 +70,7 @@ const core = {
     last: {},
     state: {},
     history: {},
+    push: navpush,
   },
   cache: {
     paths: {},
