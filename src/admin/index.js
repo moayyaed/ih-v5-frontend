@@ -10,6 +10,11 @@ import AppProgressBar from 'components/AppProgressBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/styles';
 
+import { FocusStyleManager } from "@blueprintjs/core";
+
+import 'normalize.css/normalize.css';
+import "@blueprintjs/core/lib/css/blueprint.css";
+
 import core from 'core';
 
 import theme from './theme';
@@ -20,6 +25,8 @@ import './actions';
 import './events';
 
 import App from './App';
+
+FocusStyleManager.onlyShowFocusOnTabs();
 
 core.dependencies(dependencies);
 
