@@ -13,6 +13,9 @@ export function show(e, data) {
 }
 
 export function close() {
+  if (ContextMenu.isOpen()) {
+    ContextMenu.hide();
+  }
   return null;
 }
 

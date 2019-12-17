@@ -23,6 +23,8 @@ core.router = function(location) {
     if (last.init === false) {
       last.init = true;
       core.event('route', null, 'init', state);
+    } else {
+      core.event('route', null, 'change', state);
     }
 
     // menu

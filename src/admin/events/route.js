@@ -5,6 +5,10 @@ core.events.on('route:init', (params) => {
   core.event('app:menu', null, params);
 });
 
+core.events.on('route:change', (params) => {
+  core.app.contextmenu.close();
+});
+
 // menu
 core.events.on('route:menu:init', (params) => {
   // console.log('route:menu:init', params)
