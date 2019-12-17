@@ -32,7 +32,7 @@ core.action.appnav.select = function(id) {
 
 
 //page
-core.action.apppage = function(options, data) {
+core.action.apppage.data = function(options, data) {
   const { pageid, component } = options;
   core.components.apptabs.addItem({ id: pageid, label: pageid, component });
 
@@ -45,4 +45,17 @@ core.action.apppage = function(options, data) {
   if (options.component === 'options') {
     core.components.options.setData({ text: options.component + ':' + options.pageid });
   }
+}
+
+// contextmenu
+core.action.appcontextm.data = function(options, data) {
+  core.components.appcontextmenu.setData({ 
+    open: true, 
+    target: options.target, 
+    list: data 
+  });
+}
+
+core.action.appcontextm.close = function(options, data) {
+  core.components.appcontextmenu.setClose();
 }

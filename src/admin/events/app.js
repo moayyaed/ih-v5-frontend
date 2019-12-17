@@ -78,5 +78,5 @@ core.events.on('app:nav:resources', (navid) => {
 
 core.events.on('app:page', (pageid, component) => {
   // console.log('page', pageid, component);
-  core.action.apppage({ component, pageid }, [])
+  core.action.apppage.data({ component, pageid }, [])
 });

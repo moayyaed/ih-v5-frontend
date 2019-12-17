@@ -18,6 +18,12 @@ function eventRoute(type, status, params) {
   }
 }
 
+function eventContextMenu(type, target, params) {
+  if (type !== null) {
+    core.events.emit(`contextmenu:${type}`, target, params);
+  }
+}
+
 function eventOther(name, id, param2, param3) {
   if (core.events._events[`${name}:${id}`] !== undefined) {
     core.events.emit(`${name}:${id}`, id, param2, param3);
@@ -27,10 +33,16 @@ function eventOther(name, id, param2, param3) {
 }
 
 function event(name, param1, param2, param3) {
-  if (name === 'route') {
-    eventRoute(param1, param2, param3);
-  } else {
-    eventOther(name, param1, param2, param3);
+  switch(name) {
+    case 'route':
+      eventRoute(param1, param2, param3);
+      break;
+    case 'contextmenu':
+      eventContextMenu(param1, param2, param3);
+      break;
+    default:
+      eventOther(name, param1, param2, param3);
+      break;
   }
 }
 
@@ -40,25 +52,13 @@ function navpush(path) {
   }
 }
 
-    
-  /*
-  if (core.events._events[`${name}:${id}`] !== undefined) {
-    core.events.emit(`${name}:${id}`, id, data);
-  } else if (name === 'app:page' && core.events._events[`${name}:${data}`] !== undefined) {
-    core.events.emit(`${name}:${data}`, id, data);
-  } else {
-    core.events.emit(name, id, data);
-  }
-  }
-  */
-
-
 
 const core = {
   action: {
     appmenu: {},
     appnav: {},
     apppage: {},
+    appcontextm: {},
   },
   store: {},
   connect,

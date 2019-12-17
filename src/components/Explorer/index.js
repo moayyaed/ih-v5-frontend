@@ -34,11 +34,17 @@ class Explorer extends Component {
     core.components.explorer.setData({ ...this.props.state, list })
   }
 
-  handleClick = (item) => {
+  handleClick = (e, item) => {
     if (item.children === undefined) {
       const { menuid } = core.nav.state;
       core.nav.push(`/${menuid}/${item.component}/${item.id}`);
     }
+  }
+
+  handleContextMenu = (e, item) => {
+    e.preventDefault();
+    e.stopPropagation();
+    core.event('contextmenu', 'nav', e.target, item);
   }
 
   generateNodeProps = (rowinfo) => {
@@ -51,7 +57,8 @@ class Explorer extends Component {
 
     return {
       style,
-      onClick: () => this.handleClick(rowinfo.node),
+      onContextMenu: (e) => this.handleContextMenu(e, rowinfo.node),
+      onClick: (e) => this.handleClick(e, rowinfo.node),
     };
   }
 
