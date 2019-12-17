@@ -44,7 +44,7 @@ class Explorer extends Component {
   handleContextMenu = (e, item) => {
     e.preventDefault();
     e.stopPropagation();
-    core.event('contextmenu', 'nav', e.target, item);
+    core.event('contextmenu', 'nav', e, item);
   }
 
   generateNodeProps = (rowinfo) => {
