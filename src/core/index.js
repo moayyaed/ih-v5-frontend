@@ -54,11 +54,11 @@ function navpush(path) {
 
 
 const core = {
-  action: {
-    appmenu: {},
-    appnav: {},
-    apppage: {},
-    appcontextm: {},
+  app: {
+    menu: {},
+    nav: {},
+    page: {},
+    contextmenu: {},
   },
   store: {},
   connect,

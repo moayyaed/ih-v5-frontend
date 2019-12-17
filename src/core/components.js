@@ -1,8 +1,10 @@
 
 function superAction() {
   const action = this.action.apply(null, arguments);
-  action.id = this.id;
-  this.dispatch(action);
+  if (action !== null) {
+    action.id = this.id;
+    this.dispatch(action);
+  }
 }
 
 function preparation(id, actions, dispatch) {

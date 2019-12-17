@@ -2,17 +2,17 @@ import core from 'core';
 
 
 //menu
-core.action.appmenu.data = function(list) {
+core.app.menu.data = function(list) {
   core.components.appmenu.setData({ list });
 }
 
-core.action.appmenu.select = function(id) {
+core.app.menu.select = function(id) {
   core.components.appmenu.setSelect(id);
 }
 
 
 //nav
-core.action.appnav.data = function(options, list) {
+core.app.nav.data = function(options, list) {
   if (core.nav.last.menuid !== null) {
     core.cache.paths[core.nav.last.menuid] = core.nav.last.pathname;
     core.cache.apptabs[core.nav.last.menuid] = core.store.getState().apptabs;
@@ -26,13 +26,13 @@ core.action.appnav.data = function(options, list) {
   }
 }
 
-core.action.appnav.select = function(id) {
+core.app.nav.select = function(id) {
   core.components.explorer.setSelect(id);
 }
 
 
 //page
-core.action.apppage.data = function(options, data) {
+core.app.page.data = function(options, data) {
   const { pageid, component } = options;
   core.components.apptabs.addItem({ id: pageid, label: pageid, component });
 
@@ -48,14 +48,10 @@ core.action.apppage.data = function(options, data) {
 }
 
 // contextmenu
-core.action.appcontextm.data = function(options, data) {
-  core.components.appcontextmenu.setData({ 
-    open: true, 
-    target: options.target, 
-    list: data 
-  });
+core.app.contextmenu.show = function(e, data) {
+  core.components.appcontextmenu.show(e, data);
 }
 
-core.action.appcontextm.close = function(options, data) {
-  core.components.appcontextmenu.setClose();
+core.app.contextmenu.close = function(options) {
+  core.components.appcontextmenu.close();
 }

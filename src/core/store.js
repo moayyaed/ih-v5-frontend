@@ -18,6 +18,9 @@ function store(deps) {
   .keys(deps)
   .reduce((p, c) => {
     const item = deps[c];
+    if (item.reducer === null) {
+      return p;
+    }
     return { ...p, [c]: preparation(c, item.reducer) };
   }, {});
   

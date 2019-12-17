@@ -1,21 +1,23 @@
-import { APP_CONTEXTMENU_SET_DATA, APP_CONTEXTMENU_SET_CLOSE } from './constants';
+import React from 'react';
+import { ContextMenu } from "@blueprintjs/core";
+
+import AppContextMenu from './index';
 
 
-export function setData(data) {
-  return {
-    type: APP_CONTEXTMENU_SET_DATA,
-    data,
-  };
+export function show(e, data) {
+  const options = { left: e.clientX, top: e.clientY };
+
+  ContextMenu.show(<AppContextMenu data={data} />, options, () => {});
+
+  return null;
 }
 
-export function setClose() {
-  return {
-    type: APP_CONTEXTMENU_SET_CLOSE,
-  };
+export function close() {
+  return null;
 }
 
 
 export default {
-  setData,
-  setClose,
+  show,
+  close,
 }

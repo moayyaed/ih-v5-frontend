@@ -2,7 +2,7 @@ import core from 'core';
 
 
 core.events.on('app:menu', (id, params) => {
-  core.action.appmenu.data([
+  core.app.menu.data([
     { id: '1', route: 'devices', label: 'Устройства', tooltip: 'Устройства', icon: '' },
     { id: '2', route: 'layouts', label: 'Экраны', tooltip: 'Экраны', icon: '' },
     { id: '3', route: 'scripts', label: 'Сценарии', tooltip: 'Сценарии', icon: '' },
@@ -20,7 +20,7 @@ core.events.on('app:nav', (navid, params) => {
 });
 
 core.events.on('app:nav:devices', (navid) => {
-  core.action.appnav.data({ navid, tabs: false }, [
+  core.app.nav.data({ navid, tabs: false }, [
     { id: 'lamp_1', component: 'table', title: 'lamp_1' },
     { id: 'lamp_2', component: 'table', title: 'lamp_2' },
     { id: 'lamp_3', component: 'table', title: 'lamp_3' },
@@ -28,7 +28,7 @@ core.events.on('app:nav:devices', (navid) => {
 });
 
 core.events.on('app:nav:layouts', (navid) => {
-  core.action.appnav.data({ navid, tabs: true }, [
+  core.app.nav.data({ navid, tabs: true }, [
     { id: 'layout_1', component: 'graph', title: 'layout_1' },
     { id: 'layout_2', component: 'graph', title: 'layout_2' },
     { id: 'layout_3', component: 'graph', title: 'layout_3' },
@@ -38,7 +38,7 @@ core.events.on('app:nav:layouts', (navid) => {
 });
 
 core.events.on('app:nav:scripts', (navid) => {
-  core.action.appnav.data({ navid, tabs: false }, [
+  core.app.nav.data({ navid, tabs: false }, [
     { id: 'script_1', component: 'options', title: 'script_1', children: [
       { id: 'item_1', component: 'options', title: 'item_1' },
       { id: 'item_2', component: 'options', title: 'item_2' },
@@ -52,7 +52,7 @@ core.events.on('app:nav:scripts', (navid) => {
 });
 
 core.events.on('app:nav:datasource', (navid) => {
-  core.action.appnav.data({ navid, tabs: true }, [
+  core.app.nav.data({ navid, tabs: true }, [
     { id: 'plugins', component: 'table', title: 'plugins' },
     { id: 'snippet', component: 'table', title: 'snippet' },
     { id: 'hubs', component: 'table', title: 'hubs' },
@@ -60,23 +60,23 @@ core.events.on('app:nav:datasource', (navid) => {
 });
 
 core.events.on('app:nav:analytics', (navid) => {
-  core.action.appnav.data({ navid }, [])
+  core.app.nav.data({ navid }, [])
 });
 
 core.events.on('app:nav:access', (navid) => {
-  core.action.appnav.data({ navid }, [])
+  core.app.nav.data({ navid }, [])
 });
 
 core.events.on('app:nav:database', (navid) => {
-  core.action.appnav.data({ navid }, [])
+  core.app.nav.data({ navid }, [])
 });
 
 core.events.on('app:nav:resources', (navid) => {
-  core.action.appnav.data({ navid }, [])
+  core.app.nav.data({ navid }, [])
 });
 
 
 core.events.on('app:page', (pageid, component) => {
   // console.log('page', pageid, component);
-  core.action.apppage.data({ component, pageid }, [])
+  core.app.page.data({ component, pageid }, [])
 });
