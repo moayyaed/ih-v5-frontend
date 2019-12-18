@@ -108,7 +108,8 @@ function Tab(props) {
     <div 
       className={css.tab} 
       style={props.select === props.item.id ? styles.tabA : styles.tab} 
-      onClick={(e) => props.onClick(e,'select', props.item)}
+      onClick={(e) => props.onClick(e, 'click', props.item)}
+      onContextMenu={(e) => props.onClick(e, 'contextmenu', props.item)}
     >
       {props.item.label}
       <IconButton
@@ -239,9 +240,14 @@ class AppTabs extends Component {
       this.handleDragStop(e, item, data, index);
     }
     
-    if (type === 'select') {
+    if (type === 'click') {
       core.nav.push(`/${menuid}/${navcomponent}/${item.id}`);
     }
+
+    if (type === 'contextmenu') {
+      core.event('contextmenu', 'tab', e, item);
+    }
+
     if (type === 'close') {
       core.components.apptabs.removeItem(item);
 

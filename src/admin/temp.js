@@ -1,4 +1,4 @@
-export const contextmenuData = {
+export const contextmenuExplorerData = {
   main: [
     { id: '1', type: 'divider', title: 'Edit' },
     { id: '2', type: 'item', icon: 'cut', text: 'Cut', label: '⌘X' },
@@ -37,4 +37,12 @@ export const contextmenuData = {
     { id: '25', type: 'item', icon: 'ring', text: 'Ring' },
     { id: '26', type: 'item', icon: 'square', text: 'Square' },
   ]
+}
+
+export const contextmenuTabData = {
+  main: [
+    { id: '1', type: 'divider', title: 'Tab' },
+    { id: '2', type: 'item', icon: 'refresh', text: 'Refresh', label: '⌘R' },
+    { id: '3', type: 'item', icon: 'delete', text: 'close', label: '⌘Q' },
+  ],
 }
