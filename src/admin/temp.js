@@ -62,3 +62,53 @@ export const contextmenuPageData = {
     { id: '3', type: 'item', icon: 'properties', text: 'Properties', label: '⌘P' },
   ],
 }
+
+export const contextmenuGraphItemData  = {
+  main: [
+    { id: '1', type: 'divider', title: 'item' },
+    { id: '2', type: 'item', icon: 'group-objects', text: 'Group', label: '⌘G' },
+    { id: '3', type: 'item', icon: 'social-media', text: 'Share', label: '⌘S' },
+  ],
+}
+
+export const graphDataL = {
+  type: 'layout',
+  options: {
+    position: {
+      x: 10, y: 10,
+    }
+  },
+  map: {
+    1: {
+      x: 50,
+      y: 50,
+      color: 'red',
+    },
+  },
+}
+
+export const graphDataL1 = {
+  type: 'layout',
+  options: {
+    position: {
+      x: 50, y: 50,
+    }
+  },
+  map: {
+    1: {
+      x: 70,
+      y: 75,
+      color: '#2196F3',
+    },
+    2: {
+      x: 175,
+      y: 175,
+      color: '#8BC34A',
+    },
+    3: {
+      x: 350,
+      y: 350,
+      color: '#FFEB3B',
+    },
+  },
+}

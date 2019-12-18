@@ -40,7 +40,14 @@ core.app.page.data = function(options, data) {
     core.components.table.setData({ text: options.component + ':' + options.pageid });
   }
   if (options.component === 'graph') {
-    core.components.graph.setData({ text: options.component + ':' + options.pageid });
+    if (core.nav.last.navid !== null) {
+      core.cache.pages[core.nav.last.navid] = core.store.getState().graph;
+    }
+    if (core.cache.pages[pageid] !== undefined) {
+      core.components.graph.setData({ options, ...core.cache.pages[pageid] });
+    } else {
+      core.components.graph.setData({ options, ...data });
+    }
   }
   if (options.component === 'options') {
     core.components.options.setData({ text: options.component + ':' + options.pageid });

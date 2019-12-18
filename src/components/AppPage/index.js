@@ -27,7 +27,7 @@ function getComponent(type) {
   }
 }
 
-function handleContextPageBody(e, params) {
+function handleContextMenuPageBody(e, params) {
   e.preventDefault();
   e.stopPropagation();
   core.event('contextmenu', 'page', e, params);
@@ -37,7 +37,7 @@ function handleContextPageBody(e, params) {
 function AppPage(props) {
   if (props.state.open) {
     return (
-      <div style={styles.root} onContextMenu={(e) => handleContextPageBody(e, props.state)}>
+      <div style={styles.root} onContextMenu={(e) => handleContextMenuPageBody(e, props.state)}>
         {getComponent(props.state.component)}
       </div>
     );

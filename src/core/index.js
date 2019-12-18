@@ -75,6 +75,7 @@ const core = {
   cache: {
     paths: {},
     apptabs: {},
+    pages: {},
   }
 }
 

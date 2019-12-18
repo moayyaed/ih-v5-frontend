@@ -5,6 +5,7 @@ import {
   contextmenuExplorerItemData, 
   contextmenuTabData,
   contextmenuPageData,
+  contextmenuGraphItemData,
 } from '../temp';
 
 // contextmenu
@@ -23,4 +24,8 @@ core.events.on('contextmenu:tab', (e, params) => {
 
 core.events.on('contextmenu:page', (e, params) => {
   core.app.contextmenu.show(e, contextmenuPageData);
+});
+
+core.events.on('contextmenu:graph:item', (e, params) => {
+  core.app.contextmenu.show(e, contextmenuGraphItemData);
 });

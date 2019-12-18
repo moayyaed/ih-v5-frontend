@@ -1,5 +1,9 @@
 import core from 'core';
 
+import { 
+  graphDataL,
+  graphDataL1
+} from '../temp';
 
 core.events.on('app:menu', (id, params) => {
   core.app.menu.data([
@@ -77,6 +81,9 @@ core.events.on('app:nav:resources', (navid) => {
 
 
 core.events.on('app:page', (pageid, component) => {
-  // console.log('page', pageid, component);
-  core.app.page.data({ component, pageid }, [])
+  core.app.page.data({ component, pageid }, graphDataL)
+});
+
+core.events.on('app:page:layout_1', (pageid, component) => {
+  core.app.page.data({ component, pageid }, graphDataL1)
 });
