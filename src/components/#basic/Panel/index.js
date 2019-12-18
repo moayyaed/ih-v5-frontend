@@ -14,7 +14,7 @@ const styles = {
     height: 'calc(100% - 35px)',
     flexShrink: 0,
     cursor: 'col-resize',
-    zIndex: 80,
+    zIndex: 19,
   },
   dragRight: {
     position: 'absolute',

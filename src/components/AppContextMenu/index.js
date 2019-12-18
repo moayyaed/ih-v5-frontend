@@ -1,18 +1,35 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 
-import { Menu, MenuDivider, MenuItem } from "@blueprintjs/core";
+import { Classes, Icon, Menu, MenuDivider, MenuItem } from "@blueprintjs/core";
 
-function AppContextMenu(props) {
-  return (
-    <Menu>
-      <MenuItem icon="search-around" text="Search around..." />
-      <MenuItem icon="search" text="Object viewer" />
-      <MenuItem icon="graph-remove" text="Remove" />
-      <MenuItem icon="group-objects" text="Group" />
-      <MenuDivider />
-      <MenuItem disabled={true} text="Clicked on node" />
-    </Menu>
-  );
+function getItemType(item, data) {
+  switch(item.type) {
+    case 'divider':
+      return <MenuDivider key={item.id} { ...item} />
+    case 'item':
+        return <MenuItem key={item.id} { ...item} />
+    case 'items':
+        return (
+          <MenuItem key={item.id} { ...item} >
+            {data[item.childs].map(i => getItemType(i, data))}
+          </MenuItem>
+        );
+    default:
+      return null;
+  }
+}
+
+class AppContextMenu extends PureComponent {
+
+  render() {
+    return (
+      <Menu className={Classes.ELEVATION_1}>
+        {this.props.data.main.map(i =>
+          getItemType(i, this.props.data)
+        )}
+      </Menu>
+    );
+  } 
 }
 
 
