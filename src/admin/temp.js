@@ -1,4 +1,12 @@
-export const contextmenuExplorerData = {
+export const contextmenuExplorerBodyData = {
+  main: [
+    { id: '1', type: 'divider', title: 'Add' },
+    { id: '2', type: 'item', icon: 'folder-close', text: 'Folder', label: '⌘F' },
+    { id: '3', type: 'item', icon: 'document', text: 'Item', label: '⌘I' },
+  ],
+}
+
+export const contextmenuExplorerItemData = {
   main: [
     { id: '1', type: 'divider', title: 'Edit' },
     { id: '2', type: 'item', icon: 'cut', text: 'Cut', label: '⌘X' },
@@ -43,6 +51,14 @@ export const contextmenuTabData = {
   main: [
     { id: '1', type: 'divider', title: 'Tab' },
     { id: '2', type: 'item', icon: 'refresh', text: 'Refresh', label: '⌘R' },
-    { id: '3', type: 'item', icon: 'delete', text: 'close', label: '⌘Q' },
+    { id: '3', type: 'item', icon: 'delete', text: 'Close', label: '⌘Q' },
+  ],
+}
+
+export const contextmenuPageData = {
+  main: [
+    { id: '1', type: 'divider', title: 'Page' },
+    { id: '2', type: 'item', icon: 'refresh', text: 'Refresh', label: '⌘R' },
+    { id: '3', type: 'item', icon: 'properties', text: 'Properties', label: '⌘P' },
   ],
 }

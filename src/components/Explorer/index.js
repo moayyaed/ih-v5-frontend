@@ -41,10 +41,16 @@ class Explorer extends Component {
     }
   }
 
-  handleContextMenu = (e, item) => {
+  handleContextMenuBody = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    core.event('contextmenu', 'nav', e, item);
+    core.event('contextmenu', 'nav', e);
+  }
+
+  handleContextMenuItem = (e, item) => {
+    e.preventDefault();
+    e.stopPropagation();
+    core.event('contextmenu', 'nav:item', e, item);
   }
 
   generateNodeProps = (rowinfo) => {
@@ -57,7 +63,7 @@ class Explorer extends Component {
 
     return {
       style,
-      onContextMenu: (e) => this.handleContextMenu(e, rowinfo.node),
+      onContextMenu: (e) => this.handleContextMenuItem(e, rowinfo.node),
       onClick: (e) => this.handleClick(e, rowinfo.node),
     };
   }
@@ -68,7 +74,7 @@ class Explorer extends Component {
 
   render({ id, state, classes } = this.props) {
     return (
-      <div style={styles.box}>
+      <div style={styles.box} onContextMenu={this.handleContextMenuBody}>
         <div style={{ height: 400 }}>
           <SortableTree
             treeData={state.list}

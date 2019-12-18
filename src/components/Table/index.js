@@ -24,7 +24,9 @@ class Table extends Component {
   render({ id, state, match, classes, onClick } = this.props) {
     return (
       <div style={styles.box}>
-
+        Table
+        <br />
+        {state.text}
       </div>
     );
   }
