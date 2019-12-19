@@ -1,4 +1,9 @@
-import { GRAPH_SET_DATA, GRAPH_SET_POSITION_LAYOUT, GRAPH_SET_POSITION_ITEM } from './constants';
+import { 
+  GRAPH_SET_DATA, 
+  GRAPH_SET_POSITION_LAYOUT, 
+  GRAPH_SET_POSITION_CONTAINER,
+  GRAPH_SET_SETTINGS_CONTAINER
+} from './constants';
 
 
 export function setData(data) {
@@ -16,12 +21,20 @@ export function setPositionLayout(x, y) {
   };
 }
 
-export function setPositionItem(itemid, x, y) {
+export function setPositionContainer(itemid, x, y) {
   return {
-    type: GRAPH_SET_POSITION_ITEM,
+    type: GRAPH_SET_POSITION_CONTAINER,
     itemid,
     x,
     y,
+  };
+}
+
+export function setSettingsContainer(itemid, settings) {
+  return {
+    type: GRAPH_SET_SETTINGS_CONTAINER,
+    itemid,
+    settings,
   };
 }
 
@@ -29,5 +42,6 @@ export function setPositionItem(itemid, x, y) {
 export default {
   setData,
   setPositionLayout,
-  setPositionItem,
+  setPositionContainer,
+  setSettingsContainer,
 }

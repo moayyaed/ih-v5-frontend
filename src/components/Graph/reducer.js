@@ -1,4 +1,9 @@
-import { GRAPH_SET_DATA, GRAPH_SET_POSITION_LAYOUT, GRAPH_SET_POSITION_ITEM } from './constants';
+import { 
+  GRAPH_SET_DATA, 
+  GRAPH_SET_POSITION_LAYOUT, 
+  GRAPH_SET_POSITION_CONTAINER,
+  GRAPH_SET_SETTINGS_CONTAINER,
+} from './constants';
 
 
 const defaultState = {
@@ -21,15 +26,32 @@ function reducer(state = defaultState, action) {
           }
         }
       };
-    case GRAPH_SET_POSITION_ITEM:
+    case GRAPH_SET_POSITION_CONTAINER:
       return { 
         ...state, 
         map: {
           ...state.map,
           [action.itemid]: {
             ...state.map[action.itemid],
-            x: action.x,
-            y: action.y,
+            settings: {
+              ...state.map[action.itemid].settings,
+              x: action.x,
+              y: action.y,
+            }
+          }
+        } 
+      };
+    case GRAPH_SET_SETTINGS_CONTAINER:
+      return { 
+        ...state, 
+        map: {
+          ...state.map,
+          [action.itemid]: {
+            ...state.map[action.itemid],
+            settings: {
+              ...state.map[action.itemid].settings,
+              ...action.settings,
+            }
           }
         } 
       };

@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import Draggable from 'react-draggable';
 
 import { withStyles } from '@material-ui/core/styles';
+import { func } from 'prop-types';
 
 
 const styles = {
@@ -20,10 +21,11 @@ const styles = {
     position: 'absolute',
     borderRadius: 0,
   },
-  item: {
-    position: 'absolute', 
-    width: 70, 
-    height: 70,
+  sizecontrol: {
+    position: 'absolute',
+    width: 10,
+    height: 10,
+    border: '1px solid red',
   }
 };
 
@@ -31,6 +33,101 @@ const classes = theme => ({
   root: {
   },
 });
+
+function getPositionContainer(type, settings, data) {
+  switch (type) {
+    case 'TL':
+      return { 
+        y: settings.y + data.y,
+        x: settings.x + data.x,
+        w: settings.w - data.x,
+        h: settings.h - data.y,
+      };
+    case 'TR':
+      return { 
+        y: settings.y + data.y,
+        w: data.x + styles.sizecontrol.width, 
+        h: settings.h - data.y,
+      };
+    case 'BL':
+      return { 
+        x: settings.x + data.x,
+        w: settings.w - data.x,
+        h: data.y + styles.sizecontrol.height,
+      };
+    case 'BR':
+        return { 
+          w: data.x + styles.sizecontrol.width, 
+          h: data.y + styles.sizecontrol.height,
+        };
+    default:
+      return settings;
+  }
+}
+
+function getPositionSizeControl(type, x, y, w, h) {
+  switch (type) {
+    case 'TL':
+      return { x: 0, y: 0 };
+    case 'TR':
+        return { x: w - styles.sizecontrol.height, y: 0 };
+    case 'BL':
+        return { x: 0, y: h - styles.sizecontrol.height };
+    case 'BR':
+        return { x: w - styles.sizecontrol.height, y: h - styles.sizecontrol.height };
+    default:
+      return { x: 0, y: 0 };
+  }
+}
+
+function SizeControl(props) {
+  const { x, y, w, h } = props.settings;
+  const position = getPositionSizeControl(props.op, x, y, w, h);
+  return (
+    <Draggable 
+      position={position} 
+      onStart={(e) => props.onPosition(e, 'start', props.op)} 
+      onStop={(e, data) => props.onPosition(e, 'stop', props.op, props.settings, data)} 
+    >
+      <div style={{ ...styles.sizecontrol }} />
+    </Draggable>
+  );
+}
+
+function Container(props) {
+  const settings = props.data.settings;
+  return (
+    <Draggable 
+      position={{ x: settings.x, y: settings.y }} 
+      bounds=".parent"
+      onStart={(e, data) => props.onPositionStartContainer(e, settings.id, data)}
+      onStop={(e, data) => props.onPositionStopContainer(e, settings.id, data)}
+    >
+      <div
+        className="container"  
+        style={{ 
+          width: settings.w,
+          height: settings.h,
+          position: 'absolute', 
+        }}
+        onContextMenu={(e) => props.onContextMenuContainer(e, props)}
+      >
+        <div 
+          style={{ 
+            position: 'absolute', 
+            width: '100%', 
+            height: '100%', 
+            border: '2px solid ' + settings.color
+          }} 
+        />
+        <SizeControl op="TL" settings={settings} onPosition={props.onPositionSizeControl} />
+        <SizeControl op="TR" settings={settings} onPosition={props.onPositionSizeControl} />
+        <SizeControl op="BL" settings={settings} onPosition={props.onPositionSizeControl} />
+        <SizeControl op="BR" settings={settings} onPosition={props.onPositionSizeControl} />
+      </div>
+    </Draggable>
+  )
+}
 
 class Graph extends Component {
   componentDidMount() {
@@ -40,18 +137,29 @@ class Graph extends Component {
     core.components.graph.setPositionLayout(data.x, data.y);
   }
 
-  handlePositionStartItem = (e, id, data) => {
+  handlePositionSizeControl = (e, type, op, settings, data) => {
+    if (type === 'start') {
+      e.preventDefault();
+      e.stopPropagation();
+    } 
+    if (type === 'stop') {
+      const position = getPositionContainer(op, settings, data);
+      core.components.graph.setSettingsContainer(settings.id, position);
+    } 
+  }
+
+  handlePositionStartContainer = (e, id, data) => {
     e.preventDefault();
     e.stopPropagation();
   }
 
-  handlePositionStopItem = (e, id, data) => {
+  handlePositionStopContainer = (e, id, data) => {
     e.preventDefault();
     e.stopPropagation();
-    core.components.graph.setPositionItem(id, data.x, data.y);
+    core.components.graph.setPositionContainer(id, data.x, data.y);
   }
 
-  handleContextMenuItem = (e, params) => {
+  handleContextMenuContainer = (e, params) => {
     e.preventDefault();
     e.stopPropagation();
     core.event('contextmenu', 'graph:item', e, params);
@@ -71,20 +179,15 @@ class Graph extends Component {
             {Object
             .keys(state.map)
             .map(key => {
-              const item = state.map[key];
               return (
-                <Draggable 
-                  key={key.toString()} 
-                  position={{ x: item.x, y: item.y }} 
-                  bounds=".parent"
-                  onStart={(e, data) => this.handlePositionStartItem(e, key, data)}
-                  onStop={(e, data) => this.handlePositionStopItem(e, key, data)}
-                >
-                  <div 
-                    style={{ ...styles.item, border: '2px solid ' + item.color }}
-                    onContextMenu={(e) => this.handleContextMenuItem(e, item)}
-                  />
-                </Draggable>
+                <Container 
+                  key={key.toString()}
+                  data={state.map[key]}
+                  onPositionSizeControl={this.handlePositionSizeControl}
+                  onPositionStartContainer={this.handlePositionStartContainer}
+                  onPositionStopContainer={this.handlePositionStopContainer}
+                  onContextMenuContainer={this.handleContextMenuContainer}
+                />
               );
             })}
           </Paper>

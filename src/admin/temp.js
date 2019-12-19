@@ -80,9 +80,14 @@ export const graphDataL = {
   },
   map: {
     1: {
-      x: 50,
-      y: 50,
-      color: 'red',
+      settings: {
+        id: 1,
+        x: 50,
+        y: 50,
+        w: 70,
+        h: 70,
+        color: 'red',
+      }
     },
   },
 }
@@ -96,19 +101,35 @@ export const graphDataL1 = {
   },
   map: {
     1: {
-      x: 70,
-      y: 75,
-      color: '#2196F3',
+      
+      settings: {
+        id: 1,
+        x: 70,
+        y: 75,
+        w: 70,
+        h: 70,
+        color: '#2196F3',
+      }
     },
     2: {
-      x: 175,
-      y: 175,
-      color: '#8BC34A',
+      settings: {
+        id: 2,
+        x: 175,
+        y: 175,
+        w: 70,
+        h: 70,
+        color: '#8BC34A',
+      }
     },
     3: {
-      x: 350,
-      y: 350,
-      color: '#FFEB3B',
+      settings: {
+        id: 3,
+        x: 350,
+        y: 350,
+        w: 70,
+        h: 70,
+        color: '#FFEB3B',
+      }
     },
   },
 }
