@@ -55,8 +55,8 @@ core.app.page.data = function(options, data) {
 }
 
 // contextmenu
-core.app.contextmenu.show = function(e, data) {
-  core.components.appcontextmenu.show(e, data);
+core.app.contextmenu.show = function(e, data, params) {
+  core.components.appcontextmenu.show(e, data, params);
 }
 
 core.app.contextmenu.close = function(options) {

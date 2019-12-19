@@ -3,6 +3,7 @@ import {
   GRAPH_SET_POSITION_LAYOUT, 
   GRAPH_SET_POSITION_CONTAINER,
   GRAPH_SET_SETTINGS_CONTAINER,
+  GRAPH_ADD_CONTAINER,
 } from './constants';
 
 
@@ -54,6 +55,14 @@ function reducer(state = defaultState, action) {
             }
           }
         } 
+      };
+    case GRAPH_ADD_CONTAINER:
+      return { 
+        ...state, 
+        map: {
+          ...state.map,
+          [action.data.settings.id]: action.data,
+        }
       };
     default:
       return state;

@@ -5,6 +5,38 @@ import store from './store';
 import components from './components';
 
 
+function clipboardRead() {
+  if (navigator.clipboard === undefined) {
+    
+  } else {
+    return navigator.clipboard
+      .readText()
+      .then(text => {
+        if (text !== undefined) {
+          try {
+            return JSON.parse(text);
+          } catch (e) {
+            return null;
+          }
+        }
+        return null;
+      })
+      .catch(() => {});
+  }
+}
+
+function clipboardWrite(data) {
+  if (navigator.clipboard === undefined) {
+    
+  } else {
+    try {
+      navigator.clipboard.writeText(JSON.stringify(data));
+    } catch (e) {
+
+    }
+  }
+}
+
 function dependencies(deps) {
   core.store = store(deps);
   core.components = components(deps, core.store.dispatch);
@@ -66,6 +98,10 @@ const core = {
   event,
   events: new EventEmitter(),
   router: null,
+  clipboard: {
+    read: clipboardRead,
+    write: clipboardWrite,
+  },
   nav: {
     last: {},
     state: {},

@@ -110,7 +110,7 @@ function Container(props) {
           height: settings.h,
           position: 'absolute', 
         }}
-        onContextMenu={(e) => props.onContextMenuContainer(e, props)}
+        onContextMenu={(e) => props.onContextMenuContainer(e, props.data)}
       >
         <div 
           style={{ 
@@ -159,6 +159,12 @@ class Graph extends Component {
     core.components.graph.setPositionContainer(id, data.x, data.y);
   }
 
+  handleContextMenuLayout = (e, params) => {
+    e.preventDefault();
+    e.stopPropagation();
+    core.event('contextmenu', 'graph:layout', e, params);
+  }
+
   handleContextMenuContainer = (e, params) => {
     e.preventDefault();
     e.stopPropagation();
@@ -175,6 +181,7 @@ class Graph extends Component {
             elevation={2} 
             className="parent" 
             style={styles.paper}
+            onContextMenu={(e) => this.handleContextMenuLayout(e, state)}
           >
             {Object
             .keys(state.map)

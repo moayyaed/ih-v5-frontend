@@ -58,16 +58,18 @@ export const contextmenuTabData = {
 export const contextmenuPageData = {
   main: [
     { id: '1', type: 'divider', title: 'Page' },
-    { id: '2', type: 'item', icon: 'refresh', text: 'Refresh', label: '⌘R' },
-    { id: '3', type: 'item', icon: 'properties', text: 'Properties', label: '⌘P' },
+    { id: '2', type: 'item', icon: 'clipboard', text: 'Paste', label: '⌘V', command: 'graph:paste' },
+    { id: '3', type: 'item', icon: 'refresh', text: 'Refresh', label: '⌘R' },
+    { id: '4', type: 'item', icon: 'properties', text: 'Properties', label: '⌘P' },
   ],
 }
 
 export const contextmenuGraphItemData  = {
   main: [
     { id: '1', type: 'divider', title: 'item' },
-    { id: '2', type: 'item', icon: 'group-objects', text: 'Group', label: '⌘G' },
-    { id: '3', type: 'item', icon: 'social-media', text: 'Share', label: '⌘S' },
+    { id: '2', type: 'item', icon: 'duplicate', text: 'Copy', label: '⌘C', command: 'graph:item:copy' },
+    { id: '3', type: 'item', icon: 'group-objects', text: 'Group', label: '⌘G' },
+    { id: '4', type: 'item', icon: 'social-media', text: 'Share', label: '⌘S' },
   ],
 }
 
