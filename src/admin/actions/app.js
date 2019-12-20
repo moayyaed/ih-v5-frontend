@@ -16,6 +16,9 @@ core.app.nav.data = function(options, list) {
   if (core.nav.last.menuid !== null) {
     core.cache.paths[core.nav.last.menuid] = core.nav.last.pathname;
     core.cache.apptabs[core.nav.last.menuid] = core.store.getState().apptabs;
+    if (core.nav.last.navcomponent === 'graph') {
+      core.cache.pages[core.nav.last.navid] = core.store.getState().graph;
+    }
   }
   if (core.cache.apptabs[options.navid] !== undefined) {
     core.components.apptabs.setData(core.cache.apptabs[options.navid]);

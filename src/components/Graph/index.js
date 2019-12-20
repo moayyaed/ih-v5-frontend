@@ -198,6 +198,12 @@ class Graph extends Component {
     this.lastDragLayout = true;
   }
 
+  handlePositionDragGroup = (e, data, selects) => {
+    e.preventDefault();
+    e.stopPropagation();
+    core.components.graph.setPositionGroupContainer(data, selects, this.props.state.map);
+  }
+
   handlePositionStopGroup = (e, data, selects) => {
     e.preventDefault();
     e.stopPropagation();
@@ -245,7 +251,7 @@ class Graph extends Component {
   }
 
   render({ id, state, match, classes, onClick } = this.props) {
-    console.log(state)
+    // console.log(state)
     const group = state.selects.group;
     return (
       <div style={styles.box}>
@@ -266,6 +272,7 @@ class Graph extends Component {
               bounds=".parent"
               position={{ x: group.x, y: group.y }}
               onStart={(e, data) => this.handlePositionStartGroup(e, data, state.selects)}
+              onDrag={(e, data) => this.handlePositionDragGroup(e, data, state.selects)}
               onStop={(e, data) => this.handlePositionStopGroup(e, data, state.selects)}
             >
               <div 

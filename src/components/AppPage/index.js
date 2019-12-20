@@ -14,14 +14,14 @@ const styles = {
 };
 
 
-function getComponent(type) {
+function getComponent(type, id) {
   switch (type) {
     case 'table':
       return <Table />;
     case 'options':
       return <Options />;
     case 'graph':
-      return <Graph />;
+      return <Graph key={id} />;
     default:
       return null;
   }
@@ -38,7 +38,7 @@ function AppPage(props) {
   if (props.state.open) {
     return (
       <div style={styles.root} onContextMenu={(e) => handleContextMenuPageBody(e, props.state)}>
-        {getComponent(props.state.component)}
+        {getComponent(props.state.component, props.state.id)}
       </div>
     );
   }
