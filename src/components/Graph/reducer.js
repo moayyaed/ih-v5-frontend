@@ -2,6 +2,7 @@ import {
   GRAPH_SET_DATA, 
   GRAPH_SET_POSITION_LAYOUT, 
   GRAPH_SET_POSITION_CONTAINER,
+  GRAPH_SET_POSITION_GROUP_CONTAINER,
   GRAPH_SET_SETTINGS_CONTAINER,
 
   GRAPH_ADD_CONTAINER,
@@ -49,6 +50,8 @@ function reducer(state = defaultState, action) {
           }
         } 
       };
+    case GRAPH_SET_POSITION_CONTAINER:
+      return state;
     case GRAPH_SET_SETTINGS_CONTAINER:
       return { 
         ...state, 

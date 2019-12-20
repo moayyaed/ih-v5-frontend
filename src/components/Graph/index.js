@@ -29,6 +29,12 @@ const styles = {
     height: 10,
     border: '1px solid #1b7ac5',
     backgroundColor: '#2196F3',
+  },
+  group: {
+    border: '2px dashed #ff00ff' , 
+    position: 'absolute',
+    width: 100,
+    height: 100,
   }
 };
 
@@ -84,6 +90,9 @@ function getPositionSizeControl(type, x, y, w, h) {
 }
 
 function SizeControl(props) {
+  if (props.disabled) {
+    return null;
+  }
   const { x, y, w, h } = props.settings;
   const position = getPositionSizeControl(props.op, x, y, w, h);
   return (
@@ -100,12 +109,14 @@ function SizeControl(props) {
 
 function Container(props) {
   const settings = props.data.settings;
+  const selects = props.selects.data;
+  const selectType = props.selects.type;
   return (
     <Draggable 
       position={{ x: settings.x, y: settings.y }} 
       bounds=".parent"
-      onStart={(e, data) => props.onPositionStartContainer(e, props.data, data)}
-      onStop={(e, data) => props.onPositionStopContainer(e, props.data, data)}
+      onStart={(e, data) => props.onPositionStartContainer(e, props.data, data, props.selects)}
+      onStop={(e, data) => props.onPositionStopContainer(e, props.data, data, props.selects)}
     >
       <div
         className="container"  
@@ -113,10 +124,10 @@ function Container(props) {
           width: settings.w,
           height: settings.h,
           position: 'absolute',
-          outline: props.selects.data[settings.id] ? '2px dashed #ff00ff' : '0px dashed #ff00ff',
+          outline: selects[settings.id] ? '2px dashed #ff00ff' : '0px dashed #ff00ff',
         }}
-        onClick={(e) => props.onClickContainer(e, props.data)}
-        onContextMenu={(e) => props.onContextMenuContainer(e, props.data)}
+        onClick={(e) => props.onClickContainer(e, props.data, props.selects)}
+        onContextMenu={(e) => props.onContextMenuContainer(e, props.data, props.selects)}
       >
         <div 
           style={{ 
@@ -126,10 +137,10 @@ function Container(props) {
             border: '2px solid ' + settings.color
           }} 
         />
-        <SizeControl op="TL" settings={settings} onPosition={props.onPositionSizeControl} />
-        <SizeControl op="TR" settings={settings} onPosition={props.onPositionSizeControl} />
-        <SizeControl op="BL" settings={settings} onPosition={props.onPositionSizeControl} />
-        <SizeControl op="BR" settings={settings} onPosition={props.onPositionSizeControl} />
+        <SizeControl disabled={selects[settings.id]} op="TL" settings={settings} onPosition={props.onPositionSizeControl} />
+        <SizeControl disabled={selects[settings.id]} op="TR" settings={settings} onPosition={props.onPositionSizeControl} />
+        <SizeControl disabled={selects[settings.id]} op="BL" settings={settings} onPosition={props.onPositionSizeControl} />
+        <SizeControl disabled={selects[settings.id]} op="BR" settings={settings} onPosition={props.onPositionSizeControl} />
       </div>
     </Draggable>
   )
@@ -170,6 +181,7 @@ class Graph extends Component {
     if (type === 'start') {
       e.preventDefault();
       e.stopPropagation();
+      core.components.graph.clearAllSelects();
     } 
     if (type === 'stop' || type === 'drag' && (this.lastDragSC.x !== data.x || this.lastDragSC.y !== data.y)) {
       this.lastDragSC = { x: data.x, y: data.y };
@@ -179,13 +191,23 @@ class Graph extends Component {
 
   }
 
-  handlePositionStartContainer = (e, item, data) => {
+  handlePositionStartContainer = (e, item, data, selects) => {
     e.preventDefault();
     e.stopPropagation();
-    if (e.shiftKey) {
+    if (e.shiftKey && selects.type !== null) {
       core.components.graph.selectMultiContainers(item.settings.id, 'one');
     } else {
-      core.components.graph.selectOneContainer(item.settings.id, 'one');
+      if (selects.type === 'multi' && selects.data[item.settings.id]) {
+
+      } else {
+        core.components.graph.selectOneContainer(item.settings.id, 'one');
+      }
+    }
+  }
+
+  handlePositionDragContainer = (e, item, data, selects) => {
+    if (selects.type === 'multi' && selects.data[item.settings.id]) {
+      core.components.graph.setPositionGroupContainer(selects.data, data.x, data.y);
     }
   }
 
@@ -226,6 +248,7 @@ class Graph extends Component {
             onClick={(e) => this.handleClickLayout(e, state)}
             onContextMenu={(e) => this.handleContextMenuLayout(e, state)}
           >
+            <div style={styles.group} />
             {Object
             .keys(state.map)
             .map(key => {
@@ -236,6 +259,7 @@ class Graph extends Component {
                   selects={state.selectid}
                   onClickContainer={this.handleClickContainer}
                   onPositionStartContainer={this.handlePositionStartContainer}
+                  onPositionDragContainer={this.handlePositionDragContainer}
                   onPositionStopContainer={this.handlePositionStopContainer}
                   onPositionSizeControl={this.handlePositionSizeControl}
                   onContextMenuContainer={this.handleContextMenuContainer}

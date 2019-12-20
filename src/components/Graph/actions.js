@@ -4,6 +4,7 @@ import {
   GRAPH_SET_DATA, 
   GRAPH_SET_POSITION_LAYOUT, 
   GRAPH_SET_POSITION_CONTAINER,
+  GRAPH_SET_POSITION_GROUP_CONTAINER,
   GRAPH_SET_SETTINGS_CONTAINER,
 
   GRAPH_ADD_CONTAINER,
@@ -32,6 +33,15 @@ export function setPositionContainer(itemid, x, y) {
   return {
     type: GRAPH_SET_POSITION_CONTAINER,
     itemid,
+    x,
+    y,
+  };
+}
+
+export function setPositionGroupContainer(items, x, y) {
+  return {
+    type: GRAPH_SET_POSITION_GROUP_CONTAINER,
+    items,
     x,
     y,
   };
@@ -88,6 +98,7 @@ export default {
   setData,
   setPositionLayout,
   setPositionContainer,
+  setPositionGroupContainer,
   setSettingsContainer,
   addContainer,
   selectOneContainer,
