@@ -42,7 +42,7 @@ core.events.on('contextmenu:graph:paste', (item, params) => {
       if (data !== null) {
         core.components.graph.addContainer(item.position, data);
       }
-    });
+    })
 });
 
 

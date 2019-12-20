@@ -6,6 +6,8 @@ import components from './components';
 
 
 function clipboardRead() {
+  return new Promise(resolve => resolve(core.clipboard.buffer));
+  /*
   if (navigator.clipboard === undefined) {
     
   } else {
@@ -21,11 +23,15 @@ function clipboardRead() {
         }
         return null;
       })
-      .catch(() => {});
+      .catch((e) => console.log(e));
   }
+  */
 }
 
 function clipboardWrite(data) {
+  core.clipboard.buffer = data;
+  return new Promise(resolve => resolve());
+ /*
   if (navigator.clipboard === undefined) {
     
   } else {
@@ -35,6 +41,7 @@ function clipboardWrite(data) {
 
     }
   }
+  */
 }
 
 function dependencies(deps) {
@@ -99,6 +106,7 @@ const core = {
   events: new EventEmitter(),
   router: null,
   clipboard: {
+    buffer: null,
     read: clipboardRead,
     write: clipboardWrite,
   },
@@ -113,6 +121,7 @@ const core = {
     apptabs: {},
     pages: {},
   }
+  
 }
 
 

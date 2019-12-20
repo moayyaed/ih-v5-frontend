@@ -5,7 +5,8 @@ import Paper from '@material-ui/core/Paper';
 import Draggable from 'react-draggable';
 
 import { withStyles } from '@material-ui/core/styles';
-import { func } from 'prop-types';
+
+import css from './main.module.css';
 
 
 const styles = {
@@ -22,10 +23,12 @@ const styles = {
     borderRadius: 0,
   },
   sizecontrol: {
+    opacity: 0,
     position: 'absolute',
     width: 10,
     height: 10,
-    border: '1px solid red',
+    border: '1px solid #1b7ac5',
+    backgroundColor: '#2196F3',
   }
 };
 
@@ -89,7 +92,7 @@ function SizeControl(props) {
       onStart={(e) => props.onPosition(e, 'start', props.op)} 
       onStop={(e, data) => props.onPosition(e, 'stop', props.op, props.settings, data)} 
     >
-      <div style={{ ...styles.sizecontrol }} />
+      <div className={css.sizecontrol} style={{ ...styles.sizecontrol }} />
     </Draggable>
   );
 }
