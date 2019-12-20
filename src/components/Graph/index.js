@@ -209,6 +209,11 @@ class Graph extends Component {
       e.stopPropagation();
     } 
     if (type === 'stop' || type === 'drag' && (this.lastDragSCG.x !== data.x || this.lastDragSCG.y !== data.y)) {
+      if (e.shiftKey) {
+        const max = Math.max(data.x, data.y);
+        data.x = max;
+        data.y = max;
+      }
       this.lastDragSCG = { x: data.x, y: data.y };
       const position = getPositionContainer(op, settings, data);
       core.components.graph.setResizeGroupContainer(e, position, this.props.state.selects, this.props.state.map);
