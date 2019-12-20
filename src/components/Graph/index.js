@@ -35,6 +35,7 @@ const styles = {
     position: 'absolute',
     width: 100,
     height: 100,
+    zIndex: 1000,
   }
 };
 
@@ -42,6 +43,7 @@ const classes = theme => ({
   root: {
   },
 });
+
 
 function getPositionContainer(type, settings, data) {
   switch (type) {
@@ -54,6 +56,7 @@ function getPositionContainer(type, settings, data) {
       };
     case 'TR':
       return { 
+        x: settings.x,
         y: settings.y + data.y,
         w: data.x + styles.sizecontrol.width, 
         h: settings.h - data.y,
@@ -61,11 +64,14 @@ function getPositionContainer(type, settings, data) {
     case 'BL':
       return { 
         x: settings.x + data.x,
+        y: settings.y,
         w: settings.w - data.x,
         h: data.y + styles.sizecontrol.height,
       };
     case 'BR':
         return { 
+          x: settings.x,
+          y: settings.y,
           w: data.x + styles.sizecontrol.width, 
           h: data.y + styles.sizecontrol.height,
         };
@@ -106,7 +112,11 @@ function SizeControl(props) {
     </Draggable>
   );
 }
-
+/*
+    disabled={props.selects.block === settings.id}
+    onMouseOver={(e) => props.onHoverContainer(e, 'over', props.data, props.selects)}
+    onMouseOut={(e) => props.onHoverContainer(e, 'out', props.data, props.selects)}
+*/
 function Container(props) {
   const settings = props.data.settings;
   const selectsData = props.selects.data;
@@ -151,6 +161,7 @@ class Graph extends Component {
 
   componentDidMount() {
     this.lastDragSC = { x: null, y: null };
+    this.lastDragSCG = { x: null, y: null };
     this.lastDragLayout = false;
   }
 
@@ -168,7 +179,7 @@ class Graph extends Component {
     core.event('contextmenu', 'graph:layout', e, params);
   }
 
-  handleDragLayout = () => {
+  handleDragLayout = (e, data) => {
     if (this.lastDragLayout === false) {
       this.lastDragLayout = true;
     }
@@ -189,7 +200,19 @@ class Graph extends Component {
       const position = getPositionContainer(op, settings, data);
       core.components.graph.setSettingsContainer(settings.id, position);
     } 
+  }
 
+  handlePositionSizeControlGroup = (e, type, op, settings, data) => {
+    if (type === 'start') {
+      this.lastDragLayout = true;
+      e.preventDefault();
+      e.stopPropagation();
+    } 
+    if (type === 'stop' || type === 'drag' && (this.lastDragSC.x !== data.x || this.lastDragSC.y !== data.y)) {
+      this.lastDragSCG = { x: data.x, y: data.y };
+      const position = getPositionContainer(op, settings, data);
+      core.components.graph.setResizeGroupContainer(position, this.props.state.selects, this.props.state.map);
+    } 
   }
 
   handlePositionStartGroup = (e, data, selects) => {
@@ -214,10 +237,11 @@ class Graph extends Component {
     e.preventDefault();
     e.stopPropagation();
     if (e.shiftKey && selects.type !== null) {
+      this.lastDragLayout = true;
       core.components.graph.selectMultiContainers(item.settings.id, selects.data, this.props.state.map);
     } else {
       if (selects.type === 'multi' && selects.data[item.settings.id]) {
-
+       
       } else {
         core.components.graph.selectOneContainer(item.settings.id, 'one');
       }
@@ -250,13 +274,22 @@ class Graph extends Component {
     core.event('contextmenu', 'graph:item', e, item);
   }
 
+  handleHoverContainer = (e, type, item, data) => {
+    if (e.shiftKey && this.props.state.selects.block === null && type === 'over') {
+      core.components.graph.selectBlockContainer(item.settings.id);
+    }
+    if (this.props.state.selects.block !== null && type === 'out') {
+      core.components.graph.selectBlockContainer(null);
+    }
+  }
+
   render({ id, state, match, classes, onClick } = this.props) {
     // console.log(state)
     const group = state.selects.group;
     return (
       <div style={styles.box}>
         <Draggable 
-          position={state.options.position} 
+          position={{ x: state.settings.x, y: state.settings.y }} 
           onDrag={this.handleDragLayout}
           onStop={this.handlePositionLayout}
         >
@@ -282,7 +315,12 @@ class Graph extends Component {
                   width: group.w, 
                   height: group.h,
                 }} 
-              />
+              >
+                 <SizeControl disabled={false} op="TL" settings={group} onPosition={this.handlePositionSizeControlGroup} />
+                 <SizeControl disabled={false} op="TR" settings={group} onPosition={this.handlePositionSizeControlGroup} />
+                 <SizeControl disabled={false} op="BL" settings={group} onPosition={this.handlePositionSizeControlGroup} />
+                 <SizeControl disabled={false} op="BR" settings={group} onPosition={this.handlePositionSizeControlGroup} />
+              </div>
             </Draggable>
             {Object
             .keys(state.map)
@@ -298,6 +336,7 @@ class Graph extends Component {
                   onPositionStopContainer={this.handlePositionStopContainer}
                   onPositionSizeControl={this.handlePositionSizeControl}
                   onContextMenuContainer={this.handleContextMenuContainer}
+                  onHoverContainer={this.handleHoverContainer}
                 />
               );
             })}

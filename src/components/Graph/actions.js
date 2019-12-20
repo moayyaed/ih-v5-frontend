@@ -5,11 +5,13 @@ import {
   GRAPH_SET_POSITION_LAYOUT, 
   GRAPH_SET_POSITION_CONTAINER,
   GRAPH_SET_POSITION_GROUP_CONTAINER,
+  GRAPH_SET_RESIZE_GROUP_CONTAINER,
   GRAPH_SET_SETTINGS_CONTAINER,
 
   GRAPH_ADD_CONTAINER,
   GRAPH_SELECT_ONE_CONTAINER,
   GRAPH_SELECT_MULTI_CONTAINERS,
+  GRAPH_SELECT_BLOCK_CONTAINER,
   GRAPH_CLEAR_ALL_SELECTS,
 } from './constants';
 
@@ -138,6 +140,42 @@ export function setPositionGroupContainer(data, select, map) {
   };
 }
 
+export function setResizeGroupContainer(position, selects, map) {
+  let ratioH = 1;
+  let ratioV = 1;
+  const temp = Object
+  .keys(map)
+  .reduce((p, c) => {
+    if (selects.data[c]) {
+      return { 
+        ...p, 
+        [c]: {
+          settings: { 
+            ...map[c].settings,
+            x: map[c].settings.x,
+            y: map[c].settings.y,
+            w: map[c].settings.w,
+            h: map[c].settings.h,
+          },
+        } 
+      };
+    }
+    return { ...p, [c]: map[c] };
+  }, {});
+  return {
+    type: GRAPH_SET_RESIZE_GROUP_CONTAINER,
+    position,
+    map,
+  };
+}
+
+export function selectBlockContainer(itemid) {
+  return {
+    type: GRAPH_SELECT_BLOCK_CONTAINER,
+    itemid,
+  };
+}
+
 export function clearAllSelects() {
   return {
     type: GRAPH_CLEAR_ALL_SELECTS,
@@ -150,9 +188,11 @@ export default {
   setPositionLayout,
   setPositionContainer,
   setPositionGroupContainer,
+  setResizeGroupContainer,
   setSettingsContainer,
   addContainer,
   selectOneContainer,
   selectMultiContainers,
+  selectBlockContainer,
   clearAllSelects,
 }

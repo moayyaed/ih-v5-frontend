@@ -3,17 +3,20 @@ import {
   GRAPH_SET_POSITION_LAYOUT, 
   GRAPH_SET_POSITION_CONTAINER,
   GRAPH_SET_POSITION_GROUP_CONTAINER,
+  GRAPH_SET_RESIZE_GROUP_CONTAINER,
   GRAPH_SET_SETTINGS_CONTAINER,
 
   GRAPH_ADD_CONTAINER,
   GRAPH_SELECT_ONE_CONTAINER,
   GRAPH_SELECT_MULTI_CONTAINERS,
+  GRAPH_SELECT_BLOCK_CONTAINER,
   GRAPH_CLEAR_ALL_SELECTS,
 } from './constants';
 
 
 const defaultState = {
  selects: {
+   block: null,
    type: null,
    data: {},
    group: {
@@ -34,12 +37,9 @@ function reducer(state = defaultState, action) {
     case GRAPH_SET_POSITION_LAYOUT:
       return { 
         ...state, 
-        options: {
-          ...state.options,
-          position: {
-            x: action.x,
-            y: action.y,
-          }
+        settings: {
+          x: action.x,
+          y: action.y,
         }
       };
     case GRAPH_SET_POSITION_CONTAINER:
@@ -107,18 +107,38 @@ function reducer(state = defaultState, action) {
         }
       };
     case GRAPH_SET_POSITION_GROUP_CONTAINER:
-        return { 
-          ...state, 
-          map: action.map,
-          selects: {
-            ...state.selects,
-            group: {
-              ...state.selects.group,
-              x: action.x,
-              y: action.y,
-            },
-          }
-        };
+      return { 
+        ...state, 
+        map: action.map,
+        selects: {
+          ...state.selects,
+          group: {
+            ...state.selects.group,
+            x: action.x,
+            y: action.y,
+          },
+        }
+      };
+    case GRAPH_SET_RESIZE_GROUP_CONTAINER:
+      return { 
+        ...state, 
+        // map: action.map,
+        selects: {
+          ...state.selects,
+          group: {
+            ...state.selects.group,
+            ...action.position,
+          },
+        }
+      };
+    case GRAPH_SELECT_BLOCK_CONTAINER:
+      return { 
+        ...state, 
+        selects: {
+          ...state.selects,
+          block: action.itemid,
+        }
+      };
     case GRAPH_CLEAR_ALL_SELECTS:
       return { 
         ...state, 

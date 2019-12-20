@@ -96,10 +96,8 @@ export const graphDataL = {
 
 export const graphDataL1 = {
   type: 'layout',
-  options: {
-    position: {
-      x: 50, y: 50,
-    }
+  settings: {
+    x: 50, y: 50,
   },
   map: {
     1: {
