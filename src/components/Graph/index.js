@@ -90,6 +90,7 @@ function SizeControl(props) {
     <Draggable 
       position={position} 
       onStart={(e) => props.onPosition(e, 'start', props.op)} 
+      onDrag={(e, data) => props.onPosition(e, 'drag', props.op, props.settings, data)} 
       onStop={(e, data) => props.onPosition(e, 'stop', props.op, props.settings, data)} 
     >
       <div className={css.sizecontrol} style={{ ...styles.sizecontrol }} />
@@ -134,6 +135,7 @@ function Container(props) {
 
 class Graph extends Component {
   componentDidMount() {
+    this.lastDragSC = { x: null, y: null };
   }
 
   handlePositionLayout = (e, data) => {
@@ -145,10 +147,12 @@ class Graph extends Component {
       e.preventDefault();
       e.stopPropagation();
     } 
-    if (type === 'stop') {
+    if (type === 'stop' || type === 'drag' && (this.lastDragSC.x !== data.x || this.lastDragSC.y !== data.y)) {
+      this.lastDragSC = { x: data.x, y: data.y };
       const position = getPositionContainer(op, settings, data);
       core.components.graph.setSettingsContainer(settings.id, position);
     } 
+
   }
 
   handlePositionStartContainer = (e, id, data) => {
@@ -175,7 +179,7 @@ class Graph extends Component {
   }
 
   render({ id, state, match, classes, onClick } = this.props) {
-    console.log(state)
+    // console.log(state)
     return (
       <div style={styles.box}>
         <Draggable position={state.options.position} onStop={this.handlePositionLayout}>
