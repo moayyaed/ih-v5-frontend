@@ -79,11 +79,43 @@ export function selectOneContainer(itemid) {
   };
 }
 
-export function selectMultiContainers(itemid) {
+export function selectMultiContainers(itemid, items, map) {
+  const selects = {
+    ...items,
+    [itemid]: true,
+  }
+  
+  let x = map[itemid].settings.x;
+  let y = map[itemid].settings.y;
+  let w = 0
+  let h = 0;
+
+  Object
+    .keys(selects)
+    .forEach(key => {
+      const item = map[key];
+      if (x > item.settings.x) {
+        x = item.settings.x;
+      }
+      if (y > item.settings.y) {
+        y = item.settings.y;
+      }
+      if (w < item.settings.x + item.settings.w) {
+        w = (item.settings.x + item.settings.w);
+      }
+      if (h < item.settings.y + item.settings.h) {
+        h = (item.settings.y + item.settings.h);
+      }
+    });
+ 
   return {
     type: GRAPH_SELECT_MULTI_CONTAINERS,
     itemid,
     selecttype: 'multi',
+    group: {
+      enabled: true,
+      x, y, w: w - x, h: h - y,
+    }
   };
 }
 

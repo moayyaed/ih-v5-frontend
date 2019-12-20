@@ -13,9 +13,16 @@ import {
 
 
 const defaultState = {
- selectid: {
+ selects: {
    type: null,
    data: {},
+   group: {
+     enabled: false,
+     x: 0,
+     y: 0,
+     w: 0,
+     h: 0,
+   }
  }
 };
 
@@ -77,30 +84,32 @@ function reducer(state = defaultState, action) {
     case GRAPH_SELECT_ONE_CONTAINER:
       return { 
         ...state, 
-        selectid: {
-          ...state.selectid,
+        selects: {
+          ...state.selects,
           type: action.selecttype,
           data: {
             [action.itemid]: true,
           },
+          group: defaultState.selects.group,
         }
       };
     case GRAPH_SELECT_MULTI_CONTAINERS:
       return { 
         ...state, 
-        selectid: {
-          ...state.selectid,
+        selects: {
+          ...state.selects,
           type: action.selecttype,
           data: {
-            ...state.selectid.data,
+            ...state.selects.data,
             [action.itemid]: true,
           },
+          group: action.group,
         }
       };
     case GRAPH_CLEAR_ALL_SELECTS:
         return { 
           ...state, 
-          selectid: defaultState.selectid,
+          selects: defaultState.selects,
         };
     default:
       return state;

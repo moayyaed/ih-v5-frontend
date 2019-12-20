@@ -31,7 +31,7 @@ const styles = {
     backgroundColor: '#2196F3',
   },
   group: {
-    border: '2px dashed #ff00ff' , 
+    outline: '2px dashed #ff00ff' , 
     position: 'absolute',
     width: 100,
     height: 100,
@@ -109,13 +109,14 @@ function SizeControl(props) {
 
 function Container(props) {
   const settings = props.data.settings;
-  const selects = props.selects.data;
+  const selectsData = props.selects.data;
   const selectType = props.selects.type;
   return (
     <Draggable 
       position={{ x: settings.x, y: settings.y }} 
       bounds=".parent"
       onStart={(e, data) => props.onPositionStartContainer(e, props.data, data, props.selects)}
+      onDrag={(e, data) => props.onPositionDragContainer(e, props.data, data, props.selects)}
       onStop={(e, data) => props.onPositionStopContainer(e, props.data, data, props.selects)}
     >
       <div
@@ -124,7 +125,7 @@ function Container(props) {
           width: settings.w,
           height: settings.h,
           position: 'absolute',
-          outline: selects[settings.id] ? '2px dashed #ff00ff' : '0px dashed #ff00ff',
+          outline: selectsData[settings.id] ? '2px dashed #ff00ff' : '0px dashed #ff00ff',
         }}
         onClick={(e) => props.onClickContainer(e, props.data, props.selects)}
         onContextMenu={(e) => props.onContextMenuContainer(e, props.data, props.selects)}
@@ -137,10 +138,10 @@ function Container(props) {
             border: '2px solid ' + settings.color
           }} 
         />
-        <SizeControl disabled={selects[settings.id]} op="TL" settings={settings} onPosition={props.onPositionSizeControl} />
-        <SizeControl disabled={selects[settings.id]} op="TR" settings={settings} onPosition={props.onPositionSizeControl} />
-        <SizeControl disabled={selects[settings.id]} op="BL" settings={settings} onPosition={props.onPositionSizeControl} />
-        <SizeControl disabled={selects[settings.id]} op="BR" settings={settings} onPosition={props.onPositionSizeControl} />
+        <SizeControl disabled={selectsData[settings.id]} op="TL" settings={settings} onPosition={props.onPositionSizeControl} />
+        <SizeControl disabled={selectsData[settings.id]} op="TR" settings={settings} onPosition={props.onPositionSizeControl} />
+        <SizeControl disabled={selectsData[settings.id]} op="BL" settings={settings} onPosition={props.onPositionSizeControl} />
+        <SizeControl disabled={selectsData[settings.id]} op="BR" settings={settings} onPosition={props.onPositionSizeControl} />
       </div>
     </Draggable>
   )
@@ -191,11 +192,22 @@ class Graph extends Component {
 
   }
 
+  handlePositionStartGroup = (e, data, selects) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.lastDragLayout = true;
+  }
+
+  handlePositionStopGroup = (e, data, selects) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+   
   handlePositionStartContainer = (e, item, data, selects) => {
     e.preventDefault();
     e.stopPropagation();
     if (e.shiftKey && selects.type !== null) {
-      core.components.graph.selectMultiContainers(item.settings.id, 'one');
+      core.components.graph.selectMultiContainers(item.settings.id, selects.data, this.props.state.map);
     } else {
       if (selects.type === 'multi' && selects.data[item.settings.id]) {
 
@@ -233,6 +245,7 @@ class Graph extends Component {
 
   render({ id, state, match, classes, onClick } = this.props) {
     console.log(state)
+    const group = state.selects.group;
     return (
       <div style={styles.box}>
         <Draggable 
@@ -248,7 +261,21 @@ class Graph extends Component {
             onClick={(e) => this.handleClickLayout(e, state)}
             onContextMenu={(e) => this.handleContextMenuLayout(e, state)}
           >
-            <div style={styles.group} />
+            <Draggable 
+              bounds=".parent"
+              position={{ x: group.x, y: group.y }}
+              onStart={(e, data) => this.handlePositionStartGroup(e, data, state.selects)}
+              onStop={(e, data) => this.handlePositionStopGroup(e, data, state.selects)}
+            >
+              <div 
+                style={{ 
+                  ...styles.group, 
+                  display: group.enabled ? 'block' : 'none',
+                  width: group.w, 
+                  height: group.h,
+                }} 
+              />
+            </Draggable>
             {Object
             .keys(state.map)
             .map(key => {
@@ -256,7 +283,7 @@ class Graph extends Component {
                 <Container 
                   key={key.toString()}
                   data={state.map[key]}
-                  selects={state.selectid}
+                  selects={state.selects}
                   onClickContainer={this.handleClickContainer}
                   onPositionStartContainer={this.handlePositionStartContainer}
                   onPositionDragContainer={this.handlePositionDragContainer}
