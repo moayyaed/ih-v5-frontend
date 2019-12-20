@@ -3,12 +3,19 @@ import {
   GRAPH_SET_POSITION_LAYOUT, 
   GRAPH_SET_POSITION_CONTAINER,
   GRAPH_SET_SETTINGS_CONTAINER,
+
   GRAPH_ADD_CONTAINER,
+  GRAPH_SELECT_ONE_CONTAINER,
+  GRAPH_SELECT_MULTI_CONTAINERS,
+  GRAPH_CLEAR_ALL_SELECTS,
 } from './constants';
 
 
 const defaultState = {
-  list: [],
+ selectid: {
+   type: null,
+   data: {},
+ }
 };
 
 
@@ -64,6 +71,34 @@ function reducer(state = defaultState, action) {
           [action.data.settings.id]: action.data,
         }
       };
+    case GRAPH_SELECT_ONE_CONTAINER:
+      return { 
+        ...state, 
+        selectid: {
+          ...state.selectid,
+          type: action.selecttype,
+          data: {
+            [action.itemid]: true,
+          },
+        }
+      };
+    case GRAPH_SELECT_MULTI_CONTAINERS:
+      return { 
+        ...state, 
+        selectid: {
+          ...state.selectid,
+          type: action.selecttype,
+          data: {
+            ...state.selectid.data,
+            [action.itemid]: true,
+          },
+        }
+      };
+    case GRAPH_CLEAR_ALL_SELECTS:
+        return { 
+          ...state, 
+          selectid: defaultState.selectid,
+        };
     default:
       return state;
   }

@@ -104,16 +104,18 @@ function Container(props) {
     <Draggable 
       position={{ x: settings.x, y: settings.y }} 
       bounds=".parent"
-      onStart={(e, data) => props.onPositionStartContainer(e, settings.id, data)}
-      onStop={(e, data) => props.onPositionStopContainer(e, settings.id, data)}
+      onStart={(e, data) => props.onPositionStartContainer(e, props.data, data)}
+      onStop={(e, data) => props.onPositionStopContainer(e, props.data, data)}
     >
       <div
         className="container"  
         style={{ 
           width: settings.w,
           height: settings.h,
-          position: 'absolute', 
+          position: 'absolute',
+          outline: props.selects.data[settings.id] ? '2px dashed #ff00ff' : '0px dashed #ff00ff',
         }}
+        onClick={(e) => props.onClickContainer(e, props.data)}
         onContextMenu={(e) => props.onContextMenuContainer(e, props.data)}
       >
         <div 
@@ -134,8 +136,30 @@ function Container(props) {
 }
 
 class Graph extends Component {
+
   componentDidMount() {
     this.lastDragSC = { x: null, y: null };
+    this.lastDragLayout = false;
+  }
+
+  handleClickLayout = (e, params) => {
+    if (this.lastDragLayout) {
+      this.lastDragLayout = false;
+    } else {
+      core.components.graph.clearAllSelects();
+    }
+  } 
+
+  handleContextMenuLayout = (e, params) => {
+    e.preventDefault();
+    e.stopPropagation();
+    core.event('contextmenu', 'graph:layout', e, params);
+  }
+
+  handleDragLayout = () => {
+    if (this.lastDragLayout === false) {
+      this.lastDragLayout = true;
+    }
   }
 
   handlePositionLayout = (e, data) => {
@@ -155,39 +179,51 @@ class Graph extends Component {
 
   }
 
-  handlePositionStartContainer = (e, id, data) => {
+  handlePositionStartContainer = (e, item, data) => {
     e.preventDefault();
     e.stopPropagation();
+    if (e.shiftKey) {
+      core.components.graph.selectMultiContainers(item.settings.id, 'one');
+    } else {
+      core.components.graph.selectOneContainer(item.settings.id, 'one');
+    }
   }
 
-  handlePositionStopContainer = (e, id, data) => {
+  handlePositionStopContainer = (e, item, data) => {
     e.preventDefault();
     e.stopPropagation();
-    core.components.graph.setPositionContainer(id, data.x, data.y);
+    if (item.settings.x !== data.x || item.settings.y !== data.y) {
+      core.components.graph.setPositionContainer(item.settings.id, data.x, data.y);
+    }
   }
 
-  handleContextMenuLayout = (e, params) => {
+  handleClickContainer = (e, item)  => {
     e.preventDefault();
     e.stopPropagation();
-    core.event('contextmenu', 'graph:layout', e, params);
-  }
+    // core.components.graph.selectContainer(item.settings.id, 'one');
+  } 
 
-  handleContextMenuContainer = (e, params) => {
+  handleContextMenuContainer = (e, item) => {
     e.preventDefault();
     e.stopPropagation();
-    core.event('contextmenu', 'graph:item', e, params);
+    core.event('contextmenu', 'graph:item', e, item);
   }
 
   render({ id, state, match, classes, onClick } = this.props) {
-    // console.log(state)
+    console.log(state)
     return (
       <div style={styles.box}>
-        <Draggable position={state.options.position} onStop={this.handlePositionLayout}>
+        <Draggable 
+          position={state.options.position} 
+          onDrag={this.handleDragLayout}
+          onStop={this.handlePositionLayout}
+        >
           <Paper
             ref={this.refList}
             elevation={2} 
             className="parent" 
             style={styles.paper}
+            onClick={(e) => this.handleClickLayout(e, state)}
             onContextMenu={(e) => this.handleContextMenuLayout(e, state)}
           >
             {Object
@@ -197,9 +233,11 @@ class Graph extends Component {
                 <Container 
                   key={key.toString()}
                   data={state.map[key]}
-                  onPositionSizeControl={this.handlePositionSizeControl}
+                  selects={state.selectid}
+                  onClickContainer={this.handleClickContainer}
                   onPositionStartContainer={this.handlePositionStartContainer}
                   onPositionStopContainer={this.handlePositionStopContainer}
+                  onPositionSizeControl={this.handlePositionSizeControl}
                   onContextMenuContainer={this.handleContextMenuContainer}
                 />
               );
