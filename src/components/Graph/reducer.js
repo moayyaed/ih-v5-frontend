@@ -122,7 +122,7 @@ function reducer(state = defaultState, action) {
     case GRAPH_SET_RESIZE_GROUP_CONTAINER:
       return { 
         ...state, 
-        // map: action.map,
+        map: action.map,
         selects: {
           ...state.selects,
           group: {

@@ -208,10 +208,10 @@ class Graph extends Component {
       e.preventDefault();
       e.stopPropagation();
     } 
-    if (type === 'stop' || type === 'drag' && (this.lastDragSC.x !== data.x || this.lastDragSC.y !== data.y)) {
+    if (type === 'stop' || type === 'drag' && (this.lastDragSCG.x !== data.x || this.lastDragSCG.y !== data.y)) {
       this.lastDragSCG = { x: data.x, y: data.y };
       const position = getPositionContainer(op, settings, data);
-      core.components.graph.setResizeGroupContainer(position, this.props.state.selects, this.props.state.map);
+      core.components.graph.setResizeGroupContainer(e, position, this.props.state.selects, this.props.state.map);
     } 
   }
 

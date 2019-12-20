@@ -140,22 +140,27 @@ export function setPositionGroupContainer(data, select, map) {
   };
 }
 
-export function setResizeGroupContainer(position, selects, map) {
-  let ratioH = 1;
-  let ratioV = 1;
+export function setResizeGroupContainer(e, position, selects, map) {
+  const lgp = selects.group;
+
+
+  let h = position.w / lgp.w ;
+  let v = position.h / lgp.h ;
+
   const temp = Object
   .keys(map)
   .reduce((p, c) => {
     if (selects.data[c]) {
+      const s = map[c].settings;
       return { 
         ...p, 
         [c]: {
           settings: { 
             ...map[c].settings,
-            x: map[c].settings.x,
-            y: map[c].settings.y,
-            w: map[c].settings.w,
-            h: map[c].settings.h,
+            x: position.x + ((s.x - lgp.x) * h),
+            y: position.y + ((s.y - lgp.y) * v),
+            w: (s.x + s.w) * h - (s.x * h),
+            h: (s.y + s.h) * v - (s.y * v),
           },
         } 
       };
@@ -165,7 +170,7 @@ export function setResizeGroupContainer(position, selects, map) {
   return {
     type: GRAPH_SET_RESIZE_GROUP_CONTAINER,
     position,
-    map,
+    map: temp,
   };
 }
 
