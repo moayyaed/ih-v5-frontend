@@ -106,11 +106,23 @@ function reducer(state = defaultState, action) {
           group: action.group,
         }
       };
-    case GRAPH_CLEAR_ALL_SELECTS:
+    case GRAPH_SET_POSITION_GROUP_CONTAINER:
         return { 
           ...state, 
-          selects: defaultState.selects,
+          selects: {
+            ...state.selects,
+            group: {
+              ...state.selects.group,
+              x: action.x,
+              y: action.y,
+            },
+          }
         };
+    case GRAPH_CLEAR_ALL_SELECTS:
+      return { 
+        ...state, 
+        selects: defaultState.selects,
+      };
     default:
       return state;
   }

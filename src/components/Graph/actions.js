@@ -38,15 +38,6 @@ export function setPositionContainer(itemid, x, y) {
   };
 }
 
-export function setPositionGroupContainer(items, x, y) {
-  return {
-    type: GRAPH_SET_POSITION_GROUP_CONTAINER,
-    items,
-    x,
-    y,
-  };
-}
-
 export function setSettingsContainer(itemid, settings) {
   return {
     type: GRAPH_SET_SETTINGS_CONTAINER,
@@ -116,6 +107,14 @@ export function selectMultiContainers(itemid, items, map) {
       enabled: true,
       x, y, w: w - x, h: h - y,
     }
+  };
+}
+
+export function setPositionGroupContainer(x, y, items, map) {
+  return {
+    type: GRAPH_SET_POSITION_GROUP_CONTAINER,
+    x,
+    y,
   };
 }
 

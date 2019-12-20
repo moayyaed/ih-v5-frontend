@@ -201,6 +201,7 @@ class Graph extends Component {
   handlePositionStopGroup = (e, data, selects) => {
     e.preventDefault();
     e.stopPropagation();
+    core.components.graph.setPositionGroupContainer(data.x, data.y, selects.data, this.props.state.map);
   }
    
   handlePositionStartContainer = (e, item, data, selects) => {
@@ -219,7 +220,7 @@ class Graph extends Component {
 
   handlePositionDragContainer = (e, item, data, selects) => {
     if (selects.type === 'multi' && selects.data[item.settings.id]) {
-      core.components.graph.setPositionGroupContainer(selects.data, data.x, data.y);
+      // core.components.graph.setPositionGroupContainer(selects.data, data.x, data.y);
     }
   }
 
