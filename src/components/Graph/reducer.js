@@ -109,6 +109,7 @@ function reducer(state = defaultState, action) {
     case GRAPH_SET_POSITION_GROUP_CONTAINER:
         return { 
           ...state, 
+          map: action.map,
           selects: {
             ...state.selects,
             group: {

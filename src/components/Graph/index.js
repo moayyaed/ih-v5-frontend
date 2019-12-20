@@ -201,7 +201,7 @@ class Graph extends Component {
   handlePositionStopGroup = (e, data, selects) => {
     e.preventDefault();
     e.stopPropagation();
-    core.components.graph.setPositionGroupContainer(data.x, data.y, selects.data, this.props.state.map);
+    core.components.graph.setPositionGroupContainer(data, selects, this.props.state.map);
   }
    
   handlePositionStartContainer = (e, item, data, selects) => {

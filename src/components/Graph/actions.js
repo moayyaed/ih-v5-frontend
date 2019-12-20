@@ -110,11 +110,31 @@ export function selectMultiContainers(itemid, items, map) {
   };
 }
 
-export function setPositionGroupContainer(x, y, items, map) {
+export function setPositionGroupContainer(data, select, map) {
+  const dx = data.x - select.group.x;
+  const dy = data.y - select.group.y;
+  const temp = Object
+    .keys(map)
+    .reduce((p, c) => {
+      if (select.data[c]) {
+        return { 
+          ...p, 
+          [c]: {
+            settings: { 
+              ...map[c].settings,
+              x: map[c].settings.x + dx,
+              y: map[c].settings.y + dy,
+            },
+          } 
+        };
+      }
+      return { ...p, [c]: map[c] };
+    }, {});
   return {
     type: GRAPH_SET_POSITION_GROUP_CONTAINER,
-    x,
-    y,
+    x: data.x,
+    y: data.y,
+    map: temp,
   };
 }
 
