@@ -232,8 +232,10 @@ class Graph extends Component {
     } 
     if (type === 'stop' || type === 'drag' && (this.lastDragSC.x !== data.x || this.lastDragSC.y !== data.y)) {
       this.lastDragSC = { x: data.x, y: data.y };
-      const position = getPositionContainer(e, op, settings, data);
-      
+      let position = getPositionContainer(e, op, settings, data);
+      if (e.shiftKey) {
+        position = getProportion(op, data, position, settings);
+      }
       core.components.graph.setSettingsContainer(settings.id, position);
     } 
   }
