@@ -44,13 +44,48 @@ const classes = theme => ({
   },
 });
 
-
-function getPositionContainer(type, settings, data) {
+function getProportion(type, data, pos, old) {
   switch (type) {
     case 'TL':
       return { 
-        y: settings.y + data.y,
+        x: old.x - (old.w * (pos.h  / old.h) - old.w),
+        y: pos.y,
+        w: old.w * (pos.h  / old.h),
+        h: pos.h,
+      };
+    case 'TR':
+      return { 
+        x: pos.x,
+        y: pos.y,
+        w: (pos.h  / old.h) * old.w,
+        h: pos.h,
+      };
+    case 'BL':
+      return { 
+        x: pos.x,
+        y: pos.y,
+        w: pos.w,
+        h: (pos.w  / old.w) * old.h
+      };
+    case 'BR':
+        return { 
+          x: pos.x,
+          y: pos.y,
+          w: pos.w,
+          h: (pos.w  / old.w) * old.h
+        };
+    default:
+      return pos;
+  }
+}
+
+
+function getPositionContainer(e, type, settings, data) {
+  switch (type) {
+    case 'TL':
+      return { 
         x: settings.x + data.x,
+        y: settings.y + data.y,
         w: settings.w - data.x,
         h: settings.h - data.y,
       };
@@ -197,7 +232,8 @@ class Graph extends Component {
     } 
     if (type === 'stop' || type === 'drag' && (this.lastDragSC.x !== data.x || this.lastDragSC.y !== data.y)) {
       this.lastDragSC = { x: data.x, y: data.y };
-      const position = getPositionContainer(op, settings, data);
+      const position = getPositionContainer(e, op, settings, data);
+      
       core.components.graph.setSettingsContainer(settings.id, position);
     } 
   }
@@ -209,14 +245,11 @@ class Graph extends Component {
       e.stopPropagation();
     } 
     if (type === 'stop' || type === 'drag' && (this.lastDragSCG.x !== data.x || this.lastDragSCG.y !== data.y)) {
-      /* if (e.shiftKey) {
-        const max = Math.max(data.x, data.y);
-        data.x = max;
-        data.y = max;
-      }
-      */
       this.lastDragSCG = { x: data.x, y: data.y };
-      const position = getPositionContainer(op, settings, data);
+      let position = getPositionContainer(e, op, settings, data);
+      if (e.shiftKey) {
+        position = getProportion(op, data, position, settings);
+      }
       core.components.graph.setResizeGroupContainer(e, position, this.props.state.selects, this.props.state.map);
     } 
   }
