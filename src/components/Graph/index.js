@@ -148,10 +148,10 @@ function Container(props) {
             border: '2px solid ' + settings.color
           }} 
         />
-        <SizeControl disabled={selectsData[settings.id]} op="TL" settings={settings} onPosition={props.onPositionSizeControl} />
-        <SizeControl disabled={selectsData[settings.id]} op="TR" settings={settings} onPosition={props.onPositionSizeControl} />
-        <SizeControl disabled={selectsData[settings.id]} op="BL" settings={settings} onPosition={props.onPositionSizeControl} />
-        <SizeControl disabled={selectsData[settings.id]} op="BR" settings={settings} onPosition={props.onPositionSizeControl} />
+        <SizeControl disabled={!(selectType === 'one' || selectType === null)} op="TL" settings={settings} onPosition={props.onPositionSizeControl} />
+        <SizeControl disabled={!(selectType === 'one' || selectType === null)} op="TR" settings={settings} onPosition={props.onPositionSizeControl} />
+        <SizeControl disabled={!(selectType === 'one' || selectType === null)} op="BL" settings={settings} onPosition={props.onPositionSizeControl} />
+        <SizeControl disabled={!(selectType === 'one' || selectType === null)} op="BR" settings={settings} onPosition={props.onPositionSizeControl} />
       </div>
     </Draggable>
   )

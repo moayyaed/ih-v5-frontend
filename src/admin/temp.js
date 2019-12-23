@@ -75,10 +75,8 @@ export const contextmenuGraphItemData  = {
 
 export const graphDataL = {
   type: 'layout',
-  options: {
-    position: {
-      x: 10, y: 10,
-    }
+  settings: {
+    x: 10, y: 10,
   },
   map: {
     1: {
