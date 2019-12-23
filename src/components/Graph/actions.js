@@ -144,7 +144,7 @@ export function setResizeGroupContainer(e, position, selects, map) {
   const lgp = selects.group;
 
   const h = position.w / lgp.w;
-  const v = position.h / lgp.h;
+  const v = position.h / lgp.h; 
 
   const temp = Object
   .keys(map)
