@@ -10,11 +10,14 @@ import css from './main.module.css';
 
 
 const styles = {
-  box: {
+  page: {
     width: '100%',
     height: '100%',
     overflow: 'hidden',
     position: 'relative',
+  },
+  zone: {
+    position: 'absolute',
   },
   paper: {
     width: 550,
@@ -196,7 +199,8 @@ class Graph extends Component {
     this.lastDragSC = { x: null, y: null };
     this.lastDragSCG = { x: null, y: null };
     this.lastDragLayout = false;
-    
+    this.z = { x: 0, y: 0, w: 0, h: 0 };
+
     document.addEventListener('keyup', this.handleKeyUp);
     document.addEventListener('keydown', this.handleKeyDown);
   }
@@ -204,6 +208,58 @@ class Graph extends Component {
   componentWillUnmount() {
     document.removeEventListener('keypress', this.handleKeyUp);
     document.removeEventListener('keydown', this.handleKeyDown);
+    
+    this.z = null;
+    this.lastDragSC = null;
+    this.lastDragSCG = null;
+    this.lastDragLayout = null;
+  }
+
+  linkPage = (e) => {
+    this.page = e;
+  }
+
+  linkZone = (e) => {
+    this.zone = e;
+  }
+
+  handleMouseMovePage = (e) => {
+    this.zone.style.width = (e.clientX - this.page.offsetLeft) - this.z.x + 'px';
+    this.zone.style.height = (e.clientY - this.page.offsetTop) - this.z.y + 'px';
+  }
+
+  handleMouseUpPage = (e) => {
+    if (this.page !== null) {
+      
+      this.zone.style.display = 'none';
+      this.zone.style.zIndex = 0;
+      this.zone.style.backgroundColor = 'none';
+      this.zone.style.left = '0px'
+      this.zone.style.top = '0px'
+      this.zone.style.width = '0px';
+      this.zone.style.height = '0px';
+      
+      this.page.removeEventListener('mousemove', this.handleMouseMovePage);
+    }
+  }
+
+  handleMouseDownPage = (e) => {
+    console.log('down')
+    if (this.page !== null) {
+      this.z.x = e.nativeEvent.layerX;
+      this.z.y = e.nativeEvent.layerY;
+ 
+      this.zone.style.display = 'block';
+      this.zone.style.zIndex = 3000;
+      this.zone.style.backgroundColor = 'rgba(33, 150, 243, 0.3)';
+      this.zone.style.border = '1px solid #64B5F6';
+      this.zone.style.left = e.nativeEvent.layerX  + 'px';
+      this.zone.style.top = e.nativeEvent.layerY + 'px';
+      this.zone.style.width = '0px';
+      this.zone.style.height = '0px';
+
+      this.page.addEventListener('mousemove', this.handleMouseMovePage);
+    }
   }
 
   handleKeyUp = (e) => {
@@ -214,7 +270,7 @@ class Graph extends Component {
     if (e.keyCode === 16) {
       core.components.graph.selectBlock({ shift: false, containers: false });
     }
-    console.log(e.keyCode, 'up')
+    // console.log(e.keyCode, 'up')
   }
 
   handleKeyDown = (e) => {
@@ -226,7 +282,7 @@ class Graph extends Component {
       if (e.keyCode === 16) {
         core.components.graph.selectBlock({ shift: true, containers: true });
       }
-      console.log(e.keyCode, 'down')
+      // console.log(e.keyCode, 'down')
     }
   }
 
@@ -352,7 +408,13 @@ class Graph extends Component {
     const group = state.selects.group;
     const block = state.selects.block;
     return (
-      <div style={styles.box}>
+      <div
+        ref={this.linkPage}
+        style={styles.page}
+        onMouseUp={this.handleMouseUpPage}
+        onMouseDown={this.handleMouseDownPage} 
+      >
+        <div ref={this.linkZone} style={styles.zone} />
         <Draggable 
           disabled={block.layout}
           position={{ x: state.settings.x, y: state.settings.y }} 
