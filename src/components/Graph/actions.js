@@ -11,7 +11,7 @@ import {
   GRAPH_ADD_CONTAINER,
   GRAPH_SELECT_ONE_CONTAINER,
   GRAPH_SELECT_MULTI_CONTAINERS,
-  GRAPH_SELECT_BLOCK_CONTAINER,
+  GRAPH_SELECT_BLOCK,
   GRAPH_CLEAR_ALL_SELECTS,
 } from './constants';
 
@@ -173,10 +173,10 @@ export function setResizeGroupContainer(e, position, selects, map) {
   };
 }
 
-export function selectBlockContainer(itemid) {
+export function selectBlock(value) {
   return {
-    type: GRAPH_SELECT_BLOCK_CONTAINER,
-    itemid,
+    type: GRAPH_SELECT_BLOCK,
+    value,
   };
 }
 
@@ -197,6 +197,6 @@ export default {
   addContainer,
   selectOneContainer,
   selectMultiContainers,
-  selectBlockContainer,
+  selectBlock,
   clearAllSelects,
 }

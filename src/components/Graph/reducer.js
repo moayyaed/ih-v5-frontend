@@ -9,14 +9,17 @@ import {
   GRAPH_ADD_CONTAINER,
   GRAPH_SELECT_ONE_CONTAINER,
   GRAPH_SELECT_MULTI_CONTAINERS,
-  GRAPH_SELECT_BLOCK_CONTAINER,
+  GRAPH_SELECT_BLOCK,
   GRAPH_CLEAR_ALL_SELECTS,
 } from './constants';
 
 
 const defaultState = {
  selects: {
-   block: null,
+   block: {
+     layout: true,
+     container: false,
+   },
    type: null,
    data: {},
    group: {
@@ -131,12 +134,15 @@ function reducer(state = defaultState, action) {
           },
         }
       };
-    case GRAPH_SELECT_BLOCK_CONTAINER:
+    case GRAPH_SELECT_BLOCK:
       return { 
         ...state, 
         selects: {
           ...state.selects,
-          block: action.itemid,
+          block: {
+            ...state.selects.block,
+            ...action.value,
+          },
         }
       };
     case GRAPH_CLEAR_ALL_SELECTS:

@@ -156,8 +156,10 @@ function Container(props) {
   const settings = props.data.settings;
   const selectsData = props.selects.data;
   const selectType = props.selects.type;
+  const selectBlock = props.selects.block;
   return (
     <Draggable 
+      disabled={!selectBlock.layout}
       position={{ x: settings.x, y: settings.y }} 
       bounds=".parent"
       onStart={(e, data) => props.onPositionStartContainer(e, props.data, data, props.selects)}
@@ -183,10 +185,10 @@ function Container(props) {
             border: '2px solid ' + settings.color
           }} 
         />
-        <SizeControl disabled={!(selectType === 'one' || selectType === null)} op="TL" settings={settings} onPosition={props.onPositionSizeControl} />
-        <SizeControl disabled={!(selectType === 'one' || selectType === null)} op="TR" settings={settings} onPosition={props.onPositionSizeControl} />
-        <SizeControl disabled={!(selectType === 'one' || selectType === null)} op="BL" settings={settings} onPosition={props.onPositionSizeControl} />
-        <SizeControl disabled={!(selectType === 'one' || selectType === null)} op="BR" settings={settings} onPosition={props.onPositionSizeControl} />
+        <SizeControl disabled={!selectBlock.layout  || !(selectType === 'one' || selectType === null)} op="TL" settings={settings} onPosition={props.onPositionSizeControl} />
+        <SizeControl disabled={!selectBlock.layout  || !(selectType === 'one' || selectType === null)} op="TR" settings={settings} onPosition={props.onPositionSizeControl} />
+        <SizeControl disabled={!selectBlock.layout  || !(selectType === 'one' || selectType === null)} op="BL" settings={settings} onPosition={props.onPositionSizeControl} />
+        <SizeControl disabled={!selectBlock.layout  || !(selectType === 'one' || selectType === null)} op="BR" settings={settings} onPosition={props.onPositionSizeControl} />
       </div>
     </Draggable>
   )
@@ -198,7 +200,34 @@ class Graph extends Component {
     this.lastDragSC = { x: null, y: null };
     this.lastDragSCG = { x: null, y: null };
     this.lastDragLayout = false;
+    
+    document.addEventListener('keyup', this.handleKeyUp);
+    document.addEventListener('keydown', this.handleKeyDown);
   }
+
+  componentWillUnmount() {
+    document.removeEventListener('keypress', this.handleKeyUp);
+    document.removeEventListener('keydown', this.handleKeyDown);
+  }
+
+  handleKeyUp = (e) => {
+    if (e.keyCode === 32) {
+      document.body.style.cursor = 'auto';
+      core.components.graph.selectBlock({ layout: true });
+    }
+    console.log(e.keyCode, 'up')
+  }
+
+  handleKeyDown = (e) => {
+    if (e.repeat === false) {
+      if (e.keyCode === 32) {
+        document.body.style.cursor = 'grab';
+        core.components.graph.selectBlock({ layout: false });
+      }
+      console.log(e.keyCode, 'down')
+    }
+  }
+
 
   handleClickLayout = (e, params) => {
     if (this.lastDragLayout) {
@@ -306,6 +335,7 @@ class Graph extends Component {
   handleClickContainer = (e, item)  => {
     e.preventDefault();
     e.stopPropagation();
+    // console.log('click');
     // core.components.graph.selectContainer(item.settings.id, 'one');
   } 
 
@@ -316,11 +346,11 @@ class Graph extends Component {
   }
 
   handleHoverContainer = (e, type, item, data) => {
-    if (e.shiftKey && this.props.state.selects.block === null && type === 'over') {
-      core.components.graph.selectBlockContainer(item.settings.id);
+    if (e.shiftKey && this.props.state.selects.block.container === null && type === 'over') {
+      core.components.graph.selectBlock({ container: item.settings.id });
     }
-    if (this.props.state.selects.block !== null && type === 'out') {
-      core.components.graph.selectBlockContainer(null);
+    if (this.props.state.selects.block.container !== null && type === 'out') {
+      core.components.graph.selectBlock({ container: null });
     }
   }
 
@@ -330,6 +360,7 @@ class Graph extends Component {
     return (
       <div style={styles.box}>
         <Draggable 
+          disabled={state.selects.block.layout}
           position={{ x: state.settings.x, y: state.settings.y }} 
           onDrag={this.handleDragLayout}
           onStop={this.handlePositionLayout}
@@ -342,7 +373,8 @@ class Graph extends Component {
             onClick={(e) => this.handleClickLayout(e, state)}
             onContextMenu={(e) => this.handleContextMenuLayout(e, state)}
           >
-            <Draggable 
+            <Draggable
+              disabled={!state.selects.block.layout}
               bounds=".parent"
               position={{ x: group.x, y: group.y }}
               onStart={(e, data) => this.handlePositionStartGroup(e, data, state.selects)}
@@ -357,10 +389,10 @@ class Graph extends Component {
                   height: group.h,
                 }} 
               >
-                 <SizeControl disabled={false} op="TL" settings={group} onPosition={this.handlePositionSizeControlGroup} />
-                 <SizeControl disabled={false} op="TR" settings={group} onPosition={this.handlePositionSizeControlGroup} />
-                 <SizeControl disabled={false} op="BL" settings={group} onPosition={this.handlePositionSizeControlGroup} />
-                 <SizeControl disabled={false} op="BR" settings={group} onPosition={this.handlePositionSizeControlGroup} />
+                 <SizeControl disabled={!state.selects.block.layout} op="TL" settings={group} onPosition={this.handlePositionSizeControlGroup} />
+                 <SizeControl disabled={!state.selects.block.layout} op="TR" settings={group} onPosition={this.handlePositionSizeControlGroup} />
+                 <SizeControl disabled={!state.selects.block.layout} op="BL" settings={group} onPosition={this.handlePositionSizeControlGroup} />
+                 <SizeControl disabled={!state.selects.block.layout} op="BR" settings={group} onPosition={this.handlePositionSizeControlGroup} />
               </div>
             </Draggable>
             {Object
