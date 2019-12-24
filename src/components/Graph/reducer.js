@@ -18,7 +18,8 @@ const defaultState = {
  selects: {
    block: {
      layout: true,
-     container: false,
+     containers: false,
+     shift: false,
    },
    type: null,
    data: {},
@@ -148,7 +149,12 @@ function reducer(state = defaultState, action) {
     case GRAPH_CLEAR_ALL_SELECTS:
       return { 
         ...state, 
-        selects: defaultState.selects,
+        selects: {
+          ...state.selects,
+          type: null,
+          data: {},
+          group: defaultState.selects.group,
+        },
       };
     default:
       return state;
