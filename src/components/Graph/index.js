@@ -244,7 +244,11 @@ class Graph extends Component {
   }
 
   handleMouseDownPage = (e) => {
-    console.log('down')
+    if (this.lastDragLayout) {
+      this.lastDragLayout = false;
+    } else {
+      core.components.graph.clearAllSelects();
+    }
     if (this.page !== null) {
       this.z.x = e.nativeEvent.layerX;
       this.z.y = e.nativeEvent.layerY;
@@ -265,7 +269,7 @@ class Graph extends Component {
   handleKeyUp = (e) => {
     if (e.keyCode === 32) {
       document.body.style.cursor = 'auto';
-      core.components.graph.selectBlock({ layout: true, containers: false });
+      core.components.graph.selectBlock({ space: false, layout: true, containers: false });
     }
     if (e.keyCode === 16) {
       core.components.graph.selectBlock({ shift: false, containers: false });
@@ -277,7 +281,7 @@ class Graph extends Component {
     if (e.repeat === false) {
       if (e.keyCode === 32) {
         document.body.style.cursor = 'grab';
-        core.components.graph.selectBlock({ layout: false, containers: true });
+        core.components.graph.selectBlock({ space: true, layout: false, containers: true });
       }
       if (e.keyCode === 16) {
         core.components.graph.selectBlock({ shift: true, containers: true });
@@ -412,7 +416,7 @@ class Graph extends Component {
         ref={this.linkPage}
         style={styles.page}
         onMouseUp={this.handleMouseUpPage}
-        onMouseDown={this.handleMouseDownPage} 
+        onMouseDown={(block.shift || block.space )? null : this.handleMouseDownPage} 
       >
         <div ref={this.linkZone} style={styles.zone} />
         <Draggable 
