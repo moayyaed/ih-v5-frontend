@@ -234,9 +234,22 @@ class Graph extends Component {
       this.zone.style.width = '0px';
       this.zone.style.height = '0px';
     }
+    const w = (e.clientX - this.page.offsetLeft) - this.z.x;
+    const h = (e.clientY - this.page.offsetTop) - this.z.y;
 
-    this.zone.style.width = (e.clientX - this.page.offsetLeft) - this.z.x + 'px';
-    this.zone.style.height = (e.clientY - this.page.offsetTop) - this.z.y + 'px';
+    if (w > 0) {
+      this.zone.style.width =  w + 'px';
+    } else {
+      this.zone.style.left = this.z.x + w + 'px';
+      this.zone.style.width =  w * -1 + 'px';
+    }
+
+    if (h > 0) {
+      this.zone.style.height =  h + 'px';
+    } else {
+      this.zone.style.top = this.z.y + h + 'px';
+      this.zone.style.height =  h * -1 + 'px';
+    }    
   }
 
   handleMouseUpPage = (e) => {
