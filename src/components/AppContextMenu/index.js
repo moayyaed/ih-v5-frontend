@@ -20,7 +20,7 @@ function getItemType(item, position, data, params) {
     case 'items':
         return (
           <MenuItem key={item.id} { ...item} >
-            {data[item.childs].map(i => getItemType(i, data))}
+            {data[item.childs].map(i => getItemType(i, position, data, params))}
           </MenuItem>
         );
     default:
