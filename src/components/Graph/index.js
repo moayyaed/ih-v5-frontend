@@ -238,6 +238,7 @@ class Graph extends Component {
     const h = (e.clientY - this.page.offsetTop) - this.z.y;
 
     if (w > 0) {
+      this.z.w = w;
       this.zone.style.width =  w + 'px';
     } else {
       this.zone.style.left = this.z.x + w + 'px';
@@ -245,14 +246,18 @@ class Graph extends Component {
     }
 
     if (h > 0) {
+      this.z.h = h;
       this.zone.style.height =  h + 'px';
     } else {
-      this.zone.style.top = this.z.y + h + 'px';
-      this.zone.style.height =  h * -1 + 'px';
+      this.z.y = this.z.y + h;
+      this.z.h = h * -1;
+      this.zone.style.top = this.z.y + 'px';
+      this.zone.style.height =  this.z.h + 'px';
     }    
   }
 
   handleMouseUpPage = (e) => {
+    console.log(this.z);
     if (this.page !== null) {
       this.zone.style.display = 'none';
       this.zone.style.zIndex = 0;
@@ -263,6 +268,7 @@ class Graph extends Component {
       this.zone.style.height = '0px';
       
       this.page.removeEventListener('mousemove', this.handleMouseMovePage);
+      this.z = { x: 0, y: 0, w: 0, h: 0 };
     }
   }
 
