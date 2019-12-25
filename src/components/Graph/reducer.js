@@ -20,6 +20,7 @@ const defaultState = {
      layout: true,
      containers: false,
      shift: false,
+     space: false,
    },
    type: null,
    data: {},

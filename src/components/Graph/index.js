@@ -224,13 +224,23 @@ class Graph extends Component {
   }
 
   handleMouseMovePage = (e) => {
+    if (this.zone.style.display === 'none') {
+      this.zone.style.display = 'block';
+      this.zone.style.zIndex = 3000;
+      this.zone.style.backgroundColor = 'rgba(33, 150, 243, 0.3)';
+      this.zone.style.border = '1px solid #64B5F6';
+      this.zone.style.left = this.z.x + 'px';
+      this.zone.style.top = this.z.y + 'px';
+      this.zone.style.width = '0px';
+      this.zone.style.height = '0px';
+    }
+
     this.zone.style.width = (e.clientX - this.page.offsetLeft) - this.z.x + 'px';
     this.zone.style.height = (e.clientY - this.page.offsetTop) - this.z.y + 'px';
   }
 
   handleMouseUpPage = (e) => {
     if (this.page !== null) {
-      
       this.zone.style.display = 'none';
       this.zone.style.zIndex = 0;
       this.zone.style.backgroundColor = 'none';
@@ -244,24 +254,17 @@ class Graph extends Component {
   }
 
   handleMouseDownPage = (e) => {
-    if (this.lastDragLayout) {
-      this.lastDragLayout = false;
-    } else {
-      core.components.graph.clearAllSelects();
+    const { space, shift } =  this.props.state.selects.block;
+    if (e.target === this.page) {
+      if (this.lastDragLayout) {
+        this.lastDragLayout = false;
+      } else {
+        core.components.graph.clearAllSelects();
+      }
     }
-    if (this.page !== null) {
+    if (space === false && shift === false && this.page !== null) {
       this.z.x = e.nativeEvent.layerX;
       this.z.y = e.nativeEvent.layerY;
- 
-      this.zone.style.display = 'block';
-      this.zone.style.zIndex = 3000;
-      this.zone.style.backgroundColor = 'rgba(33, 150, 243, 0.3)';
-      this.zone.style.border = '1px solid #64B5F6';
-      this.zone.style.left = e.nativeEvent.layerX  + 'px';
-      this.zone.style.top = e.nativeEvent.layerY + 'px';
-      this.zone.style.width = '0px';
-      this.zone.style.height = '0px';
-
       this.page.addEventListener('mousemove', this.handleMouseMovePage);
     }
   }
@@ -416,7 +419,7 @@ class Graph extends Component {
         ref={this.linkPage}
         style={styles.page}
         onMouseUp={this.handleMouseUpPage}
-        onMouseDown={(block.shift || block.space )? null : this.handleMouseDownPage} 
+        onMouseDown={this.handleMouseDownPage} 
       >
         <div ref={this.linkZone} style={styles.zone} />
         <Draggable 
