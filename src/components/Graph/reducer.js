@@ -83,7 +83,7 @@ function reducer(state = defaultState, action) {
         ...state, 
         map: {
           ...state.map,
-          [action.data.settings.id]: action.data,
+          ...action.data,
         }
       };
     case GRAPH_SELECT_ONE_CONTAINER:

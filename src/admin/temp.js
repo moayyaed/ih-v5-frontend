@@ -73,6 +73,15 @@ export const contextmenuGraphItemData  = {
   ],
 }
 
+export const contextmenuGraphGroupData  = {
+  main: [
+    { id: '1', type: 'divider', title: 'Group' },
+    { id: '2', type: 'item', icon: 'duplicate', text: 'Copy', label: '⌘C', command: 'graph:group:copy' },
+    { id: '3', type: 'item', icon: 'group-objects', text: 'Group', label: '⌘G' },
+    { id: '4', type: 'item', icon: 'social-media', text: 'Share', label: '⌘S' },
+  ],
+}
+
 export const graphDataL = {
   type: 'layout',
   settings: {

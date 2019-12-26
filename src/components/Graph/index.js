@@ -243,7 +243,6 @@ class Graph extends Component {
       });
      const list = Object.keys(temp);
      if (list.length === 1) {
-       console.log(list[0])
       core.components.graph.selectOneContainer(list[0], 'one');
      } else if (list.length > 1) {
       core.components.graph.selectMultiContainers(list[list.length - 1], temp, this.props.state.map);
@@ -395,6 +394,18 @@ class Graph extends Component {
     } 
   }
 
+  handleContextMenuGroup = (e, selects) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const params = []
+    Object
+      .keys(selects.data)
+      .forEach(key => {
+        params.push(this.props.state.map[key]);
+      });
+    core.event('contextmenu', 'graph:group', e, params);
+  }
+
   handlePositionSizeControlGroup = (e, type, op, settings, data) => {
     if (type === 'start') {
       this.lastDragLayout = true;
@@ -513,6 +524,7 @@ class Graph extends Component {
                   height: group.h,
                   zIndex: block.shift ? 0 : 2000,
                 }} 
+                onContextMenu={(e) => this.handleContextMenuGroup(e, state.selects, state)}
               >
                  <SizeControl disabled={block.containers} op="TL" settings={group} onPosition={this.handlePositionSizeControlGroup} />
                  <SizeControl disabled={block.containers} op="TR" settings={group} onPosition={this.handlePositionSizeControlGroup} />

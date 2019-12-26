@@ -50,15 +50,40 @@ export function setSettingsContainer(itemid, settings) {
 
 
 export function addContainer(position, data) {
+  if (Array.isArray(data) && data.length !== 0) {
+    let rx = data[0].settings.x - position.nx;
+    let ry = data[0].settings.y - position.ny;
+    return {
+      type: GRAPH_ADD_CONTAINER,
+      data: data.reduce((p, n) => {
+        const id = shortid.generate();
+        return {
+          ...p,
+          [id]: {
+            ...n,
+            settings: {
+              ...n.settings,
+              id: id,
+              x: n.settings.x - rx,
+              y: n.settings.y - ry,
+            }
+          },
+        }
+      }, {}),
+    };
+  }
+  const id = shortid.generate();
   return {
     type: GRAPH_ADD_CONTAINER,
     data: {
-      ...data,
-      settings: {
-        ...data.settings,
-        id: shortid.generate(),
-        x: position.nx,
-        y: position.ny,
+      [id]: {
+        ...data,
+        settings: {
+          ...data.settings,
+          id: id,
+          x: position.nx,
+          y: position.ny,
+        }
       }
     },
   };

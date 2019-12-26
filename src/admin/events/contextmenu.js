@@ -6,6 +6,7 @@ import {
   contextmenuTabData,
   contextmenuPageData,
   contextmenuGraphItemData,
+  contextmenuGraphGroupData,
 } from '../temp';
 
 // contextmenu
@@ -34,6 +35,11 @@ core.events.on('contextmenu:graph:item', (e, params) => {
   core.app.contextmenu.show(e, contextmenuGraphItemData, params);
 });
 
+core.events.on('contextmenu:graph:group', (e, params) => {
+  core.app.contextmenu.show(e, contextmenuGraphGroupData, params);
+});
+
+
 
 // click
 core.events.on('contextmenu:graph:paste', (item, params) => {
@@ -47,5 +53,9 @@ core.events.on('contextmenu:graph:paste', (item, params) => {
 
 
 core.events.on('contextmenu:graph:item:copy', (item, params) => {
+  core.clipboard.write(params);
+});
+
+core.events.on('contextmenu:graph:group:copy', (item, params) => {
   core.clipboard.write(params);
 });
