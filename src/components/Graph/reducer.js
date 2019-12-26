@@ -105,7 +105,7 @@ function reducer(state = defaultState, action) {
           ...state.selects,
           type: action.selecttype,
           data: {
-            ...state.selects.data,
+            ...action.selects,
             [action.itemid]: true,
           },
           group: action.group,

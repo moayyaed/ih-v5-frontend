@@ -105,6 +105,7 @@ export function selectMultiContainers(itemid, items, map) {
     type: GRAPH_SELECT_MULTI_CONTAINERS,
     itemid,
     selecttype: 'multi',
+    selects: items,
     group: {
       enabled: true,
       x, y, w: w - x, h: h - y,
