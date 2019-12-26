@@ -292,7 +292,7 @@ class Graph extends Component {
   }
 
   handleMouseUpPage = (e) => {
-    if (this.page !== null) {
+    if (e.button === 0 && this.page !== null) {
       this.zone.style.display = 'none';
       this.zone.style.zIndex = 0;
       this.zone.style.backgroundColor = 'none';
@@ -314,14 +314,14 @@ class Graph extends Component {
 
   handleMouseDownPage = (e) => {
     const { space, shift } =  this.props.state.selects.block;
-    if (e.target === this.page) {
+    if (e.button === 0 && e.target === this.page) {
       if (this.lastDragLayout) {
         this.lastDragLayout = false;
       } else {
         core.components.graph.clearAllSelects();
       }
     }
-    if (space === false && shift === false && this.page !== null) {
+    if (e.button === 0 && space === false && shift === false && this.page !== null) {
       this.z.p = e.target === this.page;
       this.z.l = e.nativeEvent.layerX;
       this.z.t = e.nativeEvent.layerY;
