@@ -24,6 +24,8 @@ const styles = {
     height: 550,
     position: 'absolute',
     borderRadius: 0,
+    backgroundSize: '50px 50px',
+    backgroundImage: "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiA8bGluZSB4MT0iMTAwIiB5MT0iMCIgeDI9IjEwMCIgeTI9IjEwMCIgc3Ryb2tlPSJibGFjayIgLz4KIDxsaW5lIHgxPSIwIiB5MT0iMTAwIiB4Mj0iMTAwIiB5Mj0iMTAwIiBzdHJva2U9ImJsYWNrIiAvPgo8L3N2Zz4=')",
   },
   sizecontrol: {
     opacity: 0,
@@ -161,9 +163,9 @@ function Container(props) {
       disabled={selectBlock.containers}
       position={{ x: settings.x, y: settings.y }} 
       bounds=".parent"
-      onStart={(e, data) => props.onPositionStartContainer(e, props.data, data, props.selects)}
-      onDrag={(e, data) => props.onPositionDragContainer(e, props.data, data, props.selects)}
-      onStop={(e, data) => props.onPositionStopContainer(e, props.data, data, props.selects)}
+      onStart={(e, data) => props.onPositionStart(e, props.data, data, props.selects)}
+      onDrag={(e, data) => props.onPositionDrag(e, props.data, data, props.selects)}
+      onStop={(e, data) => props.onPositionStop(e, props.data, data, props.selects)}
     >
       <div
         className="container"  
@@ -173,8 +175,8 @@ function Container(props) {
           position: 'absolute',
           outline: selectsData[settings.id] ? '2px dashed #ff00ff' : '0px dashed #ff00ff',
         }}
-        onClick={(e) => props.onClickContainer(e, props.data, null, props.selects)}
-        onContextMenu={(e) => props.onContextMenuContainer(e, props.data, props.selects)}
+        onClick={(e) => props.onClick(e, props.data, null, props.selects)}
+        onContextMenu={(e) => props.onContextMenu(e, props.data, props.selects)}
       >
         <div 
           style={{ 
@@ -199,7 +201,7 @@ class Graph extends Component {
     this.lastDragSC = { x: null, y: null };
     this.lastDragSCG = { x: null, y: null };
     this.lastDragLayout = false;
-    this.z = { x: 0, y: 0, w: 0, h: 0 };
+    this.z = { x: 0, y: 0, w: 0, h: 0, t: 0, l: 0 };
 
     document.addEventListener('keyup', this.handleKeyUp);
     document.addEventListener('keydown', this.handleKeyDown);
@@ -223,41 +225,73 @@ class Graph extends Component {
     this.zone = e;
   }
 
+  handleSelectMouseMove = (pos) => {
+    const temp = {};
+    Object
+      .keys(this.props.state.map)
+      .forEach(key => {
+    
+        const s = this.props.state.map[key].settings;
+        const a = (pos.x <= s.x && s.x <= pos.x + pos.w) && (pos.y <= s.y && s.y <= pos.y + pos.w);
+        const b = (pos.x <= s.x + s.w && s.x + s.w <= pos.x + pos.w) && (pos.y <= s.y && s.y <= pos.y + pos.h);
+        const c = (pos.x <= s.x + s.w && s.x + s.w <= pos.x + pos.w) && (pos.y <= s.y + s.h && s.y + s.h <= pos.y + pos.h);
+        const d = (pos.x <= s.x && s.x <= pos.x + pos.w) && (pos.y <= s.y + s.h && s.y + s.h <= pos.y + pos.h);
+        
+        if (a && b && c && d) {
+          temp[s.id] = true;
+        }
+      });
+     const list = Object.keys(temp);
+     if (list.length === 1) {
+       console.log(list[0])
+      core.components.graph.selectOneContainer(list[0], 'one');
+     } else if (list.length > 1) {
+      core.components.graph.selectMultiContainers(list[list.length - 1], temp, this.props.state.map);
+     }
+  }
+
   handleMouseMovePage = (e) => {
     if (this.zone.style.display === 'none') {
       this.zone.style.display = 'block';
       this.zone.style.zIndex = 3000;
       this.zone.style.backgroundColor = 'rgba(33, 150, 243, 0.3)';
       this.zone.style.border = '1px solid #64B5F6';
-      this.zone.style.left = this.z.x + 'px';
-      this.zone.style.top = this.z.y + 'px';
+      this.zone.style.left = this.z.l + 'px';
+      this.zone.style.top = this.z.t + 'px';
       this.zone.style.width = '0px';
       this.zone.style.height = '0px';
     }
-    const w = (e.clientX - this.page.offsetLeft) - this.z.x;
-    const h = (e.clientY - this.page.offsetTop) - this.z.y;
+    const w = (e.clientX - this.page.offsetLeft) - this.z.l;
+    const h = (e.clientY - this.page.offsetTop) - this.z.t;
 
     if (w > 0) {
+      this.z.wr = false;
+      this.z.x = this.z.l - this.props.state.settings.x;
       this.z.w = w;
       this.zone.style.width =  w + 'px';
     } else {
-      this.zone.style.left = this.z.x + w + 'px';
+      this.z.wr = true;
+      this.z.x = this.z.l + w - this.props.state.settings.x;
+      this.z.w = w * -1;
+      this.zone.style.left = this.z.l + w + 'px';
       this.zone.style.width =  w * -1 + 'px';
     }
 
     if (h > 0) {
+      this.z.hr = false;
+      this.z.y = this.z.t - this.props.state.settings.y;
       this.z.h = h;
       this.zone.style.height =  h + 'px';
     } else {
-      this.z.y = this.z.y + h;
+      this.z.hr = true;
+      this.z.y = this.z.t + h - this.props.state.settings.y;
       this.z.h = h * -1;
-      this.zone.style.top = this.z.y + 'px';
-      this.zone.style.height =  this.z.h + 'px';
+      this.zone.style.top = this.z.t + h + 'px';
+      this.zone.style.height =  h * -1 + 'px';
     }    
   }
 
   handleMouseUpPage = (e) => {
-    console.log(this.z);
     if (this.page !== null) {
       this.zone.style.display = 'none';
       this.zone.style.zIndex = 0;
@@ -268,7 +302,13 @@ class Graph extends Component {
       this.zone.style.height = '0px';
       
       this.page.removeEventListener('mousemove', this.handleMouseMovePage);
-      this.z = { x: 0, y: 0, w: 0, h: 0 };
+      if (this.z.w !== 0 || this.z.h !== 0) {
+        if (this.z.p == false && this.z.wr == false && this.z.hr == false) {
+          this.lastDragLayout = true;
+        }
+        this.handleSelectMouseMove(this.z);
+      }
+      this.z = { x: 0, y: 0, w: 0, h: 0, t: 0, l:0 };
     }
   }
 
@@ -282,11 +322,13 @@ class Graph extends Component {
       }
     }
     if (space === false && shift === false && this.page !== null) {
-      this.z.x = e.nativeEvent.layerX;
-      this.z.y = e.nativeEvent.layerY;
+      this.z.p = e.target === this.page;
+      this.z.l = e.nativeEvent.layerX;
+      this.z.t = e.nativeEvent.layerY;
       this.page.addEventListener('mousemove', this.handleMouseMovePage);
     }
   }
+  
 
   handleKeyUp = (e) => {
     if (e.keyCode === 32) {
@@ -486,12 +528,12 @@ class Graph extends Component {
                   key={key.toString()}
                   data={state.map[key]}
                   selects={state.selects}
-                  onClickContainer={this.handleClickContainer}
-                  onPositionStartContainer={this.handlePositionStartContainer}
-                  onPositionDragContainer={this.handlePositionDragContainer}
-                  onPositionStopContainer={this.handlePositionStopContainer}
+                  onClick={this.handleClickContainer}
+                  onPositionStart={this.handlePositionStartContainer}
+                  onPositionDrag={this.handlePositionDragContainer}
+                  onPositionStop={this.handlePositionStopContainer}
                   onPositionSizeControl={this.handlePositionSizeControl}
-                  onContextMenuContainer={this.handleContextMenuContainer}
+                  onContextMenu={this.handleContextMenuContainer}
                 />
               );
             })}
