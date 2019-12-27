@@ -264,6 +264,9 @@ class AppTabs extends Component {
   }
 
   render({ id, state, classes } = this.props) {
+    if (!this.props.enabled) {
+      return null;
+    }
     return (
       <div style={state.list.length === 0 ? styles.root : styles.rootA }>
         <div ref={this.linkFake} style={styles.fake}>

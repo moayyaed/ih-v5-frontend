@@ -1,5 +1,19 @@
 import core from 'core';
 
+
+function getStatic(name) {
+  switch(name) {
+    case 'test':
+      return {
+        navid: 'test',
+        navcomponent: 'test',
+      };
+    default:
+      return null;
+  }
+}
+
+
 // route
 core.events.on('route:init', (params) => {
   core.event('app:menu', null, params);
@@ -15,10 +29,16 @@ core.events.on('route:menu:init', (params) => {
 });
 
 core.events.on('route:menu:change', (params) => {
-  core.app.menu.select(params.menuid);
-  core.components.appbody.setNav({ open: true, id: params.menuid });
-
-  core.event('app:nav', params.menuid, params);
+  const staticpage = getStatic(params.menuid);
+  if (staticpage) {
+    core.components.appbody.setNav({ open: false, id: null });
+    core.event('route', 'nav', 'change', staticpage);
+  } else {
+    core.app.menu.select(params.menuid);
+    core.components.appbody.setNav({ open: true, id: params.menuid });
+  
+    core.event('app:nav', params.menuid, params);
+  }
 });
 
 core.events.on('route:menu:exit', (params) => {

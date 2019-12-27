@@ -33,7 +33,7 @@ function AppBody(props) {
     <div style={styles.box}>
       <AppNav state={props.state.nav} />
       <div style={styles.body}>
-        <AppTabs />
+        <AppTabs enabled={props.state.nav.open}/>
         <AppPage state={props.state.page}/>
       </div>
     </div>
