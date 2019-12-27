@@ -4,6 +4,7 @@ import core from 'core';
 import Table from 'components/Table';
 import Options from 'components/Options';
 import Graph from 'components/Graph';
+import Test from 'components/Test';
 
 
 const styles = {
@@ -22,6 +23,8 @@ function getComponent(type, id) {
       return <Options />;
     case 'graph':
       return <Graph key={id} />;
+    case 'test':
+      return <Test />;
     default:
       return null;
   }
