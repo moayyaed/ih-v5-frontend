@@ -4,7 +4,7 @@ import { ContextMenu } from "@blueprintjs/core";
 import AppContextMenu from './index';
 
 
-export function show(e, data, params) {
+export function show(e, data, params, state) {
   e.persist()
   const options = { left: e.clientX, top: e.clientY };
 
@@ -18,6 +18,7 @@ export function show(e, data, params) {
       }} 
       data={data}
       params={params}
+      state={state}
     />, options, () => {}
   );
   return null;

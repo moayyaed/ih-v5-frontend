@@ -57,9 +57,9 @@ function eventRoute(type, status, params) {
   }
 }
 
-function eventContextMenu(type, target, params) {
+function eventContextMenu(type, target, params, state) {
   if (type !== null) {
-    core.events.emit(`contextmenu:${type}`, target, params);
+    core.events.emit(`contextmenu:${type}`, target, params, state);
   }
 }
 
@@ -71,16 +71,16 @@ function eventOther(name, id, param2, param3) {
   }
 }
 
-function event(name, param1, param2, param3) {
+function event(name, param1, param2, param3, param4) {
   switch(name) {
     case 'route':
-      eventRoute(param1, param2, param3);
+      eventRoute(param1, param2, param3, param4);
       break;
     case 'contextmenu':
-      eventContextMenu(param1, param2, param3);
+      eventContextMenu(param1, param2, param3, param4);
       break;
     default:
-      eventOther(name, param1, param2, param3);
+      eventOther(name, param1, param2, param3, param4);
       break;
   }
 }

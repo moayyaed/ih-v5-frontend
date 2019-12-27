@@ -77,7 +77,7 @@ export const contextmenuGraphGroupData  = {
   main: [
     { id: '1', type: 'divider', title: 'Group' },
     { id: '2', type: 'item', icon: 'duplicate', text: 'Copy', label: '⌘C', command: 'graph:group:copy' },
-    { id: '3', type: 'item', icon: 'group-objects', text: 'Group', label: '⌘G' },
+    { id: '3', type: 'item', icon: 'group-objects', text: 'Group', label: '⌘G', command: 'graph:group:group' },
     { id: '4', type: 'item', icon: 'social-media', text: 'Share', label: '⌘S' },
   ],
 }
@@ -95,6 +95,8 @@ export const graphDataL = {
         y: 50,
         w: 70,
         h: 70,
+        group: null,
+        parent: null,
         color: 'red',
       }
     },
@@ -108,13 +110,14 @@ export const graphDataL1 = {
   },
   map: {
     1: {
-      
       settings: {
         id: 1,
         x: 70,
         y: 75,
         w: 70,
         h: 70,
+        group: null,
+        parent: null,
         color: '#2196F3',
       }
     },
@@ -125,6 +128,8 @@ export const graphDataL1 = {
         y: 175,
         w: 70,
         h: 70,
+        group: null,
+        parent: null,
         color: '#8BC34A',
       }
     },
@@ -135,6 +140,8 @@ export const graphDataL1 = {
         y: 350,
         w: 70,
         h: 70,
+        group: null,
+        parent: null,
         color: '#FFEB3B',
       }
     },

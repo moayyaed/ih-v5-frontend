@@ -35,8 +35,8 @@ core.events.on('contextmenu:graph:item', (e, params) => {
   core.app.contextmenu.show(e, contextmenuGraphItemData, params);
 });
 
-core.events.on('contextmenu:graph:group', (e, params) => {
-  core.app.contextmenu.show(e, contextmenuGraphGroupData, params);
+core.events.on('contextmenu:graph:group', (e, params, state) => {
+  core.app.contextmenu.show(e, contextmenuGraphGroupData, params, state);
 });
 
 
@@ -58,4 +58,8 @@ core.events.on('contextmenu:graph:item:copy', (item, params) => {
 
 core.events.on('contextmenu:graph:group:copy', (item, params) => {
   core.clipboard.write(params);
+});
+
+core.events.on('contextmenu:graph:group:group', (item, params, state) => {
+  core.components.graph.setGroup(state.selects.group, params);
 });

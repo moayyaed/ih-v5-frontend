@@ -13,6 +13,9 @@ import {
   GRAPH_SELECT_MULTI_CONTAINERS,
   GRAPH_SELECT_BLOCK,
   GRAPH_CLEAR_ALL_SELECTS,
+
+  GRAPH_SET_GROUP,
+  GRAPH_UNSET_GROUP,
 } from './constants';
 
 
@@ -212,6 +215,19 @@ export function clearAllSelects() {
   };
 }
 
+export function setGroup(group, data) {
+  console.log(group, data);
+  return {
+    type: GRAPH_SET_GROUP,
+  };
+}
+
+export function unsetGroup() {
+  return {
+    type: GRAPH_UNSET_GROUP,
+  };
+}
+
 
 export default {
   setData,
@@ -225,4 +241,6 @@ export default {
   selectMultiContainers,
   selectBlock,
   clearAllSelects,
+  setGroup,
+  unsetGroup,
 }

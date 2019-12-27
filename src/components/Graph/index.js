@@ -403,7 +403,7 @@ class Graph extends Component {
       .forEach(key => {
         params.push(this.props.state.map[key]);
       });
-    core.event('contextmenu', 'graph:group', e, params);
+    core.event('contextmenu', 'graph:group', e, params, this.props.state);
   }
 
   handlePositionSizeControlGroup = (e, type, op, settings, data) => {
