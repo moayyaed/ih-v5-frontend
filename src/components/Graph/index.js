@@ -444,20 +444,36 @@ class Graph extends Component {
     e.preventDefault();
     e.stopPropagation();
     if (e.shiftKey && selects.type !== null) {
-      core.components.graph.selectMultiContainers(item.settings.id, selects.data, this.props.state.map);
+      if (item.settings.group !== undefined) {
+        core.components.graph
+        .selectMultiContainers(item.settings.id, { ...selects.data, ...item.settings.group }, this.props.state.map);
+      } else {
+        core.components.graph.selectMultiContainers(item.settings.id, selects.data, this.props.state.map);
+      }
     } else {
       if (selects.type === 'multi' && selects.data[item.settings.id]) {
        
       } else {
-        core.components.graph.selectOneContainer(item.settings.id, 'one');
+        if (item.settings.group !== undefined) {
+          this.lastDragLayout = true;
+          core.components.graph
+            .selectMultiContainers(item.settings.id, item.settings.group, this.props.state.map);
+        } else {
+          core.components.graph.selectOneContainer(item.settings.id, 'one');
+        }
       }
     }
   }
 
   handlePositionDragContainer = (e, item, data, selects) => {
+    if (item.settings.group !== undefined) {
+      core.components.graph.setPositionGroupContainer(data, selects, this.props.state.map);
+    }
+    /*
     if (selects.type === 'multi' && selects.data[item.settings.id]) {
       // core.components.graph.setPositionGroupContainer(selects.data, data.x, data.y);
     }
+    */
   }
 
   handlePositionStopContainer = (e, item, data) => {

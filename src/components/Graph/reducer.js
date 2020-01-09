@@ -41,7 +41,7 @@ const defaultState = {
 function reducer(state = defaultState, action) {
   switch (action.type) {
     case GRAPH_SET_DATA:
-      return { ...state, ...action.data };
+      return { ...state, ...defaultState, ...action.data };
     case GRAPH_SET_POSITION_LAYOUT:
       return { 
         ...state, 
@@ -158,6 +158,35 @@ function reducer(state = defaultState, action) {
           type: null,
           data: {},
           group: defaultState.selects.group,
+        },
+      };
+    case GRAPH_SET_GROUP:
+      return { 
+        ...state, 
+        map: {
+          ...state.map,
+          [action.itemid]: action.data,
+        },
+        selects: {
+          ...state.selects,
+          data: {
+            ...state.selects.data,
+            [action.itemid]: true,
+          },
+        },
+      };
+    case GRAPH_UNSET_GROUP:
+      return { 
+        ...state, 
+        map: Object.keys(state.map).reduce((p, c) => {
+          if (c === action.groupid) {
+            return p
+          }
+          return { ...p, [c]: state.map[c] }
+        }, {}),
+        selects: {
+          ...state.selects,
+          data: action.selects,
         },
       };
     default:

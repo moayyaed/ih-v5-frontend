@@ -54,19 +54,38 @@ export function setSettingsContainer(itemid, settings) {
 
 export function addContainer(position, data) {
   if (Array.isArray(data) && data.length !== 0) {
+    const mapingid = {}
+    data.forEach(i => {
+      const id = shortid.generate();
+      mapingid[i.settings.id] = id;
+    });
     let rx = data[0].settings.x - position.nx;
     let ry = data[0].settings.y - position.ny;
     return {
       type: GRAPH_ADD_CONTAINER,
       data: data.reduce((p, n) => {
-        const id = shortid.generate();
+        if (n.settings.group !== undefined) {
+          return {
+            ...p,
+            [mapingid[n.settings.id]]: {
+              ...n,
+              settings: {
+                ...n.settings,
+                id: mapingid[n.settings.id],
+                x: n.settings.x - rx,
+                y: n.settings.y - ry,
+                group: Object.keys(n.settings.group).reduce((p, c) => ({ ...p, [mapingid[c]]: true }), {}),
+              }
+            },
+          }
+        }
         return {
           ...p,
-          [id]: {
+          [mapingid[n.settings.id]]: {
             ...n,
             settings: {
               ...n.settings,
-              id: id,
+              id: mapingid[n.settings.id],
               x: n.settings.x - rx,
               y: n.settings.y - ry,
             }
@@ -216,15 +235,53 @@ export function clearAllSelects() {
 }
 
 export function setGroup(group, data) {
-  console.log(group, data);
+  const id = shortid.generate();
+  const items = data.reduce((p, c) => { 
+    return { ...p, [c.settings.id]: true };
+  }, {});
   return {
     type: GRAPH_SET_GROUP,
+    itemid: id,
+    data: {
+      settings: {
+        id,
+        x: group.x,
+        y: group.y,
+        w: group.w,
+        h: group.h,
+        color: 'rgba(158, 158, 158, 0.45)',
+        group: items,
+      }
+    },
   };
 }
 
-export function unsetGroup() {
+export function unsetGroup(group, data) {
+  const selects = {}
+  let groupid = false;
+  let parent = {}
+  let childrens = {}
+  data.forEach(item => {
+    selects[item.settings.id] = true;
+    if (item.settings.group !== undefined) {
+      parent[item.settings.id] = true;
+      childrens = { ...childrens, ...item.settings.group} 
+    }
+  })
+  Object
+    .keys(parent)
+    .forEach(key => {
+      if (childrens[key] === undefined) {
+        groupid = key;
+      }
+    })
+    if (selects[groupid] !== undefined) {
+      delete selects[groupid];
+    }
   return {
     type: GRAPH_UNSET_GROUP,
+    groupid,
+    selects,
   };
 }
 
