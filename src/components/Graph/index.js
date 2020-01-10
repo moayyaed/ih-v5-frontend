@@ -21,6 +21,7 @@ const styles = {
     position: 'absolute',
   },
   paper: {
+    transformOrigin: '0 0',
     position: 'absolute',
     borderRadius: 0,
     backgroundSize: '50px 50px',
@@ -206,7 +207,7 @@ class Graph extends Component {
 
     this.zoom_point = { x: 0, y: 0 };
     this.zoom_target = { x:0, y:0 };
-    this.pos = { x: 150, y: 150, w: this.list.offsetWidth, h: this.list.offsetHeight, s: 1}
+    this.pos = { x: this.props.state.settings.x, y: this.props.state.settings.y, w: this.list.offsetWidth, h: this.list.offsetHeight, s: 1}
  
     document.addEventListener('keyup', this.handleKeyUp);
     document.addEventListener('keydown', this.handleKeyDown);
@@ -257,8 +258,8 @@ class Graph extends Component {
     if(this.pos.y+this.pos.h*this.pos.s<this.pos.h)
       this.pos.y = -this.pos.h*(this.pos.s-1)
 
-    const x = this.pos.x + this.pos.w * (this.pos.s-1) / 2;
-    const y = this.pos.y + this.pos.h * (this.pos.s-1) / 2;
+    const x =  this.pos.x//this.pos.x + this.pos.w * (this.pos.s-1) / 2;
+    const y = this.pos.y// this.pos.y + this.pos.h * (this.pos.s-1) / 2;
   
     core.components.graph.setPositionLayout(x, y, this.pos.s);
   }
@@ -418,6 +419,31 @@ class Graph extends Component {
   }
 
   handlePositionLayout = (e, data) => {
+    
+
+
+    this.pos = { ...this.pos, x: data.x, y: data.y }
+    /*
+    var offset = this.page.getBoundingClientRect()
+    this.zoom_point.x = e.pageX - offset.left
+    this.zoom_point.y = e.pageY - offset.top
+
+    let delta = e.deltaY;
+    delta = Math.max(-1,Math.min(1,delta))
+
+    this.zoom_target.x = (this.zoom_point.x - this.pos.x) / this.pos.s
+    this.zoom_target.y = (this.zoom_point.y - this.pos.y) / this.pos.s
+
+    this.pos.x = -this.zoom_target.x * this.pos.s + this.zoom_point.x
+    this.pos.y = -this.zoom_target.y * this.pos.s + this.zoom_point.y
+
+    if(this.pos.x+this.pos.w*this.pos.s<this.pos.w)
+      this.pos.x = -this.pos.w*(this.pos.s-1)
+ 
+    if(this.pos.y+this.pos.h*this.pos.s<this.pos.h)
+      this.pos.y = -this.pos.h*(this.pos.s-1)
+      */
+ 
     core.components.graph.setPositionLayout(data.x, data.y, this.props.state.settings.scale);
   }
 
