@@ -17,6 +17,7 @@ const styles = {
     position: 'relative',
   },
   zone: {
+    display: 'none',
     position: 'absolute',
   },
   paper: {
