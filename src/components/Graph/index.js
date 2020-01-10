@@ -226,7 +226,7 @@ class Graph extends Component {
   }
 
   handleSelectMouseMove = (pos) => {
-    const temp = {};
+    let temp = {};
     Object
       .keys(this.props.state.map)
       .forEach(key => {
@@ -237,8 +237,13 @@ class Graph extends Component {
         const c = (pos.x <= s.x + s.w && s.x + s.w <= pos.x + pos.w) && (pos.y <= s.y + s.h && s.y + s.h <= pos.y + pos.h);
         const d = (pos.x <= s.x && s.x <= pos.x + pos.w) && (pos.y <= s.y + s.h && s.y + s.h <= pos.y + pos.h);
         
-        if (a && b && c && d) {
-          temp[s.id] = true;
+        if (a && b && c && d && !s.parent) {
+          if (s.group) {
+            temp[s.id] = true;
+            temp = { ...temp, ...s.group }
+          } else {
+            temp[s.id] = true;
+          }
         }
       });
      const list = Object.keys(temp);

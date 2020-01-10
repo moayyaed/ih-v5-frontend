@@ -179,7 +179,10 @@ function reducer(state = defaultState, action) {
           if (state.map[c].settings.parent === action.groupid) {
             return { ...p, [c]: {
               ...state.map[c],
-              parent: null,
+              settings: {
+                ...state.map[c].settings,
+                parent: null,
+              }
             } }
           }
           return { ...p, [c]: state.map[c] }

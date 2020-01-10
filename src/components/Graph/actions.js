@@ -253,7 +253,7 @@ export function setGroup(state) {
   const map = Object
     .keys(state.map)
     .reduce((p, c) => {
-      if (items[c] !== undefined) {
+      if (items[c] !== undefined && !state.map[c].settings.parent) {
         return { ...p, [c]: {
           ...state.map[c],
           settings: {
@@ -265,7 +265,6 @@ export function setGroup(state) {
 
       return { ...p, [c]: state.map[c] };
     }, { [id]: groupitem });
- 
   return { 
     type: GRAPH_SET_GROUP,
     map,
