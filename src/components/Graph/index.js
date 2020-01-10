@@ -21,9 +21,6 @@ const styles = {
     position: 'absolute',
   },
   paper: {
-    // transformOrigin: '0 0',
-    width: 550,
-    height: 550,
     position: 'absolute',
     borderRadius: 0,
     backgroundSize: '50px 50px',
@@ -145,6 +142,7 @@ function SizeControl(props) {
   const position = getPositionSizeControl(props.op, x, y, w, h);
   return (
     <Draggable 
+      scale={props.scale}
       position={position} 
       onStart={(e) => props.onPosition(e, 'start', props.op)} 
       onDrag={(e, data) => props.onPosition(e, 'drag', props.op, props.settings, data)} 
@@ -162,6 +160,7 @@ function Container(props) {
   const selectBlock = props.selects.block;
   return (
     <Draggable 
+      scale={props.scale}
       disabled={selectBlock.containers}
       position={{ x: settings.x, y: settings.y }} 
       bounds=".parent"
@@ -188,10 +187,10 @@ function Container(props) {
             border: '2px solid ' + settings.color
           }} 
         />
-        <SizeControl disabled={selectBlock.containers || !(selectType === 'one' || selectType === null)} op="TL" settings={settings} onPosition={props.onPositionSizeControl} />
-        <SizeControl disabled={selectBlock.containers || !(selectType === 'one' || selectType === null)} op="TR" settings={settings} onPosition={props.onPositionSizeControl} />
-        <SizeControl disabled={selectBlock.containers || !(selectType === 'one' || selectType === null)} op="BL" settings={settings} onPosition={props.onPositionSizeControl} />
-        <SizeControl disabled={selectBlock.containers || !(selectType === 'one' || selectType === null)} op="BR" settings={settings} onPosition={props.onPositionSizeControl} />
+        <SizeControl scale={props.scale} disabled={selectBlock.containers || !(selectType === 'one' || selectType === null)} op="TL" settings={settings} onPosition={props.onPositionSizeControl} />
+        <SizeControl scale={props.scale} disabled={selectBlock.containers || !(selectType === 'one' || selectType === null)} op="TR" settings={settings} onPosition={props.onPositionSizeControl} />
+        <SizeControl scale={props.scale} disabled={selectBlock.containers || !(selectType === 'one' || selectType === null)} op="BL" settings={settings} onPosition={props.onPositionSizeControl} />
+        <SizeControl scale={props.scale} disabled={selectBlock.containers || !(selectType === 'one' || selectType === null)} op="BR" settings={settings} onPosition={props.onPositionSizeControl} />
       </div>
     </Draggable>
   )
@@ -260,8 +259,8 @@ class Graph extends Component {
 
     const x = this.pos.x + this.pos.w * (this.pos.s-1) / 2;
     const y = this.pos.y + this.pos.h * (this.pos.s-1) / 2;
-    
-    this.list.style.transform = 'translate('+(x)+'px,'+(y)+'px) scale('+this.pos.s+','+this.pos.s+')';
+  
+    core.components.graph.setPositionLayout(x, y, this.pos.s);
   }
 
   handleSelectMouseMove = (pos) => {
@@ -419,10 +418,7 @@ class Graph extends Component {
   }
 
   handlePositionLayout = (e, data) => {
-    console.log(data.x)
-    this.pos.x = data.x;
-    this.pos.y = data.y;
-    core.components.graph.setPositionLayout(data.x, data.y);
+    core.components.graph.setPositionLayout(data.x, data.y, this.props.state.settings.scale);
   }
 
   handlePositionSizeControl = (e, type, op, settings, data) => {
@@ -516,11 +512,6 @@ class Graph extends Component {
     if (item.settings.group !== undefined) {
       core.components.graph.setPositionGroupContainer(data, selects, this.props.state.map);
     }
-    /*
-    if (selects.type === 'multi' && selects.data[item.settings.id]) {
-      // core.components.graph.setPositionGroupContainer(selects.data, data.x, data.y);
-    }
-    */
   }
 
   handlePositionStopContainer = (e, item, data) => {
@@ -555,12 +546,12 @@ class Graph extends Component {
         style={styles.page}
         onMouseUp={this.handleMouseUpPage}
         onMouseDown={this.handleMouseDownPage}
-        
+        onWheel={this.handleMouseWhell}
       >
         <div ref={this.linkZone} style={styles.zone} />
         <Draggable 
           disabled={block.layout}
-          position={{ x: state.settings.x, y: state.settings.y }} 
+          position={{ x: state.settings.x, y: state.settings.y, scale: state.settings.scale }} 
           onDrag={this.handleDragLayout}
           onStop={this.handlePositionLayout}
         >
@@ -568,12 +559,13 @@ class Graph extends Component {
             ref={this.linkList}
             elevation={2} 
             className="parent" 
-            style={styles.paper}
+            style={{ ...styles.paper, width: state.settings.w, height: state.settings.h }}
             onClick={(e) => this.handleClickLayout(e, state)}
             onContextMenu={(e) => this.handleContextMenuLayout(e, state)}
-            onWheel={this.handleMouseWhell}
+            
           >
             <Draggable
+              scale={state.settings.scale}
               disabled={block.containers}
               bounds=".parent"
               position={{ x: group.x, y: group.y }}
@@ -591,10 +583,10 @@ class Graph extends Component {
                 }} 
                 onContextMenu={(e) => this.handleContextMenuGroup(e, state.selects, state)}
               >
-                 <SizeControl disabled={block.containers} op="TL" settings={group} onPosition={this.handlePositionSizeControlGroup} />
-                 <SizeControl disabled={block.containers} op="TR" settings={group} onPosition={this.handlePositionSizeControlGroup} />
-                 <SizeControl disabled={block.containers} op="BL" settings={group} onPosition={this.handlePositionSizeControlGroup} />
-                 <SizeControl disabled={block.containers} op="BR" settings={group} onPosition={this.handlePositionSizeControlGroup} />
+                 <SizeControl scale={state.settings.scale} disabled={block.containers} op="TL" settings={group} onPosition={this.handlePositionSizeControlGroup} />
+                 <SizeControl scale={state.settings.scale} disabled={block.containers} op="TR" settings={group} onPosition={this.handlePositionSizeControlGroup} />
+                 <SizeControl scale={state.settings.scale} disabled={block.containers} op="BL" settings={group} onPosition={this.handlePositionSizeControlGroup} />
+                 <SizeControl scale={state.settings.scale} disabled={block.containers} op="BR" settings={group} onPosition={this.handlePositionSizeControlGroup} />
               </div>
             </Draggable>
             {Object
@@ -603,6 +595,7 @@ class Graph extends Component {
               return (
                 <Container 
                   key={key.toString()}
+                  scale={state.settings.scale}
                   data={state.map[key]}
                   selects={state.selects}
                   onClick={this.handleClickContainer}

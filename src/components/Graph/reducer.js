@@ -46,8 +46,10 @@ function reducer(state = defaultState, action) {
       return { 
         ...state, 
         settings: {
+          ...state.settings,
           x: action.x,
           y: action.y,
+          scale: action.scale,
         }
       };
     case GRAPH_SET_POSITION_CONTAINER:

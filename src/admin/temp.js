@@ -87,6 +87,8 @@ export const graphDataL = {
   type: 'layout',
   settings: {
     x: 10, y: 10,
+    w: 400, h: 400,
+    scale: 1,
   },
   map: {
     1: {
@@ -106,6 +108,8 @@ export const graphDataL1 = {
   type: 'layout',
   settings: {
     x: 150, y: 150,
+    w: 550, h: 550,
+    scale: 1,
   },
   map: {
     1: {

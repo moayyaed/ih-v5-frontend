@@ -26,11 +26,12 @@ export function setData(data) {
   };
 }
 
-export function setPositionLayout(x, y) {
+export function setPositionLayout(x, y, scale) {
   return {
     type: GRAPH_SET_POSITION_LAYOUT,
     x,
     y,
+    scale
   };
 }
 
