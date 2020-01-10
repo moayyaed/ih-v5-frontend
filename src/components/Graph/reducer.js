@@ -163,16 +163,10 @@ function reducer(state = defaultState, action) {
     case GRAPH_SET_GROUP:
       return { 
         ...state, 
-        map: {
-          ...state.map,
-          [action.itemid]: action.data,
-        },
+        map: action.map,
         selects: {
           ...state.selects,
-          data: {
-            ...state.selects.data,
-            [action.itemid]: true,
-          },
+          data: action.selects,
         },
       };
     case GRAPH_UNSET_GROUP:
@@ -181,6 +175,12 @@ function reducer(state = defaultState, action) {
         map: Object.keys(state.map).reduce((p, c) => {
           if (c === action.groupid) {
             return p
+          }
+          if (state.map[c].settings.parent === action.groupid) {
+            return { ...p, [c]: {
+              ...state.map[c],
+              parent: null,
+            } }
           }
           return { ...p, [c]: state.map[c] }
         }, {}),

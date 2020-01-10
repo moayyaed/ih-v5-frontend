@@ -173,7 +173,7 @@ function Container(props) {
           width: settings.w,
           height: settings.h,
           position: 'absolute',
-          outline: selectsData[settings.id] ? '2px dashed #ff00ff' : '0px dashed #ff00ff',
+          outline: !settings.parent && selectsData[settings.id] && settings.group === undefined ? '2px dashed #ff00ff' : '0px dashed #ff00ff',
         }}
         onClick={(e) => props.onClick(e, props.data, null, props.selects)}
         onContextMenu={(e) => props.onContextMenu(e, props.data, props.selects)}

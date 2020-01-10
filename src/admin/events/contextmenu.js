@@ -61,7 +61,7 @@ core.events.on('contextmenu:graph:group:copy', (item, params) => {
 });
 
 core.events.on('contextmenu:graph:group:group', (item, params, state) => {
-  core.components.graph.setGroup(state.selects.group, params);
+  core.components.graph.setGroup(state);
 });
 
 core.events.on('contextmenu:graph:group:ungroup', (item, params, state) => {

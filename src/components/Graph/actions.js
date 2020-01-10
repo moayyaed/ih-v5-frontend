@@ -234,26 +234,43 @@ export function clearAllSelects() {
   };
 }
 
-export function setGroup(group, data) {
+export function setGroup(state) {
   const id = shortid.generate();
-  const items = data.reduce((p, c) => { 
-    return { ...p, [c.settings.id]: true };
-  }, {});
-  return {
-    type: GRAPH_SET_GROUP,
-    itemid: id,
-    data: {
-      settings: {
-        id,
-        x: group.x,
-        y: group.y,
-        w: group.w,
-        h: group.h,
-        color: 'rgba(158, 158, 158, 0.45)',
-        group: items,
+  const group = state.selects.group;
+  const items = state.selects.data;
+  const groupitem = {
+    settings: {
+      id,
+      x: group.x,
+      y: group.y,
+      w: group.w,
+      h: group.h,
+      color: 'transparent',
+      group: items,
+    }
+  }
+  
+  const map = Object
+    .keys(state.map)
+    .reduce((p, c) => {
+      if (items[c] !== undefined) {
+        return { ...p, [c]: {
+          ...state.map[c],
+          settings: {
+            ...state.map[c].settings,
+            parent: id,
+          }
+        } };
       }
-    },
-  };
+
+      return { ...p, [c]: state.map[c] };
+    }, { [id]: groupitem });
+ 
+  return { 
+    type: GRAPH_SET_GROUP,
+    map,
+    selects: { ...items, [id]: true }
+  }
 }
 
 export function unsetGroup(group, data) {
