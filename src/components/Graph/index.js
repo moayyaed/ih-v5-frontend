@@ -21,6 +21,7 @@ const styles = {
     position: 'absolute',
   },
   paper: {
+    // transformOrigin: '0 0',
     width: 550,
     height: 550,
     position: 'absolute',
@@ -204,6 +205,10 @@ class Graph extends Component {
     this.lastDragLayout = false;
     this.z = { x: 0, y: 0, w: 0, h: 0, t: 0, l: 0 };
 
+    this.zoom_point = { x: 0, y: 0 };
+    this.zoom_target = { x:0, y:0 };
+    this.pos = { x: 150, y: 150, w: this.list.offsetWidth, h: this.list.offsetHeight, s: 1}
+ 
     document.addEventListener('keyup', this.handleKeyUp);
     document.addEventListener('keydown', this.handleKeyDown);
   }
@@ -222,8 +227,41 @@ class Graph extends Component {
     this.page = e;
   }
 
+  linkList = (e) => {
+    this.list = e;
+  }
+
   linkZone = (e) => {
     this.zone = e;
+  }
+
+  handleMouseWhell = (e) => {
+    var offset = this.page.getBoundingClientRect()
+    this.zoom_point.x = e.pageX - offset.left
+    this.zoom_point.y = e.pageY - offset.top
+
+    let delta = e.deltaY;
+    delta = Math.max(-1,Math.min(1,delta))
+
+    this.zoom_target.x = (this.zoom_point.x - this.pos.x) / this.pos.s
+    this.zoom_target.y = (this.zoom_point.y - this.pos.y) / this.pos.s
+    
+    this.pos.s += delta * 0.1 * this.pos.s;
+    this.pos.s = Math.max(1, Math.min(8, this.pos.s));
+
+    this.pos.x = -this.zoom_target.x * this.pos.s + this.zoom_point.x
+    this.pos.y = -this.zoom_target.y * this.pos.s + this.zoom_point.y
+
+    if(this.pos.x+this.pos.w*this.pos.s<this.pos.w)
+      this.pos.x = -this.pos.w*(this.pos.s-1)
+ 
+    if(this.pos.y+this.pos.h*this.pos.s<this.pos.h)
+      this.pos.y = -this.pos.h*(this.pos.s-1)
+
+    const x = this.pos.x + this.pos.w * (this.pos.s-1) / 2;
+    const y = this.pos.y + this.pos.h * (this.pos.s-1) / 2;
+    
+    this.list.style.transform = 'translate('+(x)+'px,'+(y)+'px) scale('+this.pos.s+','+this.pos.s+')';
   }
 
   handleSelectMouseMove = (pos) => {
@@ -381,6 +419,9 @@ class Graph extends Component {
   }
 
   handlePositionLayout = (e, data) => {
+    console.log(data.x)
+    this.pos.x = data.x;
+    this.pos.y = data.y;
     core.components.graph.setPositionLayout(data.x, data.y);
   }
 
@@ -513,7 +554,8 @@ class Graph extends Component {
         ref={this.linkPage}
         style={styles.page}
         onMouseUp={this.handleMouseUpPage}
-        onMouseDown={this.handleMouseDownPage} 
+        onMouseDown={this.handleMouseDownPage}
+        
       >
         <div ref={this.linkZone} style={styles.zone} />
         <Draggable 
@@ -523,12 +565,13 @@ class Graph extends Component {
           onStop={this.handlePositionLayout}
         >
           <Paper
-            ref={this.refList}
+            ref={this.linkList}
             elevation={2} 
             className="parent" 
             style={styles.paper}
             onClick={(e) => this.handleClickLayout(e, state)}
             onContextMenu={(e) => this.handleContextMenuLayout(e, state)}
+            onWheel={this.handleMouseWhell}
           >
             <Draggable
               disabled={block.containers}
