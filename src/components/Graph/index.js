@@ -206,10 +206,6 @@ class Graph extends Component {
     this.lastDragLayout = false;
     this.z = { x: 0, y: 0, w: 0, h: 0, t: 0, l: 0 };
 
-    this.zoom_point = { x: 0, y: 0 };
-    this.zoom_target = { x:0, y:0 };
-    this.pos = { x: this.props.state.settings.x, y: this.props.state.settings.y, w: this.list.offsetWidth, h: this.list.offsetHeight, s: 1}
- 
     document.addEventListener('keyup', this.handleKeyUp);
     document.addEventListener('keydown', this.handleKeyDown);
   }
@@ -244,17 +240,13 @@ class Graph extends Component {
     let y = this.props.state.settings.y;
     let s = this.props.state.settings.scale;
 
-    let px = 0;
-    let py = 0;
-    let tx = 0;
-    let ty = 0;
-    
-    px = e.pageX - offset.left
-    py = e.pageY - offset.top
- 
-    tx = (px - x) / s
-    ty = (py - y) / s
-    
+    const px = e.pageX - offset.left;
+    const py = e.pageY - offset.top;
+
+    const tx = (px - x) / s;
+    const ty = (py - y) / s;
+  
+
     s += delta * 0.1 * s;
     s = Math.max(1, Math.min(8, s));
 
@@ -423,7 +415,6 @@ class Graph extends Component {
   }
 
   handlePositionLayout = (e, data) => {
-    this.pos = { ...this.pos, x: data.x, y: data.y }
     core.components.graph.setPositionLayout(data.x, data.y, this.props.state.settings.scale);
   }
 
