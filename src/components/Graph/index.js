@@ -16,7 +16,7 @@ const styles = {
     overflow: 'hidden',
     position: 'relative',
     perspective: 1000,
-    '-webkit-perspective': 1000,
+    WebkitPerspective: 1000,
   },
   zone: {
     display: 'none',
