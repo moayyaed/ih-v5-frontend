@@ -237,32 +237,38 @@ class Graph extends Component {
   }
 
   handleMouseWhell = (e) => {
-    var offset = this.page.getBoundingClientRect()
+    let x = this.props.state.settings.x;
+    let y = this.props.state.settings.y;
+    let s = this.props.state.settings.scale;
+
+    const offset = this.page.getBoundingClientRect();
+    const delta = Math.max(-1, Math.min(1, e.deltaY));
+
+    const w = this.props.state.settings.w;
+    const h = this.props.state.settings.h;
+    
     this.zoom_point.x = e.pageX - offset.left
     this.zoom_point.y = e.pageY - offset.top
-
-    let delta = e.deltaY;
-    delta = Math.max(-1,Math.min(1,delta))
-
-    this.zoom_target.x = (this.zoom_point.x - this.pos.x) / this.pos.s
-    this.zoom_target.y = (this.zoom_point.y - this.pos.y) / this.pos.s
-    
-    this.pos.s += delta * 0.1 * this.pos.s;
-    this.pos.s = Math.max(1, Math.min(8, this.pos.s));
-
-    this.pos.x = -this.zoom_target.x * this.pos.s + this.zoom_point.x
-    this.pos.y = -this.zoom_target.y * this.pos.s + this.zoom_point.y
-
-    if(this.pos.x+this.pos.w*this.pos.s<this.pos.w)
-      this.pos.x = -this.pos.w*(this.pos.s-1)
  
-    if(this.pos.y+this.pos.h*this.pos.s<this.pos.h)
-      this.pos.y = -this.pos.h*(this.pos.s-1)
+    this.zoom_target.x = (this.zoom_point.x - x) / s
+    this.zoom_target.y = (this.zoom_point.y - y) / s
+    
+    s += delta * 0.1 * s;
+    s = Math.max(1, Math.min(8, s));
 
-    const x =  this.pos.x//this.pos.x + this.pos.w * (this.pos.s-1) / 2;
-    const y = this.pos.y// this.pos.y + this.pos.h * (this.pos.s-1) / 2;
+    x = -this.zoom_target.x * s + this.zoom_point.x
+    y = -this.zoom_target.y * s + this.zoom_point.y
+
+    if(x + w * s < w)
+      x = -w * (s - 1)
+ 
+    if(y + h * s < h)
+      y = - h *(s-1)
+
+    // x + w * (s-1) / 2;
+    // y + h * (s-1) / 2;
   
-    core.components.graph.setPositionLayout(x, y, this.pos.s);
+    core.components.graph.setPositionLayout(x, y, s);
   }
 
   handleSelectMouseMove = (pos) => {
