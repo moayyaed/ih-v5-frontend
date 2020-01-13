@@ -237,33 +237,30 @@ class Graph extends Component {
   }
 
   handleMouseWhell = (e) => {
+    const offset = this.page.getBoundingClientRect();
+    const delta = Math.max(-1, Math.min(1, e.deltaY));
+
     let x = this.props.state.settings.x;
     let y = this.props.state.settings.y;
     let s = this.props.state.settings.scale;
 
-    const offset = this.page.getBoundingClientRect();
-    const delta = Math.max(-1, Math.min(1, e.deltaY));
-
-    const w = this.props.state.settings.w;
-    const h = this.props.state.settings.h;
+    let px = 0;
+    let py = 0;
+    let tx = 0;
+    let ty = 0;
     
-    this.zoom_point.x = e.pageX - offset.left
-    this.zoom_point.y = e.pageY - offset.top
+    px = e.pageX - offset.left
+    py = e.pageY - offset.top
  
-    this.zoom_target.x = (this.zoom_point.x - x) / s
-    this.zoom_target.y = (this.zoom_point.y - y) / s
+    tx = (px - x) / s
+    ty = (py - y) / s
     
     s += delta * 0.1 * s;
     s = Math.max(1, Math.min(8, s));
 
-    x = -this.zoom_target.x * s + this.zoom_point.x
-    y = -this.zoom_target.y * s + this.zoom_point.y
-
-    if(x + w * s < w)
-      x = -w * (s - 1)
- 
-    if(y + h * s < h)
-      y = - h *(s-1)
+    x = -tx * s + px
+    y = -ty * s + py
+      
 
     // x + w * (s-1) / 2;
     // y + h * (s-1) / 2;
