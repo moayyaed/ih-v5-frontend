@@ -233,7 +233,8 @@ class Graph extends Component {
   }
 
   handleMouseWhell = (e) => {
-    const offset = this.page.getBoundingClientRect();
+    /*
+        const offset = this.page.getBoundingClientRect();
     const delta = Math.max(-1, Math.min(1, e.deltaY));
 
     let x = this.props.state.settings.x;
@@ -252,10 +253,32 @@ class Graph extends Component {
 
     x = -tx * s + px
     y = -ty * s + py
-      
+    */
+    const offset = this.page.getBoundingClientRect();
+    const delta = Math.max(-1, Math.min(1, e.deltaY));
 
-    // x + w * (s-1) / 2;
-    // y + h * (s-1) / 2;
+    let x = this.props.state.settings.x;
+    let y = this.props.state.settings.y;
+    let s = this.props.state.settings.scale;
+
+    const px = e.pageX - offset.left;
+    const py = e.pageY - offset.top;
+
+    const tx = (px - x) / s;
+    const ty = (py - y) / s;
+  
+
+    s += delta * 0.1 * s;
+    if (s > 8) {
+      s = 8;
+    }
+    if (s < 0.1 ) {
+      s = 0.1;
+    }
+    // s = Math.max(1, Math.min(8, s));
+
+    x = -tx * s + px
+    y = -ty * s + py
   
     core.components.graph.setPositionLayout(x, y, s);
   }
