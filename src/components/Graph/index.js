@@ -15,6 +15,8 @@ const styles = {
     height: '100%',
     overflow: 'hidden',
     position: 'relative',
+    perspective: 1000,
+    '-webkit-perspective': 1000,
   },
   zone: {
     display: 'none',
@@ -25,7 +27,7 @@ const styles = {
     position: 'absolute',
     borderRadius: 0,
     backgroundSize: '50px 50px',
-    backgroundImage: "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiA8bGluZSB4MT0iMTAwIiB5MT0iMCIgeDI9IjEwMCIgeTI9IjEwMCIgc3Ryb2tlPSJibGFjayIgLz4KIDxsaW5lIHgxPSIwIiB5MT0iMTAwIiB4Mj0iMTAwIiB5Mj0iMTAwIiBzdHJva2U9ImJsYWNrIiAvPgo8L3N2Zz4=')",
+    backgroundImage: "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+DQogPGxpbmUgeDE9IjEwMCIgeTE9IjAiIHgyPSIxMDAiIHkyPSIxMDAiIHN0cm9rZT0iIzc1NzU3NSIgLz4NCiA8bGluZSB4MT0iMCIgeTE9IjEwMCIgeDI9IjEwMCIgeTI9IjEwMCIgc3Ryb2tlPSIjNzU3NTc1IiAvPg0KPC9zdmc+')",
   },
   sizecontrol: {
     opacity: 0,
