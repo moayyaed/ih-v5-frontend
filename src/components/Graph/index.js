@@ -176,6 +176,7 @@ function Container(props) {
           height: settings.h,
           position: 'absolute',
           outline: !settings.parent && selectsData[settings.id] && settings.group === undefined ? '2px dashed #ff00ff' : '0px dashed #ff00ff',
+          zIndex: settings.group && !settings.parent ?  1500: 'unset',
         }}
         onClick={(e) => props.onClick(e, props.data, null, props.selects)}
         onContextMenu={(e) => props.onContextMenu(e, props.data, props.selects)}
@@ -419,31 +420,7 @@ class Graph extends Component {
   }
 
   handlePositionLayout = (e, data) => {
-    
-
-
     this.pos = { ...this.pos, x: data.x, y: data.y }
-    /*
-    var offset = this.page.getBoundingClientRect()
-    this.zoom_point.x = e.pageX - offset.left
-    this.zoom_point.y = e.pageY - offset.top
-
-    let delta = e.deltaY;
-    delta = Math.max(-1,Math.min(1,delta))
-
-    this.zoom_target.x = (this.zoom_point.x - this.pos.x) / this.pos.s
-    this.zoom_target.y = (this.zoom_point.y - this.pos.y) / this.pos.s
-
-    this.pos.x = -this.zoom_target.x * this.pos.s + this.zoom_point.x
-    this.pos.y = -this.zoom_target.y * this.pos.s + this.zoom_point.y
-
-    if(this.pos.x+this.pos.w*this.pos.s<this.pos.w)
-      this.pos.x = -this.pos.w*(this.pos.s-1)
- 
-    if(this.pos.y+this.pos.h*this.pos.s<this.pos.h)
-      this.pos.y = -this.pos.h*(this.pos.s-1)
-      */
- 
     core.components.graph.setPositionLayout(data.x, data.y, this.props.state.settings.scale);
   }
 
@@ -563,7 +540,6 @@ class Graph extends Component {
   }
 
   render({ id, state, match, classes, onClick } = this.props) {
-    // console.log(state)
     const group = state.selects.group;
     const block = state.selects.block;
     return (

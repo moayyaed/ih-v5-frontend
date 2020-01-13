@@ -107,7 +107,7 @@ export const graphDataL = {
 export const graphDataL1 = {
   type: 'layout',
   settings: {
-    x: 150, y: 150,
+    x: 50, y: 50,
     w: 550, h: 550,
     scale: 1,
   },
