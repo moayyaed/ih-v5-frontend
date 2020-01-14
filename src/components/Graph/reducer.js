@@ -1,8 +1,10 @@
 import { 
   GRAPH_SET_DATA, 
+  GRAPH_FORCE_DATA, 
   GRAPH_SET_POSITION_LAYOUT, 
   GRAPH_SET_POSITION_CONTAINER,
   GRAPH_SET_POSITION_GROUP_CONTAINER,
+  GRAPH_SET_PROPERTIES_CONTAINER,
   GRAPH_SET_RESIZE_GROUP_CONTAINER,
   GRAPH_SET_SETTINGS_CONTAINER,
 
@@ -42,6 +44,8 @@ function reducer(state = defaultState, action) {
   switch (action.type) {
     case GRAPH_SET_DATA:
       return { ...state, ...defaultState, ...action.data };
+    case GRAPH_FORCE_DATA:
+      return { ...state, ...action.data };
     case GRAPH_SET_POSITION_LAYOUT:
       return { 
         ...state, 
@@ -67,6 +71,22 @@ function reducer(state = defaultState, action) {
           }
         } 
       };
+    case GRAPH_SET_PROPERTIES_CONTAINER:
+      return { 
+        ...state, 
+        map: Object.keys(state.map).reduce((p, c) => {
+          if (!state.map[c].settings.group && action.items[c]) {
+            return { ...p, [c]: {
+              ...state.map[c],
+              settings: {
+                ...state.map[c].settings,
+                [action.name]: action.value,
+              }
+            } }
+          }
+          return { ...p, [c]: state.map[c] }
+        }, {}),
+      };
     case GRAPH_SET_POSITION_CONTAINER:
       return state;
     case GRAPH_SET_SETTINGS_CONTAINER:
@@ -89,6 +109,16 @@ function reducer(state = defaultState, action) {
         map: {
           ...state.map,
           ...action.data,
+        },
+        vars: {
+          ...state.vars,
+          default: {
+            ...state.vars.default,
+            state: {
+              ...state.vars.default.state,
+              ...action.data,
+            }
+          }
         }
       };
     case GRAPH_SELECT_ONE_CONTAINER:

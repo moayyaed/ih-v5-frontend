@@ -7,7 +7,7 @@ import Draggable from 'react-draggable';
 import { withStyles } from '@material-ui/core/styles';
 
 import css from './main.module.css';
-
+import Properties from './Properties';
 
 const styles = {
   page: {
@@ -43,6 +43,17 @@ const styles = {
     width: 100,
     height: 100,
     // zIndex: 1000,
+  },
+  properties: {
+    paddingTop: 35,
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    width: 250,
+    height: '100%',
+    background: '#37474F',
+    color: '#F5F5F5'
+    // zIndex: 1500,
   }
 };
 
@@ -188,7 +199,8 @@ function Container(props) {
             position: 'absolute', 
             width: '100%', 
             height: '100%', 
-            border: '2px solid ' + settings.color
+            border: `${settings.borderSize}px solid ${settings.borderColor}`,
+            backgroundColor: settings.backgroundColor,
           }} 
         />
         <SizeControl scale={props.scale} disabled={selectBlock.containers || !(selectType === 'one' || selectType === null)} op="TL" settings={settings} onPosition={props.onPositionSizeControl} />
@@ -548,6 +560,7 @@ class Graph extends Component {
     const group = state.selects.group;
     const block = state.selects.block;
     return (
+      <>
       <div
         ref={this.linkPage}
         style={styles.page}
@@ -617,8 +630,244 @@ class Graph extends Component {
           </Paper>
         </Draggable>
       </div>
+      <Properties
+        select={this.props.state.selectvar}
+        vars={this.props.state.vars}
+        onClickAdd={this.handleClickPropsAdd}
+        onClickRemove={this.handleClickPropsRemove}
+        onChange={this.handleChangePropsContainer}
+        onClick={this.handleClickPropsClick}
+        onChangev={this.handleClickPropsChangev}
+      />
+      </>
     );
   }
+
+  handleClickPropsChangev = (type, id, e) => {
+    let v = e.target.value;
+    if (type === 'k') {
+      if (this.props.state.selectvar === id) {
+        const vars = Object.keys(this.props.state.vars).reduce((p, c) => {
+          if (this.props.state.vars[c].id === id) {
+            return { ...p, [v]: { ...this.props.state.vars[c], id: v, } };
+          }
+          return { ...p, [c]: this.props.state.vars[c] };
+        }, {});
+        core.components.graph.forceData({ selectvar: v,  vars });
+      } else {
+        const vars = Object.keys(this.props.state.vars).reduce((p, c) => {
+          if (this.props.state.vars[c].id === id) {
+            return { ...p, [v]: { id: v, ...this.props.state.vars[c] } };
+          }
+          return { ...p, [c]: this.props.state.vars[c] };
+        }, {});
+        core.components.graph.forceData({ vars });
+      }
+    }
+    if (type === 'v') { 
+      const vars = Object.keys(this.props.state.vars).reduce((p, c) => {
+        if (this.props.state.vars[c].id === id) {
+          return { ...p, [c]: { ...this.props.state.vars[c], value: v } };
+        }
+        return { ...p, [c]: this.props.state.vars[c] };
+      }, {});
+    
+      const oldv = this.props.state.vars[id].value;
+      const mode = vars[id].mode;
+      const s = vars[id].state[v];
+
+      if (mode === 'M') {
+        if (s !== undefined) {
+          const state = this.props.state;
+          const map = Object.keys(state.map).reduce((p, c) => {
+            if (s[c]!== undefined) {
+              return { 
+                ...p, 
+                [c]: {
+                  ...state.map[c],
+                  settings: {
+                    ...state.map[c].settings,
+                    ...s[c],
+                  }
+                } 
+              };
+            }
+            return { ...p, [c]: state.map[c] };
+          }, {});
+          core.components.graph.forceData({ map, vars });
+        } else {
+          core.components.graph.forceData({ vars });
+        }
+      }
+
+    if (mode === 'D') {
+        const d = vars.default.state;
+        const os = vars[id].state[oldv];
+        const state = this.props.state;
+        const map = Object.keys(state.map).reduce((p, c) => {
+          let styles = state.map[c].settings;
+          if (os && os[c]!== undefined) {
+            Object.keys(os[c]).forEach(k => {
+              styles[k] = d[c][k];
+            });
+          }
+          if (s && s[c]!== undefined) {
+            return { 
+              ...p, 
+              [c]: {
+                ...state.map[c],
+                settings: {
+                  ...styles,
+                  ...s[c],
+                }
+              } 
+            };
+          }
+          return { ...p, [c]: state.map[c] };
+        }, {});
+        core.components.graph.forceData({ map, vars });
+     }
+
+     if (mode === 'I') {
+      if (s !== undefined) {
+        const state = this.props.state;
+        const map = Object.keys(state.map).reduce((p, c) => {
+          if (s[c]!== undefined) {
+            return { 
+              ...p, 
+              [c]: {
+                ...state.map[c],
+                settings: {
+                  ...state.map[c].settings,
+                  ...s[c],
+                }
+              } 
+            };
+          }
+          return { ...p, [c]: state.map[c] };
+        }, {});
+        core.components.graph.forceData({ map, vars });
+      } else {
+        core.components.graph.forceData({ vars });
+      }
+    }
+
+    }
+  }
+
+  handleClickPropsClick = (e, type, id, value) => {
+    e.stopPropagation();
+    if (type === 's' && this.props.state.selectvar !== id) {
+      core.components.graph.forceData({ selectvar: id });
+    }
+
+    if (type === 'm') {
+      let v = 'D';
+      if (value === 'D') {
+        v = 'M'
+      }
+      if (value === 'M') {
+        v = 'I'
+      }
+      if (value === 'I') {
+        v = 'D'
+      }
+      const vars = Object.keys(this.props.state.vars).reduce((p, c) => {
+        if (this.props.state.vars[c].id === id) {
+          return { ...p, [c]: { ...this.props.state.vars[c], mode: v } };
+        }
+        return { ...p, [c]: this.props.state.vars[c] };
+      }, {});
+      core.components.graph.forceData({ vars });
+    }
+  }
+
+  handleClickPropsAdd = () => {
+    let i = 1;
+    const name = 'value';
+    function create(vars) {
+      if (vars[name + i] == undefined) {
+        core.components.graph.forceData({ selectvar: name + i, vars: {
+          ...vars,
+          [name + i]: { id: name + i, value: 0  }
+        } });
+      } else {
+        i = i + 1;
+        create(vars);
+      }
+    }
+    create(this.props.state.vars);
+  }
+
+  handleClickPropsRemove = () => {
+    if (this.props.state.selectvar !== 'default') {
+      const vars = Object.keys(this.props.state.vars).reduce((p, c) => {
+        if (this.props.state.vars[c].id === this.props.state.selectvar) {
+          return p;
+        }
+        return { ...p, [c]: this.props.state.vars[c] };
+      }, {});
+      const keys = Object.keys(vars);
+      const selectvar = keys.length === 0 ? null : keys[keys.length - 1];
+      core.components.graph.forceData({ selectvar, vars });
+    }
+  }
+
+  handleChangePropsContainer = (name, e) => {
+    const state = this.props.state;
+    let v = e;
+    if (name === 'borderColor') {
+      v = e.target.value;
+    }
+    if (name === 'backgroundColor') {
+      v = e.target.value;
+    }
+
+    const map = Object.keys(state.map).reduce((p, c) => {
+      if (!state.map[c].settings.group && state.selects.data[c]) {
+        return { 
+          ...p, 
+          [c]: {
+            ...state.map[c],
+            settings: {
+              ...state.map[c].settings,
+              [name]: v,
+            }
+          } 
+        };
+      }
+      return { ...p, [c]: state.map[c] };
+    }, {});
+
+    if (state.selectvar !== 'default') {
+      const vars = {
+        ...state.vars
+      }
+  
+      Object.keys(state.selects.data).forEach(k => {
+        if (vars[state.selectvar]) {
+          if (vars[state.selectvar].state[vars[state.selectvar].value] === undefined) {
+            vars[state.selectvar].state[vars[state.selectvar].value] = {
+              [k]: { [name]: v }
+            }
+          } else {
+            vars[state.selectvar].state[vars[state.selectvar].value] = {
+              ...vars[state.selectvar].state[vars[state.selectvar].value],
+              [k]: { [name]: v }
+            }
+          }
+        }
+      });
+      
+      
+      core.components.graph.forceData({ vars, map });
+    } else {
+      core.components.graph.forceData({ map });
+    }
+
+    // core.components.graph.setPropertiesContainer(this.props.state.selects.data, name, v);
+  }
+  
 }
 
 

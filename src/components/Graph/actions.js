@@ -1,9 +1,11 @@
 import shortid from 'shortid';
 
 import { 
-  GRAPH_SET_DATA, 
+  GRAPH_SET_DATA,
+  GRAPH_FORCE_DATA,
   GRAPH_SET_POSITION_LAYOUT, 
   GRAPH_SET_POSITION_CONTAINER,
+  GRAPH_SET_PROPERTIES_CONTAINER,
   GRAPH_SET_POSITION_GROUP_CONTAINER,
   GRAPH_SET_RESIZE_GROUP_CONTAINER,
   GRAPH_SET_SETTINGS_CONTAINER,
@@ -26,6 +28,13 @@ export function setData(data) {
   };
 }
 
+export function forceData(data) {
+  return {
+    type: GRAPH_FORCE_DATA,
+    data,
+  };
+}
+
 export function setPositionLayout(x, y, scale) {
   return {
     type: GRAPH_SET_POSITION_LAYOUT,
@@ -41,6 +50,15 @@ export function setPositionContainer(itemid, x, y) {
     itemid,
     x,
     y,
+  };
+}
+
+export function setPropertiesContainer(items, name, value) {
+  return {
+    type: GRAPH_SET_PROPERTIES_CONTAINER,
+    items,
+    name,
+    value,
   };
 }
 
@@ -305,7 +323,9 @@ export function unsetGroup(group, data) {
 
 export default {
   setData,
+  forceData,
   setPositionLayout,
+  setPropertiesContainer,
   setPositionContainer,
   setPositionGroupContainer,
   setResizeGroupContainer,
