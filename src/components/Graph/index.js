@@ -9,6 +9,10 @@ import { withStyles } from '@material-ui/core/styles';
 import css from './main.module.css';
 import Properties from './Properties';
 
+const imgs = {
+
+};
+
 const styles = {
   page: {
     width: '100%',
@@ -185,24 +189,38 @@ function Container(props) {
       <div
         className="container"  
         style={{ 
+          display: 'flex',
+          flexDirection: settings.mode,
           width: settings.w,
           height: settings.h,
           position: 'absolute',
           outline: !settings.parent && selectsData[settings.id] && settings.group === undefined ? '2px dashed #ff00ff' : '0px dashed #ff00ff',
           zIndex: settings.group && !settings.parent ?  1500: 'unset',
+          overflow: 'hidden',
+          zIndex: settings.zindex, 
         }}
         onClick={(e) => props.onClick(e, props.data, null, props.selects)}
         onContextMenu={(e) => props.onContextMenu(e, props.data, props.selects)}
       >
         <div 
           style={{ 
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
             position: 'absolute', 
-            width: '100%', 
-            height: '100%', 
+            width: settings.ww + '%', 
+            height: settings.hh + '%',
             border: `${settings.borderSize}px solid ${settings.borderColor}`,
             backgroundColor: settings.backgroundColor,
+            borderRadius: settings.borderRadius + '%',
+            transform: `scale(${settings.scale / 100}) rotate(${settings.rotate}deg)`,
+            backgroundImage: `url(${settings.img})`,
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+            opacity: settings.opacity / 100,
           }} 
-        />
+        >{settings.text}</div>
         <SizeControl scale={props.scale} disabled={selectBlock.containers || !(selectType === 'one' || selectType === null)} op="TL" settings={settings} onPosition={props.onPositionSizeControl} />
         <SizeControl scale={props.scale} disabled={selectBlock.containers || !(selectType === 'one' || selectType === null)} op="TR" settings={settings} onPosition={props.onPositionSizeControl} />
         <SizeControl scale={props.scale} disabled={selectBlock.containers || !(selectType === 'one' || selectType === null)} op="BL" settings={settings} onPosition={props.onPositionSizeControl} />
@@ -593,7 +611,7 @@ class Graph extends Component {
               onDrag={(e, data) => this.handlePositionDragGroup(e, data, state.selects)}
               onStop={(e, data) => this.handlePositionStopGroup(e, data, state.selects)}
             >
-              <div 
+              <div
                 style={{ 
                   ...styles.group, 
                   display: group.enabled ? 'block' : 'none',
@@ -643,8 +661,28 @@ class Graph extends Component {
     );
   }
 
-  handleClickPropsChangev = (type, id, e) => {
+  handleClickPropsChangev = (type, id, e, oldv) => {
+ 
     let v = e.target.value;
+    
+    if (type === 'm') {
+      const vars = Object.keys(this.props.state.vars).reduce((p, c) => {
+        if (this.props.state.vars[c].id === id) {
+          return { ...p, [c]: {
+            ...this.props.state.vars[c],
+            state: Object.keys(this.props.state.vars[c].state).reduce((l, n) => {
+              if (n === oldv) {
+                return { ...l, [v]: this.props.state.vars[c].state[n] };
+              }
+              return { ...l, [n]: this.props.state.vars[c].state[n] };
+            }, {}),
+          } };
+        }
+        return { ...p, [c]: this.props.state.vars[c] };
+      }, {});
+      core.components.graph.forceData({ vars });
+    }
+
     if (type === 'k') {
       if (this.props.state.selectvar === id) {
         const vars = Object.keys(this.props.state.vars).reduce((p, c) => {
@@ -664,6 +702,7 @@ class Graph extends Component {
         core.components.graph.forceData({ vars });
       }
     }
+   
     if (type === 'v') { 
       const vars = Object.keys(this.props.state.vars).reduce((p, c) => {
         if (this.props.state.vars[c].id === id) {
@@ -836,7 +875,7 @@ class Graph extends Component {
       if (vars[name + i] == undefined) {
         core.components.graph.forceData({ selectvar: name + i, vars: {
           ...vars,
-          [name + i]: { id: name + i, value: 0  }
+          [name + i]: { id: name + i, value: 0, state: {}, mode: 'D'  }
         } });
       } else {
         i = i + 1;
@@ -870,62 +909,108 @@ class Graph extends Component {
       v = e.target.value;
     }
 
-    const map = Object.keys(state.map).reduce((p, c) => {
-      if (!state.map[c].settings.group && state.selects.data[c]) {
-        return { 
-          ...p, 
-          [c]: {
-            ...state.map[c],
-            settings: {
-              ...state.map[c].settings,
-              [name]: v,
-            }
-          } 
-        };
-      }
-      return { ...p, [c]: state.map[c] };
-    }, {});
+    if (name === 'text') {
+      v = e.target.value;
+    }
 
-      const vars = {
-        ...state.vars
+    if (name === 'zindex') {
+      v = e.target.value;
+    }
+
+    /*
+    if (name === 'w') {
+      v = Number(e.target.value);
+    }
+
+    if (name === 'h') {
+      v = Number(e.target.value);
+    }
+    */
+
+   if (name === 'mode') {
+    v = e.target.value;
+  }
+
+    if (name === 'img') {
+      if (e === null) {
+        v = null;
+        set();
+      } else {
+        if (e.target.files && e.target.files[0]) {
+          var reader = new FileReader();
+          
+          reader.onload = function(ev) {
+            v = ev.target.result;
+            set();
+          }
+          
+          reader.readAsDataURL(e.target.files[0]);
+        }
       }
-  
-      Object.keys(state.selects.data).forEach(k => {
-        if (state.selectvar !== 'default') {
-          if (vars[state.selectvar]) {
-            if (vars[state.selectvar].state[vars[state.selectvar].value] === undefined) {
-              vars[state.selectvar].state[vars[state.selectvar].value] = {}
-            }
-            if (vars[state.selectvar].state[vars[state.selectvar].value][k] === undefined) {
-              vars[state.selectvar].state[vars[state.selectvar].value] = {
-                ...vars[state.selectvar].state[vars[state.selectvar].value],
-                [k]: { [name]: v }
-              }
-            } else {
-              vars[state.selectvar].state[vars[state.selectvar].value][k] = {
-                ...vars[state.selectvar].state[vars[state.selectvar].value][k],
+
+    } else {
+      set()
+    }
+    function set() {
+      const map = Object.keys(state.map).reduce((p, c) => {
+        if (!state.map[c].settings.group && state.selects.data[c]) {
+          return { 
+            ...p, 
+            [c]: {
+              ...state.map[c],
+              settings: {
+                ...state.map[c].settings,
                 [name]: v,
               }
-            }
-          }
-        } else {
-          if (vars[state.selectvar]) {
-            if (vars[state.selectvar].state === undefined) {
-              vars[state.selectvar].state = {
-                [k]: { [name]: v }
-              }
-            } else {
-              vars[state.selectvar].state = {
-                ...vars[state.selectvar].state,
-                [k]: { [name]: v }
-              }
-            }
-          }
+            } 
+          };
         }
-      });
-      
-      
-      core.components.graph.forceData({ vars, map });
+        return { ...p, [c]: state.map[c] };
+      }, {});
+  
+        const vars = {
+          ...state.vars
+        }
+    
+        Object.keys(state.selects.data).forEach(k => {
+          if (state.selectvar !== 'default') {
+            if (vars[state.selectvar]) {
+              if (vars[state.selectvar].state[vars[state.selectvar].value] === undefined) {
+                vars[state.selectvar].state[vars[state.selectvar].value] = {}
+              }
+              if (vars[state.selectvar].state[vars[state.selectvar].value][k] === undefined) {
+                vars[state.selectvar].state[vars[state.selectvar].value] = {
+                  ...vars[state.selectvar].state[vars[state.selectvar].value],
+                  [k]: { [name]: v }
+                }
+              } else {
+                vars[state.selectvar].state[vars[state.selectvar].value][k] = {
+                  ...vars[state.selectvar].state[vars[state.selectvar].value][k],
+                  [name]: v,
+                }
+              }
+            }
+          } else {
+            if (vars[state.selectvar]) {
+              if (vars[state.selectvar].state === undefined) {
+                vars[state.selectvar].state = {
+                  [k]: { [name]: v }
+                }
+              } else {
+                vars[state.selectvar].state = {
+                  ...vars[state.selectvar].state,
+                  [k]: { [name]: v }
+                }
+              }
+            }
+          }
+        });
+        
+        
+        core.components.graph.forceData({ vars, map });
+    }
+
+
 
     // core.components.graph.setPropertiesContainer(this.props.state.selects.data, name, v);
   }

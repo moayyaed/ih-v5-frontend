@@ -91,7 +91,16 @@ const d =  {
     h: 70,
     borderColor: 'red',
     borderSize: 2,
-    backgroundColor: '#ffffff'   
+    backgroundColor: '#ffffff',
+    borderRadius: 0,
+    scale: 100,
+    text: '',
+    img: null,
+    zindex: 0,
+    opacity: 100,
+    rotate: 0,
+    ww: 100,
+    hh: 100,
   },
 };
 
@@ -105,9 +114,9 @@ export const graphDataL = {
   selectvar: 'default',
   vars: {
     default: { id: 'default', value: '-', mode: 'D', state: d },
-    value: { id: 'value', value: 50, mode: 'D', state: {} },
-    state: { id: 'state', value: 0, mode: 'D', state: {} },
-    error: { id: 'error', value: 0, mode: 'D', state: {} },
+   //  value: { id: 'value', value: 50, mode: 'D', state: {} },
+   // state: { id: 'state', value: 0, mode: 'D', state: {} },
+   //  error: { id: 'error', value: 0, mode: 'D', state: {} },
   },
   map: Object.keys(d).reduce((p, c) => {
     return { ...p, [c]: { settings: { ...d[c], id: c } } }
@@ -123,7 +132,16 @@ const d1 =  {
     h: 70,
     borderColor: '#2196F3',
     borderSize: 2,
-    backgroundColor: '#ffffff'
+    backgroundColor: '#ffffff',
+    borderRadius: 0,
+    scale: 100,
+    text: '',
+    img: null,
+    zindex: 0,
+    opacity: 100,
+    rotate: 0,
+    ww: 100,
+    hh: 100,
   },
   '23TplPdS': {
     x: 175,
@@ -132,7 +150,16 @@ const d1 =  {
     h: 70,
     borderColor: '#8BC34A',
     borderSize: 2,
-    backgroundColor: '#ffffff'
+    backgroundColor: '#ffffff',
+    borderRadius: 0,
+    scale: 100,
+    text: '',
+    img: null,
+    zindex: 0,
+    opacity: 100,
+    rotate: 0,
+    ww: 100,
+    hh: 100,
   },
   '46Juzcyx': {
     x: 350,
@@ -141,7 +168,16 @@ const d1 =  {
     h: 70,
     borderColor: '#FFEB3B',
     borderSize: 2,
-    backgroundColor: '#ffffff'
+    backgroundColor: '#ffffff',
+    borderRadius: 0,
+    scale: 100,
+    text: '',
+    img: null,
+    zindex: 0,
+    opacity: 100,
+    rotate: 0,
+    ww: 100,
+    hh: 100,
   },
 };
 
@@ -155,9 +191,9 @@ export const graphDataL1 = {
   selectvar: 'default',
   vars: {
     default: { id: 'default', value: '-', mode: 'D', state: d1 },
-    value: { id: 'value', value: 50, mode: 'D', state: {} },
-    state: { id: 'state', value: 0, mode: 'D', state: {} },
-    error: { id: 'error', value: 0, mode: 'D', state: {} },
+   // value: { id: 'value', value: 50, mode: 'D', state: {} },
+   // state: { id: 'state', value: 0, mode: 'D', state: {} },
+   // error: { id: 'error', value: 0, mode: 'D', state: {} },
   },
   map: Object.keys(d1).reduce((p, c) => {
     return { ...p, [c]: { settings: { ...d1[c], id: c } } }

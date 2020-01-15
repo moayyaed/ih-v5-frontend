@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import core from 'core';
 
 
@@ -17,6 +17,13 @@ import { useSpring, animated } from 'react-spring/web.cjs'; // web.cjs is requir
 import { Label } from '@blueprintjs/core';
 
 import { Scrollbars } from 'react-custom-scrollbars';
+
+import TextField from '@material-ui/core/TextField';
+import IconButton from '@material-ui/core/IconButton';
+import PhotoCamera from '@material-ui/icons/Image';
+import Del from '@material-ui/icons/Delete';
+import Pos from '@material-ui/icons/ZoomOutMap';
+import Bru from '@material-ui/icons/Brush';
 
 
 const styles = {
@@ -38,7 +45,8 @@ const styles = {
   },
   p2: {
     borderTop: '4px solid #263238',
-    padding: 16,
+    padding: 20,
+    paddingTop: 0,
     height: '60%',
   },
   p3: {
@@ -128,6 +136,19 @@ const styles = {
     backgroundColor: '#EEEEEE',
     color: '#424242',
     fontWeight: 'bold',
+  },
+  m1: {
+    width: '100%',
+    height: 24,
+  },
+  m2: {
+    position: 'absolute',
+    background: 'transparent',
+    border: 'none',
+    color: 'rgb(245, 245, 245)',
+    left: 47,
+    height: 24,
+    width: '80%',
   }
 };
 
@@ -278,15 +299,20 @@ function getTree1(item) {
   return keys.map(k => <StyledTreeItem nodeId={k} label={k} >{getTree2(item[k])}</StyledTreeItem>)
 }
 
-function getTree(item) {
+function getTree(item, id, props) {
   const keys = Object.keys(item)
   if (keys.length === 0) {
     return null;
   }
-  return keys.map(k => <StyledTreeItem nodeId={k} label={k} >{getTree1(item[k])}</StyledTreeItem>)
+  return keys.map(k => <StyledTreeItem nodeId={k} label={
+    <div onClick={(e) => e.stopPropagation()} style={styles.i1}>
+      <div style={styles.m1}><input onKeyDown={e => e.stopPropagation()} onChange={(e) => props.onChangev('m', id, e, k)}  type="text"  style={styles.m2} value={k} /></div>
+    </div>
+  } >{getTree1(item[k])}</StyledTreeItem>)
 }
 
 function Properties(props) {
+  const [pmode, setPmode] = useState(0);
   const classes = useStyles();
   return (
     <div style={styles.properties}>
@@ -295,7 +321,6 @@ function Properties(props) {
           <Scrollbars style={{ width: '100%', height: '100%' }}>
             <TreeView
               className={classes.root}
-              defaultExpanded={[]}
               defaultCollapseIcon={<MinusSquare />}
               defaultExpandIcon={<PlusSquare />}
               defaultEndIcon={<CloseSquare />}
@@ -315,7 +340,7 @@ function Properties(props) {
                       key={i.toString()} 
                       nodeId={i.toString()} 
                       label={<ItemLabel onChange={props.onChangev} onClick={props.onClick} select={props.select} item={props.vars[key]} />} >
-                    {getTree(props.vars[key].state)}
+                    {getTree(props.vars[key].state, props.vars[key].id, props)}
                     </StyledTreeItem>
                   );
                 })}
@@ -328,19 +353,111 @@ function Properties(props) {
         </ButtonGroup>
       </div>
       <div style={styles.p2}>
-        <Typography gutterBottom>Размер рамки</Typography>
-        <PrettoSlider 
-          min={0}
-          max={50}
-          valueLabelDisplay="auto" 
-          defaultValue={20} 
-          onChange={(e, value) => props.onChange('borderSize', value)}
-        />
-        <Typography gutterBottom>Цвет рамки</Typography>
-        <input type="color" onChange={(e, value) => props.onChange('borderColor', e)} />
-        <p /><p />
-        <Typography gutterBottom>Цвет Фона</Typography>
-        <input type="color" onChange={(e, value) => props.onChange('backgroundColor', e)} />
+        <IconButton size="small" onClick={(e) => setPmode(0)} color="primary" component="span">
+            <Bru />
+          </IconButton>
+          <IconButton  style={{ marginLeft: 6 }}size="small" onClick={(e) => setPmode(1)} color="primary" component="span">
+            <Pos />
+          </IconButton>
+          {pmode === 0 ? (
+            <>
+              <Typography gutterBottom>Размер рамки</Typography>
+              <PrettoSlider 
+                min={0}
+                max={50}
+                valueLabelDisplay="auto" 
+                defaultValue={2} 
+                onChange={(e, value) => props.onChange('borderSize', value)}
+              />
+              <Typography gutterBottom>Cкругление рамки</Typography>
+              <PrettoSlider 
+                min={0}
+                max={50}
+                valueLabelDisplay="auto" 
+                defaultValue={2} 
+                onChange={(e, value) => props.onChange('borderRadius', value)}
+              />
+              <Typography gutterBottom>Цвет рамки</Typography>
+              <input type="color" onChange={(e, value) => props.onChange('borderColor', e)} />
+              <p /><p />
+              <Typography gutterBottom>Цвет Фона</Typography>
+              <input type="color" onChange={(e, value) => props.onChange('backgroundColor', e)} />
+              <p /><p />
+              <Typography gutterBottom>Непрозрачность</Typography>
+              <PrettoSlider 
+                min={0}
+                max={100}
+                valueLabelDisplay="auto" 
+                defaultValue={100} 
+                onChange={(e, value) => props.onChange('opacity', value)}
+              />
+              <Typography gutterBottom>Поворот</Typography>
+              <PrettoSlider 
+                min={0}
+                max={360}
+                valueLabelDisplay="auto" 
+                defaultValue={0} 
+                onChange={(e, value) => props.onChange('rotate', value)}
+              />
+            </>
+          ) : null }
+          {pmode === 1 ? (
+            <>
+              <Typography gutterBottom>Масштаб</Typography>
+              <PrettoSlider 
+                min={0}
+                max={200}
+                valueLabelDisplay="auto" 
+                defaultValue={100} 
+                onChange={(e, value) => props.onChange('scale', value)}
+              />
+              <Typography gutterBottom>Текст</Typography>
+              <input type="text" onChange={(e, value) => props.onChange('text', e)} />
+              <input
+                accept="image/*"
+                style={{ display: 'none' }}
+                id="outlined-button-file"
+                multiple
+                type="file"
+                onChange={(e) => props.onChange('img', e)}
+              />
+              <label htmlFor="outlined-button-file">
+                <IconButton color="primary" aria-label="upload picture" component="span">
+                  <PhotoCamera />
+                </IconButton>
+              </label>
+              <IconButton onClick={(e) => props.onChange('img', null)} style={{ position: 'absolute', right: 0 }} color="primary" component="span">
+                <Del />
+              </IconButton>
+              <Typography gutterBottom>Width</Typography>
+              <PrettoSlider 
+                min={0}
+                max={100}
+                valueLabelDisplay="auto" 
+                defaultValue={100} 
+                onChange={(e, value) => props.onChange('ww', value)}
+              />
+              <p /><p />
+              <Typography gutterBottom>Height</Typography>
+              <PrettoSlider 
+                min={0}
+                max={100}
+                valueLabelDisplay="auto" 
+                defaultValue={100} 
+                onChange={(e, value) => props.onChange('hh', value)}
+              />
+              <p /><p />
+              <Typography gutterBottom>Z-index</Typography>
+              <input type="text" onChange={(e, value) => props.onChange('zindex', e)} />
+              <p /><p />
+              <Typography gutterBottom>Отразить</Typography>
+              <select onChange={(e, value) => props.onChange('mode', e)}>
+                <option selected value="column">Выключено</option>
+                <option value="column-reverse">По вертикали</option>
+                <option value="row-reverse">По горизонтали</option>
+              </select>
+            </>
+          ) : null }
       </div>
     </div>
   )
