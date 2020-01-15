@@ -674,7 +674,11 @@ class Graph extends Component {
     
       const oldv = this.props.state.vars[id].value;
       const mode = vars[id].mode;
-      const s = vars[id].state[v];
+      let s = vars[id].state[v];
+
+      if (id === 'default') {
+        s = vars[id].state;
+      }
 
       if (mode === 'M') {
         if (s !== undefined) {
@@ -711,6 +715,12 @@ class Graph extends Component {
               styles[k] = d[c][k];
             });
           }
+          if (id === 'default') {
+            delete s[c].x;
+            delete s[c].y;
+            delete s[c].w;
+            delete s[c].h;
+          }
           if (s && s[c]!== undefined) {
             return { 
               ...p, 
@@ -722,8 +732,18 @@ class Graph extends Component {
                 }
               } 
             };
+          } else {
+            return { 
+              ...p, 
+              [c]: {
+                ...state.map[c],
+                settings: {
+                  ...styles,
+                }
+              } 
+            };
           }
-          return { ...p, [c]: state.map[c] };
+       
         }, {});
         core.components.graph.forceData({ map, vars });
      }
@@ -759,6 +779,8 @@ class Graph extends Component {
     e.stopPropagation();
     if (type === 's' && this.props.state.selectvar !== id) {
       core.components.graph.forceData({ selectvar: id });
+      const v = { target: { value: this.props.state.vars[id].value } }
+      this.handleClickPropsChangev('v', id, v)
     }
 
     if (type === 'm') {
@@ -839,21 +861,39 @@ class Graph extends Component {
       return { ...p, [c]: state.map[c] };
     }, {});
 
-    if (state.selectvar !== 'default') {
       const vars = {
         ...state.vars
       }
   
       Object.keys(state.selects.data).forEach(k => {
-        if (vars[state.selectvar]) {
-          if (vars[state.selectvar].state[vars[state.selectvar].value] === undefined) {
-            vars[state.selectvar].state[vars[state.selectvar].value] = {
-              [k]: { [name]: v }
+        if (state.selectvar !== 'default') {
+          if (vars[state.selectvar]) {
+            if (vars[state.selectvar].state[vars[state.selectvar].value] === undefined) {
+              vars[state.selectvar].state[vars[state.selectvar].value] = {}
             }
-          } else {
-            vars[state.selectvar].state[vars[state.selectvar].value] = {
-              ...vars[state.selectvar].state[vars[state.selectvar].value],
-              [k]: { [name]: v }
+            if (vars[state.selectvar].state[vars[state.selectvar].value][k] === undefined) {
+              vars[state.selectvar].state[vars[state.selectvar].value] = {
+                ...vars[state.selectvar].state[vars[state.selectvar].value],
+                [k]: { [name]: v }
+              }
+            } else {
+              vars[state.selectvar].state[vars[state.selectvar].value][k] = {
+                ...vars[state.selectvar].state[vars[state.selectvar].value][k],
+                [name]: v,
+              }
+            }
+          }
+        } else {
+          if (vars[state.selectvar]) {
+            if (vars[state.selectvar].state === undefined) {
+              vars[state.selectvar].state = {
+                [k]: { [name]: v }
+              }
+            } else {
+              vars[state.selectvar].state = {
+                ...vars[state.selectvar].state,
+                [k]: { [name]: v }
+              }
             }
           }
         }
@@ -861,9 +901,6 @@ class Graph extends Component {
       
       
       core.components.graph.forceData({ vars, map });
-    } else {
-      core.components.graph.forceData({ map });
-    }
 
     // core.components.graph.setPropertiesContainer(this.props.state.selects.data, name, v);
   }
