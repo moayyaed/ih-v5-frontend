@@ -678,7 +678,32 @@ class Graph extends Component {
 
       if (id === 'default') {
         s = vars[id].state;
+      } else {
+        if (this.props.state.selectvar === 'default') {
+          s = {}
+          Object.keys(this.props.state.vars).forEach(k => {
+            if (this.props.state.vars[k].state[this.props.state.vars[k].value] !== undefined) {
+              Object.keys(this.props.state.vars[k].state[this.props.state.vars[k].value]).forEach(i => {
+                if (s[i] === undefined) {
+                  s[i] = this.props.state.vars[k].state[this.props.state.vars[k].value][i]
+                } else {
+                  s[i] = { ...s[i], ...this.props.state.vars[k].state[this.props.state.vars[k].value][i] }
+                }
+              })
+            }
+          })
+
+          Object.keys(vars[id].state[v] || {}).forEach(i => {
+            if (s[i] === undefined) {
+              s[i] = vars[id].state[v][i];
+            } else {
+              s[i] = { ...s[i], ...vars[id].state[v][i] };
+            }
+          })
+
+        }
       }
+
 
       if (mode === 'M') {
         if (s !== undefined) {
