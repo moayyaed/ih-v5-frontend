@@ -18,8 +18,8 @@ const styles = {
     height: 35,
   },
   rootA: {
-    height: 60,
-    borderBottom: '2px solid #eceff1',
+    height: 35,
+    // borderBottom: '2px solid #eceff1',
   },
   box: {
     display: 'flex',

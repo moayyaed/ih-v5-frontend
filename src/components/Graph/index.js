@@ -14,6 +14,11 @@ const imgs = {
 };
 
 const styles = {
+  root: {
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+  },
   page: {
     width: '100%',
     height: '100%',
@@ -578,7 +583,7 @@ class Graph extends Component {
     const group = state.selects.group;
     const block = state.selects.block;
     return (
-      <>
+      <div style={styles.root}>
       <div
         ref={this.linkPage}
         style={styles.page}
@@ -657,7 +662,7 @@ class Graph extends Component {
         onClick={this.handleClickPropsClick}
         onChangev={this.handleClickPropsChangev}
       />
-      </>
+      </div>
     );
   }
 

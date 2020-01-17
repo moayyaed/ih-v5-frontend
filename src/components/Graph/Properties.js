@@ -28,14 +28,13 @@ import Bru from '@material-ui/icons/Brush';
 
 const styles = {
   properties: {
-    paddingTop: 35,
-    position: 'absolute',
     top: 0,
     right: 0,
     width: 250,
     height: '100%',
     background: '#37474F',
-    color: '#F5F5F5'
+    color: '#F5F5F5',
+    flexShrink: 0,
     // zIndex: 1500,
   },
   p1: {

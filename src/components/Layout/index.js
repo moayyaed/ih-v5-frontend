@@ -7,9 +7,20 @@ import Draggable from 'react-draggable';
 import { withStyles } from '@material-ui/core/styles';
 
 import css from './main.module.css';
+import Properties from './Properties';
 
 const styles = {
-  page: {
+  root: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+  },
+  body: {
+    width: '100%',
+    height: '100%',
+    padding: 20,
+  },
+  paper: {
     width: '100%',
     height: '100%',
   },
@@ -33,9 +44,15 @@ class Layout extends Component {
 
   render({ id, state, match, classes, onClick } = this.props) {
     return (
-      <div>
-        123
+      <div style={styles.root} >
+        <div style={styles.body} >
+          <Paper style={styles.paper} elevation={2} >
+
+          </Paper>
+        </div>
+        <Properties />
       </div>
+
     );
   }
 
