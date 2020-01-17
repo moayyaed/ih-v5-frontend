@@ -230,7 +230,7 @@ class AppTabs extends Component {
     if (type === 'drag') {
       if (this.drag === undefined) {
         this.drag = true;
-        core.nav.push(`/${menuid}/${navcomponent}/${item.id}`);
+        core.nav.push(`/${menuid}/${item.component}/${item.id}`);
         this.handleDragStart(e, item, data, index);
       }
     }
@@ -256,7 +256,7 @@ class AppTabs extends Component {
 
       if (index !== 0) {
         const item = store.apptabs.list[index - 1];
-        core.nav.push(`/${menuid}/${navcomponent}/${item.id}`);
+        core.nav.push(`/${menuid}/${item.component}/${item.id}`);
       } else {
         core.nav.push(`/${menuid}`);
       }
