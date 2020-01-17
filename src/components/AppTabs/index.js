@@ -241,7 +241,7 @@ class AppTabs extends Component {
     }
     
     if (type === 'click') {
-      core.nav.push(`/${menuid}/${navcomponent}/${item.id}`);
+      core.nav.push(`/${menuid}/${item.component}/${item.id}`);
     }
 
     if (type === 'contextmenu') {

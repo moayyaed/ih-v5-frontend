@@ -32,7 +32,11 @@ class Layout extends Component {
   }
 
   render({ id, state, match, classes, onClick } = this.props) {
-    return (null);
+    return (
+      <div>
+        123
+      </div>
+    );
   }
 
 }

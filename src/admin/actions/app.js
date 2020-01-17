@@ -42,6 +42,9 @@ core.app.page.data = function(options, data) {
   if (options.component === 'table') {
     core.components.table.setData({ text: options.component + ':' + options.pageid });
   }
+  if (options.component === 'layout') {
+    core.components.options.setData({ options, ...data  });
+  }
   if (options.component === 'template') {
     if (core.nav.last.navid !== null) {
       core.cache.pages[core.nav.last.navid] = core.store.getState().graph;

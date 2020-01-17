@@ -4,6 +4,7 @@ import core from 'core';
 import Table from 'components/Table';
 import Options from 'components/Options';
 import Graph from 'components/Graph';
+import Layout from 'components/Layout';
 import Test from 'components/Test';
 
 
@@ -21,6 +22,8 @@ function getComponent(type, id) {
       return <Table />;
     case 'options':
       return <Options />;
+    case 'layout':
+      return <Layout key={id} />;
     case 'template':
       return <Graph key={id} />;
     case 'test':

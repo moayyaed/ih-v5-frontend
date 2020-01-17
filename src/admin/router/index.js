@@ -40,7 +40,7 @@ core.router = function(location) {
     }
 
     // nav
-    if (state.navcomponent && last.navid !== state.navid) {
+    if (state.navcomponent && (last.navcomponent !== state.navcomponent || last.navid !== state.navid)) {
       if (last.navid === null) {
         core.event('route', 'nav', 'init', state);
       }
