@@ -8,7 +8,7 @@ import {
 core.events.on('app:menu', (id, params) => {
   core.app.menu.data([
     { id: '1', route: 'devices', label: 'Устройства', tooltip: 'Устройства', icon: '' },
-    { id: '2', route: 'layouts', label: 'Экраны', tooltip: 'Экраны', icon: '' },
+    { id: '2', route: 'visualization', label: 'Визуализация', tooltip: 'Визуализация', icon: '' },
     { id: '3', route: 'scripts', label: 'Сценарии', tooltip: 'Сценарии', icon: '' },
     { id: '4', route: 'datasource', label: 'Источники данных', tooltip: 'Источники данных', icon: '' },
     { id: '6', route: 'analytics', label: 'Аналитика', tooltip: 'Аналитика', icon: '' },
@@ -31,14 +31,24 @@ core.events.on('app:nav:devices', (navid) => {
   ])
 });
 
-core.events.on('app:nav:layouts', (navid) => {
-  core.app.nav.data({ navid, tabs: true }, [
-    { id: 'layout_1', component: 'graph', title: 'layout_1' },
-    { id: 'layout_2', component: 'graph', title: 'layout_2' },
-    { id: 'layout_3', component: 'graph', title: 'layout_3' },
-    { id: 'layout_4', component: 'graph', title: 'layout_4' },
-    { id: 'layout_5', component: 'graph', title: 'layout_5' },
-  ])
+core.events.on('app:nav:visualization', (navid) => {
+  core.app.nav.data({ navid, tabs: true }, 
+    [
+      { id: 'layout', title: 'Экраны', 
+        children: [
+          { id: 'layout_1', component: 'layout', title: 'layout_1' },
+          { id: 'layout_2', component: 'layout', title: 'layout_2' },
+          { id: 'layout_3', component: 'layout', title: 'layout_3' },
+        ]
+      },
+      { id: 'template', title: 'Шаблоны', 
+        children: [
+          { id: 'template_1', component: 'template', title: 'template_1' },
+          { id: 'template_2', component: 'template', title: 'template_2' },
+          { id: 'template_3', component: 'template', title: 'template_3' },
+        ]
+      }
+    ])
 });
 
 core.events.on('app:nav:scripts', (navid) => {
@@ -84,6 +94,6 @@ core.events.on('app:page', (pageid, component) => {
   core.app.page.data({ component, pageid }, graphDataL)
 });
 
-core.events.on('app:page:layout_1', (pageid, component) => {
+core.events.on('app:page:template_1', (pageid, component) => {
   core.app.page.data({ component, pageid }, graphDataL1)
 });

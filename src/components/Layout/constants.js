@@ -1,0 +1,2 @@
+export const GRAPH_SET_DATA = 'GRAPH_SET_DATA';
+export const GRAPH_FORCE_DATA = 'GRAPH_FORCE_DATA';

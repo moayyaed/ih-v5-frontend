@@ -21,7 +21,7 @@ function getComponent(type, id) {
       return <Table />;
     case 'options':
       return <Options />;
-    case 'graph':
+    case 'template':
       return <Graph key={id} />;
     case 'test':
       return <Test />;

@@ -16,7 +16,7 @@ core.app.nav.data = function(options, list) {
   if (core.nav.last.menuid !== null) {
     core.cache.paths[core.nav.last.menuid] = core.nav.last.pathname;
     core.cache.apptabs[core.nav.last.menuid] = core.store.getState().apptabs;
-    if (core.nav.last.navcomponent === 'graph') {
+    if (core.nav.last.navcomponent === 'template') {
       core.cache.pages[core.nav.last.navid] = core.store.getState().graph;
     }
   }
@@ -42,7 +42,7 @@ core.app.page.data = function(options, data) {
   if (options.component === 'table') {
     core.components.table.setData({ text: options.component + ':' + options.pageid });
   }
-  if (options.component === 'graph') {
+  if (options.component === 'template') {
     if (core.nav.last.navid !== null) {
       core.cache.pages[core.nav.last.navid] = core.store.getState().graph;
     }
