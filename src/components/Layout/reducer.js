@@ -5,7 +5,11 @@ import {
 
 
 const defaultState = {
-
+  list: [
+    { id: '1', active: false, focus: false },
+    { id: '2', active: false, focus: false },
+    { id: '3', active: false, focus: false },
+  ]
 };
 
 
