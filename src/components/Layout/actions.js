@@ -6,6 +6,7 @@ import {
 
   LAYOUT_SECTION_OUT,
   LAYOUT_COLUMN_OVER,
+  LAYOUT_COLUMN_ACTIVE,
 } from './constants';
 
 
@@ -38,10 +39,18 @@ export function columnOver(sectionid, columnid) {
   };
 }
 
+export function columnActive(sectionid, columnid) {
+  return {
+    type: LAYOUT_COLUMN_ACTIVE,
+    sectionid,
+    columnid,
+  };
+}
 
 export default {
   setData,
   forceData,
   sectionOut,
-  columnOver
+  columnOver,
+  columnActive
 }
