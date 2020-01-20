@@ -1,22 +1,40 @@
 import shortid from 'shortid';
 
 import { 
-  GRAPH_SET_DATA,
-  GRAPH_FORCE_DATA,
+  LAYOUT_SET_DATA,
+  LAYOUT_FORCE_DATA,
+
+  LAYOUT_SECTION_OUT,
+  LAYOUT_COLUMN_OVER,
 } from './constants';
 
 
 export function setData(data) {
   return {
-    type: GRAPH_SET_DATA,
+    type: LAYOUT_SET_DATA,
     data,
   };
 }
 
 export function forceData(data) {
   return {
-    type: GRAPH_FORCE_DATA,
+    type: LAYOUT_FORCE_DATA,
     data,
+  };
+}
+
+export function sectionOut(sectionid) {
+  return {
+    type: LAYOUT_SECTION_OUT,
+    sectionid,
+  };
+}
+
+export function columnOver(sectionid, columnid) {
+  return {
+    type: LAYOUT_COLUMN_OVER,
+    sectionid,
+    columnid,
   };
 }
 
@@ -24,4 +42,6 @@ export function forceData(data) {
 export default {
   setData,
   forceData,
+  sectionOut,
+  columnOver
 }
