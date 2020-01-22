@@ -8,6 +8,11 @@ import { withStyles } from '@material-ui/core/styles';
 
 import css from './main.module.css';
 import Properties from './Properties';
+import { Toolbar } from '@material-ui/core';
+
+import { Icon } from "@blueprintjs/core";
+
+
 
 const styles = {
   root: {
@@ -64,6 +69,20 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
   },
+  toolbard: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    backgroundColor: '#fff',
+    height: 84,
+    width: 125,
+    zIndex: 100,
+    boxShadow: '0 2px 6px rgba(0,0,0,.2)',
+    cursor: 'move',
+    color: '#556068',
+  },
   tsbutton: {
     textAlign: 'center',
     width: 25,
@@ -80,11 +99,11 @@ const classes = theme => ({
 class Layout extends Component {
 
   componentDidMount() {
-
+    this.dragsection = false;
   }
 
   componentWillUnmount() {
- 
+    this.dragsection = null;
   }
 
   handleClickLayout = () => {
@@ -102,15 +121,45 @@ class Layout extends Component {
   }
 
   handleSectionMouseOut = (e, item) => {
-    core.components.layout.sectionOut(item.id);
+    if (this.dragsection === false) {
+      core.components.layout.sectionOut(item.id);
+    }
   }
 
   handleColumnMouseOver = (e, section, item) => {
-   core.components.layout.columnOver(section.id, item.id);
+    if (this.dragsection === false) {
+      core.components.layout.columnOver(section.id, item.id);
+    }
   }
 
-  handleToolbarSectionClick = (e, type, item) => {
+  handleToolbarSectionEvent = (e, type, item, data) => {
     e.stopPropagation();
+    // console.log(type)
+    if (type === 'dragstart') {
+    }
+
+    if (type === 'dragmove') {  
+      if (this.dragsection === false) {
+        this.dragsection = true;
+        document.body.style.cursor = 'move';
+
+        const x = e.clientX - this.layout.offsetLeft;
+        const y = e.clientY - this.layout.offsetTop;
+        core.components.layout.sectionDragStart(item.id, 'section', x, y);
+      } else {
+        
+        const x = e.clientX - this.layout.offsetLeft;
+        const y = e.clientY - this.layout.offsetTop;
+        core.components.layout.sectionDragMove(x, y);
+      }
+    }
+
+    if (type === 'dragstop') {
+      this.dragsection = false;
+      document.body.style.cursor = 'auto';
+      core.components.layout.sectionDragStop(item.id);
+    }
+
     if (type === 'select') {
       const list = this.props.state.list.map(i => {
         if (i.id === item.id) {
@@ -141,17 +190,22 @@ class Layout extends Component {
     core.components.layout.columnActive(section.id, item.id);
   }
 
+  linkLayout = (e) => {
+    this.layout = e;
+  }
+
   render({ id, state, match, classes, onClick } = this.props) {
     return (
       <div style={styles.root} onClick={this.handleClickLayout} >
-        <Paper style={styles.paper} elevation={2} >
+        <Paper ref={this.linkLayout} style={styles.paper} elevation={2} >
+         <ToolbarDrag data={this.props.state.toolbar} />
           {this.props.state.list.map(i =>
             <Section 
               key={i.id} 
               item={i} 
               onMouseSectionOut={this.handleSectionMouseOut}
               onMouseColumnOver={this.handleColumnMouseOver}
-              onClickToolbarSection={this.handleToolbarSectionClick}
+              onEventToolbarSection={this.handleToolbarSectionEvent}
               onClickToolbarColumn={this.handleToolbarColumnClick}
             />
           )}
@@ -163,11 +217,34 @@ class Layout extends Component {
 
 } 
 
+function ToolbarDrag(props) {
+  if (props.data.enabled) {
+    return (
+      <div style={{ ...styles.toolbard, transform: `translate3d(${props.data.x}px,${props.data.y}px,0px)`}}>
+        <Icon icon="vertical-distribution" iconSize={24} />
+        <div style={{ marginTop: 10 }}>{props.data.element}</div>
+      </div>
+    );
+  }
+  return null;
+} 
+
 function ToolbarSection(props) {
   return (
     <div style={{ ...styles.toolbars, display: props.item.focus || props.item.active ? 'flex' : 'none' }} >
       <div className={css.tsbutton} style={styles.tsbutton}></div>
-      <div className={css.tsbutton} style={styles.tsbutton} onClick={(e) => props.onClick(e, 'select', props.item)}>...</div>
+      <Draggable 
+        position={{ x: 0, y: 0 }} 
+        onStart={(e, data) => props.onEvent(e, 'dragstart', props.item, data)}
+        onDrag={(e, data) => props.onEvent(e, 'dragmove', props.item, data)}
+        onStop={(e, data) => props.onEvent(e, 'dragstop', props.item, data)}
+      >
+        <div 
+          className={css.tsbutton} 
+          style={styles.tsbutton} 
+          onClick={(e) => props.onEvent(e, 'select', props.item)}
+        >...</div>
+      </Draggable>
       <div className={css.tsbutton} style={styles.tsbutton}></div> 
     </div>
   );
@@ -188,12 +265,13 @@ function Section(props) {
   return (
     <div 
       style={{ ...styles.section,
+        display: props.item.hide ? 'none' : 'flex',
         transition: props.item.focus ? 'outline 0.5s ease' : 'none',  
         outline: props.item.focus || props.item.active ? '1px solid #03A9F4' : '1px solid transparent',
       }} 
       onMouseLeave={(e) => props.onMouseSectionOut(e, props.item)}
     >
-      <ToolbarSection item={props.item} onClick={props.onClickToolbarSection} />
+      <ToolbarSection item={props.item} onEvent={props.onEventToolbarSection} />
       {props.item.columns.map(i => 
         <Column 
           key={i.id} 

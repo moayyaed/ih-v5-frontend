@@ -2,6 +2,10 @@ import {
   LAYOUT_SET_DATA, 
   LAYOUT_FORCE_DATA, 
 
+  LAYOUT_SECTION_DRAG_START,
+  LAYOUT_SECTION_DRAG_MOVE,
+  LAYOUT_SECTION_DRAG_STOP,
+
   LAYOUT_SECTION_OUT,
   LAYOUT_COLUMN_OVER,
   LAYOUT_COLUMN_ACTIVE,
@@ -9,8 +13,14 @@ import {
 
 
 const defaultState = {
+  toolbar: {
+    enabled: false,
+    element: null,
+    x: 0,
+    y: 0,
+  },
   list: [
-    { id: '1', active: false, focus: false, columns: [ { id: '1', active: false, focus: false } ] },
+    { id: '1', hide: false, active: false, focus: false, columns: [ { id: '1', active: false, focus: false } ] },
     { id: '2', active: false, focus: false, columns: [ { id: '1', active: false, focus: false }, { id: '2', active: false, focus: false } ] },
     { id: '3', active: false, focus: false, columns: [ { id: '1', active: false, focus: false }, { id: '2', active: false, focus: false }, { id: '3', active: false, focus: false } ]},
     { id: '4', active: false, focus: false, columns: [ { id: '1', active: false, focus: false }, { id: '2', active: false, focus: false }, { id: '3', active: false, focus: false }, { id: '4', active: false, focus: false } ]},
@@ -24,6 +34,53 @@ function reducer(state = defaultState, action) {
       return { ...state, ...defaultState, ...action.data };
     case LAYOUT_FORCE_DATA:
       return { ...state, ...action.data };
+    case LAYOUT_SECTION_DRAG_START:
+      return { 
+        ...state, 
+        list: state.list.map(i => {
+          if (i.id === action.sectionid) {
+            return {
+              ...i,
+              hide: true,
+            }
+          }
+          return i;
+        }),
+        toolbar: {
+          ...state.toolbar,
+          enabled: true,
+          element: action.element,
+          x: action.x,
+          y: action.y,
+        },
+      };
+    case LAYOUT_SECTION_DRAG_MOVE:
+      return { 
+        ...state, 
+        toolbar: {
+          ...state.toolbar,
+          x: action.x,
+          y: action.y,
+        },
+      };
+    case LAYOUT_SECTION_DRAG_STOP:
+      return { 
+        ...state, 
+        list: state.list.map(i => {
+          if (i.id === action.sectionid) {
+            return {
+              ...i,
+              hide: false,
+            }
+          }
+          return i;
+        }),
+        toolbar: {
+          ...state.toolbar,
+          enabled: false,
+          element: null,
+        },
+      };
     case LAYOUT_SECTION_OUT:
       return { 
         ...state, 
