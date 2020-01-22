@@ -1,3 +1,5 @@
+import shortid from 'shortid';
+
 import { 
   LAYOUT_SET_DATA, 
   LAYOUT_FORCE_DATA, 
@@ -18,12 +20,14 @@ const defaultState = {
     element: null,
     x: 0,
     y: 0,
+    min: 0,
+    max: 0,
   },
   list: [
-    { id: '1', hide: false, active: false, focus: false, columns: [ { id: '1', active: false, focus: false } ] },
-    { id: '2', active: false, focus: false, columns: [ { id: '1', active: false, focus: false }, { id: '2', active: false, focus: false } ] },
-    { id: '3', active: false, focus: false, columns: [ { id: '1', active: false, focus: false }, { id: '2', active: false, focus: false }, { id: '3', active: false, focus: false } ]},
-    { id: '4', active: false, focus: false, columns: [ { id: '1', active: false, focus: false }, { id: '2', active: false, focus: false }, { id: '3', active: false, focus: false }, { id: '4', active: false, focus: false } ]},
+    { id: '1', type: 'section', height: 50, hide: false, active: false, focus: false, columns: [ { id: '1', active: false, focus: false } ] },
+    { id: '2', type: 'section', height: 75, active: false, focus: false, columns: [ { id: '1', active: false, focus: false }, { id: '2', active: false, focus: false } ] },
+    { id: '3', type: 'section', height: 100, active: false, focus: false, columns: [ { id: '1', active: false, focus: false }, { id: '2', active: false, focus: false }, { id: '3', active: false, focus: false } ]},
+    { id: '4', type: 'section', height: 150, active: false, focus: false, columns: [ { id: '1', active: false, focus: false }, { id: '2', active: false, focus: false }, { id: '3', active: false, focus: false }, { id: '4', active: false, focus: false } ]},
   ]
 };
 
@@ -37,15 +41,15 @@ function reducer(state = defaultState, action) {
     case LAYOUT_SECTION_DRAG_START:
       return { 
         ...state, 
-        list: state.list.map(i => {
-          if (i.id === action.sectionid) {
-            return {
-              ...i,
+        list: state.list.reduce((p, c) => {
+          if (c.id === action.sectionid) {
+            return p.concat({
+              ...c,
               hide: true,
-            }
+            }, { id: shortid.generate(), type: 'stub', height: 40 });
           }
-          return i;
-        }),
+          return p.concat(c);
+        }, []),
         toolbar: {
           ...state.toolbar,
           enabled: true,
@@ -66,15 +70,18 @@ function reducer(state = defaultState, action) {
     case LAYOUT_SECTION_DRAG_STOP:
       return { 
         ...state, 
-        list: state.list.map(i => {
-          if (i.id === action.sectionid) {
-            return {
-              ...i,
-              hide: false,
-            }
+        list: state.list.reduce((p, c) => {
+          if (c.type === 'stub') {
+            return p;
           }
-          return i;
-        }),
+          if (c.id === action.sectionid) {
+            return p.concat({
+              ...c,
+              hide: false,
+            });
+          }
+          return p.concat(c);
+        }, []),
         toolbar: {
           ...state.toolbar,
           enabled: false,

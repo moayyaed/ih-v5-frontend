@@ -33,6 +33,11 @@ const styles = {
     // border: '2px dashed #d5dadf', 
     // padding: 10, 
   },
+  stub: { 
+    display: 'flex',
+    position: 'relative',
+    backgroundColor: '#71d7f7'
+  },
   sectionColumn: {
     display: 'flex',
     width: '100%',
@@ -200,7 +205,7 @@ class Layout extends Component {
         <Paper ref={this.linkLayout} style={styles.paper} elevation={2} >
          <ToolbarDrag data={this.props.state.toolbar} />
           {this.props.state.list.map(i =>
-            <Section 
+            <Row 
               key={i.id} 
               item={i} 
               onMouseSectionOut={this.handleSectionMouseOut}
@@ -261,10 +266,16 @@ function ToolbarColumn(props) {
   );
 }
 
-function Section(props) {
+function Row(props) {
+  if (props.item.type === 'stub') {
+    return (
+      <div style={{ ...styles.stub, height: props.item.height }} />
+    );
+  }
   return (
     <div 
       style={{ ...styles.section,
+        height: props.item.height,
         display: props.item.hide ? 'none' : 'flex',
         transition: props.item.focus ? 'outline 0.5s ease' : 'none',  
         outline: props.item.focus || props.item.active ? '1px solid #03A9F4' : '1px solid transparent',
