@@ -56,6 +56,8 @@ function reducer(state = defaultState, action) {
           element: action.element,
           x: action.x,
           y: action.y,
+          min: action.min,
+          max: action.max,
         },
       };
     case LAYOUT_SECTION_DRAG_MOVE:

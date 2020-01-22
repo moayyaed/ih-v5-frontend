@@ -35,13 +35,15 @@ export function sectionOut(sectionid) {
   };
 }
 
-export function sectionDragStart(sectionid, element, x, y) {
+export function sectionDragStart(sectionid, element, x, y, min, max) {
   return {
     type: LAYOUT_SECTION_DRAG_START,
     sectionid,
     element,
     x,
     y,
+    min,
+    max,
   };
 }
 

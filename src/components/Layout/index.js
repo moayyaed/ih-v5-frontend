@@ -28,7 +28,7 @@ const styles = {
     display: 'flex',
     position: 'relative',
     height: 50, 
-    margin: 20,
+    // margin: 20,
     // backgroundColor: 'grey'
     // border: '2px dashed #d5dadf', 
     // padding: 10, 
@@ -36,7 +36,8 @@ const styles = {
   stub: { 
     display: 'flex',
     position: 'relative',
-    backgroundColor: '#71d7f7'
+    backgroundColor: '#71d7f7',
+    opacity: 0.9,
   },
   sectionColumn: {
     display: 'flex',
@@ -150,11 +151,26 @@ class Layout extends Component {
 
         const x = e.clientX - this.layout.offsetLeft;
         const y = e.clientY - this.layout.offsetTop;
-        core.components.layout.sectionDragStart(item.id, 'section', x, y);
+        let min = 0;
+        let max = 0;
+        let last = null;
+        for (let i of this.props.state.list) {
+          
+          if (i.id === item.id) {
+            min = (min - last.height) + (last.height / 2);
+            break;
+          }
+          last = i;
+          min = min + i.height;
+        }
+        core.components.layout.sectionDragStart(item.id, 'section', x, y, min, max);
       } else {
         
         const x = e.clientX - this.layout.offsetLeft;
         const y = e.clientY - this.layout.offsetTop;
+        if (y < this.props.state.toolbar.min) {
+          console.log('!!!');
+        }
         core.components.layout.sectionDragMove(x, y);
       }
     }
@@ -269,7 +285,7 @@ function ToolbarColumn(props) {
 function Row(props) {
   if (props.item.type === 'stub') {
     return (
-      <div style={{ ...styles.stub, height: props.item.height }} />
+      <div className={css.test} style={{ ...styles.stub, height: props.item.height }} />
     );
   }
   return (

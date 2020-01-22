@@ -4,3 +4,13 @@
 .tsbutton:active {
   background-color: #0288d1;
 }
+
+@keyframes expand {
+  from {
+    height: 0;
+  }
+}
+
+.test {
+  animation: expand .25s ease-in-out;
+}
