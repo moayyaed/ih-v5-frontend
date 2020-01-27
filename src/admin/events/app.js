@@ -6,7 +6,8 @@ import {
 } from '../temp';
 
 
-core.events.on('app:auth', () => {
+core.events.on('app:auth', (id, params) => {
+  console.log(params)
   core.init();
 });
 

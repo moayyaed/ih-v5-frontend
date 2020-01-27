@@ -4,6 +4,20 @@ import core from 'core';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
+import { makeStyles } from '@material-ui/core/styles';
+
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+
+import IconButton from '@material-ui/core/IconButton';
+import FilledInput from '@material-ui/core/FilledInput';
+
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import FormControl from '@material-ui/core/FormControl';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+
 
 const styles = {
   root: {
@@ -85,16 +99,47 @@ const styles = {
     width: 46,
   },
   button: {
-    marginTop: 24, 
-    marginBottom: 24,
+    marginTop: 14, 
+    marginBottom: 8,
   },
   text: {
     marginTop: 6, 
     marginBottom: 6,
+  },
+  adornment: {
+    position: 'absolute',
+    right: 4,
+  },
+  passText: {
+    padding: 0,
   }
 }
 
 function Login() {
+  const [values, setValues] = React.useState({
+    username: 'admin',
+    password: '',
+    rememberme: false,
+    showPassword: false,
+  });
+
+  const handleChange = prop => event => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const handleClickShowPassword = () => {
+    setValues({ ...values, showPassword: !values.showPassword });
+  };
+
+  const handleMouseDownPassword = event => {
+    event.preventDefault();
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    core.event('app:auth', null, values);
+  }
+
   return (
     <div style={styles.root}>
       <div style={styles.page}>
@@ -109,30 +154,51 @@ function Login() {
             <div style={styles.headerBorder} />
           </div>
           <div style={styles.form}>
-            <TextField 
-              variant="filled"  
-              fullWidth 
-              id="username" 
-              label="Username" 
-              style={styles.text} 
-            />
-            <TextField
-              fullWidth
-              variant="filled"
-              id="password"
-              label="Password"
-              type="password"
-              autoComplete="current-password"
-              style={styles.text}
-            />
-            <Button 
-              fullWidth
-              variant="outlined"
-              style={styles.button}
-              onClick={() => core.init()}
-            >
-              Enter
-            </Button>
+            <form onSubmit={handleSubmit}>
+              <TextField 
+                variant="filled"  
+                fullWidth 
+                name="username" 
+                label="Username" 
+                value={values.username}
+                onChange={handleChange('username')}
+                style={styles.text} 
+              />
+              <FormControl style={styles.text} fullWidth variant="filled">
+                <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                <FilledInput
+                  style={styles.passText}
+                  name="password"
+                  type={values.showPassword ? 'text' : 'password'}
+                  value={values.password}
+                  onChange={handleChange('password')}
+                  endAdornment={
+                    <InputAdornment style={styles.adornment} position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+              <FormControlLabel
+                value="end"
+                control={<Checkbox value={values.rememberme} color="primary" onChange={handleChange('rememberme')} />}
+                label="Remember Me"
+              />
+              <Button 
+                fullWidth
+                type='submit'
+                variant="outlined"
+                style={styles.button}
+              >
+                Enter
+              </Button>
+            </form>
           </div>
         </div>
       </div>
