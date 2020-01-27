@@ -1,3 +1,4 @@
+import app from 'components/App/link';
 import appmenu from 'components/AppMenu/link';
 import appbody from 'components/AppBody/link';
 import apptabs from 'components/AppTabs/link';
@@ -10,18 +11,29 @@ import graph from 'components/Graph/link';
 import layout from 'components/Layout/link';
 
 
-const dependencies = {
-  appmenu: appmenu,
-  apptabs: apptabs,
-  appbody: appbody,
-  appcontextmenu: appcontextmenu,
+import App from './App';
+import Login from './Login';
 
-  explorer: explorer,
-  table: table,
-  options: options,
-  graph: graph,
-  layout: layout,
+
+const _options = {
+  pages: {
+    main: App,
+    login: Login,
+  },
+  components: {
+    app: app,
+    appmenu: appmenu,
+    apptabs: apptabs,
+    appbody: appbody,
+    appcontextmenu: appcontextmenu,
+  
+    explorer: explorer,
+    table: table,
+    options: options,
+    graph: graph,
+    layout: layout,
+  }
 };
 
 
-export default dependencies;
+export default _options;

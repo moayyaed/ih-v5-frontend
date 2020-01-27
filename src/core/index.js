@@ -46,9 +46,10 @@ function clipboardWrite(data) {
   */
 }
 
-function dependencies(deps) {
-  core.store = store(deps);
-  core.components = components(deps, core.store.dispatch);
+function options(options) {
+  core._options = options;
+  core.store = store(options.components);
+  core.components = components(options.components, core.store.dispatch);
 }
 
 function eventRoute(type, status, params) {
@@ -107,7 +108,7 @@ const core = {
   },
   store: {},
   connect,
-  dependencies,
+  options,
   event,
   events: new EventEmitter(),
   router: null,

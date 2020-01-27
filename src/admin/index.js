@@ -16,19 +16,18 @@ import 'normalize.css/normalize.css';
 import "@blueprintjs/core/lib/css/blueprint.css";
 
 import core from 'core';
+import App from 'components/App';
 
 import theme from './theme';
-import dependencies from './dependencies';
+import options from './options';
 
 import './router';
 import './actions';
 import './events';
 
-import App from './App';
-
 FocusStyleManager.onlyShowFocusOnTabs();
 
-core.dependencies(dependencies);
+core.options(options);
 
 ReactDOM.render(
   <Provider store={core.store}>
