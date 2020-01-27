@@ -1,5 +1,9 @@
 import core from 'core';
 
+//app
+core.app.data = function(data) {
+  core.components.app.setData(data);
+}
 
 //menu
 core.app.menu.data = function(list) {

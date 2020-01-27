@@ -22,12 +22,11 @@ class App extends Component {
   componentDidMount() {
     core.nav.history = history;
 
-    history.listen(core.router)
-    core.router(history.location);
+    history.listen(core.router);
   }
 
   render() {
-    if (!this.props.state.auth) {
+    if (this.props.state.auth) {
       return React.createElement(core._options.pages.main);
     }
     return React.createElement(core._options.pages.login);

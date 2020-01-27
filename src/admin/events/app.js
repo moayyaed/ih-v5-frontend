@@ -5,6 +5,11 @@ import {
   graphDataL1
 } from '../temp';
 
+
+core.events.on('app:auth', () => {
+  core.init();
+});
+
 core.events.on('app:menu', (id, params) => {
   core.app.menu.data([
     { id: '1', route: 'devices', label: 'Устройства', tooltip: 'Устройства', icon: '' },
