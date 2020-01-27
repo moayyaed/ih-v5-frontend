@@ -138,6 +138,77 @@ class Layout extends Component {
     }
   }
 
+  createStubSection = (x, y, item) => {
+    let k = 0;
+    let h = 0;
+    let min = -10000;
+    let max = 10000;
+    for (let i of this.props.state.list) {
+
+      if (i.id === item.id) {
+        if (this.props.state.list[k - 1] !== undefined) {
+          const l = this.props.state.list[k - 1];
+          min = (h - l.height) + (l.height / 2);
+        }
+        if (this.props.state.list[k + 1] !== undefined) {
+          const n = this.props.state.list[k + 1];
+          max = h + 40 + (n.height / 2);
+        }
+        break;
+      }
+      k = k + 1;
+      h = h + i.height;
+    }
+    core.components.layout.sectionDragStart(item.id, 'section', x, y, min, max);
+  }
+
+  updateStubSectionDown = (x, y) => {
+    let k = 0;
+    let h = 0;
+    let min = -10000;
+    let max = 10000;
+    let item = {};
+    for (let i of this.props.state.list) {
+      h = h + i.height;
+      if (h >= y) {
+        item = i;
+        if (this.props.state.list[k - 1] !== undefined) {
+          const l = this.props.state.list[k - 1];
+          min = (h - i.height - l.height) + (l.height / 2);
+        }
+        max = h - i.height + 40 + (i.height / 2);
+        break;
+      }
+      
+      k = k + 1;
+    }
+    core.components.layout.sectionDragUpdate(item.id, x, y, min, max);
+  }
+
+  updateStubSectionUp = (x, y) => {
+    let k = 0;
+    let h = 0;
+    let min = -10000;
+    let max = 10000;
+    let item = {};
+    for (let i of this.props.state.list) {
+      if (i.hide !== true) {
+        h = h + i.height;
+        k = k + 1;
+        if (h >= y) {
+          item = i;
+          min = h - 40 - (i.height / 2);
+          if (this.props.state.list[k + 1] !== undefined) {
+            const n = this.props.state.list[k + 1];
+            max = h + (n.height / 2);
+          }
+          break;
+        }
+      }
+    }
+    core.components.layout.sectionDragUpdate(item.id, x, y, min, max, true);
+  }
+
   handleToolbarSectionEvent = (e, type, item, data) => {
     e.stopPropagation();
     // console.log(type)
@@ -151,27 +222,17 @@ class Layout extends Component {
 
         const x = e.clientX - this.layout.offsetLeft;
         const y = e.clientY - this.layout.offsetTop;
-        let min = 0;
-        let max = 0;
-        let last = null;
-        for (let i of this.props.state.list) {
-          
-          if (i.id === item.id) {
-            min = (min - last.height) + (last.height / 2);
-            break;
-          }
-          last = i;
-          min = min + i.height;
-        }
-        core.components.layout.sectionDragStart(item.id, 'section', x, y, min, max);
+        this.createStubSection(x, y, item);
       } else {
-        
         const x = e.clientX - this.layout.offsetLeft;
         const y = e.clientY - this.layout.offsetTop;
-        if (y < this.props.state.toolbar.min) {
-          console.log('!!!');
+        if (y <= this.props.state.toolbar.min) {
+          this.updateStubSectionDown(x, y);
+        } else if (y >= this.props.state.toolbar.max) {
+          this.updateStubSectionUp(x, y);
+        } else {
+          core.components.layout.sectionDragMove(x, y);
         }
-        core.components.layout.sectionDragMove(x, y);
       }
     }
 

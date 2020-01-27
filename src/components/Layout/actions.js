@@ -7,6 +7,7 @@ import {
   LAYOUT_SECTION_DRAG_START,
   LAYOUT_SECTION_DRAG_STOP,
   LAYOUT_SECTION_DRAG_MOVE,
+  LAYOUT_SECTION_DRAG_UPDATE,
 
   LAYOUT_SECTION_OUT,
   LAYOUT_COLUMN_OVER,
@@ -55,6 +56,18 @@ export function sectionDragMove(x, y) {
   };
 }
 
+export function sectionDragUpdate(sectionid, x, y, min, max, flag) {
+  return {
+    type: LAYOUT_SECTION_DRAG_UPDATE,
+    sectionid,
+    x,
+    y,
+    min,
+    max,
+    flag,
+  };
+}
+
 export function sectionDragStop(sectionid) {
   return {
     type: LAYOUT_SECTION_DRAG_STOP,
@@ -84,6 +97,7 @@ export default {
   sectionOut,
   sectionDragStart,
   sectionDragMove,
+  sectionDragUpdate,
   sectionDragStop,
   columnOver,
   columnActive,

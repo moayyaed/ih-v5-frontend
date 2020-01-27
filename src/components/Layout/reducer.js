@@ -7,6 +7,7 @@ import {
   LAYOUT_SECTION_DRAG_START,
   LAYOUT_SECTION_DRAG_MOVE,
   LAYOUT_SECTION_DRAG_STOP,
+  LAYOUT_SECTION_DRAG_UPDATE,
 
   LAYOUT_SECTION_OUT,
   LAYOUT_COLUMN_OVER,
@@ -54,6 +55,29 @@ function reducer(state = defaultState, action) {
           ...state.toolbar,
           enabled: true,
           element: action.element,
+          x: action.x,
+          y: action.y,
+          min: action.min,
+          max: action.max,
+        },
+      };
+    case LAYOUT_SECTION_DRAG_UPDATE:
+      return { 
+        ...state, 
+        list: state.list.reduce((p, c) => {
+          if (c.type === 'stub') {
+            return p;
+          }
+          if (c.id === action.sectionid) {
+            if (action.flag) {
+              return p.concat(c, { id: shortid.generate(), type: 'stub', height: 40 });
+            }
+            return p.concat({ id: shortid.generate(), type: 'stub', height: 40 }, c);
+          }
+          return p.concat(c);
+        }, []),
+        toolbar: {
+          ...state.toolbar,
           x: action.x,
           y: action.y,
           min: action.min,
