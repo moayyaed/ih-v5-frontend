@@ -101,7 +101,7 @@ function Login() {
         <div style={styles.panel1}>
           <div style={styles.logoText1}>Welcome to</div>
           <div style={styles.logoText2}>IH-SYSTEMS</div>
-          <div style={styles.logoText3}><a style={styles.url}>ih-systems.com | 5.1.0</a></div>
+          <div style={styles.logoText3}><a style={styles.url}>ih-systems.com | Platform 5.1.0</a></div>
         </div>
         <div style={styles.panel2}>
           <div style={styles.header}>
