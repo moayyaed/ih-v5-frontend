@@ -4,6 +4,8 @@ import connect from './connect';
 import store from './store';
 import components from './components';
 
+import { fetch } from './network';
+
 
 function clipboardRead() {
   return new Promise(resolve => resolve(core.clipboard.buffer));
@@ -120,8 +122,8 @@ const core = {
     paths: {},
     apptabs: {},
     pages: {},
-  }
-  
+  },
+  fetch,
 }
 
 

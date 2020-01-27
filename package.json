@@ -14,7 +14,7 @@
     "react-custom-scrollbars": "^4.2.1",
     "react-dimensions": "^1.3.1",
     "react-dom": "^16.9.0",
-    "react-draggable": "^4.0.3",
+    "react-draggable": "https://github.com/fast0490f/react-draggable",
     "react-redux": "^7.1.1",
     "react-router-dom": "^5.1.0",
     "react-scripts": "3.2.0",
@@ -25,7 +25,8 @@
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
-    "shortid": "^2.2.15"
+    "shortid": "^2.2.15",
+    "whatwg-fetch": "^3.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
