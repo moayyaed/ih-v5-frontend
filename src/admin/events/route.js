@@ -16,7 +16,6 @@ function getStatic(name) {
 
 // route
 core.events.on('route:init', (params) => {
-  core.fetch();
   core.event('app:menu', null, params);
 });
 

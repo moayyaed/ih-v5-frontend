@@ -93,6 +93,10 @@ function navpush(path) {
   }
 }
 
+function auth() {
+  
+}
+
 
 const core = {
   app: {
@@ -123,6 +127,7 @@ const core = {
     apptabs: {},
     pages: {},
   },
+  auth,
   fetch,
 }
 
