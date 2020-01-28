@@ -8,24 +8,32 @@ function error(reject, data) {
 
 export function fetch(data) {
   return new Promise((resolve, reject) => {
-    window.fetch('api', { method: 'POST', body: JSON.stringify(data, null, 2)})
-    .then(function(response) {
+    window.fetch('api', { 
+      method: 'POST', body: JSON.stringify(data, null, 2),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((response) => {
       if (response.ok) {
         return response.json();
       } else {
         error(reject, { message: response.statusText });
       }
     })
-    .then(function(json) {
+    .then((json) => {
       if (json.response) {
         resolve(json);
       } else {
-        error(reject, json);
+        if (json.error === 'NEEDAUTH') {
+          core.app.exit();
+          error(reject, json);
+        } else {
+          error(reject, json);
+        }
       }
     })
-    .catch(err => {
-      error(reject, { message: err.message });
-    });
+    .catch(err => {});
   }); 
   
 

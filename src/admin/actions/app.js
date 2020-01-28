@@ -10,6 +10,11 @@ core.app.login = function() {
   core.app.data({ auth: true });
 }
 
+core.app.exit = function() {
+  core.router(null);
+  core.app.data({ auth: false });
+}
+
 //menu
 core.app.menu.data = function(list) {
   core.components.appmenu.setData({ list });

@@ -7,13 +7,18 @@ import {
 
 
 core.events.on('app:auth', (id, params) => {
-  core.fetch({ type: 'auth', username: 'admin', password: '1234' })
+  core.fetch({ method: 'auth', username: 'admin', password: '1234' })
   .then(data => {
     core.app.login();
   })
 });
 
 core.events.on('app:menu', (id, params) => {
+  core.fetch({ method: 'data' })
+  .then(data => {
+    core.app.login();
+  })
+  /*
   core.app.menu.data([
     { id: '1', route: 'devices', label: 'Устройства', tooltip: 'Устройства', icon: '' },
     { id: '2', route: 'visualization', label: 'Визуализация', tooltip: 'Визуализация', icon: '' },
@@ -24,6 +29,7 @@ core.events.on('app:menu', (id, params) => {
     { id: '8', route: 'database', label: 'База данных', tooltip: 'База данных', icon: '' },
     { id: '9', route: 'resources', label: 'Ресурсы', tooltip: 'Ресурсы', icon: '' },
   ]);
+  */
 });
 
 
