@@ -94,16 +94,6 @@ function navpush(path) {
   }
 }
 
-function init() {
-  core.router(core.nav.history.location);
-  core.app.data({ auth: true });
-}
-
-function auth() {
-  
-}
-
-
 const core = {
   app: {
     alert: {},
@@ -134,8 +124,6 @@ const core = {
     apptabs: {},
     pages: {},
   },
-  init,
-  auth,
   fetch,
 }
 

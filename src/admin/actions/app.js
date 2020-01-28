@@ -5,6 +5,11 @@ core.app.data = function(data) {
   core.components.app.setData(data);
 }
 
+core.app.login = function() {
+  core.router(core.nav.history.location);
+  core.app.data({ auth: true });
+}
+
 //menu
 core.app.menu.data = function(list) {
   core.components.appmenu.setData({ list });

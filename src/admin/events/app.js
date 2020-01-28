@@ -7,8 +7,10 @@ import {
 
 
 core.events.on('app:auth', (id, params) => {
-  // core.app.alert.error('Incorrect username or password!');
-  core.init();
+  core.fetch({ type: 'auth', username: 'admin', password: '1234' })
+  .then(data => {
+    core.app.login();
+  })
 });
 
 core.events.on('app:menu', (id, params) => {
