@@ -7,7 +7,7 @@ import {
 
 
 core.events.on('app:auth', (id, params) => {
-  console.log(params)
+  // core.app.alert.error('Incorrect username or password!');
   core.init();
 });
 

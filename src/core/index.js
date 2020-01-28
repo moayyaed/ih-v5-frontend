@@ -106,6 +106,7 @@ function auth() {
 
 const core = {
   app: {
+    alert: {},
     menu: {},
     nav: {},
     page: {},

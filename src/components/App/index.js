@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import core from 'core';
 
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
 import { createBrowserHistory } from 'history';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -18,6 +21,17 @@ const classes = theme => ({
 });
 
 
+function root(state) {
+  if (state.auth) {
+    return React.createElement(core._options.pages.main);
+  }
+  return React.createElement(core._options.pages.login);
+}
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 class App extends Component {
   componentDidMount() {
     core.nav.history = history;
@@ -25,11 +39,22 @@ class App extends Component {
     history.listen(core.router);
   }
 
+  handleClose = () => {
+    core.app.alert.error(null);
+    // core.components.app.setAlertClose();
+  }
+
   render() {
-    if (this.props.state.auth) {
-      return React.createElement(core._options.pages.main);
-    }
-    return React.createElement(core._options.pages.login);
+    return (
+      <>
+        <Snackbar open={this.props.state.alert.open} autoHideDuration={16000} onClose={this.handleClose}>
+          <Alert onClose={this.handleClose} severity={this.props.state.alert.severity}>
+            {this.props.state.alert.message}
+          </Alert>
+        </Snackbar>
+        {root(this.props.state)}
+      </>
+    )
   }
 }
 
