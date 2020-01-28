@@ -186,6 +186,7 @@ function Login() {
                 <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
                 <FilledInput
                   style={styles.passText}
+                  className="inputpass"
                   name="password"
                   type={values.showPassword ? 'text' : 'password'}
                   value={values.password}

@@ -27,3 +27,10 @@ html, body {
 .ReactVirtualized__Grid {
   outline: none;
 }
+
+.inputpass ::-webkit-credentials-auto-fill-button {
+  visibility: hidden;
+  pointer-events: none;
+  position: absolute;
+  right: 10;
+}
