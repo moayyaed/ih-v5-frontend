@@ -115,9 +115,25 @@ const styles = {
   }
 }
 
+function setUsername(username) {
+  if (window.localStorage !== undefined && username !== '') {
+    window.localStorage.setItem('username', username);
+  }
+}
+
+function getUsername() {
+  if (window.localStorage !== undefined) {
+    const username = window.localStorage.getItem('username');
+    if (username !== null) {
+      return username;
+    }
+  }
+  return 'admin';
+}
+
 function Login() {
   const [values, setValues] = React.useState({
-    username: 'admin',
+    username: getUsername(),
     password: '',
     rememberme: false,
     showPassword: false,
@@ -137,6 +153,8 @@ function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    setUsername(values.username);
     core.event('app:auth', null, values);
   }
 
