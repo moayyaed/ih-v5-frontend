@@ -47,7 +47,7 @@ class App extends Component {
   render() {
     return (
       <>
-        <Snackbar open={this.props.state.alert.open} autoHideDuration={16000} onClose={this.handleClose}>
+        <Snackbar open={this.props.state.alert.open} autoHideDuration={6000} onClose={this.handleClose}>
           <Alert onClose={this.handleClose} severity={this.props.state.alert.severity}>
             {this.props.state.alert.message}
           </Alert>
