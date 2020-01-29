@@ -129,7 +129,7 @@ function http(data, options, resolve, reject) {
       resolve(json);
     } else {
       if (json.error === 'NEEDAUTH') {
-        core.app.exit();
+        core.event('app:exit', null, null);
         error(reject, json);
       } else {
         error(reject, json);

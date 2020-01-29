@@ -1,4 +1,5 @@
-import './auth';
+import './access';
+
 import './menu';
 import './nav';
 

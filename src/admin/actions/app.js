@@ -1,15 +1,5 @@
 import core from 'core';
 
-//app
-core.app.data = function(data) {
-  core.components.app.setData(data);
-}
-
-core.app.login = function(token) {
-  // core.network.token = token;
-  core.router(core.nav.history.location);
-  core.app.data({ auth: true });
-}
 
 core.app.exit = function() {
   core.router(null);

@@ -155,7 +155,7 @@ function Login() {
     event.preventDefault();
 
     setUsername(values.username);
-    core.event('app:auth', null, values);
+    core.event('app:login', null, values);
   }
 
   return (
