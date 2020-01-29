@@ -20,11 +20,6 @@ core.app.nav.data = function(options, list) {
   }
 }
 
-core.app.nav.select = function(id) {
-  core.components.explorer.setSelect(id);
-}
-
-
 //page
 core.app.page.data = function(options, data) {
   const { pageid, component } = options;

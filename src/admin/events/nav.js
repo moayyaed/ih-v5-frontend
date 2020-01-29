@@ -9,7 +9,7 @@ core.events.on('app:nav', (_, params) => {
     id: params.menuid 
   })
   .ok((res) => {
-    core.app.nav.data({ navid: params.menuid , tabs: true }, res.data);
+    core.components.explorer.setData({ selectid: null, list: res.data });
   })
 });
 
