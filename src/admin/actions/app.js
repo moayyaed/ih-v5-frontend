@@ -6,7 +6,7 @@ core.app.data = function(data) {
 }
 
 core.app.login = function(token) {
-  core.network.token = token;
+  // core.network.token = token;
   core.router(core.nav.history.location);
   core.app.data({ auth: true });
 }

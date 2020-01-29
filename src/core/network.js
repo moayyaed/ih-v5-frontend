@@ -1,5 +1,7 @@
 import 'whatwg-fetch';
+
 import core from 'core';
+import shortid from 'shortid';
 
 function error(reject, data) {
   core.app.alert.error(data.message);
@@ -41,3 +43,95 @@ export function fetch(data) {
   
 
 }
+
+
+class Request {
+
+  constructor(req, options) {
+    this.req = req;
+    this.options = {
+      delay: 250,
+      timeout: 1000 * 10,
+      ...options
+    };
+  }
+
+  destroy() {
+    this.req = null;
+    this.options = null;
+    
+    this.timerDelay = null;
+    this.timerTimeout = null;
+
+    if (this.handleOk !== undefined) {
+      this.handleOk = null;
+    }
+    if (this.handleLoading !== undefined) {
+      this.handleLoading = null;
+    }
+    if (this.handleError !== undefined) {
+      this.handleError = null;
+    }
+  }
+
+  responseOk() {
+    clearTimeout(this.timerDelay);
+    clearTimeout(this.timerTimeout);
+    if (this.handleOk !== undefined) {
+      this.handleOk();
+    }
+    this.destroy();
+  }
+
+  responseError() {
+    clearTimeout(this.timerDelay);
+    clearTimeout(this.timerTimeout);
+    if (this.handleError !== undefined) {
+      this.handleError();
+    }
+    this.destroy();
+  }
+
+  handleDelay() {
+    if (this.handleLoading !== undefined) {
+      this.handleLoading();
+    }
+  }
+
+  handleTimeout() {
+    if (this.handleError !== undefined) {
+      this.handleError();
+    }
+  }
+
+  fetch() {
+    this.timerDelay = setTimeout(this.handleDelay.bind(this), this.options.delay);
+    this.timerTimeout = setTimeout(this.handleTimeout.bind(this), this.options.timeout);
+  }
+
+  ok(handle) {
+    this.handleOk = handle;
+    this.fetch();
+    return this;
+  }
+
+  loading(handle) {
+    this.handleLoading = handle;
+    return this;
+  }
+
+  error(handle) {
+    this.handleError = handle;
+    return this;
+  }
+}
+
+
+export function req(options) {
+  return new Request(options);
+}
+
+export function res(data) {
+
+}
+
