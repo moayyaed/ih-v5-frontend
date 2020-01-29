@@ -4,7 +4,7 @@ import connect from './connect';
 import store from './store';
 import components from './components';
 
-import { req } from './network';
+import req from './req';
 
 
 function clipboardRead() {
@@ -124,7 +124,7 @@ const core = {
     apptabs: {},
     pages: {},
   },
-  network: {},
+  network: new EventEmitter(),
   req,
 }
 

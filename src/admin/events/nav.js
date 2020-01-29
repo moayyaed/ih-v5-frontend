@@ -1,14 +1,24 @@
 import core from 'core';
 
 
+core.events.on('app:nav', (_, params) => {
+  core.req({ alias: 'nav', method: 'data', type: 'tree', id: params.menuid })
+    .ok((res) => core.app.nav.data({ navid: params.menuid , tabs: true }, res.data))
+});
+
+
+/*
 core.events.on('app:nav', (navid, params) => {
   core.fetch({ method: 'data', type: 'tree', id: params.menuid })
   .then(res => {
     core.app.nav.data({ navid, tabs: true }, res.data)
   })
 });
+*/
 
 
+
+/*
 core.events.on('app:nav:devices', (navid) => {
   core.app.nav.data({ navid, tabs: true }, [
     { id: 'lamp_1', component: 'table', title: 'lamp_1' },
@@ -76,3 +86,5 @@ core.events.on('app:nav:database', (navid) => {
 core.events.on('app:nav:resources', (navid) => {
   core.app.nav.data({ navid }, [])
 });
+
+*/

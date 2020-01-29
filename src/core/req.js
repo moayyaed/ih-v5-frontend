@@ -93,9 +93,13 @@ class Request {
 
 function fetch(data, options) {
   return new Promise((resolve, reject) => {
-    const name = `req:${data.type}`;
-    if (core.events._events[name] !== undefined) {
-      virtual(data, name, resolve, reject)
+    const name1 = data.alias + ':' + data.id
+    const name2 = data.alias;
+  
+    if (core.network._events[name1]) {
+      virtual(data, name1, resolve, reject)
+    } else if (core.network._events[name2] !== undefined) {
+      virtual(data, name2, resolve, reject)
     } else {
       http(data, options, resolve, reject);
     }
@@ -145,10 +149,10 @@ function virtual(data, name, resolve, reject) {
   function res(data) {
     resolve({ response: 1, data })
   }
-  core.events._events[name](res, data)
+  core.network._events[name](res, data)
 }
 
 
-export function req(options) {
+export default function req(options) {
   return new Request(options);
 }

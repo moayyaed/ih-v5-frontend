@@ -23,8 +23,9 @@ import options from './options';
 
 import './router';
 import './actions';
+
 import './events';
-import './requests';
+import './network';
 
 FocusStyleManager.onlyShowFocusOnTabs();
 
