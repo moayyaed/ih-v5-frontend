@@ -1,7 +1,7 @@
 import core from 'core';
 
 
-core.network.on('menu', (res, data) => {
+core.network.on('#menu', (res, data) => {
   res([
     { id: '1', route: 'devices', title: 'Устройства', tooltip: 'Устройства', icon: '' },
     { id: '2', route: 'visualization', title: 'Визуализация', tooltip: 'Визуализация', icon: '' },

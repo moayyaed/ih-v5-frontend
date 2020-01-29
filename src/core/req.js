@@ -113,7 +113,7 @@ function http(data, options, resolve, reject) {
     method: 'POST', body: JSON.stringify(data, null, 2),
     headers: {
       'Content-Type': 'application/json',
-      'token': core.network.token,
+      'token': core.cache.token,
     },
   })
   .then((response) => {
