@@ -34,7 +34,7 @@ core.events.on('route:menu:change', (params) => {
     core.components.appbody.setNav({ open: false, id: null });
     core.event('route', 'nav', 'change', staticpage);
   } else {
-    core.app.menu.select(params.menuid);
+    core.event('app:menu:click', params.menuid);
     core.components.appbody.setNav({ open: true, id: params.menuid });
   
     core.event('app:nav', params.menuid, params);

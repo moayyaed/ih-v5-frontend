@@ -1,16 +1,6 @@
 import core from 'core';
 
 
-core.app.exit = function() {
-  core.router(null);
-  core.app.data({ auth: false });
-}
-
-//menu
-core.app.menu.data = function(list) {
-  core.components.appmenu.setData({ list });
-}
-
 core.app.menu.select = function(id) {
   core.components.appmenu.setSelect(id);
 }

@@ -9,3 +9,7 @@ core.events.on('app:menu', () => {
   })
   .ok((res) => core.components.appmenu.setData({ list: res.data }))
 });
+
+core.events.on('app:menu:click', (menuid) => {
+  core.components.appmenu.setSelect(menuid);
+});
