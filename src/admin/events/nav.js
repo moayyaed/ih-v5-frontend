@@ -8,5 +8,7 @@ core.events.on('app:nav', (_, params) => {
     type: 'tree', 
     id: params.menuid 
   })
-  .ok((res) => core.app.nav.data({ navid: params.menuid , tabs: true }, res.data))
+  .ok((res) => {
+    core.app.nav.data({ navid: params.menuid , tabs: true }, res.data);
+  })
 });
