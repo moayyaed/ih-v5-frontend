@@ -1,8 +1,8 @@
 import core from 'core';
 
 
-core.events.on('req:menu', (id, data) => {
-  core.res(id, [
+core.events.on('req:menu', (res, data) => {
+  res([
     { id: '1', route: 'devices', title: 'Устройства', tooltip: 'Устройства', icon: '' },
     { id: '2', route: 'visualization', title: 'Визуализация', tooltip: 'Визуализация', icon: '' },
     { id: '3', route: 'scripts', title: 'Сценарии', tooltip: 'Сценарии', icon: '' },
@@ -13,10 +13,3 @@ core.events.on('req:menu', (id, data) => {
     { id: '9', route: 'resources', title: 'Ресурсы', tooltip: 'Ресурсы', icon: '' },
   ]);
 });
-
-
-  /*
-
-
-
-  */

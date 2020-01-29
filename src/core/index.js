@@ -4,7 +4,7 @@ import connect from './connect';
 import store from './store';
 import components from './components';
 
-import { req, res } from './network';
+import { req } from './network';
 
 
 function clipboardRead() {
@@ -126,7 +126,6 @@ const core = {
   },
   network: {},
   req,
-  res,
 }
 
 

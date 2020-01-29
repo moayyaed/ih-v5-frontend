@@ -1,19 +1,7 @@
 import core from 'core';
 
 
-core.events.on('app:menu', (id, params) => {
+core.events.on('app:menu', () => {
   core.req({ method: 'data', type: 'menu' })
-    .ok((res) => {
-      console.log(res);
-    })
-    .loading(() => console.log('loading'))
-    .error(e => console.log(e));
+    .ok((res) => core.app.menu.data(res.data))
 });
-
-
-  /*
-  core.fetch({ method: 'data', type: 'menu' })
-  .then(res => {
-    core.app.menu.data(res.data)
-  })
-  */
