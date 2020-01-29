@@ -124,6 +124,7 @@ const core = {
     apptabs: {},
     pages: {},
   },
+  network: {},
   fetch,
 }
 

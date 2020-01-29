@@ -8,10 +8,11 @@ function error(reject, data) {
 
 export function fetch(data) {
   return new Promise((resolve, reject) => {
-    window.fetch('api', { 
+    window.fetch('/api', { 
       method: 'POST', body: JSON.stringify(data, null, 2),
       headers: {
         'Content-Type': 'application/json',
+        'token': core.network.token,
       },
     })
     .then((response) => {
@@ -22,6 +23,7 @@ export function fetch(data) {
       }
     })
     .then((json) => {
+     if (json !== undefined) {
       if (json.response) {
         resolve(json);
       } else {
@@ -32,8 +34,9 @@ export function fetch(data) {
           error(reject, json);
         }
       }
+     }
     })
-    .catch(err => {});
+    .catch(err => { console.warn(err)});
   }); 
   
 

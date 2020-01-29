@@ -64,7 +64,7 @@ class AppMenu extends Component {
                 key={item.id}
                 value={item.route}
                 className={classes.bottom} 
-                label={item.label} 
+                label={item.title} 
                 icon={<RestoreIcon />} 
               />
             )}

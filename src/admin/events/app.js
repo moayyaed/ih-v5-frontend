@@ -8,15 +8,15 @@ import {
 
 core.events.on('app:auth', (id, params) => {
   core.fetch({ method: 'auth', username: 'admin', password: '1234' })
-  .then(data => {
-    core.app.login();
+  .then(res => {
+    core.app.login(res.token);
   })
 });
 
 core.events.on('app:menu', (id, params) => {
-  core.fetch({ method: 'data' })
-  .then(data => {
-    core.app.login();
+  core.fetch({ method: 'data', type: 'menu' })
+  .then(res => {
+    core.app.menu.data(res.data)
   })
   /*
   core.app.menu.data([
@@ -34,11 +34,15 @@ core.events.on('app:menu', (id, params) => {
 
 
 core.events.on('app:nav', (navid, params) => {
-  // console.log('nav main', navid);
+  core.fetch({ method: 'data', type: 'tree', id: params.menuid })
+  .then(res => {
+    core.app.nav.data({ navid, tabs: true }, res.data)
+  })
 });
 
+/*
 core.events.on('app:nav:devices', (navid) => {
-  core.app.nav.data({ navid, tabs: false }, [
+  core.app.nav.data({ navid, tabs: true }, [
     { id: 'lamp_1', component: 'table', title: 'lamp_1' },
     { id: 'lamp_2', component: 'table', title: 'lamp_2' },
     { id: 'lamp_3', component: 'table', title: 'lamp_3' },
@@ -64,7 +68,7 @@ core.events.on('app:nav:visualization', (navid) => {
       }
     ])
 });
-
+/*
 core.events.on('app:nav:scripts', (navid) => {
   core.app.nav.data({ navid, tabs: false }, [
     { id: 'script_1', component: 'options', title: 'script_1', children: [
@@ -79,6 +83,7 @@ core.events.on('app:nav:scripts', (navid) => {
   ])
 });
 
+
 core.events.on('app:nav:datasource', (navid) => {
   core.app.nav.data({ navid, tabs: true }, [
     { id: 'plugins', component: 'table', title: 'plugins' },
@@ -86,6 +91,7 @@ core.events.on('app:nav:datasource', (navid) => {
     { id: 'hubs', component: 'table', title: 'hubs' },
   ])
 });
+
 
 core.events.on('app:nav:analytics', (navid) => {
   core.app.nav.data({ navid }, [])
@@ -102,6 +108,7 @@ core.events.on('app:nav:database', (navid) => {
 core.events.on('app:nav:resources', (navid) => {
   core.app.nav.data({ navid }, [])
 });
+*/
 
 
 core.events.on('app:page', (pageid, component) => {
