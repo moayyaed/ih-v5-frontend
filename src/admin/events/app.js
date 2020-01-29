@@ -7,29 +7,31 @@ import {
 
 
 core.events.on('app:auth', (id, params) => {
-  core.fetch({ method: 'auth', username: 'admin', password: '1234' })
+  core.app.login('123');
+  /* core.fetch({ method: 'auth', username: 'admin', password: '1234' })
   .then(res => {
     core.app.login(res.token);
-  })
+  }) */
 });
 
 core.events.on('app:menu', (id, params) => {
+  /*
   core.fetch({ method: 'data', type: 'menu' })
   .then(res => {
     core.app.menu.data(res.data)
   })
-  /*
-  core.app.menu.data([
-    { id: '1', route: 'devices', label: 'Устройства', tooltip: 'Устройства', icon: '' },
-    { id: '2', route: 'visualization', label: 'Визуализация', tooltip: 'Визуализация', icon: '' },
-    { id: '3', route: 'scripts', label: 'Сценарии', tooltip: 'Сценарии', icon: '' },
-    { id: '4', route: 'datasource', label: 'Источники данных', tooltip: 'Источники данных', icon: '' },
-    { id: '6', route: 'analytics', label: 'Аналитика', tooltip: 'Аналитика', icon: '' },
-    { id: '7', route: 'access', label: 'Доступ', tooltip: 'Доступ', icon: '' },
-    { id: '8', route: 'database', label: 'База данных', tooltip: 'База данных', icon: '' },
-    { id: '9', route: 'resources', label: 'Ресурсы', tooltip: 'Ресурсы', icon: '' },
-  ]);
   */
+  
+  core.app.menu.data([
+    { id: '1', route: 'devices', title: 'Устройства', tooltip: 'Устройства', icon: '' },
+    { id: '2', route: 'visualization', title: 'Визуализация', tooltip: 'Визуализация', icon: '' },
+    { id: '3', route: 'scripts', title: 'Сценарии', tooltip: 'Сценарии', icon: '' },
+    { id: '4', route: 'datasource', title: 'Источники данных', tooltip: 'Источники данных', icon: '' },
+    { id: '6', route: 'analytics', title: 'Аналитика', tooltip: 'Аналитика', icon: '' },
+    { id: '7', route: 'access', title: 'Доступ', tooltip: 'Доступ', icon: '' },
+    { id: '8', route: 'database', title: 'База данных', tooltip: 'База данных', icon: '' },
+    { id: '9', route: 'resources', title: 'Ресурсы', tooltip: 'Ресурсы', icon: '' },
+  ]);
 });
 
 
@@ -40,7 +42,7 @@ core.events.on('app:nav', (navid, params) => {
   })
 });
 
-/*
+
 core.events.on('app:nav:devices', (navid) => {
   core.app.nav.data({ navid, tabs: true }, [
     { id: 'lamp_1', component: 'table', title: 'lamp_1' },
@@ -68,7 +70,7 @@ core.events.on('app:nav:visualization', (navid) => {
       }
     ])
 });
-/*
+
 core.events.on('app:nav:scripts', (navid) => {
   core.app.nav.data({ navid, tabs: false }, [
     { id: 'script_1', component: 'options', title: 'script_1', children: [
@@ -108,7 +110,6 @@ core.events.on('app:nav:database', (navid) => {
 core.events.on('app:nav:resources', (navid) => {
   core.app.nav.data({ navid }, [])
 });
-*/
 
 
 core.events.on('app:page', (pageid, component) => {
