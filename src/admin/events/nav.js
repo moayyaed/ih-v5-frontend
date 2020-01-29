@@ -12,3 +12,7 @@ core.events.on('app:nav', (_, params) => {
     core.app.nav.data({ navid: params.menuid , tabs: true }, res.data);
   })
 });
+
+core.events.on('app:nav:click', (navid) => {
+  core.components.explorer.setSelect(navid);
+});

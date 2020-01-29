@@ -51,13 +51,13 @@ core.events.on('route:nav:init', (params) => {
 });
 
 core.events.on('route:nav:change', (params) => {
-  core.app.nav.select(params.navid);
+  core.event('app:nav:click', params.navid);
   core.components.appbody.setPage({ open: true, id: params.navid, component: params.navcomponent });
   core.event('app:page', params.navid, params.navcomponent, params);
 });
 
 core.events.on('route:nav:exit', (params) => {
-  core.app.nav.select(null);
+  core.event('app:nav:click', null);
   core.components.apptabs.setData({ selectid: null, list: [] });
   core.components.appbody.setPage({ open: true, id: null, component: null });
   // console.log('route:nav:exit', params)

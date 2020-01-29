@@ -1,10 +1,6 @@
 import core from 'core';
 
 
-core.app.menu.select = function(id) {
-  core.components.appmenu.setSelect(id);
-}
-
 
 //nav
 core.app.nav.data = function(options, list) {
