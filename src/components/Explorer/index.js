@@ -4,6 +4,8 @@ import core from 'core';
 import SortableTree from 'react-sortable-tree';
 import FileExplorerTheme from 'react-sortable-tree-theme-file-explorer';
 
+import Skeleton from '@material-ui/lab/Skeleton';
+
 import { withStyles } from '@material-ui/core/styles';
 
 
@@ -73,6 +75,22 @@ class Explorer extends Component {
   }
 
   render({ id, state, classes } = this.props) {
+    if (state.loading) {
+      return (
+        <div style={styles.box} onContextMenu={this.handleContextMenuBody}>
+          <div style={{ height: 400 }}>
+            {state.list.map(i => 
+              <div style={{ paddingLeft: 8, paddingTop: 4, marginBottom: 4 }}>
+                <Skeleton variant="text" width={i.w} />
+                <div style={{ paddingLeft: 18, marginTop: 4 }}>
+                  {i.c.map(i => <Skeleton variant="text" width={i} height={15} />)}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    }
     return (
       <div style={styles.box} onContextMenu={this.handleContextMenuBody}>
         <div style={{ height: 400 }}>

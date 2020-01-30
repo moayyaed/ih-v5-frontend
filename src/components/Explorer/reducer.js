@@ -2,6 +2,7 @@ import { EXPLORER_SET_DATA, EXPLORER_SET_SELECT } from './constants';
 
 
 const defaultState = {
+  loading: false,
   selectid: null,
   list: [],
 };

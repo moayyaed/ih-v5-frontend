@@ -10,7 +10,7 @@ class Request {
   constructor(req, options) {
     this.req = req;
     this.options = {
-      delay: 250,
+      delay: 200,
       timeout: 1000 * 15,
       ...options
     };

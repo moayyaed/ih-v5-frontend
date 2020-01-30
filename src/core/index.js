@@ -138,6 +138,7 @@ const core = {
   cache: {
     paths: {},
     apptabs: {},
+    navs: {},
     pages: {},
   },
   progress: {

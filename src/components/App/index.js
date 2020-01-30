@@ -30,7 +30,7 @@ function root(state) {
 }
 
 function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
+  return <MuiAlert elevation={6} {...props} />;
 }
 
 class App extends Component {
