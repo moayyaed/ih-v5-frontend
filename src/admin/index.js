@@ -26,7 +26,6 @@ import './actions';
 
 import './events';
 import './network';
-import './cache';
 
 FocusStyleManager.onlyShowFocusOnTabs();
 

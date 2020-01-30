@@ -3,25 +3,53 @@ import core from 'core';
 
 function cache(params) {
   const store = core.store.getState();
+  
+  if (core.nav.last.navid !== null && core.nav.last.navcomponent !== null) {
+    const name = core.nav.last.navcomponent + '_' + core.nav.last.navid;
 
+    if (core.nav.last.navcomponen === 'table') {
+      core.cache.pages[name] = store.table;
+    }
+    if (core.nav.last.navcomponen === 'options') {
+      core.cache.pages[name] = store.options;
+    }
+    if (core.nav.last.navcomponen === 'layout') {
+      core.cache.pages[name] = store.layout;
+    }
+    if (core.nav.last.navcomponen === 'template') {
+      core.cache.pages[name] = store.template;
+    }
+  }
 
 }
 
 core.events.on('app:page', (params) => {
   cache(params);
-
+  
+  core.components.apptabs.addItem({ id: params.navid, label: params.navid, component: params.navcomponent })
   core.req({ 
     alias: 'page', 
     method: 'data', 
-    type: 'x-component', 
-    id: params.menuid 
+    type: params.navcomponent, 
+    id: params.navid, 
   })
   .ok((res) => {
-    core.components.layout.setData({ ...res.data, loading: false });
+    if (params.navcomponent === 'table') {
+      core.components.table.setData({ text: params.navid, loading: false })
+    }
+    if (params.navcomponent === 'options') {
+      core.components.options.setData({ text: params.navid, loading: false })
+    }
+    if (params.navcomponent === 'layout') {
+      core.components.layout.setData({ ...res.data, loading: false });
+    }
+    if (params.navcomponent === 'template') {
+      core.components.template.setData({ ...res.data, loading: false });
+    }
   })
 
   /*
-  core.components.apptabs.addItem({ id: pageid, label: pageid, component });
+  
 
   if (options.component === 'table') {
     core.components.table.setData({ text: component + ':' + pageid });

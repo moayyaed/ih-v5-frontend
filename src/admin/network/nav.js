@@ -8,7 +8,7 @@ core.network.on('nav', (res, data) => {
       { id: 'lamp_2', component: 'table', title: 'lamp_2' },
       { id: 'lamp_3', component: 'table', title: 'lamp_3' },
     ]);
-  }, 4500)
+  }, 0)
 });
 
 core.network.on('nav:visualization', (res, data) => {
@@ -29,7 +29,7 @@ core.network.on('nav:visualization', (res, data) => {
         ]
       }
     ]);
-  }, 4500);
+  }, 0);
 });
 
 core.network.on('nav:scripts', (res, data) => {

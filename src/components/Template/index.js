@@ -303,7 +303,7 @@ class Template extends Component {
     x = -tx * s + px
     y = -ty * s + py
   
-    core.components.graph.setPositionLayout(x, y, s);
+    core.components.template.setPositionLayout(x, y, s);
   }
 
   handleSelectMouseMove = (pos) => {
@@ -329,9 +329,9 @@ class Template extends Component {
       });
      const list = Object.keys(temp);
      if (list.length === 1) {
-      core.components.graph.selectOneContainer(list[0], 'one');
+      core.components.template.selectOneContainer(list[0], 'one');
      } else if (list.length > 1) {
-      core.components.graph.selectMultiContainers(list[list.length - 1], temp, this.props.state.map);
+      core.components.template.selectMultiContainers(list[list.length - 1], temp, this.props.state.map);
      }
   }
 
@@ -403,7 +403,7 @@ class Template extends Component {
       if (this.lastDragLayout) {
         this.lastDragLayout = false;
       } else {
-        core.components.graph.clearAllSelects();
+        core.components.template.clearAllSelects();
       }
     }
     if (e.button === 0 && space === false && shift === false && this.page !== null) {
@@ -418,10 +418,10 @@ class Template extends Component {
   handleKeyUp = (e) => {
     if (e.keyCode === 32) {
       document.body.style.cursor = 'auto';
-      core.components.graph.selectBlock({ space: false, layout: true, containers: false });
+      core.components.template.selectBlock({ space: false, layout: true, containers: false });
     }
     if (e.keyCode === 16) {
-      core.components.graph.selectBlock({ shift: false, containers: false });
+      core.components.template.selectBlock({ shift: false, containers: false });
     }
     // console.log(e.keyCode, 'up')
   }
@@ -430,10 +430,10 @@ class Template extends Component {
     if (e.repeat === false) {
       if (e.keyCode === 32) {
         document.body.style.cursor = 'grab';
-        core.components.graph.selectBlock({ space: true, layout: false, containers: true });
+        core.components.template.selectBlock({ space: true, layout: false, containers: true });
       }
       if (e.keyCode === 16) {
-        core.components.graph.selectBlock({ shift: true, containers: true });
+        core.components.template.selectBlock({ shift: true, containers: true });
       }
       // console.log(e.keyCode, 'down')
     }
@@ -444,7 +444,7 @@ class Template extends Component {
     if (this.lastDragLayout) {
       this.lastDragLayout = false;
     } else {
-      core.components.graph.clearAllSelects();
+      core.components.template.clearAllSelects();
     }
   } 
 
@@ -461,14 +461,14 @@ class Template extends Component {
   }
 
   handlePositionLayout = (e, data) => {
-    core.components.graph.setPositionLayout(data.x, data.y, this.props.state.settings.scale);
+    core.components.template.setPositionLayout(data.x, data.y, this.props.state.settings.scale);
   }
 
   handlePositionSizeControl = (e, type, op, settings, data) => {
     if (type === 'start') {
       e.preventDefault();
       e.stopPropagation();
-      core.components.graph.clearAllSelects();
+      core.components.template.clearAllSelects();
     } 
     if (type === 'stop' || type === 'drag' && (this.lastDragSC.x !== data.x || this.lastDragSC.y !== data.y)) {
       this.lastDragSC = { x: data.x, y: data.y };
@@ -476,7 +476,7 @@ class Template extends Component {
       if (e.ctrlKey || e.metaKey) {
         position = getProportion(op, data, position, settings);
       }
-      core.components.graph.setSettingsContainer(settings.id, position);
+      core.components.template.setSettingsContainer(settings.id, position);
     } 
   }
 
@@ -504,7 +504,7 @@ class Template extends Component {
       if (e.ctrlKey || e.metaKey) {
         position = getProportion(op, data, position, settings);
       }
-      core.components.graph.setResizeGroupContainer(e, position, this.props.state.selects, this.props.state.map);
+      core.components.template.setResizeGroupContainer(e, position, this.props.state.selects, this.props.state.map);
     } 
   }
 
@@ -517,13 +517,13 @@ class Template extends Component {
   handlePositionDragGroup = (e, data, selects) => {
     e.preventDefault();
     e.stopPropagation();
-    core.components.graph.setPositionGroupContainer(data, selects, this.props.state.map);
+    core.components.template.setPositionGroupContainer(data, selects, this.props.state.map);
   }
 
   handlePositionStopGroup = (e, data, selects) => {
     e.preventDefault();
     e.stopPropagation();
-    core.components.graph.setPositionGroupContainer(data, selects, this.props.state.map);
+    core.components.template.setPositionGroupContainer(data, selects, this.props.state.map);
   }
    
   handlePositionStartContainer = (e, item, data, selects) => {
@@ -531,10 +531,10 @@ class Template extends Component {
     e.stopPropagation();
     if (e.shiftKey && selects.type !== null) {
       if (item.settings.group !== undefined) {
-        core.components.graph
+        core.components.template
         .selectMultiContainers(item.settings.id, { ...selects.data, ...item.settings.group }, this.props.state.map);
       } else {
-        core.components.graph.selectMultiContainers(item.settings.id, selects.data, this.props.state.map);
+        core.components.template.selectMultiContainers(item.settings.id, selects.data, this.props.state.map);
       }
     } else {
       if (selects.type === 'multi' && selects.data[item.settings.id]) {
@@ -542,10 +542,10 @@ class Template extends Component {
       } else {
         if (item.settings.group !== undefined) {
           this.lastDragLayout = true;
-          core.components.graph
+          core.components.template
             .selectMultiContainers(item.settings.id, item.settings.group, this.props.state.map);
         } else {
-          core.components.graph.selectOneContainer(item.settings.id, 'one');
+          core.components.template.selectOneContainer(item.settings.id, 'one');
         }
       }
     }
@@ -553,7 +553,7 @@ class Template extends Component {
 
   handlePositionDragContainer = (e, item, data, selects) => {
     if (item.settings.group !== undefined) {
-      core.components.graph.setPositionGroupContainer(data, selects, this.props.state.map);
+      core.components.template.setPositionGroupContainer(data, selects, this.props.state.map);
     }
   }
 
@@ -561,7 +561,7 @@ class Template extends Component {
     e.preventDefault();
     e.stopPropagation();
     if (item.settings.x !== data.x || item.settings.y !== data.y) {
-      core.components.graph.setPositionContainer(item.settings.id, data.x, data.y);
+      core.components.template.setPositionContainer(item.settings.id, data.x, data.y);
     }
   }
 
@@ -688,7 +688,7 @@ class Template extends Component {
         }
         return { ...p, [c]: this.props.state.vars[c] };
       }, {});
-      core.components.graph.forceData({ vars });
+      core.components.template.forceData({ vars });
     }
 
     if (type === 'k') {
@@ -699,7 +699,7 @@ class Template extends Component {
           }
           return { ...p, [c]: this.props.state.vars[c] };
         }, {});
-        core.components.graph.forceData({ selectvar: v,  vars });
+        core.components.template.forceData({ selectvar: v,  vars });
       } else {
         const vars = Object.keys(this.props.state.vars).reduce((p, c) => {
           if (this.props.state.vars[c].id === id) {
@@ -707,7 +707,7 @@ class Template extends Component {
           }
           return { ...p, [c]: this.props.state.vars[c] };
         }, {});
-        core.components.graph.forceData({ vars });
+        core.components.template.forceData({ vars });
       }
     }
    
@@ -770,9 +770,9 @@ class Template extends Component {
             }
             return { ...p, [c]: state.map[c] };
           }, {});
-          core.components.graph.forceData({ map, vars });
+          core.components.template.forceData({ map, vars });
         } else {
-          core.components.graph.forceData({ vars });
+          core.components.template.forceData({ vars });
         }
       }
 
@@ -817,7 +817,7 @@ class Template extends Component {
           }
        
         }, {});
-        core.components.graph.forceData({ map, vars });
+        core.components.template.forceData({ map, vars });
      }
 
      if (mode === 'I') {
@@ -838,9 +838,9 @@ class Template extends Component {
           }
           return { ...p, [c]: state.map[c] };
         }, {});
-        core.components.graph.forceData({ map, vars });
+        core.components.template.forceData({ map, vars });
       } else {
-        core.components.graph.forceData({ vars });
+        core.components.template.forceData({ vars });
       }
     }
 
@@ -850,7 +850,7 @@ class Template extends Component {
   handleClickPropsClick = (e, type, id, value) => {
     e.stopPropagation();
     if (type === 's' && this.props.state.selectvar !== id) {
-      core.components.graph.forceData({ selectvar: id });
+      core.components.template.forceData({ selectvar: id });
       const v = { target: { value: this.props.state.vars[id].value } }
       this.handleClickPropsChangev('v', id, v)
     }
@@ -872,7 +872,7 @@ class Template extends Component {
         }
         return { ...p, [c]: this.props.state.vars[c] };
       }, {});
-      core.components.graph.forceData({ vars });
+      core.components.template.forceData({ vars });
     }
   }
 
@@ -881,7 +881,7 @@ class Template extends Component {
     const name = 'value';
     function create(vars) {
       if (vars[name + i] == undefined) {
-        core.components.graph.forceData({ selectvar: name + i, vars: {
+        core.components.template.forceData({ selectvar: name + i, vars: {
           ...vars,
           [name + i]: { id: name + i, value: 0, state: {}, mode: 'D'  }
         } });
@@ -903,7 +903,7 @@ class Template extends Component {
       }, {});
       const keys = Object.keys(vars);
       const selectvar = keys.length === 0 ? null : keys[keys.length - 1];
-      core.components.graph.forceData({ selectvar, vars });
+      core.components.template.forceData({ selectvar, vars });
     }
   }
 
@@ -1015,12 +1015,12 @@ class Template extends Component {
         });
         
         
-        core.components.graph.forceData({ vars, map });
+        core.components.template.forceData({ vars, map });
     }
 
 
 
-    // core.components.graph.setPropertiesContainer(this.props.state.selects.data, name, v);
+    // core.components.template.setPropertiesContainer(this.props.state.selects.data, name, v);
   }
   
 }

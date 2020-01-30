@@ -9,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 import css from './main.module.css';
 import Properties from './Properties';
 import { Toolbar } from '@material-ui/core';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 import { Icon } from "@blueprintjs/core";
 
@@ -280,8 +281,23 @@ class Layout extends Component {
     if (state.loading) {
       return (
         <div style={styles.root} >
-          <Paper style={styles.paper} elevation={2} >
-
+          <Paper style={{ ...styles.paper, display: 'flex' }} elevation={2} >
+            <div style={{ width: '16%', height: '100%', padding: 16 }}>
+              <Skeleton variant="rect" width='100%' height="100%" />
+            </div>
+            <div style={{ width: '84%', height: '100%', padding: 16 }}>
+              <div style={{ width: '100%', height: '8%', paddingBottom: 8 }}>
+                <Skeleton variant="rect" width='100%' height="100%" />
+              </div>
+              <div style={{ width: '100%', height: '92%', display: 'flex' }}>
+                <div style={{ width: '70%', height: '100%', padding: 16, paddingBottom: 0, paddingLeft: 0 }}>
+                  <Skeleton variant="rect" width='100%' height="100%" />
+                </div>
+                <div style={{ width: '30%', height: '100%', padding: 16, paddingBottom: 0, paddingRight: 0 }}>
+                  <Skeleton variant="rect" width='100%' height="100%" />
+                </div>
+              </div>
+            </div>
           </Paper>
           <Properties loading={state.loading} />
         </div>

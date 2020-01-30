@@ -101,13 +101,16 @@ class Request {
 
 function fetch(data, options) {
   return new Promise((resolve, reject) => {
-    const name1 = data.alias + ':' + data.id
-    const name2 = data.alias;
+    const name1 = data.alias + ':' + data.id;
+    const name2 = data.alias + '::' + data.type;
+    const name3 = data.alias;
   
     if (core.network._events[name1]) {
       virtual(data, name1, resolve, reject)
     } else if (core.network._events[name2] !== undefined) {
       virtual(data, name2, resolve, reject)
+    } else if (core.network._events[name3] !== undefined) {
+      virtual(data, name3, resolve, reject)
     } else {
       http(data, options, resolve, reject);
     }
