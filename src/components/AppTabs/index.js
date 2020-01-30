@@ -250,15 +250,16 @@ class AppTabs extends Component {
 
     if (type === 'close') {
       core.components.apptabs.removeItem(item);
-
-      const store = core.store.getState()
-      const index = store.apptabs.list.length;
-
-      if (index !== 0) {
-        const item = store.apptabs.list[index - 1];
-        core.nav.push(`/${menuid}/${item.component}/${item.id}`);
-      } else {
-        core.nav.push(`/${menuid}`);
+      if (this.props.state.selectid === item.id) {
+        const store = core.store.getState()
+        const index = store.apptabs.list.length;
+    
+        if (index !== 0) {
+          const item = store.apptabs.list[index - 1];
+          core.nav.push(`/${menuid}/${item.component}/${item.id}`);
+        } else {
+          core.nav.push(`/${menuid}`);
+        }
       }
     }
   }
