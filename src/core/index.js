@@ -1,5 +1,7 @@
 import EventEmitter from 'events';
 
+import NProgress from 'nprogress';
+
 import connect from './connect';
 import store from './store';
 import components from './components';
@@ -94,6 +96,20 @@ function navpush(path) {
   }
 }
 
+function progressStart() {
+  core.progress.count += 1;
+  NProgress.start();
+}
+
+function progressStop() {
+  core.progress.count -= 1;
+  if (core.progress.count > 0) {
+    NProgress.inc();
+  } else {
+    NProgress.done();
+  }
+}
+
 const core = {
   app: {
     alert: {},
@@ -123,6 +139,11 @@ const core = {
     paths: {},
     apptabs: {},
     pages: {},
+  },
+  progress: {
+    count: 0,
+    start: progressStart,
+    stop: progressStop,
   },
   network: new EventEmitter(),
   req,

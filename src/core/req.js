@@ -1,6 +1,9 @@
 import 'whatwg-fetch';
+import NProgress from 'nprogress';
 
 import core from 'core';
+
+let count = 0;
 
 class Request {
 
@@ -14,6 +17,8 @@ class Request {
   }
 
   destroy() {
+    core.progress.stop();
+
     this.req = null;
     this.options = null;
     this.controller = null;
@@ -83,7 +88,10 @@ class Request {
   start() {
     this.timerDelay = setTimeout(this.handleDelay.bind(this), this.options.delay);
     this.timerTimeout = setTimeout(this.handleTimeout.bind(this), this.options.timeout);
+
     this.controller = new AbortController();
+    core.progress.start();
+
     fetch(this.req, { signal: this.controller.signal })
       .then(this.responseOk.bind(this))
       .catch(this.responseError.bind(this))

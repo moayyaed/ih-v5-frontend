@@ -2,11 +2,13 @@ import core from 'core';
 
 
 core.network.on('nav', (res, data) => {
-  res([
-    { id: 'lamp_1', component: 'table', title: 'lamp_1' },
-    { id: 'lamp_2', component: 'table', title: 'lamp_2' },
-    { id: 'lamp_3', component: 'table', title: 'lamp_3' },
-  ]);
+  setTimeout(() => {
+    res([
+      { id: 'lamp_1', component: 'table', title: 'lamp_1' },
+      { id: 'lamp_2', component: 'table', title: 'lamp_2' },
+      { id: 'lamp_3', component: 'table', title: 'lamp_3' },
+    ]);
+  }, 4500)
 });
 
 core.network.on('nav:visualization', (res, data) => {

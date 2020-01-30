@@ -3,6 +3,7 @@ import core from 'core';
 
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import NProgressBar from 'components/#basic/NProgressBar/NProgressBar';
 
 import { createBrowserHistory } from 'history';
 
@@ -47,6 +48,7 @@ class App extends Component {
   render() {
     return (
       <>
+        <NProgressBar />
         <Snackbar open={this.props.state.alert.open} autoHideDuration={6000} onClose={this.handleClose}>
           <Alert onClose={this.handleClose} severity={this.props.state.alert.severity}>
             {this.props.state.alert.message}
