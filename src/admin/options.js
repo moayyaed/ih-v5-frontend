@@ -11,8 +11,8 @@ import template from 'components/Template/link';
 import layout from 'components/Layout/link';
 
 
-import App from './App';
-import Login from './Login';
+import App from './pages/App';
+import Login from './pages/Login';
 
 
 const _options = {
