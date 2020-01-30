@@ -235,7 +235,7 @@ function Container(props) {
   )
 }
 
-class Graph extends Component {
+class Template extends Component {
 
   componentDidMount() {
     this.lastDragSC = { x: null, y: null };
@@ -580,6 +580,9 @@ class Graph extends Component {
   }
 
   render({ id, state, match, classes, onClick } = this.props) {
+    if (state.loading) {
+      return null;
+    }
     const group = state.selects.group;
     const block = state.selects.block;
     return (
@@ -1024,4 +1027,4 @@ class Graph extends Component {
 
 
 
-export default core.connect(withStyles(classes)(Graph));
+export default core.connect(withStyles(classes)(Template));

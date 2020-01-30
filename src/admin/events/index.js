@@ -2,7 +2,8 @@ import './access';
 
 import './menu';
 import './nav';
+import './page';
 
-import './app';
 import './route';
+
 import './contextmenu';

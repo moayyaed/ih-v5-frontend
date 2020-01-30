@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
 import core from 'core';
 
-import Table from 'components/Table';
-import Options from 'components/Options';
-import Graph from 'components/Graph';
-import Layout from 'components/Layout';
-import Test from 'components/Test';
-
 
 const styles = {
   root: {
@@ -17,20 +11,11 @@ const styles = {
 
 
 function getComponent(type, id) {
-  switch (type) {
-    case 'table':
-      return <Table />;
-    case 'options':
-      return <Options />;
-    case 'layout':
-      return <Layout key={id} />;
-    case 'template':
-      return <Graph key={id} />;
-    case 'test':
-      return <Test />;
-    default:
-      return null;
+  if (core._options.components[type] !== undefined && core._options.components[type].component) {
+    return React.createElement(core._options.components[type].component);
   }
+  return null;
+  
 }
 
 function handleContextMenuPageBody(e, params) {

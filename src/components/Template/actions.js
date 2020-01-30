@@ -1,43 +1,43 @@
 import shortid from 'shortid';
 
 import { 
-  GRAPH_SET_DATA,
-  GRAPH_FORCE_DATA,
-  GRAPH_SET_POSITION_LAYOUT, 
-  GRAPH_SET_POSITION_CONTAINER,
-  GRAPH_SET_PROPERTIES_CONTAINER,
-  GRAPH_SET_POSITION_GROUP_CONTAINER,
-  GRAPH_SET_RESIZE_GROUP_CONTAINER,
-  GRAPH_SET_SETTINGS_CONTAINER,
+  TEMPLATE_SET_DATA,
+  TEMPLATE_FORCE_DATA,
+  TEMPLATE_SET_POSITION_LAYOUT, 
+  TEMPLATE_SET_POSITION_CONTAINER,
+  TEMPLATE_SET_PROPERTIES_CONTAINER,
+  TEMPLATE_SET_POSITION_GROUP_CONTAINER,
+  TEMPLATE_SET_RESIZE_GROUP_CONTAINER,
+  TEMPLATE_SET_SETTINGS_CONTAINER,
 
-  GRAPH_ADD_CONTAINER,
-  GRAPH_SELECT_ONE_CONTAINER,
-  GRAPH_SELECT_MULTI_CONTAINERS,
-  GRAPH_SELECT_BLOCK,
-  GRAPH_CLEAR_ALL_SELECTS,
+  TEMPLATE_ADD_CONTAINER,
+  TEMPLATE_SELECT_ONE_CONTAINER,
+  TEMPLATE_SELECT_MULTI_CONTAINERS,
+  TEMPLATE_SELECT_BLOCK,
+  TEMPLATE_CLEAR_ALL_SELECTS,
 
-  GRAPH_SET_GROUP,
-  GRAPH_UNSET_GROUP,
+  TEMPLATE_SET_GROUP,
+  TEMPLATE_UNSET_GROUP,
 } from './constants';
 
 
 export function setData(data) {
   return {
-    type: GRAPH_SET_DATA,
+    type: TEMPLATE_SET_DATA,
     data,
   };
 }
 
 export function forceData(data) {
   return {
-    type: GRAPH_FORCE_DATA,
+    type: TEMPLATE_FORCE_DATA,
     data,
   };
 }
 
 export function setPositionLayout(x, y, scale) {
   return {
-    type: GRAPH_SET_POSITION_LAYOUT,
+    type: TEMPLATE_SET_POSITION_LAYOUT,
     x,
     y,
     scale
@@ -46,7 +46,7 @@ export function setPositionLayout(x, y, scale) {
 
 export function setPositionContainer(itemid, x, y) {
   return {
-    type: GRAPH_SET_POSITION_CONTAINER,
+    type: TEMPLATE_SET_POSITION_CONTAINER,
     itemid,
     x,
     y,
@@ -55,7 +55,7 @@ export function setPositionContainer(itemid, x, y) {
 
 export function setPropertiesContainer(items, name, value) {
   return {
-    type: GRAPH_SET_PROPERTIES_CONTAINER,
+    type: TEMPLATE_SET_PROPERTIES_CONTAINER,
     items,
     name,
     value,
@@ -64,7 +64,7 @@ export function setPropertiesContainer(items, name, value) {
 
 export function setSettingsContainer(itemid, settings) {
   return {
-    type: GRAPH_SET_SETTINGS_CONTAINER,
+    type: TEMPLATE_SET_SETTINGS_CONTAINER,
     itemid,
     settings,
   };
@@ -81,7 +81,7 @@ export function addContainer(position, data) {
     let rx = data[0].settings.x - position.nx;
     let ry = data[0].settings.y - position.ny;
     return {
-      type: GRAPH_ADD_CONTAINER,
+      type: TEMPLATE_ADD_CONTAINER,
       data: data.reduce((p, n) => {
         if (n.settings.group !== undefined) {
           return {
@@ -115,7 +115,7 @@ export function addContainer(position, data) {
   }
   const id = shortid.generate();
   return {
-    type: GRAPH_ADD_CONTAINER,
+    type: TEMPLATE_ADD_CONTAINER,
     data: {
       [id]: {
         ...data,
@@ -132,7 +132,7 @@ export function addContainer(position, data) {
 
 export function selectOneContainer(itemid) {
   return {
-    type: GRAPH_SELECT_ONE_CONTAINER,
+    type: TEMPLATE_SELECT_ONE_CONTAINER,
     itemid,
     selecttype: 'one',
   };
@@ -168,7 +168,7 @@ export function selectMultiContainers(itemid, items, map) {
     });
  
   return {
-    type: GRAPH_SELECT_MULTI_CONTAINERS,
+    type: TEMPLATE_SELECT_MULTI_CONTAINERS,
     itemid,
     selecttype: 'multi',
     selects: items,
@@ -200,7 +200,7 @@ export function setPositionGroupContainer(data, select, map) {
       return { ...p, [c]: map[c] };
     }, {});
   return {
-    type: GRAPH_SET_POSITION_GROUP_CONTAINER,
+    type: TEMPLATE_SET_POSITION_GROUP_CONTAINER,
     x: data.x,
     y: data.y,
     map: temp,
@@ -234,7 +234,7 @@ export function setResizeGroupContainer(e, position, selects, map) {
     return { ...p, [c]: map[c] };
   }, {});
   return {
-    type: GRAPH_SET_RESIZE_GROUP_CONTAINER,
+    type: TEMPLATE_SET_RESIZE_GROUP_CONTAINER,
     position,
     map: temp,
   };
@@ -242,14 +242,14 @@ export function setResizeGroupContainer(e, position, selects, map) {
 
 export function selectBlock(value) {
   return {
-    type: GRAPH_SELECT_BLOCK,
+    type: TEMPLATE_SELECT_BLOCK,
     value,
   };
 }
 
 export function clearAllSelects() {
   return {
-    type: GRAPH_CLEAR_ALL_SELECTS,
+    type: TEMPLATE_CLEAR_ALL_SELECTS,
   };
 }
 
@@ -285,7 +285,7 @@ export function setGroup(state) {
       return { ...p, [c]: state.map[c] };
     }, { [id]: groupitem });
   return { 
-    type: GRAPH_SET_GROUP,
+    type: TEMPLATE_SET_GROUP,
     map,
     selects: { ...items, [id]: true }
   }
@@ -314,7 +314,7 @@ export function unsetGroup(group, data) {
       delete selects[groupid];
     }
   return {
-    type: GRAPH_UNSET_GROUP,
+    type: TEMPLATE_UNSET_GROUP,
     groupid,
     selects,
   };

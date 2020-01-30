@@ -16,6 +16,7 @@ import {
 
 
 const defaultState = {
+  loading: true,
   toolbar: {
     enabled: false,
     element: null,

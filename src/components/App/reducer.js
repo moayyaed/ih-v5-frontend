@@ -26,7 +26,7 @@ function reducer(state = defaultState, action) {
         } 
     };
     case APP_ALERT_CLOSE:
-      return { ...state, alert: { ...state.alert, open: false,  message: '' } };
+      return { ...state, alert: { ...state.alert, open: false } };
     default:
       return state;
   }

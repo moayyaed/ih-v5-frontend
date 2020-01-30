@@ -1,25 +1,26 @@
 import { 
-  GRAPH_SET_DATA, 
-  GRAPH_FORCE_DATA, 
-  GRAPH_SET_POSITION_LAYOUT, 
-  GRAPH_SET_POSITION_CONTAINER,
-  GRAPH_SET_POSITION_GROUP_CONTAINER,
-  GRAPH_SET_PROPERTIES_CONTAINER,
-  GRAPH_SET_RESIZE_GROUP_CONTAINER,
-  GRAPH_SET_SETTINGS_CONTAINER,
+  TEMPLATE_SET_DATA, 
+  TEMPLATE_FORCE_DATA, 
+  TEMPLATE_SET_POSITION_LAYOUT, 
+  TEMPLATE_SET_POSITION_CONTAINER,
+  TEMPLATE_SET_POSITION_GROUP_CONTAINER,
+  TEMPLATE_SET_PROPERTIES_CONTAINER,
+  TEMPLATE_SET_RESIZE_GROUP_CONTAINER,
+  TEMPLATE_SET_SETTINGS_CONTAINER,
 
-  GRAPH_ADD_CONTAINER,
-  GRAPH_SELECT_ONE_CONTAINER,
-  GRAPH_SELECT_MULTI_CONTAINERS,
-  GRAPH_SELECT_BLOCK,
-  GRAPH_CLEAR_ALL_SELECTS,
+  TEMPLATE_ADD_CONTAINER,
+  TEMPLATE_SELECT_ONE_CONTAINER,
+  TEMPLATE_SELECT_MULTI_CONTAINERS,
+  TEMPLATE_SELECT_BLOCK,
+  TEMPLATE_CLEAR_ALL_SELECTS,
 
-  GRAPH_SET_GROUP,
-  GRAPH_UNSET_GROUP,
+  TEMPLATE_SET_GROUP,
+  TEMPLATE_UNSET_GROUP,
 } from './constants';
 
 
 const defaultState = {
+ loading: true,
  selects: {
    block: {
      layout: true,
@@ -42,11 +43,11 @@ const defaultState = {
 
 function reducer(state = defaultState, action) {
   switch (action.type) {
-    case GRAPH_SET_DATA:
+    case TEMPLATE_SET_DATA:
       return { ...state, ...defaultState, ...action.data };
-    case GRAPH_FORCE_DATA:
+    case TEMPLATE_FORCE_DATA:
       return { ...state, ...action.data };
-    case GRAPH_SET_POSITION_LAYOUT:
+    case TEMPLATE_SET_POSITION_LAYOUT:
       return { 
         ...state, 
         settings: {
@@ -56,7 +57,7 @@ function reducer(state = defaultState, action) {
           scale: action.scale,
         }
       };
-    case GRAPH_SET_POSITION_CONTAINER:
+    case TEMPLATE_SET_POSITION_CONTAINER:
       return { 
         ...state, 
         map: {
@@ -71,7 +72,7 @@ function reducer(state = defaultState, action) {
           }
         } 
       };
-    case GRAPH_SET_PROPERTIES_CONTAINER:
+    case TEMPLATE_SET_PROPERTIES_CONTAINER:
       return { 
         ...state, 
         map: Object.keys(state.map).reduce((p, c) => {
@@ -87,9 +88,9 @@ function reducer(state = defaultState, action) {
           return { ...p, [c]: state.map[c] }
         }, {}),
       };
-    case GRAPH_SET_POSITION_CONTAINER:
+    case TEMPLATE_SET_POSITION_CONTAINER:
       return state;
-    case GRAPH_SET_SETTINGS_CONTAINER:
+    case TEMPLATE_SET_SETTINGS_CONTAINER:
       return { 
         ...state, 
         map: {
@@ -103,7 +104,7 @@ function reducer(state = defaultState, action) {
           }
         } 
       };
-    case GRAPH_ADD_CONTAINER:
+    case TEMPLATE_ADD_CONTAINER:
       return { 
         ...state, 
         map: {
@@ -121,7 +122,7 @@ function reducer(state = defaultState, action) {
           }
         }
       };
-    case GRAPH_SELECT_ONE_CONTAINER:
+    case TEMPLATE_SELECT_ONE_CONTAINER:
       return { 
         ...state, 
         selects: {
@@ -133,7 +134,7 @@ function reducer(state = defaultState, action) {
           group: defaultState.selects.group,
         }
       };
-    case GRAPH_SELECT_MULTI_CONTAINERS:
+    case TEMPLATE_SELECT_MULTI_CONTAINERS:
       return { 
         ...state, 
         selects: {
@@ -146,7 +147,7 @@ function reducer(state = defaultState, action) {
           group: action.group,
         }
       };
-    case GRAPH_SET_POSITION_GROUP_CONTAINER:
+    case TEMPLATE_SET_POSITION_GROUP_CONTAINER:
       return { 
         ...state, 
         map: action.map,
@@ -159,7 +160,7 @@ function reducer(state = defaultState, action) {
           },
         }
       };
-    case GRAPH_SET_RESIZE_GROUP_CONTAINER:
+    case TEMPLATE_SET_RESIZE_GROUP_CONTAINER:
       return { 
         ...state, 
         map: action.map,
@@ -171,7 +172,7 @@ function reducer(state = defaultState, action) {
           },
         }
       };
-    case GRAPH_SELECT_BLOCK:
+    case TEMPLATE_SELECT_BLOCK:
       return { 
         ...state, 
         selects: {
@@ -182,7 +183,7 @@ function reducer(state = defaultState, action) {
           },
         }
       };
-    case GRAPH_CLEAR_ALL_SELECTS:
+    case TEMPLATE_CLEAR_ALL_SELECTS:
       return { 
         ...state, 
         selects: {
@@ -192,7 +193,7 @@ function reducer(state = defaultState, action) {
           group: defaultState.selects.group,
         },
       };
-    case GRAPH_SET_GROUP:
+    case TEMPLATE_SET_GROUP:
       return { 
         ...state, 
         map: action.map,
@@ -201,7 +202,7 @@ function reducer(state = defaultState, action) {
           data: action.selects,
         },
       };
-    case GRAPH_UNSET_GROUP:
+    case TEMPLATE_UNSET_GROUP:
       return { 
         ...state, 
         map: Object.keys(state.map).reduce((p, c) => {

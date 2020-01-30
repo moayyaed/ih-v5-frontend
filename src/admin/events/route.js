@@ -29,7 +29,7 @@ core.events.on('route:nav:change', (params) => {
   core.components.appbody.setPage({ open: true, id: params.navid, component: params.navcomponent });
   
   core.event('app:nav:click', params.navid);
-  core.event('app:page', params.navid, params.navcomponent, params);
+  core.event('app:page', params);
 });
 
 core.events.on('route:nav:exit', (params) => {

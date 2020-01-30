@@ -277,6 +277,16 @@ class Layout extends Component {
   }
 
   render({ id, state, match, classes, onClick } = this.props) {
+    if (state.loading) {
+      return (
+        <div style={styles.root} >
+          <Paper style={styles.paper} elevation={2} >
+
+          </Paper>
+          <Properties loading={state.loading} />
+        </div>
+      )
+    }
     return (
       <div style={styles.root} onClick={this.handleClickLayout} >
         <Paper ref={this.linkLayout} style={styles.paper} elevation={2} >

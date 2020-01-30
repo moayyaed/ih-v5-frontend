@@ -7,7 +7,7 @@ import appcontextmenu from 'components/AppContextMenu/link';
 import explorer from 'components/Explorer/link';
 import table from 'components/Table/link';
 import options from 'components/Options/link';
-import graph from 'components/Graph/link';
+import template from 'components/Template/link';
 import layout from 'components/Layout/link';
 
 
@@ -30,8 +30,8 @@ const _options = {
     explorer: explorer,
     table: table,
     options: options,
-    graph: graph,
     layout: layout,
+    template: template,
   }
 };
 
