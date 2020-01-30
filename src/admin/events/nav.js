@@ -1,12 +1,7 @@
 import core from 'core';
-import { LOADING } from '@blueprintjs/core/lib/esm/common/classes';
 
 
 core.events.on('app:nav', (_, params) => {
-  if (core.nav.last.menuid !== null) {
-    core.cache.paths[core.nav.last.menuid] = core.nav.last.pathname;
-  }
-  
   core.req({ 
     alias: 'nav', 
     method: 'data', 

@@ -13,8 +13,8 @@ core.events.on('route:change', (params) => {
 
 // menu
 core.events.on('route:menu:change', (params) => {
-  core.components.appbody.setNav({ open: true, id: params.menuid });
-
+  cacheMenu(params);
+  
   core.event('app:menu:click', params.menuid);
   core.event('app:nav', params.menuid, params);
 });
@@ -27,7 +27,6 @@ core.events.on('route:menu:exit', (params) => {
 // nav
 core.events.on('route:nav:change', (params) => {
   core.components.appbody.setPage({ open: true, id: params.navid, component: params.navcomponent });
-  
   core.event('app:nav:click', params.navid);
   core.event('app:page', params.navid, params.navcomponent, params);
 });
@@ -38,3 +37,17 @@ core.events.on('route:nav:exit', (params) => {
 
   core.event('app:nav:click', null);
 });
+
+
+function cacheMenu(params) {
+  if (core.nav.last.menuid !== null) {
+    core.cache.paths[core.nav.last.menuid] = core.nav.last.pathname;
+    core.cache.apptabs[core.nav.last.menuid] = core.store.getState().apptabs;
+  }
+
+  if (core.cache.apptabs[params.menuid] !== undefined) {
+    core.components.apptabs.setData(core.cache.apptabs[params.menuid]);
+  }
+  
+  core.components.appbody.setNav({ open: true, id: params.menuid });
+}
