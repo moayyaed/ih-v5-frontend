@@ -122,6 +122,65 @@ class FileThemeNodeContentRenderer extends Component {
       }
     });
 
+    const nodeLabel = (
+      connectDragPreview(<div
+        className={
+          styles.row +
+          (isLandingPadActive ? ` ${styles.rowLandingPad}` : '') +
+          (isLandingPadActive && !canDrop
+            ? ` ${styles.rowCancelPad}`
+            : '') +
+          (isSearchMatch ? ` ${styles.rowSearchMatch}` : '') +
+          (isSearchFocus ? ` ${styles.rowSearchFocus}` : '') +
+          (className ? ` ${className}` : '')
+        }
+        style={{
+          opacity: isDraggedDescendant ? 0.5 : 1,
+          ...style,
+        }}
+      >
+        <div
+          className={
+            styles.rowContents +
+            (!canDrag ? ` ${styles.rowContentsDragDisabled}` : '')
+          }
+        >
+          <div className={styles.rowToolbar}>
+            {icons.map((icon, index) => (
+              <div
+                key={index} // eslint-disable-line react/no-array-index-key
+                className={styles.toolbarButton}
+              >
+                {icon}
+              </div>
+            ))}
+          </div>
+          <div className={styles.rowLabel}>
+            <span className={styles.rowTitle}>
+              {typeof nodeTitle === 'function'
+                ? nodeTitle({
+                    node,
+                    path,
+                    treeIndex,
+                  })
+                : nodeTitle}
+            </span>
+          </div>
+
+          <div className={styles.rowToolbar}>
+            {buttons.map((btn, index) => (
+              <div
+                key={index} // eslint-disable-line react/no-array-index-key
+                className={styles.toolbarButton}
+              >
+                {btn}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>)
+    )
+
     const nodeContent = (
       <div style={{ height: '100%' }} {...otherProps}>
         {toggleChildrenVisibility &&
@@ -161,75 +220,15 @@ class FileThemeNodeContentRenderer extends Component {
             (!canDrag ? ` ${styles.rowWrapperDragDisabled}` : '')
           }
         >
-          {/* Set the row preview to be used during drag and drop */}
-          {connectDragPreview(
             <div style={{ display: 'flex' }}>
               {scaffold}
-              <div
-                className={
-                  styles.row +
-                  (isLandingPadActive ? ` ${styles.rowLandingPad}` : '') +
-                  (isLandingPadActive && !canDrop
-                    ? ` ${styles.rowCancelPad}`
-                    : '') +
-                  (isSearchMatch ? ` ${styles.rowSearchMatch}` : '') +
-                  (isSearchFocus ? ` ${styles.rowSearchFocus}` : '') +
-                  (className ? ` ${className}` : '')
-                }
-                style={{
-                  opacity: isDraggedDescendant ? 0.5 : 1,
-                  ...style,
-                }}
-              >
-                <div
-                  className={
-                    styles.rowContents +
-                    (!canDrag ? ` ${styles.rowContentsDragDisabled}` : '')
-                  }
-                >
-                  <div className={styles.rowToolbar}>
-                    {icons.map((icon, index) => (
-                      <div
-                        key={index} // eslint-disable-line react/no-array-index-key
-                        className={styles.toolbarButton}
-                      >
-                        {icon}
-                      </div>
-                    ))}
-                  </div>
-                  <div className={styles.rowLabel}>
-                    <span className={styles.rowTitle}>
-                      {typeof nodeTitle === 'function'
-                        ? nodeTitle({
-                            node,
-                            path,
-                            treeIndex,
-                          })
-                        : nodeTitle}
-                    </span>
-                  </div>
-
-                  <div className={styles.rowToolbar}>
-                    {buttons.map((btn, index) => (
-                      <div
-                        key={index} // eslint-disable-line react/no-array-index-key
-                        className={styles.toolbarButton}
-                      >
-                        {btn}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
+              {canDrag ? connectDragSource(nodeLabel, { dropEffect: 'copy' }) : nodeLabel}
             </div>
-          )}
         </div>
       </div>
     );
 
-    return canDrag
-      ? connectDragSource(nodeContent, { dropEffect: 'copy' })
-      : nodeContent;
+    return nodeContent;
   }
 }
 

@@ -45,7 +45,7 @@ core.network.on('nav:scripts', (res, data) => {
             { id: 'item_7', component: 'options', title: 'Child 3', children: [
               { id: 'item_15', component: 'options', title: 'Child 1' },
               { id: 'item_16', component: 'options', title: 'Child 2' },
-              { id: 'item_15', component: 'options', title: 'Child 3' },
+              { id: 'item_17', component: 'options', title: 'Child 3' },
             ] },
           ] },
           { id: 'item_8', component: 'options', title: 'Hello' },

@@ -3,6 +3,7 @@ import core from 'core';
 
 import SortableTree from 'react-sortable-tree';
 import 'react-sortable-tree/style.css'; 
+
 import theme from './theme';
 import Mtree from './Mtree';
 
@@ -109,8 +110,6 @@ class Explorer extends Component {
             theme={theme}
           />
           </div>
-          
-
         </div>
       </div>
     );
