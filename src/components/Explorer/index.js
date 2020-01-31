@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import core from 'core';
 
 import SortableTree from 'react-sortable-tree';
-import FileExplorerTheme from 'react-sortable-tree-theme-file-explorer';
+import 'react-sortable-tree/style.css'; 
+import theme from './theme';
+import Mtree from './Mtree';
 
 import Skeleton from '@material-ui/lab/Skeleton';
 
@@ -94,19 +96,26 @@ class Explorer extends Component {
     return (
       <div style={styles.box} onContextMenu={this.handleContextMenuBody}>
         <div style={{ height: 400 }}>
+          <div style={{ position: 'absolute', opacity: 0 }}>
+            <Mtree />
+          </div>
+          <div style={{ position: 'absolute', opacity: 1, width: '100%', height: '100%' }}>
           <SortableTree
+            rowHeight={21}
             treeData={state.list}
             onChange={this.handleChange}
             generateNodeProps={this.generateNodeProps}
             canNodeHaveChildren={this.handleCheckChild}
-            theme={FileExplorerTheme}
+            theme={theme}
           />
+          </div>
+          
+
         </div>
       </div>
     );
   }
 }
-
 
 
 export default core.connect(withStyles(classes)(Explorer));

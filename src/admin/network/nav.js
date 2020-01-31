@@ -34,16 +34,26 @@ core.network.on('nav:visualization', (res, data) => {
 
 core.network.on('nav:scripts', (res, data) => {
   res([
-    { id: 'script_1', component: 'options', title: 'script_1', 
+    { id: 'script_1', component: 'options', title: 'Main', 
       children: [
-        { id: 'item_1', component: 'options', title: 'item_1' },
-        { id: 'item_2', component: 'options', title: 'item_2' },
-        { id: 'item_3', component: 'options', title: 'item_3' }
+        { id: 'item_1', component: 'options', title: 'Hello' },
+        { id: 'item_2', component: 'options', title: 'Subtree with children', children: [
+          { id: 'item_3', component: 'options', title: 'Hello' },
+          { id: 'item_4', component: 'options', title: 'Sub-subtree with children', children: [
+            { id: 'item_5', component: 'options', title: 'Child 1' },
+            { id: 'item_6', component: 'options', title: 'Child 2' },
+            { id: 'item_7', component: 'options', title: 'Child 3', children: [
+              { id: 'item_15', component: 'options', title: 'Child 1' },
+              { id: 'item_16', component: 'options', title: 'Child 2' },
+              { id: 'item_15', component: 'options', title: 'Child 3' },
+            ] },
+          ] },
+          { id: 'item_8', component: 'options', title: 'Hello' },
+        ] },
+        { id: 'item_9', component: 'options', title: 'World' },
+        { id: 'item_10', component: 'options', title: 'Something something' }
+        
       ] 
     },
-    { id: 'script_2', component: 'options', title: 'script_2' },
-    { id: 'script_3', component: 'options', title: 'script_3' },
-    { id: 'script_4', component: 'options', title: 'script_4' },
-    { id: 'script_5', component: 'options', title: 'script_5' },
   ]);
 });
