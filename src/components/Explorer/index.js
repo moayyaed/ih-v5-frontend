@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import core from 'core';
 
+import { Scrollbars } from 'react-custom-scrollbars';
+
 import SortableTree from 'react-sortable-tree';
 import 'react-sortable-tree/style.css'; 
 
@@ -96,21 +98,15 @@ class Explorer extends Component {
     }
     return (
       <div style={styles.box} onContextMenu={this.handleContextMenuBody}>
-        <div style={{ height: 400 }}>
-          <div style={{ position: 'absolute', opacity: 0 }}>
-            <Mtree />
-          </div>
-          <div style={{ position: 'absolute', opacity: 1, width: '100%', height: '100%' }}>
-          <SortableTree
-            rowHeight={21}
-            treeData={state.list}
-            onChange={this.handleChange}
-            generateNodeProps={this.generateNodeProps}
-            canNodeHaveChildren={this.handleCheckChild}
-            theme={theme}
-          />
-          </div>
-        </div>
+        <SortableTree
+          id="test"
+          rowHeight={21}
+          treeData={state.list}
+          onChange={this.handleChange}
+          generateNodeProps={this.generateNodeProps}
+          canNodeHaveChildren={this.handleCheckChild}
+          theme={theme}
+        />
       </div>
     );
   }

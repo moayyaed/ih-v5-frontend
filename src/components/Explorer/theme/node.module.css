@@ -124,6 +124,7 @@
 }
 .lineBlockEnd {
   width: 23px!important;
+  flex-shrink: 0;
 }
 .absoluteLineBlock {
   position: absolute;
