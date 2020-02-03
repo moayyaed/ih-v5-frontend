@@ -99,7 +99,6 @@ class Explorer extends Component {
     return (
       <div style={styles.box} onContextMenu={this.handleContextMenuBody}>
         <SortableTree
-          id="test"
           rowHeight={21}
           treeData={state.list}
           onChange={this.handleChange}

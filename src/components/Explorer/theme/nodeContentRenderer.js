@@ -137,6 +137,9 @@ class FileThemeNodeContentRenderer extends Component {
           opacity: isDraggedDescendant ? 0.5 : 1,
           ...style,
         }}
+        onClick={() => {
+          node.children && toggleChildrenVisibility({ node, path, treeIndex }
+        )}}
       >
         <div
           className={
