@@ -14,7 +14,7 @@ import layout from 'components/Layout/link';
 import App from './pages/App';
 import Login from './pages/Login';
 
-// test git
+// test git 2
 const _options = {
   pages: {
     main: App,
