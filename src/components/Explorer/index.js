@@ -49,7 +49,7 @@ class Explorer extends Component {
   handleClick = (e, item) => {
     if (item.children === undefined) {
       const { menuid } = core.nav.state;
-      core.nav.push(`/admin/${menuid}/${item.component}/${item.id}`);
+      core.nav.push(`${core._options.route}/${menuid}/${item.component}/${item.id}`);
     }
   }
 

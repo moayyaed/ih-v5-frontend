@@ -234,7 +234,7 @@ class AppTabs extends Component {
     if (type === 'drag') {
       if (this.drag === undefined) {
         this.drag = true;
-        core.nav.push(`/${menuid}/${item.component}/${item.id}`);
+        core.nav.push(`${core._options.route}/${menuid}/${item.component}/${item.id}`);
         this.handleDragStart(e, item, data, index);
       }
     }
@@ -245,7 +245,7 @@ class AppTabs extends Component {
     }
     
     if (type === 'click') {
-      core.nav.push(`/${menuid}/${item.component}/${item.id}`);
+      core.nav.push(`${core._options.route}/${menuid}/${item.component}/${item.id}`);
     }
 
     if (type === 'contextmenu') {
@@ -260,9 +260,9 @@ class AppTabs extends Component {
     
         if (index !== 0) {
           const item = store.apptabs.list[index - 1];
-          core.nav.push(`/${menuid}/${item.component}/${item.id}`);
+          core.nav.push(`${core._options.route}/${menuid}/${item.component}/${item.id}`);
         } else {
-          core.nav.push(`/${menuid}`);
+          core.nav.push(`${core._options.route}/${menuid}`);
         }
       }
     }

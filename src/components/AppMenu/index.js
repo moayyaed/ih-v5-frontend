@@ -49,7 +49,7 @@ class AppMenu extends Component {
     if (core.cache.paths[id] !== undefined) {
       core.nav.push(core.cache.paths[id]);
     } else {
-      core.nav.push('/admin/' + id);
+      core.nav.push(core._options.route + '/' + id);
     }
   }
 

@@ -32,7 +32,8 @@ const _options = {
     options: options,
     layout: layout,
     template: template,
-  }
+  },
+  route: '/admin',
 };
 
 
