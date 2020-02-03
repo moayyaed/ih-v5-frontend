@@ -17,6 +17,11 @@ const classes = theme => ({
 });
 
 class Options extends Component {
+
+  static defaultProps = {
+    id: 'options'
+  };
+
   componentDidMount() {
   }
 

@@ -18,6 +18,11 @@ const classes = theme => ({
 });
 
 class Table extends Component {
+
+  static defaultProps = {
+    id: 'table'
+  };
+
   componentDidMount() {
   }
 

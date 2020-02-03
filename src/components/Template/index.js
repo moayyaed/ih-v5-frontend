@@ -237,6 +237,10 @@ function Container(props) {
 
 class Template extends Component {
 
+  static defaultProps = {
+    id: 'template'
+  };
+
   componentDidMount() {
     this.lastDragSC = { x: null, y: null };
     this.lastDragSCG = { x: null, y: null };

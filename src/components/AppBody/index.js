@@ -40,4 +40,8 @@ function AppBody(props) {
   );
 }
 
+AppBody.defaultProps = {
+  id: 'appbody'
+};
+
 export default core.connect(withStyles(classes)(AppBody));

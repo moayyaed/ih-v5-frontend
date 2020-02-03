@@ -127,6 +127,10 @@ function Tab(props) {
 
 class AppTabs extends Component {
 
+  static defaultProps = {
+    id: 'apptabs'
+  };
+
   linkBox = (e) => {
     this.box = e;
   }

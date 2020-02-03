@@ -19,7 +19,7 @@ const connecter = reduxConnect(mapStateToProps);
 function connect(item) {
   const component = connecter(item);
   component.defaultProps = {
-    id: item.Naked.name.toLowerCase(),
+    id: item.defaultProps.id,
   }
   return component;
 }

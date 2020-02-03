@@ -105,6 +105,10 @@ const classes = theme => ({
 
 class Layout extends Component {
 
+  static defaultProps = {
+    id: 'layout'
+  };
+
   componentDidMount() {
     this.dragsection = false;
   }

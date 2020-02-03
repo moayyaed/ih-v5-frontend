@@ -34,6 +34,11 @@ const classes = theme => ({
 });
 
 class Explorer extends Component {
+
+  static defaultProps = {
+    id: 'explorer'
+  };
+
   componentDidMount() {
   }
 
@@ -44,7 +49,7 @@ class Explorer extends Component {
   handleClick = (e, item) => {
     if (item.children === undefined) {
       const { menuid } = core.nav.state;
-      core.nav.push(`/${menuid}/${item.component}/${item.id}`);
+      core.nav.push(`/admin/${menuid}/${item.component}/${item.id}`);
     }
   }
 

@@ -41,11 +41,15 @@ const classes = theme => ({
 
 class AppMenu extends Component {
 
+  static defaultProps = {
+    id: 'appmenu'
+  };
+
   handleClick = (e, id) => {
     if (core.cache.paths[id] !== undefined) {
       core.nav.push(core.cache.paths[id]);
     } else {
-      core.nav.push('/' + id);
+      core.nav.push('/admin/' + id);
     }
   }
 

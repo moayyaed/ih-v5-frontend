@@ -34,6 +34,10 @@ function Alert(props) {
 }
 
 class App extends Component {
+  static defaultProps = {
+    id: 'app'
+  };
+
   componentDidMount() {
     core.nav.history = history;
 

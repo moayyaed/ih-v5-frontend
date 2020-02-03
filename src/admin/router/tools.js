@@ -25,9 +25,9 @@ export function parsePathOfComponent(menuid, navcomponent, navid, list) {
 export function parsePath(path) {
   const list = path.split('/');
 
-  const menuid = parseValue(list[1]);
-  const navcomponent = parseValue(list[2]);
-  const navid = parseValue(list[3]);
+  const menuid = parseValue(list[2]);
+  const navcomponent = parseValue(list[3]);
+  const navid = parseValue(list[4]);
 
   if (navcomponent) {
     return parsePathOfComponent(menuid, navcomponent, navid, list)
