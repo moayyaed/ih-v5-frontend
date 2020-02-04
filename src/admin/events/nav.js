@@ -42,7 +42,7 @@ core.events.on('app:nav', (_, params) => {
 
   core.req({ 
     alias: 'nav', 
-    method: 'data', 
+    method: 'get', 
     type: 'tree', 
     id: params.menuid 
   })
@@ -54,3 +54,25 @@ core.events.on('app:nav', (_, params) => {
 core.events.on('app:nav:click', (navid) => {
   core.components.explorer.setSelect(navid);
 });
+
+
+const insert = {
+  alias: 'nav', 
+  method: 'insert', 
+  type: 'tree', 
+  id: '',
+  options: {
+    root: '',
+    leaf: true,
+  },
+  payload: { id: '', title: '', parent: '', order: 1, type: '' }
+}
+
+const update = {
+  alias: 'nav', 
+  method: 'update', 
+  type: 'tree', 
+  id: '',
+  options: { root: '', leaf: true },
+  payload: [{ id: '', title: '', parent: '', order: 1, type: '' }]
+}

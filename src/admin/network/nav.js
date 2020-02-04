@@ -1,7 +1,7 @@
 import core from 'core';
 
 
-core.network.on('nav', (res, data) => {
+core.network.on('#nav', (res, data) => {
   setTimeout(() => {
     res([
       { id: 'lamp_1', component: 'table', title: 'lamp_1' },
@@ -11,7 +11,7 @@ core.network.on('nav', (res, data) => {
   }, 0)
 });
 
-core.network.on('nav:visualization', (res, data) => {
+core.network.on('#nav:visualization', (res, data) => {
   setTimeout(() => {
     res([
       { id: 'layout', title: 'Экраны', 
@@ -32,7 +32,7 @@ core.network.on('nav:visualization', (res, data) => {
   }, 0);
 });
 
-core.network.on('nav:scripts', (res, data) => {
+core.network.on('#nav:scripts', (res, data) => {
   res([
     { id: 'script_1', component: 'options', title: 'Main', 
       children: [

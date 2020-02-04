@@ -46,7 +46,8 @@ class Explorer extends Component {
     core.components.explorer.setData({ ...this.props.state, list })
   }
 
-  handleClick = (e, item) => {
+  handleClick = (e, item, row) => {
+    console.log(row)
     if (item.children === undefined) {
       const { menuid } = core.nav.state;
       core.nav.push(`${core._options.route}/${menuid}/${item.component}/${item.id}`);
@@ -76,7 +77,7 @@ class Explorer extends Component {
     return {
       style,
       onContextMenu: (e) => this.handleContextMenuItem(e, rowinfo.node),
-      onClick: (e) => this.handleClick(e, rowinfo.node),
+      onClick: (e) => this.handleClick(e, rowinfo.node, rowinfo),
     };
   }
 
