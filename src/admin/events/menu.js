@@ -5,7 +5,8 @@ core.events.on('app:menu', () => {
   core.req({ 
     alias: 'menu', 
     method: 'get', 
-    type: 'menu' 
+    type: 'menu',
+    id: 'pmmenu', 
   })
   .ok((res) => core.components.appmenu.setData({ list: res.data }))
 });
