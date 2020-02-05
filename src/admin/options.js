@@ -4,7 +4,7 @@ import appbody from 'components/AppBody/link';
 import apptabs from 'components/AppTabs/link';
 import appcontextmenu from 'components/AppContextMenu/link';
 
-import explorer from 'components/Explorer/link';
+import tree from 'components/Tree/link';
 import table from 'components/Table/link';
 import options from 'components/Options/link';
 import template from 'components/Template/link';
@@ -26,8 +26,8 @@ const _options = {
     apptabs: apptabs,
     appbody: appbody,
     appcontextmenu: appcontextmenu,
-  
-    explorer: explorer,
+    appnav: tree,
+    
     table: table,
     options: options,
     layout: layout,

@@ -24,16 +24,16 @@ function cache(params) {
 
   if (core.nav.last.menuid !== null) {
     core.cache.paths[core.nav.last.menuid] = core.nav.last.pathname;
-    core.cache.navs[core.nav.last.menuid] = store.explorer;
+    core.cache.navs[core.nav.last.menuid] = store.tree;
     core.cache.apptabs[core.nav.last.menuid] = store.apptabs;
   }
 
   if (core.cache.apptabs[params.menuid] !== undefined) {
-    core.components.explorer.setData(core.cache.navs[params.menuid]);
+    core.components.appnav.setData(core.cache.navs[params.menuid]);
     core.components.apptabs.setData(core.cache.apptabs[params.menuid]);
   } else {
     core.components.apptabs.setData({ selectid: null, list: [] });
-    core.components.explorer.setData({ selectid: params.navid, list: stub(), loading: true });
+    core.components.appnav.setData({ selectid: params.navid, list: stub(), loading: true });
   }
 }
 
@@ -47,12 +47,12 @@ core.events.on('app:nav', (_, params) => {
     id: params.menuid 
   })
   .ok((res) => {
-    core.components.explorer.setData({ selectid: params.navid, list: res.data, loading: false });
+    core.components.appnav.setData({ selectid: params.navid, list: res.data, loading: false });
   })
 });
 
 core.events.on('app:nav:click', (navid) => {
-  core.components.explorer.setSelect(navid);
+  core.components.appnav.setSelect(navid);
 });
 
 

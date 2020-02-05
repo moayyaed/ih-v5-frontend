@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import Panel from 'components/#basic/Panel';
-import Explorer from 'components/Explorer';
+import Tree from 'components/Tree';
 
 
 const styles = {
@@ -20,7 +20,7 @@ function AppNav (props) {
   if (props.state.open) {
     return (
       <Panel width={200} position="right" style={styles.box}>
-        <Explorer />
+        <Tree id="appnav"/>
       </Panel>
     );
   }
