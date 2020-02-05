@@ -11,7 +11,6 @@ import Properties from './Properties';
 import { Toolbar } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 
-import { Icon } from "@blueprintjs/core";
 
 
 
@@ -333,7 +332,7 @@ function ToolbarDrag(props) {
   if (props.data.enabled) {
     return (
       <div style={{ ...styles.toolbard, transform: `translate3d(${props.data.x}px,${props.data.y}px,0px)`}}>
-        <Icon icon="vertical-distribution" iconSize={24} />
+        <div>icon</div>
         <div style={{ marginTop: 10 }}>{props.data.element}</div>
       </div>
     );

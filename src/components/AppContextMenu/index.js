@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 
-import { Classes, Icon, Menu, MenuDivider, MenuItem } from "@blueprintjs/core";
+import { Classes, Menu, MenuDivider, MenuItem } from "@blueprintjs/core";
 import core from 'core';
 
 

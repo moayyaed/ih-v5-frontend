@@ -8,9 +8,9 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import AppProgressBar from 'components/AppProgressBar';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { ThemeProvider } from '@material-ui/styles';
+import ThemeProvider from '@material-ui/styles/ThemeProvider';
 
-import { FocusStyleManager } from "@blueprintjs/core";
+import { FocusStyleManager } from '@blueprintjs/core';
 
 import 'normalize.css/normalize.css';
 import "@blueprintjs/core/lib/css/blueprint.css";
