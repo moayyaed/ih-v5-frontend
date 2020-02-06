@@ -48,7 +48,6 @@ core.events.on('app:nav', (_, params) => {
   })
   .ok((res) => {
     core.components.appnav.setData({ 
-      uuid: params.menuid,
       selectid: params.navid, 
       list: res.data, 
       loading: false 
