@@ -8,6 +8,11 @@ import components from './components';
 
 import req from './req';
 
+// stabile
+import request from './request';
+import network from './network';
+
+
 
 function clipboardRead() {
   return new Promise(resolve => resolve(core.clipboard.buffer));
@@ -146,8 +151,11 @@ const core = {
     start: progressStart,
     stop: progressStop,
   },
-  network: new EventEmitter(),
   req,
+ 
+  // stabile
+  request,
+  network,
 }
 
 

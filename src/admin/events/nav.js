@@ -40,19 +40,9 @@ function cache(params) {
 core.events.on('app:nav', (_, params) => {
   cache(params);
 
-  core.req({ 
-    alias: 'nav', 
-    method: 'get', 
-    type: 'tree', 
-    id: params.menuid 
-  })
-  .ok((res) => {
-    core.components.appnav.setData({ 
-      selectid: params.navid, 
-      list: res.data, 
-      loading: false 
-    });
-  })
+  core
+    .request({ component: 'nav', params })
+    .ok(core.components.appnav.setData)
 });
 
 core.events.on('app:nav:click', (navid) => {
