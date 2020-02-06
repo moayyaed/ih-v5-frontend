@@ -64,7 +64,7 @@ function eventRoute(type, status, params) {
 
 function eventContextMenu(type, target, params, state) {
   if (type !== null) {
-    core.events.emit(`contextmenu:${type}`, target, params, state);
+    core.events.emit(`cm:${type}`, target, params, state);
   }
 }
 
@@ -81,7 +81,7 @@ function event(name, param1, param2, param3, param4) {
     case 'route':
       eventRoute(param1, param2, param3, param4);
       break;
-    case 'contextmenu':
+    case 'cm':
       eventContextMenu(param1, param2, param3, param4);
       break;
     default:
