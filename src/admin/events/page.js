@@ -6,7 +6,7 @@ core.events.on('page', (params) => {
   
   core.components.apptabs.addItem({ id: params.navid, label: params.navid, component: params.navcomponent })
 
-  if (core.cache.pages[params.navcomponent + '_' + params.navid] === undefined) {
+  if (core.storage.cache.pages[params.navcomponent + '_' + params.navid] === undefined) {
     core.req({ 
       alias: 'page', 
       method: 'data', 

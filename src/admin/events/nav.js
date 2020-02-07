@@ -4,11 +4,12 @@ import core from 'core';
 core.events.on('nav', (params) => {
   core.cache({ component: 'nav', params });
   core
-    .request({ component: 'nav', params })
+    .request({ component: '#nav', params })
     .ok(core.components.appnav.setData)
 });
 
 core.events.on('nav:click', (id) => {
+  console.log(id)
   core.components.appnav.setSelect(id);
 });
 

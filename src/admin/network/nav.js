@@ -16,7 +16,7 @@ function transformContextMenu(tree, options) {
 }
 
 
-core.network.request('nav', (send, context) => {
+core.network.request('#nav', (send, context) => {
   send([
     { method: 'get', type: 'tree', id: context.params.menuid },
     { method: 'getmeta', type: 'tree', id: context.params.menuid },
@@ -27,9 +27,32 @@ core.network.request('nav', (send, context) => {
 core.network.response('nav', (answer, res, context) => {
   answer({ 
     loading: false,
-    selectid: context.params.menuid,
+    selectid: context.params.navid,
     list: res[0].data, 
     contextmenu: transformContextMenu(res[0].data, res[1].data) 
+  });
+})
+
+
+core.network.response('#nav', (answer, res, context) => {
+  answer({ 
+    loading: false,
+    selectid: context.params.navid,
+    list: [
+      { id: 'test', title: 'Test', 
+        children: [
+          { id: 'item', title: 'item', component: 'table' }
+        ]
+      }
+    ], 
+    contextmenu: {
+      body: {},
+      test: {
+        main: [
+          { id: '1', type: 'item', text: 'rename' }
+        ]
+      },
+    }
   });
 })
 
