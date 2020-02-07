@@ -54,18 +54,16 @@ class Explorer extends Component {
     }
   }
 
-  handleContextMenuBody = (e, item) => {
+  handleContextMenuBody = (e) => {
     e.preventDefault();
     e.stopPropagation();
-   
-    core.contextMenu(this.props.namespace, null, e)
-    core.event('cm', this.props.name, e);
+    core.event(`${this.props.namespace}:cm:body`, e, this.props.state.contextmenu.body);
   }
 
   handleContextMenuItem = (e, item) => {
     e.preventDefault();
     e.stopPropagation();
-    core.event('cm', `${this.props.name}:item`, e, item);
+    core.event(`${this.props.namespace}:cm:body`, e, this.props.state.contextmenu.body);
   }
 
   generateNodeProps = (rowinfo) => {

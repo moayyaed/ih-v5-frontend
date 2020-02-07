@@ -2,7 +2,7 @@ import actions from './actions';
 
 
 export default {
-  id: 'appcontextmenu',
+  id: 'contextmenu',
   actions,
   reducer: null,
 }

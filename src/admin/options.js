@@ -25,8 +25,10 @@ const _options = {
     appmenu: appmenu,
     apptabs: apptabs,
     appbody: appbody,
-    appcontextmenu: appcontextmenu,
+ 
     appnav: tree,
+
+    contextmenu: appcontextmenu,
     
     table: table,
     options: options,

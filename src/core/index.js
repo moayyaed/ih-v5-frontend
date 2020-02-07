@@ -151,8 +151,10 @@ const core = {
   req,
  
   // stabile
+  
   request,
   cache,
+
   network,
   storage,
 }

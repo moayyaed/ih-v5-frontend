@@ -8,9 +8,25 @@ core.events.on('nav', (params) => {
     .ok(core.components.appnav.setData)
 });
 
-core.events.on('nav:click', (navid) => {
-  core.components.appnav.setSelect(navid);
+core.events.on('nav:click', (id) => {
+  core.components.appnav.setSelect(id);
 });
+
+
+core.events.on('nav:cm:body', (e, menu) => {
+  core.components.contextmenu.show(e, menu);
+});
+
+core.events.on('nav:cm:parent', (e, menu) => {
+  core.components.contextmenu.show(e, menu);
+});
+
+core.events.on('nav:cm:item', (e, menu) => {
+  core.components.contextmenu.show(e, menu);
+});
+
+
+
 
 
 /*
