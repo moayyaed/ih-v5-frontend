@@ -9,8 +9,11 @@ import components from './components';
 import req from './req';
 
 // stabile
+import cache from './cache';
 import request from './request';
+
 import network from './network';
+import storage from './storage';
 
 
 
@@ -140,12 +143,6 @@ const core = {
     history: {},
     push: navpush,
   },
-  cache: {
-    paths: {},
-    apptabs: {},
-    navs: {},
-    pages: {},
-  },
   progress: {
     count: 0,
     start: progressStart,
@@ -155,7 +152,9 @@ const core = {
  
   // stabile
   request,
+  cache,
   network,
+  storage,
 }
 
 

@@ -10,7 +10,7 @@ core.events.on('app:login', (paras) => {
   .ok((res) => {
     core.router(core.nav.history.location);
     core.components.app.setData({ auth: true });
-    core.cache.token = res.token;
+    core.storage.cache.token = res.token;
   })
 });
 

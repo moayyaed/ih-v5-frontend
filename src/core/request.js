@@ -125,15 +125,15 @@ class Request {
 }
 
 function request(data) {
-  const req_name = `request_${data.component}`;
+  const name = `request_${data.component}`;
   const req = new Request(data.component);
 
   function send(options) {
     req.settings(options, data);
   }
 
-  if (core.network.events._events[req_name] !== undefined) {
-    core.network.events.emit(req_name, send, data);
+  if (core.network.events._events[name] !== undefined) {
+    core.network.events.emit(name, send, data);
   } else {
     req.settings(data, data);
   }
@@ -152,7 +152,7 @@ function http(data, options, resolve, reject) {
     method: 'POST', body: JSON.stringify(data, null, 2),
     headers: {
       'Content-Type': 'application/json',
-      'token': core.cache.token,
+      'token': core.storage.cache.token,
     },
   })
   .then((response) => {

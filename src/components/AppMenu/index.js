@@ -46,8 +46,8 @@ class AppMenu extends Component {
   };
 
   handleClick = (e, id) => {
-    if (core.cache.paths[id] !== undefined) {
-      core.nav.push(core.cache.paths[id]);
+    if (core.storage.cache.paths[id] !== undefined) {
+      core.nav.push(core.storage.cache.paths[id]);
     } else {
       core.nav.push(core._options.route + '/' + id);
     }

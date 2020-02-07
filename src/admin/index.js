@@ -23,10 +23,13 @@ import options from './options';
 
 import './router';
 import './actions';
+import './contextmenu';
 
+// stable
 import './events';
 import './network';
-import './contextmenu';
+import './cache';
+
 
 FocusStyleManager.onlyShowFocusOnTabs();
 
