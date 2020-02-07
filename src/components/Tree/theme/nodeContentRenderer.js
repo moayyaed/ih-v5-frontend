@@ -41,6 +41,22 @@ function ChildSquare(props) {
 
 // eslint-disable-next-line react/prefer-stateless-function
 class FileThemeNodeContentRenderer extends Component {
+
+  handleFocusInput = (e) => {
+    if (e) {
+      e.select();
+    }
+  }
+
+  handleKeyPressInput = (e, node) => {
+    if(e.key === 'Enter'){
+      this.props.handleEndRename(e.target.value, node);
+    }
+  }
+
+  handleBlurInput = (e, node) => {
+    this.props.handleEndRename(e.target.value, node);
+  }
   render() {
     const {
       scaffoldBlockPxWidth,
@@ -73,6 +89,7 @@ class FileThemeNodeContentRenderer extends Component {
       rowDirection,
       ...otherProps
     } = this.props;
+
     const nodeTitle = title || node.title;
 
     const isDraggedDescendant = draggedNode && isDescendant(draggedNode, node);
@@ -86,7 +103,7 @@ class FileThemeNodeContentRenderer extends Component {
         <div
           key={`pre_${1 + i}`}
           style={{ width: scaffoldBlockPxWidth }}
-          className={check === i ? styles.lineBlockEnd : styles.lineBlock}
+          className={`${check === i ? styles.lineBlockEnd : styles.lineBlock} ${otherProps.renameid ? styles.opacity: ''}`}
         />
       );
 
@@ -134,7 +151,8 @@ class FileThemeNodeContentRenderer extends Component {
           (className ? ` ${className}` : '')
         }
         style={{
-          opacity: isDraggedDescendant ? 0.5 : 1,
+          opacity: isDraggedDescendant ? 0.5 : otherProps.renameid ? otherProps.renameid === node.id ? 1 : 0.2 : 1,
+          width: otherProps.renameid === node.id ? '100%' : 'auto',
           ...style,
         }}
         onClick={() => {
@@ -157,6 +175,20 @@ class FileThemeNodeContentRenderer extends Component {
               </div>
             ))}
           </div>
+          {otherProps.renameid === node.id ?
+            <div className={styles.rowLabel} style={{ width: '100%', padding: 0 }}>
+              <span className={styles.rowTitle}>
+                <input 
+                  ref={this.handleFocusInput} 
+                  type="text" 
+                  style={{ border: '1px solid #2196F3', width: '100%' }}
+                  onBlur={(e) => this.handleBlurInput(e, node)} 
+                  onKeyPress={(e) => this.handleKeyPressInput(e, node)}
+                  defaultValue={node.title} 
+                />
+              </span>
+            </div>
+          :
           <div className={styles.rowLabel}>
             <span className={styles.rowTitle}>
               {typeof nodeTitle === 'function'
@@ -167,8 +199,7 @@ class FileThemeNodeContentRenderer extends Component {
                   })
                 : nodeTitle}
             </span>
-          </div>
-
+          </div>}
           <div className={styles.rowToolbar}>
             {buttons.map((btn, index) => (
               <div
@@ -189,7 +220,7 @@ class FileThemeNodeContentRenderer extends Component {
           node.children ? (
             <button
               type="button"
-              className={styles.collapseButton}
+              className={`${styles.collapseButton} ${otherProps.renameid ? styles.opacity : ''}`}
               style={{
                 left: (lowerSiblingCounts.length - 0.7) * scaffoldBlockPxWidth - 8.5
               }}
@@ -206,7 +237,7 @@ class FileThemeNodeContentRenderer extends Component {
           ) : (
             <button
             type="button"
-            className={styles.childButton}
+            className={`${styles.childButton} ${otherProps.renameid ? styles.opacity : ''}`}
             style={{
               left: (lowerSiblingCounts.length - 0.7) * scaffoldBlockPxWidth - 8.5
             }}

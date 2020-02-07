@@ -1,22 +1,30 @@
-import { TREE_SET_DATA, TREE_SET_SELECT } from './constants';
+import { TREE_SET_DATA, TREE_SET_SELECT, TREE_SET_RENAME } from './constants';
 
 
-export function setData(data) {
+export function data(data) {
   return {
     type: TREE_SET_DATA,
     data,
   };
 }
 
-export function setSelect(selectid) {
+export function select(selectid) {
   return {
     type: TREE_SET_SELECT,
     selectid,
   };
 }
 
+export function rename(renameid) {
+  return {
+    type: TREE_SET_RENAME,
+    renameid,
+  };
+}
+
 
 export default {
-  setData,
-  setSelect,
+  data,
+  select,
+  rename,
 }

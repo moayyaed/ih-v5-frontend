@@ -30,10 +30,10 @@ core.storage.cache('nav', (context) => {
   }
 
   if (core.storage.cache.apptabs[context.menuid] !== undefined) {
-    core.components.nav.setData(core.storage.cache.navs[context.menuid]);
+    core.components.nav.data(core.storage.cache.navs[context.menuid]);
     core.components.apptabs.setData(core.storage.cache.apptabs[context.menuid]);
   } else {
     core.components.apptabs.setData({ selectid: null, list: [] });
-    core.components.nav.setData({ selectid: context.navid, list: stub(), loading: true });
+    core.components.nav.data({ selectid: context.navid, list: stub(), loading: true });
   }
 })

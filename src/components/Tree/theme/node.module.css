@@ -125,6 +125,11 @@
   width: 23px!important;
   flex-shrink: 0;
 }
+
+.opacity {
+  opacity: 0.2;
+}
+
 .absoluteLineBlock {
   position: absolute;
   top: 0;

@@ -4,12 +4,12 @@ import core from 'core';
 core.events.on('nav', (params) => {
   core.cache({ component: 'nav', params });
   core
-    .request({ component: '#nav', params })
-    .ok(core.components.nav.setData)
+    .request({ component: 'nav', params })
+    .ok(core.components.nav.data)
 });
 
 core.events.on('nav:click', (id) => {
-  core.components.nav.setSelect(id);
+  core.components.nav.select(id);
 });
 
 
@@ -27,7 +27,7 @@ core.events.on('nav:click_cm:child', (context) => {
 
 
 core.events.on('nav:cm:rename', (menu, node) => {
-  console.log(menu, node);
+  core.components.nav.rename(node.node.id);
 });
 
 

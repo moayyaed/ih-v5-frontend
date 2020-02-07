@@ -43,7 +43,7 @@ class Explorer extends Component {
 
   handleChange = (list) => {
     if (core.components[this.props.namespace] !== undefined) {
-      core.components[this.props.namespace].setData({ ...this.props.state, list })
+      core.components[this.props.namespace].data({ ...this.props.state, list })
     }
   }
 
@@ -73,7 +73,7 @@ class Explorer extends Component {
     e.stopPropagation();
    
     if (core.components[this.props.namespace] !== undefined) {
-      core.components[this.props.namespace].setData({ ...this.props.state, contextmenuid: item.node.id })
+      core.components[this.props.namespace].data({ ...this.props.state, contextmenuid: item.node.id })
     }
  
     const contextmenu = this.props.state.contextmenu[item.path[0]];
@@ -98,7 +98,13 @@ class Explorer extends Component {
 
   handleCloseContextMenu = () => {
     if (core.components[this.props.namespace] !== undefined) {
-      core.components[this.props.namespace].setData({ ...this.props.state, contextmenuid: null })
+      core.components[this.props.namespace].data({ ...this.props.state, contextmenuid: null })
+    }
+  }
+
+  handleEndRename = (value, node) => {
+    if (core.components[this.props.namespace] !== undefined) {
+      core.components[this.props.namespace].rename(null);
     }
   }
 
@@ -114,8 +120,11 @@ class Explorer extends Component {
       style.backgroundColor = 'rgba(33, 150, 243, 0.2)';
     }
 
+
     return {
       style,
+      renameid: this.props.state.renameid,
+      handleEndRename: this.handleEndRename,
       onContextMenu: (e) => this.handleContextMenuItem(e, rowinfo),
       onClick: (e) => this.handleClick(e, rowinfo.node, rowinfo),
     };
