@@ -16,7 +16,7 @@ core.events.on('route:menu:change', (params) => {
   core.components.appbody.setNav({ open: true, id: params.menuid });
 
   core.event('app:menu:click', params.menuid);
-  core.event('app:nav', params.menuid, params);
+  core.event('app:nav', params);
 });
 
 core.events.on('route:menu:exit', (params) => {

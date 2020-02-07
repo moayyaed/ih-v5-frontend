@@ -37,9 +37,9 @@ function cache(params) {
   }
 }
 
-core.events.on('app:nav', (_, params) => {
-  cache(params);
-
+core.events.on('app:nav', (params) => {
+  // core.cache({ component: 'nav', params });
+  cache(params)
   core
     .request({ component: 'nav', params })
     .ok(core.components.appnav.setData)

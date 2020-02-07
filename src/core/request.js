@@ -63,6 +63,7 @@ class Request {
   responseError(e) {
     clearTimeout(this.timerDelay);
     clearTimeout(this.timerTimeout);
+    core.app.alert.error(e.message);
     if (this.handleError) {
       if (e.stack) {
         this.handleError({ message: e.message });
@@ -158,7 +159,7 @@ function http(data, options, resolve, reject) {
     if (response.ok) {
       return response.json();
     } else {
-      error(reject, { message: response.statusText });
+      reject({ message: response.statusText });
     }
   })
   .then((json) => {
@@ -168,19 +169,14 @@ function http(data, options, resolve, reject) {
     } else {
       if (json.error === 'NEEDAUTH') {
         core.event('app:exit', null, null);
-        error(reject, json);
+        reject(json);
       } else {
-        error(reject, json);
+        reject(json);
       }
     }
    }
   })
   .catch(err => reject(err));
-}
-
-function error(reject, data) {
-  core.app.alert.error(data.message);
-  reject(data);
 }
 
 

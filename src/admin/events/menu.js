@@ -2,14 +2,11 @@ import core from 'core';
 
 
 core.events.on('app:menu', () => {
-  core.req({ 
-    alias: 'menu', 
-    method: 'get', 
-    type: 'menu',
-    id: 'pmmenu', 
-  })
-  .ok((res) => core.components.appmenu.setData({ list: res.data }))
+ core
+    .request({ component: 'menu', params: {} })
+    .ok(core.components.appmenu.setData)
 });
+
 
 core.events.on('app:menu:click', (menuid) => {
   core.components.appmenu.setSelect(menuid);
