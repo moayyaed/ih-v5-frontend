@@ -21,7 +21,7 @@ core.events.on('nav:cm:parent', (e, menu) => {
   core.components.contextmenu.show(e, menu);
 });
 
-core.events.on('nav:cm:item', (e, menu) => {
+core.events.on('nav:cm:child', (e, menu) => {
   core.components.contextmenu.show(e, menu);
 });
 

@@ -57,13 +57,22 @@ class Explorer extends Component {
   handleContextMenuBody = (e) => {
     e.preventDefault();
     e.stopPropagation();
+
     core.event(`${this.props.namespace}:cm:body`, e, this.props.state.contextmenu.body);
   }
 
   handleContextMenuItem = (e, item) => {
     e.preventDefault();
     e.stopPropagation();
-    core.event(`${this.props.namespace}:cm:body`, e, this.props.state.contextmenu.body);
+
+    const root = this.props.state.list[item.path[0]];
+    const contextmenu = this.props.state.contextmenu[root.id];
+  
+    if (item.children !== undefined) {
+      core.event(`${this.props.namespace}:cm:parent`, e, contextmenu);
+    } else {
+      core.event(`${this.props.namespace}:cm:child`, e, contextmenu);
+    }
   }
 
   generateNodeProps = (rowinfo) => {
@@ -76,7 +85,7 @@ class Explorer extends Component {
 
     return {
       style,
-      onContextMenu: (e) => this.handleContextMenuItem(e, rowinfo.node),
+      onContextMenu: (e) => this.handleContextMenuItem(e, rowinfo),
       onClick: (e) => this.handleClick(e, rowinfo.node, rowinfo),
     };
   }

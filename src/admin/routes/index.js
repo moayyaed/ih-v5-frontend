@@ -8,7 +8,7 @@ core.events.on('route:init', (params) => {
 });
 
 core.events.on('route:change', (params) => {
-  core.app.contextmenu.close();
+  core.components.contextmenu.close();
 });
 
 
