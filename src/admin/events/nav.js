@@ -4,7 +4,7 @@ import core from 'core';
 core.events.on('nav', (params) => {
   core.cache({ component: 'nav', params });
   core
-    .request({ component: '#nav', params })
+    .request({ component: 'nav', params })
     .ok(core.components.nav.setData)
 });
 

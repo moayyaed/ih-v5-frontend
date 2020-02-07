@@ -89,7 +89,7 @@ class Explorer extends Component {
     }
 
     if (this.props.state.contextmenuid === id) {
-      style.backgroundColor = 'rgba(255, 0, 0, 0.2)';
+      style.backgroundColor = 'rgba(33, 150, 243, 0.2)';
     }
 
     return {
