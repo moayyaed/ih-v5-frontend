@@ -19,6 +19,7 @@ function stub() {
   });
 }
 
+
 core.storage.cache('nav', (context) => {
   const store = core.store.getState();
 
