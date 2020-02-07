@@ -54,9 +54,11 @@ class Explorer extends Component {
     }
   }
 
-  handleContextMenuBody = (e) => {
+  handleContextMenuBody = (e, item) => {
     e.preventDefault();
     e.stopPropagation();
+   
+    core.contextMenu(this.props.namespace, null, e)
     core.event('cm', this.props.name, e);
   }
 

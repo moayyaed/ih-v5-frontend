@@ -21,9 +21,10 @@ import App from 'components/App';
 import theme from './theme';
 import options from './options';
 
-import './router';
+
+import './routes';
+
 import './actions';
-import './contextmenu';
 
 // stable
 import './events';
