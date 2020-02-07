@@ -4,7 +4,7 @@ import core from 'core';
 core.events.on('nav', (params) => {
   core.cache({ component: 'nav', params });
   core
-    .request({ component: 'nav', params })
+    .request({ component: '#nav', params })
     .ok(core.components.nav.setData)
 });
 
@@ -13,16 +13,16 @@ core.events.on('nav:click', (id) => {
 });
 
 
-core.events.on('nav:cm:body', (e, menu) => {
-  core.components.contextmenu.show(e, menu);
+core.events.on('nav:cm:body', (e, menu, close) => {
+  core.components.contextmenu.show(e, menu, close);
 });
 
-core.events.on('nav:cm:parent', (e, menu) => {
-  core.components.contextmenu.show(e, menu);
+core.events.on('nav:cm:parent', (e, menu, close) => {
+  core.components.contextmenu.show(e, menu, close);
 });
 
-core.events.on('nav:cm:child', (e, menu) => {
-  core.components.contextmenu.show(e, menu);
+core.events.on('nav:cm:child', (e, menu, close) => {
+  core.components.contextmenu.show(e, menu, close);
 });
 
 
@@ -30,7 +30,7 @@ core.events.on('nav:cm:child', (e, menu) => {
 
 
 /*
-#
+
 const insert = {
   alias: 'nav', 
   method: 'insert', 

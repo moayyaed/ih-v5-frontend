@@ -16,7 +16,7 @@ function transformContextMenu(tree, options) {
 }
 
 
-core.network.request('nav', (send, context) => {
+core.network.request('#nav', (send, context) => {
   send([
     { method: 'get', type: 'tree', id: context.params.menuid },
     { method: 'getmeta', type: 'tree', id: context.params.menuid },
@@ -34,7 +34,7 @@ core.network.response('nav', (answer, res, context) => {
 })
 
 
-core.network.response('nav', (answer, res, context) => {
+core.network.response('#nav', (answer, res, context) => {
   answer({ 
     loading: false,
     selectid: context.params.navid,
@@ -48,7 +48,11 @@ core.network.response('nav', (answer, res, context) => {
       }
     ], 
     contextmenu: {
-      body: {},
+      body: {
+        main: [
+          { id: '1', type: 'item', text: 'create' }
+        ]
+      },
       test: {
         main: [
           { id: '1', type: 'item', text: 'rename' }

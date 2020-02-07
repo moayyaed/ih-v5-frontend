@@ -4,23 +4,23 @@ import { Classes, Menu, MenuDivider, MenuItem } from "@blueprintjs/core";
 import core from 'core';
 
 
-function handleClick(position, item, params, state) {
+function handleClick(e, position, item) {
   if (item.command !== undefined) {
     item.position = position;
-    core.event('contextmenu', item.command, item, params, state);
+    core.event('contextmenu', item.command, item);
   }
 }
 
-function getItemType(item, position, data, params, state) {
+function getItemType(item, position, data) {
   switch(item.type) {
     case 'divider':
       return <MenuDivider key={item.id} { ...item} />
     case 'item':
-        return <MenuItem key={item.id} { ...item} onClick={() => handleClick(position, item, params, state)} />
+        return <MenuItem key={item.id} { ...item} onClick={(e) => handleClick(e, position, item)} />
     case 'items':
         return (
           <MenuItem key={item.id} { ...item} >
-            {data[item.childs].map(i => getItemType(i, position, data, params, state))}
+            {data[item.childs].map(i => getItemType(i, position, data))}
           </MenuItem>
         );
     default:
@@ -30,11 +30,11 @@ function getItemType(item, position, data, params, state) {
 
 class AppContextMenu extends PureComponent {
 
-  render() {
+  render({ position, data } = this.props) {
     return (
       <Menu className={Classes.ELEVATION_1}>
         {this.props.data.main.map(i =>
-          getItemType(i, this.props.position, this.props.data, this.props.params, this.props.state)
+          getItemType(i, position, data)
         )}
       </Menu>
     );

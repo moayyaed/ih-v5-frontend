@@ -64,19 +64,23 @@ class Explorer extends Component {
   handleContextMenuItem = (e, item) => {
     e.preventDefault();
     e.stopPropagation();
-
-    
+   
     if (core.components[this.props.namespace] !== undefined) {
       core.components[this.props.namespace].setData({ ...this.props.state, contextmenuid: item.node.id })
     }
  
-
     const contextmenu = this.props.state.contextmenu[item.path[0]];
   
     if (item.children !== undefined) {
-      core.event(`${this.props.namespace}:cm:parent`, e, contextmenu);
+      core.event(`${this.props.namespace}:cm:parent`, e, contextmenu, this.handleCloseContextMenu);
     } else {
-      core.event(`${this.props.namespace}:cm:child`, e, contextmenu);
+      core.event(`${this.props.namespace}:cm:child`, e, contextmenu, this.handleCloseContextMenu);
+    }
+  }
+
+  handleCloseContextMenu = () => {
+    if (core.components[this.props.namespace] !== undefined) {
+      core.components[this.props.namespace].setData({ ...this.props.state, contextmenuid: null })
     }
   }
 
