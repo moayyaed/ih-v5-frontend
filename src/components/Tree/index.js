@@ -3,7 +3,7 @@ import core from 'core';
 
 import { Scrollbars } from 'react-custom-scrollbars';
 
-import SortableTree from 'react-sortable-tree';
+import SortableTree, { getNodeAtPath, getDescendantCount } from 'react-sortable-tree';
 import 'react-sortable-tree/style.css'; 
 
 import theme from './theme';
@@ -65,8 +65,7 @@ class Explorer extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    const root = this.props.state.list[item.path[0]];
-    const contextmenu = this.props.state.contextmenu[root.id];
+    const contextmenu = this.props.state.contextmenu[item.path[0]];
   
     if (item.children !== undefined) {
       core.event(`${this.props.namespace}:cm:parent`, e, contextmenu);
@@ -119,6 +118,7 @@ class Explorer extends Component {
           onChange={this.handleChange}
           generateNodeProps={this.generateNodeProps}
           canNodeHaveChildren={this.handleCheckChild}
+          getNodeKey={({ node }) => node.id}
           theme={theme}
         />
       </div>
