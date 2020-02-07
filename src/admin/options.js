@@ -26,7 +26,7 @@ const _options = {
     apptabs: apptabs,
     appbody: appbody,
  
-    appnav: tree,
+    nav: tree,
 
     contextmenu: appcontextmenu,
     

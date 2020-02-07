@@ -16,7 +16,7 @@ function transformContextMenu(tree, options) {
 }
 
 
-core.network.request('nav', (send, context) => {
+core.network.request('#nav', (send, context) => {
   send([
     { method: 'get', type: 'tree', id: context.params.menuid },
     { method: 'getmeta', type: 'tree', id: context.params.menuid },

@@ -3,7 +3,7 @@ import reducer from './reducer';
 
 
 export default {
-  id: 'appnav',
+  id: 'nav',
   actions,
   reducer,
 }

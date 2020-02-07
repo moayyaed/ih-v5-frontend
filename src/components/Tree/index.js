@@ -65,9 +65,11 @@ class Explorer extends Component {
     e.preventDefault();
     e.stopPropagation();
 
+    
     if (core.components[this.props.namespace] !== undefined) {
       core.components[this.props.namespace].setData({ ...this.props.state, contextmenuid: item.node.id })
     }
+ 
 
     const contextmenu = this.props.state.contextmenu[item.path[0]];
   
