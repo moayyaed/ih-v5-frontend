@@ -4,7 +4,7 @@ import { ContextMenu } from "@blueprintjs/core";
 import AppContextMenu from './index';
 
 
-export function show(e, data, close) {
+export function show({ e, menu, namespace, node, close }) {
   const options = { left: e.clientX, top: e.clientY };
 
   ContextMenu.show(
@@ -15,7 +15,8 @@ export function show(e, data, close) {
         nx: e.nativeEvent.offsetX, 
         ny: e.nativeEvent.offsetY,  
       }}
-      data={data}
+      data={menu}
+      context={{ namespace, node }}
     />, options, close);
   return null;
 }

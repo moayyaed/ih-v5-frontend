@@ -55,7 +55,7 @@ core.network.response('#nav', (answer, res, context) => {
       },
       test: {
         main: [
-          { id: '1', type: 'item', text: 'rename' }
+          { id: '1', type: 'item', text: 'rename', command: 'rename' }
         ]
       },
     }

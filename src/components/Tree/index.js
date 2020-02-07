@@ -58,7 +58,14 @@ class Explorer extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    core.event(`${this.props.namespace}:cm:body`, e, this.props.state.contextmenu.body);
+    core.event(`${this.props.namespace}:click_cm:body`, {
+      e,
+      namespace: this.props.namespace,
+      node: null,
+      menu: this.props.state.contextmenu.body,
+      close: this.handleCloseContextMenu,
+    });
+
   }
 
   handleContextMenuItem = (e, item) => {
@@ -70,11 +77,22 @@ class Explorer extends Component {
     }
  
     const contextmenu = this.props.state.contextmenu[item.path[0]];
-  
     if (item.children !== undefined) {
-      core.event(`${this.props.namespace}:cm:parent`, e, contextmenu, this.handleCloseContextMenu);
+      core.event(`${this.props.namespace}:click_cm:parent`, {
+        e,
+        namespace: this.props.namespace,
+        node: item,
+        menu: contextmenu,
+        close: this.handleCloseContextMenu,
+      });
     } else {
-      core.event(`${this.props.namespace}:cm:child`, e, contextmenu, this.handleCloseContextMenu);
+      core.event(`${this.props.namespace}:click_cm:child`, {
+        e,
+        node: item,
+        namespace: this.props.namespace,
+        menu: contextmenu,
+        close: this.handleCloseContextMenu,
+      });
     }
   }
 

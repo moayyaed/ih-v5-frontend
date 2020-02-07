@@ -13,16 +13,21 @@ core.events.on('nav:click', (id) => {
 });
 
 
-core.events.on('nav:cm:body', (e, menu, close) => {
-  core.components.contextmenu.show(e, menu, close);
+core.events.on('nav:click_cm:body', (context) => {
+  core.components.contextmenu.show(context);
 });
 
-core.events.on('nav:cm:parent', (e, menu, close) => {
-  core.components.contextmenu.show(e, menu, close);
+core.events.on('nav:click_cm:parent', (context) => {
+  core.components.contextmenu.show(context);
 });
 
-core.events.on('nav:cm:child', (e, menu, close) => {
-  core.components.contextmenu.show(e, menu, close);
+core.events.on('nav:click_cm:child', (context) => {
+  core.components.contextmenu.show(context);
+});
+
+
+core.events.on('nav:cm:rename', (menu, node) => {
+  console.log(menu, node);
 });
 
 
