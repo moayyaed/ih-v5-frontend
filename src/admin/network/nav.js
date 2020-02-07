@@ -34,14 +34,16 @@ core.network.response('nav', (answer, res, context) => {
 })
 
 
-core.network.response('nav', (answer, res, context) => {
+core.network.response('#nav', (answer, res, context) => {
   answer({ 
     loading: false,
     selectid: context.params.navid,
     list: [
       { id: 'test', title: 'Test', 
         children: [
-          { id: 'item', title: 'item', component: 'table' }
+          { id: 'item1', title: 'item1', component: 'table' },
+          { id: 'item2', title: 'item2', component: 'table' },
+          { id: 'item3', title: 'item3', component: 'table' },
         ]
       }
     ], 

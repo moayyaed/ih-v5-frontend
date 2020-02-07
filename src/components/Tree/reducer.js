@@ -4,6 +4,7 @@ import { TREE_SET_DATA, TREE_SET_SELECT } from './constants';
 const defaultState = {
   loading: false,
   selectid: null,
+  contextmenuid: null,
   list: [],
 };
 

@@ -20,7 +20,7 @@ function AppNav (props) {
   if (props.state.open) {
     return (
       <Panel width={200} position="right" style={styles.box}>
-        <Tree id="appnav" name="app:nav" namespace="nav" />
+        <Tree id="appnav" name="app:nav" namespace="appnav" />
       </Panel>
     );
   }

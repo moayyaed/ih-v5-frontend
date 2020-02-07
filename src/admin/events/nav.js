@@ -9,7 +9,6 @@ core.events.on('nav', (params) => {
 });
 
 core.events.on('nav:click', (id) => {
-  console.log(id)
   core.components.appnav.setSelect(id);
 });
 

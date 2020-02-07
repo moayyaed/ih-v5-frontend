@@ -42,8 +42,8 @@ class Explorer extends Component {
   }
 
   handleChange = (list) => {
-    if (core.components[this.props.id] !== undefined) {
-      core.components[this.props.id].setData({ ...this.props.state, list })
+    if (core.components[this.props.namespace] !== undefined) {
+      core.components[this.props.namespace].setData({ ...this.props.state, list })
     }
   }
 
@@ -65,6 +65,10 @@ class Explorer extends Component {
     e.preventDefault();
     e.stopPropagation();
 
+    if (core.components[this.props.namespace] !== undefined) {
+      core.components[this.props.namespace].setData({ ...this.props.state, contextmenuid: item.node.id })
+    }
+
     const contextmenu = this.props.state.contextmenu[item.path[0]];
   
     if (item.children !== undefined) {
@@ -80,6 +84,10 @@ class Explorer extends Component {
 
     if (this.props.state.selectid === id) {
       style.backgroundColor = 'rgba(158, 158, 158, 0.2)';
+    }
+
+    if (this.props.state.contextmenuid === id) {
+      style.backgroundColor = 'rgba(255, 0, 0, 0.2)';
     }
 
     return {
