@@ -30,7 +30,7 @@ core.events.on('nav:cm:child', (e, menu) => {
 
 
 /*
-
+#
 const insert = {
   alias: 'nav', 
   method: 'insert', 
