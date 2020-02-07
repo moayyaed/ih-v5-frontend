@@ -4,7 +4,7 @@ import './engine';
 
 // route
 core.events.on('route:init', (params) => {
-  core.event('app:menu', null, params);
+  core.event('menu', null, params);
 });
 
 core.events.on('route:change', (params) => {
@@ -16,7 +16,7 @@ core.events.on('route:change', (params) => {
 core.events.on('route:menu:change', (params) => {  
   core.components.appbody.setNav({ open: true, id: params.menuid });
 
-  core.event('app:menu:click', params.menuid);
+  core.event('menu:click', params.menuid);
   core.event('nav', params);
 });
 
@@ -30,7 +30,7 @@ core.events.on('route:nav:change', (params) => {
   core.components.appbody.setPage({ open: true, id: params.navid, component: params.navcomponent });
   
   core.event('nav:click', params.navid);
-  core.event('app:page', params);
+  core.event('page', params);
 });
 
 core.events.on('route:nav:exit', (params) => {

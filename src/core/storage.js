@@ -14,9 +14,10 @@ const storage = {
 }
 
 storage.cache.paths = {};
-storage.cache.navs = {};
 storage.cache.apptabs = {};
-storage.cache.paths = {};
+
+storage.cache.navs = {};
+storage.cache.pages = {};
 
 
 export default storage

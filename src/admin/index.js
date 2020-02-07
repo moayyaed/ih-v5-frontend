@@ -21,12 +21,10 @@ import App from 'components/App';
 import theme from './theme';
 import options from './options';
 
-
-import './routes';
-
 import './actions';
 
 // stable
+import './routes';
 import './events';
 import './network';
 import './cache';
