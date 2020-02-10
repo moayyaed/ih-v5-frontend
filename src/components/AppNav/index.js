@@ -7,7 +7,7 @@ import Tree from 'components/Tree';
 const styles = {
   box: {
     height: '100%',
-    backgroundColor: '#fafafa',
+    backgroundColor: '#ECEFF1',
     padding: 0,
     flexShrink: 0,
     overflow: 'hidden',
