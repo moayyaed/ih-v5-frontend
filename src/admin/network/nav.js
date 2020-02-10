@@ -1,18 +1,23 @@
 import core from 'core';
 
 
-function transformContextMenu(tree, options) {
+function transformData(tree, options) {
   const body = options.common && options.common.popup ? options.common.popup : null;
 
-  return tree.reduce((p, c) => {
-    if (options[c.root] && options[c.root].popup) {
-      return {
-        ...p,
-        [c.id]: options[c.root].popup
+  return {
+    contextmenu: tree.reduce((p, c) => {
+      if (options[c.root] && options[c.root]) {
+        return {
+          ...p,
+          [c.id]: {
+            parent: options[c.root].parent.popup,
+            child: options[c.root].child.popup,
+          }
+        }
       }
-    }
-    return { ...p, [c.id]: null }
-  }, { body });
+      return { ...p, [c.id]: null }
+    }, { body })
+  }
 }
 
 
@@ -25,16 +30,18 @@ core.network.request('nav', (send, context) => {
 
 
 core.network.response('nav', (answer, res, context) => {
+  const transform = transformData(res[0].data, res[1].data);
+
   answer({ 
     loading: false,
     selectid: context.params.navid,
     list: res[0].data, 
-    contextmenu: transformContextMenu(res[0].data, res[1].data) 
+    contextmenu: transform.contextmenu
   });
 })
 
 
-core.network.response('nav', (answer, res, context) => {
+core.network.response('#nav', (answer, res, context) => {
   answer({ 
     loading: false,
     selectid: context.params.navid,

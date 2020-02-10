@@ -73,14 +73,13 @@ class Explorer extends Component {
     if (core.components[this.props.namespace] !== undefined) {
       core.components[this.props.namespace].data({ ...this.props.state, contextmenuid: item.node.id })
     }
- 
-    const contextmenu = this.props.state.contextmenu[item.path[0]];
-    if (item.children !== undefined) {
+    console.log(item.node.children !== undefined, this.props.state.contextmenu[item.path[0]])
+    if (item.node.children !== undefined) {
       core.event(`${this.props.namespace}:click_cm:parent`, {
         e,
         namespace: this.props.namespace,
         node: item,
-        menu: contextmenu,
+        menu: this.props.state.contextmenu[item.path[0]].parent,
         close: this.handleCloseContextMenu,
       });
     } else {
@@ -88,7 +87,7 @@ class Explorer extends Component {
         e,
         node: item,
         namespace: this.props.namespace,
-        menu: contextmenu,
+        menu: this.props.state.contextmenu[item.path[0]].child,
         close: this.handleCloseContextMenu,
       });
     }
@@ -132,14 +131,7 @@ class Explorer extends Component {
     return node.children !== undefined && node.children === undefined;
   }
 
-  handleScroll = () => {
-
-  }
-
-  linkTree = (e) => {
-    console.log(e);
-    this.tree = e;
-  }
+  
 
   render({ id, state, classes } = this.props) {
     if (state.loading) {
