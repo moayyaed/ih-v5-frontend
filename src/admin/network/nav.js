@@ -3,21 +3,23 @@ import core from 'core';
 
 function transformData(tree, options) {
   const body = options.common && options.common.popup ? options.common.popup : null;
-
-  return {
-    contextmenu: tree.reduce((p, c) => {
-      if (options[c.root] && options[c.root]) {
-        return {
-          ...p,
-          [c.id]: {
-            parent: options[c.root].parent.popup,
-            child: options[c.root].child.popup,
-          }
-        }
+  const temp = {
+    contextmenu: { body },
+    defaultComponent: {}
+  };
+  tree.forEach(i => {
+    if (options[i.root]) {
+      temp.contextmenu[i.id] = {
+        parent: options[i.root].parent.popup,
+        child: options[i.root].child.popup,
       }
-      return { ...p, [c.id]: null }
-    }, { body })
-  }
+      temp.defaultComponent[i.id] = {
+        parent: options[i.root].parent.defaultComponent,
+        child: options[i.root].child.defaultComponent,
+      }
+    }
+  })
+  return temp;
 }
 
 
@@ -36,7 +38,8 @@ core.network.response('nav', (answer, res, context) => {
     loading: false,
     selectid: context.params.navid,
     list: res[0].data, 
-    contextmenu: transform.contextmenu
+    contextmenu: transform.contextmenu,
+    defaultComponent: transform.defaultComponent,
   });
 })
 

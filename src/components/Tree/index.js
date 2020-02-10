@@ -45,10 +45,19 @@ class Explorer extends Component {
     }
   }
 
-  handleClick = (e, item, row) => {
-    if (item.children === undefined) {
-      const { menuid } = core.nav.state;
-      core.nav.push(`${core._options.route}/${menuid}/${item.component}/${item.id}`);
+  handleClick = (e, item) => {
+    const { menuid } = core.nav.state;
+
+    if (item.node.component !== undefined) {
+      core.nav.push(`${core._options.route}/${menuid}/${item.node.component}/${item.node.id}`);
+    } else {
+      if (item.node.children !== undefined) {
+        const component = this.props.state.defaultComponent[item.path[0]].parent;
+        core.nav.push(`${core._options.route}/${menuid}/${component}/${item.node.id}`);
+      } else {
+        const component = this.props.state.defaultComponent[item.path[0]].child;
+        core.nav.push(`${core._options.route}/${menuid}/${component}/${item.node.id}`);
+      }
     }
   }
 
@@ -73,7 +82,7 @@ class Explorer extends Component {
     if (core.components[this.props.namespace] !== undefined) {
       core.components[this.props.namespace].data({ ...this.props.state, contextmenuid: item.node.id })
     }
-    console.log(item.node.children !== undefined, this.props.state.contextmenu[item.path[0]])
+
     if (item.node.children !== undefined) {
       core.event(`${this.props.namespace}:click_cm:parent`, {
         e,
@@ -123,7 +132,7 @@ class Explorer extends Component {
       renameid: this.props.state.renameid,
       handleEndRename: this.handleEndRename,
       onContextMenu: (e) => this.handleContextMenuItem(e, rowinfo),
-      onClick: (e) => this.handleClick(e, rowinfo.node, rowinfo),
+      onClick: (e) => this.handleClick(e, rowinfo),
     };
   }
 
