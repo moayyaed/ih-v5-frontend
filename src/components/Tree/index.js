@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import core from 'core';
 
-import { Scrollbars } from 'react-custom-scrollbars';
-
 import SortableTree, { getNodeAtPath, getDescendantCount } from 'react-sortable-tree';
 import 'react-sortable-tree/style.css'; 
 
@@ -134,6 +132,15 @@ class Explorer extends Component {
     return node.children !== undefined && node.children === undefined;
   }
 
+  handleScroll = () => {
+
+  }
+
+  linkTree = (e) => {
+    console.log(e);
+    this.tree = e;
+  }
+
   render({ id, state, classes } = this.props) {
     if (state.loading) {
       return (
@@ -152,16 +159,17 @@ class Explorer extends Component {
       );
     }
     return (
-      <div style={styles.box} onContextMenu={this.handleContextMenuBody}>
+      <div style={styles.box} onContextMenu={this.handleContextMenuBody}>  
         <SortableTree
           rowHeight={21}
+          innerStyle={{ padding: 5 }}
           treeData={state.list}
           onChange={this.handleChange}
           generateNodeProps={this.generateNodeProps}
           canNodeHaveChildren={this.handleCheckChild}
           getNodeKey={({ node }) => node.id}
           theme={theme}
-        />
+        />    
       </div>
     );
   }

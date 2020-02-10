@@ -8,7 +8,7 @@ const styles = {
   box: {
     height: '100%',
     backgroundColor: '#ECEFF1',
-    padding: 6,
+    padding: 0,
     flexShrink: 0,
     overflow: 'hidden',
     borderRight: '1px solid #d3d3d3',
