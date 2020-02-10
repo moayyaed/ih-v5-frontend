@@ -99,13 +99,23 @@ class FileThemeNodeContentRenderer extends Component {
     const scaffold = [];
     const check = lowerSiblingCounts.length - 1;
     lowerSiblingCounts.forEach((lowerSiblingCount, i) => {
-      scaffold.push(
-        <div
-          key={`pre_${1 + i}`}
-          style={{ width: scaffoldBlockPxWidth }}
-          className={`${check === i ? styles.lineBlockEnd : styles.lineBlock} ${otherProps.renameid ? styles.opacity: ''}`}
-        />
-      );
+      if (i === 0) {
+        scaffold.push(
+          <div
+            key={`pre_${1 + i}`}
+            style={{ width: scaffoldBlockPxWidth }}
+            className={`${check === i ? styles.lineBlockEnd : styles.lineBlockEnd} ${otherProps.renameid ? styles.opacity: ''}`}
+          />
+        );
+      } else {
+        scaffold.push(
+          <div
+            key={`pre_${1 + i}`}
+            style={{ width: scaffoldBlockPxWidth }}
+            className={`${check === i ? styles.lineBlockEnd : styles.lineBlock} ${otherProps.renameid ? styles.opacity: ''}`}
+          />
+        );
+      }
 
       if (treeIndex !== listIndex && i === swapDepth) {
         // This row has been shifted, and is at the depth of
