@@ -1,4 +1,4 @@
-import { APP_TABS_SET_DATA, APP_TABS_SET_SELECT, APP_TABS_ADD_ITEM, APP_TABS_REMOVE_ITEM } from './constants';
+import { APP_TABS_SET_DATA, APP_TABS_SET_SELECT, APP_TABS_ADD_ITEM, APP_TABS_UPDATE_ITEM, APP_TABS_REMOVE_ITEM } from './constants';
 
 
 const defaultState = {
@@ -17,8 +17,7 @@ function reducer(state = defaultState, action) {
       return { 
         ...state,
         selectid: action.item.id, 
-        list: state.list
-          .find(i => i.id === action.item.id) !== undefined ? state.list: state.list.concat(action.item),
+        list: [action.item]
       };
     case APP_TABS_REMOVE_ITEM:
       return { 
@@ -33,3 +32,13 @@ function reducer(state = defaultState, action) {
 
 
 export default reducer;
+
+
+/*
+
+        ...state,
+        selectid: action.item.id, 
+        list: state.list
+          .find(i => i.id === action.item.id) !== undefined ? state.list: state.list.concat(action.item),
+
+          */

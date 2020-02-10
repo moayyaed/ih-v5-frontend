@@ -1,4 +1,4 @@
-import { APP_TABS_SET_DATA, APP_TABS_SET_SELECT, APP_TABS_ADD_ITEM, APP_TABS_REMOVE_ITEM } from './constants';
+import { APP_TABS_SET_DATA, APP_TABS_SET_SELECT, APP_TABS_ADD_ITEM, APP_TABS_UPDATE_ITEM, APP_TABS_REMOVE_ITEM } from './constants';
 
 
 export function setData(data) {
@@ -18,6 +18,13 @@ export function setSelect(selectid) {
 export function addItem(item) {
   return {
     type: APP_TABS_ADD_ITEM,
+    item,
+  };
+} 
+
+export function updateItem(item) {
+  return {
+    type: APP_TABS_UPDATE_ITEM,
     item,
   };
 } 
