@@ -15,10 +15,8 @@ export function parsePathOfComponent(menuid, navcomponent, navid, list) {
         return { menuid, navcomponent, navid, selectid: parseValue(list[4])};
     case 'graph':
         return { menuid, navcomponent, navid };
-    case 'options':
-        return { menuid, navcomponent, navid, tab: parseValue(list[5]) };
     default:
-        return { menuid, navcomponent, navid };
+        return { menuid, navcomponent, navid, tab: parseValue(list[5]) };
   }
 }
 

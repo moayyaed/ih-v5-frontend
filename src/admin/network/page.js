@@ -12,10 +12,10 @@ core.network.request('folder', (send, context) => {
 
 core.network.response('folder', (answer, res, context) => {
   answer({
-    selectid: 'properties',
     tabs: [
       { id: 'properties', title: 'Свойства' },
     ],
+    defaultTab: 'properties',
   });
 })
 
@@ -31,11 +31,11 @@ core.network.request('options', (send, context) => {
 
 core.network.response('options', (answer, res, context) => {
   answer({
-    selectid: 'properties',
     tabs: [
       { id: 'properties', title: 'Свойства' },
       { id: 'channels', title: 'Каналы' },
       { id: 'db', title: 'БД' },
     ],
+    defaultTab: 'properties',
   });
 })

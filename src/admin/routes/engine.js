@@ -50,8 +50,9 @@ core.router = function(location) {
           core.event('route', 'nav', 'init', state);
         }
         core.event('route', 'nav', 'change', state);
+        core.event('route', 'page', 'change', state);
       } else {
-        if (state.navcomponent === 'options' && state.tab && last.tab !== state.tab) {
+        if (state.navcomponent && state.tab && last.tab !== state.tab) {
           core.event('route', 'page', 'change', state);
         }
       }
