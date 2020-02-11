@@ -6,10 +6,10 @@ core.events.on('page', (params) => {
   core
   .request({ component: params.navcomponent, params })
   .ok(res => {
-    if(params.tab === null && res.defultTab) {
-
-    } 
     core.components.options.data(res);
+    if(params.tab === null && res.defaultTab) {
+      core.nav.push(`${core._options.route}/${params.menuid}/${params.navcomponent}/${params.navid}/${res.defaultTab}`);
+    } 
   })
 });
 
@@ -18,6 +18,6 @@ core.events.on('page:click', (params) => {
   if (params.tab) {
     core.components.options.select(params.tab);
   } else {
-    core.components.options.select(null);
+    // core.components.options.select(null);
   }
 });
