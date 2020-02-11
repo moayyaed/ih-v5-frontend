@@ -1,14 +1,22 @@
-import { OPTIONS_SET_DATA } from './constants';
+import { OPTIONS_SET_DATA, OPTIONS_SET_SELECT } from './constants';
 
 
-export function setData(data) {
+export function data(data) {
   return {
     type: OPTIONS_SET_DATA,
     data,
   };
 }
 
+export function select(selectid) {
+  return {
+    type: OPTIONS_SET_SELECT,
+    selectid,
+  };
+}
+
 
 export default {
-  setData,
+  data,
+  select,
 }

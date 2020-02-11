@@ -76,6 +76,14 @@ function eventContextMenu(type, target, params, state) {
   }
 }
 
+function eventPage(params) {
+  if (core.events._events[params.navcomponent] !== undefined) {
+    core.events.emit(params.navcomponent, params);
+  } else {
+    core.events.emit('page', params);
+  }
+}
+
 function eventOther(name, id, param2, param3) {
   if (core.events._events[`${name}:${id}`] !== undefined) {
     core.events.emit(`${name}:${id}`, id, param2, param3);
@@ -91,6 +99,9 @@ function event(name, param1, param2, param3, param4) {
       break;
     case 'cm':
       eventContextMenu(param1, param2, param3, param4);
+      break;
+    case 'page':
+      eventPage(param1, param2, param3, param4);
       break;
     default:
       eventOther(name, param1, param2, param3, param4);

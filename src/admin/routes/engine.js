@@ -8,6 +8,7 @@ const def = {
   menuid: null,
   navid: null,
   navcomponent: null,
+  tab: null,
 }
 
 core.nav.last = { ...def }
@@ -49,11 +50,18 @@ core.router = function(location) {
           core.event('route', 'nav', 'init', state);
         }
         core.event('route', 'nav', 'change', state);
+      } else {
+        if (state.navcomponent === 'options' && state.tab && last.tab !== state.tab) {
+          core.event('route', 'page', 'change', state);
+        }
       }
   
       if ((state.navcomponent === null || state.navid === null) && last.navcomponent && last.navid) {
         core.event('route', 'nav', 'exit', state);
       }
+
+      // ----
+      
       state.pathname = location.pathname;
       core.nav.last = state;
     }

@@ -31,7 +31,7 @@ const _options = {
     contextmenu: appcontextmenu,
     
     table: table,
-    options: table,
+    options: options,
     layout: layout,
     template: template,
   },

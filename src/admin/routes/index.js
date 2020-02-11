@@ -39,3 +39,9 @@ core.events.on('route:nav:exit', (params) => {
 
   core.event('nav:click', null);
 });
+
+
+// page
+core.events.on('route:page:change', (params) => {
+  core.event('page:click', params);
+});

@@ -14,8 +14,10 @@ function getComponent(type, id) {
   if (core._options.components[type] !== undefined && core._options.components[type].component) {
     return React.createElement(core._options.components[type].component);
   }
+  if (type) {
+    return React.createElement(core._options.components.options.component);
+  }
   return null;
-  
 }
 
 function handleContextMenuPageBody(e, params) {
