@@ -26,8 +26,11 @@ function progressStop() {
 }
 
 function route(path) {
-  core.history.push(path);
-  console.log(path);
+  const nextPath = core.options.routePrefix + '/' + path;
+  if (core.lastPath !== nextPath) {
+    core.lastPath = nextPath;
+    core.history.push(nextPath);
+  }
 }
 
 

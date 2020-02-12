@@ -26,14 +26,14 @@ const styles = {
 };
 
 
-function App() {
+function App(props) {
   return (
     <>
       <AppBar />
       <div className="container">
         <AppMenu />
         <div style={styles.box}>
-          <AppNav />
+          <AppNav key={props.route.menuid} />
           <div style={styles.body}>
             <AppTabs />
             <AppPage />

@@ -13,11 +13,18 @@ const history = createBrowserHistory();
 class App extends Component {
   componentDidMount() {
     core.history = history;
-    history.listen(core.options.routeParse);
+    history.listen(this.handleChageRoute);
+
+    this.handleChageRoute(history.location);
   }
 
-  render() {
-    return React.createElement(core.options.pages.main);
+  handleChageRoute = (location) => {
+    const params = core.options.routeParse(location.pathname)
+    core.actions.app.route(params);
+  }
+
+  render({ route } = this.props.state) {
+    return React.createElement(core.options.pages.main, { route });
   }
 }
 

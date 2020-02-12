@@ -4,6 +4,9 @@ import reducerApp from 'components/App/reducer';
 import actionsAppMenu from 'components/AppMenu/actions';
 import reducerAppMenu from 'components/AppMenu/reducer';
 
+import actionsAppNav from 'components/AppNav/actions';
+import reducerAppNav from 'components/AppNav/reducer';
+
 import actionsAppTabs from 'components/AppTabs/actions';
 import reducerAppTabs from 'components/AppTabs/reducer';
 

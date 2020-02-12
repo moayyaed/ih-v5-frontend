@@ -61,14 +61,14 @@ class AppMenu extends Component {
     */
   }
 
-  render({ id, state, classes } = this.props) {
+  render({ id, route, state, classes } = this.props) {
     return (
       <div style={styles.box}>
         <BottomNavigation 
           showLabels 
           className={classes.root} 
           onChange={this.handleClick}
-          value={state.selectid}
+          value={route.menuid}
         >
           {state.list
             .map((item) =>
@@ -88,8 +88,9 @@ class AppMenu extends Component {
 
 
 const mapStateToProps = createSelector(
+  state => state.app.route,
   state => state.appmenu,
-  (state) => ({ state })
+  (route, state) => ({ route, state })
 )
 
 export default connect(mapStateToProps)(withStyles(classes)(AppMenu));

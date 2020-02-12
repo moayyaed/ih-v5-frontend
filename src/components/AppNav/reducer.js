@@ -1,18 +1,16 @@
-import { APP_SET_DATA, APP_SET_ROUTE } from './constants';
+import { APP_NAV_SET_DATA } from './constants';
 
 
 const defaultState = {
-  route: {},
-  auth: true,
+  selectid: null,
+  list: [],
 };
 
 
 function reducer(state = defaultState, action) {
   switch (action.type) {
-    case APP_SET_DATA:
+    case APP_NAV_SET_DATA:
       return { ...state, ...action.data };
-    case APP_SET_ROUTE:
-      return { ...state, route: action.params };
     default:
       return state;
   }
