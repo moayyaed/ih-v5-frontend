@@ -7,9 +7,11 @@ import reducerAppMenu from 'components/AppMenu/reducer';
 import actionsAppTabs from 'components/AppTabs/actions';
 import reducerAppTabs from 'components/AppTabs/reducer';
 
-
 import App from './pages/App';
 import Login from './pages/Login';
+
+
+import './network';
 
 
 const options = {

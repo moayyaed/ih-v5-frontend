@@ -45,7 +45,9 @@ const classes = theme => ({
 class AppMenu extends Component {
 
   componentDidMount() {
-   
+    core
+    .request({ component: 'appmenu' }) // { method: 'get', type: 'menu', id: 'pmmenu' }
+    .ok(core.actions.appmenu.data);
   }
 
   handleClick = (e, id) => {

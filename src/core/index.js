@@ -1,15 +1,40 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
+import reducers from './reducers';
+import actions from './actions';
 
+import request from './request';
+import network from './network';
 
 function settings(options) {
   core.options = options;
-  core.store = createStore(combineReducers(options.reducers), applyMiddleware(thunk));
+
+  core.store = reducers(options.reducers);
+  core.actions = actions(options.actions, core.store.dispatch);
+}
+
+function progressStart() {
+  core.progress.count += 1;
+  // NProgress.start();
+}
+
+function progressStop() {
+  core.progress.count -= 1;
+  if (core.progress.count > 0) {
+    // NProgress.inc();
+  } else {
+    // NProgress.done();
+  }
 }
 
 
 const core = {
   settings,
+  request,
+  network,
+  progress: {
+    count: 0,
+    start: progressStart,
+    stop: progressStop,
+  },
 }
 
 
