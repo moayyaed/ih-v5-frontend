@@ -4,8 +4,17 @@ import core from 'core';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
+import { createBrowserHistory } from 'history';
+
+
+const history = createBrowserHistory();
+
 
 class App extends Component {
+  componentDidMount() {
+    history.listen(() => {});
+  }
+
   render() {
     return React.createElement(core.options.pages.main);
   }
