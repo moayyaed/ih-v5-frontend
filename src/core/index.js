@@ -25,11 +25,17 @@ function progressStop() {
   }
 }
 
+function route(path) {
+  core.history.push(path);
+  console.log(path);
+}
+
 
 const core = {
   settings,
   request,
   network,
+  route,
   progress: {
     count: 0,
     start: progressStart,

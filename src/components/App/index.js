@@ -12,7 +12,8 @@ const history = createBrowserHistory();
 
 class App extends Component {
   componentDidMount() {
-    history.listen(() => {});
+    core.history = history;
+    history.listen(core.options.routeParse);
   }
 
   render() {

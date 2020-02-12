@@ -10,8 +10,10 @@ import reducerAppTabs from 'components/AppTabs/reducer';
 import App from './pages/App';
 import Login from './pages/Login';
 
+import routeParse from './routeParse';
 
 import './network';
+
 
 
 const options = {
@@ -32,6 +34,7 @@ const options = {
   },
   
   routePrefix: '/admin',
+  routeParse: routeParse,
 }
 
 

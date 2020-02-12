@@ -46,16 +46,19 @@ class AppMenu extends Component {
 
   componentDidMount() {
     core
-    .request({ component: 'appmenu' }) // { method: 'get', type: 'menu', id: 'pmmenu' }
+    .request({ component: 'appmenu' })
     .ok(core.actions.appmenu.data);
   }
 
   handleClick = (e, id) => {
+    core.route(id)
+    /*
     if (core.storage.cache.paths[id] !== undefined) {
       core.nav.push(core.storage.cache.paths[id]);
     } else {
       core.nav.push(core._options.route + '/' + id);
     }
+    */
   }
 
   render({ id, state, classes } = this.props) {
