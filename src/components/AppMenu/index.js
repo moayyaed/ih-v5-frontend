@@ -44,6 +44,10 @@ const classes = theme => ({
 
 class AppMenu extends Component {
 
+  componentDidMount() {
+   
+  }
+
   handleClick = (e, id) => {
     if (core.storage.cache.paths[id] !== undefined) {
       core.nav.push(core.storage.cache.paths[id]);

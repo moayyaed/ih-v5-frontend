@@ -8,8 +8,8 @@ import actionsAppTabs from 'components/AppTabs/actions';
 import reducerAppTabs from 'components/AppTabs/reducer';
 
 
-import App from './App';
-import Login from './Login';
+import App from './pages/App';
+import Login from './pages/Login';
 
 
 const options = {
