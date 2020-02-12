@@ -18,6 +18,6 @@ core.events.on('page:click', (params) => {
   if (params.tab) {
     core.components.options.select(params.tab);
   } else {
-    // core.components.options.select(null);
+    // core.components.options.select(null); // big test
   }
 });
