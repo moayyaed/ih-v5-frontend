@@ -1,0 +1,1 @@
+export const APP_TABS_SET_DATA = 'APP_TABS_SET_DATA';

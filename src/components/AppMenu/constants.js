@@ -1,0 +1,1 @@
+export const APP_MENU_SET_DATA = 'APP_MENU_SET_DATA';

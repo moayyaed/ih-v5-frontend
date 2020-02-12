@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import core from 'core';
+
 import { Provider } from 'react-redux';
 
-import core from 'core';
-import App from 'components/App';
-
+import Dependences from './Dependences';
 import options from './options';
 
 
@@ -14,7 +14,7 @@ core.settings(options);
 
 ReactDOM.render(
   <Provider store={core.store}>
-    <App />
+    <Dependences />
   </Provider>,
   document.getElementById('root')
 );
