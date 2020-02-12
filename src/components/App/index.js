@@ -1,9 +1,12 @@
-import { APP_SET_DATA  } from './constants';
+import React, { Component } from 'react';
+import core from 'core';
 
 
-export function setData(data) {
-  return {
-    type: APP_SET_DATA,
-    data,
-  };
+class App extends Component {
+  render() {
+    return <div>123</div>
+  }
 }
+
+
+export default App;

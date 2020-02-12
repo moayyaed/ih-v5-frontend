@@ -2,7 +2,7 @@ import { APP_SET_DATA } from './constants';
 
 
 const defaultState = {
-
+  auth: true,
 };
 
 
