@@ -23,11 +23,13 @@ const options = {
   actions: {
     app: actionsApp,
     appmenu: actionsAppMenu,
+    appnav: actionsAppNav,
     apptabs: actionsAppTabs,
   },
   reducers: {
     app: reducerApp,
     appmenu: reducerAppMenu,
+    appnav: reducerAppNav,
     apptabs: reducerAppTabs,
   },
 
