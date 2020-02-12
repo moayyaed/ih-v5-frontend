@@ -81,7 +81,16 @@ class AppNav extends Component {
   }
 
   handleClick = (e, item) => {
+    const { route, state } = this.props;
+    const rootid = state.options.roots[item.path[0]];
 
+    if (item.node.children !== undefined) {
+      const viewid = item.node.component || state.options[rootid].parent.defaultComponent;
+      core.route(`${route.menuid}/${rootid}/${viewid}/${item.node.id}`);
+    } else {
+      const viewid = item.node.component || state.options[rootid].child.defaultComponent;
+      core.route(`${route.menuid}/${rootid}/${viewid}/${item.node.id}`);
+    }
   }
 
   handleContextMenuBody = (e) => {
@@ -111,6 +120,7 @@ class AppNav extends Component {
 
   render({ state } = this.props) {
     if (this.props.route.menuid) {
+      console.log(this.props.route)
       return (
         <Panel width={200} position="right" style={styles.panel}>
           <div style={styles.box} onContextMenu={this.handleContextMenuBody}>  

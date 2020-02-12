@@ -3,6 +3,7 @@ import { APP_NAV_SET_DATA } from './constants';
 
 const defaultState = {
   selectid: null,
+  options: {},
   list: [],
 };
 

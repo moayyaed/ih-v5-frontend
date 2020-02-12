@@ -8,7 +8,10 @@ function checkValue(value) {
 function routeParse(pathname) {
   const params = pathname.split('/');
   return {
-    menuid: checkValue(params[2]), 
+    menuid: checkValue(params[2]),
+    rootid: checkValue(params[3]),
+    viewid: checkValue(params[5]),
+    nodeid: checkValue(params[4]),  
   };
 }
 
