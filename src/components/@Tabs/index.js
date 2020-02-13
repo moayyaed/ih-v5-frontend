@@ -3,9 +3,13 @@ import core from 'core';
 
 import Typography from '@material-ui/core/Typography';
 
+import Prism from 'prismjs';
+import './prism.css';
+
 import Tabs from './Tabs';
 import Tab from './Tab';
 
+console.log(Prism)
 
 class ComponentTabs extends Component {
 
@@ -39,6 +43,7 @@ class ComponentTabs extends Component {
             data: res.data,
             scheme: res.scheme,
           })
+          Prism.highlightAll (); 
         });
     }
   }
@@ -51,12 +56,16 @@ class ComponentTabs extends Component {
         </Tabs>
         <Typography />
         <div style={{ width: '100%', height: 'calc(100% - 119px)', overflow: 'auto', backgroundColor: '#f5f5f5', padding: 20 }}>
-          <div style={{ whiteSpace: 'pre-wrap' }}>
-            {JSON.stringify(state.scheme, null, 2)}
-          </div>
-          <div style={{ whiteSpace: 'pre-wrap' }}>
+          <pre> 
+            <code className = "language-javascript"> 
+              {JSON.stringify(state.scheme, null, 2)}
+            </ code> 
+          </ pre>
+          <pre> 
+            <code className = "language-javascript"> 
             {JSON.stringify(state.data, null, 2)}
-          </div>
+            </ code> 
+          </ pre>
         </div>
       </>
     );
