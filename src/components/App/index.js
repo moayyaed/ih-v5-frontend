@@ -4,6 +4,8 @@ import core from 'core';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
+import NProgressBar from 'components/NProgressBar/NProgressBar';
+
 import Alert from 'components/Alert';
 
 import { createBrowserHistory } from 'history';
@@ -39,6 +41,7 @@ class App extends Component {
   render({ alert, route } = this.props.state) {
     return (
       <>
+        <NProgressBar />
         <Alert 
           open={alert.open} 
           severity={alert.severity} 

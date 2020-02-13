@@ -1,3 +1,5 @@
+import NProgress from 'nprogress';
+
 import reducers from './reducers';
 import actions from './actions';
 
@@ -13,15 +15,15 @@ function settings(options) {
 
 function progressStart() {
   core.progress.count += 1;
-  // NProgress.start();
+  NProgress.start();
 }
 
 function progressStop() {
   core.progress.count -= 1;
   if (core.progress.count > 0) {
-    // NProgress.inc();
+    NProgress.inc();
   } else {
-    // NProgress.done();
+    NProgress.done();
   }
 }
 
