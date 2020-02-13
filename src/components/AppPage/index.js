@@ -18,13 +18,23 @@ function handleContextMenuPageBody(e, params) {
   e.stopPropagation();
 }
 
-function getComponent(route) {
+function getComponent(route, state) {
   const scheme = core.options.componentsScheme[route.componentid];
   
   if (core.options.components[route.componentid] !== undefined) {
-    return React.createElement(core.options.components[route.componentid], { key: route.componentid, scheme, route })
+    return React.createElement(core.options.components[route.componentid], { 
+      key: route.componentid, 
+      scheme, 
+      route,
+      state,
+    })
   }
-  return React.createElement(core.options.components.default, { key: route.componentid, scheme, route })
+  return React.createElement(core.options.components.default, { 
+    key: route.componentid, 
+    scheme, 
+    route,
+    state,
+  })
 }
 
 
@@ -32,7 +42,7 @@ function AppPage(props) {
   if (props.route.componentid) {
     return (
       <div style={styles.root} onContextMenu={(e) => handleContextMenuPageBody(e, props.state)}>
-        {getComponent(props.route)}
+        {getComponent(props.route, props.state)}
       </div>
     );
   }
@@ -42,7 +52,8 @@ function AppPage(props) {
 
 const mapStateToProps = createSelector(
   state => state.app.route,
-  (route) => ({ route })
+  state => state.apppage,
+  (route, state) => ({ route, state })
 )
 
 export default connect(mapStateToProps)(AppPage);

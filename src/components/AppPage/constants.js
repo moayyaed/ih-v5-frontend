@@ -1,0 +1,1 @@
+export const APP_PAGE_SET_DATA = 'APP_PAGE_SET_DATA';

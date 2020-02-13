@@ -10,6 +10,9 @@ import reducerAppNav from 'components/AppNav/reducer';
 import actionsAppTabs from 'components/AppTabs/actions';
 import reducerAppTabs from 'components/AppTabs/reducer';
 
+import actionsAppPage from 'components/AppPage/actions';
+import reducerAppPage from 'components/AppPage/reducer';
+
 import Tabs from 'components/@Tabs';
 
 import App from './pages/App';
@@ -28,12 +31,14 @@ const options = {
     appmenu: actionsAppMenu,
     appnav: actionsAppNav,
     apptabs: actionsAppTabs,
+    apppage: actionsAppPage,
   },
   reducers: {
     app: reducerApp,
     appmenu: reducerAppMenu,
     appnav: reducerAppNav,
     apptabs: reducerAppTabs,
+    apppage: reducerAppPage,
   },
 
   pages: {

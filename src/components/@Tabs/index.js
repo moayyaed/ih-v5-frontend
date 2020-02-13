@@ -10,9 +10,10 @@ import Tab from './Tab';
 class ComponentTabs extends Component {
 
   componentDidMount() {
-    if (this.props.route.tab) {
-      const { route } = this.props;
+    const { route } = this.props;
+    if (route.tab) {
       core.cache.componentsParams[route.componentid] = route.tab;
+      this.request(route.tab);
     }
   }
 
@@ -21,28 +22,46 @@ class ComponentTabs extends Component {
 
     core.cache.componentsParams[route.componentid] = value;
     core.route(`${route.menuid}/${route.rootid}/${route.componentid}/${route.nodeid}/${value}`);
+    this.request(value);
   }
 
-  render({ route, scheme } = this.props) {
+  request = (tabid) => {
+    const { route, scheme } = this.props;
+    const tab = scheme.tabs.find(i => i.id === tabid);
+
+    if (tab !== undefined && tab.component && tab.component.length) {
+      const params = { ...tab.component[0], nodeid: route.nodeid };
+      core
+        .request({ method: 'components_tabs', params })
+        .ok(res => {
+          core.actions.apppage.data({
+            componentid: route.componentid,
+            data: res.data,
+            scheme: res.scheme,
+          })
+        });
+    }
+  }
+
+  render({ route, scheme, state } = this.props) {
     return (
-      <div>
+      <>
         <Tabs value={route.tab} onChange={this.handleClickTab} >
           {scheme.tabs.map(i => <Tab key={i.id} value={i.id} label={i.title} />)}
         </Tabs>
-      </div>
+        <Typography />
+        <div style={{ width: '100%', height: 'calc(100% - 119px)', overflow: 'auto', backgroundColor: '#f5f5f5', padding: 20 }}>
+          <div style={{ whiteSpace: 'pre-wrap' }}>
+            {JSON.stringify(state.scheme, null, 2)}
+          </div>
+          <div style={{ whiteSpace: 'pre-wrap' }}>
+            {JSON.stringify(state.data, null, 2)}
+          </div>
+        </div>
+      </>
     );
   }
 }
 
 
 export default ComponentTabs;
-
-/*
-<div >
-
-<Typography className={classes.padding} />
-</div>
-<div style={{ width: '100%', height: '100%', backgroundColor: '#f5f5f5', padding: 20 }}>
-CONTENT
-</div>
-*/
