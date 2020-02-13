@@ -10,8 +10,11 @@ import reducerAppNav from 'components/AppNav/reducer';
 import actionsAppTabs from 'components/AppTabs/actions';
 import reducerAppTabs from 'components/AppTabs/reducer';
 
+import Tabs from 'components/@Tabs';
+
 import App from './pages/App';
 import Login from './pages/Login';
+
 
 import routeParse from './routeParse';
 
@@ -38,12 +41,12 @@ const options = {
     login: Login,
   },
 
-  componentScheme: {
+  componentsScheme: {
 
   },
 
   components: {
-
+    default: Tabs,
   },
   
   routePrefix: '/admin',
