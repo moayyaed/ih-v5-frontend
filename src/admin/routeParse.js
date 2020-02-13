@@ -23,9 +23,10 @@ function routeParse(pathname) {
     componentid: checkValue(params[4]),
     nodeid: checkValue(params[5]), 
   }
+  const componentParams = getComponentParams(base.componentid, params);
   return {
     ...base,
-    ...getComponentParams(base.componentid, params),
+    ...componentParams,
   };
 }
 

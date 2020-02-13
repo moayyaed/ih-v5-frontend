@@ -46,6 +46,9 @@ const core = {
     start: progressStart,
     stop: progressStop,
   },
+  cache: {
+    componentParams: {}
+  },
 }
 
 

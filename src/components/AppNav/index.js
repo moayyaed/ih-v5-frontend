@@ -83,7 +83,9 @@ class AppNav extends Component {
   handleChangeRoute = (type, rootid, item) => {
     const { state, route } = this.props;
     const componentid = item.node.component || state.options[rootid][type].defaultComponent;
-    const params = '/' + core.options.componentScheme[componentid].defaultTab;
+    const params = core.cache.componentParams[componentid] ?  
+      '/' + core.cache.componentParams[componentid] :
+      '/' + core.options.componentScheme[componentid].defaultTab;
     
     core.route(`${route.menuid}/${rootid}/${componentid}/${item.node.id}${params}`);
   }
