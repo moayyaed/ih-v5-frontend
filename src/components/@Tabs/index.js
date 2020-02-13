@@ -14,6 +14,7 @@ console.log(Prism)
 class ComponentTabs extends Component {
 
   componentDidMount() {
+    Prism.highlightAll (); 
     const { route } = this.props;
     if (route.tab) {
       core.cache.componentsParams[route.componentid] = route.tab;
