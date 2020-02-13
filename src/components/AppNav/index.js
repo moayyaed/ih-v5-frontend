@@ -6,7 +6,7 @@ import 'react-sortable-tree/style.css';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import SortableTree, { getNodeAtPath, getDescendantCount } from 'react-sortable-tree';
+import { SortableTreeWithoutDndContext as SortableTree, getNodeAtPath, getDescendantCount } from 'react-sortable-tree';
 
 import Skeleton from '@material-ui/lab/Skeleton';
 import { withStyles } from '@material-ui/core/styles';
