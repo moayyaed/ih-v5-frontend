@@ -64,6 +64,7 @@ class Request {
     clearTimeout(this.timerDelay);
     clearTimeout(this.timerTimeout);
     core.actions.app.alertOpen('error', e.message);
+    core.actions.app.alertOpen('error', e.message);
     if (this.handleError) {
       if (e.stack) {
         this.handleError({ message: e.message });
