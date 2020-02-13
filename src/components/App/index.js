@@ -4,6 +4,8 @@ import core from 'core';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
+import Alert from 'components/Alert';
+
 import { createBrowserHistory } from 'history';
 
 
@@ -23,8 +25,22 @@ class App extends Component {
     core.actions.app.route(params);
   }
 
-  render({ route } = this.props.state) {
-    return React.createElement(core.options.pages.main, { route });
+  handleCloseAlert = () => {
+    core.actions.app.alertClose();
+  }
+
+  render({ alert, route } = this.props.state) {
+    return (
+      <>
+        <Alert 
+          open={alert.open} 
+          severity={alert.severity} 
+          message={alert.message} 
+          onClose={this.handleCloseAlert}
+        />
+        {React.createElement(core.options.pages.main, { route })}
+      </>
+    )
   }
 }
 
