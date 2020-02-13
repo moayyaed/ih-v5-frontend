@@ -118,11 +118,14 @@ class AppNav extends Component {
  
   }
 
-  render({ state } = this.props) {
-    if (this.props.route.menuid) {
-      console.log(this.props.route)
+  handleChangePanelSize = (value) => {
+    core.actions.appnav.panelWidth(value);
+  }
+
+  render({ state, route } = this.props) {
+    if (route.menuid) {
       return (
-        <Panel width={200} position="right" style={styles.panel}>
+        <Panel width={state.width} position="right" style={styles.panel} onChangeSize={this.handleChangePanelSize}>
           <div style={styles.box} onContextMenu={this.handleContextMenuBody}>  
             <SortableTree
               rowHeight={21}

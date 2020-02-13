@@ -95,7 +95,7 @@ class Panel extends Component {
           x: data.x,
           width: Math.abs(data.x) + 5
         };
-      });
+      }, () => this.props.onChangeSize(Math.abs(data.x) + 5));
     }
     if (this.state.position === 'right') {
       this.width = this.width + data.x;
@@ -105,7 +105,7 @@ class Panel extends Component {
           x: data.x,
           width: data.x + 5,
         };
-      });
+      }, () => this.props.onChangeSize(data.x + 5));
     }
   }
 

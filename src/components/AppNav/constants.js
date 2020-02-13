@@ -1,1 +1,2 @@
 export const APP_NAV_SET_DATA = 'APP_NAV_SET_DATA';
+export const APP_NAV_SET_PANEL_WIDTH = 'APP_NAV_SET_PANEL_WIDTH';
