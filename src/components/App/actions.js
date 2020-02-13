@@ -1,4 +1,4 @@
-import { APP_SET_DATA, APP_SET_ROUTE, APP_ALERT_OPEN, APP_ALERT_CLOSE  } from './constants';
+import { APP_SET_DATA, APP_SET_ROUTE, APP_SET_AUTH, APP_ALERT_OPEN, APP_ALERT_CLOSE  } from './constants';
 
 
 export function data(data) {
@@ -14,6 +14,14 @@ export function route(params) {
     params,
   };
 }
+
+export function auth(value) {
+  return {
+    type: APP_SET_AUTH,
+    value,
+  };
+}
+
 
 export function alertOpen(severity, message) {
   return {
@@ -33,6 +41,7 @@ export function alertClose() {
 export default {
   data,
   route,
+  auth,
   alertOpen,
   alertClose,
 }

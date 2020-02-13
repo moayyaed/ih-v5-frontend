@@ -155,7 +155,10 @@ function Login() {
     event.preventDefault();
 
     setUsername(values.username);
-    core.event('app:login', null, values);
+
+    core
+    .request({ component: 'login', params: values })
+    .ok(() => core.actions.app.auth(true));
   }
 
   return (

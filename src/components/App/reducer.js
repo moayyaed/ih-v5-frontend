@@ -1,4 +1,4 @@
-import { APP_SET_DATA, APP_SET_ROUTE, APP_ALERT_OPEN, APP_ALERT_CLOSE } from './constants';
+import { APP_SET_DATA, APP_SET_ROUTE, APP_SET_AUTH, APP_ALERT_OPEN, APP_ALERT_CLOSE } from './constants';
 
 
 const defaultState = {
@@ -8,7 +8,7 @@ const defaultState = {
     message: '',
   },
   route: {},
-  auth: true,
+  auth: false,
 };
 
 
@@ -18,6 +18,8 @@ function reducer(state = defaultState, action) {
       return { ...state, ...action.data };
     case APP_SET_ROUTE:
       return { ...state, route: action.params };
+    case APP_SET_AUTH:
+      return { ...state, auth: action.value };
     case APP_ALERT_OPEN:
       return { 
         ...state, 

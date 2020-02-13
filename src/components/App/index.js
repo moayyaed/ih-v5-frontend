@@ -12,6 +12,13 @@ import { createBrowserHistory } from 'history';
 const history = createBrowserHistory();
 
 
+function getPage(state) {
+  if (state.auth === false) {
+    return React.createElement(core.options.pages.login, { route: state.route })
+  }
+  return React.createElement(core.options.pages.main, { route: state.route })
+}
+
 class App extends Component {
   componentDidMount() {
     core.history = history;
@@ -38,7 +45,7 @@ class App extends Component {
           message={alert.message} 
           onClose={this.handleCloseAlert}
         />
-        {React.createElement(core.options.pages.main, { route })}
+        {getPage(this.props.state)}
       </>
     )
   }
