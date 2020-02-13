@@ -5,13 +5,27 @@ function checkValue(value) {
   return null;
 }
 
+function getComponentParams(componentid, params) {
+  const defaultParams = {
+    tab: null,
+  }
+  if (componentid) {
+    defaultParams.tab = checkValue(params[6]);
+  }
+  return defaultParams;
+}
+
 function routeParse(pathname) {
   const params = pathname.split('/');
-  return {
+  const base = {
     menuid: checkValue(params[2]),
     rootid: checkValue(params[3]),
-    viewid: checkValue(params[5]),
-    nodeid: checkValue(params[4]),  
+    componentid: checkValue(params[4]),
+    nodeid: checkValue(params[5]), 
+  }
+  return {
+    ...base,
+    ...getComponentParams(base.componentid, params),
   };
 }
 

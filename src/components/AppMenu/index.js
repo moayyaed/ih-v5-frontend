@@ -46,7 +46,7 @@ class AppMenu extends Component {
 
   componentDidMount() {
     core
-    .request({ component: 'appmenu' })
+    .request({ method: 'appmenu' })
     .ok(core.actions.appmenu.data);
   }
 

@@ -157,8 +157,12 @@ function Login() {
     setUsername(values.username);
 
     core
-    .request({ component: 'login', params: values })
-    .ok(() => core.actions.app.auth(true));
+    .request({ method: 'login', params: values })
+    .ok(() => {
+      core
+      .request({ method: 'init', params: {} })
+      .ok(() => core.actions.app.auth(true));
+    });
   }
 
   return (

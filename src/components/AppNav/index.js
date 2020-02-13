@@ -6,11 +6,11 @@ import 'react-sortable-tree/style.css';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
+import { withStyles } from '@material-ui/core/styles';
+
 import { SortableTreeWithoutDndContext as SortableTree, getNodeAtPath, getDescendantCount } from 'react-sortable-tree';
 
 import Skeleton from '@material-ui/lab/Skeleton';
-import { withStyles } from '@material-ui/core/styles';
-
 import Panel from 'components/Panel';
 
 import theme from './theme';
@@ -46,7 +46,7 @@ const classes = theme => ({
 class AppNav extends Component {
   componentDidMount() {
     this.props.route.menuid && core
-    .request({ component: 'appnav', params: this.props.route })
+    .request({ method: 'appnav', params: this.props.route })
     .ok(core.actions.appnav.data);
   }
 
@@ -62,7 +62,7 @@ class AppNav extends Component {
     const style = {};
     const id = rowinfo.node.id;
 
-    if (this.props.state.selectid === id) {
+    if (this.props.route.nodeid === id) {
       style.backgroundColor = 'rgba(158, 158, 158, 0.2)';
     }
 
@@ -80,17 +80,19 @@ class AppNav extends Component {
     };
   }
 
-  handleClick = (e, item) => {
-    const { route, state } = this.props;
-    const rootid = state.options.roots[item.path[0]];
+  handleChangeRoute = (type, rootid, item) => {
+    const { state, route } = this.props;
+    const componentid = item.node.component || state.options[rootid][type].defaultComponent;
+    const params = '/' + core.options.componentScheme[componentid].defaultTab;
+    
+    core.route(`${route.menuid}/${rootid}/${componentid}/${item.node.id}${params}`);
+  }
 
-    if (item.node.children !== undefined) {
-      const viewid = item.node.component || state.options[rootid].parent.defaultComponent;
-      core.route(`${route.menuid}/${rootid}/${viewid}/${item.node.id}`);
-    } else {
-      const viewid = item.node.component || state.options[rootid].child.defaultComponent;
-      core.route(`${route.menuid}/${rootid}/${viewid}/${item.node.id}`);
-    }
+  handleClick = (e, item) => {
+    const rootid = this.props.state.options.roots[item.path[0]];
+    const type = item.node.children !== undefined ? 'parent' : 'child';
+
+    this.handleChangeRoute(type, rootid, item);
   }
 
   handleContextMenuBody = (e) => {

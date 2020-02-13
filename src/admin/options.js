@@ -37,6 +37,14 @@ const options = {
     main: App,
     login: Login,
   },
+
+  componentScheme: {
+
+  },
+
+  components: {
+
+  },
   
   routePrefix: '/admin',
   routeParse: routeParse,

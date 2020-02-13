@@ -126,8 +126,8 @@ class Request {
 }
 
 function request(data) {
-  const name = `request_${data.component}`;
-  const req = new Request(data.component);
+  const name = `request_${data.method}`;
+  const req = new Request(data.method);
 
   function send(options) {
     req.settings(options, data);
