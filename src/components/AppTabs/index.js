@@ -18,6 +18,8 @@ const MIN_WIDTH_COLUMN = 75;
 
 const styles = {
   root: {
+    position: 'absolute',
+    width: '100%',
     height: 35,
   },
   rootA: {

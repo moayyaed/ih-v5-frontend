@@ -10,5 +10,5 @@ core.network.request('components_tabs', (send, context) => {
 
 
 core.network.response('components_tabs', (answer, res, context) => {
-  answer({ scheme: res[0].data, data: res[1].data });
+  answer({ options: res[0].data, data: res[1].data });
 })

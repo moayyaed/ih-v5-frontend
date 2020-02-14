@@ -1,28 +1,43 @@
 import React, { Component } from 'react';
 import core from 'core';
 
+import { withStyles } from '@material-ui/core/styles';
+
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+
 import Prism from 'prismjs';
 import './prism.css';
+
+
+const classes = theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+});
 
 class Form extends Component {
   
   componentDidMount() {
-    // console.log('new');
     Prism.highlightAll (); 
   }
 
-  render({ state } = this.props) {
-    // console.log('render')
+  render({ scheme, data, classes } = this.props) {
     return (
       <>
         <pre> 
           <code className = "language-javascript"> 
-            {JSON.stringify(state.scheme, null, 2)}
+            {JSON.stringify(scheme, null, 2)}
           </ code> 
         </ pre>
         <pre> 
           <code className = "language-javascript"> 
-          {JSON.stringify(state.data, null, 2)}
+          {JSON.stringify(data, null, 2)}
           </ code> 
         </ pre>
       </>
@@ -31,4 +46,4 @@ class Form extends Component {
 }
 
 
-export default Form;
+export default withStyles(classes)(Form);

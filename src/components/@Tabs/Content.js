@@ -21,8 +21,9 @@ class Content extends Component {
         .ok(res => {
           core.actions.apppage.data({
             id: `${route.nodeid}_${route.tab}`,
+            component: tab.component,
             data: res.data,
-            scheme: res.scheme,
+            options: res.options,
           })
         });
     }
@@ -30,8 +31,8 @@ class Content extends Component {
 
   render({ state } = this.props) {
     return (
-      <div style={{ width: '100%', height: 'calc(100% - 119px)', overflow: 'auto', backgroundColor: '#f5f5f5', padding: 20 }}>
-        <Form key={state.id} state={state} />
+      <div style={{ width: '100%', height: 'calc(100% - 49px)', overflow: 'auto', backgroundColor: '#f5f5f5', padding: 20 }}>
+        <Form key={state.id} scheme={state.options} data={state.data} />
       </div>
     )
   }

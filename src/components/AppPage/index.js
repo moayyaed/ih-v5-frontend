@@ -7,8 +7,10 @@ import { createSelector } from 'reselect';
 
 const styles = {
   root: {
+    top: 35,
+    position: 'absolute',
     width: '100%',
-    height: '100%',
+    height: 'calc(100% - 35px)',
   }
 };
 

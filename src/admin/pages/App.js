@@ -18,6 +18,7 @@ const styles = {
     height: '100%',
   },
   body: {
+    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
