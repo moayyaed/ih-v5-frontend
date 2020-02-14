@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import core from 'core';
 
+import { Scrollbars } from 'react-custom-scrollbars';
+
 import Form from 'components/Form';
 
 
@@ -31,9 +33,11 @@ class Content extends Component {
 
   render({ state } = this.props) {
     return (
-      <div style={{ width: '100%', height: 'calc(100% - 49px)', overflow: 'auto', backgroundColor: '#f5f5f5', padding: 20 }}>
-        <Form key={state.id} scheme={state.options} data={state.data} />
-      </div>
+      <Scrollbars style={{ width: '100%', height: 'calc(100% - 49px)', backgroundColor: '#f5f5f5' }}>
+        <div style={{ padding: 20 }} >
+          <Form key={state.id} scheme={state.options} data={state.data} />
+        </div>
+      </Scrollbars>
     )
   }
 
