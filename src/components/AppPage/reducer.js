@@ -2,6 +2,7 @@ import { APP_PAGE_SET_DATA } from './constants';
 
 
 const defaultState = {
+  id: null,
   scheme: {},
   data: [],
 };
