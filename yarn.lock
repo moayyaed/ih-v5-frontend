@@ -8615,6 +8615,11 @@ react-custom-scrollbars@^4.2.1:
     prop-types "^15.5.10"
     raf "^3.1.0"
 
+react-customscroll@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/react-customscroll/-/react-customscroll-4.2.0.tgz#4156b9a91393a06e4b925ac1f15eb29db977aaa6"
+  integrity sha512-CkprPDh8OXFYVS81cQVqu0PjjfhS0ZQ84gDxMMzaCgsy6QLvG4A4qn6WLfjsX1TVH7/L2t3c8RPR4EslH8Lxnw==
+
 react-dev-utils@^10.1.0:
   version "10.1.0"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-10.1.0.tgz#ccf82135f6dc2fc91969bc729ce57a69d8e86025"
@@ -8804,7 +8809,7 @@ react-transition-group@^4.3.0:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-react-virtualized@^9.19.1:
+react-virtualized@^9.19.1, react-virtualized@^9.21.2:
   version "9.21.2"
   resolved "https://registry.yarnpkg.com/react-virtualized/-/react-virtualized-9.21.2.tgz#02e6df65c1e020c8dbf574ec4ce971652afca84e"
   integrity sha512-oX7I7KYiUM7lVXQzmhtF4Xg/4UA5duSA+/ZcAvdWlTLFCoFYq1SbauJT5gZK9cZS/wdYR6TPGpX/dqzvTqQeBA==
