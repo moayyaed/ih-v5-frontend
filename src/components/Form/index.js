@@ -29,18 +29,44 @@ class Form extends Component {
 
   render({ scheme, data, classes } = this.props) {
     return (
-      <>
-        <pre> 
-          <code className = "language-javascript"> 
-            {JSON.stringify(scheme, null, 2)}
-          </ code> 
-        </ pre>
-        <pre> 
-          <code className = "language-javascript"> 
-          {JSON.stringify(data, null, 2)}
-          </ code> 
-        </ pre>
-      </>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>
+            <pre> 
+              <code className = "language-javascript"> 
+                {JSON.stringify(scheme, null, 2)}
+              </ code> 
+            </ pre>
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>
+            <pre> 
+              <code className = "language-javascript"> 
+              {JSON.stringify(data, null, 2)}
+              </ code> 
+            </ pre>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Paper className={classes.paper}>xs=12 sm=6</Paper>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Paper className={classes.paper}>xs=12 sm=6</Paper>
+        </Grid>
+        <Grid item xs={6} sm={3}>
+          <Paper className={classes.paper}>xs=6 sm=3</Paper>
+        </Grid>
+        <Grid item xs={6} sm={3}>
+          <Paper className={classes.paper}>xs=6 sm=3</Paper>
+        </Grid>
+        <Grid item xs={6} sm={3}>
+          <Paper className={classes.paper}>xs=6 sm=3</Paper>
+        </Grid>
+        <Grid item xs={6} sm={3}>
+          <Paper className={classes.paper}>xs=6 sm=3</Paper>
+        </Grid>
+    </Grid>
     )
   }
 }
