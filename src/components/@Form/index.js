@@ -16,7 +16,6 @@ const classes = theme => ({
     flexGrow: 1,
   },
   paper: {
-    height: '100%',
     display: 'flex',
     flexDirection: 'column',
     padding: theme.spacing(2),
@@ -37,7 +36,10 @@ class Form extends Component {
     if (item.class === 'main') {
       return (
         <Grid key={item.id} item xs={item.xs}>
-          <Paper className={this.props.classes.paper}>
+          <Paper 
+            style={{ height: item.height || '100%' }} 
+            className={this.props.classes.paper}
+          >
             {this.getGridContent(item.id)}
           </Paper>
         </Grid>
