@@ -8,6 +8,8 @@ import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
+import 'typeface-roboto';
+
 import App from 'components/App';
 
 const theme = createMuiTheme();

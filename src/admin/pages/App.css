@@ -47,3 +47,5 @@ button:focus {
 .rst__tree .ReactVirtualized__Grid {
   overflow: hidden!important;
 } */
+
+.apppage:focus { outline: none; }

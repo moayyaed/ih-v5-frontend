@@ -3,7 +3,7 @@ import core from 'core';
 
 import { Scrollbars } from 'react-custom-scrollbars';
 
-import Form from 'components/Form';
+import Form from 'components/@Form';
 
 
 class Content extends Component {
@@ -31,11 +31,11 @@ class Content extends Component {
     }
   }
 
-  render({ state } = this.props) {
+  render({ debug, state } = this.props) {
     return (
       <Scrollbars style={{ width: '100%', height: 'calc(100% - 49px)', backgroundColor: '#f5f5f5' }}>
         <div style={{ padding: 20 }} >
-          <Form key={state.id} scheme={state.options} data={state.data} />
+          <Form key={state.id} debug={debug} scheme={state.options} data={state.data} />
         </div>
       </Scrollbars>
     )

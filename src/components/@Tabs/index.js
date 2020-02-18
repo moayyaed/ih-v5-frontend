@@ -25,7 +25,7 @@ class ComponentTabs extends Component {
     core.route(`${route.menuid}/${route.rootid}/${route.componentid}/${route.nodeid}/${value}`);
   }
 
-  render({ route, scheme, state } = this.props) {
+  render({ debug, route, scheme, state } = this.props) {
     return (
       <>
         <Tabs value={route.tab} onChange={this.handleClickTab} >
@@ -34,6 +34,7 @@ class ComponentTabs extends Component {
         <Typography />
         <Content 
           key={`${route.nodeid}_${route.tab}`} 
+          debug={debug}
           route={route} 
           scheme={scheme}
           state={state}
