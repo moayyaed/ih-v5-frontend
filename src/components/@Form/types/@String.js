@@ -11,10 +11,11 @@ const styles = {
 function String(props) {
   return (
     <TextField
-      id={props.id} 
-      label={props.title} 
+      id={props.options.id} 
+      label={props.options.title} 
       style={styles.root}
       InputLabelProps={{ shrink: true }} 
+      defaultValue={props.data}
     />
   )
 }

@@ -27,8 +27,10 @@ const classes = theme => ({
 
 class Form extends Component {
 
-  getGridContent = (data) => {
-    return data.map(components);
+  getGridContent = (id) => {
+    const scheme = this.props.scheme[id];
+    const data = this.props.data[id];
+    return scheme.map((item) => components(item, data[item.prop]));
   }
 
   getGridComponent = (item) => {
@@ -36,14 +38,14 @@ class Form extends Component {
       return (
         <Grid key={item.id} item xs={item.xs}>
           <Paper className={this.props.classes.paper}>
-            {this.getGridContent(this.props.scheme[item.id])}
+            {this.getGridContent(item.id)}
           </Paper>
         </Grid>
       )
     }
     return (
       <Grid key={item.id} item xs={item.xs}>
-        {this.getGridContent(this.props.scheme[item.id])}
+        {this.getGridContent(item.id)}
       </Grid>
     )
   }

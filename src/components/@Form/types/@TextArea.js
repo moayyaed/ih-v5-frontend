@@ -22,13 +22,14 @@ const classes = theme => ({
 function TextArea(props) {
   return (
     <TextField
-      id={props.id} 
-      label={props.title} 
-      style={styles.root}
       multiline
       variant="outlined"
+      id={props.options.id} 
+      label={props.options.title} 
+      style={styles.root}
       InputProps={{ classes: { root: props.classes.root, input: props.classes.input } }}
       InputLabelProps={{ shrink: true }}
+      defaultValue={props.data}
     />
   )
 }

@@ -11,11 +11,12 @@ const styles = {
 function DropList(props) {
   return (
     <TextField
-      id={props.id} 
-      label={props.title} 
-      style={styles.root}
       multiline
+      id={props.options.id} 
+      label={props.options.title} 
+      style={styles.root}
       InputLabelProps={{ shrink: true }}
+      defaultValue={props.data}
     />
   )
 }
