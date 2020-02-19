@@ -1,4 +1,8 @@
 import React from 'react';
+import core from 'core';
+
+import Link from '@material-ui/core/Link';
+
 import BaseTable, { AutoResizer, Column } from 'react-base-table'
 import 'react-base-table/styles.css'
 
@@ -7,12 +11,36 @@ import 'react-base-table/styles.css'
 const styles = {
   root: {
     margin: 12,
+  },
+  numberDisabled: { 
+    backgroundColor: '#F5F5F5',
+    border: '1px solid #e5e5e5',
+    cursor: 'no-drop',
+    width: '100%' 
+  },
+  numberNormal: {
+    width: '100%' 
   }
 }
 
+const sizes = [
+  220,
+  100,
+  100,
+  100,
+  100,
+  120,
+  150,
+  80,
+  128
+]
+
 function transformColumns(columns) {
-  return columns.map(i => {
-    return { ...i, key: i.prop, dataKey: i.prop, width: 150 };
+  return columns.map((i, k)=> {
+    if (k === 6) {
+      return { ...i, key: i.prop, dataKey: i.prop, width: 150, resizable: true, width: sizes[k], type: 'link' };
+    }
+    return { ...i, key: i.prop, dataKey: i.prop, width: 150, resizable: true, width: sizes[k] };
   });
 }
 
@@ -22,18 +50,58 @@ function transformData(data) {
   });
 }
 
+function handleClickLink(e) {
+  e.preventDefault();
+  core.actions.appdialog.data({ open: true })
+}
+
+
+const Cell = cellProps => {
+  const type = cellProps.columns[cellProps.columnIndex].type;
+  
+  if (type === 'link') {
+    return (
+      <Link href="" onClick={handleClickLink}>
+        {cellProps.cellData}
+      </Link>
+    )
+  }
+
+  if (type === 'input') {
+    return (
+      <input style={{ width: '100%' }} defaultValue={cellProps.cellData} />
+    )
+  }
+  if (type === 'number') {
+    return (
+      <input 
+        type="number"
+        style={cellProps.cellData === undefined ? styles.numberDisabled : styles.numberNormal} 
+        disabled={cellProps.cellData === undefined} 
+        defaultValue={cellProps.cellData} 
+      />
+    )
+  }
+  return <div className={cellProps.className}>{cellProps.cellData}</div>
+}
+
+const components = {
+  TableCell: Cell,
+}
+
 
 function Table(props) {
-  console.log()
   return (
     <AutoResizer>
       {({ width, height }) => (
         <BaseTable
           fixed
+          rowHeight={35}
           width={width}
           height={height}
           columns={transformColumns(props.options.columns)} 
-          data={transformData(props.data)}  
+          data={transformData(props.data)}
+          components={components}
         />
       )}
     </AutoResizer>

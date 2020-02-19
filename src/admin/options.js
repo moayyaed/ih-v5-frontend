@@ -13,6 +13,9 @@ import reducerAppTabs from 'components/AppTabs/reducer';
 import actionsAppPage from 'components/AppPage/actions';
 import reducerAppPage from 'components/AppPage/reducer';
 
+import actionsAppDialog from 'components/AppDialog/actions';
+import reducerAppDialog from 'components/AppDialog/reducer';
+
 import Tabs from 'components/@Tabs';
 
 import App from './pages/App';
@@ -32,6 +35,7 @@ const options = {
     appnav: actionsAppNav,
     apptabs: actionsAppTabs,
     apppage: actionsAppPage,
+    appdialog: actionsAppDialog,
   },
   reducers: {
     app: reducerApp,
@@ -39,6 +43,7 @@ const options = {
     appnav: reducerAppNav,
     apptabs: reducerAppTabs,
     apppage: reducerAppPage,
+    appdialog: reducerAppDialog,
   },
 
   pages: {
