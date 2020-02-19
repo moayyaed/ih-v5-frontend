@@ -21,7 +21,7 @@ const styles = {
 const classes = theme => ({
   option: {
     '&[aria-selected="true"] p': {
-      fontWeight: 500,
+      fontWeight: 600,
     },
   },
   listbox: {
@@ -95,37 +95,6 @@ const ListboxComponent = React.forwardRef(function ListboxComponent(props, ref) 
   );
 });
 
-const test = [
-  { id: '1', title: 'The Shawshank Redemption' },
-  { id: '2', title: 'The Godfather' },
-  { id: '3', title: 'The Godfather: Part II' },
-  { id: '4', title: 'The Dark Knight' },
-  { id: '5', title: '12 Angry Men' },
-  { id: '6', title: "Schindler's List" },
-  { id: '7', title: 'Pulp Fiction' },
-  { id: '8', title: 'The Lord of the Rings: The Return of the King' },
-  { id: '9', title: 'The Good, the Bad and the Ugly' },
-  { id: '10', title: 'Fight Club' },
-  { id: '11', title: 'The Lord of the Rings: The Fellowship of the Ring' },
-  { id: '12', title: 'Star Wars: Episode V - The Empire Strikes Back' },
-  { id: '13', title: 'Forrest Gump' },
-  { id: '14', title: 'Inception' },
-  { id: '15', title: 'The Lord of the Rings: The Two Towers' },
-  { id: '16', title: "One Flew Over the Cuckoo's Nest" },
-  { id: '17', title: 'Goodfellas' },
-  { id: '18', title: 'The Matrix' },
-  { id: '19', title: 'Seven Samurai' },
-  { id: '21', title: 'Star Wars: Episode IV - A New Hope' },
-  { id: '22', title: 'City of God' },
-  { id: '23', title: 'Se7en' },
-  { id: '24', title: 'The Silence of the Lambs' },
-  { id: '25', title: "It's a Wonderful Life" },
-  { id: '26', title: 'Life Is Beautiful' },
-  { id: '27', title: 'The Usual Suspects' },
-  { id: '28', title: 'Léon: The Professional' },
-  { id: '29', title: 'Spirited Away' },
-]
-
 
 class DropList extends Component {
   state = { list: [] }
@@ -180,11 +149,11 @@ class DropList extends Component {
         disableListWrap
         style={styles.root}
         classes={this.props.classes}
-        options={test || this.state.list}
+        options={this.state.list}
         onChange={(e, v) => {}}
-        defaultValue={test[test.length - 1] || this.props.data}
+        defaultValue={this.props.data}
         renderInput={this.handleRenderInput}
-        ListboxComponent={this.ListboxComponent}
+        ListboxComponent={ListboxComponent}
         getOptionSelected={this.handleOptionSelected}
         getOptionLabel={this.handleOptionLabel}
         renderOption={this.handleRenderOption}
