@@ -13,13 +13,8 @@ const styles = {
     margin: 12,
   },
   numberDisabled: {
-    fontSize: 13,
-    color: 'rgba(0, 0, 0, 0.87)',
-    border: 'unset', 
+    display: 'none', 
     cursor: 'no-drop',
-    width: '100%',
-    height: 28,
-    textAlign: 'right',
   },
   numberNormal: {
     fontSize: 13,
