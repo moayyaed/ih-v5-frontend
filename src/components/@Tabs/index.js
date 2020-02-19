@@ -3,6 +3,8 @@ import core from 'core';
 
 import Typography from '@material-ui/core/Typography';
 
+import { Scrollbars } from 'react-custom-scrollbars';
+
 import Tabs from './Tabs';
 import Tab from './Tab';
 
@@ -32,13 +34,18 @@ class ComponentTabs extends Component {
           {scheme.tabs.map(i => <Tab key={i.id} value={i.id} label={i.title} />)}
         </Tabs>
         <Typography />
-        <Content 
-          key={`${route.nodeid}_${route.tab}`} 
-          debug={debug}
-          route={route} 
-          scheme={scheme}
-          state={state}
-        />
+        <Scrollbars style={{ width: '100%', height: 'calc(100% - 49px)', backgroundColor: '#f5f5f5' }}>
+          <div style={{ padding: 20 }} >
+            <Content 
+              key={`${route.nodeid}_${route.tab}`} 
+              debug={debug}
+              route={route} 
+              scheme={scheme}
+              state={state}
+            />
+          </div>
+        </Scrollbars>
+
       </>
     );
   }

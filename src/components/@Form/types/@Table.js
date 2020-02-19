@@ -1,6 +1,8 @@
 import React from 'react';
+import BaseTable, { AutoResizer, Column } from 'react-base-table'
+import 'react-base-table/styles.css'
 
-import TextField from '@material-ui/core/TextField';
+
 
 const styles = {
   root: {
@@ -8,10 +10,33 @@ const styles = {
   }
 }
 
+function transformColumns(columns) {
+  return columns.map(i => {
+    return { ...i, key: i.prop, dataKey: i.prop, width: 150 };
+  });
+}
+
+function transformData(data) {
+  return data.map((i, k)=> {
+    return { ...i, id: k.toString() };
+  });
+}
+
+
 function Table(props) {
-  console.log(props)
+  console.log()
   return (
-    null
+    <AutoResizer>
+      {({ width, height }) => (
+        <BaseTable
+          fixed
+          width={width}
+          height={height}
+          columns={transformColumns(props.options.columns)} 
+          data={transformData(props.data)}  
+        />
+      )}
+    </AutoResizer>
   )
 }
 

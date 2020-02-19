@@ -33,11 +33,7 @@ class Content extends Component {
 
   render({ debug, state } = this.props) {
     return (
-      <Scrollbars style={{ width: '100%', height: 'calc(100% - 49px)', backgroundColor: '#f5f5f5' }}>
-        <div style={{ padding: 20 }} >
-          <Form key={state.id} debug={debug} scheme={state.options} data={state.data} />
-        </div>
-      </Scrollbars>
+      <Form key={state.id} debug={debug} scheme={state.options} data={state.data} />
     )
   }
 
