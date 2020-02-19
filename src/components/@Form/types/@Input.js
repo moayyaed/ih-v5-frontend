@@ -8,7 +8,7 @@ const styles = {
   }
 }
 
-function String(props) {
+function Input(props) {
   return (
     <TextField
       id={props.options.id} 
@@ -21,4 +21,4 @@ function String(props) {
 }
 
 
-export default String;
+export default Input;
