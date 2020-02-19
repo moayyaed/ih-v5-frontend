@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import core from 'core';
 
-import { Scrollbars } from 'react-custom-scrollbars';
-
 import Form from 'components/@Form';
 
 
