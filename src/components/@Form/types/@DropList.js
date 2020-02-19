@@ -7,6 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Typography from '@material-ui/core/Typography';
+
 import { useTheme, withStyles } from '@material-ui/core/styles';
 
 import { VariableSizeList } from 'react-window';

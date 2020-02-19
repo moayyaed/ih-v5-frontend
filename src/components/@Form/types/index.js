@@ -5,7 +5,7 @@ import Input from './@Input';
 import Text from './@Text';
 import TextArea from './@TextArea';
 import DropList from './@DropList';
-import Table from './@Table';
+import Table from './@Table/index';
 
 
 function getComponentByType(type) {
