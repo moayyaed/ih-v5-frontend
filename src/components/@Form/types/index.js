@@ -5,6 +5,7 @@ import Input from './@Input';
 import Text from './@Text';
 import TextArea from './@TextArea';
 import DropList from './@DropList';
+import Table from './@Table';
 
 
 function getComponentByType(type) {
@@ -16,9 +17,7 @@ function getComponentByType(type) {
     case 'textarea':
       return TextArea;
     case 'table':
-      return null;
-    case 'droplist':
-      return DropList;
+      return Table;
     case 'droplist':
       return DropList;
     default:
