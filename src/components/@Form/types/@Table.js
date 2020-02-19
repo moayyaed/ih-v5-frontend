@@ -12,14 +12,33 @@ const styles = {
   root: {
     margin: 12,
   },
-  numberDisabled: { 
-    backgroundColor: '#F5F5F5',
-    border: '1px solid #e5e5e5',
+  numberDisabled: {
+    fontSize: 13,
+    color: 'rgba(0, 0, 0, 0.87)',
+    border: 'unset', 
     cursor: 'no-drop',
-    width: '100%' 
+    width: '100%',
+    height: 28,
+    textAlign: 'right',
   },
   numberNormal: {
-    width: '100%' 
+    fontSize: 13,
+    color: 'rgba(0, 0, 0, 0.87)',
+    width: '100%',
+    border: 'unset', 
+    height: 28,
+    textAlign: 'right',
+  },
+  input: {
+    fontSize: 13,
+    color: 'rgba(0, 0, 0, 0.87)',
+    width: '100%',
+    border: 'unset', 
+    height: 28,
+  },
+  text: {
+    fontSize: 13,
+    color: 'rgba(0, 0, 0, 0.87)',
   }
 }
 
@@ -69,7 +88,7 @@ const Cell = cellProps => {
 
   if (type === 'input') {
     return (
-      <input style={{ width: '100%' }} defaultValue={cellProps.cellData} />
+      <input style={styles.input} defaultValue={cellProps.cellData} />
     )
   }
   if (type === 'number') {
@@ -82,7 +101,7 @@ const Cell = cellProps => {
       />
     )
   }
-  return <div className={cellProps.className}>{cellProps.cellData}</div>
+  return <div style={styles.text} className={cellProps.className}>{cellProps.cellData}</div>
 }
 
 const components = {
