@@ -5,6 +5,7 @@ import Text from './Text';
 import Input from './Input';
 import Link from './Link';
 
+import Droplist from './Droplist';
 
 
 function getComponent(type) {
@@ -15,11 +16,12 @@ function getComponent(type) {
       return Input;
     case 'link':
       return Link;
+    case 'droplist':
+      return Droplist;
     default:
       return Text;
   }
 }
-
 
 const Cell = cellProps => {
   const type = cellProps.columns[cellProps.columnIndex].type;

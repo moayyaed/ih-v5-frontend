@@ -19,7 +19,7 @@ const classes = theme => ({
   },
 });
 
-function TextArea(props) {
+function Textarea(props) {
   return (
     <TextField
       multiline
@@ -35,4 +35,4 @@ function TextArea(props) {
 }
 
 
-export default withStyles(classes)(TextArea);
+export default withStyles(classes)(Textarea);

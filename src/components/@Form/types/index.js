@@ -3,8 +3,8 @@ import React from 'react';
 
 import Input from './@Input';
 import Text from './@Text';
-import TextArea from './@TextArea';
-import DropList from './@DropList';
+import Textarea from './@Textarea';
+import Droplist from './@Droplist';
 import Table from './@Table/index';
 
 
@@ -15,11 +15,11 @@ function getComponentByType(type) {
     case 'text':
       return Text;
     case 'textarea':
-      return TextArea;
+      return Textarea;
     case 'table':
       return Table;
     case 'droplist':
-      return DropList;
+      return Droplist;
     default:
       return null;
   }

@@ -15,12 +15,17 @@ import { VariableSizeList } from 'react-window';
 
 const styles = {
   root: {
-    margin: 12,
+    width: '100%',
+    background: '#fff',
+    height: 28,
   }
 }
 
 const classes = theme => ({
   option: {
+    '& p': {
+      fontSize: 13,
+    },
     '&[aria-selected="true"] p': {
       fontWeight: 600,
     },
@@ -96,18 +101,17 @@ const ListboxComponent = React.forwardRef(function ListboxComponent(props, ref) 
 });
 
 
-class Droplist extends Component {
+class TableDroplistComponent extends Component {
   state = { list: [] }
 
   componentDidMount() {
-    if (typeof this.props.options.data === 'string') {
+    if (typeof this.props.column.data === 'string') {
       core
-      .request({ method: 'droplist', params: this.props.options })
+      .request({ method: 'droplist', params: this.props.column })
       .ok(this.setData);
     } else {
-      this.setData(this.props.options.data)
+      this.setData(this.props.column.data)
     }
-    
   }
 
   setData = (list) => {
@@ -124,7 +128,8 @@ class Droplist extends Component {
       <TextField 
         {...params}
         InputLabelProps={{ ...params.InputLabelProps, shrink: true}}
-        label={this.props.options.title} 
+        InputProps={{ ...params.InputProps, disableUnderline: true, style: { fontSize: 13, top: 1 } }}
+        label="" 
         fullWidth 
       />
     )
@@ -147,11 +152,13 @@ class Droplist extends Component {
     return (
       <Autocomplete
         disableListWrap
+        disableClearable
+        underlineShow={false}
         style={styles.root}
         classes={this.props.classes}
         options={this.state.list}
         onChange={(e, v) => {}}
-        defaultValue={this.props.data}
+        defaultValue={this.props.cellData}
         renderInput={this.handleRenderInput}
         ListboxComponent={ListboxComponent}
         getOptionSelected={this.handleOptionSelected}
@@ -162,4 +169,4 @@ class Droplist extends Component {
   }
 }
 
-export default withStyles(classes)(Droplist);
+export default withStyles(classes)(TableDroplistComponent);
