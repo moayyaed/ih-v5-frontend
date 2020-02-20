@@ -148,16 +148,33 @@ function fetch(data, options) {
 }
 
 function http(data, options, resolve, reject) {
-  const queryString = Object.keys(data).map(key => key + '=' + data[key]).join('&');
-  window.fetch('/api/admin?' + queryString, { 
-    ...options,
-    method: 'GET',
-    // body: JSON.stringify(data, null, 2),
-    headers: {
-    // 'Content-Type': 'application/json',
-      'token': 'admin_12345',
-    },
-  })
+  let _uri = '';
+  let _options = {}
+
+  if (data.payload) {
+    _uri = '/api/admin';
+    _options = {
+      ...options,
+      method: 'POST',
+      body: JSON.stringify(data, null, 2),
+      headers: {
+        'Content-Type': 'application/json',
+        'token': 'admin_12345',
+      },
+    }
+  } else {
+    const queryString = Object.keys(data).map(key => key + '=' + data[key]).join('&');
+    _uri = '/api/admin?' + queryString;
+    _options = {
+      ...options,
+      method: 'GET',
+      headers: {
+        'token': 'admin_12345',
+      },
+    }
+  }
+  
+  window.fetch(_uri, _options)
   .then((response) => {
     if (response.ok) {
       return response.json();

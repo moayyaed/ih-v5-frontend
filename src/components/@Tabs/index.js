@@ -18,6 +18,12 @@ class ComponentTabs extends Component {
     if (route.tab) {
       core.cache.componentsParams[route.componentid] = route.tab;
     }
+
+    this.saveData = { };
+  }
+
+  componentWillUnmount() {
+    this.saveData = null;
   }
 
   handleClickTab = (e, value) => {
@@ -47,17 +53,42 @@ class ComponentTabs extends Component {
   }
 
   handleChange = (id, options, value) => {
-    if (this.props.state.save === false) {
+    const { route, state } = this.props;
+    if (state.save === false) {
       core.actions.apppage.data({ save: true })
     }
+
+    if (this.saveData[route.tab] === undefined) {
+      this.saveData[route.tab] = {}
+    }
+    if (this.saveData[route.tab][id] === undefined) {
+      this.saveData[route.tab][id] = {}
+    }
+
+    this.saveData[route.tab][id][options.prop] = value;
+
     core.actions.apppage.valueForm(id, options.prop, value);
   }
 
   handleToolbarClick = (button) => {
+    const { route, scheme } = this.props;
+    
     if (button === 'save') {
-
+      const tab = scheme.tabs.find(i => i.id === route.tab);
+      
+      if (tab && this.saveData[route.tab] !== undefined) {
+        const params = { formid: tab.component[0].id, ...route };
+        const payload = this.saveData[route.tab];
+        
+        core
+          .request({ method: 'components_tabs_form_save', params, payload })
+          .ok(res => {
+            this.saveData[route.tab] = {};
+            core.actions.apppage.data({ save: false })
+          });
+      }
     } else {
-      this.handleRequest(this.props.route, this.props.scheme);
+      this.handleRequest(route, scheme);
     }
   }
 
