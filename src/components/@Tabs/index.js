@@ -34,7 +34,6 @@ class ComponentTabs extends Component {
         <Tabs value={route.tab} onChange={this.handleClickTab} >
           {scheme.tabs.map(i => <Tab key={i.id} value={i.id} label={i.title} />)}
         </Tabs>
-        <Typography />
         <Toolbar save={false} />
         <Scrollbars style={{ width: '100%', height: 'calc(100% - 109px)', backgroundColor: '#f5f5f5' }}>
           <div style={{ padding: 20, paddingTop: 0 }} >
