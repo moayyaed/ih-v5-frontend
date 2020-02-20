@@ -7,6 +7,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 import Tabs from './Tabs';
 import Tab from './Tab';
+import Toolbar from './Toolbar';
 
 import Content from './Content';
 
@@ -34,8 +35,9 @@ class ComponentTabs extends Component {
           {scheme.tabs.map(i => <Tab key={i.id} value={i.id} label={i.title} />)}
         </Tabs>
         <Typography />
-        <Scrollbars style={{ width: '100%', height: 'calc(100% - 49px)', backgroundColor: '#f5f5f5' }}>
-          <div style={{ padding: 20 }} >
+        <Toolbar save={false} />
+        <Scrollbars style={{ width: '100%', height: 'calc(100% - 109px)', backgroundColor: '#f5f5f5' }}>
+          <div style={{ padding: 20, paddingTop: 0 }} >
             <Content 
               key={`${route.nodeid}_${route.tab}`} 
               debug={debug}
