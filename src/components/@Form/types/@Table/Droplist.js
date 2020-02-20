@@ -38,7 +38,7 @@ const classes = theme => ({
   },
 });
 
-const LISTBOX_PADDING = 8; // px
+const LISTBOX_PADDING = 8; //  px
 
 function renderRow(props) {
   const { data, index, style } = props;
