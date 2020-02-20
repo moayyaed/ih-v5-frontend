@@ -7,12 +7,6 @@ import 'react-base-table/styles.css'
 import components from './components';
 
 
-function transformData(data) {
-  return data.map((i, k)=> {
-    return { ...i, id: k.toString() };
-  });
-}
-
 function Table(props) {
   return (
     <AutoResizer>
@@ -22,7 +16,7 @@ function Table(props) {
           rowHeight={35}
           width={width}
           height={height}
-          data={transformData(props.data)}
+          data={props.data}
           components={components}
         >
           {props.options.columns.map(i => 
