@@ -146,6 +146,7 @@ class Droplist extends Component {
   render() {
     return (
       <Autocomplete
+        disableClearable
         disableListWrap
         style={styles.root}
         classes={this.props.classes}
