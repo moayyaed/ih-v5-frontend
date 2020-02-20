@@ -20,10 +20,12 @@ function SplitButton(props) {
   const [selectedIndex, setSelectedIndex] = React.useState(1);
 
   const handleClick = () => {
+    props.onClick('save');
     // console.info(`You clicked ${options[selectedIndex]}`);
   };
 
   const handleMenuItemClick = (event, index) => {
+    props.onClick('restore');
     // setSelectedIndex(index);
     setOpen(false);
   };

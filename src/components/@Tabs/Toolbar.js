@@ -38,22 +38,12 @@ function Breadcrumbs() {
   );
 }
 
-/*
-
- 
-      <IconButton style={{ pading: 8 }} >
-        <DeleteIcon fontSize="small" />
-      </IconButton>
-      <IconButton style={{ pading: 8 }} >
-        <RestoreIcon fontSize="small" />
-      </IconButton>
-*/
 
 function Toolbar(props) {
   return (
     <div style={styles.root}>
       <Breadcrumbs />
-      <SplitButton disabled={!props.save} />
+      <SplitButton disabled={!props.save} onClick={props.onClick} />
     </div>
   )
 }

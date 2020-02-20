@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import core from 'core';
 
-import Typography from '@material-ui/core/Typography';
 
 import { Scrollbars } from 'react-custom-scrollbars';
 
@@ -28,13 +27,50 @@ class ComponentTabs extends Component {
     core.route(`${route.menuid}/${route.rootid}/${route.componentid}/${route.nodeid}/${value}`);
   }
 
+  handleRequest = (route, scheme) => {
+    const tab = scheme.tabs.find(i => i.id === route.tab);
+
+    if (tab !== undefined && tab.component && tab.component.length) {
+      const params = { ...tab.component[0], nodeid: route.nodeid };
+      core
+        .request({ method: 'components_tabs', params })
+        .ok(res => {
+          core.actions.apppage.data({
+            save: false,
+            id: `${route.nodeid}_${route.tab}`,
+            component: tab.component,
+            data: res.data,
+            options: res.options,
+          })
+        });
+    }
+  }
+
+  handleChange = (id, options, value) => {
+    if (this.props.state.save === false) {
+      core.actions.apppage.data({ save: true })
+    }
+    core.actions.apppage.valueForm(id, options.prop, value);
+  }
+
+  handleToolbarClick = (button) => {
+    if (button === 'save') {
+
+    } else {
+      this.handleRequest(this.props.route, this.props.scheme);
+    }
+  }
+
   render({ debug, route, scheme, state } = this.props) {
     return (
       <>
         <Tabs value={route.tab} onChange={this.handleClickTab} >
           {scheme.tabs.map(i => <Tab key={i.id} value={i.id} label={i.title} />)}
         </Tabs>
-        <Toolbar save={false} />
+        <Toolbar 
+          save={state.save}
+          onClick={this.handleToolbarClick}
+        />
         <Scrollbars style={{ width: '100%', height: 'calc(100% - 109px)', backgroundColor: '#f5f5f5' }}>
           <div style={{ padding: 20, paddingTop: 0 }} >
             <Content 
@@ -43,6 +79,8 @@ class ComponentTabs extends Component {
               route={route} 
               scheme={scheme}
               state={state}
+              onRequest={this.handleRequest}
+              onChange={this.handleChange}
             />
           </div>
         </Scrollbars>

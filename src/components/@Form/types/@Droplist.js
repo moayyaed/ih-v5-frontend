@@ -143,7 +143,7 @@ class Droplist extends Component {
   }
 
 
-  render() {
+  render({ id, options } = this.props) {
     return (
       <Autocomplete
         disableClearable
@@ -151,8 +151,8 @@ class Droplist extends Component {
         style={styles.root}
         classes={this.props.classes}
         options={this.state.list}
-        onChange={(e, v) => {}}
-        defaultValue={this.props.data}
+        onChange={(e, v) => this.props.onChange(id, options, v)}
+        value={this.props.data}
         renderInput={this.handleRenderInput}
         ListboxComponent={ListboxComponent}
         getOptionSelected={this.handleOptionSelected}

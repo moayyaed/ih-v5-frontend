@@ -29,7 +29,8 @@ function Textarea(props) {
       style={styles.root}
       InputProps={{ classes: { root: props.classes.root, input: props.classes.input } }}
       InputLabelProps={{ shrink: true }}
-      defaultValue={props.data}
+      value={props.data}
+      onChange={(e) => props.onChange(props.id, props.options, e.target.value)}
     />
   )
 }
