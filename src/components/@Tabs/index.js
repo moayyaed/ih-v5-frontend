@@ -45,8 +45,9 @@ class ComponentTabs extends Component {
             save: false,
             id: `${route.nodeid}_${route.tab}`,
             component: tab.component,
-            data: res.data,
             options: res.options,
+            data: res.data,
+            error: {},
           })
         });
     }
@@ -115,7 +116,10 @@ class ComponentTabs extends Component {
           .ok(res => {
             this.saveData[route.tab] = {};
             this.handleRequest(route, scheme);
-          });
+          })
+          .error(res => {
+            core.actions.apppage.data({ error: res.data || {} })
+          })
       }
     } else {
       this.saveData[route.tab] = {};

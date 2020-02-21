@@ -18,6 +18,7 @@ class Content extends Component {
         debug={debug} 
         scheme={state.options} 
         data={state.data}
+        error={state.error}
         onChange={this.props.onChange} 
       />
     )

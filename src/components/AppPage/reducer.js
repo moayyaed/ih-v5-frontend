@@ -11,6 +11,7 @@ const defaultState = {
   saveData: {},
   scheme: {},
   data: [],
+  error: {},
 };
 
 
