@@ -8,7 +8,6 @@ import {
 const defaultState = {
   id: null,
   save: false,
-  saveData: {},
   scheme: {},
   data: [],
   error: {},

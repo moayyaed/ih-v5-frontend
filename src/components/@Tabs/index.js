@@ -41,6 +41,7 @@ class ComponentTabs extends Component {
       core
         .request({ method: 'components_tabs', params })
         .ok(res => {
+          this.saveData[tab.id] = {};
           core.actions.apppage.data({
             save: false,
             id: `${route.nodeid}_${route.tab}`,
@@ -54,50 +55,60 @@ class ComponentTabs extends Component {
   }
 
   handleChange = (id, component, target, value) => {
-    const { state } = this.props;
+    const { route, state } = this.props;
+
     if (state.save === false) {
       core.actions.apppage.data({ save: true })
     }
 
-    if (target) {
-      this.handleSaveData(id, component, target, value);
-      core.actions.apppage.valueFormTable(id, component.prop, target.row.id, target.column.prop, value);
-    } else {
-      this.handleSaveData(id, component, target, value);
-      core.actions.apppage.valueFormBasic(id, component.prop, value);
-    }
-  }
-
-  handleSaveData = (id, component, target, value) => {
-    const { route } = this.props;
     if (this.saveData[route.tab] === undefined) {
       this.saveData[route.tab] = {}
     }
     if (this.saveData[route.tab][id] === undefined) {
       this.saveData[route.tab][id] = {}
     }
+
     if (target) {
+      this.handleSaveDataTarget(id, component, target, value);
+    } else {
+      this.handleSaveDataBasic(id, component, target, value);
+    }
+  }
+
+  handleSaveDataBasic = (id, component, target, value) => {
+    const { route } = this.props;
+    
+    let temp = value;
+    if (component.type === 'droplist') {
+      temp = value.id;
+    }
+    this.saveData[route.tab][id][component.prop] = temp;
+    core.actions.apppage.valueFormBasic(id, component.prop, value);
+  }
+
+  handleSaveDataTarget = (id, component, target, value) => {
+    const { route } = this.props;
+
+    if (this.saveData[route.tab][id][component.prop] === undefined) {
+      this.saveData[route.tab][id][component.prop] = {}
+    }
+    if (this.saveData[route.tab][id][component.prop][target.row.id] === undefined) {
+      this.saveData[route.tab][id][component.prop][target.row.id] = {}
+    }
+
+    if (target.op === 'edit') {
       let temp = value;
 
       if (target.column.type === 'droplist') {
         temp = value.id;
       }
-      if (this.saveData[route.tab][id][component.prop] === undefined) {
-        this.saveData[route.tab][id][component.prop] = {}
-      }
-      if (this.saveData[route.tab][id][component.prop][target.row.id] === undefined) {
-        this.saveData[route.tab][id][component.prop][target.row.id] = {}
-      }
-
       this.saveData[route.tab][id][component.prop][target.row.id][target.column.prop] = temp;
-    } else {
-      let temp = value;
+      core.actions.apppage.valueFormTable(id, component.prop, target.row.id, target.column.prop, value);
+    }
 
-      if (component.type === 'droplist') {
-        temp = value.id;
-      }
-  
-      this.saveData[route.tab][id][component.prop] = temp;
+    if (target.op === 'delete') {
+      this.saveData[route.tab][id][component.prop][target.row.id] = null;
+      console.log(id, component, target, value)
     }
   }
 

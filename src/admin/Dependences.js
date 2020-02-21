@@ -9,6 +9,8 @@ import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
 import 'typeface-roboto';
+import 'normalize.css/normalize.css';
+import "@blueprintjs/core/lib/css/blueprint.css";
 
 import App from 'components/App';
 
