@@ -151,7 +151,7 @@ class Droplist extends Component {
         style={styles.root}
         classes={this.props.classes}
         options={this.state.list}
-        onChange={(e, v) => this.props.onChange(id, options, v)}
+        onChange={(e, v) => this.props.onChange(id, options, null, v)}
         value={this.props.data}
         renderInput={this.handleRenderInput}
         ListboxComponent={ListboxComponent}

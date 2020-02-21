@@ -13,10 +13,12 @@ function Table(props) {
       {({ width, height }) => (
         <BaseTable
           fixed
+          id={props.id}
           rowHeight={35}
           width={width}
           height={height}
           data={props.data}
+          onChange={props.onChange}
           components={components}
         >
           {props.options.columns.map(i => 

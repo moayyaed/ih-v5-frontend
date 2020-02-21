@@ -15,8 +15,13 @@ const styles = {
 
 
 function TableInputComponent(props) {
+  console.log(props)
   return (
-    <input style={styles.input} defaultValue={props.cellData} />
+    <input 
+      style={styles.input} 
+      defaultValue={props.cellData} 
+      onChange={e => console.log(props.container.props.id, props.column, e.target.value)} 
+    />
   )
 }
 

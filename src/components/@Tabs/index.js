@@ -52,16 +52,16 @@ class ComponentTabs extends Component {
     }
   }
 
-  handleChange = (id, options, value) => {
+  handleChange = (id, component, target,  value) => {
     const { state } = this.props;
     if (state.save === false) {
       core.actions.apppage.data({ save: true })
     }
-    this.handleSaveData(id, options, value);
-    core.actions.apppage.valueForm(id, options.prop, value);
+    this.handleSaveData(id, component, target, value);
+    core.actions.apppage.valueForm(id, component.prop, value);
   }
 
-  handleSaveData = (id, options, value) => {
+  handleSaveData = (id, component, target,value) => {
     const { route } = this.props;
     if (this.saveData[route.tab] === undefined) {
       this.saveData[route.tab] = {}
@@ -72,11 +72,11 @@ class ComponentTabs extends Component {
 
     let temp = value;
 
-    if (options.type === 'droplist') {
+    if (component.type === 'droplist') {
       temp = value.id;
     }
 
-    this.saveData[route.tab][id][options.prop] = temp;
+    this.saveData[route.tab][id][component.prop] = temp;
   }
 
   handleToolbarClick = (button) => {
