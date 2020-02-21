@@ -118,6 +118,7 @@ class ComponentTabs extends Component {
           });
       }
     } else {
+      this.saveData[route.tab] = {};
       this.handleRequest(route, scheme);
     }
   }

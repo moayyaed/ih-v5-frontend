@@ -18,12 +18,25 @@ const styles = {
   }
 }
 
-function Text(props) {
+function TextOld(props) {
   return (
     <FormControl disabled style={styles.root}>
       <InputLabel shrink style={styles.label}>{props.options.title}</InputLabel>
       <Input disableUnderline style={styles.input} value={props.data} />
     </FormControl>
+  )
+}
+
+function Text(props) {
+  return (
+    <TextField
+      disabled
+      id={props.options.id} 
+      label={props.options.title} 
+      style={styles.root}
+      InputLabelProps={{ shrink: true }} 
+      value={props.data}
+    />
   )
 }
 
