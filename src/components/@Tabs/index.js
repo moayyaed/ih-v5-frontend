@@ -52,7 +52,7 @@ class ComponentTabs extends Component {
     }
   }
 
-  handleChange = (id, options, value) => {
+  handleChange = (id, options, value, svalue) => {
     const { route, state } = this.props;
     if (state.save === false) {
       core.actions.apppage.data({ save: true })
@@ -65,7 +65,7 @@ class ComponentTabs extends Component {
       this.saveData[route.tab][id] = {}
     }
 
-    this.saveData[route.tab][id][options.prop] = value;
+    this.saveData[route.tab][id][options.prop] = svalue;
 
     core.actions.apppage.valueForm(id, options.prop, value);
   }
@@ -84,7 +84,7 @@ class ComponentTabs extends Component {
           .request({ method: 'components_tabs_form_save', params, payload })
           .ok(res => {
             this.saveData[route.tab] = {};
-            core.actions.apppage.data({ save: false })
+            this.handleRequest(route, scheme);
           });
       }
     } else {
