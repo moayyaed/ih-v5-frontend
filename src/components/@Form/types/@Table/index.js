@@ -17,6 +17,7 @@ function Table(props) {
           rowHeight={35}
           width={width}
           height={height}
+          rowProps={props.error}
           data={props.data}
           options={props.options}
           onChange={props.onChange}
