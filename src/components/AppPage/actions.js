@@ -1,4 +1,8 @@
-import { APP_PAGE_SET_DATA, APP_PAGE_SET_VALUE_FORM  } from './constants';
+import { 
+  APP_PAGE_SET_DATA, 
+  APP_PAGE_SET_VALUE_FORM_BASIC,
+  APP_PAGE_SET_VALUE_FORM_TABLE,
+} from './constants';
 
 
 export function data(data) {
@@ -8,11 +12,22 @@ export function data(data) {
   };
 }
 
-export function valueForm(id, prop, value) {
+export function valueFormBasic(id, prop, value) {
   return {
-    type: APP_PAGE_SET_VALUE_FORM,
+    type: APP_PAGE_SET_VALUE_FORM_BASIC,
     id,
     prop,
+    value,
+  };
+}
+
+export function valueFormTable(id, prop, rowid, name, value) {
+  return {
+    type: APP_PAGE_SET_VALUE_FORM_TABLE,
+    id,
+    prop,
+    rowid,
+    name,
     value,
   };
 }
@@ -20,5 +35,6 @@ export function valueForm(id, prop, value) {
 
 export default {
   data,
-  valueForm,
+  valueFormBasic,
+  valueFormTable,
 }

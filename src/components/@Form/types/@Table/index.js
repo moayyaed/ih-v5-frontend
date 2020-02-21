@@ -18,6 +18,7 @@ function Table(props) {
           width={width}
           height={height}
           data={props.data}
+          options={props.options}
           onChange={props.onChange}
           components={components}
         >

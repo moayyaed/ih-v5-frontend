@@ -147,6 +147,16 @@ class TableDroplistComponent extends Component {
     return <Typography noWrap>{option.title}</Typography>;
   }
 
+  handleChange = (e, value) => {
+    const id = this.props.container.props.id;
+    const options = this.props.container.props.options;
+    const column = this.props.column;
+    const row = this.props.rowData;
+    
+    this.props.container.props.onChange(id, options, { op: 'edit', column, row }, value)
+  }
+  
+
 
   render() {
     return (
@@ -157,7 +167,7 @@ class TableDroplistComponent extends Component {
         style={styles.root}
         classes={this.props.classes}
         options={this.state.list}
-        onChange={(e, v) => {}}
+        onChange={this.handleChange}
         defaultValue={this.props.cellData}
         renderInput={this.handleRenderInput}
         ListboxComponent={ListboxComponent}

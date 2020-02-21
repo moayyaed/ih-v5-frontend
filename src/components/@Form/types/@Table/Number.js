@@ -18,6 +18,16 @@ const styles = {
   },
 }
 
+function handleChange(e, props) {
+  const id = props.container.props.id;
+  const options = props.container.props.options;
+  const column = props.column;
+  const row = props.rowData;
+  
+  props.container.props.onChange(id, options, { op: 'edit', column, row }, e.target.value)
+}
+
+
 
 function TableNumberComponent(props) {
   return (
@@ -25,7 +35,8 @@ function TableNumberComponent(props) {
       type="number"
       style={props.cellData === undefined ? styles.disabled : styles.normal} 
       disabled={props.cellData === undefined} 
-      defaultValue={props.cellData} 
+      value={props.cellData} 
+      onChange={e => handleChange(e, props)} 
     />
   )
 }

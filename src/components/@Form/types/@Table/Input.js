@@ -13,14 +13,23 @@ const styles = {
   },
 }
 
+function handleChange(e, props) {
+  const id = props.container.props.id;
+  const options = props.container.props.options;
+  const column = props.column;
+  const row = props.rowData;
+
+  props.container.props.onChange(id, options, { op: 'edit', column, row }, e.target.value)
+}
+
 
 function TableInputComponent(props) {
-  console.log(props)
+
   return (
     <input 
       style={styles.input} 
-      defaultValue={props.cellData} 
-      onChange={e => console.log(props.container.props.id, props.column, e.target.value)} 
+      value={props.cellData} 
+      onChange={e => handleChange(e, props)} 
     />
   )
 }

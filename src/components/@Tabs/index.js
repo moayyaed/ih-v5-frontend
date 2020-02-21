@@ -52,16 +52,22 @@ class ComponentTabs extends Component {
     }
   }
 
-  handleChange = (id, component, target,  value) => {
+  handleChange = (id, component, target, value) => {
     const { state } = this.props;
     if (state.save === false) {
       core.actions.apppage.data({ save: true })
     }
-    this.handleSaveData(id, component, target, value);
-    core.actions.apppage.valueForm(id, component.prop, value);
+
+    if (target) {
+      this.handleSaveData(id, component, target, value);
+      core.actions.apppage.valueFormTable(id, component.prop, target.row.id, target.column.prop, value);
+    } else {
+      this.handleSaveData(id, component, target, value);
+      core.actions.apppage.valueFormBasic(id, component.prop, value);
+    }
   }
 
-  handleSaveData = (id, component, target,value) => {
+  handleSaveData = (id, component, target, value) => {
     const { route } = this.props;
     if (this.saveData[route.tab] === undefined) {
       this.saveData[route.tab] = {}
@@ -69,14 +75,29 @@ class ComponentTabs extends Component {
     if (this.saveData[route.tab][id] === undefined) {
       this.saveData[route.tab][id] = {}
     }
+    if (target) {
+      let temp = value;
 
-    let temp = value;
+      if (target.column.type === 'droplist') {
+        temp = value.id;
+      }
+      if (this.saveData[route.tab][id][component.prop] === undefined) {
+        this.saveData[route.tab][id][component.prop] = {}
+      }
+      if (this.saveData[route.tab][id][component.prop][target.row.id] === undefined) {
+        this.saveData[route.tab][id][component.prop][target.row.id] = {}
+      }
 
-    if (component.type === 'droplist') {
-      temp = value.id;
+      this.saveData[route.tab][id][component.prop][target.row.id][target.column.prop] = temp;
+    } else {
+      let temp = value;
+
+      if (component.type === 'droplist') {
+        temp = value.id;
+      }
+  
+      this.saveData[route.tab][id][component.prop] = temp;
     }
-
-    this.saveData[route.tab][id][component.prop] = temp;
   }
 
   handleToolbarClick = (button) => {
