@@ -13,6 +13,7 @@ import components from './components';
 function handleContextMenuBody(e) {
   e.preventDefault();
   e.stopPropagation();
+
   ContextMenu.show(
     <Menu className={Classes.ELEVATION_1}>
       <MenuItem text="Add" />
@@ -23,7 +24,6 @@ function handleContextMenuBody(e) {
 }
 
 function handleContextMenuRow(props, { event, rowData }) {
-
   event.preventDefault();
   event.stopPropagation();
 
@@ -70,7 +70,6 @@ function Table(props) {
             rowHeight={35}
             width={width}
             height={height}
-            rowProps={props.error}
             data={props.data}
             options={props.options}
             onChange={props.onChange}
@@ -84,6 +83,7 @@ function Table(props) {
                 key={i.prop} 
                 dataKey={i.prop}
                 width={i.width || 150}
+                error={props.error}
               />
             )}
           </BaseTable>

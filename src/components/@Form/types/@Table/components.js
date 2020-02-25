@@ -26,7 +26,7 @@ function getComponent(type) {
 
 const Cell = cellProps => {
   const type = cellProps.columns[cellProps.columnIndex].type;
-  const error = cellProps.container.props.rowProps;
+  const error = cellProps.column.error;
   const row = cellProps.rowData;
   const column = cellProps.column;
   const component = getComponent(type);
