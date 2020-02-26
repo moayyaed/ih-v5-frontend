@@ -39,7 +39,7 @@ class ComponentTabs extends Component {
     if (tab !== undefined && tab.component && tab.component.length) {
       const params = { ...tab.component[0], nodeid: route.nodeid };
       core
-        .request({ method: 'components_tabs', params })
+        .request({ method: 'components_tabs_form', params })
         .ok(res => {
           this.saveData[tab.id] = {};
           core.actions.apppage.data({
@@ -48,7 +48,7 @@ class ComponentTabs extends Component {
             component: tab.component,
             options: res.options,
             data: res.data,
-            error: {},
+            cache: res.cache,
           })
         });
     }
@@ -108,7 +108,7 @@ class ComponentTabs extends Component {
 
     if (target.op === 'delete') {
       this.saveData[route.tab][id][component.prop][target.row.id] = null;
-      console.log(id, component, target, value)
+      console.log(this.props, id, component, target, value)
     }
   }
 

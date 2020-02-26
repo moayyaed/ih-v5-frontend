@@ -10,7 +10,7 @@ const defaultState = {
   save: false,
   scheme: {},
   data: [],
-  error: {},
+  cache: {}
 };
 
 

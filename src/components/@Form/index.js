@@ -29,8 +29,8 @@ class Form extends Component {
   getGridContent = (id) => {
     const scheme = this.props.scheme[id];
     const data = this.props.data[id];
-    const error = this.props.error[id];
-    return scheme.map((item) => components(id, item, data[item.prop], error && error[item.prop], this.props.onChange));
+    const cache = this.props.cache[id];
+    return scheme.map((item) => components(id, item, data[item.prop], cache[item.prop], this.props.onChange));
   }
 
   getGridComponent = (item) => {
