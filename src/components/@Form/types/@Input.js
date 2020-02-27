@@ -16,8 +16,8 @@ function Input(props) {
       style={styles.root}
       InputLabelProps={{ shrink: true }} 
       value={props.data}
-      error={props.error}
-      helperText={props.error}
+      error={props.cache.error}
+      helperText={props.cache.error}
       onChange={(e) => props.onChange(props.id, props.options, null, e.target.value)}
     />
   )

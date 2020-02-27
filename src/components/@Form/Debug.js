@@ -23,7 +23,7 @@ class Debug extends Component {
     Prism.highlightAll (); 
   }
 
-  render({ classes, scheme, data } = this.props) {
+  render({ classes, scheme, data, cache } = this.props) {
     return (
       <Grid container spacing={3}>
         <Grid item xs={12}>
@@ -46,6 +46,18 @@ class Debug extends Component {
             <pre> 
               <code className="language-javascript"> 
               {JSON.stringify(data, null, 2)}
+              </ code> 
+            </ pre>
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>
+            <Typography variant="h6" gutterBottom>
+              Cache
+            </Typography>
+            <pre> 
+              <code className="language-javascript"> 
+              {JSON.stringify(cache, null, 2)}
               </ code> 
             </ pre>
           </Paper>

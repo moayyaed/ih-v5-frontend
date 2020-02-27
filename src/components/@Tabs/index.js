@@ -129,7 +129,7 @@ class ComponentTabs extends Component {
             this.handleRequest(route, scheme);
           })
           .error(res => {
-            core.actions.apppage.data({ error: res.data || {} })
+            core.actions.apppage.errorsForm(res.data || {})
           })
       }
     } else {

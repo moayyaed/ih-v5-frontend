@@ -125,8 +125,8 @@ class Droplist extends Component {
         {...params}
         InputLabelProps={{ ...params.InputLabelProps, shrink: true}}
         label={this.props.options.title} 
-        error={this.props.error}
-        helperText={this.props.error}
+        error={this.props.cache.error}
+        helperText={this.props.cache.error}
         fullWidth 
       />
     )

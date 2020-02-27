@@ -12,7 +12,16 @@ core.network.response('components_tabs_form', (answer, res, context) => {
   answer({ 
     options: res[0].data, 
     data: res[1].data,
-    cache: res[0].data.grid.reduce((p, c) => ({ ...p, [c.id]: {} }), {})
+    cache: res[0].data.grid.
+      reduce((p, c) => {
+        return { 
+          ...p, [c.id]: 
+          res[0].data[c.id]
+            .reduce((p, c) => {
+              return { ...p, [c.prop]: {} }
+            }, {}) 
+        };
+      }, {})
   });
 })
 

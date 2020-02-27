@@ -53,9 +53,9 @@ class Form extends Component {
     )
   }
 
-  render({ debug, scheme, data, classes } = this.props) {
+  render({ debug, scheme, data, cache, classes } = this.props) {
     if (debug && scheme && data) {
-      return <Debug scheme={scheme} data={data} />
+      return <Debug scheme={scheme} data={data} cache={cache} />
     }
     if (scheme && data) {
       return (
