@@ -18,14 +18,14 @@ const styles = {
   stub: {
     width: 60,
     height: 35,
-    backgroundColor: '#37474f',
+    backgroundColor: '#607D8B',
     flexShrink: 0,
     zIndex: 101,
   },
   container: {
     width: '100%',
     height: 35,
-    backgroundColor: '#37474f',
+    backgroundColor: '#607D8B',
     boxShadow: 'rgba(0, 0, 0, 0.157) 0px 3px 10px, rgba(0, 0, 0, 0.227) 0px 3px 10px',
     overflow: 'hidden',
     zIndex: 100,
