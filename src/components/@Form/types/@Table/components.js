@@ -30,7 +30,7 @@ const Cell = cellProps => {
   const row = cellProps.rowData;
   const column = cellProps.column;
   const component = getComponent(type);
-
+  
   if (error && error[row.id] && error[row.id][column.prop]) {
     return React.createElement(Error, { cellProps, error: error[row.id][column.prop] }, component);
   }

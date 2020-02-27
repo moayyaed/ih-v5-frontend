@@ -2,6 +2,7 @@ import {
   APP_PAGE_SET_DATA,
   APP_PAGE_SET_ERRORS_FORM,
 
+  APP_PAGE_SET_VALUE_CACHE_FORM,
   APP_PAGE_SET_VALUE_FORM_BASIC,
   APP_PAGE_SET_VALUE_FORM_TABLE,
 } from './constants';
@@ -42,6 +43,23 @@ function reducer(state = defaultState, action) {
               return { ...p, [c]: state.cache[c] }
             }, {})
        };
+    case APP_PAGE_SET_VALUE_CACHE_FORM:
+      return { 
+        ...state, 
+        cache: {
+          ...state.cache,
+          [action.id]: {
+            ...state.cache[action.id],
+            [action.prop]: { 
+              ...state.cache[action.id][action.prop],
+              [action.key]: {
+                ...state.cache[action.id][action.prop][action.key],
+                ...action.value
+              }
+            },
+          }
+        }
+      };
     case APP_PAGE_SET_VALUE_FORM_BASIC:
       return { 
         ...state, 

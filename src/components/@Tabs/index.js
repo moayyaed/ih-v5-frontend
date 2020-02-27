@@ -108,7 +108,7 @@ class ComponentTabs extends Component {
 
     if (target.op === 'delete') {
       this.saveData[route.tab][id][component.prop][target.row.id] = null;
-      console.log(this.props, id, component, target, value)
+      core.actions.apppage.valueCacheForm(id, component.prop, 'remove', { [target.row.id]: true  });
     }
   }
 
