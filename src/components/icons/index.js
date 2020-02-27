@@ -1,6 +1,8 @@
 import React from 'react';
 
-import LogoIH from './LogoIH'
+import LogoIH from './LogoIH';
+import LogoIH2 from './LogoIH_2';
+import LogoIH3 from './LogoIH_3';
 import AccessIcon from './Access';
 import AnalyticsIcon from './Analytics';
 import DatabaseIcon from './Database';
@@ -16,6 +18,10 @@ function icon(name, style) {
   switch(name) {
     case 'logo':
       return React.createElement(LogoIH, { style })
+    case 'logo2':
+      return React.createElement(LogoIH2, { style })
+    case 'logo3':
+      return React.createElement(LogoIH3, { style })
     case 'access':
       return React.createElement(AccessIcon, { style })
     case 'analytics':

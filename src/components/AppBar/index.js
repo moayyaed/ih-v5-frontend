@@ -6,17 +6,17 @@ const styles = {
     display: 'flex',
   },
   logo: {
-    width: 70,
-    height: 70,
+    width: 60,
+    height: 60,
     position: 'absolute',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    top: 5,
+    top: 0,
     zIndex: 1000,
   },
   stub: {
-    width: 70,
+    width: 60,
     height: 35,
     backgroundColor: '#37474f',
     flexShrink: 0,
@@ -31,7 +31,8 @@ const styles = {
     zIndex: 100,
   },
   icon: {
-    color: '#fafafa'
+    color: '#64b4d7',
+    fontSize: 40,
   }
 };
 
@@ -40,7 +41,7 @@ function AppBar() {
     <div style={styles.box}>
       <div style={styles.stub}/>
       <div style={styles.logo}>
-        {icon('logo', styles.icon)}
+        {icon('logo2', styles.icon)}
       </div>
       <div style={styles.container}/>
     </div>

@@ -17,7 +17,7 @@ import icon from 'components/icons';
 
 const styles = {
   box: {
-    width: 70,
+    width: 60,
     height: '100%',
     backgroundColor: '#37474f',
     boxShadow: 'rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px',
@@ -30,7 +30,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 70,
+    width: 60,
     height: 60,
     cursor: 'pointer',
   },
@@ -64,7 +64,7 @@ const classes = theme => ({
   root: {
     flexDirection: 'column',
     justifyContent: 'start',
-    width: 70,
+    width: 60,
     height: '100%',
     backgroundColor: 'transparent',
   },
