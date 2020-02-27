@@ -83,7 +83,7 @@ function Table(props) {
                 key={i.prop} 
                 dataKey={i.prop}
                 width={i.width || 150}
-                error={props.cache.error}
+                cache={props.cache}
               />
             )}
           </BaseTable>
