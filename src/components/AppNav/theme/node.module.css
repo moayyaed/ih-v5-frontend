@@ -74,7 +74,7 @@
   display: flex;
 }
 .collapseButton, .expandButton {
-  top: 2px!important;
+  top: 1px!important;
   appearance: none;
   border: none;
   background: transparent;
@@ -88,7 +88,7 @@
   cursor: pointer;
 }
 .childButton, .expandButton {
-  top: 2px!important;
+  top: 1px!important;
   appearance: none;
   border: none;
   background: transparent;
