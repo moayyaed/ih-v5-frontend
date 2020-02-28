@@ -83,7 +83,7 @@ class ComponentTabs extends Component {
       temp = value.id;
     }
     this.saveData[route.tab][id][component.prop] = temp;
-    core.actions.apppage.valueFormBasic(id, component.prop, value);
+    core.actions.form.valueBasic(id, component.prop, value);
   }
 
   handleSaveDataTarget = (id, component, target, value) => {
@@ -103,12 +103,12 @@ class ComponentTabs extends Component {
         temp = value.id;
       }
       this.saveData[route.tab][id][component.prop][target.row.id][target.column.prop] = temp;
-      core.actions.apppage.valueFormTable(id, component.prop, target.row.id, target.column.prop, value);
+      core.actions.form.valueTable(id, component.prop, target.row.id, target.column.prop, value);
     }
 
     if (target.op === 'delete') {
       this.saveData[route.tab][id][component.prop][target.row.id] = null;
-      core.actions.apppage.valueCacheForm(id, component.prop, 'remove', { [target.row.id]: true  });
+      core.actions.form.cache(id, component.prop, 'remove', { [target.row.id]: true  });
     }
   }
 
@@ -129,7 +129,7 @@ class ComponentTabs extends Component {
             this.handleRequest(route, scheme);
           })
           .error(res => {
-            core.actions.apppage.errorsForm(res.data || {})
+            core.actions.form.errors(res.data || {})
           })
       }
     } else {
