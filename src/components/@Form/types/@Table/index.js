@@ -38,11 +38,13 @@ function handleContextMenuRow(props, { event, rowData }) {
   event.stopPropagation();
   
   const pos = { left: event.clientX, top: event.clientY };
+  const deleteTitle = props.cache && props.cache.remove && props.cache.remove[rowData.id] ? 
+  'Undelete' : 'Delete';
 
   const scheme = {
     main: [
       { id: 'add', title: 'Add', click: () => handleRowAdd(props, rowData) },
-      { id: 'delete', title: 'Delete', click: () => handleRowDelete(props, rowData)  }
+      { id: 'delete', title: deleteTitle, click: () => handleRowDelete(props, rowData)  }
     ]
   }
 
