@@ -115,10 +115,6 @@ class AppNav extends Component {
     }
   }
 
-  handleCloseContextMenu = () => {
-  
-  }
-
   handleEndRename = (value, node) => {
  
   }

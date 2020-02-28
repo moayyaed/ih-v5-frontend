@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { ContextMenu } from "@blueprintjs/core";
-import { Classes, Menu, MenuDivider, MenuItem } from "@blueprintjs/core";
-
-import BaseTable, { AutoResizer, Column } from 'react-base-table'
 import 'react-base-table/styles.css'
 
+import { ContextMenu } from "@blueprintjs/core";
+import BaseTable, { AutoResizer, Column } from 'react-base-table'
+
+import Menu from 'components/Menu';
 
 import components from './components';
 
@@ -27,10 +27,7 @@ function handleContextMenuBody(e) {
   e.stopPropagation();
 
   ContextMenu.show(
-    <Menu className={Classes.ELEVATION_1}>
-      <MenuItem text="Add" />
-      <MenuItem disabled text="Delete" />
-    </Menu>, 
+    null, 
     { left: e.clientX, top: e.clientY }
   );
 }
@@ -38,14 +35,17 @@ function handleContextMenuBody(e) {
 function handleContextMenuRow(props, { event, rowData }) {
   event.preventDefault();
   event.stopPropagation();
+  
+  const pos = { left: event.clientX, top: event.clientY };
 
-  ContextMenu.show(
-    <Menu className={Classes.ELEVATION_1}>
-      <MenuItem text="Add" onClick={handleRowAdd} />
-      <MenuItem text="Delete" onClick={() => handleRowDelete(props, rowData)} />
-    </Menu>, 
-    { left: event.clientX, top: event.clientY }
-  );
+  const scheme = {
+    main: [
+      { id: 'add', title: 'Add' },
+      { id: 'delete', title: 'Delete', click: () => handleRowDelete(props, rowData)  }
+    ]
+  }
+
+  ContextMenu.show(<Menu scheme={scheme} />, pos);
 }
 
 function handleRowAdd() {
