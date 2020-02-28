@@ -23,14 +23,18 @@ const styles = {
 }
 
 
-function handleContextMenuBody(e) {
-  e.preventDefault();
-  e.stopPropagation();
+function handleContextMenuBody(event, props) {
+  event.preventDefault();
+  event.stopPropagation();
 
-  ContextMenu.show(
-    null, 
-    { left: e.clientX, top: e.clientY }
-  );
+  const pos = { left: event.clientX, top: event.clientY };
+  const scheme = {
+    main: [
+      { id: 'add', title: 'Add', click: () => handleRowAdd(props) },
+    ]
+  }
+
+  ContextMenu.show(<Menu scheme={scheme} />, pos);
 }
 
 function handleContextMenuRow(props, { event, rowData }) {
@@ -75,7 +79,7 @@ function handleRowAdd(props) {
       return { ...p, [c.prop]: getDefault(c.type) }
     }, { id: '__' + shortid.generate() });
 
-  props.onChange(id, options, { op: 'delete', row })
+  props.onChange(id, options, { op: 'add', row })
 }
 
 function handleRowDelete(props, row) {
@@ -114,7 +118,7 @@ function Table(props) {
   }
 
   return (
-    <div style={{ width: '100%', height: '100%' }} onContextMenu={handleContextMenuBody}>
+    <div style={{ width: '100%', height: '100%' }} onContextMenu={e => handleContextMenuBody(e, props)}>
       <AutoResizer>
         {({ width, height }) => (
           <BaseTable

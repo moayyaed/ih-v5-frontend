@@ -4,6 +4,7 @@ import {
   FORM_SET_VALUE_BASIC,
   FORM_SET_VALUE_TABLE,
 
+  FORM_ADD_ROW_TABLE,
   FORM_REMOVE_ROW_TABLE,
 } from './constants';
 
@@ -56,6 +57,17 @@ function reducer(state, action) {
               }
               return row;
             })
+          }
+        }
+      };
+    case FORM_ADD_ROW_TABLE:
+      return { 
+        ...state, 
+        data: {
+          ...state.data,
+          [action.id]: {
+            ...state.data[action.id],
+            [action.prop]: state.data[action.id][action.prop].concat(action.row)
           }
         }
       };

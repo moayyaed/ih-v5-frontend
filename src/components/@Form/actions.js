@@ -4,6 +4,7 @@ import {
   FORM_SET_VALUE_BASIC,
   FORM_SET_VALUE_TABLE,
 
+  FORM_ADD_ROW_TABLE,
   FORM_REMOVE_ROW_TABLE,
 } from './constants';
 
@@ -35,6 +36,16 @@ export function valueTable(id, prop, rowid, name, value) {
   };
 }
 
+
+export function addRowTable(id, prop, row) {
+  return {
+    type: FORM_ADD_ROW_TABLE,
+    id,
+    prop,
+    row,
+  };
+}
+
 export function removeRowTable(id, prop, rowid, value) {
   return {
     type: FORM_REMOVE_ROW_TABLE,
@@ -50,5 +61,6 @@ export default {
   errors,
   valueBasic,
   valueTable,
+  addRowTable,
   removeRowTable,
 }
