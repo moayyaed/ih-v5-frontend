@@ -3,8 +3,9 @@ import React from 'react';
 import 'react-base-table/styles.css'
 
 import { ContextMenu } from "@blueprintjs/core";
-import BaseTable, { AutoResizer, Column } from 'react-base-table'
+import BaseTable, { AutoResizer, Column } from 'react-base-table';
 
+import shortid from 'shortid';
 import Menu from 'components/Menu';
 
 import components from './components';
@@ -40,7 +41,7 @@ function handleContextMenuRow(props, { event, rowData }) {
 
   const scheme = {
     main: [
-      { id: 'add', title: 'Add' },
+      { id: 'add', title: 'Add', click: () => handleRowAdd(props, rowData) },
       { id: 'delete', title: 'Delete', click: () => handleRowDelete(props, rowData)  }
     ]
   }
@@ -48,8 +49,31 @@ function handleContextMenuRow(props, { event, rowData }) {
   ContextMenu.show(<Menu scheme={scheme} />, pos);
 }
 
-function handleRowAdd() {
 
+function getDefault(type) {
+  switch(type) {
+    case 'number':
+      return 0;
+    case 'input':
+      return '';
+    case 'link':
+      return '';
+    case 'droplist':
+      return { id: '-', title: '-' };
+    default:
+      return '';
+  }
+}
+
+function handleRowAdd(props) {
+  const id = props.id;
+  const options = props.options;
+  const row = props.options.columns
+    .reduce((p, c) => {
+      return { ...p, [c.prop]: getDefault(c.type) }
+    }, { id: '__' + shortid.generate() });
+
+  props.onChange(id, options, { op: 'delete', row })
 }
 
 function handleRowDelete(props, row) {

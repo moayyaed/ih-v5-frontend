@@ -1,8 +1,10 @@
 import { 
   FORM_SET_ERRORS,
-  FORM_SET_CACHE,
+
   FORM_SET_VALUE_BASIC,
   FORM_SET_VALUE_TABLE,
+
+  FORM_REMOVE_ROW_TABLE,
 } from './constants';
 
 
@@ -30,23 +32,6 @@ function reducer(state, action) {
               return { ...p, [c]: state.cache[c] }
             }, {})
        };
-    case FORM_SET_CACHE:
-      return { 
-        ...state, 
-        cache: {
-          ...state.cache,
-          [action.id]: {
-            ...state.cache[action.id],
-            [action.prop]: { 
-              ...state.cache[action.id][action.prop],
-              [action.key]: {
-                ...state.cache[action.id][action.prop][action.key],
-                ...action.value
-              }
-            },
-          }
-        }
-      };
     case FORM_SET_VALUE_BASIC:
       return { 
         ...state, 
@@ -71,6 +56,23 @@ function reducer(state, action) {
               }
               return row;
             })
+          }
+        }
+      };
+    case FORM_REMOVE_ROW_TABLE:
+      return { 
+        ...state, 
+        cache: {
+          ...state.cache,
+          [action.id]: {
+            ...state.cache[action.id],
+            [action.prop]: { 
+              ...state.cache[action.id][action.prop],
+              remove: {
+                ...state.cache[action.id][action.prop]['remove'],
+                [action.rowid]: action.value
+              }
+            },
           }
         }
       };

@@ -106,9 +106,19 @@ class ComponentTabs extends Component {
       core.actions.form.valueTable(id, component.prop, target.row.id, target.column.prop, value);
     }
 
+    if (target.op === 'add') {
+      this.saveData[route.tab][id][component.prop][target.row.id] = target.row;
+      // core.actions.form.addRowTable(id, component.prop, 'remove', { [target.row.id]: true  });
+    }
+
     if (target.op === 'delete') {
-      this.saveData[route.tab][id][component.prop][target.row.id] = null;
-      core.actions.form.cache(id, component.prop, 'remove', { [target.row.id]: true  });
+      if (this.saveData[route.tab][id][component.prop][target.row.id] === null) {
+        delete this.saveData[route.tab][id][component.prop][target.row.id];
+        core.actions.form.removeRowTable(id, component.prop, target.row.id, false);
+      } else {
+        this.saveData[route.tab][id][component.prop][target.row.id] = null;
+        core.actions.form.removeRowTable(id, component.prop, target.row.id, true);
+      }
     }
   }
 

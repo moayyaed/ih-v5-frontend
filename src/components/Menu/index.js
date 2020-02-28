@@ -19,11 +19,3 @@ function _Menu(props) {
 
 
 export default _Menu;
-
-/*
-
-<Menu className={Classes.ELEVATION_1}>
-      <MenuItem text="Add" onClick={handleRowAdd} />
-      <MenuItem text="Delete" onClick={() => handleRowDelete(props, rowData)} />
-    </Menu>
-*/
