@@ -8,7 +8,11 @@ import { createSelector } from 'reselect';
 
 import { withStyles } from '@material-ui/core/styles';
 
+
 import { SortableTreeWithoutDndContext as SortableTree, getNodeAtPath, getDescendantCount } from 'react-sortable-tree';
+
+import { ContextMenu } from "@blueprintjs/core";
+import Menu from 'components/Menu';
 
 import Skeleton from '@material-ui/lab/Skeleton';
 import Panel from 'components/Panel';
@@ -101,17 +105,41 @@ class AppNav extends Component {
   handleContextMenuBody = (e) => {
     e.preventDefault();
     e.stopPropagation();
+
+    const pos = { left: e.clientX, top: e.clientY };
+    const scheme = {
+      main: [
+        { id: 'newDevice', title: 'New device', click: () => {} },
+        { id: 'newType', title: 'New type', click: () => {} },
+      ]
+    }
+
+    ContextMenu.show(<Menu scheme={scheme} />, pos);
   }
 
   handleContextMenuItem = (e, item) => {
     e.preventDefault();
     e.stopPropagation();
    
+    const pos = { left: e.clientX, top: e.clientY };
 
-    if (item.node.children !== undefined) {
-    
+    if (item.node.children !== undefined) {  
+      const scheme = {
+        main: [
+          { id: 'newFolder', title: 'New folder', click: () => {} },
+          { id: 'newNode', title: 'New node', click: () => {} },
+        ]
+      }
+  
+      ContextMenu.show(<Menu scheme={scheme} />, pos);
     } else {
- 
+      const scheme = {
+        main: [
+          { id: 'newNode', title: 'New node', click: () => {} },
+        ]
+      }
+  
+      ContextMenu.show(<Menu scheme={scheme} />, pos);
     }
   }
 
