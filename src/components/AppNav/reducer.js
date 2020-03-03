@@ -35,7 +35,7 @@ function reducer(state = defaultState, action) {
           lastItem: action.item,
           data: {
             ...state.selects.data,
-            [action.item.id]: action.item 
+            [action.item.id]: state.selects.data[action.item.id] ? null : action.item 
           }
         } 
       };

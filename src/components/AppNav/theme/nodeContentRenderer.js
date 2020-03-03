@@ -166,9 +166,15 @@ class FileThemeNodeContentRenderer extends Component {
           width: otherProps.renameid === node.id ? '100%' : 'auto',
           ...style,
         }}
-        onClick={() => {
-          node.children && toggleChildrenVisibility({ node, path, treeIndex }
-        )}}
+        onClick={(e) => {
+          if (e.shiftKey || e.ctrlKey || e.metaKey) {
+            if (node.children && !node.expanded) {
+              node.children && toggleChildrenVisibility({ node, path, treeIndex });
+            }
+          } else {
+            node.children && toggleChildrenVisibility({ node, path, treeIndex });
+          }
+        }}
       >
         <div
           className={
