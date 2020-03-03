@@ -74,7 +74,7 @@ class AppNav extends Component {
       style.backgroundColor = 'rgba(33, 150, 243, 0.2)';
     } else {
       if (this.props.state.selects.contextMenu && this.props.state.selects.contextMenu.id === id) {
-        style.outline = '2px solid #2196F3';
+        style.outline = '1px solid #2196F3';
       }
     }
 
