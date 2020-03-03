@@ -72,8 +72,11 @@ class AppNav extends Component {
 
     if (this.props.state.selects.data[id]) {
       style.backgroundColor = 'rgba(33, 150, 243, 0.2)';
+    } else {
+      if (this.props.state.selects.contextMenu && this.props.state.selects.contextMenu.id === id) {
+        style.outline = '2px solid #2196F3';
+      }
     }
-
 
     return {
       style,
@@ -107,6 +110,8 @@ class AppNav extends Component {
        const selects = getNodesRange(this.props.state.list, last.id, curent.id);
        core.actions.appnav.selectNodes(curent, selects);
       }
+    } else if (e.ctrlKey || e.metaKey) {
+      core.actions.appnav.selectNode(item.node);
     } else {
       if (this.props.state.selects.lastItem) {
         core.actions.appnav.clearSelected();
@@ -154,16 +159,16 @@ class AppNav extends Component {
           { id: 'newNode', title: 'New node', click: () => this.handleAddNode(item) },
         ]
       }
-      // core.actions.appnav.selectNode(item.node);
-      ContextMenu.show(<Menu scheme={scheme} />, pos);
+      core.actions.appnav.selectNodeContextMenu(item.node);
+      ContextMenu.show(<Menu scheme={scheme} />, pos, core.actions.appnav.selectNodeContextMenu);
     } else {
       const scheme = {
         main: [
           { id: 'newNode', title: 'New node', click: () => this.handleAddNode(item) },
         ]
       }
-      // core.actions.appnav.selectNode(item.node);
-      ContextMenu.show(<Menu scheme={scheme} />, pos);
+      core.actions.appnav.selectNodeContextMenu(item.node);
+      ContextMenu.show(<Menu scheme={scheme} />, pos, core.actions.appnav.selectNodeContextMenu);
     }
   }
 

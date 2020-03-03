@@ -3,6 +3,7 @@ import {
   
   APP_NAV_SELECT_NODE,
   APP_NAV_SELECT_NODES,
+  APP_NAV_SELECT_NODE_CONTEXT_MENU,
   APP_NAV_CLEAR_SELECTED,
 
   APP_NAV_ADD_NODE, 
@@ -16,6 +17,7 @@ const defaultState = {
   list: [],
   selects: {
     lastItem: null,
+    contextMenu: null,
     data: {},
   },
 };
@@ -32,6 +34,7 @@ function reducer(state = defaultState, action) {
           ...state.selects, 
           lastItem: action.item,
           data: {
+            ...state.selects.data,
             [action.item.id]: action.item 
           }
         } 
@@ -48,11 +51,20 @@ function reducer(state = defaultState, action) {
           }
         } 
       };
+    case APP_NAV_SELECT_NODE_CONTEXT_MENU:
+      return { 
+        ...state, 
+        selects: { 
+          ...state.selects, 
+          contextMenu: action.item,
+        } 
+      };
     case APP_NAV_CLEAR_SELECTED:
       return { 
         ...state, 
         selects: { 
           lastItem: null,
+          contextMenu: null,
           data: {}
         } 
       };

@@ -3,6 +3,7 @@ import {
 
   APP_NAV_SELECT_NODE, 
   APP_NAV_SELECT_NODES,
+  APP_NAV_SELECT_NODE_CONTEXT_MENU,
   APP_NAV_CLEAR_SELECTED,
 
   APP_NAV_ADD_NODE, 
@@ -39,6 +40,13 @@ export function selectNodes(lastItem, items) {
   };
 }
 
+export function selectNodeContextMenu(item = null) {
+  return {
+    type: APP_NAV_SELECT_NODE_CONTEXT_MENU,
+    item,
+  };
+}
+
 export function clearSelected() {
   return {
     type: APP_NAV_CLEAR_SELECTED,
@@ -57,6 +65,7 @@ export default {
   data,
   selectNode,
   selectNodes,
+  selectNodeContextMenu,
   clearSelected,
   addNode,
   panelWidth,
