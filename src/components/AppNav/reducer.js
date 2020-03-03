@@ -1,10 +1,22 @@
-import { APP_NAV_SET_DATA, APP_NAV_SET_PANEL_WIDTH } from './constants';
+import { 
+  APP_NAV_SET_DATA, 
+  
+  APP_NAV_SELECT_NODE,
+  APP_NAV_SELECT_NODES,
+
+  APP_NAV_ADD_NODE, 
+  APP_NAV_SET_PANEL_WIDTH 
+} from './constants';
 
 
 const defaultState = {
   width: 200,
   options: {},
   list: [],
+  selects: {
+    lastItem: null,
+    data: {},
+  },
 };
 
 
@@ -12,6 +24,31 @@ function reducer(state = defaultState, action) {
   switch (action.type) {
     case APP_NAV_SET_DATA:
       return { ...state, ...action.data };
+    case APP_NAV_SELECT_NODE:
+      return { 
+        ...state, 
+        selects: { 
+          ...state.selects, 
+          lastItem: action.item,
+          data: {
+            [action.item.id]: action.item 
+          }
+        } 
+      };
+    case APP_NAV_SELECT_NODES:
+      return { 
+        ...state, 
+        selects: { 
+          ...state.selects, 
+          lastItem: action.lastItem,
+          data: {
+            ...state.selects.data,
+            ...action.items,
+          }
+        } 
+      };
+    case APP_NAV_ADD_NODE:
+      return { ...state };
     case APP_NAV_SET_PANEL_WIDTH:
       return { ...state, width: action.value };
     default:

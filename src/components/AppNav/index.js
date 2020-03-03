@@ -18,7 +18,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import Panel from 'components/Panel';
 
 import theme from './theme';
-
+import { getNodesRange } from './utils';
 
 const styles = {
   panel: {
@@ -70,7 +70,7 @@ class AppNav extends Component {
       style.backgroundColor = 'rgba(158, 158, 158, 0.2)';
     }
 
-    if (this.props.state.contextmenuid === id) {
+    if (this.props.state.selects.data[id]) {
       style.backgroundColor = 'rgba(33, 150, 243, 0.2)';
     }
 
@@ -78,8 +78,7 @@ class AppNav extends Component {
     return {
       style,
       renameid: this.props.state.renameid,
-      handleEndRename: this.handleEndRename,
-      onContextMenu: (e) => this.handleContextMenuItem(e, rowinfo),
+      onContextMenu: (e) => this.handleContextMenuNode(e, rowinfo),
       onClick: (e) => this.handleClick(e, rowinfo),
     };
   }
@@ -96,10 +95,22 @@ class AppNav extends Component {
   }
 
   handleClick = (e, item) => {
-    const rootid = this.props.state.options.roots[item.path[0]];
-    const type = item.node.children !== undefined ? 'parent' : 'child';
-
-    this.handleChangeRoute(type, rootid, item);
+    
+    if (e.shiftKey) {
+      if (this.props.state.selects.lastItem === null) {
+        core.actions.appnav.selectNode(item.node);
+      } else {
+       const last = this.props.state.selects.lastItem;
+       const curent = item.node;
+       const selects = getNodesRange(this.props.state.list, last.id, curent.id);
+       core.actions.appnav.selectNodes(curent, selects);
+      }
+    } else {
+      const rootid = this.props.state.options.roots[item.path[0]];
+      const type = item.node.children !== undefined ? 'parent' : 'child';
+  
+      this.handleChangeRoute(type, rootid, item);
+    }
   }
 
   handleContextMenuBody = (e) => {
@@ -109,15 +120,15 @@ class AppNav extends Component {
     const pos = { left: e.clientX, top: e.clientY };
     const scheme = {
       main: [
-        { id: 'newDevice', title: 'New device', click: () => {} },
-        { id: 'newType', title: 'New type', click: () => {} },
+        { id: 'newDevice', title: 'New device', click: this.handleAddNode },
+        { id: 'newType', title: 'New type', click: this.handleAddNode },
       ]
     }
 
     ContextMenu.show(<Menu scheme={scheme} />, pos);
   }
 
-  handleContextMenuItem = (e, item) => {
+  handleContextMenuNode = (e, item) => {
     e.preventDefault();
     e.stopPropagation();
    
@@ -126,25 +137,25 @@ class AppNav extends Component {
     if (item.node.children !== undefined) {  
       const scheme = {
         main: [
-          { id: 'newFolder', title: 'New folder', click: () => {} },
-          { id: 'newNode', title: 'New node', click: () => {} },
+          { id: 'newFolder', title: 'New folder', click: () => this.handleAddNode(item) },
+          { id: 'newNode', title: 'New node', click: () => this.handleAddNode(item) },
         ]
       }
-  
+      core.actions.appnav.selectNode(item.node);
       ContextMenu.show(<Menu scheme={scheme} />, pos);
     } else {
       const scheme = {
         main: [
-          { id: 'newNode', title: 'New node', click: () => {} },
+          { id: 'newNode', title: 'New node', click: () => this.handleAddNode(item) },
         ]
       }
-  
+      core.actions.appnav.selectNode(item.node);
       ContextMenu.show(<Menu scheme={scheme} />, pos);
     }
   }
 
-  handleEndRename = (value, node) => {
- 
+  handleAddNode = (item) => {
+    console.log(item)
   }
 
   handleChangePanelSize = (value) => {
