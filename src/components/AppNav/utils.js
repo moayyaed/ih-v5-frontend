@@ -7,6 +7,9 @@ export function getNodesRange(data, a, b) {
       if (item.id === a) {
         start = true;
       }
+      if (item.id === b) {
+        start = true;
+      }
       if (start) {
         temp[item.id] = item;
       }

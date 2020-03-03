@@ -79,7 +79,7 @@ class AppNav extends Component {
       style,
       renameid: this.props.state.renameid,
       onContextMenu: (e) => this.handleContextMenuNode(e, rowinfo),
-      onClick: (e) => this.handleClick(e, rowinfo),
+      onClick: (e) => this.handleClickNode(e, rowinfo),
     };
   }
 
@@ -94,8 +94,10 @@ class AppNav extends Component {
     core.route(`${route.menuid}/${rootid}/${componentid}/${item.node.id}${params}`);
   }
 
-  handleClick = (e, item) => {
-    
+  handleClickNode = (e, item) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     if (e.shiftKey) {
       if (this.props.state.selects.lastItem === null) {
         core.actions.appnav.selectNode(item.node);
@@ -106,6 +108,10 @@ class AppNav extends Component {
        core.actions.appnav.selectNodes(curent, selects);
       }
     } else {
+      if (this.props.state.selects.lastItem) {
+        core.actions.appnav.clearSelected();
+      }
+
       const rootid = this.props.state.options.roots[item.path[0]];
       const type = item.node.children !== undefined ? 'parent' : 'child';
   
@@ -128,6 +134,13 @@ class AppNav extends Component {
     ContextMenu.show(<Menu scheme={scheme} />, pos);
   }
 
+  handleClickBody = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    core.actions.appnav.clearSelected();
+  }
+
   handleContextMenuNode = (e, item) => {
     e.preventDefault();
     e.stopPropagation();
@@ -141,7 +154,7 @@ class AppNav extends Component {
           { id: 'newNode', title: 'New node', click: () => this.handleAddNode(item) },
         ]
       }
-      core.actions.appnav.selectNode(item.node);
+      // core.actions.appnav.selectNode(item.node);
       ContextMenu.show(<Menu scheme={scheme} />, pos);
     } else {
       const scheme = {
@@ -149,7 +162,7 @@ class AppNav extends Component {
           { id: 'newNode', title: 'New node', click: () => this.handleAddNode(item) },
         ]
       }
-      core.actions.appnav.selectNode(item.node);
+      // core.actions.appnav.selectNode(item.node);
       ContextMenu.show(<Menu scheme={scheme} />, pos);
     }
   }
@@ -166,7 +179,7 @@ class AppNav extends Component {
     if (route.menuid) {
       return (
         <Panel width={state.width} position="right" style={styles.panel} onChangeSize={this.handleChangePanelSize}>
-          <div style={styles.box} onContextMenu={this.handleContextMenuBody}>  
+          <div style={styles.box} onClick={this.handleClickBody} onContextMenu={this.handleContextMenuBody}>  
             <SortableTree
               rowHeight={21}
               innerStyle={{ padding: 5 }}

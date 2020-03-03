@@ -3,6 +3,7 @@ import {
   
   APP_NAV_SELECT_NODE,
   APP_NAV_SELECT_NODES,
+  APP_NAV_CLEAR_SELECTED,
 
   APP_NAV_ADD_NODE, 
   APP_NAV_SET_PANEL_WIDTH 
@@ -45,6 +46,14 @@ function reducer(state = defaultState, action) {
             ...state.selects.data,
             ...action.items,
           }
+        } 
+      };
+    case APP_NAV_CLEAR_SELECTED:
+      return { 
+        ...state, 
+        selects: { 
+          lastItem: null,
+          data: {}
         } 
       };
     case APP_NAV_ADD_NODE:
