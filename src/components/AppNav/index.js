@@ -17,8 +17,10 @@ import Menu from 'components/Menu';
 import Skeleton from '@material-ui/lab/Skeleton';
 import Panel from 'components/Panel';
 
+import shortid from'shortid';
+
 import theme from './theme';
-import { getNodesRange } from './utils';
+import { getNodesRange, insertNodes } from './utils';
 
 const styles = {
   panel: {
@@ -152,8 +154,8 @@ class AppNav extends Component {
     if (item.node.children !== undefined) {  
       const scheme = {
         main: [
-          { id: 'newFolder', title: 'New folder', click: () => this.handleAddNode(item) },
-          { id: 'newNode', title: 'New node', click: () => this.handleAddNode(item) },
+          { id: 'newFolder', title: 'New folder', click: () => this.handleAddNode(true, item) },
+          { id: 'newNode', title: 'New node', click: () => this.handleAddNode(false, item) },
         ]
       }
       core.actions.appnav.selectNodeContextMenu(item.node);
@@ -161,7 +163,7 @@ class AppNav extends Component {
     } else {
       const scheme = {
         main: [
-          { id: 'newNode', title: 'New node', click: () => this.handleAddNode(item) },
+          { id: 'newNode', title: 'New node', click: () => this.handleAddNode(false, item) },
         ]
       }
       core.actions.appnav.selectNodeContextMenu(item.node);
@@ -169,8 +171,19 @@ class AppNav extends Component {
     }
   }
 
-  handleAddNode = (item) => {
-    console.log(item)
+  handleAddNode = (folder, item) => {
+    let items;
+    if (folder) {
+      items = [{ id: shortid.generate(), title: 'new folder', children: [] }];
+    } else {
+      items = [{ id: shortid.generate(), title: 'new node' }];
+    }
+    const type = folder ? 'parent' : 'child';
+    const rootid = this.props.state.options.roots[item.path[0]];
+    const list = insertNodes(this.props.state.list, item.node, items);
+    
+    core.actions.appnav.data({ ...this.props.state, list });
+    this.handleChangeRoute(type, rootid, { node: items[0] });
   }
 
   handleChangePanelSize = (value) => {

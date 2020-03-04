@@ -1,6 +1,5 @@
 export function getNodesRange(data, a, b) {
   const temp = {}
-  const temp2 = {}
   
   let starta = false;
   let startb = false;
@@ -33,5 +32,22 @@ export function getNodesRange(data, a, b) {
 
   nodes(data);
 
+  return temp;
+}
+
+export function insertNodes(data, node, items) {
+  const temp = data.reduce((p, c) => {
+    if (c.id === node.id) {
+      if (c.children !== undefined) {
+        const temp2 = items.concat(c.children);
+        return p.concat({ ...c, expanded: true, children: insertNodes(temp2, node, items) });
+      }
+      return p.concat(c, items);
+    }
+    if (c.children !== undefined) {
+      return p.concat({ ...c, children: insertNodes(c.children, node, items) });
+    }
+    return p.concat(c);
+  }, []);
   return temp;
 }
