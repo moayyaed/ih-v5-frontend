@@ -20,7 +20,7 @@ import Panel from 'components/Panel';
 import shortid from'shortid';
 
 import theme from './theme';
-import { getNodesRange, insertNodes, findNode } from './utils';
+import { getNodesRange, editNodes, insertNodes, findNode } from './utils';
 
 const styles = {
   panel: {
@@ -54,9 +54,18 @@ class AppNav extends Component {
     this.props.route.menuid && core
     .request({ method: 'appnav', params: this.props.route })
     .ok((res) => {
-      const node = findNode(res.list, this.props.route.nodeid);
-      console.log(node);
-      core.actions.appnav.data(res);
+      if (this.props.route.nodeid) {
+        const node = findNode(res.list, this.props.route.nodeid);
+        if (node) {
+          res.list = editNodes(res.list, (item) => {
+            if (item.children !== undefined && node.paths[item.id]) {
+              return { ...item, expanded: true };
+            }
+            return item;
+          }); 
+        }
+      }
+      core.actions.appnav.data(res)
     });
   }
 

@@ -60,11 +60,12 @@ export function findNode(data, nodeid) {
     for (let item of list) {
       if (item.id === nodeid) {
         temp = { node: item, paths };
-        break;
       }
-      if (item.children !== undefined) {
-        paths[item.id] = item.title;
+      if (temp === null && item.children !== undefined) {
         nodes(item.children);
+        if (temp !== null) {
+          paths[item.id] = item;
+        }
       }    
       
     }
@@ -72,5 +73,15 @@ export function findNode(data, nodeid) {
 
   nodes(data);
 
+  return temp;
+}
+
+export function editNodes(data, func) {
+  const temp = data.reduce((p, c) => {
+    if (c.children !== undefined) {
+      return p.concat({ ...func(c), children: editNodes(c.children, func) });
+    }
+    return p.concat(func(c));
+  }, []);
   return temp;
 }
