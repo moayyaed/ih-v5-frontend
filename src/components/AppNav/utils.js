@@ -51,3 +51,26 @@ export function insertNodes(data, node, items) {
   }, []);
   return temp;
 }
+
+export function findNode(data, nodeid) {
+  const paths = {};
+  let temp = null;
+
+  function nodes(list) {
+    for (let item of list) {
+      if (item.id === nodeid) {
+        temp = { node: item, paths };
+        break;
+      }
+      if (item.children !== undefined) {
+        paths[item.id] = item.title;
+        nodes(item.children);
+      }    
+      
+    }
+  }
+
+  nodes(data);
+
+  return temp;
+}

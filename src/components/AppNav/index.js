@@ -20,7 +20,7 @@ import Panel from 'components/Panel';
 import shortid from'shortid';
 
 import theme from './theme';
-import { getNodesRange, insertNodes } from './utils';
+import { getNodesRange, insertNodes, findNode } from './utils';
 
 const styles = {
   panel: {
@@ -51,10 +51,13 @@ const classes = theme => ({
 
 class AppNav extends Component {
   componentDidMount() {
-    console.log(this.props)
     this.props.route.menuid && core
     .request({ method: 'appnav', params: this.props.route })
-    .ok(core.actions.appnav.data);
+    .ok((res) => {
+      const node = findNode(res.list, this.props.route.nodeid);
+      console.log(node);
+      core.actions.appnav.data(res);
+    });
   }
 
   handleChange = (list) => {
@@ -191,12 +194,17 @@ class AppNav extends Component {
     core.actions.appnav.panelWidth(value);
   }
 
+  linkTree = (e) => {
+    this.tree = e;
+  }
+
   render({ state, route } = this.props) {
     if (route.menuid) {
       return (
         <Panel width={state.width} position="right" style={styles.panel} onChangeSize={this.handleChangePanelSize}>
           <div style={styles.box} onClick={this.handleClickBody} onContextMenu={this.handleContextMenuBody}>  
             <SortableTree
+              reactVirtualizedListProps={{ ref: this.linkTree }}
               rowHeight={21}
               innerStyle={{ padding: 5 }}
               treeData={state.list}
