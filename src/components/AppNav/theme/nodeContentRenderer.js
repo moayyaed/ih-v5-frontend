@@ -167,6 +167,7 @@ class FileThemeNodeContentRenderer extends Component {
           ...style,
         }}
         onClick={(e) => {
+          /*
           if (e.shiftKey || e.ctrlKey || e.metaKey) {
             if (node.children && !node.expanded) {
               node.children && toggleChildrenVisibility({ node, path, treeIndex });
@@ -174,6 +175,7 @@ class FileThemeNodeContentRenderer extends Component {
           } else {
             node.children && toggleChildrenVisibility({ node, path, treeIndex });
           }
+          */
         }}
       >
         <div
@@ -241,13 +243,16 @@ class FileThemeNodeContentRenderer extends Component {
               style={{
                 left: (lowerSiblingCounts.length - 0.7) * scaffoldBlockPxWidth - 8.5
               }}
-              onClick={() =>
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
                 toggleChildrenVisibility({
                   node,
                   path,
                   treeIndex,
                 })
-              }
+              }}
             >
              {node.expanded ? <MinusSquare /> : <PlusSquare />}
             </button>
