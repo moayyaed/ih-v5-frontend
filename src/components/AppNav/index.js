@@ -51,6 +51,7 @@ const classes = theme => ({
 
 class AppNav extends Component {
   componentDidMount() {
+    console.log(this.props)
     this.props.route.menuid && core
     .request({ method: 'appnav', params: this.props.route })
     .ok(core.actions.appnav.data);
