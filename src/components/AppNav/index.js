@@ -207,18 +207,6 @@ class AppNav extends Component {
       core.actions.appnav.data({ ...this.props.state, list });
       this.handleChangeRoute(type, rootid, { node: res.data[0] });
     });
-    /*
-    let items;
-    if (folder) {
-      items = [{ id: shortid.generate(), title: 'new folder', children: [] }];
-    } else {
-      items = [{ id: shortid.generate(), title: 'new node' }];
-    }
-    
-    
-    
-   
-    */
   }
 
   handleChangePanelSize = (value) => {
