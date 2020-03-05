@@ -20,7 +20,7 @@ import Panel from 'components/Panel';
 import shortid from'shortid';
 
 import theme from './theme';
-import { getNodesRange, editNodes, insertNodes, findNode, getOrder } from './utils';
+import { getNodesRange, insertNodes, editNodes, removeNodes, findNode, getOrder, structToMap } from './utils';
 
 const styles = {
   panel: {
@@ -74,7 +74,7 @@ class AppNav extends Component {
   }
 
   handleChange = (list) => {
-    core.actions.appnav.data({ ...this.props.state, list })
+    core.actions.appnav.data({ list })
   }
 
   handleCheckChild = (node) => {
@@ -173,6 +173,8 @@ class AppNav extends Component {
         main: [
           { id: 'newFolder', title: 'New folder', click: () => this.handleAddNode(true, item) },
           { id: 'newNode', title: 'New node', click: () => this.handleAddNode(false, item) },
+          { id: 'divider', type: 'divider' },
+          { id: 'removeNodes', title: 'Remove', click: () => this.handleRemoveNodes(item) },
         ]
       }
       core.actions.appnav.selectNodeContextMenu(item.node);
@@ -182,6 +184,8 @@ class AppNav extends Component {
         main: [
           { id: 'newFolder', title: 'New folder', click: () => this.handleAddNode(true, item) },
           { id: 'newNode', title: 'New node', click: () => this.handleAddNode(false, item) },
+          { id: 'divider', type: 'divider' },
+          { id: 'removeNodes', title: 'Remove', click: () => this.handleRemoveNodes(item) },
         ]
       }
       core.actions.appnav.selectNodeContextMenu(item.node);
@@ -212,8 +216,36 @@ class AppNav extends Component {
         }
       }
 
-      core.actions.appnav.data({ ...this.props.state, scrollTop, list });
+      core.actions.appnav.data({ scrollTop, list });
       this.handleChangeRoute(type, rootid, { node: res.data[0] });
+    });
+  }
+
+  handleRemoveNodes = (item) => {
+    const { options, list, selects } = this.props.state;
+    const { route } = this.props;
+
+    let struct;
+
+    if (selects.data[item.node.id]) {
+      struct = structToMap(options.roots, list, selects.data);
+    } else {
+      struct = structToMap(options.roots, list, item.node.id, item.node.id);
+    }
+
+    core
+    .request({ method: 'appnav_remove_node', params: this.props.route, payload: struct.map })
+    .ok((res) => {
+      const newlist = removeNodes(list, struct.list);
+      core.actions.appnav.data({ list: newlist });
+      if (struct.list[route.nodeid]) {
+        core.route(`${route.menuid}`);
+      }
+    })
+    .error(() => {
+      core
+      .request({ method: 'appnav', params: this.props.route })
+      .ok(core.actions.appnav.data);
     });
   }
 

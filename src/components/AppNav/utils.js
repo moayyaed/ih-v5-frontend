@@ -121,4 +121,118 @@ export function getOrder(parent, node) {
   }
 }
 
+function structTree(roots, data, a, b) {
+  const temp = {
+    map: {},
+    list: {},
+  }
+  
+  let starta = false;
+  let startb = false;
+
+  function nodes(list, root) {
+    for (let item of list) {
+      if (startb === false && item.id === a) {
+        starta = true;
+      }
+      if (starta === false && item.id === b) {
+        startb = true;
+      }
+
+      if (starta || startb) {
+        temp.list[item.id] = item;
+
+        if (temp.map[root] === undefined) {
+          temp.map[root] = {};
+        }
+        if (item.children !== undefined) {
+          if (temp.map[root]['folders'] === undefined) {
+            temp.map[root]['folders'] = [];
+          }
+          temp.map[root]['folders'].push({ nodeid: item.id });
+        } else {
+          if (temp.map[root]['nodes'] === undefined) {
+            temp.map[root]['nodes'] = [];
+          }
+          temp.map[root]['nodes'].push({ nodeid: item.id });
+        }
+      }
+
+      if (item.children !== undefined) {
+        nodes(item.children, root);
+      }    
+      
+      if (starta && item.id === b) {
+        starta = false;
+      }
+      if (startb && item.id === a) {
+        startb = false;
+      }  
+    }
+  }
+
+  data.forEach(item => {
+    nodes(item.children, roots[item.id]);
+  });
+  return temp;
+}
+
+function structSelects(roots, data, selects) {
+  const temp = {
+    map: {},
+    list: {},
+  }
+ 
+
+  function nodes(list, root) {
+    for (let item of list) {
+      if (selects[item.id]) {
+        temp.list[item.id] = item;
+
+        if (temp.map[root] === undefined) {
+          temp.map[root] = {};
+        }
+        if (item.children !== undefined) {
+          if (temp.map[root]['folders'] === undefined) {
+            temp.map[root]['folders'] = [];
+          }
+          temp.map[root]['folders'].push({ nodeid: item.id });
+        } else {
+          if (temp.map[root]['nodes'] === undefined) {
+            temp.map[root]['nodes'] = [];
+          }
+          temp.map[root]['nodes'].push({ nodeid: item.id });
+        }
+      }
+      if (item.children !== undefined) {
+        nodes(item.children, root);
+      }    
+    }
+  }
+
+  data.forEach(item => {
+    nodes(item.children, roots[item.id]);
+  });
+  return temp;
+}
+
+export function structToMap(roots, data, a, b) {
+  if (b) {
+    return structTree(roots, data, a, b);
+  }
+  return structSelects(roots, data, a);
+}
+
+export function removeNodes(data, list) {
+  const temp = data.reduce((p, c) => {
+    if (list[c.id]) {
+      return p;
+    }
+    if (c.children !== undefined) {
+      return p.concat({ ...c, children: removeNodes(c.children, list) });
+    }
+    return p.concat(c);
+  }, []);
+  return temp;
+}
 
