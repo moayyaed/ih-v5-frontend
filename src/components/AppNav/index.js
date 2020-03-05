@@ -207,6 +207,7 @@ class AppNav extends Component {
       core.actions.appnav.data({ ...this.props.state, list });
       this.handleChangeRoute(type, rootid, { node: res.data[0] });
     });
+    // test
   }
 
   handleChangePanelSize = (value) => {
