@@ -107,7 +107,6 @@ class ComponentTabs extends Component {
     }
 
     if (target.op === 'add') {
-      console.log(id, component.prop, target.row)
       this.saveData[route.tab][id][component.prop][target.row.id] = target.row;
       core.actions.form.addRowTable(id, component.prop, target.row);
     }

@@ -29,3 +29,17 @@ core.network.response('appnav', (answer, res, context) => {
   });
 })
 
+
+core.network.request('appnav_new_node', (send, context) => {
+  send({ 
+    method: 'insert', 
+    type: 'tree',
+    id: context.params.menuid,
+    payload: context.payload,
+  });
+})
+
+core.network.response('appnav_new_node', (answer, res, context) => {
+  answer(res);
+})
+

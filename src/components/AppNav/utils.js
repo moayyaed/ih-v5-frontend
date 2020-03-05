@@ -39,7 +39,7 @@ export function insertNodes(data, node, items) {
   const temp = data.reduce((p, c) => {
     if (c.id === node.id) {
       if (c.children !== undefined) {
-        const temp2 = items.concat(c.children);
+        const temp2 = c.children.concat(items);
         return p.concat({ ...c, expanded: true, children: insertNodes(temp2, node, items) });
       }
       return p.concat(c, items);
@@ -96,3 +96,29 @@ export function editNodes(data, func) {
   }, []);
   return temp;
 }
+
+export function getOrder(parent, node) {
+  if (node.children !== undefined) {
+    if (parent.children.length) {
+      return parent.children[parent.children.length - 1].order + 1000;
+    }
+    return 1000;
+  } else {
+    if (parent.children.length) {
+      let order = 0;
+      parent.children.forEach((item, key) => {
+        if (item.id === node.id) {
+          if (key === parent.children.length - 1 ) {
+            order = parent.children[parent.children.length - 1].order + 1000;
+          } else {
+            order = (parent.children[key].order + parent.children[key + 1].order) / 2;
+          }
+        }
+      });
+      return order;
+    }
+    return 1000;
+  }
+}
+
+

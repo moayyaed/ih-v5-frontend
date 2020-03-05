@@ -20,7 +20,7 @@ import Panel from 'components/Panel';
 import shortid from'shortid';
 
 import theme from './theme';
-import { getNodesRange, editNodes, insertNodes, findNode, calculateScroll } from './utils';
+import { getNodesRange, editNodes, insertNodes, findNode, getOrder } from './utils';
 
 const styles = {
   panel: {
@@ -180,6 +180,7 @@ class AppNav extends Component {
     } else {
       const scheme = {
         main: [
+          { id: 'newFolder', title: 'New folder', click: () => this.handleAddNode(true, item) },
           { id: 'newNode', title: 'New node', click: () => this.handleAddNode(false, item) },
         ]
       }
@@ -189,18 +190,35 @@ class AppNav extends Component {
   }
 
   handleAddNode = (folder, item) => {
+    const rootid = this.props.state.options.roots[item.path[0]];
+
+    const parent = item.node.children !== undefined ? item.node : item.parentNode;
+    const parentid = item.path[item.path.length - 1];
+
+    const items = [{ parentid, order: getOrder(parent, item.node) }];
+    const payload = { [rootid]: { [folder ? 'folders' : 'nodes'] : items } }
+
+    core
+    .request({ method: 'appnav_new_node', params: this.props.route, payload })
+    .ok((res) => {
+      const type = folder ? 'parent' : 'child';
+      const list = insertNodes(this.props.state.list, item.node, res.data);
+
+      core.actions.appnav.data({ ...this.props.state, list });
+      this.handleChangeRoute(type, rootid, { node: res.data[0] });
+    });
+    /*
     let items;
     if (folder) {
       items = [{ id: shortid.generate(), title: 'new folder', children: [] }];
     } else {
       items = [{ id: shortid.generate(), title: 'new node' }];
     }
-    const type = folder ? 'parent' : 'child';
-    const rootid = this.props.state.options.roots[item.path[0]];
-    const list = insertNodes(this.props.state.list, item.node, items);
     
-    core.actions.appnav.data({ ...this.props.state, list });
-    this.handleChangeRoute(type, rootid, { node: items[0] });
+    
+    
+   
+    */
   }
 
   handleChangePanelSize = (value) => {
