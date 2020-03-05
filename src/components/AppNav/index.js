@@ -193,9 +193,8 @@ class AppNav extends Component {
     const rootid = this.props.state.options.roots[item.path[0]];
 
     const parent = item.node.children !== undefined ? item.node : item.parentNode;
-    const parentid = item.path[item.path.length - 1];
 
-    const items = [{ parentid, order: getOrder(parent, item.node) }];
+    const items = [{ parentid: parent.id, order: getOrder(parent, item.node) }];
     const payload = { [rootid]: { [folder ? 'folders' : 'nodes'] : items } }
 
     core
