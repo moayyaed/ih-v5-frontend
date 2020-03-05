@@ -8,6 +8,7 @@ import {
 
   APP_NAV_ADD_NODE, 
   APP_NAV_SET_PANEL_WIDTH, 
+  APP_NAV_SET_SCROLL, 
 } from './constants';
 
 
@@ -22,6 +23,13 @@ export function panelWidth(value) {
   return {
     type: APP_NAV_SET_PANEL_WIDTH,
     value,
+  };
+}
+
+export function scroll({ scrollTop }) {
+  return {
+    type: APP_NAV_SET_SCROLL,
+    scrollTop,
   };
 }
 
@@ -69,4 +77,5 @@ export default {
   clearSelected,
   addNode,
   panelWidth,
+  scroll,
 }

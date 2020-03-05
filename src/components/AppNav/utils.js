@@ -54,24 +54,35 @@ export function insertNodes(data, node, items) {
 
 export function findNode(data, nodeid) {
   const paths = {};
+  let count = 0;
+  let countAll = 0;
   let temp = null;
 
   function nodes(list) {
-    for (let item of list) {
+    list.forEach((item, key) => {
       if (item.id === nodeid) {
+        count = count + key + 1;
         temp = { node: item, paths };
+      }
+      if(temp !== null) {
+        countAll = countAll + 1;
       }
       if (temp === null && item.children !== undefined) {
         nodes(item.children);
         if (temp !== null) {
+          count = count + key + 1;
           paths[item.id] = item;
         }
       }    
-      
-    }
+    });
   }
 
   nodes(data);
+
+  if (temp) {
+    temp.scrollPoint = (count - 1) * 21 + 5;
+    temp.windowHeight = (count - 1 + countAll) * 21 + 5;
+  }
 
   return temp;
 }

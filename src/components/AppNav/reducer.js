@@ -6,13 +6,15 @@ import {
   APP_NAV_SELECT_NODE_CONTEXT_MENU,
   APP_NAV_CLEAR_SELECTED,
 
-  APP_NAV_ADD_NODE, 
+  APP_NAV_ADD_NODE,
+  APP_NAV_SET_SCROLL,
   APP_NAV_SET_PANEL_WIDTH 
 } from './constants';
 
 
 const defaultState = {
-  width: 200,
+  width: 250,
+  scrollTop: 0,
   options: {},
   list: [],
   selects: {
@@ -70,6 +72,8 @@ function reducer(state = defaultState, action) {
       };
     case APP_NAV_ADD_NODE:
       return { ...state };
+    case APP_NAV_SET_SCROLL:
+      return { ...state, scrollTop: action.scrollTop };
     case APP_NAV_SET_PANEL_WIDTH:
       return { ...state, width: action.value };
     default:

@@ -20,7 +20,7 @@ import Panel from 'components/Panel';
 import shortid from'shortid';
 
 import theme from './theme';
-import { getNodesRange, editNodes, insertNodes, findNode } from './utils';
+import { getNodesRange, editNodes, insertNodes, findNode, calculateScroll } from './utils';
 
 const styles = {
   panel: {
@@ -50,6 +50,7 @@ const classes = theme => ({
 
 
 class AppNav extends Component {
+
   componentDidMount() {
     this.props.route.menuid && core
     .request({ method: 'appnav', params: this.props.route })
@@ -57,6 +58,9 @@ class AppNav extends Component {
       if (this.props.route.nodeid) {
         const node = findNode(res.list, this.props.route.nodeid);
         if (node) {
+          if (node.windowHeight - this.panel.clientHeight > 0) {
+            res.scrollTop = node.scrollPoint - ((this.panel.clientHeight - 5) / 2) - 9;
+          }
           res.list = editNodes(res.list, (item) => {
             if (item.children !== undefined && node.paths[item.id]) {
               return { ...item, expanded: true };
@@ -203,17 +207,20 @@ class AppNav extends Component {
     core.actions.appnav.panelWidth(value);
   }
 
-  linkTree = (e) => {
-    this.tree = e;
+  linkPanel = (e) => {
+    this.panel = e;
   }
 
   render({ state, route } = this.props) {
     if (route.menuid) {
       return (
         <Panel width={state.width} position="right" style={styles.panel} onChangeSize={this.handleChangePanelSize}>
-          <div style={styles.box} onClick={this.handleClickBody} onContextMenu={this.handleContextMenuBody}>  
+          <div ref={this.linkPanel} style={styles.box} onClick={this.handleClickBody} onContextMenu={this.handleContextMenuBody}>  
             <SortableTree
-              reactVirtualizedListProps={{ ref: this.linkTree }}
+              reactVirtualizedListProps={{ 
+                onScroll: core.actions.appnav.scroll,
+                scrollTop: state.scrollTop, 
+              }}
               rowHeight={21}
               innerStyle={{ padding: 5 }}
               treeData={state.list}
