@@ -190,6 +190,8 @@ class AppNav extends Component {
   }
 
   handleAddNode = (folder, item) => {
+    let scrollTop = this.props.state.scrollTop;
+    
     const rootid = this.props.state.options.roots[item.path[0]];
 
     const parent = item.node.children !== undefined ? item.node : item.parentNode;
@@ -202,11 +204,17 @@ class AppNav extends Component {
     .ok((res) => {
       const type = folder ? 'parent' : 'child';
       const list = insertNodes(this.props.state.list, item.node, res.data);
+      const node = findNode(list, res.data[0].id);
+      
+      if (node) {
+        if (node.windowHeight - this.panel.clientHeight > 0) {
+          scrollTop = node.scrollPoint - ((this.panel.clientHeight - 5) / 2) - 9;
+        }
+      }
 
-      core.actions.appnav.data({ ...this.props.state, list });
+      core.actions.appnav.data({ ...this.props.state, scrollTop, list });
       this.handleChangeRoute(type, rootid, { node: res.data[0] });
     });
-    // test
   }
 
   handleChangePanelSize = (value) => {
