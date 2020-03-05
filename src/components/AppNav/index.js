@@ -191,7 +191,7 @@ class AppNav extends Component {
 
   handleAddNode = (folder, item) => {
     let scrollTop = this.props.state.scrollTop;
-    // test
+    // test 22
     const rootid = this.props.state.options.roots[item.path[0]];
 
     const parent = item.node.children !== undefined ? item.node : item.parentNode;
