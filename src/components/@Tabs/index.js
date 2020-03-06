@@ -158,10 +158,9 @@ class ComponentTabs extends Component {
           {scheme.tabs.map(i => <Tab key={i.id} value={i.id} label={i.title} />)}
         </Tabs>
         <Toolbar 
-          breadcrumbs={state.data ? state.data.breadcrumbs : []}
-          route={route} 
-          scheme={scheme}
+          route={route}
           save={state.save}
+          breadcrumbs={state.data ? state.data.breadcrumbs : []}
           onClick={this.handleToolbarClick}
         />
         <Scrollbars style={{ width: '100%', height: 'calc(100% - 109px)', backgroundColor: '#f5f5f5' }}>

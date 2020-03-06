@@ -66,7 +66,7 @@ class Breadcrumbs extends Component {
 function Toolbar(props) {
   return (
     <div style={styles.root}>
-      <Breadcrumbs route={props.route} options={props.scheme} data={props.breadcrumbs}/>
+      <Breadcrumbs route={props.route} data={props.breadcrumbs}/>
       <SplitButton disabled={!props.save} onClick={props.onClick} />
     </div>
   )
