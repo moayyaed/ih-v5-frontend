@@ -26,6 +26,7 @@ core.network.response('appnav', (answer, res, context) => {
   answer({ 
     list: res[0].data, 
     options: transformData(res[0].data, res[1].data),
+    selects: { lastItem: null, contextMenu: null, data: {} },
   });
 })
 

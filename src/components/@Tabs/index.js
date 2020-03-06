@@ -135,6 +135,9 @@ class ComponentTabs extends Component {
         core
           .request({ method: 'components_tabs_form_save', params, payload })
           .ok(res => {
+            if (res.data) {
+              core.actions.appnav.updateNodes(res.data);
+            }
             this.saveData[route.tab] = {};
             this.handleRequest(route, scheme);
           })

@@ -6,7 +6,7 @@ import {
   APP_NAV_SELECT_NODE_CONTEXT_MENU,
   APP_NAV_CLEAR_SELECTED,
 
-  APP_NAV_ADD_NODE,
+  APP_NAV_UPDATE_NODES,
   APP_NAV_SET_SCROLL,
   APP_NAV_SET_PANEL_WIDTH 
 } from './constants';
@@ -24,6 +24,20 @@ const defaultState = {
   },
 };
 
+function editList(list, nodes) {
+  return list.reduce((p, c) => {
+    if (c.children !== undefined) {
+      if (nodes[c.id]) {
+        return p.concat({ ...c, children: editList(c.children, nodes), ...nodes[c.id] });
+      }
+      return p.concat({ ...c, children: editList(c.children, nodes) });
+    }
+    if (nodes[c.id]) {
+      return p.concat({ ...c, ...nodes[c.id] });
+    }
+    return p.concat(c);
+  }, [])
+}
 
 function reducer(state = defaultState, action) {
   switch (action.type) {
@@ -70,8 +84,11 @@ function reducer(state = defaultState, action) {
           data: {}
         } 
       };
-    case APP_NAV_ADD_NODE:
-      return { ...state };
+    case APP_NAV_UPDATE_NODES:
+      return {
+        ...state,
+        list: editList(state.list, action.data)
+      }
     case APP_NAV_SET_SCROLL:
       return { ...state, scrollTop: action.scrollTop };
     case APP_NAV_SET_PANEL_WIDTH:

@@ -237,7 +237,10 @@ class AppNav extends Component {
     .request({ method: 'appnav_remove_node', params: this.props.route, payload: struct.map })
     .ok((res) => {
       const newlist = removeNodes(list, struct.list);
-      core.actions.appnav.data({ list: newlist });
+      core.actions.appnav.data({ 
+        list: newlist,
+        selects: { lastItem: null, contextMenu: null, data: {} },
+      });
       if (struct.list[route.nodeid]) {
         core.route(`${route.menuid}`);
       }
