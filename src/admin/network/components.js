@@ -64,6 +64,7 @@ core.network.request('tags', (send, context) => {
 
 
 core.network.response('tags', (answer, res, context) => {
+  console.log(res)
   answer(res.data);
 })
 

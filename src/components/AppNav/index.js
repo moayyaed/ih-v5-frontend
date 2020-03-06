@@ -78,7 +78,7 @@ class AppNav extends Component {
   }
 
   handleCheckChild = (node) => {
-    return node.children !== undefined && node.children === undefined;
+    return node.children !== undefined;
   }
 
   generateNodeProps = (rowinfo) => {
