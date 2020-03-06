@@ -146,10 +146,16 @@ class Tags extends Component {
     return <Typography noWrap>{option}</Typography>;
   }
 
-  handleRenderTags= (value, getTagProps) => {
+  handleRenderTags = (value, getTagProps) => {
     return value.map((option, index) => {
       return <Chip variant="outlined" label={option} {...getTagProps({ index })} />
     });
+  }
+
+  handleChange = (e, v) => {
+    const { id, options } = this.props;
+
+    this.props.onChange(id, options, null, v)
   }
 
 
@@ -163,7 +169,7 @@ class Tags extends Component {
         style={styles.root}
         classes={this.props.classes}
         options={this.state.list}
-        onChange={(e, v) => this.props.onChange(id, options, null, v)}
+        onChange={this.handleChange}
         value={this.props.data}
         renderInput={this.handleRenderInput}
         ListboxComponent={ListboxComponent}
