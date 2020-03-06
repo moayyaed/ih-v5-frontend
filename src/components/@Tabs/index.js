@@ -158,6 +158,9 @@ class ComponentTabs extends Component {
           {scheme.tabs.map(i => <Tab key={i.id} value={i.id} label={i.title} />)}
         </Tabs>
         <Toolbar 
+          breadcrumbs={state.data ? state.data.breadcrumbs : []}
+          route={route} 
+          scheme={scheme}
           save={state.save}
           onClick={this.handleToolbarClick}
         />

@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
+import core from 'core';
 
 import Typography from '@material-ui/core/Typography';
 import MuiBreadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
-
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Save';
-import RestoreIcon from '@material-ui/icons/Restore';
 
 import SplitButton from './SplitButton';
 
@@ -20,29 +17,56 @@ const styles = {
     paddingLeft: 20, 
     paddingRight: 20, 
     backgroundColor: '#f5f5f5',
+  },
+  breadcrumbs: { 
+    paddingLeft: 5 
   }
 }
 
 
-function Breadcrumbs() {
-  return (
-    <MuiBreadcrumbs style={{ paddingLeft: 5 }} aria-label="breadcrumb">
-      <Link color="inherit" href="/" >
-      All places
-      </Link>
-      <Link color="inherit" href="/getting-started/installation/" >
-      АБК - 1 Этаж
-      </Link>
-      <Typography color="textPrimary">(5) Переговорная</Typography>
-    </MuiBreadcrumbs>
-  );
+class Breadcrumbs extends Component {
+  handleChangeRoute = (e, item) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const { route } = this.props;
+  
+    const componentid = item.component;
+
+    if (componentid) {
+      const params = core.cache.componentsParams[componentid] ?  
+      '/' + core.cache.componentsParams[componentid] :
+      '/' + core.options.componentsScheme[componentid].defaultTab;
+    
+      core.route(`${route.menuid}/${route.rootid}/${componentid}/${item.id}${params}`);
+    } else {
+      core.actions.app.alertOpen('warning', 'Navigation is not supported, component not found!');
+    }
+  }
+
+  render({ data } = this.props) {
+    return (
+      <MuiBreadcrumbs style={styles.breadcrumbs} >
+        {data.map((item, key) => {
+          if (data.length - 1 !== key) {
+            return (
+              <Link color="inherit" onClick={(e) => this.handleChangeRoute(e, item)} >
+                {item.title}
+              </Link>
+            )
+          }
+          return <Typography color="textPrimary">{item.title}</Typography>;
+        })}
+      </MuiBreadcrumbs>
+    );
+  }
 }
 
 
 function Toolbar(props) {
   return (
     <div style={styles.root}>
-      <Breadcrumbs />
+      <Breadcrumbs route={props.route} options={props.scheme} data={props.breadcrumbs}/>
       <SplitButton disabled={!props.save} onClick={props.onClick} />
     </div>
   )
