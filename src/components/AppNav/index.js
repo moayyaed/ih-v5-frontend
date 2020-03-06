@@ -20,7 +20,7 @@ import Panel from 'components/Panel';
 import shortid from'shortid';
 
 import theme from './theme';
-import { getNodesRange, insertNodes, editNodes, removeNodes, findNode, getOrder, structToMap } from './utils';
+import { getNodesRange, insertNodes, editNodes, removeNodes, findNode, getOrder, getOrderMove, structToMap } from './utils';
 
 const styles = {
   panel: {
@@ -252,6 +252,27 @@ class AppNav extends Component {
     });
   }
 
+  handleMoveNode = (item) => {
+    const rootid = this.props.state.options.roots[item.path[0]];
+    const type = item.node.children !== undefined ? 'folders' : 'nodes';
+
+    const nodeid = item.node.id;
+    const parentid = item.nextParentNode.id;
+    const order = getOrderMove(item.nextParentNode, item.node);
+
+    const items = [{ parentid, nodeid, order }];
+    const payload = { [rootid]: { [type] : items } }
+
+    core
+    .request({ method: 'appnav_move_node', params: this.props.route, payload })
+    .ok((res) => {})
+    .error(() => {
+      core
+      .request({ method: 'appnav', params: this.props.route })
+      .ok(core.actions.appnav.data);
+    });
+  }
+
   handleChangePanelSize = (value) => {
     core.actions.appnav.panelWidth(value);
   }
@@ -276,6 +297,7 @@ class AppNav extends Component {
               onChange={this.handleChange}
               generateNodeProps={this.generateNodeProps}
               canNodeHaveChildren={this.handleCheckChild}
+              onMoveNode={this.handleMoveNode}
               getNodeKey={({ node }) => node.id}
               theme={theme}
             />    

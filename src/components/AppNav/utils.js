@@ -121,6 +121,25 @@ export function getOrder(parent, node) {
   }
 }
 
+export function getOrderMove(parent, node) {
+  if (parent.children.length > 1) {
+    let order = 0;
+    parent.children.forEach((item, key) => {
+      if (item.id === node.id) {
+        if (key === 0) {
+          order = parent.children[1].order / 2;
+        } else if (key === parent.children.length - 1) {
+          order = parent.children[parent.children.length - 2].order + 1000;
+        } else {
+          order = (parent.children[key - 1].order + parent.children[key + 1].order) / 2;
+        }
+      }
+    });
+    return order;
+  }
+  return 1000 ;
+}
+
 function structTree(roots, data, a, b) {
   const temp = {
     map: {},

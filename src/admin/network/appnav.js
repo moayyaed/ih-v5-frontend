@@ -57,4 +57,16 @@ core.network.response('appnav_remove_node', (answer, res, context) => {
   answer(res);
 })
 
+core.network.request('appnav_move_node', (send, context) => {
+  send({ 
+    method: 'update', 
+    type: 'tree',
+    id: context.params.menuid,
+    payload: context.payload,
+  });
+})
+
+core.network.response('appnav_move_node', (answer, res, context) => {
+  answer(res);
+})
 
