@@ -253,24 +253,26 @@ class AppNav extends Component {
   }
 
   handleMoveNode = (item) => {
-    const rootid = this.props.state.options.roots[item.path[0]];
-    const type = item.node.children !== undefined ? 'folders' : 'nodes';
-
-    const nodeid = item.node.id;
-    const parentid = item.nextParentNode.id;
-    const order = getOrderMove(item.nextParentNode, item.node);
-
-    const items = [{ parentid, nodeid, order }];
-    const payload = { [rootid]: { [type] : items } }
-
-    core
-    .request({ method: 'appnav_move_node', params: this.props.route, payload })
-    .ok((res) => {})
-    .error(() => {
+    if (item.nextParentNode) {
+      const rootid = this.props.state.options.roots[item.path[0]];
+      const type = item.node.children !== undefined ? 'folders' : 'nodes';
+  
+      const nodeid = item.node.id;
+      const parentid = item.nextParentNode.id;
+      const order = getOrderMove(item.nextParentNode, item.node);
+  
+      const items = [{ parentid, nodeid, order }];
+      const payload = { [rootid]: { [type] : items } }
+  
       core
-      .request({ method: 'appnav', params: this.props.route })
-      .ok(core.actions.appnav.data);
-    });
+      .request({ method: 'appnav_move_node', params: this.props.route, payload })
+      .ok((res) => {})
+      .error(() => {
+        core
+        .request({ method: 'appnav', params: this.props.route })
+        .ok(core.actions.appnav.data);
+      });
+    }
   }
 
   handleChangePanelSize = (value) => {
