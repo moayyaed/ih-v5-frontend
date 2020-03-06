@@ -53,3 +53,17 @@ core.network.request('droplist', (send, context) => {
 core.network.response('droplist', (answer, res, context) => {
   answer(res.data);
 })
+
+core.network.request('tags', (send, context) => {
+  send({ 
+    method: 'get', 
+    type: 'tags',
+    id: context.params.data, 
+  });
+})
+
+
+core.network.response('tags', (answer, res, context) => {
+  answer(res.data);
+})
+

@@ -103,7 +103,7 @@ class Tags extends Component {
   componentDidMount() {
     if (typeof this.props.options.data === 'string') {
       core
-      .request({ method: 'droplist', params: this.props.options })
+      .request({ method: 'tags', params: this.props.options })
       .ok(this.setData);
     } else {
       this.setData(this.props.options.data)
