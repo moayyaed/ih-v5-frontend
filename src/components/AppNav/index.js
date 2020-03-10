@@ -95,6 +95,9 @@ class AppNav extends Component {
     if (item.nextParent === null) {
       return false;
     }
+    if (item.prevPath[0] !== item.nextPath[0]) {
+      return false;
+    }
     return true;
   }
 
