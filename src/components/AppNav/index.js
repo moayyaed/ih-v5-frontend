@@ -283,6 +283,15 @@ class AppNav extends Component {
   
       const items = [{ parentid, nodeid, order }];
       const payload = { [rootid]: { [type] : items } }
+
+      const list = editNodes(this.props.state.list, (item) => {
+        if (item.id === nodeid) {
+          return { ...item, order };
+        }
+        return item;
+      }); 
+      
+      core.actions.appnav.data({ list });
   
       core
       .request({ method: 'appnav_move_node', params: this.props.route, payload })
