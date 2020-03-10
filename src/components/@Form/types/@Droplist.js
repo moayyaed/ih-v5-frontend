@@ -10,6 +10,8 @@ import Typography from '@material-ui/core/Typography';
 
 import { useTheme, withStyles } from '@material-ui/core/styles';
 
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import { VariableSizeList } from 'react-window';
 
 
@@ -97,23 +99,19 @@ const ListboxComponent = React.forwardRef(function ListboxComponent(props, ref) 
 
 
 class Droplist extends Component {
-  state = { list: [] }
+  state = { list: [], loading: false }
 
   componentDidMount() {
-    if (typeof this.props.options.data === 'string') {
-      core
-      .request({ method: 'droplist', params: this.props.options })
-      .ok(this.setData);
-    } else {
+    if (typeof this.props.options.data !== 'string') {
       this.setData(this.props.options.data)
     }
-    
   }
 
   setData = (list) => {
     this.setState((state) => {
       return {
         ...state,
+        loading: false,
         list: list || [],
       }
     });
@@ -124,6 +122,15 @@ class Droplist extends Component {
       <TextField 
         {...params}
         InputLabelProps={{ ...params.InputLabelProps, shrink: true}}
+        InputProps={{
+          ...params.InputProps,
+          endAdornment: (
+            <React.Fragment>
+              {this.state.loading ? <CircularProgress color="inherit" size={20} /> : null}
+              {params.InputProps.endAdornment}
+            </React.Fragment>
+          ),
+        }}
         label={this.props.options.title} 
         error={this.props.cache.error}
         helperText={this.props.cache.error}
@@ -144,6 +151,14 @@ class Droplist extends Component {
     return <Typography noWrap>{option.title}</Typography>;
   }
 
+  handleGetData = () => {
+    if (typeof this.props.options.data === 'string') {
+      core
+      .request({ method: 'droplist', params: this.props.options })
+      .loading(() => this.setState(state => ({ ...state, loading: true })))
+      .ok(this.setData);
+    }
+  }
 
   render({ id, options } = this.props) {
     return (
@@ -160,6 +175,9 @@ class Droplist extends Component {
         getOptionSelected={this.handleOptionSelected}
         getOptionLabel={this.handleOptionLabel}
         renderOption={this.handleRenderOption}
+        loadingText="Loading..."
+        loading={this.state.loading}
+        onOpen={this.handleGetData}
       />
     );
   }

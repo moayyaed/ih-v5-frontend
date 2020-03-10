@@ -8,6 +8,8 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Typography from '@material-ui/core/Typography';
 
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import { useTheme, withStyles } from '@material-ui/core/styles';
 
 import { VariableSizeList } from 'react-window';
@@ -102,14 +104,10 @@ const ListboxComponent = React.forwardRef(function ListboxComponent(props, ref) 
 
 
 class TableDroplistComponent extends Component {
-  state = { list: [] }
+  state = { list: [], loading: false }
 
   componentDidMount() {
-    if (typeof this.props.column.data === 'string') {
-      core
-      .request({ method: 'droplist', params: this.props.column })
-      .ok(this.setData);
-    } else {
+    if (typeof this.props.column.data !== 'string') {
       this.setData(this.props.column.data)
     }
   }
@@ -118,6 +116,7 @@ class TableDroplistComponent extends Component {
     this.setState((state) => {
       return {
         ...state,
+        loading: false,
         list: list || [],
       }
     });
@@ -128,7 +127,17 @@ class TableDroplistComponent extends Component {
       <TextField 
         {...params}
         InputLabelProps={{ ...params.InputLabelProps, shrink: true}}
-        InputProps={{ ...params.InputProps, disableUnderline: true, style: { fontSize: 13, top: 1 } }}
+        InputProps={{
+          ...params.InputProps,
+          disableUnderline: true, 
+          style: { fontSize: 13, top: 1 },
+          endAdornment: (
+            <React.Fragment>
+              {this.state.loading ? <CircularProgress color="inherit" size={20} /> : null}
+              {params.InputProps.endAdornment}
+            </React.Fragment>
+          ),
+        }}
         label="" 
         fullWidth 
       />
@@ -156,6 +165,14 @@ class TableDroplistComponent extends Component {
     this.props.container.props.onChange(id, options, { op: 'edit', column, row }, value)
   }
   
+  handleGetData = () => {
+    if (typeof this.props.column.data === 'string') {
+      core
+      .request({ method: 'droplist', params: this.props.column })
+      .loading(() => this.setState(state => ({ ...state, loading: true })))
+      .ok(this.setData);
+    }
+  }
 
 
   render() {
@@ -174,6 +191,9 @@ class TableDroplistComponent extends Component {
         getOptionSelected={this.handleOptionSelected}
         getOptionLabel={this.handleOptionLabel}
         renderOption={this.handleRenderOption}
+        loadingText="Loading..."
+        loading={this.state.loading}
+        onOpen={this.handleGetData}
       />
     );
   }

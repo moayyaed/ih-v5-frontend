@@ -9,6 +9,8 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Typography from '@material-ui/core/Typography';
 
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import { useTheme, withStyles } from '@material-ui/core/styles';
 
 import { VariableSizeList } from 'react-window';
@@ -98,23 +100,19 @@ const ListboxComponent = React.forwardRef(function ListboxComponent(props, ref) 
 
 
 class Tags extends Component {
-  state = { list: [] }
+  state = { list: [], loading: false }
 
   componentDidMount() {
-    if (typeof this.props.options.data === 'string') {
-      core
-      .request({ method: 'tags', params: this.props.options })
-      .ok(this.setData);
-    } else {
+    if (typeof this.props.options.data !== 'string') {
       this.setData(this.props.options.data)
     }
-    
   }
 
   setData = (list) => {
     this.setState((state) => {
       return {
         ...state,
+        loading: false,
         list: list || [],
       }
     });
@@ -125,7 +123,16 @@ class Tags extends Component {
       <TextField 
         {...params}
         variant="outlined"
-        InputLabelProps={{ ...params.InputLabelProps, shrink: true}}
+        InputLabelProps={{ shrink: true }}
+        InputProps={{
+          ...params.InputProps,
+          endAdornment: (
+            <React.Fragment>
+              {this.state.loading ? <CircularProgress color="inherit" size={20} /> : null}
+              {params.InputProps.endAdornment}
+            </React.Fragment>
+          ),
+        }}
         label={this.props.options.title} 
         error={this.props.cache.error}
         helperText={this.props.cache.error}
@@ -158,6 +165,15 @@ class Tags extends Component {
     this.props.onChange(id, options, null, v)
   }
 
+  handleGetData = () => {
+    if (typeof this.props.options.data === 'string') {
+      core
+      .request({ method: 'tags', params: this.props.options })
+      .loading(() => this.setState(state => ({ ...state, loading: true })))
+      .ok(this.setData);
+    }
+  }
+
 
   render({ id, options } = this.props) {
     return (
@@ -175,6 +191,9 @@ class Tags extends Component {
         ListboxComponent={ListboxComponent}
         renderOption={this.handleRenderOption}
         renderTags={this.handleRenderTags}
+        loadingText="Loading..."
+        loading={this.state.loading}
+        onOpen={this.handleGetData}
       />
     );
   }
