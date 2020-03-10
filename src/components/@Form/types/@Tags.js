@@ -105,6 +105,8 @@ class Tags extends Component {
   componentDidMount() {
     if (typeof this.props.options.data !== 'string') {
       this.setData(this.props.options.data)
+    } else {
+      this.handleGetData();
     }
   }
 

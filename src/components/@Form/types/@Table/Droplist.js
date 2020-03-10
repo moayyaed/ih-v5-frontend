@@ -109,6 +109,8 @@ class TableDroplistComponent extends Component {
   componentDidMount() {
     if (typeof this.props.column.data !== 'string') {
       this.setData(this.props.column.data)
+    } else {
+      this.handleGetData();
     }
   }
 
