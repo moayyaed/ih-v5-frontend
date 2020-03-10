@@ -81,6 +81,23 @@ class AppNav extends Component {
     return node.children !== undefined;
   }
 
+  handleCanDrag = (item) => {
+    if (item.node.component === 'lostfolder') {
+      return false;
+    }
+    if (item.node.id === item.path[0]) {
+      return false;
+    }
+    return true;
+  }
+
+  handleCanDrop = (item) => {
+    if (item.nextParent === null) {
+      return false;
+    }
+    return true;
+  }
+
   generateNodeProps = (rowinfo) => {
     const style = {};
     const id = rowinfo.node.id;
@@ -299,6 +316,8 @@ class AppNav extends Component {
               onChange={this.handleChange}
               generateNodeProps={this.generateNodeProps}
               canNodeHaveChildren={this.handleCheckChild}
+              canDrag={this.handleCanDrag}
+              canDrop={this.handleCanDrop}
               onMoveNode={this.handleMoveNode}
               getNodeKey={({ node }) => node.id}
               theme={theme}
