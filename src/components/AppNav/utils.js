@@ -115,7 +115,7 @@ export function getOrder(parent, node) {
           }
         }
       });
-      return order;
+      return Math.round(order);
     }
     return 1000;
   }
@@ -135,7 +135,7 @@ export function getOrderMove(parent, node) {
         }
       }
     });
-    return order;
+    return Math.round(order);
   }
   return 1000 ;
 }
