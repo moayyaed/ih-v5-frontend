@@ -9,15 +9,14 @@ import { createSelector } from 'reselect';
 import { withStyles } from '@material-ui/core/styles';
 
 
-import { SortableTreeWithoutDndContext as SortableTree, getNodeAtPath, getDescendantCount } from 'react-sortable-tree';
+import { SortableTreeWithoutDndContext as SortableTree } from 'react-sortable-tree';
 
 import { ContextMenu } from "@blueprintjs/core";
 import Menu from 'components/Menu';
 
-import Skeleton from '@material-ui/lab/Skeleton';
+// import Skeleton from '@material-ui/lab/Skeleton';
 import Panel from 'components/Panel';
 
-import shortid from'shortid';
 
 import theme from './theme';
 import { getNodesRange, insertNodes, editNodes, removeNodes, findNode, getOrder, getOrderMove, structToMap } from './utils';

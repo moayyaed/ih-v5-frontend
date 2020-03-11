@@ -6,9 +6,6 @@ import { createSelector } from 'reselect';
 
 import { withStyles } from '@material-ui/core/styles';
 
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Tooltip from '@material-ui/core/Tooltip';
 
@@ -113,6 +110,7 @@ class AppMenu extends Component {
         {state.list
           .map((item) =>
             <Button 
+              key={item.id}
               active={route.menuid === item.route} 
               title={item.title}
               icon={item.icon} 

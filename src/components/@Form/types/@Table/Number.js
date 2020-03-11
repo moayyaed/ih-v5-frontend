@@ -35,7 +35,7 @@ function TableNumberComponent(props) {
       type="number"
       style={props.cellData === undefined ? styles.disabled : styles.normal} 
       disabled={props.cellData === undefined} 
-      value={props.cellData} 
+      value={props.cellData === null ? '' : props.cellData} 
       onChange={e => handleChange(e, props)} 
     />
   )

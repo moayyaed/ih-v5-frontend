@@ -1,9 +1,11 @@
 import React from 'react';
 
 import TextField from '@material-ui/core/TextField';
+/*
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
+*/
 
 const styles = {
   root: {
@@ -17,7 +19,7 @@ const styles = {
     color: 'rgba(0, 0, 0, 0.87)',
   }
 }
-
+/*
 function TextOld(props) {
   return (
     <FormControl disabled style={styles.root}>
@@ -25,7 +27,7 @@ function TextOld(props) {
       <Input disableUnderline style={styles.input} value={props.data} />
     </FormControl>
   )
-}
+} */
 
 function Text(props) {
   return (

@@ -50,12 +50,12 @@ class Breadcrumbs extends Component {
         {data.map((item, key) => {
           if (data.length - 1 !== key) {
             return (
-              <Link color="inherit" onClick={(e) => this.handleChangeRoute(e, item)} >
+              <Link key={item.id} color="inherit" onClick={(e) => this.handleChangeRoute(e, item)} >
                 {item.title}
               </Link>
             )
           }
-          return <Typography color="textPrimary">{item.title}</Typography>;
+          return <Typography key={item.id} color="textPrimary">{item.title}</Typography>;
         })}
       </MuiBreadcrumbs>
     );

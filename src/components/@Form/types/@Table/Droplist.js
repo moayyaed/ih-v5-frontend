@@ -182,7 +182,6 @@ class TableDroplistComponent extends Component {
       <Autocomplete
         disableListWrap
         disableClearable
-        underlineShow={false}
         style={styles.root}
         classes={this.props.classes}
         options={this.state.list}

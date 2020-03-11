@@ -3,9 +3,6 @@ import core from 'core';
 
 import Link from '@material-ui/core/Link';
 
-const styles = {
-
-}
 
 function handleClickLink(e) {
   e.preventDefault();

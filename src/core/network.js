@@ -1,5 +1,4 @@
 import EventEmitter from 'events';
-import core from 'core';
 
 
 function request(name, callback) {
