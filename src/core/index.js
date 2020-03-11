@@ -41,6 +41,7 @@ const core = {
   request,
   network,
   route,
+  buffer: {},
   progress: {
     count: 0,
     start: progressStart,

@@ -5,7 +5,7 @@ import { Classes, Menu, MenuDivider, MenuItem } from "@blueprintjs/core";
 
 function itemMenu(i) {
   if (i.type === 'divider') {
-    return <MenuDivider />;
+    return <MenuDivider  key={i.id} />;
   }
   return (
     <MenuItem 

@@ -9,7 +9,7 @@ import { createSelector } from 'reselect';
 import { withStyles } from '@material-ui/core/styles';
 
 
-import { SortableTreeWithoutDndContext as SortableTree } from 'react-sortable-tree';
+import { SortableTreeWithoutDndContext as SortableTree } from './test';
 
 import { ContextMenu } from "@blueprintjs/core";
 import Menu from 'components/Menu';
@@ -185,6 +185,8 @@ class AppNav extends Component {
     e.preventDefault();
     e.stopPropagation();
    
+    const root = item.path[0];
+    const disabledPaste = root !== core.buffer.type;
     const pos = { left: e.clientX, top: e.clientY };
 
     if (item.node.children !== undefined) {  
@@ -193,6 +195,9 @@ class AppNav extends Component {
           { id: 'newFolder', title: 'New folder', click: () => this.handleAddNode(true, item) },
           { id: 'newNode', title: 'New node', click: () => this.handleAddNode(false, item) },
           { id: 'divider', type: 'divider' },
+          { id: 'copyNode', title: 'Copy', click: () => this.handleCopyNode(item) },
+          { id: 'pasteNode', disabled: disabledPaste, title: 'Paste', click: () => this.handlePasteNode(item) },
+          { id: 'divider2', type: 'divider' },
           { id: 'removeNodes', title: 'Remove', click: () => this.handleRemoveNodes(item) },
         ]
       }
@@ -204,6 +209,9 @@ class AppNav extends Component {
           { id: 'newFolder', title: 'New folder', click: () => this.handleAddNode(true, item) },
           { id: 'newNode', title: 'New node', click: () => this.handleAddNode(false, item) },
           { id: 'divider', type: 'divider' },
+          { id: 'copyNode', title: 'Copy', click: () => this.handleCopyNode(item) },
+          { id: 'pasteNode', disabled: disabledPaste, title: 'Paste', click: () => this.handlePasteNode(item) },
+          { id: 'divider2', type: 'divider' },
           { id: 'removeNodes', title: 'Remove', click: () => this.handleRemoveNodes(item) },
         ]
       }
@@ -237,6 +245,38 @@ class AppNav extends Component {
 
       core.actions.appnav.data({ scrollTop, list });
       this.handleChangeRoute(type, rootid, { node: res.data[0] });
+    });
+  }
+
+  handleCopyNode = (item) => {
+    const root = item.path[0];
+    const rootid = this.props.state.options.roots[item.path[0]];
+    
+    const parent = item.node.children !== undefined ? item.node : item.parentNode;
+    const type = item.node.children !== undefined ? 'folders': 'nodes';
+    const buffer = { 
+      [rootid]: { 
+        [type]: [{ nodeid: item.node.id }] }, 
+        seq: [ item.node.id ] 
+      };
+
+    core.buffer = { class: 'tree', type: root, data: buffer  };
+  }
+
+  handlePasteNode = (item) => {
+    const parent = item.node.children !== undefined ? item.node : item.parentNode;
+    const payload = core.buffer.data;
+    const params = {
+      ...this.props.route,
+      parentid: parent.id,
+      order: item.node.children !== undefined ? null : item.node.order,
+    };
+    
+    core
+    .request({ method: 'appnav_paste_node', params, payload })
+    .ok((res) => {
+      const list = insertNodes(this.props.state.list, item.node, res.data);
+      core.actions.appnav.data({ list });
     });
   }
 

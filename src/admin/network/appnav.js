@@ -70,3 +70,18 @@ core.network.response('appnav_move_node', (answer, res, context) => {
   answer(res);
 })
 
+core.network.request('appnav_paste_node', (send, context) => {
+  send({ 
+    method: 'copypaste', 
+    type: 'tree',
+    id: context.params.menuid,
+    nodeid: context.params.parentid,
+    order: context.params.order,
+    payload: context.payload,
+  });
+})
+
+core.network.response('appnav_paste_node', (answer, res, context) => {
+  answer(res);
+})
+
