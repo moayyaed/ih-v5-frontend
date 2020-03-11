@@ -256,9 +256,10 @@ class AppNav extends Component {
     const type = item.node.children !== undefined ? 'folders': 'nodes';
     const buffer = { 
       [rootid]: { 
-        [type]: [{ nodeid: item.node.id }] }, 
-        seq: [ item.node.id ] 
-      };
+        [type]: [{ nodeid: item.node.id }],
+        seq: [ item.node.id ],
+      },   
+    };
 
     core.buffer = { class: 'tree', type: root, data: buffer  };
   }
