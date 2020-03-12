@@ -9,7 +9,7 @@ import { createSelector } from 'reselect';
 import { withStyles } from '@material-ui/core/styles';
 
 
-import { SortableTreeWithoutDndContext as SortableTree } from './test';
+import { SortableTreeWithoutDndContext as SortableTree } from 'react-sortable-tree';
 
 import { ContextMenu } from "@blueprintjs/core";
 import Menu from 'components/Menu';
@@ -77,7 +77,12 @@ class AppNav extends Component {
   }
 
   handleCheckChild = (node) => {
-    return node.children !== undefined;
+    if (node.children !== undefined) {
+      if (node.expanded === true) {
+        return true;
+      }
+    } 
+    return false;
   }
 
   handleCanDrag = (item) => {
