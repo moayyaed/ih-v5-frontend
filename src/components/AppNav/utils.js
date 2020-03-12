@@ -1,36 +1,49 @@
-export function getNodesRange(data, a, b) {
+export function getNodesRange(data, a, b, lastSelects = {}) {
   const temp = {}
-  
+  const last = { ...lastSelects };
+
+
   let starta = false;
   let startb = false;
 
   function nodes(list) {
     for (let item of list) {
-      if (startb === false && item.id === a) {
+      if (startb === false && item.id === a.id) {
         starta = true;
       }
-      if (starta === false && item.id === b) {
+      if (starta === false && item.id === b.id) {
         startb = true;
       }
 
       if (starta || startb) {
-        temp[item.id] = item;
+        if (last[item.id]) {
+          temp[item.id] = false;
+        } else {
+          temp[item.id] = item;
+        }
       }
 
-      if (item.children !== undefined) {
+      if (item.children !== undefined && item.expanded) {
         nodes(item.children);
       }    
       
-      if (starta && item.id === b) {
+      if (starta && item.id === b.id) {
         starta = false;
       }
-      if (startb && item.id === a) {
+      if (startb && item.id === a.id) {
         startb = false;
       }  
     }
   }
 
   nodes(data);
+
+  if (last[b.id]) {
+    temp[a.id] = false;
+    temp[b.id] = b;
+  } else {
+    temp[a.id] = a;
+  }
 
   return temp;
 }

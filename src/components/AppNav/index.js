@@ -145,13 +145,13 @@ class AppNav extends Component {
     e.stopPropagation();
 
     if (e.shiftKey) {
-       const curent = item.node;
-       const last = this.props.state.selects.lastItem || curent;
-       const selects = getNodesRange(this.props.state.list, last.id, curent.id);
-       core.actions.appnav.selectNodes(curent, selects);
+      const curent = item.node;
+      const last = this.props.state.selects.lastItem || curent;
+      const lastSelects = this.props.state.selects.data;
+      const selects = getNodesRange(this.props.state.list, last, curent, lastSelects);
+      core.actions.appnav.selectNodes(curent, selects);
     } else if (e.ctrlKey || e.metaKey) {
-      const selects = getNodesRange(this.props.state.list, item.node.id, item.node.id);
-      core.actions.appnav.selectNodes(item.node, selects);
+      core.actions.appnav.selectNode(item.node);
     } else {
       if (this.props.state.selects.lastItem) {
         core.actions.appnav.clearSelected();
