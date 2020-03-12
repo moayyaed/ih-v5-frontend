@@ -8903,10 +8903,9 @@ react-scripts@3.3.1:
   optionalDependencies:
     fsevents "2.1.2"
 
-react-sortable-tree@^2.6.0, react-sortable-tree@^2.7.1:
+react-sortable-tree@^2.6.0, "react-sortable-tree@https://github.com/ih-systems/react-sortable-tree":
   version "2.7.1"
-  resolved "https://registry.yarnpkg.com/react-sortable-tree/-/react-sortable-tree-2.7.1.tgz#99bce93fe838ed90258c1796ccd7ac59b70f8fbd"
-  integrity sha512-J78/6AXv9RN0XxoBAIDz8a7aNFdi/Mezcv/9lKNYTYzqAWxEyOTMeqZjpmvwLhM2HRpChTn0yYLHTdRSNHRACw==
+  resolved "https://github.com/ih-systems/react-sortable-tree#a783407d4c365c88b3c5bef5dd73889de6ec8fd7"
   dependencies:
     frontend-collective-react-dnd-scrollzone "^1.0.2"
     lodash.isequal "^4.5.0"
