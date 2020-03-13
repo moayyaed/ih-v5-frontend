@@ -1,6 +1,5 @@
-export function getNodesRange(data, a, b, lastSelects = {}) {
+export function getNodesRange(data, a, b) {
   const temp = {}
-  const last = { ...lastSelects };
 
 
   let starta = false;
@@ -8,42 +7,40 @@ export function getNodesRange(data, a, b, lastSelects = {}) {
 
   function nodes(list) {
     for (let item of list) {
-      if (startb === false && item.id === a.id) {
+      if (startb === false && item.id === a) {
         starta = true;
       }
-      if (starta === false && item.id === b.id) {
+      if (starta === false && item.id === b) {
         startb = true;
       }
 
       if (starta || startb) {
-        if (last[item.id]) {
-          temp[item.id] = false;
-        } else {
-          temp[item.id] = item;
-        }
+        temp[item.id] = item;
       }
 
       if (item.children !== undefined && item.expanded) {
-        nodes(item.children);
+        if (starta === false && startb === false) {
+          nodes(item.children);
+        } else {
+          if (starta && b !== item.id) {
+            nodes(item.children);
+          }
+          if (startb) {
+            nodes(item.children);
+          }
+        }
       }    
       
-      if (starta && item.id === b.id) {
+      if (starta && item.id === b) {
         starta = false;
       }
-      if (startb && item.id === a.id) {
+      if (startb && item.id === a) {
         startb = false;
       }  
     }
   }
 
   nodes(data);
-
-  if (last[b.id]) {
-    temp[a.id] = false;
-    temp[b.id] = b;
-  } else {
-    temp[a.id] = a;
-  }
 
   return temp;
 }
@@ -153,7 +150,7 @@ export function getOrderMove(parent, node) {
   return 1000 ;
 }
 
-function structTree(roots, data, a, b) {
+function structTree(check, roots, data, a, b) {
   const temp = {
     map: {},
     list: {},
@@ -162,7 +159,7 @@ function structTree(roots, data, a, b) {
   let starta = false;
   let startb = false;
 
-  function nodes(list, root) {
+  function nodes(list, root, childs) {
     for (let item of list) {
       if (startb === false && item.id === a) {
         starta = true;
@@ -170,13 +167,20 @@ function structTree(roots, data, a, b) {
       if (starta === false && item.id === b) {
         startb = true;
       }
-
-      if (starta || startb) {
+      if (check === false ? (starta || startb) : childs && (starta || startb)) {
         temp.list[item.id] = item;
 
         if (temp.map[root] === undefined) {
           temp.map[root] = {};
         }
+
+        if (check) {
+          if (temp.map[root]['seq'] === undefined) {
+            temp.map[root]['seq'] = [];
+          }
+          temp.map[root]['seq'].push(item.id);
+        }
+
         if (item.children !== undefined) {
           if (temp.map[root]['folders'] === undefined) {
             temp.map[root]['folders'] = [];
@@ -191,7 +195,7 @@ function structTree(roots, data, a, b) {
       }
 
       if (item.children !== undefined) {
-        nodes(item.children, root);
+        nodes(item.children, root, childs && !(starta || startb));
       }    
       
       if (starta && item.id === b) {
@@ -204,26 +208,34 @@ function structTree(roots, data, a, b) {
   }
 
   data.forEach(item => {
-    nodes(item.children, roots[item.id]);
+    nodes(item.children, roots[item.id], true);
   });
   return temp;
 }
 
-function structSelects(roots, data, selects) {
+function structSelects(check, roots, data, selects) {
   const temp = {
     map: {},
     list: {},
   }
  
 
-  function nodes(list, root) {
+  function nodes(list, root, childs) {
     for (let item of list) {
-      if (selects[item.id]) {
+      if (check === false ? selects[item.id] : childs && selects[item.id]) {
         temp.list[item.id] = item;
 
         if (temp.map[root] === undefined) {
           temp.map[root] = {};
         }
+
+        if (check) {
+          if (temp.map[root]['seq'] === undefined) {
+            temp.map[root]['seq'] = [];
+          }
+          temp.map[root]['seq'].push(item.id);
+        }
+
         if (item.children !== undefined) {
           if (temp.map[root]['folders'] === undefined) {
             temp.map[root]['folders'] = [];
@@ -237,22 +249,22 @@ function structSelects(roots, data, selects) {
         }
       }
       if (item.children !== undefined) {
-        nodes(item.children, root);
+        nodes(item.children, root, childs && !selects[item.id]);
       }    
     }
   }
 
   data.forEach(item => {
-    nodes(item.children, roots[item.id]);
+    nodes(item.children, roots[item.id], true);
   });
   return temp;
 }
 
-export function structToMap(roots, data, a, b) {
+export function structToMap(check, roots, data, a, b) {
   if (b) {
-    return structTree(roots, data, a, b);
+    return structTree(check, roots, data, a, b);
   }
-  return structSelects(roots, data, a);
+  return structSelects(check, roots, data, a);
 }
 
 export function removeNodes(data, list) {

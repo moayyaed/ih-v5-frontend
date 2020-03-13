@@ -148,7 +148,7 @@ class AppNav extends Component {
       const curent = item.node;
       const last = this.props.state.selects.lastItem || curent;
       const lastSelects = this.props.state.selects.data;
-      const selects = getNodesRange(this.props.state.list, last, curent, lastSelects);
+      const selects = getNodesRange(this.props.state.list, last.id, curent.id);
       core.actions.appnav.selectNodes(curent, selects);
     } else if (e.ctrlKey || e.metaKey) {
       core.actions.appnav.selectNode(item.node);
@@ -254,18 +254,30 @@ class AppNav extends Component {
   }
 
   handleCopyNode = (item) => {
+    const { options, list, selects } = this.props.state;
+
     const root = item.path[0];
     const rootid = this.props.state.options.roots[item.path[0]];
     
     const parent = item.node.children !== undefined ? item.node : item.parentNode;
     const type = item.node.children !== undefined ? 'folders': 'nodes';
+
+    let struct;
+
+    if (selects.data[item.node.id]) {
+      struct = structToMap(true, options.roots, list, selects.data);
+    } else {
+      struct = structToMap(true, options.roots, list, item.node.id, item.node.id);
+    }
+  
+    /*
     const buffer = { 
       [rootid]: { 
         [type]: [{ nodeid: item.node.id }],
         seq: [ item.node.id ],
       },   
-    };
-
+    }; */
+    const buffer = struct.map;
     core.buffer = { class: 'tree', type: root, data: buffer  };
   }
 
@@ -293,9 +305,9 @@ class AppNav extends Component {
     let struct;
 
     if (selects.data[item.node.id]) {
-      struct = structToMap(options.roots, list, selects.data);
+      struct = structToMap(false, options.roots, list, selects.data);
     } else {
-      struct = structToMap(options.roots, list, item.node.id, item.node.id);
+      struct = structToMap(false, options.roots, list, item.node.id, item.node.id);
     }
 
     core
