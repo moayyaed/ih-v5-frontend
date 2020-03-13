@@ -12,17 +12,13 @@ const styles = {
   }
 }
 
-function getTree(i, disabled, click, command) {
+function itemMenu(i, disabled, click, command) {
   if (i === undefined) {
     return (
       <MenuItem key="loading" text={'Loading...'} />
     )
   }
-
-  return itemMenu(i, disabled, click, command);
-}
-
-function itemMenu(i, disabled, click, command) {
+  
   if (i.children !== undefined) {
     return (
       <MenuItem 
@@ -46,7 +42,7 @@ function itemMenu(i, disabled, click, command) {
         text={i.title} 
         disabled={disabled[i.check] !== undefined ? disabled[i.check] : false} 
         onClick={() => click(i, command)}
-      >{getTree(i.children, disabled, click, i.command)}</MenuItem>
+      >{itemMenu(i.children, disabled, click, i.command)}</MenuItem>
     )
   }
 
