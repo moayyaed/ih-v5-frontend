@@ -260,7 +260,18 @@ class AppNav extends Component {
         }
       }
 
-      core.actions.appnav.data({ scrollTop, list });
+      if (res.reorder) {
+        const listReorder = editNodes(list, (item) => {
+          if (res.reorder[item.id]) {
+            return { ...item, order: res.reorder[item.id] };
+          }
+          return item;
+        }); 
+        core.actions.appnav.data({ scrollTop, list: listReorder });
+      } else {
+        core.actions.appnav.data({ scrollTop, list });
+      }
+
       this.handleChangeRoute(type, rootid, { node: res.data[0] });
     });
   }
@@ -293,7 +304,17 @@ class AppNav extends Component {
     .request({ method: 'appnav_paste_node', params, payload })
     .ok((res) => {
       const list = insertNodes(this.props.state.list, item.node, res.data);
-      core.actions.appnav.data({ list });
+      if (res.reorder) {
+        const listReorder = editNodes(list, (item) => {
+          if (res.reorder[item.id]) {
+            return { ...item, order: res.reorder[item.id] };
+          }
+          return item;
+        }); 
+        core.actions.appnav.data({ list: listReorder });
+      } else {
+        core.actions.appnav.data({ list });
+      }
     });
   }
 
