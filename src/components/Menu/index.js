@@ -12,28 +12,28 @@ const styles = {
   }
 }
 
-function getTree(i, disabled, click) {
+function getTree(i, disabled, click, command) {
   if (i === undefined) {
     return (
       <MenuItem key="loading" text={'Loading...'} />
     )
   }
 
-  return itemMenu(i, disabled, click);
+  return itemMenu(i, disabled, click, command);
 }
 
-function itemMenu(i, disabled, click) {
+function itemMenu(i, disabled, click, command) {
   if (i.children !== undefined) {
     return (
       <MenuItem 
         key={i.id} 
         text={i.title} 
         disabled={disabled[i.check] !== undefined ? disabled[i.check] : false} 
-        onClick={() => click(i)}
-      >{i.children.map(x => itemMenu(x, disabled, click))}</MenuItem>
+        onClick={() => click(i, command)}
+      >{i.children.map(x => itemMenu(x, disabled, click, command))}</MenuItem>
     )
   }
-  
+
   if (i.type === 'divider') {
     return <MenuDivider  key={i.id} />;
   }
@@ -45,8 +45,8 @@ function itemMenu(i, disabled, click) {
         labelElement={i.children !== undefined ? null : <CircularProgress style={styles.progress} color="inherit" size={16} />}
         text={i.title} 
         disabled={disabled[i.check] !== undefined ? disabled[i.check] : false} 
-        onClick={() => click(i)}
-      >{getTree(i.children, disabled, click)}</MenuItem>
+        onClick={() => click(i, command)}
+      >{getTree(i.children, disabled, click, i.command)}</MenuItem>
     )
   }
 
@@ -55,7 +55,7 @@ function itemMenu(i, disabled, click) {
       key={i.id} 
       text={i.title} 
       disabled={disabled[i.check] !== undefined ? disabled[i.check] : false} 
-      onClick={() => click(i)}
+      onClick={() => click(i, command)}
     />
   )
 }
@@ -91,16 +91,17 @@ class _Menu extends Component {
     }
   }
 
-  handleClick = (item) => {
-    if (item.command && this.props.commands[item.command]) {
-      this.props.commands[item.command].apply();
+  handleClick = (item, forceCommand) => {
+    const command = forceCommand ? forceCommand : item.command;
+    if (command && this.props.commands[command]) {
+      this.props.commands[command].call(null, { popupid: item.id });
     }
   }
   
   render() {
     return (
       <Menu className={Classes.ELEVATION_1}>
-        {this.state.data.map(i => itemMenu(i, this.props.disabled, this.handleClick))}
+        {this.state.data.map(i => itemMenu(i, this.props.disabled, this.handleClick, i.command))}
       </Menu>
     )
   }
