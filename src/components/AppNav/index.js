@@ -203,7 +203,7 @@ class AppNav extends Component {
           { id: 'copyNode', title: 'Copy', click: () => this.handleCopyNode(item) },
           { id: 'pasteNode', disabled: disabledPaste, title: 'Paste', click: () => this.handlePasteNode(item) },
           { id: 'divider2', type: 'divider' },
-          { id: 'removeNodes', title: 'Remove', click: () => this.handleRemoveNodes(item) },
+          { id: 'removeNodes', title: 'Delete', click: () => this.handleRemoveNodes(item) },
         ]
       }
       core.actions.appnav.selectNodeContextMenu(item.node);
@@ -217,7 +217,7 @@ class AppNav extends Component {
           { id: 'copyNode', title: 'Copy', click: () => this.handleCopyNode(item) },
           { id: 'pasteNode', disabled: disabledPaste, title: 'Paste', click: () => this.handlePasteNode(item) },
           { id: 'divider2', type: 'divider' },
-          { id: 'removeNodes', title: 'Remove', click: () => this.handleRemoveNodes(item) },
+          { id: 'removeNodes', title: 'Delete', click: () => this.handleRemoveNodes(item) },
         ]
       }
       core.actions.appnav.selectNodeContextMenu(item.node);
