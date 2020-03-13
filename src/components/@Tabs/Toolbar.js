@@ -19,7 +19,11 @@ const styles = {
     backgroundColor: '#f5f5f5',
   },
   breadcrumbs: { 
-    paddingLeft: 5 
+    paddingLeft: 5,
+    width: 'calc(100% - 175px)',
+  },
+  text: {
+    fontSize: 14,
   }
 }
 
@@ -50,12 +54,12 @@ class Breadcrumbs extends Component {
         {data.map((item, key) => {
           if (data.length - 1 !== key) {
             return (
-              <Link key={item.id} color="inherit" onClick={(e) => this.handleChangeRoute(e, item)} >
+              <Link key={item.id} style={styles.text} color="inherit" onClick={(e) => this.handleChangeRoute(e, item)} >
                 {item.title}
               </Link>
             )
           }
-          return <Typography key={item.id} color="textPrimary">{item.title}</Typography>;
+          return <Typography key={item.id} style={styles.text} color="textPrimary">{item.title}</Typography>;
         })}
       </MuiBreadcrumbs>
     );
