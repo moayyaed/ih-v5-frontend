@@ -49,6 +49,7 @@ const classes = theme => ({
 
 
 class AppNav extends Component {
+  state = { contextMenu: { main: [] } };
 
   componentDidMount() {
     this.props.route.menuid && core
@@ -189,39 +190,35 @@ class AppNav extends Component {
   handleContextMenuNode = (e, item) => {
     e.preventDefault();
     e.stopPropagation();
-   
+    
     const root = item.path[0];
-    const disabledPaste = root !== core.buffer.type;
+    const rootid = this.props.state.options.roots[item.path[0]];
     const pos = { left: e.clientX, top: e.clientY };
 
-    if (item.node.children !== undefined) {  
-      const scheme = {
-        main: [
-          { id: 'newFolder', title: 'New folder', click: () => this.handleAddNode(true, item) },
-          { id: 'newNode', title: 'New node', click: () => this.handleAddNode(false, item) },
-          { id: 'divider', type: 'divider' },
-          { id: 'copyNode', title: 'Copy', click: () => this.handleCopyNode(item) },
-          { id: 'pasteNode', disabled: disabledPaste, title: 'Paste', click: () => this.handlePasteNode(item) },
-          { id: 'divider2', type: 'divider' },
-          { id: 'removeNodes', title: 'Delete', click: () => this.handleRemoveNodes(item) },
-        ]
-      }
+    const type = this.props.state.options[rootid] !== undefined ? 'parent' : 'child';
+
+    const disabled = { disablePaste: root !== core.buffer.type };
+    const commands = {
+      addNode: () => this.handleAddNode(false, item),
+      addFolder: () => this.handleAddNode(true, item),
+      copy: () => this.handleCopyNode(item),
+      paste: () => this.handlePasteNode(item),
+      delete: () => this.handleRemoveNodes(item), 
+    };
+
+    let scheme = { main: [] };
+     
+    const params = this.props.state.options[rootid][type]; 
+    if (params !== undefined && params.popup) {
+      scheme = params.popup;
       core.actions.appnav.selectNodeContextMenu(item.node);
-      ContextMenu.show(<Menu scheme={scheme} />, pos, core.actions.appnav.selectNodeContextMenu);
-    } else {
-      const scheme = {
-        main: [
-          { id: 'newFolder', title: 'New folder', click: () => this.handleAddNode(true, item) },
-          { id: 'newNode', title: 'New node', click: () => this.handleAddNode(false, item) },
-          { id: 'divider', type: 'divider' },
-          { id: 'copyNode', title: 'Copy', click: () => this.handleCopyNode(item) },
-          { id: 'pasteNode', disabled: disabledPaste, title: 'Paste', click: () => this.handlePasteNode(item) },
-          { id: 'divider2', type: 'divider' },
-          { id: 'removeNodes', title: 'Delete', click: () => this.handleRemoveNodes(item) },
-        ]
-      }
-      core.actions.appnav.selectNodeContextMenu(item.node);
-      ContextMenu.show(<Menu scheme={scheme} />, pos, core.actions.appnav.selectNodeContextMenu);
+      ContextMenu.show(
+        <Menu 
+          scheme={scheme}
+          disabled={disabled}
+          commands={commands}
+        />, 
+        pos, core.actions.appnav.selectNodeContextMenu);
     }
   }
 
