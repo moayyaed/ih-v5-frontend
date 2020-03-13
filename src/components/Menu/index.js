@@ -40,5 +40,10 @@ class _Menu extends Component {
   }
 }
 
+_Menu.defaultProps = {
+  disabled: {},
+  commands: {},
+}
+
 
 export default _Menu;
