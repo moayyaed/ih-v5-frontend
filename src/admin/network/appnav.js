@@ -85,3 +85,18 @@ core.network.response('appnav_paste_node', (answer, res, context) => {
   answer(res);
 })
 
+core.network.request('contextmenu', (send, context) => {
+  send({ 
+    method: 'get', 
+    type: 'popup',
+    id: context.params, 
+  });
+})
+
+
+core.network.response('contextmenu', (answer, res, context) => {
+  answer(res.data);
+})
+
+
+
