@@ -26,10 +26,10 @@ export function panelWidth(value) {
   };
 }
 
-export function scroll({ scrollTop }) {
+export function scroll(e) {
   return {
     type: APP_NAV_SET_SCROLL,
-    scrollTop,
+    e: e.scrollTop,
   };
 }
 

@@ -61,3 +61,8 @@ button:focus {
 .BaseTable__row-cell {
   padding: 0 4px!important;
 }
+
+:root{
+  scrollbar-color: rgb(210,0,0) rgb(46,54,69) !important;
+  scrollbar-width: thin !important;
+}

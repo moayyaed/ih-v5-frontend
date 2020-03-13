@@ -30,6 +30,20 @@ const styles = {
     overflow: 'hidden',
     borderRight: '1px solid #d3d3d3',
   },
+  tree: { 
+    /*
+    position: 'absolute',
+    width: 'unset', 
+    height: 'unset', 
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    marginRight: 0,
+    marginBottom: -15,
+    */
+    padding: 5
+  },
   box: {
     width: '100%',
     height: '100%',
@@ -362,10 +376,10 @@ class AppNav extends Component {
             <SortableTree
               reactVirtualizedListProps={{ 
                 onScroll: core.actions.appnav.scroll,
-                scrollTop: state.scrollTop, 
+                scrollTop: state.scrollTop,
               }}
               rowHeight={21}
-              innerStyle={{ padding: 5 }}
+              innerStyle={styles.tree}
               treeData={state.list}
               onChange={this.handleChange}
               generateNodeProps={this.generateNodeProps}

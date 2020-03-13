@@ -8903,7 +8903,7 @@ react-scripts@3.3.1:
   optionalDependencies:
     fsevents "2.1.2"
 
-react-sortable-tree@^2.6.0, "react-sortable-tree@https://github.com/ih-systems/react-sortable-tree":
+react-sortable-tree@^2.6.0, "react-sortable-tree@https://github.com/ih-systems/react-sortable-tree#a783407d4c365c88b3c5bef5dd73889de6ec8fd7":
   version "2.7.1"
   resolved "https://github.com/ih-systems/react-sortable-tree#a783407d4c365c88b3c5bef5dd73889de6ec8fd7"
   dependencies:
