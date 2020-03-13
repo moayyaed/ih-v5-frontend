@@ -68,6 +68,13 @@
 .rowLabel {
   flex: 0 1 auto;
   padding-right: 20px;
+  cursor: default;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .rowToolbar {
   flex: 0 1 auto;
