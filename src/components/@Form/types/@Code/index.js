@@ -37,10 +37,28 @@ const TITLES = {
 
 const EMPTY_ARRAY = [];
 
-
-function handleFullscreen(id) {
-
+function buttons(id) {
+  if (id === 'code') {
+    return (
+      [
+        <div data-tip="Expand" key="expand">
+          <ExpandButton />
+        </div>
+      ]
+    )
+  }
+  return (
+    [
+      <div data-tip="Expand" key="expand">
+        <ExpandButton />
+      </div>,
+      <div data-tip="Remove" key="remove">
+        <RemoveButton />
+      </div>,
+    ]
+  )
 }
+
 
 function Window(id, path) {
   return (
@@ -50,14 +68,7 @@ function Window(id, path) {
       additionalControls={EMPTY_ARRAY}
       path={path}
       renderToolbar={null}
-      toolbarControls={[
-        <div data-tip="Expand" key="expand">
-          <ExpandButton />
-        </div>,
-        <div data-tip="Remove" key="remove">
-          <RemoveButton />
-        </div>,
-      ]}
+      toolbarControls={buttons(id)}
     >
       <div className="example-window">
         <h1>{`Window ${id}`}</h1>

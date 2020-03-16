@@ -17,14 +17,15 @@ function getComponentByType(type) {
     case 'text':
       return Text;
     case 'textarea':
-      return Code;
-      // return Textarea;
+      return Textarea;
     case 'table':
       return Table;
     case 'droplist':
       return Droplist;
     case 'tags':
       return Tags;
+    case 'code':
+      return Code;
     default:
       return null;
   }

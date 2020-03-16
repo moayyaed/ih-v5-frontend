@@ -22,6 +22,23 @@ const classes = theme => ({
   },
 });
 
+function getHeight(height) {
+  if (height === undefined) {
+    return '100%';
+  }
+  if (height === 'fill') {
+    return window.innerHeight - 191;
+  }
+  return height;
+}
+
+function getPadding(padding) {
+  if (padding === undefined) {
+    return 16;
+  }
+  return padding;
+}
+
 
 class Form extends Component {
 
@@ -37,7 +54,7 @@ class Form extends Component {
       return (
         <Grid key={item.id} item xs={item.xs}>
           <Paper 
-            style={{ height: item.height || '100%', padding: item.padding !== undefined ? item.padding : 16 }} 
+            style={{ height: getHeight(item.height), padding: getPadding(item.padding) }} 
             className={this.props.classes.paper}
           >
             {this.getGridContent(item.id)}
