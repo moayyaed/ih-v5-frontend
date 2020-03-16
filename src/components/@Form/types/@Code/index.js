@@ -13,6 +13,9 @@ import {
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/theme-tomorrow';
 
+import 'ace-builds/src-noconflict/mode-text';
+import 'ace-builds/src-noconflict/theme-github';
+
 import 'react-mosaic-component/react-mosaic-component.css';
 import './code.css';
 
@@ -32,15 +35,21 @@ const scheme = {
     second: 'console',
     splitPercentage: 70,
   },
-  second: 'toolbar',
+  second: {
+    direction: 'column',
+    first: 'debug',
+    second: 'inspector',
+    splitPercentage: 50,
+  },
   splitPercentage: 80,
 }
 
 const TITLES = {
   code: 'Code',
   console: 'Console',
-  toolbar: 'Toolbar'
-
+  toolbar: 'Toolbar',
+  debug: 'Debug',
+  inspector: 'Inspector'
 }
 
 const EMPTY_ARRAY = [];
@@ -67,6 +76,13 @@ function buttons(id) {
   )
 }
 
+const test = `
+16.03 19:18:28.095 IH: Send SIGTERM.
+16.03 19:18:28.132 IH: Plugin exit
+16.03 19:18:30.851 IH: Run /var/lib/intrahouse-c/plugins/xiaomi/index.js xiaomi2
+16.03 19:18:31.015 xiaomi2: version: 0.0.62
+`
+
 function component(props, id) {
   if (id === 'code') {
     return (
@@ -81,6 +97,25 @@ function component(props, id) {
           fontSize={14}
           value={props.data}
           onChange={(value) => props.onChange(props.id, props.options, null, value)}
+        />}
+      </ReactResizeDetector>
+    )
+  }
+  if (id === 'console') {
+    return (
+      <ReactResizeDetector handleWidth handleHeight>
+        {({ width, height }) => 
+          <AceEditor
+          mode="text"
+          theme="tomorrow"
+          width={width}
+          height={height}
+          name={id}
+          fontSize={12}
+          value={test}
+          showPrintMargin={false}
+          showGutter={false}
+          readOnly
         />}
       </ReactResizeDetector>
     )
