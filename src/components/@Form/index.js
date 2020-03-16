@@ -27,7 +27,7 @@ function getHeight(height) {
     return '100%';
   }
   if (height === 'fill') {
-    return window.innerHeight - 191;
+    return window.innerHeight - 200;
   }
   return height;
 }

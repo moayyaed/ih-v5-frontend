@@ -1,9 +1,17 @@
 import React from 'react';
 
+import AceEditor from 'react-ace';
+import ReactResizeDetector from 'react-resize-detector';
+
 import { 
   MosaicWithoutDragDropContext as Mosaic, MosaicWindow, 
   RemoveButton, ExpandButton, MosaicButton 
 } from 'react-mosaic-component';
+
+
+
+import 'ace-builds/src-noconflict/mode-javascript';
+import 'ace-builds/src-noconflict/theme-tomorrow';
 
 import 'react-mosaic-component/react-mosaic-component.css';
 import './code.css';
@@ -59,23 +67,27 @@ function buttons(id) {
   )
 }
 
-
-function Window(id, path) {
-  return (
-    <MosaicWindow
-      draggable={false}
-      title={TITLES[id]}
-      additionalControls={EMPTY_ARRAY}
-      path={path}
-      renderToolbar={null}
-      toolbarControls={buttons(id)}
-    >
-      <div className="example-window">
-        <h1>{`Window ${id}`}</h1>
-      </div>
-    </MosaicWindow>
-  )
+function component(props, id) {
+  if (id === 'code') {
+    return (
+      <ReactResizeDetector handleWidth handleHeight>
+        {({ width, height }) => 
+          <AceEditor
+          mode="javascript"
+          theme="tomorrow"
+          width={width}
+          height={height}
+          name={id}
+          fontSize={14}
+          value={props.data}
+          onChange={(value) => props.onChange(props.id, props.options, null, value)}
+        />}
+      </ReactResizeDetector>
+    )
+  }
+  return null;
 }
+
 
 function Code(props) {
   return (
@@ -83,7 +95,20 @@ function Code(props) {
       <Mosaic
         className="mosaic-blueprint-theme"
         initialValue={scheme}
-        renderTile={Window}
+        renderTile={(id, path, x) => {
+          return (
+            <MosaicWindow
+              draggable={false}
+              title={TITLES[id]}
+              additionalControls={EMPTY_ARRAY}
+              path={path}
+              renderToolbar={null}
+              toolbarControls={buttons(id)}
+            >
+              {component(props, id)}
+            </MosaicWindow>
+          )
+        }}
       />
     </div>
   )
