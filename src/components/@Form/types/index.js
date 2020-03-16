@@ -7,6 +7,7 @@ import Textarea from './@Textarea';
 import Droplist from './@Droplist';
 import Tags from './@Tags';
 import Table from './@Table/index';
+import Code from './@Code/index';
 
 
 function getComponentByType(type) {
@@ -16,7 +17,8 @@ function getComponentByType(type) {
     case 'text':
       return Text;
     case 'textarea':
-      return Textarea;
+      return Code;
+      // return Textarea;
     case 'table':
       return Table;
     case 'droplist':

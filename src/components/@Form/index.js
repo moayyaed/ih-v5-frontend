@@ -37,7 +37,7 @@ class Form extends Component {
       return (
         <Grid key={item.id} item xs={item.xs}>
           <Paper 
-            style={{ height: item.height || '100%' }} 
+            style={{ height: item.height || '100%', padding: item.padding !== undefined ? item.padding : 16 }} 
             className={this.props.classes.paper}
           >
             {this.getGridContent(item.id)}

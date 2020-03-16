@@ -1,0 +1,7 @@
+.mosaic.mosaic-blueprint-theme {
+  background: unset;
+}
+
+.mosaic.mosaic-blueprint-theme .mosaic-split:hover .mosaic-split-line {
+  box-shadow: 0 0 0 1px #cccccc;
+}
