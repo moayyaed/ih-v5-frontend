@@ -4,6 +4,7 @@ import reducers from './reducers';
 import actions from './actions';
 
 import request from './request';
+import tunnel from './tunnel';
 import network from './network';
 
 function settings(options) {
@@ -39,6 +40,7 @@ function route(path) {
 const core = {
   settings,
   request,
+  tunnel,
   network,
   route,
   buffer: {},

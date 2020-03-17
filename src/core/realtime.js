@@ -3,18 +3,15 @@ import EventEmitter from 'events';
 
 function trasportWS() {
   const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-  const host = window.location.host;
+  const host = window.location.host === 'localhost:3000' ? 'v5.ih-systems.com:3000' : window.location.host;
 
-  const ws = new WebSocket(`${protocol}://${host}/backend`);
+  const ws = new WebSocket(`${protocol}://${host}`);
+  ws.onopen = openTunnel;
+  ws.onmessage = messageTunnel;
+  ws.onerror = errorTunnel;
+  ws.onclose = closeTunnel;
 
-  return {
-    connection: ws,
-    open: ws.onopen,
-    message: ws.onmessage,
-    error: ws.onerror,
-    close: ws.onclose,
-    send: ws.send,
-  }
+  return ws;
 }
 
 
@@ -32,19 +29,17 @@ function start(token) {
 
 function startWebSocketTunnel() {
   realtime.connections.main = tunnel('main', trasportWS);
-
-  realtime.connections.main.open = openTunnel;
-  realtime.connections.main.message = messageTunnel;
-  realtime.connections.main.error = errorTunnel;
-  realtime.connections.main.close = closeTunnel;
 }
 
 function openTunnel() {
-  console.log('open')
+  // console.log('open')
 }
 
-function messageTunnel() {
-  console.log('message')
+function messageTunnel(e) {
+  const json = JSON.parse(e.data);
+  if (json.response === undefined) {
+    realtime.events.emit(json.id, json.data);
+  }
 }
 
 function errorTunnel() {
@@ -55,11 +50,26 @@ function closeTunnel() {
   console.log('close')
 }
 
+function sendTunnel(data) {
+  realtime.connections.main.send(JSON.stringify(data))
+}
+
+function registerEvent(params, handler) {
+  realtime.events.on(params.id, handler)
+  sendTunnel(params);
+}
+
+function unregisterEvent(params) {
+  sendTunnel(params);
+}
+
 const realtime = {
   events: new EventEmitter(),
   connections: { },
   params: { token: '' },
   start,
+  registerEvent,
+  unregisterEvent,
 };
 
 

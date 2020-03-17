@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
+import core from 'core';
 
 import AceEditor from 'react-ace';
 import ReactResizeDetector from 'react-resize-detector';
@@ -76,14 +77,8 @@ function buttons(id) {
   )
 }
 
-const test = `
-16.03 19:18:28.095 IH: Send SIGTERM.
-16.03 19:18:28.132 IH: Plugin exit
-16.03 19:18:30.851 IH: Run /var/lib/intrahouse-c/plugins/xiaomi/index.js xiaomi2
-16.03 19:18:31.015 xiaomi2: version: 0.0.62
-`
 
-function component(props, id) {
+function component(props, state, id) {
   if (id === 'code') {
     return (
       <ReactResizeDetector handleWidth handleHeight>
@@ -112,7 +107,7 @@ function component(props, id) {
             height={height || '100%'}
             name={id}
             fontSize={12}
-            value={test}
+            value={state.consoleValue}
             showPrintMargin={false}
             showGutter={false}
             readOnly
@@ -124,29 +119,48 @@ function component(props, id) {
 }
 
 
-function Code(props) {
-  return (
-    <div style={styles.root}>
-      <Mosaic
-        className="mosaic-blueprint-theme"
-        initialValue={scheme}
-        renderTile={(id, path, x) => {
-          return (
-            <MosaicWindow
-              draggable={true}
-              title={TITLES[id]}
-              additionalControls={EMPTY_ARRAY}
-              path={path}
-              renderToolbar={null}
-              toolbarControls={buttons(id)}
-            >
-              {component(props, id)}
-            </MosaicWindow>
-          )
-        }}
-      />
-    </div>
-  )
+class Code extends Component {
+  state = { consoleValue: '' }
+
+  componentDidMount() {
+    core.tunnel.sub('debug', this.handleRealTimeDataConsole);
+  }
+
+  componentWillUnmount() {
+    core.tunnel.unsub('debug');
+  }
+
+
+  handleRealTimeDataConsole = (value) => {
+    this.setState(state => {
+      return { ...state, consoleValue: state.consoleValue + value + '\r\n' };
+    });
+  }
+
+  render() {
+    return (
+      <div style={styles.root}>
+        <Mosaic
+          className="mosaic-blueprint-theme"
+          initialValue={scheme}
+          renderTile={(id, path, x) => {
+            return (
+              <MosaicWindow
+                draggable={true}
+                title={TITLES[id]}
+                additionalControls={EMPTY_ARRAY}
+                path={path}
+                renderToolbar={null}
+                toolbarControls={buttons(id)}
+              >
+                {component(this.props, this.state, id)}
+              </MosaicWindow>
+            )
+          }}
+        />
+      </div>
+    )
+  }    
 }
 
 
