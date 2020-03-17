@@ -106,7 +106,6 @@ function component(props, id) {
       <ReactResizeDetector handleWidth handleHeight>
         {({ width, height }) => 
           <AceEditor
-            w={console.log(width, height)}
             mode="text"
             theme="tomorrow"
             width={width || '100%'}
