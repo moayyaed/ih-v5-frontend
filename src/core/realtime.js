@@ -32,7 +32,11 @@ function startWebSocketTunnel() {
 }
 
 function openTunnel() {
-  // console.log('open')
+  Object
+    .keys(realtime.tasks)
+    .forEach(key => {
+      sendTunnel(realtime.tasks[key]);
+    });
 }
 
 function messageTunnel(e) {
@@ -47,7 +51,7 @@ function errorTunnel() {
 }
 
 function closeTunnel() {
-  console.log('close')
+  setTimeout(startWebSocketTunnel, 2000);
 }
 
 function sendTunnel(data) {
@@ -57,16 +61,19 @@ function sendTunnel(data) {
 }
 
 function registerEvent(params, handler) {
+  realtime.tasks[params.id] = params;
   realtime.events.on(params.id, handler);
   sendTunnel(params);
 }
 
 function unregisterEvent(params, handler) {
+  delete realtime.tasks[params.id];
   realtime.events.removeListener(params.id, handler);
   sendTunnel(params);
 }
 
 const realtime = {
+  tasks: {},
   events: new EventEmitter(),
   connections: { },
   params: { token: '' },
