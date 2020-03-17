@@ -51,15 +51,18 @@ function closeTunnel() {
 }
 
 function sendTunnel(data) {
-  realtime.connections.main.send(JSON.stringify(data))
+  if (realtime.connections.main.readyState === 1) {
+    realtime.connections.main.send(JSON.stringify(data));
+  }
 }
 
 function registerEvent(params, handler) {
-  realtime.events.on(params.id, handler)
+  realtime.events.on(params.id, handler);
   sendTunnel(params);
 }
 
-function unregisterEvent(params) {
+function unregisterEvent(params, handler) {
+  realtime.events.removeListener(params.id, handler);
   sendTunnel(params);
 }
 

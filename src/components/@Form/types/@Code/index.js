@@ -11,11 +11,12 @@ import {
 
 
 
-import 'ace-builds/src-noconflict/mode-javascript';
+
+import 'ace-builds/src-noconflict/theme-github';
 import 'ace-builds/src-noconflict/theme-tomorrow';
 
+import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/mode-text';
-import 'ace-builds/src-noconflict/theme-github';
 
 import 'react-mosaic-component/react-mosaic-component.css';
 import './code.css';
@@ -91,6 +92,7 @@ function component(props, state, id) {
             name={id}
             fontSize={14}
             value={props.data}
+            setOptions={{ useWorker: false }}
             onChange={(value) => props.onChange(props.id, props.options, null, value)}
           />}
       </ReactResizeDetector>
@@ -110,6 +112,7 @@ function component(props, state, id) {
             value={state.consoleValue}
             showPrintMargin={false}
             showGutter={false}
+            setOptions={{ useWorker: false }}
             readOnly
           />}
       </ReactResizeDetector>
@@ -127,7 +130,7 @@ class Code extends Component {
   }
 
   componentWillUnmount() {
-    core.tunnel.unsub('debug');
+    core.tunnel.unsub('debug', this.handleRealTimeDataConsole);
   }
 
 
