@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Form from 'components/@Form';
+
 
 
 class Content extends Component {
@@ -10,17 +10,8 @@ class Content extends Component {
     this.props.onRequest(route, scheme);
   }
 
-  render({ debug, state } = this.props) {
-    return (
-      <Form 
-        key={state.id} 
-        debug={debug} 
-        scheme={state.options} 
-        data={state.data}
-        cache={state.cache}
-        onChange={this.props.onChange} 
-      />
-    )
+  render({ route, state } = this.props) {
+    return null;
   }
 
 }

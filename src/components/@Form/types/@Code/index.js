@@ -56,15 +56,27 @@ const TITLES = {
 
 const EMPTY_ARRAY = [];
 
+function params(type, route) {
+  return {
+    method: 'sub',
+    type: 'debug',
+    id: 'scene',
+    nodeid: route.nodeid,
+    uuid: `${type}_${route.nodeid}`
+  };
+}
+
 class Code extends Component {
   state = { consoleValue: '', consoleAutoScroll: true }
 
   componentDidMount() {
-    core.tunnel.sub('debug', this.handleRealTimeDataConsole);
+    core.tunnel
+      .sub(params('scene', this.props.route), this.handleRealTimeDataConsole);
   }
 
   componentWillUnmount() {
-    core.tunnel.unsub('debug', this.handleRealTimeDataConsole);
+    core.tunnel
+      .unsub(params('scene', this.props.route), this.handleRealTimeDataConsole);
   }
 
 
@@ -109,14 +121,14 @@ class Code extends Component {
       return (
         [
           this.state.consoleAutoScroll ? 
-            <Button icon="git-commit" minimal onClick={this.handleChangeAutoScroll} /> : 
-            <Button icon="bring-data" minimal onClick={this.handleChangeAutoScroll} />,
-          <Button icon="trash" minimal onClick={this.handleClearConsole} />,
-          <Separator />,
-          <div data-tip="Expand" key="expand">
+            <Button key="1" icon="git-commit" minimal onClick={this.handleChangeAutoScroll} /> : 
+            <Button key="2" icon="bring-data" minimal onClick={this.handleChangeAutoScroll} />,
+          <Button key="3" icon="trash" minimal onClick={this.handleClearConsole} />,
+          <Separator key="4" />,
+          <div  key="5" data-tip="Expand" key="expand">
             <ExpandButton />
           </div>,
-          <div data-tip="Remove" key="remove">
+          <div key="6" data-tip="Remove" key="remove">
             <RemoveButton />
           </div>,
         ]
@@ -139,7 +151,7 @@ class Code extends Component {
     
     if (id === 'code') {
       return (
-        <ReactResizeDetector handleWidth handleHeight>
+        <ReactResizeDetector key={id} handleWidth handleHeight>
           {({ width, height }) => 
             <AceEditor
               mode="javascript"
@@ -157,7 +169,7 @@ class Code extends Component {
     }
     if (id === 'console') {
       return (
-        <ReactResizeDetector handleWidth handleHeight>
+        <ReactResizeDetector key={id} handleWidth handleHeight>
           {({ width, height }) => 
             <AceEditor
               ref={this.linkConsole}
@@ -188,6 +200,7 @@ class Code extends Component {
           renderTile={(id, path, x) => {
             return (
               <MosaicWindow
+                key={id}
                 draggable={true}
                 title={TITLES[id]}
                 additionalControls={EMPTY_ARRAY}

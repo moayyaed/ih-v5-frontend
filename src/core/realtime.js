@@ -1,4 +1,5 @@
 import EventEmitter from 'events';
+import core from 'core';
 
 
 function trasportWS() {
@@ -40,9 +41,16 @@ function openTunnel() {
 }
 
 function messageTunnel(e) {
-  const json = JSON.parse(e.data);
-  if (json.response === undefined) {
-    realtime.events.emit(json.id, json.data);
+  try {
+    const json = JSON.parse(e.data);
+    if (json.data !== undefined) {
+      realtime.events.emit(json.uuid, json.data);
+    }
+    if (json.error) {
+      core.actions.app.alertOpen('warning', 'Real-time: ' + json.error);
+    }
+  } catch (e) {
+    core.actions.app.alertOpen('error', 'Real-time: incorrect data!');
   }
 }
 
@@ -61,14 +69,14 @@ function sendTunnel(data) {
 }
 
 function registerEvent(params, handler) {
-  realtime.tasks[params.id] = params;
-  realtime.events.on(params.id, handler);
+  realtime.tasks[params.uuid] = params;
+  realtime.events.on(params.uuid, handler);
   sendTunnel(params);
 }
 
 function unregisterEvent(params, handler) {
-  delete realtime.tasks[params.id];
-  realtime.events.removeListener(params.id, handler);
+  delete realtime.tasks[params.uuid];
+  realtime.events.removeListener(params.uuid, handler);
   sendTunnel(params);
 }
 

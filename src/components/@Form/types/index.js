@@ -31,10 +31,10 @@ function getComponentByType(type) {
   }
 }
 
-function components(id, item, data, cache, onChange) {
+function components(id, item, data, cache, route, onChange) {
   const component = getComponentByType(item.type);
   if (component) {
-    return React.createElement(component, { key: item.prop, id, options: item, data, cache, onChange });
+    return React.createElement(component, { key: item.prop, id, options: item, data, cache, route, onChange });
   }
   return null;
 }

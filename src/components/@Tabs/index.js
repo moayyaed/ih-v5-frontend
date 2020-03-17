@@ -4,6 +4,8 @@ import core from 'core';
 
 import { Scrollbars } from 'react-custom-scrollbars';
 
+import Form from 'components/@Form';
+
 import Tabs from './Tabs';
 import Tab from './Tab';
 import Toolbar from './Toolbar';
@@ -166,13 +168,19 @@ class ComponentTabs extends Component {
         <Scrollbars style={{ width: '100%', height: 'calc(100% - 109px)', backgroundColor: '#f5f5f5' }}>
           <div style={{ padding: 20, paddingTop: 0 }} >
             <Content 
-              key={`${route.nodeid}_${route.tab}`} 
-              debug={debug}
-              route={route} 
-              scheme={scheme}
-              state={state}
+              key={`content_${route.nodeid}_${route.tab}`}
+              scheme={scheme} 
+              route={route}
               onRequest={this.handleRequest}
-              onChange={this.handleChange}
+            />
+            <Form 
+              key={state.id} 
+              debug={debug} 
+              scheme={state.options} 
+              route={route}
+              data={state.data}
+              cache={state.cache}
+              onChange={this.handleChange} 
             />
           </div>
         </Scrollbars>
