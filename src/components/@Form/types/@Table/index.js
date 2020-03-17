@@ -52,7 +52,6 @@ class Table extends Component {
       .reduce((p, c) => {
         return { ...p, [c.prop]: getDefault(c.type) }
       }, { id: '__' + shortid.generate() });
-
     this.props.onChange(id, options, { op: 'add', row })
   }
 
