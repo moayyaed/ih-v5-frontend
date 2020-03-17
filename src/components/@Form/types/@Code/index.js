@@ -6,10 +6,10 @@ import ReactResizeDetector from 'react-resize-detector';
 
 import { 
   MosaicWithoutDragDropContext as Mosaic, MosaicWindow, 
-  RemoveButton, ExpandButton, MosaicButton 
+  RemoveButton, ExpandButton, Separator, 
 } from 'react-mosaic-component';
 
-
+import { Button } from "@blueprintjs/core";
 
 
 import 'ace-builds/src-noconflict/theme-github';
@@ -56,74 +56,8 @@ const TITLES = {
 
 const EMPTY_ARRAY = [];
 
-function buttons(id) {
-  if (id === 'code') {
-    return (
-      [
-        <div data-tip="Expand" key="expand">
-          <ExpandButton />
-        </div>
-      ]
-    )
-  }
-  return (
-    [
-      <div data-tip="Expand" key="expand">
-        <ExpandButton />
-      </div>,
-      <div data-tip="Remove" key="remove">
-        <RemoveButton />
-      </div>,
-    ]
-  )
-}
-
-
-function component(props, state, id) {
-  if (id === 'code') {
-    return (
-      <ReactResizeDetector handleWidth handleHeight>
-        {({ width, height }) => 
-          <AceEditor
-            mode="javascript"
-            theme="tomorrow"
-            width={width || '100%'}
-            height={height || '100%'}
-            name={id}
-            fontSize={14}
-            value={props.data}
-            setOptions={{ useWorker: false }}
-            onChange={(value) => props.onChange(props.id, props.options, null, value)}
-          />}
-      </ReactResizeDetector>
-    )
-  }
-  if (id === 'console') {
-    return (
-      <ReactResizeDetector handleWidth handleHeight>
-        {({ width, height }) => 
-          <AceEditor
-            mode="text"
-            theme="tomorrow"
-            width={width || '100%'}
-            height={height || '100%'}
-            name={id}
-            fontSize={12}
-            value={state.consoleValue}
-            showPrintMargin={false}
-            showGutter={false}
-            setOptions={{ useWorker: false }}
-            readOnly
-          />}
-      </ReactResizeDetector>
-    )
-  }
-  return null;
-}
-
-
 class Code extends Component {
-  state = { consoleValue: '' }
+  state = { consoleValue: '', consoleAutoScroll: true }
 
   componentDidMount() {
     core.tunnel.sub('debug', this.handleRealTimeDataConsole);
@@ -137,7 +71,112 @@ class Code extends Component {
   handleRealTimeDataConsole = (value) => {
     this.setState(state => {
       return { ...state, consoleValue: state.consoleValue + value + '\r\n' };
+    }, () => {
+      if (this.console && this.state.consoleAutoScroll) {
+        const index = this.console.editor.session.getLength() - 1;
+        this.console.editor.scrollToRow(index);
+      }
     });
+  }
+
+  handleChangeAutoScroll = () => {
+    this.setState(state => {
+      return { ...state, consoleAutoScroll: !state.consoleAutoScroll };
+    });
+  }
+
+  handleClearConsole = () => {
+    this.setState(state => {
+      return { ...state, consoleValue: '' };
+    });
+  }
+
+  linkConsole = (e) => {
+    this.console = e;
+  }
+
+  renderButtons = (id) => {
+    if (id === 'code') {
+      return (
+        [
+          <div data-tip="Expand" key="expand">
+            <ExpandButton />
+          </div>
+        ]
+      )
+    }
+    if (id === 'console') {
+      return (
+        [
+          this.state.consoleAutoScroll ? 
+            <Button icon="git-commit" minimal onClick={this.handleChangeAutoScroll} /> : 
+            <Button icon="bring-data" minimal onClick={this.handleChangeAutoScroll} />,
+          <Button icon="trash" minimal onClick={this.handleClearConsole} />,
+          <Separator />,
+          <div data-tip="Expand" key="expand">
+            <ExpandButton />
+          </div>,
+          <div data-tip="Remove" key="remove">
+            <RemoveButton />
+          </div>,
+        ]
+      )
+    }
+    return (
+      [
+        <div data-tip="Expand" key="expand">
+          <ExpandButton />
+        </div>,
+        <div data-tip="Remove" key="remove">
+          <RemoveButton />
+        </div>,
+      ]
+    )
+  }
+
+  renderComponent = (id) => {
+    const { props, state } = this;
+    
+    if (id === 'code') {
+      return (
+        <ReactResizeDetector handleWidth handleHeight>
+          {({ width, height }) => 
+            <AceEditor
+              mode="javascript"
+              theme="tomorrow"
+              width={width || '100%'}
+              height={height || '100%'}
+              name={id}
+              fontSize={14}
+              value={props.data}
+              setOptions={{ useWorker: false }}
+              onChange={(value) => props.onChange(props.id, props.options, null, value)}
+            />}
+        </ReactResizeDetector>
+      )
+    }
+    if (id === 'console') {
+      return (
+        <ReactResizeDetector handleWidth handleHeight>
+          {({ width, height }) => 
+            <AceEditor
+              ref={this.linkConsole}
+              mode="text"
+              theme="tomorrow"
+              width={width || '100%'}
+              height={height || '100%'}
+              name={id}
+              fontSize={12}
+              value={state.consoleValue}
+              showPrintMargin={false}
+              showGutter={false}
+              setOptions={{ useWorker: false }}
+              readOnly
+            />}
+        </ReactResizeDetector>
+      )
+    }
+    return null;
   }
 
   render() {
@@ -154,9 +193,9 @@ class Code extends Component {
                 additionalControls={EMPTY_ARRAY}
                 path={path}
                 renderToolbar={null}
-                toolbarControls={buttons(id)}
+                toolbarControls={this.renderButtons(id)}
               >
-                {component(this.props, this.state, id)}
+                {this.renderComponent(id)}
               </MosaicWindow>
             )
           }}
