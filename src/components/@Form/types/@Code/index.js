@@ -89,15 +89,15 @@ function component(props, id) {
       <ReactResizeDetector handleWidth handleHeight>
         {({ width, height }) => 
           <AceEditor
-          mode="javascript"
-          theme="tomorrow"
-          width={width}
-          height={height}
-          name={id}
-          fontSize={14}
-          value={props.data}
-          onChange={(value) => props.onChange(props.id, props.options, null, value)}
-        />}
+            mode="javascript"
+            theme="tomorrow"
+            width={width || '100%'}
+            height={height || '100%'}
+            name={id}
+            fontSize={14}
+            value={props.data}
+            onChange={(value) => props.onChange(props.id, props.options, null, value)}
+          />}
       </ReactResizeDetector>
     )
   }
@@ -106,17 +106,18 @@ function component(props, id) {
       <ReactResizeDetector handleWidth handleHeight>
         {({ width, height }) => 
           <AceEditor
-          mode="text"
-          theme="tomorrow"
-          width={width}
-          height={height}
-          name={id}
-          fontSize={12}
-          value={test}
-          showPrintMargin={false}
-          showGutter={false}
-          readOnly
-        />}
+            w={console.log(width, height)}
+            mode="text"
+            theme="tomorrow"
+            width={width || '100%'}
+            height={height || '100%'}
+            name={id}
+            fontSize={12}
+            value={test}
+            showPrintMargin={false}
+            showGutter={false}
+            readOnly
+          />}
       </ReactResizeDetector>
     )
   }
