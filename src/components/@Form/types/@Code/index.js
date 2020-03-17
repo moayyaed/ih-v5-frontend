@@ -133,7 +133,7 @@ function Code(props) {
         renderTile={(id, path, x) => {
           return (
             <MosaicWindow
-              draggable={false}
+              draggable={true}
               title={TITLES[id]}
               additionalControls={EMPTY_ARRAY}
               path={path}
