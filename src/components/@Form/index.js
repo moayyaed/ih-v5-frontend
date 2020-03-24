@@ -22,12 +22,12 @@ const classes = theme => ({
   },
 });
 
-function getHeight(height) {
+function getHeight(height, heightOffset) {
   if (height === undefined) {
     return '100%';
   }
   if (height === 'fill') {
-    return window.innerHeight - 200;
+    return window.innerHeight - heightOffset;
   }
   return height;
 }
@@ -56,7 +56,7 @@ class Form extends Component {
       return (
         <Grid key={item.id} item xs={item.xs}>
           <Paper 
-            style={{ height: getHeight(item.height), padding: getPadding(item.padding) }} 
+            style={{ height: getHeight(item.height, this.props.heightOffset), padding: getPadding(item.padding) }} 
             className={this.props.classes.paper}
           >
             {this.getGridContent(item.id)}
@@ -75,7 +75,7 @@ class Form extends Component {
     if (debug && scheme && data) {
       return <Debug scheme={scheme} data={data} cache={cache} />
     }
-    if (scheme && data) {
+    if (scheme && scheme.grid && data) {
       return (
         <Grid container spacing={3 || scheme.spacing}>
           {scheme.grid.map(this.getGridComponent)}

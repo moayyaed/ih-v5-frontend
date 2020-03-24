@@ -16,8 +16,8 @@ function transformData(list, meta) {
 
 core.network.request('plugin_tree', (send, context) => {
   send([
-    { method: 'get', type: 'tree', id: context.params.id, nodeid: context.params.nodeid },
-    { method: 'getmeta', type: 'tree', id: context.params.id, nodeid: context.params.nodeid },
+    { method: 'get', type: 'subtree', id: context.params.id, nodeid: context.params.nodeid },
+    { method: 'getmeta', type: 'subtree', id: context.params.id, nodeid: context.params.nodeid },
   ]);
 })
 
@@ -27,6 +27,31 @@ core.network.response('plugin_tree', (answer, res, context) => {
     list: res[0].data, 
     options: res[1].data,
     selects: { lastItem: null, contextMenu: null, data: {} },
+  });
+})
+
+core.network.request('plugin_tree_form', (send, context) => {
+  send([
+    { method: 'getmeta', type: 'form', id: context.params.component, nodeid: context.params.nodeid },
+    { method: 'get', type: 'form', id: context.params.component, nodeid: context.params.nodeid },
+  ]);
+})
+
+
+core.network.response('plugin_tree_form', (answer, res, context) => {
+  answer({ 
+    scheme: res[0].data, 
+    data: res[1].data,
+    cache: res[0].data.grid
+      .reduce((p, c) => {
+        return { 
+          ...p, [c.id]: 
+          res[0].data[c.id]
+            .reduce((p, c) => {
+              return { ...p, [c.prop]: {} }
+            }, {}) 
+        };
+      }, {})
   });
 })
 

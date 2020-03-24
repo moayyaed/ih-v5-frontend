@@ -180,7 +180,8 @@ class ComponentTabs extends Component {
               route={route}
               data={state.data}
               cache={state.cache}
-              onChange={this.handleChange} 
+              onChange={this.handleChange}
+              heightOffset={200}
             />
           </div>
         </Scrollbars>
