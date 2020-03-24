@@ -4,5 +4,5 @@ import './login';
 import './appmenu';
 import './appnav';
 
-
 import './components';
+import './pluginform1';
