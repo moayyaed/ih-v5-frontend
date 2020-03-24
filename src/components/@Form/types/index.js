@@ -6,8 +6,10 @@ import Text from './@Text';
 import Textarea from './@Textarea';
 import Droplist from './@Droplist';
 import Tags from './@Tags';
-import Table from './@Table/index';
-import Code from './@Code/index';
+
+import Table from './@Table';
+import Code from './@Code';
+import PluginForm1 from './@PluginForm1';
 
 
 function getComponentByType(type) {
@@ -26,6 +28,8 @@ function getComponentByType(type) {
       return Tags;
     case 'code':
       return Code;
+    case 'pluginform1':
+      return PluginForm1;
     default:
       return null;
   }
