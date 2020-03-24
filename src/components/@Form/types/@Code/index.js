@@ -56,7 +56,7 @@ const TITLES = {
 
 const EMPTY_ARRAY = [];
 
-function params(type, route) {
+function config(type, route) {
   return {
     method: 'sub',
     type: 'debug',
@@ -71,12 +71,12 @@ class Code extends Component {
 
   componentDidMount() {
     core.tunnel
-      .sub(params('scene', this.props.route), this.handleRealTimeDataConsole);
+      .sub(config('scene', this.props.route), this.handleRealTimeDataConsole);
   }
 
   componentWillUnmount() {
     core.tunnel
-      .unsub(params('scene', this.props.route), this.handleRealTimeDataConsole);
+      .unsub(config('scene', this.props.route), this.handleRealTimeDataConsole);
   }
 
 

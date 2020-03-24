@@ -1,15 +1,23 @@
 import React, { Component } from 'react';
 import core from 'core';
 
+import AceEditor from 'react-ace';
+import ReactResizeDetector from 'react-resize-detector';
+
 import { 
   MosaicWithoutDragDropContext as Mosaic, MosaicWindow, 
   RemoveButton, ExpandButton, Separator, 
 } from 'react-mosaic-component';
 
+import { Button } from "@blueprintjs/core";
+
 import { Scrollbars } from 'react-custom-scrollbars';
 import { SortableTreeWithoutDndContext as SortableTree } from 'react-sortable-tree';
 
 import Form from 'components/@Form';
+
+import 'ace-builds/src-noconflict/theme-tomorrow';
+import 'ace-builds/src-noconflict/mode-text';
 
 import { 
   getNodesRange, 
@@ -41,19 +49,34 @@ const styles = {
 }
 
 const scheme = {
-  direction: 'row',
-  first: "tree",
-  second: 'form',
-  splitPercentage: 25,
+  direction: 'column',
+  first: {
+    direction: 'row',
+    first: "tree",
+    second: 'form',
+    splitPercentage: 25,
+  },
+  second: 'console',
+  splitPercentage: 70,
 }
 
 const TITLES = {
   tree: 'Channels',
   form: 'Properties',
+  console: 'Console',
 }
 
 const EMPTY_ARRAY = [];
 
+function config(type, route) {
+  return {
+    method: 'sub',
+    type: 'debug',
+    id: 'plugin',
+    nodeid: route.nodeid,
+    uuid: `${type}_${route.nodeid}`
+  };
+}
 
 class PluginForm1 extends Component {
 
@@ -70,6 +93,8 @@ class PluginForm1 extends Component {
     },
     loadingTree: true,
     loadingForm: true,
+    consoleValue: '', 
+    consoleAutoScroll: true
   };
 
   componentDidMount() {
@@ -81,11 +106,13 @@ class PluginForm1 extends Component {
         this.setData(res);
       });
     core.transfer.sub('pluginform1', this.handleTransferData);
+    core.tunnel.sub(config('plugin', this.props.route), this.handleRealTimeDataConsole);
   }
 
   componentWillUnmount() {
     this.save = null;
     core.transfer.unsub('pluginform1', this.handleTransferData);
+    core.tunnel.unsub(config('plugin', this.props.route), this.handleRealTimeDataConsole);
   }
 
   setData = (data) => {
@@ -166,6 +193,23 @@ class PluginForm1 extends Component {
   }
   
   renderButtons = (id) => {
+    if (id === 'console') {
+      return (
+        [
+          this.state.consoleAutoScroll ? 
+            <Button key="1" icon="git-commit" minimal onClick={this.handleChangeAutoScroll} /> : 
+            <Button key="2" icon="bring-data" minimal onClick={this.handleChangeAutoScroll} />,
+          <Button key="3" icon="trash" minimal onClick={this.handleClearConsole} />,
+          <Separator key="4" />,
+          <div  key="5" data-tip="Expand" key="expand">
+            <ExpandButton />
+          </div>,
+          <div key="6" data-tip="Remove" key="remove">
+            <RemoveButton />
+          </div>,
+        ]
+      )
+    }
     return []
   }
 
@@ -202,6 +246,27 @@ class PluginForm1 extends Component {
             />
           </div>
         </Scrollbars>
+      )
+    }
+    if (id === 'console') {
+      return (
+        <ReactResizeDetector key={id} handleWidth handleHeight>
+          {({ width, height }) => 
+            <AceEditor
+              ref={this.linkConsole}
+              mode="text"
+              theme="tomorrow"
+              width={width || '100%'}
+              height={height || '100%'}
+              name={id}
+              fontSize={12}
+              value={state.consoleValue}
+              showPrintMargin={false}
+              showGutter={false}
+              setOptions={{ useWorker: false }}
+              readOnly
+            />}
+        </ReactResizeDetector>
       )
     }
     return null;
@@ -345,6 +410,21 @@ class PluginForm1 extends Component {
         .request({ method: 'plugin_tree_form', params: this.state.selects })
         .ok(this.setData);
     }
+  }
+
+  handleRealTimeDataConsole = (value) => {
+    this.setState(state => {
+      return { ...state, consoleValue: state.consoleValue + value + '\r\n' };
+    }, () => {
+      if (this.console && this.state.consoleAutoScroll) {
+        const index = this.console.editor.session.getLength() - 1;
+        this.console.editor.scrollToRow(index);
+      }
+    });
+  }
+
+  linkConsole = (e) => {
+    this.console = e;
   }
 
   render() {
