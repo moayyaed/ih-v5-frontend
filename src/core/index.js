@@ -5,6 +5,7 @@ import actions from './actions';
 
 import request from './request';
 import tunnel from './tunnel';
+import transfer from './transfer';
 import network from './network';
 
 function settings(options) {
@@ -41,6 +42,7 @@ const core = {
   settings,
   request,
   tunnel,
+  transfer,
   network,
   route,
   buffer: {},

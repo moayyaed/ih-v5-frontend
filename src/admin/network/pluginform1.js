@@ -32,8 +32,8 @@ core.network.response('plugin_tree', (answer, res, context) => {
 
 core.network.request('plugin_tree_form', (send, context) => {
   send([
-    { method: 'getmeta', type: 'form', id: context.params.component, nodeid: context.params.targetid },
-    { method: 'get', type: 'form', id: context.params.component, nodeid: context.params.targetid },
+    { method: 'getmeta', type: 'form', id: context.params.component, nodeid: context.params.curent },
+    { method: 'get', type: 'form', id: context.params.component, nodeid: context.params.curent },
   ]);
 })
 
@@ -53,6 +53,20 @@ core.network.response('plugin_tree_form', (answer, res, context) => {
         };
       }, {})
   });
+})
+
+core.network.request('plugin_tree_form_save', (send, context) => {
+  send({ 
+    method: 'update', 
+    type: 'form',
+    id: context.params.component,
+    nodeid: context.params.curent,
+    payload: context.payload,
+  });
+})
+
+core.network.response('plugin_tree_form_save', (answer, res, context) => {
+  answer(res);
 })
 
 

@@ -125,9 +125,10 @@ class ComponentTabs extends Component {
   }
 
   handleToolbarClick = (button) => {
-    const { route, scheme } = this.props;
-    
-    if (button === 'save') {
+    const { route, scheme, state } = this.props;
+    if (typeof state.save === 'string') {
+      core.transfer.send(state.save, button);
+    } else if (button === 'save') {
       const tab = scheme.tabs.find(i => i.id === route.tab);
       
       if (tab && this.saveData[route.tab] !== undefined) {

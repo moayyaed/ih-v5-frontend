@@ -80,6 +80,12 @@ class PluginForm1 extends Component {
         res.loadingTree = false;
         this.setData(res);
       });
+    core.transfer.sub('pluginform1', this.handleTransferData);
+  }
+
+  componentWillUnmount() {
+    this.save = null;
+    core.transfer.unsub('pluginform1', this.handleTransferData);
   }
 
   setData = (data) => {
@@ -228,19 +234,17 @@ class PluginForm1 extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    this.setState(state => {
-      return { ...state, selects: { ...state.selects, curent: item.node.id } };
-    });
-
     const type = item.node.children !== undefined ? 'parent' : 'child';
     const component = item.node.component ? item.node.component : this.state.options.common[type].defaultComponent;
-    const params = { ...this.props.route, component, targetid: item.node.id };
+    const params = { component, curent: item.node.id };
+
+    this.setState(state => {
+      return { ...state, selects: { ...state.selects, curent: item.node.id, component } };
+    });
 
     core
     .request({ method: 'plugin_tree_form', params })
-    .ok((res) => {
-      this.setData(res);
-    });
+    .ok(this.setData);
     
   }
 
@@ -267,34 +271,79 @@ class PluginForm1 extends Component {
     if (component.type === 'droplist') {
       temp = value.id;
     }
-
+    this.save[id][component.prop] = temp;
     this.valueBasic(id, component.prop, value);
   }
 
   handleSaveDataTarget = (id, component, target, value) => {
+    if (this.save[id][component.prop] === undefined) {
+      this.save[id][component.prop] = {}
+    }
+    if (this.save[id][component.prop][target.row.id] === undefined) {
+      this.save[id][component.prop][target.row.id] = {}
+    }
+
     if (target.op === 'edit') {
       let temp = value;
 
       if (target.column.type === 'droplist') {
         temp = value.id;
       }
+      this.save[id][component.prop][target.row.id][target.column.prop] = temp;
       this.valueTable(id, component.prop, target.row.id, target.column.prop, value);
     }
 
     if (target.op === 'add') {
+      this.save[id][component.prop][target.row.id] = target.row;
       this.addRowTable(id, component.prop, target.row);
     }
 
     if (target.op === 'delete') {
-      this.removeRowTable(id, component.prop, target.row.id, true);
+      if (this.save[id][component.prop][target.row.id] === null) {
+        delete this.save[id][component.prop][target.row.id];
+        this.removeRowTable(id, component.prop, target.row.id, false);
+      } else {
+        this.save[id][component.prop][target.row.id] = null;
+        this.removeRowTable(id, component.prop, target.row.id, true);
+      }
     }
   }
 
   handleChangeForm = (id, component, target, value) => {
+    if (!this.save) {
+      this.save = {};
+      core.actions.apppage.data({ save: 'pluginform1' })
+    }
+
+    if (this.save[id] === undefined) {
+      this.save[id] = {}
+    }
+
     if (target) {
       this.handleSaveDataTarget(id, component, target, value);
     } else {
       this.handleSaveDataBasic(id, component, target, value);
+    }
+  }
+
+  handleTransferData = (button) => {
+    if (button === 'save') {
+      const params = this.state.selects;
+      const payload = this.save;
+      core
+      .request({ method: 'plugin_tree_form_save', params, payload })
+      .ok(res => {
+        this.save = {};
+        core
+          .request({ method: 'plugin_tree_form', params: this.state.selects })
+          .ok(this.setData);
+      });
+    } else {
+      this.save = null;
+      core.actions.apppage.data({ save: false });
+      core
+        .request({ method: 'plugin_tree_form', params: this.state.selects })
+        .ok(this.setData);
     }
   }
 
