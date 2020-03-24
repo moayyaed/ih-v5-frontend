@@ -30,20 +30,20 @@ const styles = {
 
 
 const scheme = {
-  direction: 'row',
+  direction: 'column',
   first: {
-    direction: 'column',
+    direction: 'row',
     first: 'code',
-    second: 'console',
-    splitPercentage: 70,
+    second: 'inspector',
+    splitPercentage: 75,
   },
   second: {
-    direction: 'column',
-    first: 'debug',
-    second: 'inspector',
-    splitPercentage: 50,
+    direction: 'row',
+    first: 'console',
+    second: 'debug',
+    splitPercentage: 75,
   },
-  splitPercentage: 80,
+  splitPercentage: 70,
 }
 
 const TITLES = {

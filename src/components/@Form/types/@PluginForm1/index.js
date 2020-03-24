@@ -56,7 +56,12 @@ const scheme = {
     second: 'form',
     splitPercentage: 25,
   },
-  second: 'console',
+  second: {
+    direction: 'row',
+    first: "console",
+    second: 'debug',
+    splitPercentage: 75,
+  },
   splitPercentage: 70,
 }
 
@@ -64,6 +69,7 @@ const TITLES = {
   tree: 'Channels',
   form: 'Properties',
   console: 'Console',
+  debug: 'Debug',
 }
 
 const EMPTY_ARRAY = [];
@@ -201,6 +207,18 @@ class PluginForm1 extends Component {
             <Button key="2" icon="bring-data" minimal onClick={this.handleChangeAutoScroll} />,
           <Button key="3" icon="trash" minimal onClick={this.handleClearConsole} />,
           <Separator key="4" />,
+          <div  key="5" data-tip="Expand" key="expand">
+            <ExpandButton />
+          </div>,
+          <div key="6" data-tip="Remove" key="remove">
+            <RemoveButton />
+          </div>,
+        ]
+      )
+    }
+    if (id === 'debug') {
+      return (
+        [
           <div  key="5" data-tip="Expand" key="expand">
             <ExpandButton />
           </div>,
