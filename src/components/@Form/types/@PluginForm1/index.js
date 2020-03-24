@@ -6,6 +6,7 @@ import {
   RemoveButton, ExpandButton, Separator, 
 } from 'react-mosaic-component';
 
+import { Scrollbars } from 'react-custom-scrollbars';
 import { SortableTreeWithoutDndContext as SortableTree } from 'react-sortable-tree';
 
 import Form from 'components/@Form';
@@ -34,7 +35,8 @@ const styles = {
     padding: 5
   },
   form: { 
-    padding: 20, 
+    padding: 10,
+    overflow: 'hidden',
   }
 }
 
@@ -180,18 +182,20 @@ class PluginForm1 extends Component {
     }
     if (id === 'form') {
       return (
-        <div style={styles.form} >
-          <Form 
-            key={`${props.route.nodeid}_${state.selects.curent}`} 
-            debug={false} 
-            scheme={state.scheme} 
-            route={props.route}
-            data={state.data}
-            cache={state.cache}
-            onChange={this.handleChangeForm}
-            heightOffset={370}
-          />
-        </div>
+        <Scrollbars style={{width: '100%', height: '100%' }}>
+          <div style={styles.form} >
+            <Form 
+              key={`${props.route.nodeid}_${state.selects.curent}`} 
+              debug={false} 
+              scheme={state.scheme} 
+              route={props.route}
+              data={state.data}
+              cache={state.cache}
+              onChange={this.handleChangeForm}
+              heightOffset={268}
+            />
+          </div>
+        </Scrollbars>
       )
     }
     return null;
