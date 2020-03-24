@@ -32,8 +32,8 @@ core.network.response('plugin_tree', (answer, res, context) => {
 
 core.network.request('plugin_tree_form', (send, context) => {
   send([
-    { method: 'getmeta', type: 'form', id: context.params.component, nodeid: context.params.nodeid },
-    { method: 'get', type: 'form', id: context.params.component, nodeid: context.params.nodeid },
+    { method: 'getmeta', type: 'form', id: context.params.component, nodeid: context.params.targetid },
+    { method: 'get', type: 'form', id: context.params.component, nodeid: context.params.targetid },
   ]);
 })
 

@@ -233,8 +233,8 @@ class PluginForm1 extends Component {
     });
 
     const type = item.node.children !== undefined ? 'parent' : 'child';
-    const component = this.state.options.common[type].defaultComponent;
-    const params = { ...this.props.route, component };
+    const component = item.node.component ? item.node.component : this.state.options.common[type].defaultComponent;
+    const params = { ...this.props.route, component, targetid: item.node.id };
 
     core
     .request({ method: 'plugin_tree_form', params })
