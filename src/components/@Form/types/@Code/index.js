@@ -40,7 +40,7 @@ const scheme = {
   second: {
     direction: 'row',
     first: 'console',
-    second: 'debug',
+    second: 'controls',
     splitPercentage: 75,
   },
   splitPercentage: 70,
@@ -50,7 +50,7 @@ const TITLES = {
   code: 'Code',
   console: 'Console',
   toolbar: 'Toolbar',
-  debug: 'Debug',
+  controls: 'Controls',
   inspector: 'Inspector'
 }
 

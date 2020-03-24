@@ -59,7 +59,7 @@ const scheme = {
   second: {
     direction: 'row',
     first: "console",
-    second: 'debug',
+    second: 'controls',
     splitPercentage: 75,
   },
   splitPercentage: 70,
@@ -69,7 +69,7 @@ const TITLES = {
   tree: 'Channels',
   form: 'Properties',
   console: 'Console',
-  debug: 'Debug',
+  controls: 'Controls',
 }
 
 const EMPTY_ARRAY = [];
@@ -216,7 +216,7 @@ class PluginForm1 extends Component {
         ]
       )
     }
-    if (id === 'debug') {
+    if (id === 'controls') {
       return (
         [
           <div  key="5" data-tip="Expand" key="expand">
