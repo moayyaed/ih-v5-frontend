@@ -480,21 +480,32 @@ class PluginForm1 extends Component {
 
   renderDownToolbar = (id) => {
     if (id === 'tree') {
-      const scheme = {
+      const scheme1 = {
         main: [
-          { id: 'newDevice', title: 'New device'},
-          { id: 'newType', title: 'New type'},
+          { id: '1', title: 'New channel'},
+          { id: '2', title: 'New folder'},
+        ]
+      }
+      const scheme2 = {
+        main: [
+          { id: '1', title: 'Pairing device'},
+          { id: '2', title: 'Delete device'},
+          { id: '3', title: 'Ping device'},
+          { id: '5', title: 'Command 5'},
+          { id: '6', title: 'Command 6'},
         ]
       }
       return (
         <div style={styles.downToolbar} >
           
-          <Popover content={<Menu scheme={scheme} />} position={Position.TOP_LEFT}>
+          <Popover content={<Menu scheme={scheme1} />} position={Position.TOP_LEFT}>
             <Button icon="plus" minimal />
           </Popover>
           <Button disabled={!this.state.selects.curent} icon="minus" minimal onClick={() => {}} />
           <input style={styles.buttonSearch} class="bp3-input" placeholder="Search..." type="text" />
-          <Button style={styles.buttonMore} icon="application" minimal onClick={() => {}} />
+          <Popover content={<Menu scheme={scheme2} />} position={Position.TOP_LEFT}>
+            <Button style={styles.buttonMore}  icon="application" minimal />
+          </Popover>
         </div>
       )
     }
