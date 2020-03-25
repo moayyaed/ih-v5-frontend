@@ -87,6 +87,10 @@ class AppNav extends Component {
     });
   }
 
+  componentWillUnmount() {
+    core.actions.apppage.clear();
+  }
+
   handleChange = (list) => {
     core.actions.appnav.data({ list })
   }

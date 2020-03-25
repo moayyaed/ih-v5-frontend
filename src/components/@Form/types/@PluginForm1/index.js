@@ -9,7 +9,7 @@ import {
   RemoveButton, ExpandButton, Separator, 
 } from 'react-mosaic-component';
 
-import { Button, Popover, Position } from "@blueprintjs/core";
+import { Button, Popover, Position, ContextMenu } from '@blueprintjs/core';
 
 import { Scrollbars } from 'react-custom-scrollbars';
 import { SortableTreeWithoutDndContext as SortableTree } from 'react-sortable-tree';
@@ -210,6 +210,18 @@ class PluginForm1 extends Component {
       };
     })
   }
+
+  selectNodeContextMenu = (item = null) => {
+    this.setState(state => {
+      return { 
+        ...state, 
+        selects: { 
+          ...state.selects, 
+          contextMenu: item,
+        } 
+      };
+    })
+  }
   
   renderButtons = (id) => {
     if (id === 'tree') {
@@ -328,7 +340,7 @@ class PluginForm1 extends Component {
     if (this.state.selects.data[id]) {
       style.backgroundColor = 'rgba(158, 158, 158, 0.2)';
     } else {
-      if (this.state.selects.contextMenu && this.props.state.selects.contextMenu.id === id) {
+      if (this.state.selects.contextMenu && this.state.selects.contextMenu.id === id) {
         style.outline = '1px solid #2196F3';
       }
     }
@@ -369,6 +381,33 @@ class PluginForm1 extends Component {
   }
 
   handleContextMenuNode = (e, item) => {
+    const type = item.node.children !== undefined ? 'parent' : 'child';
+    const pos = { left: e.clientX, top: e.clientY };
+
+    const disabled = { disablePaste: false };
+    const commands = {
+      addNodeByContext: (menuItem) => this.handleAddNode(false, item, menuItem), 
+      addNode: () => this.handleAddNode(false, item),
+      addFolder: () => this.handleAddNode(true, item),
+      copy: () => this.handleCopyNode(item),
+      paste: () => this.handlePasteNode(item),
+      delete: () => this.handleRemoveNodes(item), 
+    };
+    let scheme = { main: [] };
+
+    if (this.state.options.common && this.state.options.common[type]) {
+      scheme = this.state.options.common[type].popup;
+
+      this.selectNodeContextMenu(item.node);
+      ContextMenu.show(
+        <Menu 
+          scheme={scheme}
+          disabled={disabled}
+          commands={commands}
+        />, 
+        pos, this.selectNodeContextMenu);
+    }
+
     e.preventDefault();
     e.stopPropagation();
   }
@@ -502,7 +541,7 @@ class PluginForm1 extends Component {
             <Button icon="plus" minimal />
           </Popover>
           <Button disabled={!this.state.selects.curent} icon="minus" minimal onClick={() => {}} />
-          <input style={styles.buttonSearch} class="bp3-input" placeholder="Search..." type="text" />
+          <input style={styles.buttonSearch} className="bp3-input search-button" placeholder="Search..." type="text" />
           <Popover content={<Menu scheme={scheme2} />} position={Position.TOP_LEFT}>
             <Button style={styles.buttonMore}  icon="application" minimal />
           </Popover>

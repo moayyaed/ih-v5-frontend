@@ -1,1 +1,2 @@
 export const APP_PAGE_SET_DATA = 'APP_PAGE_SET_DATA';
+export const APP_PAGE_CLEAR_DATA = 'APP_PAGE_CLEAR_DATA';
