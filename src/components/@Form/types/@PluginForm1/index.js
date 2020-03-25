@@ -538,7 +538,7 @@ class PluginForm1 extends Component {
     }
 
     if (this.state.windows.direction === 'column') {
-      if (this.state.windows.second !== id) {
+      if (typeof this.state.windows.second === 'string' && this.state.windows.second !== id) {
         this.setState(state => {
           return { 
             ...state, windows: {
