@@ -82,6 +82,15 @@ class Code extends Component {
 
   handleRealTimeDataConsole = (value) => {
     this.setState(state => {
+      if (this.state.consoleValue.length > 50 * 5000) {
+        return { 
+          ...state, 
+          consoleValue: state.consoleValue
+            .split('\r\n')
+            .slice(1500)
+            .join('\r\n') + value + '\r\n' 
+        };
+      }
       return { ...state, consoleValue: state.consoleValue + value + '\r\n' };
     }, () => {
       if (this.console && this.state.consoleAutoScroll) {
