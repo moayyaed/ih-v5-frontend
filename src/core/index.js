@@ -37,6 +37,10 @@ function route(path) {
   }
 }
 
+/*
+window.onerror = function(message, source, lineno, colno, error) {
+}
+*/
 
 const core = {
   settings,

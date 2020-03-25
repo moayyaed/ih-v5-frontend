@@ -9,15 +9,13 @@ import {
   RemoveButton, ExpandButton, Separator, 
 } from 'react-mosaic-component';
 
-import { Button } from "@blueprintjs/core";
+import { Button, Popover, Position } from "@blueprintjs/core";
 
 import { Scrollbars } from 'react-custom-scrollbars';
 import { SortableTreeWithoutDndContext as SortableTree } from 'react-sortable-tree';
 
+import Menu from 'components/Menu';
 import Form from 'components/@Form';
-
-import 'ace-builds/src-noconflict/theme-tomorrow';
-import 'ace-builds/src-noconflict/mode-text';
 
 import { 
   getNodesRange, 
@@ -32,6 +30,8 @@ import {
 
 import theme from 'components/AppNav/theme';
 
+import 'ace-builds/src-noconflict/theme-tomorrow';
+import 'ace-builds/src-noconflict/mode-text';
 
 
 const styles = {
@@ -45,25 +45,31 @@ const styles = {
   form: { 
     padding: 10,
     overflow: 'hidden',
-  }
+  },
+  downToolbar: {
+    display: 'flex',
+    height: 31,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    borderTop: '1px solid rgba(16, 22, 26, 0.15)',
+  },
+  buttonMore: {
+    float: 'right',
+  },
+  buttonSeparator: {
+    height: 20,
+    margin: '5px 4px',
+    borderLeft: '1px solid #d8e1e8',
+  },
+  buttonSearch: {
+    width: '100%',
+    height: 24,
+    fontSize: 13,
+    marginLeft: 8,
+    marginRight: 8,
+  },
 }
 
-const scheme = {
-  direction: 'column',
-  first: {
-    direction: 'row',
-    first: "tree",
-    second: 'form',
-    splitPercentage: 25,
-  },
-  second: {
-    direction: 'row',
-    first: "console",
-    second: 'controls',
-    splitPercentage: 75,
-  },
-  splitPercentage: 70,
-}
 
 const TITLES = {
   tree: 'Channels',
@@ -100,7 +106,14 @@ class PluginForm1 extends Component {
     loadingTree: true,
     loadingForm: true,
     consoleValue: '', 
-    consoleAutoScroll: true
+    consoleAutoScroll: true,
+    windows: {
+      mode: 0,
+      direction: 'row',
+      first: "tree",
+      second: 'form',
+      splitPercentage: 25,
+    }
   };
 
   componentDidMount() {
@@ -199,6 +212,21 @@ class PluginForm1 extends Component {
   }
   
   renderButtons = (id) => {
+    if (id === 'tree') {
+      const scheme = {
+        main: [
+          { id: '1', title: 'Console', click: () => this.handleShowWindow('console') },
+          { id: '2', title: 'Controls', click: () => this.handleShowWindow('controls') },
+        ]
+      }
+      return (
+        [
+          <Popover content={<Menu scheme={scheme} />} position={Position.BOTTOM_RIGHT}>
+            <Button icon="cog" minimal />
+          </Popover>
+        ]
+      )
+    }
     if (id === 'console') {
       return (
         [
@@ -450,6 +478,73 @@ class PluginForm1 extends Component {
     });
   }
 
+  renderDownToolbar = (id) => {
+    if (id === 'tree') {
+      const scheme = {
+        main: [
+          { id: 'newDevice', title: 'New device'},
+          { id: 'newType', title: 'New type'},
+        ]
+      }
+      return (
+        <div style={styles.downToolbar} >
+          
+          <Popover content={<Menu scheme={scheme} />} position={Position.TOP_LEFT}>
+            <Button icon="plus" minimal />
+          </Popover>
+          <Button disabled={!this.state.selects.curent} icon="minus" minimal onClick={() => {}} />
+          <input style={styles.buttonSearch} class="bp3-input" placeholder="Search..." type="text" />
+          <Button style={styles.buttonMore} icon="application" minimal onClick={() => {}} />
+        </div>
+      )
+    }
+    return null;
+  }
+
+  handleChangeWindows = (data) => {
+    this.setState(state => {
+      return { ...state, windows: data };
+    });
+  }
+
+  handleShowWindow = (id) => {
+    if (this.state.windows.direction === 'row') {
+      this.setState(state => {
+        return { 
+          ...state, windows: {
+            direction: 'column',
+            first: {
+              direction: 'row',
+              first: "tree",
+              second: 'form',
+              splitPercentage: state.windows.splitPercentage,
+            },
+            second: id,
+            splitPercentage: 70,
+          }
+        };
+      });
+    }
+
+    if (this.state.windows.direction === 'column') {
+      if (this.state.windows.second !== id) {
+        this.setState(state => {
+          return { 
+            ...state, windows: {
+              ...state.windows,
+              second: {
+                direction: 'row',
+                first: state.windows.second,
+                second: id,
+                splitPercentage: 75,
+              },
+            }
+          };
+        });
+      }
+    }
+  }
+
   linkConsole = (e) => {
     this.console = e;
   }
@@ -459,8 +554,9 @@ class PluginForm1 extends Component {
       <div style={styles.root}>
         <Mosaic
           className="mosaic-blueprint-theme"
-          initialValue={scheme}
-          renderTile={(id, path, x) => {
+          value={this.state.windows}
+          onChange={this.handleChangeWindows}
+          renderTile={(id, path) => {
             return (
               <MosaicWindow
                 key={id}
@@ -470,6 +566,7 @@ class PluginForm1 extends Component {
                 path={path}
                 renderToolbar={null}
                 toolbarControls={this.renderButtons(id)}
+                renderPreview={() => this.renderDownToolbar(id)}
               >
                 {this.renderComponent(id)}
               </MosaicWindow>
