@@ -380,6 +380,22 @@ class PluginForm1 extends Component {
     return false;
   }
 
+  handleAddNode = () => {
+
+  }
+
+  handleCopyNode = () => {
+
+  }
+
+  handlePasteNode = () => {
+
+  }
+
+  handleRemoveNodes = () => {
+    
+  }
+
   handleContextMenuNode = (e, item) => {
     const type = item.node.children !== undefined ? 'parent' : 'child';
     const pos = { left: e.clientX, top: e.clientY };
@@ -519,32 +535,12 @@ class PluginForm1 extends Component {
 
   renderDownToolbar = (id) => {
     if (id === 'tree') {
-      const scheme1 = {
-        main: [
-          { id: '1', title: 'New channel'},
-          { id: '2', title: 'New folder'},
-        ]
-      }
-      const scheme2 = {
-        main: [
-          { id: '1', title: 'Pairing device'},
-          { id: '2', title: 'Delete device'},
-          { id: '3', title: 'Ping device'},
-          { id: '5', title: 'Command 5'},
-          { id: '6', title: 'Command 6'},
-        ]
-      }
       return (
         <div style={styles.downToolbar} >
-          
-          <Popover content={<Menu scheme={scheme1} />} position={Position.TOP_LEFT}>
-            <Button icon="plus" minimal />
-          </Popover>
+          <Button icon="plus" minimal />
           <Button disabled={!this.state.selects.curent} icon="minus" minimal onClick={() => {}} />
           <input style={styles.buttonSearch} className="bp3-input search-button" placeholder="Search..." type="text" />
-          <Popover content={<Menu scheme={scheme2} />} position={Position.TOP_LEFT}>
-            <Button style={styles.buttonMore}  icon="application" minimal />
-          </Popover>
+          <Button style={styles.buttonMore}  icon="application" minimal />
         </div>
       )
     }
