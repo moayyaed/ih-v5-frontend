@@ -73,8 +73,9 @@ core.network.response('plugin_tree_form_save', (answer, res, context) => {
 core.network.request('plugin_tree_new_node', (send, context) => {
   send({ 
     method: 'insert', 
-    type: 'tree',
-    id: context.params.menuid,
+    type: 'subtree',
+    id: context.params.id,
+    nodeid: context.params.nodeid,
     payload: context.payload,
   });
 })

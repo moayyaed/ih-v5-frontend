@@ -233,7 +233,7 @@ class PluginForm1 extends Component {
       }
       return (
         [
-          <Popover content={<Menu scheme={scheme} />} position={Position.BOTTOM_RIGHT}>
+          <Popover key="1" content={<Menu scheme={scheme} />} position={Position.BOTTOM_RIGHT}>
             <Button icon="cog" minimal />
           </Popover>
         ]
@@ -354,8 +354,10 @@ class PluginForm1 extends Component {
   }
 
   handleClickNode = (e, item) => {
-    e.preventDefault();
-    e.stopPropagation();
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
 
     const type = item.node.children !== undefined ? 'parent' : 'child';
     const component = item.node.component ? item.node.component : this.state.options.common[type].defaultComponent;
@@ -380,8 +382,39 @@ class PluginForm1 extends Component {
     return false;
   }
 
-  handleAddNode = () => {
+  handleAddNode = (folder, item, contextMenuItem = {}) => {
+    let scrollTop = this.state.scrollTop;
 
+    const parent = item.node.children !== undefined ? item.node : item.parentNode === null ? { id: null, children: this.state.list } : item.parentNode; 
+    const payload = [{ parentid: parent.id, order: getOrder(parent, item.node), ...contextMenuItem, title: 'test' }];
+    const params = { id: this.props.options.data, nodeid: this.props.route.nodeid };
+
+    core
+      .request({ method: 'plugin_tree_new_node', params, payload })
+      .ok((res) => {
+        const type = contextMenuItem.popupid === 'folder' ? 'parent' : 'child';
+        const list = insertNodes(this.state.list, item.node,  res.data);
+        const node = findNode(this.state.list, res.data[0].id);
+
+        if (node) {
+          if (node.windowHeight - this.panel.clientHeight > 0) {
+            scrollTop = node.scrollPoint - ((this.panel.clientHeight - 5) / 2) - 9;
+          }
+        }
+  
+        if (res.reorder) {
+          const listReorder = editNodes(this.state.list, (item) => {
+            if (res.reorder[item.id]) {
+              return { ...item, order: res.reorder[item.id] };
+            }
+            return item;
+          }); 
+          this.setData({ scrollTop, list: listReorder });
+        } else {
+          this.setData({ scrollTop, list });
+        }
+        this.handleClickNode(null, { node: res.data[0] });
+      });
   }
 
   handleCopyNode = () => {
