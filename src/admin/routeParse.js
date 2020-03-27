@@ -8,9 +8,16 @@ function checkValue(value) {
 function getComponentParams(componentid, params) {
   const defaultParams = {
     tab: null,
+    channelview: null,
+    channel: null,
   }
   if (componentid) {
     defaultParams.tab = checkValue(params[6]);
+  }
+  
+  if (componentid === 'pluginview') {
+    defaultParams.channelview = checkValue(params[7]);
+    defaultParams.channel = checkValue(params[8]);
   }
   return defaultParams;
 }

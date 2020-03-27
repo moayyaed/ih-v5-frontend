@@ -123,10 +123,42 @@ class PluginForm1 extends Component {
       .request({ method: 'plugin_tree', params })
       .ok((res) => {
         res.loadingTree = false;
+        if (this.props.route.channel) {
+          const node = findNode(res.list, this.props.route.channel);
+          if (node) {
+            if (node.windowHeight - (this.container.clientHeight - 73) > 0) {
+              res.scrollTop = node.scrollPoint - ((this.container.clientHeight - 73 - 5) / 2) - 9;
+            }
+            res.list = editNodes(res.list, (item) => {
+              if (item.children !== undefined && node.paths[item.id]) {
+                return { ...item, expanded: true };
+              }
+              return item;
+            }); 
+          }
+        }
         this.setData(res);
       });
+    
+    if (this.props.route.channelview && this.props.route.channel) {
+      this.formRequest(this.props.route.channel, this.props.route.channelview);
+    }
+
     core.transfer.sub('pluginform1', this.handleTransferData);
     core.tunnel.sub(config('plugin', this.props.route), this.handleRealTimeDataConsole);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.route.channel !== this.props.route.channel || 
+      prevProps.route.channelview !== this.props.route.channelview
+    ) {
+      if (this.props.route.channelview && this.props.route.channel) {
+        this.formRequest(this.props.route.channel, this.props.route.channelview);
+      } else {
+        this.setData({ scheme: {}, data: {}, cache: {} });
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -277,7 +309,6 @@ class PluginForm1 extends Component {
     if (id === 'tree' && this.state.loadingTree === false) {
       return (
         <SortableTree
-         
           key={props.route.nodeid}
           rowHeight={21}
           innerStyle={styles.tree}
@@ -288,7 +319,6 @@ class PluginForm1 extends Component {
           generateNodeProps={this.generateNodeProps}
           onChange={this.handleChangeTree}
           reactVirtualizedListProps={{ 
-            id: "subtree",
             onScroll: this.handleTreeScroll,
             scrollTop: this.state.scrollTop,
           }}
@@ -340,7 +370,7 @@ class PluginForm1 extends Component {
   generateNodeProps = (rowinfo) => {
     const style = {};
     const id = rowinfo.node.id;
-    if (this.state.selects.curent === id) {
+    if (this.props.route.channel === id) {
       style.backgroundColor = 'rgba(158, 158, 158, 0.2)';
     }
 
@@ -360,24 +390,25 @@ class PluginForm1 extends Component {
     };
   }
 
+  formRequest = (nodeid, channelview) => {
+    const params = { component: channelview, curent: nodeid };
+    
+    core
+    .request({ method: 'plugin_tree_form', params })
+    .ok(this.setData);
+  }
+
   handleClickNode = (e, item) => {
+    const { route } = this.props;
+
     if (e) {
       e.preventDefault();
       e.stopPropagation();
     }
-
     const type = item.node.children !== undefined ? 'parent' : 'child';
-    const component = item.node.component ? item.node.component : this.state.options.common[type].defaultComponent;
-    const params = { component, curent: item.node.id };
+    const channelview = item.node.component ? item.node.component : this.state.options.common[type].defaultComponent;
 
-    this.setState(state => {
-      return { ...state, selects: { ...state.selects, curent: item.node.id, component } };
-    });
-
-    core
-    .request({ method: 'plugin_tree_form', params })
-    .ok(this.setData);
-    
+    core.route(`${route.menuid}/${route.rootid}/${route.componentid}/${route.nodeid}/${route.tab}/${channelview}/${item.node.id}`);
   }
 
   handleCheckChild = (node) => {
@@ -402,11 +433,10 @@ class PluginForm1 extends Component {
         const type = contextMenuItem.popupid === 'folder' ? 'parent' : 'child';
         const list = insertNodes(this.state.list, item.node,  res.data);
         const node = findNode(list, res.data[0].id);
-        const panel = document.getElementById('subtree');
 
         if (node) {
-          if (node.windowHeight - panel.clientHeight > 0) {
-            scrollTop = node.scrollPoint - ((panel.clientHeight - 5) / 2) - 9;
+          if (node.windowHeight - this.container.clientHeight > 0) {
+            scrollTop = node.scrollPoint - ((this.container.clientHeight - 5) / 2) - 9;
           }
         }
   
@@ -636,8 +666,8 @@ class PluginForm1 extends Component {
     }
   }
 
-  linkTree = (e) => {
-    this.tree = e;
+  linkContainer = (e) => {
+    this.container = e;
   }
 
   linkConsole = (e) => {
@@ -646,7 +676,7 @@ class PluginForm1 extends Component {
 
   render() {
     return (
-      <div style={styles.root}>
+      <div ref={this.linkContainer} style={styles.root}>
         <Mosaic
           className="mosaic-blueprint-theme"
           value={this.state.windows}
