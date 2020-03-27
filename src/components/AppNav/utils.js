@@ -62,39 +62,50 @@ export function insertNodes(data, node, items) {
   return temp;
 }
 
-export function findNode(data, nodeid) {
+export function findNode(data, nodeid, parentOpen) {
   const paths = {};
+  let find = null;
   let count = 0;
   let countAll = 0;
-  let temp = null;
 
-  function nodes(list) {
+  function nodes(list, parentid, parentOpen) {
     list.forEach((item, key) => {
-      if (item.id === nodeid) {
-        count = count + key + 1;
-        temp = { node: item, paths };
-      }
-      if(temp !== null) {
+      if (find === null) {
+        count = count + 1;
         countAll = countAll + 1;
+      } else {
+        if (parentid === 'root' || paths[parentid] || parentOpen) {
+          countAll = countAll + 1;
+        }
       }
-      if (temp === null && item.children !== undefined) {
-        nodes(item.children);
-        if (temp !== null) {
-          count = count + key + 1;
+
+      if (item.id === nodeid) {
+        find = item;
+      }
+
+      if (item.children !== undefined) {
+        if (find === null) {
           paths[item.id] = item;
         }
-      }    
+        nodes(item.children, item.id, item.expanded);
+        if (find === null) {
+          if (!item.expanded) {
+            count = count - item.children.length;
+            countAll = countAll - item.children.length
+          }
+          delete paths[item.id];
+        }
+      }
     });
   }
-
-  nodes(data);
-
-  if (temp) {
-    temp.scrollPoint = (count - 1) * 21 + 5;
-    temp.windowHeight = (count - 1 + countAll) * 21 + 5;
+  nodes(data, 'root', false);
+  if (find) {
+   find.paths = paths;
+   find.scrollPoint = (count - 1) * 21 + 5;
+   find.windowHeight = countAll * 21 + 5; 
   }
-
-  return temp;
+  
+  return find;
 }
 
 export function editNodes(data, func) {

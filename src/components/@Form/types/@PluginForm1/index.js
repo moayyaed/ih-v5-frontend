@@ -113,7 +113,8 @@ class PluginForm1 extends Component {
       first: "tree",
       second: 'form',
       splitPercentage: 25,
-    }
+    },
+    scrollTop: 0,
   };
 
   componentDidMount() {
@@ -276,6 +277,7 @@ class PluginForm1 extends Component {
     if (id === 'tree' && this.state.loadingTree === false) {
       return (
         <SortableTree
+         
           key={props.route.nodeid}
           rowHeight={21}
           innerStyle={styles.tree}
@@ -285,6 +287,11 @@ class PluginForm1 extends Component {
           canNodeHaveChildren={this.handleCheckChild}
           generateNodeProps={this.generateNodeProps}
           onChange={this.handleChangeTree}
+          reactVirtualizedListProps={{ 
+            id: "subtree",
+            onScroll: this.handleTreeScroll,
+            scrollTop: this.state.scrollTop,
+          }}
         />   
       )
     }
@@ -387,23 +394,24 @@ class PluginForm1 extends Component {
 
     const parent = item.node.children !== undefined ? item.node : item.parentNode === null ? { id: null, children: this.state.list } : item.parentNode; 
     const payload = [{ parentid: parent.id, order: getOrder(parent, item.node), ...contextMenuItem, title: 'test' }];
-    const params = { id: this.props.options.data, nodeid: this.props.route.nodeid };
+    const params = { id: this.props.options.data, navnodeid: this.props.route.nodeid };
 
     core
       .request({ method: 'plugin_tree_new_node', params, payload })
       .ok((res) => {
         const type = contextMenuItem.popupid === 'folder' ? 'parent' : 'child';
         const list = insertNodes(this.state.list, item.node,  res.data);
-        const node = findNode(this.state.list, res.data[0].id);
+        const node = findNode(list, res.data[0].id);
+        const panel = document.getElementById('subtree');
 
         if (node) {
-          if (node.windowHeight - this.panel.clientHeight > 0) {
-            scrollTop = node.scrollPoint - ((this.panel.clientHeight - 5) / 2) - 9;
+          if (node.windowHeight - panel.clientHeight > 0) {
+            scrollTop = node.scrollPoint - ((panel.clientHeight - 5) / 2) - 9;
           }
         }
   
         if (res.reorder) {
-          const listReorder = editNodes(this.state.list, (item) => {
+          const listReorder = editNodes(list, (item) => {
             if (res.reorder[item.id]) {
               return { ...item, order: res.reorder[item.id] };
             }
@@ -463,6 +471,10 @@ class PluginForm1 extends Component {
 
   handleChangeTree = (list) => {
     this.setData({ list })
+  }
+
+  handleTreeScroll = (e) => {
+    this.setData({ scrollTop: e.scrollTop });
   }
 
   handleSaveDataBasic = (id, component, target, value) => {
@@ -622,6 +634,10 @@ class PluginForm1 extends Component {
         });
       }
     }
+  }
+
+  linkTree = (e) => {
+    this.tree = e;
   }
 
   linkConsole = (e) => {

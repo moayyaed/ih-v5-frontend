@@ -75,7 +75,7 @@ core.network.request('plugin_tree_new_node', (send, context) => {
     method: 'insert', 
     type: 'subtree',
     id: context.params.id,
-    nodeid: context.params.nodeid,
+    navnodeid: context.params.navnodeid,
     payload: context.payload,
   });
 })

@@ -75,7 +75,7 @@ core.network.request('appnav_paste_node', (send, context) => {
     method: 'copypaste', 
     type: 'tree',
     id: context.params.menuid,
-    nodeid: context.params.parentid,
+    targetid: context.params.parentid,
     order: context.params.order,
     payload: context.payload,
   });
