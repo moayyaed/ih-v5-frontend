@@ -114,9 +114,10 @@ core.network.response('plugin_tree_move_node', (answer, res, context) => {
 core.network.request('plugin_tree_paste_node', (send, context) => {
   send({ 
     method: 'copypaste', 
-    type: 'tree',
-    id: context.params.menuid,
-    nodeid: context.params.parentid,
+    type: 'subtree',
+    id: context.params.id,
+    navnodeid: context.params.navnodeid,
+    targetid: context.params.parentid,
     order: context.params.order,
     payload: context.payload,
   });

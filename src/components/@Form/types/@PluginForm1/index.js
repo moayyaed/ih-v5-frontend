@@ -456,12 +456,47 @@ class PluginForm1 extends Component {
       });
   }
 
-  handleCopyNode = () => {
+  handleCopyNode = (item) => {
+    let struct;
 
+    const list = [{ id: 'all', root: 'all', children: this.state.list }];
+
+    if (this.state.selects.data[item.node.id]) {
+      struct = structToMap(true, { all: 'all' }, list, this.state.selects.data);
+    } else {
+      struct = structToMap(true, { all: 'all' }, list, item.node.id, item.node.id);
+    }
+  
+    const buffer = struct.map.all;
+    core.buffer = { class: 'subtree', type: this.props.route.nodeid, data: buffer  };
   }
 
-  handlePasteNode = () => {
-
+  handlePasteNode = (item) => {
+    // const parent = item.node.children !== undefined ? item.node : item.parentNode === null ? { id: null, children: this.state.list } : item.parentNode; 
+    const payload = core.buffer.data;
+    const params = {
+      id: this.props.options.data, 
+      navnodeid: this.props.route.nodeid,
+      parentid: item.node.id,
+      order: item.node.children !== undefined ? null : item.node.order,
+    };
+    
+    core
+    .request({ method: 'plugin_tree_paste_node', params, payload })
+    .ok((res) => {
+      const list = insertNodes(this.state.list, item.node, res.data);
+      if (res.reorder) {
+        const listReorder = editNodes(list, (item) => {
+          if (res.reorder[item.id]) {
+            return { ...item, order: res.reorder[item.id] };
+          }
+          return item;
+        }); 
+        this.setData({ list: listReorder });
+      } else {
+        this.setData({ list });
+      }
+    }); 
   }
 
   handleMoveNode = (item) => {
@@ -490,7 +525,7 @@ class PluginForm1 extends Component {
     const type = item.node.children !== undefined ? 'parent' : 'child';
     const pos = { left: e.clientX, top: e.clientY };
 
-    const disabled = { disablePaste: false };
+    const disabled = { disablePaste: this.props.route.nodeid !== core.buffer.type };
     const commands = {
       addNodeByContext: (menuItem) => this.handleAddNode(false, item, menuItem), 
       addNode: () => this.handleAddNode(false, item),
