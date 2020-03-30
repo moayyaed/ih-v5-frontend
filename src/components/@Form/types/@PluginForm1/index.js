@@ -318,6 +318,7 @@ class PluginForm1 extends Component {
           canNodeHaveChildren={this.handleCheckChild}
           generateNodeProps={this.generateNodeProps}
           onChange={this.handleChangeTree}
+          onMoveNode={this.handleMoveNode}
           reactVirtualizedListProps={{ 
             onScroll: this.handleTreeScroll,
             scrollTop: this.state.scrollTop,
@@ -461,6 +462,25 @@ class PluginForm1 extends Component {
 
   handlePasteNode = () => {
 
+  }
+
+  handleMoveNode = (item) => {
+    const nodeid = item.node.id;
+    const parent = item.nextParentNode !== null ? item.nextParentNode : { id: null, children: this.state.list };
+    const order = getOrderMove(parent, item.node);
+
+    const params = { id: this.props.options.data, navnodeid: this.props.route.nodeid };
+    const payload = [{ parentid: parent.id, nodeid, order }];
+    
+    core
+      .request({ method: 'plugin_tree_move_node', params, payload })
+      .ok((res) => {})
+      .error(() => {
+        const params = { id: this.props.options.data, nodeid: this.props.route.nodeid };
+        core
+        .request({ method: 'plugin_tree', params })
+        .ok(this.setData);
+      });
   }
 
   handleRemoveNodes = () => {

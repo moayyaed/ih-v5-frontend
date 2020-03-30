@@ -100,8 +100,9 @@ core.network.response('plugin_tree_remove_node', (answer, res, context) => {
 core.network.request('plugin_tree_move_node', (send, context) => {
   send({ 
     method: 'update', 
-    type: 'tree',
-    id: context.params.menuid,
+    type: 'subtree',
+    id: context.params.id,
+    navnodeid: context.params.navnodeid,
     payload: context.payload,
   });
 })
