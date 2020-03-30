@@ -16,8 +16,8 @@ function transformData(list, meta) {
 
 core.network.request('plugin_tree', (send, context) => {
   send([
-    { method: 'get', type: 'subtree', id: context.params.id, nodeid: context.params.nodeid },
-    { method: 'getmeta', type: 'subtree', id: context.params.id, nodeid: context.params.nodeid },
+    { method: 'get', type: 'subtree', id: context.params.id, nodeid: context.params.navnodeid },
+    { method: 'getmeta', type: 'subtree', id: context.params.id, nodeid: context.params.navnodeid },
   ]);
 })
 

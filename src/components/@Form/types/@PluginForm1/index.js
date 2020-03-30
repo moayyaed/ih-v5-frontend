@@ -118,7 +118,7 @@ class PluginForm1 extends Component {
   };
 
   componentDidMount() {
-    const params = { id: this.props.options.data, nodeid: this.props.route.nodeid };
+    const params = { id: this.props.options.data, navnodeid: this.props.route.nodeid };
     core
       .request({ method: 'plugin_tree', params })
       .ok((res) => {
@@ -476,7 +476,6 @@ class PluginForm1 extends Component {
       .request({ method: 'plugin_tree_move_node', params, payload })
       .ok((res) => {})
       .error(() => {
-        const params = { id: this.props.options.data, nodeid: this.props.route.nodeid };
         core
         .request({ method: 'plugin_tree', params })
         .ok(this.setData);
