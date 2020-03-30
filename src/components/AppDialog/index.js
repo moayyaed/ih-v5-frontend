@@ -41,6 +41,7 @@ class AppDialog extends Component {
   }
 
   handleClose = () => {
+    core.transfer.send(this.props.state.transferid, null)
     core.actions.appdialog.data({ open: false })
   }
 

@@ -19,11 +19,19 @@ const styles = {
 }
 
 class Devlink extends Component {
+
+
+  handleDialogClick = (params) => {
+    core.transfer.unsub('form_dialog', this.handleDialogClick);
+    console.log(params);
+  }
+
   handleClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
 
-    core.actions.appdialog.data({ open: true });
+    core.transfer.sub('form_dialog', this.handleDialogClick);
+    core.actions.appdialog.data({ open: true, transferid: 'form_dialog' });
   }
 
   render() {
