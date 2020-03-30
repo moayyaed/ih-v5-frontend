@@ -31,7 +31,7 @@ function getComponentByType(type) {
     case 'pluginform1':
       return PluginForm1;
     default:
-      return null;
+      return Text;
   }
 }
 
