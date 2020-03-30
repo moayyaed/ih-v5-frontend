@@ -7,6 +7,7 @@ import Textarea from './@Textarea';
 import Droplist from './@Droplist';
 import Tags from './@Tags';
 
+import Devlink from './@Devlink';
 import Table from './@Table';
 import Code from './@Code';
 import PluginForm1 from './@PluginForm1';
@@ -26,6 +27,8 @@ function getComponentByType(type) {
       return Droplist;
     case 'tags':
       return Tags;
+    case 'devlink':
+      return Devlink;
     case 'code':
       return Code;
     case 'pluginform1':
