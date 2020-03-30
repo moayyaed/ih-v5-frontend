@@ -329,9 +329,9 @@ class AppNav extends Component {
     let struct;
 
     if (selects.data[item.node.id]) {
-      struct = structToMap(false, options.roots, list, selects.data);
+      struct = structToMap(true, options.roots, list, selects.data);
     } else {
-      struct = structToMap(false, options.roots, list, item.node.id, item.node.id);
+      struct = structToMap(true, options.roots, list, item.node.id, item.node.id);
     }
 
     core

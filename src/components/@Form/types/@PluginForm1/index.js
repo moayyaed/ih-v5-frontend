@@ -376,7 +376,7 @@ class PluginForm1 extends Component {
     }
 
     if (this.state.selects.data[id]) {
-      style.backgroundColor = 'rgba(158, 158, 158, 0.2)';
+      style.backgroundColor = 'rgba(33, 150, 243, 0.2)';
     } else {
       if (this.state.selects.contextMenu && this.state.selects.contextMenu.id === id) {
         style.outline = '1px solid #2196F3';
@@ -400,12 +400,60 @@ class PluginForm1 extends Component {
   }
 
   handleClickNode = (e, item) => {
-    const { route } = this.props;
+    e.preventDefault();
+    e.stopPropagation();
 
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
+    if (e.shiftKey) {
+      const curent = item.node;
+      const last = this.state.selects.lastItem || curent;
+      const lastSelects = this.state.selects.data;
+      const selects = getNodesRange(this.state.list, last.id, curent.id);
+      this.setState(state => {
+        return { 
+          ...state, 
+          selects: { 
+            ...state.selects, 
+            lastItem: curent,
+            data: {
+              ...state.selects.data,
+              ...selects,
+            }
+          } 
+        };
+      });
+    } else if (e.ctrlKey || e.metaKey) {
+      this.setState(state => {
+        return { 
+          ...state, 
+          selects: { 
+            ...state.selects, 
+            lastItem: item.node,
+            data: {
+              ...state.selects.data,
+              [item.node.id]: state.selects.data[item.node.id] ? null : item.node 
+            }
+          } 
+        };
+      });
+    } else {
+      if (this.state.selects.lastItem) {
+        this.setState(state => {
+          return { 
+            ...state, 
+            selects: { 
+              lastItem: null,
+              contextMenu: null,
+              data: {}
+            } 
+          };
+        });
+      }
+      this.handleChangeRoute(item);
     }
+  }
+
+  handleChangeRoute = (item) => {
+    const { route } = this.props;
     const type = item.node.children !== undefined ? 'parent' : 'child';
     const channelview = item.node.component ? item.node.component : this.state.options.common[type].defaultComponent;
 
@@ -452,7 +500,7 @@ class PluginForm1 extends Component {
         } else {
           this.setData({ scrollTop, list });
         }
-        this.handleClickNode(null, { node: res.data[0] });
+        this.handleChangeRoute({ node: res.data[0] });
       });
   }
 
@@ -472,7 +520,6 @@ class PluginForm1 extends Component {
   }
 
   handlePasteNode = (item) => {
-    // const parent = item.node.children !== undefined ? item.node : item.parentNode === null ? { id: null, children: this.state.list } : item.parentNode; 
     const payload = core.buffer.data;
     const params = {
       id: this.props.options.data, 
@@ -524,9 +571,9 @@ class PluginForm1 extends Component {
     const list = [{ id: 'all', root: 'all', children: this.state.list }];
 
     if (this.state.selects.data[item.node.id]) {
-      struct = structToMap(false, { all: 'all' }, list, this.state.selects.data);
+      struct = structToMap(true, { all: 'all' }, list, this.state.selects.data);
     } else {
-      struct = structToMap(false, { all: 'all' }, list, item.node.id, item.node.id);
+      struct = structToMap(true, { all: 'all' }, list, item.node.id, item.node.id);
     }
 
     core
@@ -547,9 +594,6 @@ class PluginForm1 extends Component {
         .request({ method: 'plugin_tree', params })
         .ok(this.setData);
     });
-   
-   
-   
   }
 
   handleContextMenuNode = (e, item) => {
