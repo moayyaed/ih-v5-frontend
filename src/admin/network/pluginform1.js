@@ -87,8 +87,9 @@ core.network.response('plugin_tree_new_node', (answer, res, context) => {
 core.network.request('plugin_tree_remove_node', (send, context) => {
   send({ 
     method: 'remove', 
-    type: 'tree',
-    id: context.params.menuid,
+    type: 'subtree',
+    id: context.params.id,
+    navnodeid: context.params.navnodeid,
     payload: context.payload,
   });
 })

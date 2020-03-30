@@ -517,8 +517,39 @@ class PluginForm1 extends Component {
       });
   }
 
-  handleRemoveNodes = () => {
-    
+  handleRemoveNodes = (item) => {
+    let struct;
+    const { route } = this.props;
+    const params = { id: this.props.options.data, navnodeid: this.props.route.nodeid };
+    const list = [{ id: 'all', root: 'all', children: this.state.list }];
+
+    if (this.state.selects.data[item.node.id]) {
+      struct = structToMap(false, { all: 'all' }, list, this.state.selects.data);
+    } else {
+      struct = structToMap(false, { all: 'all' }, list, item.node.id, item.node.id);
+    }
+
+    core
+    .request({ method: 'plugin_tree_remove_node', params, payload: struct.map.all })
+    .ok((res) => {
+      const newlist = removeNodes(this.state.list, struct.list);
+      this.setData({ 
+        list: newlist,
+        selects: { lastItem: null, contextMenu: null, data: {} },
+      });
+
+      if (struct.list[route.channel]) {
+        core.route(`${route.menuid}/${route.rootid}/${route.componentid}/${route.nodeid}/${route.tab}`);
+      }
+    })
+    .error(() => {
+      core
+        .request({ method: 'plugin_tree', params })
+        .ok(this.setData);
+    });
+   
+   
+   
   }
 
   handleContextMenuNode = (e, item) => {
