@@ -39,6 +39,10 @@ const styles = {
     width: '100%',
     height: '100%',
   },
+  treeContainer: {
+    width: '100%',
+    height: '100%',
+  },
   tree: { 
     padding: 5
   },
@@ -308,22 +312,24 @@ class PluginForm1 extends Component {
     const { props, state } = this;
     if (id === 'tree' && this.state.loadingTree === false) {
       return (
-        <SortableTree
-          key={props.route.nodeid}
-          rowHeight={21}
-          innerStyle={styles.tree}
-          treeData={state.list}
-          getNodeKey={({ node }) => node.id}
-          theme={theme}
-          canNodeHaveChildren={this.handleCheckChild}
-          generateNodeProps={this.generateNodeProps}
-          onChange={this.handleChangeTree}
-          onMoveNode={this.handleMoveNode}
-          reactVirtualizedListProps={{ 
-            onScroll: this.handleTreeScroll,
-            scrollTop: this.state.scrollTop,
-          }}
-        />   
+        <div style={styles.treeContainer} onContextMenu={this.handleContextMenuBody}>
+          <SortableTree
+            key={props.route.nodeid}
+            rowHeight={21}
+            innerStyle={styles.tree}
+            treeData={state.list}
+            getNodeKey={({ node }) => node.id}
+            theme={theme}
+            canNodeHaveChildren={this.handleCheckChild}
+            generateNodeProps={this.generateNodeProps}
+            onChange={this.handleChangeTree}
+            onMoveNode={this.handleMoveNode}
+            reactVirtualizedListProps={{ 
+              onScroll: this.handleTreeScroll,
+              scrollTop: this.state.scrollTop,
+            }}
+          />
+        </div>   
       )
     }
     if (id === 'form') {
@@ -599,7 +605,14 @@ class PluginForm1 extends Component {
     });
   }
 
+  handleContextMenuBody = (e) => {
+    // this.handleContextMenuNode(e, { node: { id: null } })
+  }
+
   handleContextMenuNode = (e, item) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     const type = item.node.children !== undefined ? 'parent' : 'child';
     const pos = { left: e.clientX, top: e.clientY };
 
@@ -626,9 +639,6 @@ class PluginForm1 extends Component {
         />, 
         pos, this.selectNodeContextMenu);
     }
-
-    e.preventDefault();
-    e.stopPropagation();
   }
 
   handleChangeTree = (list) => {
