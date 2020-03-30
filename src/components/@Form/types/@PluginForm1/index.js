@@ -697,22 +697,25 @@ class PluginForm1 extends Component {
   }
 
   handleTransferData = (button) => {
+    const { channelview, channel } = this.props.route;
+    const params = { component: channelview, curent: channel };
+
     if (button === 'save') {
-      const params = this.state.selects;
       const payload = this.save;
       core
       .request({ method: 'plugin_tree_form_save', params, payload })
       .ok(res => {
         this.save = {};
+        // core.actions.apppage.data({ save: false });
         core
-          .request({ method: 'plugin_tree_form', params: this.state.selects })
+          .request({ method: 'plugin_tree_form', params })
           .ok(this.setData);
       });
     } else {
       this.save = null;
       core.actions.apppage.data({ save: false });
       core
-        .request({ method: 'plugin_tree_form', params: this.state.selects })
+        .request({ method: 'plugin_tree_form', params })
         .ok(this.setData);
     }
   }
