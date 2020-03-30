@@ -392,11 +392,14 @@ class PluginForm1 extends Component {
   }
 
   formRequest = (nodeid, channelview, foundPosition = true) => {
+    if (this.save) {
+      this.save = null;
+      core.actions.apppage.data({ save: false });
+    }
     const params = { component: channelview, curent: nodeid };
-    
     core
-    .request({ method: 'plugin_tree_form', params })
-    .ok(this.setData);
+      .request({ method: 'plugin_tree_form', params })
+      .ok(this.setData);
   }
 
   handleClickNode = (e, item) => {
@@ -705,18 +708,20 @@ class PluginForm1 extends Component {
       core
       .request({ method: 'plugin_tree_form_save', params, payload })
       .ok(res => {
-        this.save = {};
-        // core.actions.apppage.data({ save: false });
-        core
-          .request({ method: 'plugin_tree_form', params })
-          .ok(this.setData);
+        if (res.data) {
+          const items = res.data.reduce((p, c) => ({ ...p, [c.id]: c }), {});
+          const list = editNodes(this.state.list, (item) => {
+            if (items[item.id]) {
+              return { ...item, ...items[item.id] };
+            }
+            return item;
+          }); 
+          this.setData({ list });
+        }
+        this.formRequest(channel, channelview);
       });
     } else {
-      this.save = null;
-      core.actions.apppage.data({ save: false });
-      core
-        .request({ method: 'plugin_tree_form', params })
-        .ok(this.setData);
+      this.formRequest(channel, channelview);
     }
   }
 
