@@ -312,7 +312,7 @@ class PluginForm1 extends Component {
     const { props, state } = this;
     if (id === 'tree' && this.state.loadingTree === false) {
       return (
-        <div style={styles.treeContainer} onContextMenu={this.handleContextMenuBody}>
+        <div style={styles.treeContainer} onClick={this.handleClickBody} onContextMenu={this.handleContextMenuBody}>
           <SortableTree
             key={props.route.nodeid}
             rowHeight={21}
@@ -603,6 +603,13 @@ class PluginForm1 extends Component {
         .request({ method: 'plugin_tree', params })
         .ok(this.setData);
     });
+  }
+
+  handleClickBody = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.setData({ selects: { lastItem: null, contextMenu: null, data: {} } });
   }
 
   handleContextMenuBody = (e) => {
