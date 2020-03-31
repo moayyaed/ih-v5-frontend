@@ -16,6 +16,15 @@ const styles = {
     cursor: 'col-resize',
     zIndex: 19,
   },
+  dragLeft2: {
+    position: 'absolute',
+    left: 0,
+    width: 5,
+    height: '100%',
+    flexShrink: 0,
+    cursor: 'col-resize',
+    zIndex: 19,
+  },
   dragRight: {
     position: 'absolute',
     top: 0,
@@ -53,6 +62,12 @@ function getStyleDrag(position, offsetLeft, offsetRight) {
     return {
       ...styles.dragRight,
       right: offsetRight
+    }
+  }
+  if (position === 'right2') {
+    return {
+      ...styles.dragLeft2,
+      left: offsetLeft
     }
   }
   return {

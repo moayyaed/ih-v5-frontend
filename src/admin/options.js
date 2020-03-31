@@ -40,6 +40,8 @@ const options = {
     apppage: actionsAppPage,
     appdialog: actionsAppDialog,
     form: actionsForm,
+
+    msgboxtree: actionsAppNav,
   },
   reducers: {
     app: reducerApp,
@@ -48,6 +50,8 @@ const options = {
     apptabs: reducerAppTabs,
     apppage: [{}, reducerAppPage, reducerForm],
     appdialog: reducerAppDialog,
+
+    msgboxtree: reducerAppNav,
   },
 
   pages: {

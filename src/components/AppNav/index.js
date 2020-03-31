@@ -88,7 +88,9 @@ class AppNav extends Component {
   }
 
   componentWillUnmount() {
-    core.actions.apppage.clear();
+    if (!this.props.disabledRoute) {
+      core.actions.apppage.clear();
+    }
   }
 
   handleChange = (list) => {
@@ -156,7 +158,11 @@ class AppNav extends Component {
       '/' + core.cache.componentsParams[componentid] :
       '/' + core.options.componentsScheme[componentid].defaultTab;
     
-    core.route(`${route.menuid}/${rootid}/${componentid}/${item.node.id}${params}`);
+    if (this.props.disabledRoute) {
+
+    } else {
+      core.route(`${route.menuid}/${rootid}/${componentid}/${item.node.id}${params}`);
+    }
   }
 
   handleClickNode = (e, item) => {
@@ -343,7 +349,11 @@ class AppNav extends Component {
         selects: { lastItem: null, contextMenu: null, data: {} },
       });
       if (struct.list[route.nodeid]) {
-        core.route(`${route.menuid}`);
+        if (this.props.disabledRoute) {
+
+        } else {
+          core.route(`${route.menuid}`);
+        }
       }
     })
     .error(() => {
@@ -396,7 +406,7 @@ class AppNav extends Component {
   render({ state, route } = this.props) {
     if (route.menuid) {
       return (
-        <Panel width={state.width} position="right" style={styles.panel} onChangeSize={this.handleChangePanelSize}>
+        <Panel width={state.width} position={this.props.positionPanel} style={styles.panel} onChangeSize={this.handleChangePanelSize}>
           <div ref={this.linkPanel} style={styles.box} onClick={this.handleClickBody} onContextMenu={this.handleContextMenuBody}>  
             <SortableTree
               reactVirtualizedListProps={{ 

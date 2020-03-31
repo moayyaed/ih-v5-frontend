@@ -16,7 +16,17 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import AppNav from 'components/AppNav';
+
+
+const styles = {
+  dialogContainer: {
+    top: 64, 
+    width: '100%', 
+    height: 'calc(100% - 64px)',
+    position: 'absolute',
+  }
+}
 
 const classes = theme => ({
   appBar: {
@@ -28,6 +38,7 @@ const classes = theme => ({
     flex: 1,
   },
   dialogPaper: {
+      position: 'relative',
       minHeight: '80vh',
       maxHeight: '80vh',
   },
@@ -62,8 +73,8 @@ class AppDialog extends Component {
             </Button>
           </Toolbar>
         </AppBar>
-        <div style={{ width: '80%', height: '80%', display: 'flex', position: 'relative' }} >
-          DIALOG_BOX
+        <div style={styles.dialogContainer} >
+          <AppNav key="appnav" stateid="msgboxtree" positionPanel="right2" disabledRoute />
         </div>
       </Dialog>
     );
