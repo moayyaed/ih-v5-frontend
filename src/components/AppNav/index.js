@@ -130,8 +130,14 @@ class AppNav extends Component {
     const style = {};
     const id = rowinfo.node.id;
 
-    if (this.props.route.nodeid === id) {
-      style.backgroundColor = 'rgba(158, 158, 158, 0.2)';
+    if (this.props.disabledRoute) {
+      if (this.props.state.click.id === id) {
+        style.backgroundColor = 'rgba(158, 158, 158, 0.2)';
+      }
+    } else {
+      if (this.props.route.nodeid === id) {
+        style.backgroundColor = 'rgba(158, 158, 158, 0.2)';
+      }
     }
 
     if (this.props.state.selects.data[id]) {
@@ -159,7 +165,7 @@ class AppNav extends Component {
       '/' + core.options.componentsScheme[componentid].defaultTab;
     
     if (this.props.disabledRoute) {
-
+      core.actions.appnav.clickNode(componentid, item.node.id)
     } else {
       core.route(`${route.menuid}/${rootid}/${componentid}/${item.node.id}${params}`);
     }

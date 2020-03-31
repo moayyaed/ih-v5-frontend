@@ -1,6 +1,7 @@
 import { 
   APP_NAV_SET_DATA, 
 
+  APP_NAV_CLICK_NODE,
   APP_NAV_SELECT_NODE, 
   APP_NAV_SELECT_NODES,
   APP_NAV_SELECT_NODE_CONTEXT_MENU,
@@ -30,6 +31,13 @@ export function scroll(e) {
   return {
     type: APP_NAV_SET_SCROLL,
     e: e.scrollTop,
+  };
+}
+
+export function clickNode(component, id) {
+  return {
+    type: APP_NAV_CLICK_NODE,
+    data: { component, id },
   };
 }
 
@@ -78,6 +86,7 @@ export function updateNodes(data) {
 
 export default {
   data,
+  clickNode,
   selectNode,
   selectNodes,
   selectNodeContextMenu,

@@ -1,6 +1,7 @@
 import { 
   APP_NAV_SET_DATA, 
   
+  APP_NAV_CLICK_NODE,
   APP_NAV_SELECT_NODE,
   APP_NAV_SELECT_NODES,
   APP_NAV_SELECT_NODE_CONTEXT_MENU,
@@ -17,6 +18,10 @@ const defaultState = {
   scrollTop: 0,
   options: {},
   list: [],
+  click: {
+    id: null,
+    component: null,
+  },
   selects: {
     lastItem: null,
     contextMenu: null,
@@ -43,6 +48,11 @@ function reducer(state = defaultState, action) {
   switch (action.type) {
     case APP_NAV_SET_DATA:
       return { ...state, ...action.data };
+    case APP_NAV_CLICK_NODE:
+      return { 
+        ...state, 
+        click: action.data
+      };
     case APP_NAV_SELECT_NODE:
       return { 
         ...state, 
