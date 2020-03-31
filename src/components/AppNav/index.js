@@ -67,7 +67,7 @@ class AppNav extends Component {
 
   componentDidMount() {
     this.props.route.menuid && core
-    .request({ method: 'appnav', params: this.props.route })
+    .request({ method: 'appnav', props: this.props })
     .ok((res) => {
       if (this.props.route.nodeid) {
         const node = findNode(res.list, this.props.route.nodeid);
@@ -264,7 +264,7 @@ class AppNav extends Component {
     const payload = { [rootid]: { [folder ? 'folders' : 'nodes'] : items } }
 
     core
-    .request({ method: 'appnav_new_node', params: this.props.route, payload })
+    .request({ method: 'appnav_new_node', props: this.props, payload })
     .ok((res) => {
       const type = folder ? 'parent' : 'child';
       const list = insertNodes(this.props.state.list, item.node, res.data);
@@ -311,13 +311,12 @@ class AppNav extends Component {
     const parent = item.node.children !== undefined ? item.node : item.parentNode;
     const payload = core.buffer.data;
     const params = {
-      ...this.props.route,
       parentid: parent.id,
       order: item.node.children !== undefined ? null : item.node.order,
     };
     
     core
-    .request({ method: 'appnav_paste_node', params, payload })
+    .request({ method: 'appnav_paste_node', props: this.props, params, payload })
     .ok((res) => {
       const list = insertNodes(this.props.state.list, item.node, res.data);
       if (res.reorder) {
@@ -347,7 +346,7 @@ class AppNav extends Component {
     }
 
     core
-    .request({ method: 'appnav_remove_node', params: this.props.route, payload: struct.map })
+    .request({ method: 'appnav_remove_node', props: this.props, payload: struct.map })
     .ok((res) => {
       const newlist = removeNodes(list, struct.list);
       core.actions.appnav.data({ 
@@ -364,7 +363,7 @@ class AppNav extends Component {
     })
     .error(() => {
       core
-      .request({ method: 'appnav', params: this.props.route })
+      .request({ method: 'appnav', props: this.props })
       .ok(core.actions.appnav.data);
     });
   }
@@ -391,11 +390,11 @@ class AppNav extends Component {
       core.actions.appnav.data({ list });
   
       core
-      .request({ method: 'appnav_move_node', params: this.props.route, payload })
+      .request({ method: 'appnav_move_node', props: this.props, payload })
       .ok((res) => {})
       .error(() => {
         core
-        .request({ method: 'appnav', params: this.props.route })
+        .request({ method: 'appnav', props: this.props })
         .ok(core.actions.appnav.data);
       });
     }

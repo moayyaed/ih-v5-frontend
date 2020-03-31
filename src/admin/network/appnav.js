@@ -16,8 +16,8 @@ function transformData(list, meta) {
 
 core.network.request('appnav', (send, context) => {
   send([
-    { method: 'get', type: 'tree', id: context.params.menuid },
-    { method: 'getmeta', type: 'tree', id: context.params.menuid },
+    { method: 'get', type: 'tree', id: context.props.route.menuid },
+    { method: 'getmeta', type: 'tree', id: context.props.route.menuid },
   ]);
 })
 
@@ -35,7 +35,7 @@ core.network.request('appnav_new_node', (send, context) => {
   send({ 
     method: 'insert', 
     type: 'tree',
-    id: context.params.menuid,
+    id: context.props.route.menuid,
     payload: context.payload,
   });
 })
@@ -48,7 +48,7 @@ core.network.request('appnav_remove_node', (send, context) => {
   send({ 
     method: 'remove', 
     type: 'tree',
-    id: context.params.menuid,
+    id: context.props.route.menuid,
     payload: context.payload,
   });
 })
@@ -61,7 +61,7 @@ core.network.request('appnav_move_node', (send, context) => {
   send({ 
     method: 'update', 
     type: 'tree',
-    id: context.params.menuid,
+    id: context.props.route.menuid,
     payload: context.payload,
   });
 })
@@ -74,7 +74,7 @@ core.network.request('appnav_paste_node', (send, context) => {
   send({ 
     method: 'copypaste', 
     type: 'tree',
-    id: context.params.menuid,
+    id: context.props.route.menuid,
     targetid: context.params.parentid,
     order: context.params.order,
     payload: context.payload,
@@ -89,8 +89,8 @@ core.network.request('contextmenu', (send, context) => {
   send({ 
     method: 'get', 
     type: 'popup',
-    id: context.params.id,
-    nodeid: context.params.nodeid, 
+    id: context.props.route.id,
+    nodeid: context.props.route.nodeid, 
   });
 })
 
