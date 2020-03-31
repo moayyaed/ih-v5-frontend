@@ -426,7 +426,7 @@ class AppNav extends Component {
 
 const mapStateToProps = createSelector(
   state => state.app.route,
-  state => state.appnav,
+  (state, props) => state[props.stateid],
   (route, state) => ({ route, state })
 )
 
