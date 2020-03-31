@@ -77,7 +77,7 @@ class AppDialog extends Component {
           <AppNav 
             key="appnav" 
             stateid="msgboxtree"
-            requestId="dev"
+            requestId="devices"
             positionPanel="right2" 
             disabledRoute 
           />

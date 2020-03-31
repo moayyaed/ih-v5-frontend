@@ -83,7 +83,7 @@ class AppNav extends Component {
           }); 
         }
       }
-      core.actions.appnav.data(res)
+      core.actions.appnav.data(this.props.stateid, res);
     });
   }
 
@@ -94,7 +94,7 @@ class AppNav extends Component {
   }
 
   handleChange = (list) => {
-    core.actions.appnav.data({ list })
+    core.actions.appnav.data(this.props.stateid, { list })
   }
 
   handleCheckChild = (node) => {
@@ -165,7 +165,7 @@ class AppNav extends Component {
       '/' + core.options.componentsScheme[componentid].defaultTab;
     
     if (this.props.disabledRoute) {
-      core.actions.appnav.clickNode(componentid, item.node.id)
+      core.actions.appnav.clickNode(this.props.stateid, componentid, item.node.id)
     } else {
       core.route(`${route.menuid}/${rootid}/${componentid}/${item.node.id}${params}`);
     }
@@ -180,12 +180,12 @@ class AppNav extends Component {
       const last = this.props.state.selects.lastItem || curent;
       const lastSelects = this.props.state.selects.data;
       const selects = getNodesRange(this.props.state.list, last.id, curent.id);
-      core.actions.appnav.selectNodes(curent, selects);
+      core.actions.appnav.selectNodes(this.props.stateid, curent, selects);
     } else if (e.ctrlKey || e.metaKey) {
-      core.actions.appnav.selectNode(item.node);
+      core.actions.appnav.selectNode(this.props.stateid, item.node);
     } else {
       if (this.props.state.selects.lastItem) {
-        core.actions.appnav.clearSelected();
+        core.actions.appnav.clearSelected(this.props.stateid);
       }
 
       const rootid = this.props.state.options.roots[item.path[0]];
@@ -214,7 +214,7 @@ class AppNav extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    core.actions.appnav.clearSelected();
+    core.actions.appnav.clearSelected(this.props.stateid);
   }
 
   handleContextMenuNode = (e, item) => {
@@ -242,14 +242,14 @@ class AppNav extends Component {
     const params = this.props.state.options[rootid][type]; 
     if (params !== undefined && params.popup) {
       scheme = params.popup;
-      core.actions.appnav.selectNodeContextMenu(item.node);
+      core.actions.appnav.selectNodeContextMenu(this.props.stateid, item.node);
       ContextMenu.show(
         <Menu 
           scheme={scheme}
           disabled={disabled}
           commands={commands}
         />, 
-        pos, core.actions.appnav.selectNodeContextMenu);
+        pos, () => core.actions.appnav.selectNodeContextMenu(this.props.stateid));
     }
   }
 
@@ -283,9 +283,9 @@ class AppNav extends Component {
           }
           return item;
         }); 
-        core.actions.appnav.data({ scrollTop, list: listReorder });
+        core.actions.appnav.data(this.props.stateid, { scrollTop, list: listReorder });
       } else {
-        core.actions.appnav.data({ scrollTop, list });
+        core.actions.appnav.data(this.props.stateid, { scrollTop, list });
       }
 
       this.handleChangeRoute(type, rootid, { node: res.data[0] });
@@ -326,9 +326,9 @@ class AppNav extends Component {
           }
           return item;
         }); 
-        core.actions.appnav.data({ list: listReorder });
+        core.actions.appnav.data(this.props.stateid, { list: listReorder });
       } else {
-        core.actions.appnav.data({ list });
+        core.actions.appnav.data(this.props.stateid, { list });
       }
     });
   }
@@ -349,7 +349,7 @@ class AppNav extends Component {
     .request({ method: 'appnav_remove_node', props: this.props, payload: struct.map })
     .ok((res) => {
       const newlist = removeNodes(list, struct.list);
-      core.actions.appnav.data({ 
+      core.actions.appnav.data(this.props.stateid, { 
         list: newlist,
         selects: { lastItem: null, contextMenu: null, data: {} },
       });
@@ -364,7 +364,7 @@ class AppNav extends Component {
     .error(() => {
       core
       .request({ method: 'appnav', props: this.props })
-      .ok(core.actions.appnav.data);
+      .ok((res) => core.actions.appnav.data(this.props.stateid, res));
     });
   }
 
@@ -387,7 +387,7 @@ class AppNav extends Component {
         return item;
       }); 
       
-      core.actions.appnav.data({ list });
+      core.actions.appnav.data(this.props.stateid, { list });
   
       core
       .request({ method: 'appnav_move_node', props: this.props, payload })
@@ -395,13 +395,18 @@ class AppNav extends Component {
       .error(() => {
         core
         .request({ method: 'appnav', props: this.props })
-        .ok(core.actions.appnav.data);
+        .ok((res) => core.actions.appnav.data(this.props.stateid, res));
       });
     }
   }
 
   handleChangePanelSize = (value) => {
-    core.actions.appnav.panelWidth(value);
+    core.actions.appnav.panelWidth(this.props.stateid, value);
+  }
+
+  handleScroll = (e) => {
+    core.actions.appnav.scroll(this.props.stateid, e);
+    
   }
 
   linkPanel = (e) => {
@@ -415,7 +420,7 @@ class AppNav extends Component {
           <div ref={this.linkPanel} style={styles.box} onClick={this.handleClickBody} onContextMenu={this.handleContextMenuBody}>  
             <SortableTree
               reactVirtualizedListProps={{ 
-                onScroll: core.actions.appnav.scroll,
+                onScroll: this.handleScroll,
                 scrollTop: state.scrollTop,
               }}
               rowHeight={21}
