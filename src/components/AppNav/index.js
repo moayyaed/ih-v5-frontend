@@ -90,6 +90,8 @@ class AppNav extends Component {
   componentWillUnmount() {
     if (!this.props.disabledRoute) {
       core.actions.apppage.clear();
+    } else {
+      core.actions.appnav.clear(this.props.stateid)
     }
   }
 

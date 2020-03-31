@@ -1,5 +1,5 @@
 export const APP_NAV_SET_DATA = 'APP_NAV_SET_DATA';
-
+export const APP_NAV_CLEAR_DATA = 'APP_NAV_CLEAR_DATA';
 
 export const APP_NAV_CLICK_NODE = 'APP_NAV_CLICK_NODE';
 export const APP_NAV_SELECT_NODE = 'APP_NAV_SELECT_NODE';

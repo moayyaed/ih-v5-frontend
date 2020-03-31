@@ -1,5 +1,6 @@
 import { 
   APP_NAV_SET_DATA, 
+  APP_NAV_CLEAR_DATA,
 
   APP_NAV_CLICK_NODE,
   APP_NAV_SELECT_NODE, 
@@ -18,6 +19,13 @@ export function data(stateid, data) {
     type: APP_NAV_SET_DATA,
     stateid, 
     data,
+  };
+}
+
+export function clear(stateid) {
+  return {
+    type: APP_NAV_CLEAR_DATA,
+    stateid,
   };
 }
 
@@ -96,6 +104,7 @@ export function updateNodes(stateid, data) {
 
 export default {
   data,
+  clear,
   clickNode,
   selectNode,
   selectNodes,
