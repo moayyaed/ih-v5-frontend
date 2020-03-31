@@ -36,7 +36,12 @@ function App(props) {
       <div className="container">
         <AppMenu />
         <div style={styles.box}>
-          <AppNav key={props.route.menuid} stateid="appnav" positionPanel="right" />
+          <AppNav 
+            key={props.route.menuid} 
+            stateid="appnav"
+            requestId={props.route.menuid} 
+            positionPanel="right" 
+          />
           <div style={styles.body}>
             <AppTabs />
             <AppPage />

@@ -74,7 +74,13 @@ class AppDialog extends Component {
           </Toolbar>
         </AppBar>
         <div style={styles.dialogContainer} >
-          <AppNav key="appnav" stateid="msgboxtree" positionPanel="right2" disabledRoute />
+          <AppNav 
+            key="appnav" 
+            stateid="msgboxtree"
+            requestId="devs"
+            positionPanel="right2" 
+            disabledRoute 
+          />
         </div>
       </Dialog>
     );
