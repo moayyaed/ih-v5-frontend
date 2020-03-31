@@ -167,7 +167,10 @@ class AppNav extends Component {
       '/' + core.options.componentsScheme[componentid].defaultTab;
     
     if (this.props.disabledRoute) {
-      core.actions.appnav.clickNode(this.props.stateid, componentid, item.node.id)
+      core.actions.appnav.clickNode(this.props.stateid, componentid, item.node.id);
+      if (this.props.onClickNode) {
+        this.props.onClickNode(componentid, item.node.id);
+      }
     } else {
       core.route(`${route.menuid}/${rootid}/${componentid}/${item.node.id}${params}`);
     }

@@ -96,7 +96,7 @@ class Panel extends Component {
     if (this.state.position === 'left') {
       this.box.style.width = Math.abs(data.x) + 5 + 'px';
     }
-    if (this.state.position === 'right') {
+    if (this.state.position === 'right' || this.state.position === 'right2') {
       this.box.style.width = data.x + 5 + 'px';
     }
   }
@@ -112,7 +112,7 @@ class Panel extends Component {
         };
       }, () => this.props.onChangeSize(Math.abs(data.x) + 5));
     }
-    if (this.state.position === 'right') {
+    if (this.state.position === 'right' || this.state.position === 'right2') {
       this.width = this.width + data.x;
       this.setState((state) => {
         return { 
