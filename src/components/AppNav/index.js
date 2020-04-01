@@ -264,12 +264,13 @@ class AppNav extends Component {
     const rootid = this.props.state.options.roots[item.path[0]];
 
     const parent = item.node.children !== undefined ? item.node : item.parentNode;
+    const items = [{ ...contextMenuItem }];
 
-    const items = [{ parentid: parent.id, order: getOrder(parent, item.node), ...contextMenuItem }];
+    const params = { parentid: parent.id, previd: item.node.id }
     const payload = { [rootid]: { [folder ? 'folders' : 'nodes'] : items } }
 
     core
-    .request({ method: 'appnav_new_node', props: this.props, payload })
+    .request({ method: 'appnav_new_node', props: this.props, params, payload })
     .ok((res) => {
       const type = folder ? 'parent' : 'child';
       const list = insertNodes(this.props.state.list, item.node, res.data);
@@ -281,17 +282,7 @@ class AppNav extends Component {
         }
       }
 
-      if (res.reorder) {
-        const listReorder = editNodes(list, (item) => {
-          if (res.reorder[item.id]) {
-            return { ...item, order: res.reorder[item.id] };
-          }
-          return item;
-        }); 
-        core.actions.appnav.data(this.props.stateid, { scrollTop, list: listReorder });
-      } else {
-        core.actions.appnav.data(this.props.stateid, { scrollTop, list });
-      }
+      core.actions.appnav.data(this.props.stateid, { scrollTop, list });
 
       this.handleChangeRoute(type, rootid, { node: res.data[0] });
     });

@@ -36,6 +36,8 @@ core.network.request('appnav_new_node', (send, context) => {
     method: 'insert', 
     type: 'tree',
     id: context.props.requestId,
+    parentid: context.params.parentid,
+    previd: context.params.previd,
     payload: context.payload,
   });
 })
