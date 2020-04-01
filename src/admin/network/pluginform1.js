@@ -120,8 +120,8 @@ core.network.request('plugin_tree_paste_node', (send, context) => {
     type: 'subtree',
     id: context.params.id,
     navnodeid: context.params.navnodeid,
-    targetid: context.params.parentid,
-    order: context.params.order,
+    parentid: context.params.parentid,
+    previd: context.params.previd,
     payload: context.payload,
   });
 })
