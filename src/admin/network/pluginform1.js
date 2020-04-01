@@ -106,6 +106,8 @@ core.network.request('plugin_tree_move_node', (send, context) => {
     type: 'subtree',
     id: context.params.id,
     navnodeid: context.params.navnodeid,
+    parentid: context.params.parentid,
+    previd: context.params.previd,
     payload: context.payload,
   });
 })

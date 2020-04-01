@@ -161,6 +161,25 @@ export function getOrderMove(parent, node) {
   return 1000 ;
 }
 
+export function getPrevNode(parent, node) {
+  if (parent.children.length > 1) {
+    let id = '_top';
+    parent.children.forEach((item, key) => {
+      if (item.id === node.id) {
+        if (key === 0) {
+          id = '_top';
+        } else if (key === parent.children.length - 1) {
+          id = parent.children[parent.children.length - 2].id;
+        } else {
+          id = parent.children[key - 1].id;
+        }
+      }
+    });
+    return id;
+  }
+  return '_top' ;
+}
+
 function structTree(check, roots, data, a, b) {
   const temp = {
     map: {},

@@ -64,6 +64,8 @@ core.network.request('appnav_move_node', (send, context) => {
     method: 'update', 
     type: 'tree',
     id: context.props.requestId,
+    parentid: context.params.parentid,
+    previd: context.params.previd,
     payload: context.payload,
   });
 })

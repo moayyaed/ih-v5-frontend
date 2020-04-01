@@ -23,8 +23,7 @@ import {
   editNodes, 
   removeNodes, 
   findNode, 
-  getOrder, 
-  getOrderMove, 
+  getPrevNode,
   structToMap 
 } from 'components/AppNav/utils';
 
@@ -529,7 +528,7 @@ class PluginForm1 extends Component {
       id: this.props.options.data, 
       navnodeid: this.props.route.nodeid,
       parentid: parent.id,
-      previd: item.node.id
+      previd: parent.id === item.node.id ? '_bottom': item.node.id
     };
     
     core
@@ -541,12 +540,15 @@ class PluginForm1 extends Component {
   }
 
   handleMoveNode = (item) => {
-    const nodeid = item.node.id;
     const parent = item.nextParentNode !== null ? item.nextParentNode : { id: null, children: this.state.list };
-    const order = getOrderMove(parent, item.node);
 
-    const params = { id: this.props.options.data, navnodeid: this.props.route.nodeid };
-    const payload = [{ parentid: parent.id, nodeid, order }];
+    const params = { 
+      id: this.props.options.data, 
+      navnodeid: this.props.route.nodeid,
+      parentid: parent.id,
+      previd: getPrevNode(item.nextParentNode, item.node)
+    };
+    const payload = [{ nodeid: item.node.id }];
     
     core
       .request({ method: 'plugin_tree_move_node', params, payload })

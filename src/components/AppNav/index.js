@@ -19,7 +19,7 @@ import Panel from 'components/Panel';
 
 
 import theme from './theme';
-import { getNodesRange, insertNodes, editNodes, removeNodes, findNode, getOrder, getOrderMove, structToMap } from './utils';
+import { getNodesRange, insertNodes, editNodes, removeNodes, findNode, getPrevNode, structToMap } from './utils';
 
 const styles = {
   panel: {
@@ -308,7 +308,7 @@ class AppNav extends Component {
     const payload = core.buffer.data;
     const params = {
       parentid: parent.id,
-      previd: item.node.id,
+      previd: parent.id === item.node.id ? '_bottom': item.node.id,
     };
     
     core
@@ -358,25 +358,13 @@ class AppNav extends Component {
     if (item.nextParentNode) {
       const rootid = this.props.state.options.roots[item.path[0]];
       const type = item.node.children !== undefined ? 'folders' : 'nodes';
+      const items = [{ nodeid: item.node.id }];
   
-      const nodeid = item.node.id;
-      const parentid = item.nextParentNode.id;
-      const order = getOrderMove(item.nextParentNode, item.node);
-  
-      const items = [{ parentid, nodeid, order }];
+      const params = { parentid: item.nextParentNode.id, previd: getPrevNode(item.nextParentNode, item.node) }
       const payload = { [rootid]: { [type] : items } }
-
-      const list = editNodes(this.props.state.list, (item) => {
-        if (item.id === nodeid) {
-          return { ...item, order };
-        }
-        return item;
-      }); 
-      
-      core.actions.appnav.data(this.props.stateid, { list });
   
       core
-      .request({ method: 'appnav_move_node', props: this.props, payload })
+      .request({ method: 'appnav_move_node', props: this.props, params, payload })
       .ok((res) => {})
       .error(() => {
         core
