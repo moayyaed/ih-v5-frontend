@@ -497,18 +497,7 @@ class PluginForm1 extends Component {
             scrollTop = node.scrollPoint - ((this.container.clientHeight - 5) / 2) - 9;
           }
         }
-  
-        if (res.reorder) {
-          const listReorder = editNodes(list, (item) => {
-            if (res.reorder[item.id]) {
-              return { ...item, order: res.reorder[item.id] };
-            }
-            return item;
-          }); 
-          this.setData({ scrollTop, list: listReorder });
-        } else {
-          this.setData({ scrollTop, list });
-        }
+        this.setData({ scrollTop, list });
         this.handleChangeRoute({ node: res.data[0] });
       });
   }
