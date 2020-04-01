@@ -31,7 +31,12 @@ class Devlink extends Component {
     e.stopPropagation();
 
     core.transfer.sub('form_dialog', this.handleDialogClick);
-    core.actions.appdialog.data({ open: true, transferid: 'form_dialog' });
+    core.actions.appdialog.data({ 
+      open: true, 
+      title: 'Channel binding', 
+      template: { type: 'tree', id: 'devices' },
+      transferid: 'form_dialog' 
+    });
   }
 
   render() {
