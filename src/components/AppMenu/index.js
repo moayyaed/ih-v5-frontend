@@ -101,6 +101,7 @@ class AppMenu extends Component {
   }
 
   handleClick = (id) => {
+    core.actions.appnav.clear('appnav');
     core.route(id)
   }
 

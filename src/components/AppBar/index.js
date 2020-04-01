@@ -1,5 +1,9 @@
 import React from 'react';
-import icon from 'components/icons'
+import core from 'core';
+
+import icon from 'components/icons';
+
+import IconButton from '@material-ui/core/IconButton';
 
 const styles = {
   box: {
@@ -36,12 +40,18 @@ const styles = {
   }
 };
 
+function handleClick() {
+  core.route('');
+}
+
 function AppBar() {
   return (
     <div style={styles.box}>
       <div style={styles.stub}/>
       <div style={styles.logo}>
-        {icon('logo2', styles.icon)}
+        <IconButton onClick={handleClick}>
+          {icon('logo2', styles.icon)}
+        </IconButton>
       </div>
       <div style={styles.container}/>
     </div>
