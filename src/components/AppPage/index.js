@@ -51,6 +51,9 @@ function getComponent(debug, route, state) {
 
 function AppPage(props) {
   const [debug, setDebug] = useState(false);
+  if (props.route.menuid === null) {
+    return <div>DASHBOARD</div>;
+  }
   if (props.route.componentid) {
     return (
       <div 
@@ -64,7 +67,7 @@ function AppPage(props) {
       </div>
     );
   }
-  return null
+  return null;
 }
 
 

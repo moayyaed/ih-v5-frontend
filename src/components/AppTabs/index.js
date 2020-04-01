@@ -269,8 +269,8 @@ class AppTabs extends Component {
     }
   }
 
-  render({ id, state, classes } = this.props) {
-    if (false) {
+  render({ id, state, route, classes } = this.props) {
+    if (route.menuid === null) {
       return null;
     }
     return (
@@ -297,8 +297,9 @@ class AppTabs extends Component {
 
 
 const mapStateToProps = createSelector(
+  state => state.app.route,
   state => state.apptabs,
-  (state) => ({ state })
+  (route, state) => ({ route, state })
 )
 
 export default connect(mapStateToProps)(withStyles(classes)(AppTabs));
