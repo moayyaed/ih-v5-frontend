@@ -31,8 +31,14 @@ class ComponentTabs extends Component {
   handleClickTab = (e, value) => {
     const { route } = this.props;
 
-    core.cache.componentsParams[route.componentid] = value;
-    core.route(`${route.menuid}/${route.rootid}/${route.componentid}/${route.nodeid}/${value}`);
+    if (this.props.disabledRoute) {
+      if (this.props.onClick) {
+        this.props.onClick(value);
+      }
+    } else {
+      core.cache.componentsParams[route.componentid] = value;
+      core.route(`${route.menuid}/${route.rootid}/${route.componentid}/${route.nodeid}/${value}`);
+    }
   }
 
   handleRequest = (route, scheme) => {
@@ -160,7 +166,8 @@ class ComponentTabs extends Component {
         <Tabs value={route.tab} onChange={this.handleClickTab} >
           {scheme.tabs.map(i => <Tab key={i.id} value={i.id} label={i.title} />)}
         </Tabs>
-        <Toolbar 
+        <Toolbar
+          disabled={this.props.disabledToolbar}
           route={route}
           save={state.save}
           breadcrumbs={state.data ? state.data.breadcrumbs : []}

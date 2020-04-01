@@ -68,6 +68,9 @@ class Breadcrumbs extends Component {
 
 
 function Toolbar(props) {
+  if (props.disabled) {
+    return <div style={styles.root} />;
+  }
   return (
     <div style={styles.root}>
       <Breadcrumbs route={props.route} data={props.breadcrumbs}/>

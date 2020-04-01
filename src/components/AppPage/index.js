@@ -29,7 +29,7 @@ function handleDebug(e, debug, setDebug) {
 
 function getComponent(debug, route, state) {
   const scheme = core.options.componentsScheme[route.componentid];
-  
+
   if (core.options.components[route.componentid] !== undefined) {
     return React.createElement(core.options.components[route.componentid], { 
       key: route.componentid,
@@ -52,7 +52,7 @@ function getComponent(debug, route, state) {
 function AppPage(props) {
   const [debug, setDebug] = useState(false);
   if (props.route.menuid === null) {
-    return React.createElement(core.options.pages.dashboard);
+    return React.createElement(core.options.pages.dashboard, { state: props.state });
   }
   if (props.route.componentid) {
     return (
