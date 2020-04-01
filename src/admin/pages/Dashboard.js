@@ -18,7 +18,7 @@ const scheme = {
     { id: '3', title: 'Web Console', component: [{id: 'formSceneCodeEditor', type: 'form'}] },
     { id: '4', title: 'File Explorer', component: [{id: 'formUnitChannels', type: 'form'}] },
   ],
-  defaultTab: '2',
+  defaultTab: '1',
 };
 
 class Dashboard extends Component {
