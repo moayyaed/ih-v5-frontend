@@ -23,6 +23,7 @@ import Tabs from 'components/@Tabs';
 
 import App from './pages/App';
 import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
 
 
 import routeParse from './routeParse';
@@ -55,6 +56,7 @@ const options = {
   pages: {
     main: App,
     login: Login,
+    dashboard: Dashboard
   },
 
   componentsScheme: {

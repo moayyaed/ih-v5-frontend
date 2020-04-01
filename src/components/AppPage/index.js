@@ -52,7 +52,7 @@ function getComponent(debug, route, state) {
 function AppPage(props) {
   const [debug, setDebug] = useState(false);
   if (props.route.menuid === null) {
-    return <div>DASHBOARD</div>;
+    return React.createElement(core.options.pages.dashboard);
   }
   if (props.route.componentid) {
     return (
