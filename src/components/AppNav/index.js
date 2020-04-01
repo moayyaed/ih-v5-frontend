@@ -308,24 +308,14 @@ class AppNav extends Component {
     const payload = core.buffer.data;
     const params = {
       parentid: parent.id,
-      order: item.node.children !== undefined ? null : item.node.order,
+      previd: item.node.id,
     };
     
     core
     .request({ method: 'appnav_paste_node', props: this.props, params, payload })
     .ok((res) => {
       const list = insertNodes(this.props.state.list, item.node, res.data);
-      if (res.reorder) {
-        const listReorder = editNodes(list, (item) => {
-          if (res.reorder[item.id]) {
-            return { ...item, order: res.reorder[item.id] };
-          }
-          return item;
-        }); 
-        core.actions.appnav.data(this.props.stateid, { list: listReorder });
-      } else {
-        core.actions.appnav.data(this.props.stateid, { list });
-      }
+      core.actions.appnav.data(this.props.stateid, { list });
     });
   }
 
