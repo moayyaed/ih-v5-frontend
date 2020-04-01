@@ -482,8 +482,13 @@ class PluginForm1 extends Component {
     let scrollTop = this.state.scrollTop;
 
     const parent = item.node.children !== undefined ? item.node : item.parentNode === null ? { id: null, children: this.state.list } : item.parentNode; 
-    const payload = [{ parentid: parent.id, order: getOrder(parent, item.node), ...contextMenuItem, title: 'test' }];
-    const params = { id: this.props.options.data, navnodeid: this.props.route.nodeid };
+    const payload = [{ ...contextMenuItem }];
+    const params = { 
+      id: this.props.options.data, 
+      navnodeid: this.props.route.nodeid,
+      parentid: parent.id,
+      previd: item.node.id,
+    };
 
     core
       .request({ method: 'plugin_tree_new_node', params, payload })
