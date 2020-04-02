@@ -52,7 +52,7 @@ class TemplateForm extends Component {
             data={form.data}
             cache={form.cache}
             onChange={this.handleChange}
-            heightOffset={200}
+            heightOffset={257}
           />
         </div>
       </Scrollbars>
