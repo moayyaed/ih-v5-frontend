@@ -6,7 +6,7 @@ import core from 'core';
 import component from '../components/index';
 
 const styles = {
-  form: {
+  body: {
     position: 'relative',
     display: 'flex',
     flexDirection: 'column',
@@ -19,7 +19,7 @@ function handleClickNode(component, nodeid) {
   core.actions.appdialog.component({ type: component, id: nodeid });
 }
 
-function Tree(props) {
+function TemplateTree(props) {
   return (
     <>
       <AppNav 
@@ -30,7 +30,7 @@ function Tree(props) {
         requestId={props.state.template.id}
         onClickNode={handleClickNode}
       />
-       <div style={styles.form}>
+       <div style={styles.body}>
         {component(props.state)}
       </div>
     </>
@@ -38,4 +38,4 @@ function Tree(props) {
 }
 
 
-export default Tree;
+export default TemplateTree;

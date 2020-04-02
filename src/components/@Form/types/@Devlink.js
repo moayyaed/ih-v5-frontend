@@ -30,11 +30,14 @@ class Devlink extends Component {
     e.preventDefault();
     e.stopPropagation();
 
+    const tree = { type: 'tree', id: 'devices' };
+    const form = { type: 'form', id: 'formDeviceCommon', nodeid: 'd0809' }
+
     core.transfer.sub('form_dialog', this.handleDialogClick);
     core.actions.appdialog.data({ 
       open: true, 
       title: 'Channel binding', 
-      template: { type: 'tree', id: 'devices' },
+      template: form,
       transferid: 'form_dialog' 
     });
   }

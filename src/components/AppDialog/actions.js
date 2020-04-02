@@ -1,4 +1,9 @@
-import { APP_DIALOG_SET_DATA, APP_DIALOG_CLOSE, APP_DIALOG_SET_COMPONENT } from './constants';
+import { 
+  APP_DIALOG_SET_DATA, 
+  APP_DIALOG_CLOSE, 
+  APP_DIALOG_SET_COMPONENT,
+  APP_DIALOG_SET_FORM, 
+} from './constants';
 
 
 export function data(data) {
@@ -21,9 +26,17 @@ export function component(data) {
   };
 }
 
+export function form(data) {
+  return {
+    type: APP_DIALOG_SET_FORM,
+    data,
+  };
+}
+
 
 export default {
   data,
   close,
   component,
+  form,
 }

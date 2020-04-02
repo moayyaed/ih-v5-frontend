@@ -2,12 +2,15 @@ import React from 'react';
 
 
 import Tree from './@Tree';
+import Form from './@Form';
 
 
 function getTemplateByType(type) {
   switch (type) {
     case 'tree':
       return Tree;
+    case 'form':
+      return Form;
     default:
       return null;
   }

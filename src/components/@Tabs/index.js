@@ -17,7 +17,7 @@ class ComponentTabs extends Component {
 
   componentDidMount() {
     const { route } = this.props;
-    if (route.tab) {
+    if (!this.props.disabledRoute && route.tab) {
       core.cache.componentsParams[route.componentid] = route.tab;
     }
 

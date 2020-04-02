@@ -1,4 +1,9 @@
-import { APP_DIALOG_SET_DATA, APP_DIALOG_CLOSE, APP_DIALOG_SET_COMPONENT } from './constants';
+import { 
+  APP_DIALOG_SET_DATA, 
+  APP_DIALOG_CLOSE, 
+  APP_DIALOG_SET_COMPONENT,
+  APP_DIALOG_SET_FORM,
+} from './constants';
 
 
 const defaultState = {
@@ -7,6 +12,13 @@ const defaultState = {
   transfer: null,
   template: { type: null, id: null },
   component: { type: null, id: null },
+  form: {
+    id: null,
+    save: false,
+    scheme: {},
+    data: {},
+    cache: {}
+  }
 };
 
 
@@ -18,6 +30,8 @@ function reducer(state = defaultState, action) {
       return { ...defaultState };
     case APP_DIALOG_SET_COMPONENT:
       return { ...state, component: action.data };
+    case APP_DIALOG_SET_FORM:
+      return { ...state, form: action.data };
     default:
       return state;
   }

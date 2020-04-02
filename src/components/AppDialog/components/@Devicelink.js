@@ -3,6 +3,7 @@ import React from 'react';
 
 const styles = {
   root: {
+    backgroundColor: '#f5f5f5',
     padding: 20,
   }
 }

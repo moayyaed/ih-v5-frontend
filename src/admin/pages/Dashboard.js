@@ -13,12 +13,12 @@ const styles = {
 
 const scheme = {
   tabs: [
-    { id: '1', title: 'Information', component: [{id: 'formPluginFolder', type: 'form'}] },
+    { id: '111', title: 'Information', component: [{id: 'formPluginFolder', type: 'form'}] },
     { id: '2', title: 'Plugins', component: [{id: 'formPluginCommon', type: 'form'}] },
     { id: '3', title: 'Web Console', component: [{id: 'formSceneCodeEditor', type: 'form'}] },
     { id: '4', title: 'File Explorer', component: [{id: 'formUnitChannels', type: 'form'}] },
   ],
-  defaultTab: '1',
+  defaultTab: '111',
 };
 
 class Dashboard extends Component {
