@@ -15,10 +15,10 @@ function getComponentByType(type) {
   }
 }
 
-function getComponent(state) {
+function getComponent(key, state) {
   const component = getComponentByType(state.component.type);
   if (component) {
-    return React.createElement(component, { state: state });
+    return React.createElement(component, { key, state: state });
   }
   return null;
 }

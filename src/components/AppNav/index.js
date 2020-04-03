@@ -165,7 +165,7 @@ class AppNav extends Component {
     if (this.props.disabledRoute) {
       core.actions.appnav.clickNode(this.props.stateid, componentid, item.node.id);
       if (this.props.onClickNode) {
-        this.props.onClickNode(componentid, item.node.id);
+        this.props.onClickNode(item, componentid, item.node.id);
       }
     } else {
       const params = core.cache.componentsParams[componentid] ?  

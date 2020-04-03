@@ -14,10 +14,9 @@ import {
 
 const defaultState = {
   open: false,
-  title: '',
-  transfer: null,
-  template: { type: null, id: null },
-  component: { type: null, id: null },
+  transferid: null,
+  template: { title: '', type: null, id: null },
+  component: { type: null, id: null, list: [] },
   form: {
     id: null,
     save: false,
@@ -119,7 +118,7 @@ function reducer(state = defaultState, action) {
     case APP_DIALOG_CLOSE:
       return { ...defaultState };
     case APP_DIALOG_SET_COMPONENT:
-      return { ...state, component: action.data };
+      return { ...state, component: { ...state.component, ...action.data } };
     case APP_DIALOG_SET_FORM:
       return { ...state, form: action.data };
     case APP_DIALOG_FORM_SET_ERRORS:

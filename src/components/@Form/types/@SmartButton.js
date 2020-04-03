@@ -18,27 +18,39 @@ const styles = {
   }
 }
 
+function getValue(value) {
+  if (value) {
+    const temp = value.split('.');
+    return `${temp[0].toUpperCase()} --> ${temp[1].toUpperCase()}`
+  }
+  return '';
+}
+
 class Devlink extends Component {
 
 
-  handleDialogClick = (params) => {
+  handleDialogClick = (value) => {
     core.transfer.unsub('form_dialog', this.handleDialogClick);
-    console.log(params);
+    core.actions.appdialog.close();
+
+    this.props.onChange(this.props.id, this.props.options, null, value)
   }
 
   handleClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
 
-    const tree = { type: 'tree', id: 'devices' };
-    const form = { type: 'form', id: 'formDeviceCommon', nodeid: 'd0809' }
+   const params = {
+    ...this.props.options.params,
+    anchor: this.props.data.anchor,
+    nodeid: this.props.route.channel,
+   }
 
     core.transfer.sub('form_dialog', this.handleDialogClick);
     core.actions.appdialog.data({ 
       open: true, 
-      title: 'Channel binding', 
-      template: form,
-      transferid: 'form_dialog' 
+      transferid: 'form_dialog',
+      template: params,
     });
   }
 
@@ -56,7 +68,7 @@ class Devlink extends Component {
             </IconButton>
           ),
         }}
-        value={this.props.data}
+        value={getValue(this.props.data.title)}
         error={this.props.cache.error}
         helperText={this.props.cache.error}
         onClick={this.handleClick}

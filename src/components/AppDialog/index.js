@@ -52,7 +52,7 @@ function AppDialog(props) {
         classes={{ paper: props.classes.dialog }}  
         onClose={core.actions.appdialog.close}
       >
-        <AppBar title={props.state.title} />
+        <AppBar title={props.state.template.title} />
         <div style={styles.container} >
           {template(props.state)}
         </div>
