@@ -117,7 +117,7 @@ class Devlink extends Component {
   handleClickChip = (e, deviceid) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log(`dev/devices/deviceview/${deviceid}/tabDeviceCommon`)
+
     core.route(`dev/devices/deviceview/${deviceid}/tabDeviceCommon`);
   }
 
