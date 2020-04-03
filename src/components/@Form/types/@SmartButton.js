@@ -31,6 +31,7 @@ const styles = {
     alignItems: 'center',
     width: 'calc(100% - 30px)',
     height: 34,
+    marginRight: 4,
   },
   stub: {
     color: '#9E9E9E',
@@ -46,6 +47,11 @@ const styles = {
   chip2: {
     borderStyle: 'dashed',
     flexShrink: 0,
+  },
+  textstub: {
+    width: 'calc(100% - 30px)',
+    height: 34,
+    marginRight: 4,
   }
 }
 
@@ -57,10 +63,25 @@ const classes = theme => ({
 
 function getValue(value) {
   if (value) {
-    const temp = value.split('.');
-    return `${temp[0].toUpperCase()} --> ${temp[1].toUpperCase()}`
+    return (
+      <div style={styles.value}>
+        <Chip
+          size="small"
+          style={styles.chip}
+          avatar={<Avatar style={styles.avatar}>{value.did}</Avatar>} 
+          label="Имя устройства" 
+        />
+        <div style={styles.stub}>--></div>
+        <Chip
+          size="small"
+          variant="outlined"
+          style={styles.chip2}
+          label={value.prop} 
+        />
+      </div>
+    );
   }
-  return '';
+  return <div style={styles.textstub} />;
 }
 
 class Devlink extends Component {
@@ -106,23 +127,7 @@ class Devlink extends Component {
               <LinkIcon fontSize="small" />
             </IconButton>
           ),
-          startAdornment: (
-            <div style={styles.value}>
-              <Chip
-                size="small"
-                style={styles.chip}
-                avatar={<Avatar style={styles.avatar}>{this.props.data.value.did}</Avatar>} 
-                label="Имя устройства" 
-              />
-              <div style={styles.stub}>--></div>
-              <Chip
-                size="small"
-                variant="outlined"
-                style={styles.chip2}
-                label={this.props.data.value.prop} 
-              />
-            </div>
-          ),
+          startAdornment: getValue(this.props.data.value),
         }}
         value=""
         error={this.props.cache.error}
