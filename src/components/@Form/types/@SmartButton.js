@@ -61,7 +61,7 @@ const classes = theme => ({
   }
 });
 
-function getValue(value) {
+function getValue(value, onClick) {
   if (value) {
     return (
       <div style={styles.value}>
@@ -69,7 +69,8 @@ function getValue(value) {
           size="small"
           style={styles.chip}
           avatar={<Avatar style={styles.avatar}>{value.did}</Avatar>} 
-          label="Имя устройства" 
+          label="Имя устройства"
+          onClick={(e) => onClick(e, value.did)}
         />
         <div style={styles.stub}>--></div>
         <Chip
@@ -113,6 +114,13 @@ class Devlink extends Component {
     });
   }
 
+  handleClickChip = (e, deviceid) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log(`dev/devices/deviceview/${deviceid}/tabDeviceCommon`)
+    core.route(`dev/devices/deviceview/${deviceid}/tabDeviceCommon`);
+  }
+
   render() {
     return (
       <TextField
@@ -127,7 +135,7 @@ class Devlink extends Component {
               <LinkIcon fontSize="small" />
             </IconButton>
           ),
-          startAdornment: getValue(this.props.data.value),
+          startAdornment: getValue(this.props.data.value, this.handleClickChip),
         }}
         value=""
         error={this.props.cache.error}
