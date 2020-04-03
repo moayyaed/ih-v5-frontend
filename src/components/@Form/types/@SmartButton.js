@@ -39,11 +39,12 @@ class Devlink extends Component {
   handleClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-
+    
    const params = {
     ...this.props.options.params,
     anchor: this.props.data.anchor,
     nodeid: this.props.route.channel,
+    selectnodeid: this.props.data.dialognodeid
    }
 
     core.transfer.sub('form_dialog', this.handleDialogClick);

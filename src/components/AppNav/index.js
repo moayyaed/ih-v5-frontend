@@ -69,8 +69,9 @@ class AppNav extends Component {
     this.props.route.menuid && core
     .request({ method: 'appnav', props: this.props })
     .ok((res) => {
-      if (this.props.route.nodeid) {
-        const node = findNode(res.list, this.props.route.nodeid);
+      const selectid = this.props.disabledRoute ? this.props.defaultSelectNodeId : this.props.route.nodeid;
+      if (selectid) {
+        const node = findNode(res.list, selectid);
         if (node) {
           if (node.windowHeight - this.panel.clientHeight > 0) {
             res.scrollTop = node.scrollPoint - ((this.panel.clientHeight - 5) / 2) - 9;
@@ -81,6 +82,18 @@ class AppNav extends Component {
             }
             return item;
           }); 
+        }
+        if (this.props.disabledRoute) {
+          const rootkey = Object
+            .keys(node.paths)
+            .find(key => node.paths[key].root !== undefined);
+          if (rootkey) {
+            const rootid = node.paths[rootkey].root;
+            const type = node.children !== undefined ? 'parent' : 'child';
+            const componentid = node.component || res.options[rootid][type].defaultComponent;
+            res.click = { id: selectid, component: componentid };
+            this.props.onClickNode({ node }, componentid, selectid);
+          }
         }
       }
       core.actions.appnav.data(this.props.stateid, res);
