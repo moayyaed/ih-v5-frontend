@@ -99,7 +99,13 @@ class Devicelink extends Component {
   }
 
   handleClickUnlink = (item) => {
-    console.log('d', item);
+    const params = item.clearreq;
+
+    core
+    .request({ method: 'appdialog_devlink_unlink', params })
+    .ok((res) => {
+      console.log(res);
+    });
   }
 
   handleClickOk = (item) => {
@@ -108,6 +114,7 @@ class Devicelink extends Component {
   
 
   render({ state } = this.props) {
+    console.log(state)
     return (
       <div style={styles.root} >
         {state.component.list.map(i => 
