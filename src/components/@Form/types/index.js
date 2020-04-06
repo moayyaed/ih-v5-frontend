@@ -1,8 +1,8 @@
 import React from 'react';
 
-
-import Input from './@Input';
 import Text from './@Text';
+import Header from './@Header';
+import Input from './@Input';
 import Textarea from './@Textarea';
 import Droplist from './@Droplist';
 import Tags from './@Tags';
@@ -15,10 +15,12 @@ import PluginForm1 from './@PluginForm1';
 
 function getComponentByType(type) {
   switch (type) {
-    case 'input':
-      return Input;
     case 'text':
       return Text;
+    case 'header':
+      return Header;
+    case 'input':
+      return Input;
     case 'textarea':
       return Textarea;
     case 'table':
