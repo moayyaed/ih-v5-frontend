@@ -546,7 +546,7 @@ class PluginForm1 extends Component {
       id: this.props.options.data, 
       navnodeid: this.props.route.nodeid,
       parentid: parent.id,
-      previd: getPrevNode(item.nextParentNode, item.node)
+      previd: getPrevNode(parent, item.node)
     };
     const payload = [{ nodeid: item.node.id }];
     
