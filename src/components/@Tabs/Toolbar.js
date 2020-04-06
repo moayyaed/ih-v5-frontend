@@ -24,6 +24,11 @@ const styles = {
   },
   text: {
     fontSize: 14,
+  },
+  hide: {
+    width: '100%',
+    height: 30,
+    backgroundColor: '#f5f5f5',
   }
 }
 
@@ -69,7 +74,7 @@ class Breadcrumbs extends Component {
 
 function Toolbar(props) {
   if (props.disabled) {
-    return <div style={styles.root} />;
+    return <div style={styles.hide} />;
   }
   return (
     <div style={styles.root}>
