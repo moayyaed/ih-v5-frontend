@@ -11,82 +11,35 @@ const styles = {
   },
 };
 
-const scheme = {
-  tabs: [
-    { id: '111', title: 'Information', component: [{id: 'formPluginFolder', type: 'form'}] },
-    { id: '2', title: 'Plugins', component: [{id: 'formPluginCommon', type: 'form'}] },
-    { id: '3', title: 'Web Console', component: [{id: 'formSceneCodeEditor', type: 'form'}] },
-    { id: '4', title: 'File Explorer', component: [{id: 'formUnitChannels', type: 'form'}] },
-  ],
-  defaultTab: '111',
-};
 
 class Dashboard extends Component {
   state = { 
     debug: false,
-    scheme,
-    route: {
-      menuid: 'datasource',
-      rootid: 'plugins',
-      componentid: 'pluginview',
-      nodeid: 'modbus1',
-      tab: scheme.defaultTab,
-      channelview: null,
-      channel: null,
+    scheme: {
+      tabs: [],
+      defaultTab: null,
     },
+    route: {},
   };
+
+  componentDidMount() {
+    this.setState(state => {
+      return {
+        ...state,
+        scheme: core.options.componentsScheme.dashboard,
+        route: { tab: core.options.componentsScheme.dashboard.defaultTab }
+      }
+    })
+  }
 
   componentWillUnmount() {
     core.actions.apppage.clear();
   }
 
   handleClickTab = (tab) => {
-    if (tab === '1') {
-      this.setState(state => { 
-        return {
-          ...state,
-          route: { 
-            menuid: 'datasource',
-            rootid: 'plugins',
-            componentid: 'pluginview',
-            nodeid: 'plugin_modbus',
-            tab: tab,
-            channelview: null,
-            channel: null,
-          },
-        };
-      });
-    } else if (tab === '3') {
-      this.setState(state => { 
-        return {
-          ...state,
-          route: { 
-            menuid: 'scenes',
-            rootid: 'scenes',
-            componentid: 'scenescript',
-            nodeid: 'scen012',
-            tab: tab,
-            channelview: null,
-            channel: null,
-          },
-        };
-      });
-    } else {
-      this.setState(state => { 
-        return {
-          ...state,
-          route: { 
-            menuid: 'datasource',
-            rootid: 'plugins',
-            componentid: 'pluginview',
-            nodeid: 'modbus1',
-            tab: tab,
-            channelview: null,
-            channel: null,
-          },
-        };
-      });
-    }
+    this.setState(state => { 
+      return { ...state, route: { tab } };
+    });
   }
 
   handleKeyDown = (e) => {
