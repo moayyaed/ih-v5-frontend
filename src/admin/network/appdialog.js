@@ -6,8 +6,8 @@ core.network.request('appdialog_devlink', (send, context) => {
     method: 'get', 
     type: 'link',
     id: 'devicelink',
-    nodeid: context.params.nodeid,
-    anchor: context.params.anchor,
+    nodeid: context.params.id,
+    anchor: context.props.anchor,
   });
 })
 

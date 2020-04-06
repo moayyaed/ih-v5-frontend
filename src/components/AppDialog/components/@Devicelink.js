@@ -91,10 +91,13 @@ class Devicelink extends Component {
   }
 
   request = () => {
+    const props = this.props.state.template;
+    const params = this.props.state.component;
+
     core
-    .request({ method: 'appdialog_devlink', params: this.props.state.template })
+    .request({ method: 'appdialog_devlink', props, params })
     .ok((res) => {
-      core.actions.appdialog.component({ list: res.data.properties });
+      core.actions.appdialog.component({ list: res.data.properties});
     });
   }
 
@@ -103,9 +106,7 @@ class Devicelink extends Component {
 
     core
     .request({ method: 'appdialog_devlink_unlink', params })
-    .ok((res) => {
-      console.log(res);
-    });
+    .ok(this.request);
   }
 
   handleClickOk = (item) => {

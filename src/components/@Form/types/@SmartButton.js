@@ -7,6 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import TextField from '@material-ui/core/TextField';
 
@@ -20,11 +21,16 @@ const styles = {
     position: 'relative',
   },
   avatar: {
-    width: 75,
     borderRadius: 8,
     width: 'unset',
+    maxWidth: 75,
     paddingLeft: 6,
     paddingRight: 6,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    display: 'block',
+    lineHeight: '18px',
   },
   value: {
     display: 'flex',
@@ -61,25 +67,27 @@ const classes = theme => ({
   }
 });
 
-function getValue(value, onClick) {
-  if (value) {
+function getValue(data, onClick) {
+  if (data.value) {
     return (
-      <div style={styles.value}>
-        <Chip
-          size="small"
-          style={styles.chip}
-          avatar={<Avatar style={styles.avatar}>{value.did}</Avatar>} 
-          label="Имя устройства"
-          onClick={(e) => onClick(e, value.did)}
-        />
-        <div style={styles.stub}>--></div>
-        <Chip
-          size="small"
-          variant="outlined"
-          style={styles.chip2}
-          label={value.prop} 
-        />
-      </div>
+      <Tooltip title={`${data.dn} ${data.name}`}>
+        <div style={styles.value}>
+          <Chip
+            size="small"
+            style={styles.chip}
+            avatar={<Avatar style={styles.avatar}>{data.dn}</Avatar>} 
+            label={data.name}
+            onClick={(e) => onClick(e, data.did)}
+          />
+          <div style={styles.stub}>--></div>
+          <Chip
+            size="small"
+            variant="outlined"
+            style={styles.chip2}
+            label={data.prop} 
+          />
+        </div>
+      </Tooltip>
     );
   }
   return <div style={styles.textstub} />;
@@ -135,7 +143,7 @@ class Devlink extends Component {
               <LinkIcon fontSize="small" />
             </IconButton>
           ),
-          startAdornment: getValue(this.props.data.value, this.handleClickChip),
+          startAdornment: getValue(this.props.data, this.handleClickChip),
         }}
         value=""
         error={this.props.cache.error}
