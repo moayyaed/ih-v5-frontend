@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 import 'react-base-table/styles.css'
 
@@ -44,7 +44,7 @@ function getDefault(type) {
 }
 
 
-class Table extends Component {
+class Table extends PureComponent {
 
   handleRowAdd = () => {
     const { id, options } = this.props;

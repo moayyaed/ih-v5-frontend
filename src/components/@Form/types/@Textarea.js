@@ -38,4 +38,4 @@ function Textarea(props) {
 }
 
 
-export default withStyles(classes)(Textarea);
+export default withStyles(classes)(React.memo(Textarea));

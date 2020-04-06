@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import core from 'core';
 
 import AceEditor from 'react-ace';
@@ -93,7 +93,7 @@ function config(type, route) {
   };
 }
 
-class PluginForm1 extends Component {
+class PluginForm1 extends PureComponent {
 
   state = {
     scheme: {},

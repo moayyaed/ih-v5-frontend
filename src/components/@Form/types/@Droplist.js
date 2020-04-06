@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import core from 'core';
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -98,7 +98,7 @@ const ListboxComponent = React.forwardRef(function ListboxComponent(props, ref) 
 });
 
 
-class Droplist extends Component {
+class Droplist extends PureComponent {
   state = { list: [], loading: false }
 
   componentDidMount() {

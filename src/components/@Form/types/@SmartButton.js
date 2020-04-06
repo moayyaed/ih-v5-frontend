@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import core from 'core';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -93,7 +93,7 @@ function getValue(data, onClick) {
   return <div style={styles.textstub} />;
 }
 
-class Devlink extends Component {
+class Devlink extends PureComponent {
 
 
   handleDialogClick = (value) => {

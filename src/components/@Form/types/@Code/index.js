@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import core from 'core';
 
 import AceEditor from 'react-ace';
@@ -66,7 +66,7 @@ function config(type, route) {
   };
 }
 
-class Code extends Component {
+class Code extends PureComponent {
   state = { consoleValue: '', consoleAutoScroll: true }
 
   componentDidMount() {
