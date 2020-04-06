@@ -114,7 +114,6 @@ class Devicelink extends Component {
   
 
   render({ state } = this.props) {
-    console.log(state)
     return (
       <div style={styles.root} >
         {state.component.list.map(i => 
