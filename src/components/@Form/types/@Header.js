@@ -10,7 +10,7 @@ const styles = {
 
 function Header(props) {
   return (
-    <Typography variant={props.options.size || 'h6'} >
+    <Typography variant={props.options.size} >
       {props.options.title}
     </Typography>
   )
