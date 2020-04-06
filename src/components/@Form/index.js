@@ -50,7 +50,7 @@ class Form extends Component {
 
     return scheme.map((item) => {
       if (item.hide !== undefined) {
-        if (!item.hide(this.props.data)) {
+        if (item.hide(this.props.data)) {
           return null;
         }
       }
