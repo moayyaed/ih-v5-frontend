@@ -79,7 +79,7 @@ class Form extends Component {
   }
 
   render({ debug, scheme, data, cache, classes } = this.props) {
-    if (debug && scheme && data) {
+    if (debug) {
       return <Debug scheme={scheme} data={data} cache={cache} />
     }
     if (scheme && scheme.grid && data) {
