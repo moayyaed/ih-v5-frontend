@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import core from 'core';
 
 import Tabs from 'components/@Tabs';
+import { compose } from 'redux';
 
 const styles = {
   root: {
@@ -38,7 +39,7 @@ class Dashboard extends Component {
 
   handleClickTab = (tab) => {
     this.setState(state => { 
-      return { ...state, route: { tab } };
+      return { ...state, route: { tab, force: false } };
     });
   }
 
@@ -49,6 +50,11 @@ class Dashboard extends Component {
           ...state,
           debug: !state.debug,
         };
+      });
+    }
+    if (e.altKey && e.keyCode === 84) {
+      this.setState(state => { 
+        return { ...state, route: { type: 'xform', id: 'formTest', force: true } };
       });
     }
   }

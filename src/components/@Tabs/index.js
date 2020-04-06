@@ -42,23 +42,31 @@ class ComponentTabs extends Component {
   }
 
   handleRequest = (route, scheme) => {
+    let params = null;
     const tab = scheme.tabs.find(i => i.id === route.tab);
 
-    if (tab !== undefined && tab.component && tab.component.length) {
-      const params = { ...tab.component[0], nodeid: route.nodeid };
+    if (route.force) {
+      params = route;
+    } else {
+      if (tab !== undefined && tab.component && tab.component.length) {
+        params = { ...tab.component[0], nodeid: route.nodeid };
+      }
+    }
+
+    if (params) {
       core
-        .request({ method: 'components_tabs_form', params })
-        .ok(res => {
-          this.saveData[tab.id] = {};
-          core.actions.apppage.data({
-            save: false,
-            id: `${route.nodeid}_${route.tab}`,
-            component: tab.component,
-            options: res.options,
-            data: res.data,
-            cache: res.cache,
-          })
-        });
+      .request({ method: 'components_tabs_form', params })
+      .ok(res => {
+        this.saveData[tab.id] = {};
+        core.actions.apppage.data({
+          save: false,
+          id: `${route.nodeid}_${route.tab}`,
+          component: tab.component,
+          options: res.options,
+          data: res.data,
+          cache: res.cache,
+        })
+      });
     }
   }
 
