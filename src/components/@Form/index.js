@@ -47,7 +47,15 @@ class Form extends Component {
     const data = this.props.data[id];
     const cache = this.props.cache[id];
     const route = this.props.route;
-    return scheme.map((item) => components(id, item, data[item.prop], cache[item.prop], route, this.props.onChange));
+
+    return scheme.map((item) => {
+      if (item.hide !== undefined) {
+        if (!item.hide(this.props.data)) {
+          return null;
+        }
+      }
+      return components(id, item, data[item.prop], cache[item.prop], route, this.props.onChange);
+    });
   }
 
   getGridComponent = (item) => {

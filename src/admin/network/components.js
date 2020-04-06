@@ -1,4 +1,5 @@
 import core from 'core';
+import { generateOptions, generateCache } from './tools';
 
 
 core.network.request('components_tabs_form', (send, context) => {
@@ -10,18 +11,9 @@ core.network.request('components_tabs_form', (send, context) => {
 
 core.network.response('components_tabs_form', (answer, res, context) => {
   answer({ 
-    options: res[0].data, 
+    options: generateOptions(res[0].data), 
     data: res[1].data,
-    cache: res[0].data.grid
-      .reduce((p, c) => {
-        return { 
-          ...p, [c.id]: 
-          res[0].data[c.id]
-            .reduce((p, c) => {
-              return { ...p, [c.prop]: {} }
-            }, {}) 
-        };
-      }, {})
+    cache: generateCache(res[0].data)
   });
 })
 

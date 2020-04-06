@@ -1,17 +1,5 @@
 import core from 'core';
-
-function transformData(list, meta) {
-  const roots = {};
- 
-  list.forEach(i => {
-    roots[i.id] = i.root;
-  });
-
-  return {
-    ...meta,
-    roots,
-  };
-}
+import { generateOptions, generateCache } from './tools';
 
 
 core.network.request('plugin_tree', (send, context) => {
@@ -40,18 +28,9 @@ core.network.request('plugin_tree_form', (send, context) => {
 
 core.network.response('plugin_tree_form', (answer, res, context) => {
   answer({ 
-    scheme: res[0].data, 
+    scheme: generateOptions(res[0].data), 
     data: res[1].data,
-    cache: res[0].data.grid
-      .reduce((p, c) => {
-        return { 
-          ...p, [c.id]: 
-          res[0].data[c.id]
-            .reduce((p, c) => {
-              return { ...p, [c.prop]: {} }
-            }, {}) 
-        };
-      }, {})
+    cache: generateCache(res[0].data)
   });
 })
 
