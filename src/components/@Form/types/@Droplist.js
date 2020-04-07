@@ -179,7 +179,13 @@ class Droplist extends PureComponent {
   }
 
   componentDidUpdate() {
-    
+    if (this.props.data && this.props.data.id !== '-') {
+      const list = this.state.list.filter(i => i.hide ? !i.hide(this.props.global) : true);
+      const find = list.find(i => i.id === this.props.data.id);
+      if (find === undefined) {
+        this.props.onChange(this.props.id, this.props.options, null, { id: '-', title: '-' })
+      }
+    }
   }
 
   render({ id, options, global } = this.props) {
