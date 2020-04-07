@@ -54,7 +54,7 @@ class Form extends Component {
           return null;
         }
       }
-      return components(id, item, data[item.prop], cache[item.prop], route, this.props.onChange);
+      return components(id, item, data[item.prop], cache[item.prop], this.props.data, route, this.props.onChange);
     });
   }
 

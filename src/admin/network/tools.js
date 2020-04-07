@@ -1,5 +1,5 @@
 
-function createFunction(string) {
+function createHideFunction(string) {
   return new Function('data', 'return ' + string);
 }
 
@@ -7,7 +7,7 @@ function getOption(data) {
   if (Array.isArray(data)) {
     return data.map(i => {
       if (i.hide !== undefined) {
-        return { ...i, hide: createFunction(i.hide) };
+        return { ...i, hide: createHideFunction(i.hide) };
       }
       return i;
     });

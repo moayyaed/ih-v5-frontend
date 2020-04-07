@@ -97,6 +97,22 @@ const ListboxComponent = React.forwardRef(function ListboxComponent(props, ref) 
   );
 });
 
+function createHideFunction(string) {
+  return new Function('data', 'return ' + string);
+}
+
+function generateList(data) {
+  if (data) {
+    return data.map(i => {
+      if (i.hide !== undefined) {
+        return { ...i, hide: createHideFunction(i.hide) };
+      }
+      return i;
+    });
+  }
+  return [];
+}
+
 
 class Droplist extends PureComponent {
   state = { list: [], loading: false }
@@ -114,7 +130,7 @@ class Droplist extends PureComponent {
       return {
         ...state,
         loading: false,
-        list: list || [],
+        list: generateList(list),
       }
     });
   }
@@ -162,14 +178,19 @@ class Droplist extends PureComponent {
     }
   }
 
-  render({ id, options } = this.props) {
+  componentDidUpdate() {
+    
+  }
+
+  render({ id, options, global } = this.props) {
+    const list = this.state.list.filter(i => i.hide ? !i.hide(global) : true);
     return (
       <Autocomplete
         disableClearable
         disableListWrap
         style={styles.root}
         classes={this.props.classes}
-        options={this.state.list}
+        options={list}
         onChange={(e, v) => this.props.onChange(id, options, null, v)}
         value={this.props.data}
         renderInput={this.handleRenderInput}

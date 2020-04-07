@@ -40,12 +40,13 @@ function getComponentByType(type) {
   }
 }
 
-function components(id, item, data, cache, route, onChange) {
+function components(id, item, data, cache, global, route, onChange) {
   const component = getComponentByType(item.type);
-  if (component) {
-    return React.createElement(component, { key: item.prop, id, options: item, data, cache, route, onChange });
+
+  if (item.type === 'droplist') {
+    return React.createElement(component, { key: item.prop, id, options: item, data, cache, global, route, onChange });
   }
-  return null;
+  return React.createElement(component, { key: item.prop, id, options: item, data, cache, route, onChange });
 }
 
 
