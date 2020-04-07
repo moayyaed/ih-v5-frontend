@@ -3,6 +3,7 @@ import React from 'react';
 import Text from './@Text';
 import Header from './@Header';
 import Input from './@Input';
+import Checkbox from './@Checkbox';
 import Textarea from './@Textarea';
 import Droplist from './@Droplist';
 import Tags from './@Tags';
@@ -17,6 +18,8 @@ function getComponentByType(type) {
   switch (type) {
     case 'text':
       return Text;
+    case 'cb':
+      return Checkbox;
     case 'header':
       return Header;
     case 'input':
