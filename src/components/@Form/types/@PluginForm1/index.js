@@ -687,6 +687,10 @@ class PluginForm1 extends PureComponent {
   }
 
   handleChangeForm = (id, component, target, value) => {
+    if (component.type === 'smartbutton' && value === null) {
+      this.valueBasic(id, component.prop, {});
+      return;
+    }
     if (!this.save) {
       this.save = {};
       core.actions.apppage.data({ save: 'pluginform1' })

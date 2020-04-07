@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 
 import Tooltip from '@material-ui/core/Tooltip';
 
+import SelectIcon from '@material-ui/icons/CheckCircleOutline';
 import UnlinkIcon from '@material-ui/icons/LinkOff';
 
 const styles = {
@@ -13,6 +14,7 @@ const styles = {
     padding: 20,
   },
   row: {
+    position: 'relative',
     height: 50,
     borderBottom: '2px dotted #E0E0E0',
     paddingBottom: 4,
@@ -24,6 +26,7 @@ const styles = {
   text: {
     width: '100%',
     marginLeft: 8,
+    paddingLeft: 20,
     color: '#9E9E9E',
   },
   buttons: {
@@ -40,6 +43,15 @@ const styles = {
   },
   icon: {
     marginLeft: 8,
+  },
+  select: {
+    position: 'absolute',
+    top: 22,
+    left: 0,
+  },
+  selectIcon: {
+    height: 18,
+    color: '#607d8b',
   }
 }
 
@@ -57,6 +69,7 @@ function Row(props) {
       <Typography variant="subtitle2" >
         {props.params.prop.toUpperCase()}
       </Typography>
+      <div style={styles.select}>{props.params.select ? <SelectIcon style={styles.selectIcon} /> : null}</div>
       <div style={styles.body}>
         <div style={styles.text}>{getValue(props.params.link)}</div>
         <div style={styles.buttons}>
@@ -103,10 +116,14 @@ class Devicelink extends Component {
 
   handleClickUnlink = (item) => {
     const params = item.clearreq;
-
     core
     .request({ method: 'appdialog_devlink_unlink', params })
-    .ok(this.request);
+    .ok(() => {
+      this.request();
+      if (this.props.state.template.selectnodeid === item.did) {
+        core.transfer.send(this.props.state.transferid, null);
+      }
+    });
   }
 
   handleClickOk = (item) => {

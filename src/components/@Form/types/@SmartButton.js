@@ -97,10 +97,14 @@ class Devlink extends PureComponent {
 
 
   handleDialogClick = (value) => {
-    core.transfer.unsub('form_dialog', this.handleDialogClick);
-    core.actions.appdialog.close();
-
-    this.props.onChange(this.props.id, this.props.options, null, value)
+    if (value === null) {
+      this.props.onChange(this.props.id, this.props.options, null, null);
+    } else {
+      core.transfer.unsub('form_dialog', this.handleDialogClick);
+      core.actions.appdialog.close();
+  
+      this.props.onChange(this.props.id, this.props.options, null, value)
+    }
   }
 
   handleClick = (e) => {
