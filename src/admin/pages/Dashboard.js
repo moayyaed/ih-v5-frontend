@@ -52,11 +52,13 @@ class Dashboard extends Component {
         };
       });
     }
+    /*
     if (e.altKey && e.keyCode === 84) {
       this.setState(state => { 
         return { ...state, route: { type: 'xform', id: 'formTest', force: true } };
       });
     }
+    */
   }
 
   render() {
