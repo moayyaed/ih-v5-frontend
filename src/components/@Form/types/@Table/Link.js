@@ -1,20 +1,27 @@
-import React from 'react';
+import React, { Component } from 'react';
 import core from 'core';
 
 import Link from '@material-ui/core/Link';
 
 
-function handleClickLink(e) {
-  e.preventDefault();
-  core.actions.appdialog.data({ open: true })
-}
+class TableLinkComponent extends Component {
 
-function TableLinkComponent(props) {
-  return (
-    <Link href="" onClick={handleClickLink}>
-      {props.cellData}
-    </Link>
-  )
+  handleClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (this.props.cellData !== undefined && this.props.cellData.path !== undefined) {
+      core.route(this.props.cellData.path);
+    }
+  }
+
+  render() {
+    return (
+      <Link href="" onClick={this.handleClick}>
+        {this.props.cellData.title}
+      </Link>
+    )
+  }
 }
 
 
