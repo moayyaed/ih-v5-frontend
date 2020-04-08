@@ -71,7 +71,6 @@ class Devlink extends PureComponent {
   }
 
   render() {
-    console.log(this.props.data)
     return (
       <TextField
         id={this.props.options.id} 
