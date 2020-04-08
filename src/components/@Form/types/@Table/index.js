@@ -78,19 +78,21 @@ class Table extends PureComponent {
     event.preventDefault();
     event.stopPropagation();
 
-    const { cache } = this.props;
-    const pos = { left: event.clientX, top: event.clientY };
-    const deleteTitle = cache && cache.remove && cache.remove[rowData.id] ? 
-    'Undelete' : 'Delete';
-
-    const scheme = {
-      main: [
-        { id: 'add', title: 'Add', click: this.handleRowAdd },
-        { id: 'delete', title: deleteTitle, click: () => this.handleRowDelete(rowData)  }
-      ]
+    if (this.props.options.popupenable) {
+      const { cache } = this.props;
+      const pos = { left: event.clientX, top: event.clientY };
+      const deleteTitle = cache && cache.remove && cache.remove[rowData.id] ? 
+      'Undelete' : 'Delete';
+  
+      const scheme = {
+        main: [
+          { id: 'add', title: 'Add', click: this.handleRowAdd },
+          { id: 'delete', title: deleteTitle, click: () => this.handleRowDelete(rowData)  }
+        ]
+      }
+  
+      ContextMenu.show(<Menu scheme={scheme} />, pos);
     }
-
-    ContextMenu.show(<Menu scheme={scheme} />, pos);
   }
 
   renderRow = ({ key, index, children, rowid, ...rest }) => {
