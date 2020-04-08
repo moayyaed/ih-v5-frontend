@@ -59,6 +59,9 @@ class Form extends Component {
   }
 
   getGridComponent = (item) => {
+    if (item.hide !== undefined && item.hide(this.props.data)) {
+        return null;
+    }
     if (item.class === 'main') {
       return (
         <Grid key={item.id} item xs={item.xs}>
