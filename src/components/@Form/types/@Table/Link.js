@@ -17,7 +17,7 @@ class TableLinkComponent extends Component {
 
   render() {
     return (
-      <Link href="" onClick={this.handleClick}>
+      <Link href={'/admin/' + this.props.cellData.path} onClick={this.handleClick}>
         {this.props.cellData.title}
       </Link>
     )
