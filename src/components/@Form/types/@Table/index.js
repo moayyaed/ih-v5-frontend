@@ -63,15 +63,17 @@ class Table extends PureComponent {
   handleContextMenuBody = (event) => {
     event.preventDefault();
     event.stopPropagation();
-  
-    const pos = { left: event.clientX, top: event.clientY };
-    const scheme = {
-      main: [
-        { id: 'add', title: 'Add', click: this.handleRowAdd },
-      ]
+
+    if (this.props.options.popupenable) {
+      const pos = { left: event.clientX, top: event.clientY };
+      const scheme = {
+        main: [
+          { id: 'add', title: 'Add', click: this.handleRowAdd },
+        ]
+      }
+    
+      ContextMenu.show(<Menu scheme={scheme} />, pos);
     }
-  
-    ContextMenu.show(<Menu scheme={scheme} />, pos);
   }
 
   handleContextMenuRow = ({ event, rowData }) => {
