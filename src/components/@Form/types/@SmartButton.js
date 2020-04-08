@@ -23,7 +23,7 @@ const styles = {
   avatar: {
     borderRadius: 8,
     width: 'unset',
-    maxWidth: 75,
+    maxWidth: 120,
     paddingLeft: 6,
     paddingRight: 6,
     whiteSpace: 'nowrap',
