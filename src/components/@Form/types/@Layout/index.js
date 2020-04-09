@@ -75,6 +75,14 @@ const columns = {
 class Layout extends PureComponent {
   state = state;
 
+  componentDidMount() {
+    core.actions.form.valueBasic(this.props.id, this.props.options.prop, {
+      list,
+      sections,
+      columns,
+    });
+  }
+
   handleChangeWindows = (data) => {
     this.setState(state => {
       return { ...state, windows: data };
@@ -93,9 +101,9 @@ class Layout extends PureComponent {
     if (id === 'canvas') {
       return (
         <Canvas 
-          list={list}
-          sections={sections}
-          columns={columns}
+          list={this.props.data.list || []}
+          sections={this.props.data.sections}
+          columns={this.props.data.columns}
         />
       );
     }
