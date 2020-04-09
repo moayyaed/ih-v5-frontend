@@ -19,6 +19,9 @@ const EMPTY_ARRAY = [];
 const TITLES = {
   layout: 'Layout',
   toolbar: 'Toolbar',
+  toolbar1: 'Toolbar1',
+  toolbar2: 'Toolbar2',
+
 }
 
 const state = {
@@ -26,7 +29,11 @@ const state = {
     mode: 0,
     direction: 'row',
     first: "layout",
-    second: 'toolbar',
+    second: {
+      direction: 'column',
+      first: "toolbar1",
+      second: "toolbar2",
+    },
     splitPercentage: 80,
   },
 }
