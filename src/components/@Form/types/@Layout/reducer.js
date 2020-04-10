@@ -4,6 +4,8 @@ import {
 
   LAYOUT_HOVER_SECTION,
   LAYOUT_SELECT_ELEMENTS,
+
+  LAYOUT_EDIT_SECTION,
 } from './constants';
 
 
@@ -47,6 +49,17 @@ function reducerLayout(state, action) {
       };
     case LAYOUT_SELECT_ELEMENTS:
       return { ...state, select: action.values };
+    case LAYOUT_EDIT_SECTION:
+      return { 
+        ...state,
+        sections: {
+          ...state.sections,
+          [action.sectionId]: {
+            ...state.sections[action.sectionId],
+            ...action.data,
+          }
+        },
+      }
     default:
       return state;
   }
@@ -60,6 +73,7 @@ function reducer(state, action) {
     case LAYOUT_SET_DATA:
     case LAYOUT_HOVER_SECTION:
     case LAYOUT_SELECT_ELEMENTS:
+    case LAYOUT_EDIT_SECTION:
       return { 
         ...state, 
         data: {

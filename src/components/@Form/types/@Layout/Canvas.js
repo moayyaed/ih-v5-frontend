@@ -80,7 +80,8 @@ function reorder(list, startIndex, endIndex) {
 
 function ToolbarSection(props) {
   return (
-    <div 
+    <div
+      {...props.dragHandleProps}
       style={{
         ...styles.toolbarSection,
         display: props.enabled ? 'flex' : 'none',
@@ -109,7 +110,6 @@ function Section(props) {
     <div 
       ref={props.provided.innerRef}
       {...props.provided.draggableProps}
-      {...props.provided.dragHandleProps}
       style={{ 
         ...styles.section, 
         ...props.provided.draggableProps.style, 
@@ -117,26 +117,43 @@ function Section(props) {
       }} 
       onMouseLeave={() => props.onHoverOut(props.id)}
     >
-      <ToolbarSection enabled={active} sectionId={props.id} onClick={props.onClickToolbar} />
-      <div 
-        style={{ 
-          ...styles.sectionBody, 
-          outline: active ? '1px solid #3eaaf5' : 'unset' 
-        }}
-      >
-        {props.item.columns
-          .map(id =>
-            <Column 
-              key={id}
-              id={id}
-              select={props.select.column}
-              sectionId={props.id} 
-              item={props.columns[id]}
-              onHoverEnter={props.onHoverEnter}
-              onClickToolbar={props.onClickToolbar}
-            />
+      <ToolbarSection
+        enabled={active} 
+        sectionId={props.id}
+        dragHandleProps={props.provided.dragHandleProps} 
+        onClick={props.onClickToolbar} 
+      />
+      <Droppable droppableId={props.id} direction="horizontal" type={props.id} >
+        {(provided, snapshot) => (
+          <div
+            {...provided.droppableProps}
+            ref={provided.innerRef} 
+            style={{ 
+              ...styles.sectionBody, 
+              outline: active ? '1px solid #3eaaf5' : 'unset' 
+            }}
+          >
+            {props.item.columns
+              .map((id, index) =>
+                <Draggable key={id} draggableId={id} index={index}>
+                  {(provided, snapshot) => (
+                    <Column 
+                      key={id}
+                      id={id}
+                      provided={provided}
+                      select={props.select.column}
+                      sectionId={props.id} 
+                      item={props.columns[id]}
+                      onHoverEnter={props.onHoverEnter}
+                      onClickToolbar={props.onClickToolbar}
+                    />
+                  )}
+                </Draggable>
+            )}
+            {provided.placeholder}
+          </div>
         )}
-      </div>
+      </Droppable>
     </div>
   );
 }
@@ -154,8 +171,15 @@ function ToolbarColumn(props) {
 function Column(props) {
   const active = props.item.hover || props.select === props.id;
   return (
-    <div 
-      style={{ ...styles.column, border: active ? '1px dashed #6d7882' : '1px dashed transparent' }} 
+    <div
+      ref={props.provided.innerRef}
+      {...props.provided.draggableProps}
+      {...props.provided.dragHandleProps} 
+      style={{ 
+        ...styles.column,
+        ...props.provided.draggableProps.style,
+        border: active ? '1px dashed #6d7882' : '1px dashed transparent',
+      }} 
       onMouseEnter={() => props.onHoverEnter(props.sectionId, props.id)}
     >
       <ToolbarColumn 
@@ -222,6 +246,14 @@ class Canvas extends Component {
       return;
     }
 
+    if (result.type === 'section') {
+      this.handleDragEndSection(result)
+    } else {
+      this.handleDragEndColumn(result)
+    }
+  }
+
+  handleDragEndSection = (result) => {
     const list = reorder(
       this.props.list,
       result.source.index,
@@ -235,10 +267,24 @@ class Canvas extends Component {
       )
   }
 
+  handleDragEndColumn = (result) => {
+    const columns = reorder(
+      this.props.sections[result.type].columns,
+      result.source.index,
+      result.destination.index
+    );
+
+    core.actions.layout
+    .editSection(
+      this.props.id, this.props.prop, 
+      result.type, { columns },
+    )
+  }
+
   render() {
     return (
       <DragDropContext onDragEnd={this.handleDragEnd}>
-        <Droppable droppableId="droppable">
+        <Droppable droppableId="droppable" type="section">
         {(provided, snapshot) => (
           <div 
             {...provided.droppableProps}

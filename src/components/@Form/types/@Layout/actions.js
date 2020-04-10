@@ -4,6 +4,8 @@ import {
 
   LAYOUT_HOVER_SECTION,
   LAYOUT_SELECT_ELEMENTS,
+  
+  LAYOUT_EDIT_SECTION,
 } from './constants';
 
 
@@ -42,10 +44,21 @@ export function select(id, prop, values) {
   };
 }
 
+export function editSection(id, prop, sectionId, data) {
+  return {
+    type: LAYOUT_EDIT_SECTION,
+    id,
+    prop,
+    sectionId,
+    data
+  };
+}
+
 
 export default {
   data,
   clear,
   hoverSection,
   select,
+  editSection,
 }
