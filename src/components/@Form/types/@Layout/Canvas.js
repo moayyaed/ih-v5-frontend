@@ -127,7 +127,7 @@ function ToolbarSection(props) {
 }
 
 function Section(props) {
-  const active = props.isDragging ? false : props.item.hover || props.select.section === props.id;
+  const active = props.isDragging ? props.isPreview : props.item.hover || props.select.section === props.id;
   return (
     <div 
       ref={props.provided.innerRef}
@@ -167,6 +167,7 @@ function Section(props) {
                       sectionId={props.id} 
                       item={props.columns[id]}
                       isDragging={props.isDragging || snapshot1.isDraggingOver}
+                      isPreview={snapshot2.isDragging}
                       onHoverEnter={props.onHoverEnter}
                       onClickToolbar={props.onClickToolbar}
                     />
@@ -194,7 +195,7 @@ function ToolbarColumn(props) {
 }
 
 function Column(props) {
-  const active = props.isDragging ? false : props.item.hover || props.select === props.id;
+  const active = props.isDragging ? props.isPreview : props.item.hover || props.select === props.id;
   return (
     <div
       ref={props.provided.innerRef}
@@ -350,6 +351,7 @@ class Canvas extends Component {
                       item={this.props.sections[id]}
                       columns={this.props.columns}
                       isDragging={snapshot1.isDraggingOver}
+                      isPreview={snapshot2.isDragging}
                       onClickToolbar={this.handleClickToolbar}
                       onHoverEnter={this.handleHoverEnter}
                       onHoverOut={this.handleHoverOut}
