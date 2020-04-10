@@ -3,7 +3,7 @@ import {
   LAYOUT_CLEAR_DATA,
 
   LAYOUT_HOVER_SECTION,
-  LAYOUT_HOVER_COLUMN,
+  LAYOUT_SELECT_ELEMENT,
 } from './constants';
 
 
@@ -31,9 +31,20 @@ export function hoverSection(id, prop, sectionId, columnId, value) {
   };
 }
 
+export function select(id, prop, name, value) {
+  return {
+    type: LAYOUT_SELECT_ELEMENT,
+    id,
+    prop,
+    name,
+    value,
+  };
+}
+
 
 export default {
   data,
   clear,
   hoverSection,
+  select,
 }

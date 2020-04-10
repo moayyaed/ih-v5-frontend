@@ -65,24 +65,35 @@ function Toolbar(props) {
         display: props.enabled ? 'flex' : 'none',
       }}
     >
-      <div style={styles.toolbarButton} className={css.toolbarButton} />
-      <div style={styles.toolbarButton} className={css.toolbarButton} />
-      <div style={styles.toolbarButton} className={css.toolbarButton} />
+      <div 
+        style={styles.toolbarButton} 
+        className={css.toolbarButton} 
+      />
+      <div 
+        style={styles.toolbarButton} 
+        className={css.toolbarButton} 
+        onClick={() => props.onClick('b2', props.sectionId)}
+      />
+      <div 
+        style={styles.toolbarButton} 
+        className={css.toolbarButton} 
+      />
     </div>
   );
 }
 
 function Section(props) {
+  const active = props.item.hover || props.select.section === props.id;
   return (
     <div 
       style={{ ...styles.section, height: props.item.height }} 
       onMouseLeave={() => props.onHoverOut(props.id)}
     >
-      <Toolbar enabled={props.item.hover} />
+      <Toolbar enabled={active} sectionId={props.id} onClick={props.onClickToolbar} />
       <div 
         style={{ 
           ...styles.sectionBody, 
-          outline: props.item.hover ? '1px solid #3eaaf5' : 'unset' 
+          outline: active ? '1px solid #3eaaf5' : 'unset' 
         }}
       >
         {props.item.columns
@@ -132,6 +143,20 @@ class Canvas extends Component {
     )
   }
 
+  handleClickToolbar = (button, sectionId) => {
+    if (button === 'b2') {
+      this.handleClickSection(sectionId);
+    }
+  }
+
+  handleClickSection = (sectionId) => {
+    core.actions.layout
+    .select(
+      this.props.id, this.props.prop, 
+      'section', sectionId,
+    )
+  }
+
   render() {
     return (
       <div style={styles.root}>
@@ -140,8 +165,10 @@ class Canvas extends Component {
             <Section 
               key={id} 
               id={id}
+              select={this.props.select}
               item={this.props.sections[id]}
               columns={this.props.columns[id]}
+              onClickToolbar={this.handleClickToolbar}
               onHoverEnter={this.handleHoverEnter}
               onHoverOut={this.handleHoverOut}
             />

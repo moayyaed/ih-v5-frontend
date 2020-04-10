@@ -46,6 +46,9 @@ class Layout extends PureComponent {
 
   componentDidMount() {
     core.actions.form.valueBasic(this.props.id, this.props.options.prop, {
+      select: {
+        section: null,
+      },
       list: [ 's1', 's2', 's3', 's4'],
       sections: {
         's1': { height: 50, hover: false, columns: ['c1', 'c2', 'c3'] },
@@ -95,7 +98,8 @@ class Layout extends PureComponent {
       return (
         <Canvas
           id={this.props.id}
-          prop={this.props.options.prop} 
+          prop={this.props.options.prop}
+          select={this.props.data.select || {}} 
           list={this.props.data.list || []}
           sections={this.props.data.sections}
           columns={this.props.data.columns}
