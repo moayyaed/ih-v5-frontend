@@ -9,6 +9,8 @@ import {
 
 function reducerLayout(state, action) {
   switch (action.type) {
+    case LAYOUT_SET_DATA:
+      return { ...state, ...action.data };
     case LAYOUT_HOVER_SECTION:
       return { 
         ...state,
@@ -53,10 +55,9 @@ function reducerLayout(state, action) {
 
 function reducer(state, action) {
   switch (action.type) {
-    case LAYOUT_SET_DATA:
-      return { ...state, ...action.data };
     case LAYOUT_CLEAR_DATA:
       return { };
+    case LAYOUT_SET_DATA:
     case LAYOUT_HOVER_SECTION:
     case LAYOUT_SELECT_ELEMENTS:
       return { 

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import core from 'core';
 
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+
+
 import css from './main.module.css';
 
 
@@ -67,6 +70,14 @@ const styles = {
   }
 }
 
+function reorder(list, startIndex, endIndex) {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+}
+
 function ToolbarSection(props) {
   return (
     <div 
@@ -96,7 +107,14 @@ function Section(props) {
   const active = props.item.hover || props.select.section === props.id;
   return (
     <div 
-      style={{ ...styles.section, height: props.item.height }} 
+      ref={props.provided.innerRef}
+      {...props.provided.draggableProps}
+      {...props.provided.dragHandleProps}
+      style={{ 
+        ...styles.section, 
+        ...props.provided.draggableProps.style, 
+        height: props.item.height 
+      }} 
       onMouseLeave={() => props.onHoverOut(props.id)}
     >
       <ToolbarSection enabled={active} sectionId={props.id} onClick={props.onClickToolbar} />
@@ -165,10 +183,10 @@ class Canvas extends Component {
 
   handleHoverOut = (sectionId) => {
     core.actions.layout
-    .hoverSection(
-      this.props.id, this.props.prop, 
-      sectionId, false
-    )
+      .hoverSection(
+        this.props.id, this.props.prop, 
+        sectionId, false
+      )
   }
 
   handleClickToolbar = (e, button, value) => {
@@ -185,37 +203,71 @@ class Canvas extends Component {
 
   handleClickSection = (sectionId) => {
     core.actions.layout
-    .select(
-      this.props.id, this.props.prop, 
-      { section: sectionId, column: null },
-    )
+      .select(
+        this.props.id, this.props.prop, 
+        { section: sectionId, column: null },
+      )
   }
 
   handleClickColumn = (columnId) => {
     core.actions.layout
-    .select(
-      this.props.id, this.props.prop, 
-      { column: columnId, section: null },
-    )
+      .select(
+        this.props.id, this.props.prop, 
+        { column: columnId, section: null },
+      )
+  }
+
+  handleDragEnd = (result) => {
+    if (!result.destination) {
+      return;
+    }
+
+    const list = reorder(
+      this.props.list,
+      result.source.index,
+      result.destination.index
+    );
+
+    core.actions.layout
+      .data(
+        this.props.id, this.props.prop, 
+        { list },
+      )
   }
 
   render() {
     return (
-      <div style={styles.root}>
-        {this.props.list
-          .map(id =>
-            <Section 
-              key={id} 
-              id={id}
-              select={this.props.select}
-              item={this.props.sections[id]}
-              columns={this.props.columns[id]}
-              onClickToolbar={this.handleClickToolbar}
-              onHoverEnter={this.handleHoverEnter}
-              onHoverOut={this.handleHoverOut}
-            />
+      <DragDropContext onDragEnd={this.handleDragEnd}>
+        <Droppable droppableId="droppable">
+        {(provided, snapshot) => (
+          <div 
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+            style={styles.root}
+          >
+            {this.props.list
+              .map((id, index) =>
+                <Draggable key={id} draggableId={id} index={index}>
+                  {(provided, snapshot) => (
+                    <Section 
+                      key={id} 
+                      id={id}
+                      provided={provided}
+                      select={this.props.select}
+                      item={this.props.sections[id]}
+                      columns={this.props.columns[id]}
+                      onClickToolbar={this.handleClickToolbar}
+                      onHoverEnter={this.handleHoverEnter}
+                      onHoverOut={this.handleHoverOut}
+                    />
+                  )}
+                </Draggable>
+            )}
+            {provided.placeholder}
+          </div>
         )}
-      </div>
+        </Droppable>
+      </DragDropContext>
     );
   }
 

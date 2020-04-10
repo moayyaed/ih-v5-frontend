@@ -7,9 +7,11 @@ import {
 } from './constants';
 
 
-export function data(data) {
+export function data(id, prop, data) {
   return {
     type: LAYOUT_SET_DATA,
+    id,
+    prop,
     data,
   };
 }
