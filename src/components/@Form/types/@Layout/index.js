@@ -19,7 +19,7 @@ const styles = {
 const EMPTY_ARRAY = [];
 
 const TITLES = {
-  canvas: 'Canvas',
+  canvas: 'Layout',
   toolbar: 'Toolbar',
   toolbar1: 'Toolbar1',
   toolbar2: 'Toolbar2',
