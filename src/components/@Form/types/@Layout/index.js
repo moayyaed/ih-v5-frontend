@@ -58,24 +58,16 @@ class Layout extends PureComponent {
         's4': { height: 150, hover: false, columns: ['s4_c1', 's4_c2', 's4_c3'] },
       },
       columns: {
-        's1': {
-          's1_c1': { hover: false },
-          's1_c2': { hover: false },
-          's1_c3': { hover: false },
-        },
-        's2': {
-          's2_c1': { hover: false },
-          's2_c2': { hover: false },
-          's2_c3': { hover: false },
-        },
-        's3': {
-          's3_c1': { hover: false },
-        },
-        's4': {
-          's4_c1': { hover: false },
-          's4_c2': { hover: false },
-          's4_c3': { hover: false },
-        },
+        's1_c1': { hover: false },
+        's1_c2': { hover: false },
+        's1_c3': { hover: false },
+        's2_c1': { hover: false },
+        's2_c2': { hover: false },
+        's2_c3': { hover: false },
+        's3_c1': { hover: false },
+        's4_c1': { hover: false },
+        's4_c2': { hover: false },
+        's4_c3': { hover: false },
       },
     });
   }

@@ -6,6 +6,7 @@ import {
   LAYOUT_SELECT_ELEMENTS,
   
   LAYOUT_EDIT_SECTION,
+  LAYOUT_MOVE_COLUMN,
 } from './constants';
 
 
@@ -54,6 +55,18 @@ export function editSection(id, prop, sectionId, data) {
   };
 }
 
+export function moveColumn(id, prop, sourceSectionId, targetSectionId, sourceColumns, targetColumns) {
+  return {
+    type: LAYOUT_MOVE_COLUMN,
+    id,
+    prop,
+    sourceSectionId,
+    targetSectionId,
+    sourceColumns,
+    targetColumns,
+  };
+}
+
 
 export default {
   data,
@@ -61,4 +74,5 @@ export default {
   hoverSection,
   select,
   editSection,
+  moveColumn,
 }

@@ -6,6 +6,7 @@ import {
   LAYOUT_SELECT_ELEMENTS,
 
   LAYOUT_EDIT_SECTION,
+  LAYOUT_MOVE_COLUMN,
 } from './constants';
 
 
@@ -23,29 +24,26 @@ function reducerLayout(state, action) {
             hover: action.value,
           }
         },
-        columns: {
-          ...state.columns,
-          [action.sectionId]: Object
-            .keys(state.columns[action.sectionId])
-            .reduce((p, c) => {
-              if (c === action.columnId) {
-                return { 
-                  ...p, 
-                  [c]: {
-                    ...state.columns[action.sectionId][c],
-                    hover: true,
-                  }
-                };
-              }
+        columns: Object
+          .keys(state.columns)
+          .reduce((p, c) => {
+            if (c === action.columnId) {
               return { 
                 ...p, 
                 [c]: {
-                  ...state.columns[action.sectionId][c],
-                  hover: false,
+                  ...state.columns[c],
+                  hover: true,
                 }
               };
-            }, {}),
-        }   
+            }
+            return { 
+              ...p, 
+              [c]: {
+                ...state.columns[c],
+                hover: false,
+              }
+            };
+          }, {}),  
       };
     case LAYOUT_SELECT_ELEMENTS:
       return { ...state, select: action.values };
@@ -57,6 +55,21 @@ function reducerLayout(state, action) {
           [action.sectionId]: {
             ...state.sections[action.sectionId],
             ...action.data,
+          }
+        },
+      }
+    case LAYOUT_MOVE_COLUMN:
+      return { 
+        ...state,
+        sections: {
+          ...state.sections,
+          [action.sourceSectionId]: {
+            ...state.sections[action.sourceSectionId],
+            columns: action.sourceColumns,
+          },
+          [action.targetSectionId]: {
+            ...state.sections[action.targetSectionId],
+            columns: action.targetColumns,
           }
         },
       }
@@ -74,6 +87,7 @@ function reducer(state, action) {
     case LAYOUT_HOVER_SECTION:
     case LAYOUT_SELECT_ELEMENTS:
     case LAYOUT_EDIT_SECTION:
+    case LAYOUT_MOVE_COLUMN:
       return { 
         ...state, 
         data: {

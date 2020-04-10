@@ -3,6 +3,7 @@ import core from 'core';
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
+import DragHandleIcon from '@material-ui/icons/DragHandle';
 
 import css from './main.module.css';
 
@@ -70,6 +71,20 @@ const styles = {
   }
 }
 
+function moveTo(list, index, id) {
+  const result = Array.from(list);
+  result.splice(index, 0, id);
+
+  return result;
+}
+
+function removeTo(list, index) {
+  const result = Array.from(list);
+  result.splice(index, 1)
+
+  return result;
+}
+
 function reorder(list, startIndex, endIndex) {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
@@ -95,7 +110,9 @@ function ToolbarSection(props) {
         style={styles.toolbarSectionButton} 
         className={css.toolbarSectionButton} 
         onClick={(e) => props.onClick(e, 'b2', props.sectionId)}
-      />
+      > 
+        <DragHandleIcon />  
+      </div>
       <div 
         style={styles.toolbarSectionButton} 
         className={css.toolbarSectionButton} 
@@ -123,7 +140,7 @@ function Section(props) {
         dragHandleProps={props.provided.dragHandleProps} 
         onClick={props.onClickToolbar} 
       />
-      <Droppable droppableId={props.id} direction="horizontal" type={props.id} >
+      <Droppable droppableId={props.id} direction="horizontal" type="columns" >
         {(provided, snapshot) => (
           <div
             {...provided.droppableProps}
@@ -268,17 +285,39 @@ class Canvas extends Component {
   }
 
   handleDragEndColumn = (result) => {
-    const columns = reorder(
-      this.props.sections[result.type].columns,
-      result.source.index,
-      result.destination.index
-    );
+    const sourceSectionId = result.source.droppableId;
+    const targetSectionId = result.destination.droppableId;
 
-    core.actions.layout
-    .editSection(
-      this.props.id, this.props.prop, 
-      result.type, { columns },
-    )
+
+    if (sourceSectionId !== targetSectionId) {
+      const sourceColumns = removeTo(
+        this.props.sections[sourceSectionId].columns,
+        result.source.index,
+      );
+      const targetColumns = moveTo(
+        this.props.sections[targetSectionId].columns,
+        result.destination.index,
+        result.draggableId,
+      );
+
+      core.actions.layout
+        .moveColumn(
+          this.props.id, this.props.prop, 
+          sourceSectionId, targetSectionId, sourceColumns, targetColumns,
+        )
+    } else {
+      const columns = reorder(
+        this.props.sections[targetSectionId].columns,
+        result.source.index,
+        result.destination.index
+      );
+
+      core.actions.layout
+        .editSection(
+          this.props.id, this.props.prop, 
+          targetSectionId, { columns },
+        )
+    }
   }
 
   render() {
@@ -301,7 +340,7 @@ class Canvas extends Component {
                       provided={provided}
                       select={this.props.select}
                       item={this.props.sections[id]}
-                      columns={this.props.columns[id]}
+                      columns={this.props.columns}
                       onClickToolbar={this.handleClickToolbar}
                       onHoverEnter={this.handleHoverEnter}
                       onHoverOut={this.handleHoverOut}
