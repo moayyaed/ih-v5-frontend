@@ -102,7 +102,10 @@ function Section(props) {
 
 function Column(props) {
   return (
-    <div style={styles.column} onMouseEnter={() => props.onHoverEnter(props.sectionId)}>
+    <div 
+      style={{ ...styles.column, border: props.item.hover ? '1px dashed #6d7882' : '1px dashed transparent' }} 
+      onMouseEnter={() => props.onHoverEnter(props.sectionId, props.id)}
+    >
       <div style={styles.columnBody}>
         {props.id}
       </div>
@@ -113,11 +116,11 @@ function Column(props) {
 
 class Canvas extends Component {
 
-  handleHoverEnter = (sectionId) => {
+  handleHoverEnter = (sectionId, columnId) => {
     core.actions.layout
       .hoverSection(
         this.props.id, this.props.prop, 
-        sectionId, true
+        sectionId, columnId, true
       )
   }
 

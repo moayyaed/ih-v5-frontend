@@ -55,22 +55,22 @@ class Layout extends PureComponent {
       },
       columns: {
         's1': {
-          'c1': {},
-          'c2': {},
-          'c3': {},
+          'c1': { hover: false },
+          'c2': { hover: false },
+          'c3': { hover: false },
         },
         's2': {
-          'c1': {},
-          'c2': {},
-          'c3': {},
+          'c1': { hover: false },
+          'c2': { hover: false },
+          'c3': { hover: false },
         },
         's3': {
-          'c1': {},
+          'c1': { hover: false },
         },
         's4': {
-          'c1': {},
-          'c2': {},
-          'c3': {},
+          'c1': { hover: false },
+          'c2': { hover: false },
+          'c3': { hover: false },
         },
       },
     });

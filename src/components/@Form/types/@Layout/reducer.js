@@ -1,6 +1,7 @@
 import { 
   LAYOUT_SET_DATA,
   LAYOUT_CLEAR_DATA,
+
   LAYOUT_HOVER_SECTION,
 } from './constants';
 
@@ -16,7 +17,30 @@ function reducerLayout(state, action) {
             ...state.sections[action.sectionId],
             hover: action.value,
           }
-        }  
+        },
+        columns: {
+          ...state.columns,
+          [action.sectionId]: Object
+            .keys(state.columns[action.sectionId])
+            .reduce((p, c) => {
+              if (c === action.columnId) {
+                return { 
+                  ...p, 
+                  [c]: {
+                    ...state.columns[action.sectionId][c],
+                    hover: true,
+                  }
+                };
+              }
+              return { 
+                ...p, 
+                [c]: {
+                  ...state.columns[action.sectionId][c],
+                  hover: false,
+                }
+              };
+            }, {}),
+        }   
       };
     default:
       return state;
