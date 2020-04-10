@@ -40,46 +40,39 @@ const state = {
   },
 }
 
-const list = [ 's1', 's2', 's3', 's4']
-
-const sections = {
-  's1': { height: 50, hover: false, columns: ['c1', 'c2', 'c3'] },
-  's2': { height: 75, hover: false, columns: ['c1', 'c2', 'c3'] },
-  's3': { height: 100, hover: false, columns: ['c1'] },
-  's4': { height: 150, hover: false, columns: ['c1', 'c2', 'c3'] },
-}
-
-
-const columns = {
-  's1': {
-    'c1': {},
-    'c2': {},
-    'c3': {},
-  },
-  's2': {
-    'c1': {},
-    'c2': {},
-    'c3': {},
-  },
-  's3': {
-    'c1': {},
-  },
-  's4': {
-    'c1': {},
-    'c2': {},
-    'c3': {},
-  },
-}
-
 
 class Layout extends PureComponent {
   state = state;
 
   componentDidMount() {
     core.actions.form.valueBasic(this.props.id, this.props.options.prop, {
-      list,
-      sections,
-      columns,
+      list: [ 's1', 's2', 's3', 's4'],
+      sections: {
+        's1': { height: 50, hover: false, columns: ['c1', 'c2', 'c3'] },
+        's2': { height: 75, hover: false, columns: ['c1', 'c2', 'c3'] },
+        's3': { height: 100, hover: false, columns: ['c1'] },
+        's4': { height: 150, hover: false, columns: ['c1', 'c2', 'c3'] },
+      },
+      columns: {
+        's1': {
+          'c1': {},
+          'c2': {},
+          'c3': {},
+        },
+        's2': {
+          'c1': {},
+          'c2': {},
+          'c3': {},
+        },
+        's3': {
+          'c1': {},
+        },
+        's4': {
+          'c1': {},
+          'c2': {},
+          'c3': {},
+        },
+      },
     });
   }
 
@@ -100,7 +93,9 @@ class Layout extends PureComponent {
   renderComponent = (id) => {
     if (id === 'canvas') {
       return (
-        <Canvas 
+        <Canvas
+          id={this.props.id}
+          prop={this.props.options.prop} 
           list={this.props.data.list || []}
           sections={this.props.data.sections}
           columns={this.props.data.columns}

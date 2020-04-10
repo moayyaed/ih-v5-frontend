@@ -13,6 +13,7 @@ const styles = {
     padding: '30px 15px',
   },
   section: {
+    position: 'relative',
     width: '100%',
     marginTop: 1,
     marginBottom: 1,
@@ -71,21 +72,19 @@ function Toolbar(props) {
   );
 }
 
-function Column(props) {
-  return (
-    <div style={styles.column} onMouseEnter={() => props.onHoverEnter(props.sectionId)}>
-      <div style={styles.columnBody}>
-        {props.id}
-      </div>
-    </div>
-  );
-}
-
 function Section(props) {
   return (
-    <div style={{ ...styles.section, height: props.item.height }}>
+    <div 
+      style={{ ...styles.section, height: props.item.height }} 
+      onMouseLeave={() => props.onHoverOut(props.id)}
+    >
       <Toolbar enabled={props.item.hover} />
-      <div style={styles.sectionBody}>
+      <div 
+        style={{ 
+          ...styles.sectionBody, 
+          outline: props.item.hover ? '1px solid #3eaaf5' : 'unset' 
+        }}
+      >
         {props.item.columns
           .map(id =>
             <Column 
@@ -101,14 +100,33 @@ function Section(props) {
   );
 }
 
+function Column(props) {
+  return (
+    <div style={styles.column} onMouseEnter={() => props.onHoverEnter(props.sectionId)}>
+      <div style={styles.columnBody}>
+        {props.id}
+      </div>
+    </div>
+  );
+}
+
+
 class Canvas extends Component {
 
   handleHoverEnter = (sectionId) => {
-    console.log(sectionId)
+    core.actions.layout
+      .hoverSection(
+        this.props.id, this.props.prop, 
+        sectionId, true
+      )
   }
 
-  handleHoverOut = () => {
-    
+  handleHoverOut = (sectionId) => {
+    core.actions.layout
+    .hoverSection(
+      this.props.id, this.props.prop, 
+      sectionId, false
+    )
   }
 
   render() {

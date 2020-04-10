@@ -1,8 +1,27 @@
 import { 
   LAYOUT_SET_DATA,
   LAYOUT_CLEAR_DATA,
+  LAYOUT_HOVER_SECTION,
 } from './constants';
 
+
+function reducerLayout(state, action) {
+  switch (action.type) {
+    case LAYOUT_HOVER_SECTION:
+      return { 
+        ...state,
+        sections: {
+          ...state.sections,
+          [action.sectionId]: {
+            ...state.sections[action.sectionId],
+            hover: action.value,
+          }
+        }  
+      };
+    default:
+      return state;
+  }
+}
 
 
 function reducer(state, action) {
@@ -11,6 +30,17 @@ function reducer(state, action) {
       return { ...state, ...action.data };
     case LAYOUT_CLEAR_DATA:
       return { };
+    case LAYOUT_HOVER_SECTION:
+      return { 
+        ...state, 
+        data: {
+          ...state.data,
+          [action.id]: {
+            ...state.data[action.id],
+            [action.prop]: reducerLayout(state.data[action.id][action.prop], action),
+          }
+        }
+      };
     default:
       return state;
   }
