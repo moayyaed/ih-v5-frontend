@@ -68,6 +68,11 @@ const styles = {
     height: 20,
     backgroundColor: '#616161',
     cursor: 'pointer',
+    color: '#fff',
+  },
+  toolbarColumnIcon: {
+    width: 20,
+    height: 20,
   }
 }
 
@@ -122,7 +127,7 @@ function ToolbarSection(props) {
 }
 
 function Section(props) {
-  const active = props.item.hover || props.select.section === props.id;
+  const active = props.isDragging ? false : props.item.hover || props.select.section === props.id;
   return (
     <div 
       ref={props.provided.innerRef}
@@ -141,7 +146,7 @@ function Section(props) {
         onClick={props.onClickToolbar} 
       />
       <Droppable droppableId={props.id} direction="horizontal" type={props.id} >
-        {(provided, snapshot) => (
+        {(provided, snapshot1) => (
           <div
             {...provided.droppableProps}
             ref={provided.innerRef} 
@@ -153,7 +158,7 @@ function Section(props) {
             {props.item.columns
               .map((id, index) =>
                 <Draggable key={id} draggableId={id} index={index}>
-                  {(provided, snapshot) => (
+                  {(provided, snapshot2) => (
                     <Column 
                       key={id}
                       id={id}
@@ -161,6 +166,7 @@ function Section(props) {
                       select={props.select.column}
                       sectionId={props.id} 
                       item={props.columns[id]}
+                      isDragging={props.isDragging || snapshot1.isDraggingOver}
                       onHoverEnter={props.onHoverEnter}
                       onClickToolbar={props.onClickToolbar}
                     />
@@ -177,21 +183,22 @@ function Section(props) {
 
 function ToolbarColumn(props) {
   return (
-    <div 
+    <div
+      {...props.dragHandleProps}
       style={{ ...styles.toolbarColumn, display: props.enabled ? 'block' : 'none'}}
       onClick={(e) => props.onClick(e, 'b4', props.columnId)}
     >
+      <DragHandleIcon style={styles.toolbarColumnIcon} />
     </div>
   );
 }
 
 function Column(props) {
-  const active = props.item.hover || props.select === props.id;
+  const active = props.isDragging ? false : props.item.hover || props.select === props.id;
   return (
     <div
       ref={props.provided.innerRef}
       {...props.provided.draggableProps}
-      {...props.provided.dragHandleProps} 
       style={{ 
         ...styles.column,
         ...props.provided.draggableProps.style,
@@ -203,6 +210,7 @@ function Column(props) {
         enabled={active} 
         columnId={props.id}
         onClick={props.onClickToolbar}
+        dragHandleProps={props.provided.dragHandleProps}
       />
       <div style={styles.columnBody}>
         {props.id}
@@ -324,7 +332,7 @@ class Canvas extends Component {
     return (
       <DragDropContext onDragEnd={this.handleDragEnd}>
         <Droppable droppableId="droppable" type="section">
-        {(provided, snapshot) => (
+        {(provided, snapshot1) => (
           <div 
             {...provided.droppableProps}
             ref={provided.innerRef}
@@ -333,7 +341,7 @@ class Canvas extends Component {
             {this.props.list
               .map((id, index) =>
                 <Draggable key={id} draggableId={id} index={index}>
-                  {(provided, snapshot) => (
+                  {(provided, snapshot2) => (
                     <Section 
                       key={id} 
                       id={id}
@@ -341,6 +349,7 @@ class Canvas extends Component {
                       select={this.props.select}
                       item={this.props.sections[id]}
                       columns={this.props.columns}
+                      isDragging={snapshot1.isDraggingOver}
                       onClickToolbar={this.handleClickToolbar}
                       onHoverEnter={this.handleHoverEnter}
                       onHoverOut={this.handleHoverOut}
