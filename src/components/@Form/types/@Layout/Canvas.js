@@ -140,7 +140,7 @@ function Section(props) {
         dragHandleProps={props.provided.dragHandleProps} 
         onClick={props.onClickToolbar} 
       />
-      <Droppable droppableId={props.id} direction="horizontal" type="columns" >
+      <Droppable droppableId={props.id} direction="horizontal" type={props.id} >
         {(provided, snapshot) => (
           <div
             {...provided.droppableProps}
