@@ -54,6 +54,7 @@ const styles = {
     textAlign: 'center',
     width: 25,
     height: 25,
+    cursor: 'pointer',
   },
   toolbarColumn: {
     position: 'absolute',
@@ -62,6 +63,7 @@ const styles = {
     width: 20,
     height: 20,
     backgroundColor: '#616161',
+    cursor: 'pointer',
   }
 }
 
