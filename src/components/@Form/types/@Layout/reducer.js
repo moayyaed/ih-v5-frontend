@@ -3,7 +3,7 @@ import {
   LAYOUT_CLEAR_DATA,
 
   LAYOUT_HOVER_SECTION,
-  LAYOUT_SELECT_ELEMENT,
+  LAYOUT_SELECT_ELEMENTS,
 } from './constants';
 
 
@@ -43,8 +43,8 @@ function reducerLayout(state, action) {
             }, {}),
         }   
       };
-    case LAYOUT_SELECT_ELEMENT:
-      return { ...state, select: { ...state.select, [action.name]: action.value } };
+    case LAYOUT_SELECT_ELEMENTS:
+      return { ...state, select: action.values };
     default:
       return state;
   }
@@ -58,7 +58,7 @@ function reducer(state, action) {
     case LAYOUT_CLEAR_DATA:
       return { };
     case LAYOUT_HOVER_SECTION:
-    case LAYOUT_SELECT_ELEMENT:
+    case LAYOUT_SELECT_ELEMENTS:
       return { 
         ...state, 
         data: {

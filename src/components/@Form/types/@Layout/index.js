@@ -48,32 +48,33 @@ class Layout extends PureComponent {
     core.actions.form.valueBasic(this.props.id, this.props.options.prop, {
       select: {
         section: null,
+        column: null,
       },
       list: [ 's1', 's2', 's3', 's4'],
       sections: {
-        's1': { height: 50, hover: false, columns: ['c1', 'c2', 'c3'] },
-        's2': { height: 75, hover: false, columns: ['c1', 'c2', 'c3'] },
-        's3': { height: 100, hover: false, columns: ['c1'] },
-        's4': { height: 150, hover: false, columns: ['c1', 'c2', 'c3'] },
+        's1': { height: 50, hover: false, columns: ['s1_c1', 's1_c2', 's1_c3'] },
+        's2': { height: 75, hover: false, columns: ['s2_c1', 's2_c2', 's2_c3'] },
+        's3': { height: 100, hover: false, columns: ['s3_c1'] },
+        's4': { height: 150, hover: false, columns: ['s4_c1', 's4_c2', 's4_c3'] },
       },
       columns: {
         's1': {
-          'c1': { hover: false },
-          'c2': { hover: false },
-          'c3': { hover: false },
+          's1_c1': { hover: false },
+          's1_c2': { hover: false },
+          's1_c3': { hover: false },
         },
         's2': {
-          'c1': { hover: false },
-          'c2': { hover: false },
-          'c3': { hover: false },
+          's2_c1': { hover: false },
+          's2_c2': { hover: false },
+          's2_c3': { hover: false },
         },
         's3': {
-          'c1': { hover: false },
+          's3_c1': { hover: false },
         },
         's4': {
-          'c1': { hover: false },
-          'c2': { hover: false },
-          'c3': { hover: false },
+          's4_c1': { hover: false },
+          's4_c2': { hover: false },
+          's4_c3': { hover: false },
         },
       },
     });

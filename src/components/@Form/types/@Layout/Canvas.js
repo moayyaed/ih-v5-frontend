@@ -26,6 +26,7 @@ const styles = {
     // border: '1px solid #3eaaf5',
   },
   column: {
+    position: 'relative',
     width: '100%',
     height: '100%',
     padding: 10,
@@ -38,7 +39,7 @@ const styles = {
     alignItems: 'center',
     border: '1px dashed #d5dadf',
   },
-  toolbar: {
+  toolbarSection: {
     color: '#fff',
     display: 'flex',
     position: 'absolute',
@@ -49,34 +50,41 @@ const styles = {
     top: -26,
     left: 'calc(50% - 37.5px)',
   },
-  toolbarButton: {
+  toolbarSectionButton: {
     textAlign: 'center',
     width: 25,
     height: 25,
   },
-
+  toolbarColumn: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: 20,
+    height: 20,
+    backgroundColor: '#616161',
+  }
 }
 
-function Toolbar(props) {
+function ToolbarSection(props) {
   return (
     <div 
       style={{
-        ...styles.toolbar,
+        ...styles.toolbarSection,
         display: props.enabled ? 'flex' : 'none',
       }}
     >
       <div 
-        style={styles.toolbarButton} 
-        className={css.toolbarButton} 
+        style={styles.toolbarSectionButton} 
+        className={css.toolbarSectionButton} 
       />
       <div 
-        style={styles.toolbarButton} 
-        className={css.toolbarButton} 
+        style={styles.toolbarSectionButton} 
+        className={css.toolbarSectionButton} 
         onClick={() => props.onClick('b2', props.sectionId)}
       />
       <div 
-        style={styles.toolbarButton} 
-        className={css.toolbarButton} 
+        style={styles.toolbarSectionButton} 
+        className={css.toolbarSectionButton} 
       />
     </div>
   );
@@ -89,7 +97,7 @@ function Section(props) {
       style={{ ...styles.section, height: props.item.height }} 
       onMouseLeave={() => props.onHoverOut(props.id)}
     >
-      <Toolbar enabled={active} sectionId={props.id} onClick={props.onClickToolbar} />
+      <ToolbarSection enabled={active} sectionId={props.id} onClick={props.onClickToolbar} />
       <div 
         style={{ 
           ...styles.sectionBody, 
@@ -101,9 +109,11 @@ function Section(props) {
             <Column 
               key={id}
               id={id}
+              select={props.select.column}
               sectionId={props.id} 
               item={props.columns[id]}
               onHoverEnter={props.onHoverEnter}
+              onClickToolbar={props.onClickToolbar}
             />
         )}
       </div>
@@ -111,12 +121,28 @@ function Section(props) {
   );
 }
 
-function Column(props) {
+function ToolbarColumn(props) {
   return (
     <div 
-      style={{ ...styles.column, border: props.item.hover ? '1px dashed #6d7882' : '1px dashed transparent' }} 
+      style={{ ...styles.toolbarColumn, display: props.enabled ? 'block' : 'none'}}
+      onClick={() => props.onClick('b4', props.columnId)}
+    >
+    </div>
+  );
+}
+
+function Column(props) {
+  const active = props.item.hover || props.select === props.id;
+  return (
+    <div 
+      style={{ ...styles.column, border: active ? '1px dashed #6d7882' : '1px dashed transparent' }} 
       onMouseEnter={() => props.onHoverEnter(props.sectionId, props.id)}
     >
+      <ToolbarColumn 
+        enabled={active} 
+        columnId={props.id}
+        onClick={props.onClickToolbar}
+      />
       <div style={styles.columnBody}>
         {props.id}
       </div>
@@ -143,9 +169,12 @@ class Canvas extends Component {
     )
   }
 
-  handleClickToolbar = (button, sectionId) => {
+  handleClickToolbar = (button, value) => {
     if (button === 'b2') {
-      this.handleClickSection(sectionId);
+      this.handleClickSection(value);
+    }
+    if (button === 'b4') {
+      this.handleClickColumn(value);
     }
   }
 
@@ -153,7 +182,15 @@ class Canvas extends Component {
     core.actions.layout
     .select(
       this.props.id, this.props.prop, 
-      'section', sectionId,
+      { section: sectionId, column: null },
+    )
+  }
+
+  handleClickColumn = (columnId) => {
+    core.actions.layout
+    .select(
+      this.props.id, this.props.prop, 
+      { column: columnId, section: null },
     )
   }
 
