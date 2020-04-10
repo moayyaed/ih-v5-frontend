@@ -160,7 +160,6 @@ function Section(props) {
                 <Draggable key={id} draggableId={id} index={index}>
                   {(provided, snapshot2) => (
                     <Column 
-                      key={id}
                       id={id}
                       provided={provided}
                       select={props.select.column}
@@ -344,7 +343,6 @@ class Canvas extends Component {
                 <Draggable key={id} draggableId={id} index={index}>
                   {(provided, snapshot2) => (
                     <Section 
-                      key={id} 
                       id={id}
                       provided={provided}
                       select={this.props.select}
