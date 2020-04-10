@@ -204,7 +204,7 @@ function Column(props) {
         ...props.provided.draggableProps.style,
         border: active ? '1px dashed #6d7882' : '1px dashed transparent',
       }} 
-      onMouseEnter={() => props.onHoverEnter(props.sectionId, props.id)}
+      onMouseEnter={() => props.isDragging || props.onHoverEnter(props.sectionId, props.id)}
     >
       <ToolbarColumn 
         enabled={active} 
@@ -274,7 +274,12 @@ class Canvas extends Component {
         result.draggableId, null, true
       )
     } else {
-
+      /*
+      core.actions.layout
+      .hoverSection(
+        this.props.id, this.props.prop, 
+        result.type, result.draggableId, true
+      ) */
     }
   }
 
