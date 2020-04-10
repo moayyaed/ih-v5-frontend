@@ -266,6 +266,18 @@ class Canvas extends Component {
       )
   }
 
+  handleDragStart = (result) => {
+    if (result.type === 'section') {
+      core.actions.layout
+      .hoverSection(
+        this.props.id, this.props.prop, 
+        result.draggableId, null, true
+      )
+    } else {
+
+    }
+  }
+
   handleDragEnd = (result) => {
     if (!result.destination) {
       return;
@@ -330,7 +342,7 @@ class Canvas extends Component {
 
   render() {
     return (
-      <DragDropContext onDragEnd={this.handleDragEnd}>
+      <DragDropContext onDragStart={this.handleDragStart} onDragEnd={this.handleDragEnd}>
         <Droppable droppableId="droppable" type="section">
         {(provided, snapshot1) => (
           <div 
