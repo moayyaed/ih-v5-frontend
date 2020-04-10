@@ -94,6 +94,14 @@ class Layout extends PureComponent {
     return null;
   }
 
+  handleClickBody = () => {
+    core.actions.layout
+    .select(
+      this.props.id, this.props.options.prop, 
+      { section: null, column: null },
+    )
+  }
+
   renderComponent = (id) => {
     if (id === 'canvas') {
       return (
@@ -112,7 +120,7 @@ class Layout extends PureComponent {
 
   render() {
     return (
-      <div style={styles.root}>
+      <div style={styles.root} onClick={this.handleClickBody}>
         <Mosaic
           className="mosaic-blueprint-theme"
           value={this.state.windows}

@@ -82,7 +82,7 @@ function ToolbarSection(props) {
       <div 
         style={styles.toolbarSectionButton} 
         className={css.toolbarSectionButton} 
-        onClick={() => props.onClick('b2', props.sectionId)}
+        onClick={(e) => props.onClick(e, 'b2', props.sectionId)}
       />
       <div 
         style={styles.toolbarSectionButton} 
@@ -127,7 +127,7 @@ function ToolbarColumn(props) {
   return (
     <div 
       style={{ ...styles.toolbarColumn, display: props.enabled ? 'block' : 'none'}}
-      onClick={() => props.onClick('b4', props.columnId)}
+      onClick={(e) => props.onClick(e, 'b4', props.columnId)}
     >
     </div>
   );
@@ -171,7 +171,10 @@ class Canvas extends Component {
     )
   }
 
-  handleClickToolbar = (button, value) => {
+  handleClickToolbar = (e, button, value) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     if (button === 'b2') {
       this.handleClickSection(value);
     }
