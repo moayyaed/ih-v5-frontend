@@ -3,8 +3,8 @@ import {
   LAYOUT_CLEAR_DATA,
 
   LAYOUT_SELECT_ELEMENTS,
+  LAYOUT_HOVER_ELEMENTS,
 
-  LAYOUT_HOVER_SECTION,
   LAYOUT_EDIT_SECTION,
   LAYOUT_REMOVE_SECTION,
 
@@ -16,37 +16,8 @@ function reducerLayout(state, action) {
   switch (action.type) {
     case LAYOUT_SET_DATA:
       return { ...state, ...action.data };
-    case LAYOUT_HOVER_SECTION:
-      return { 
-        ...state,
-        sections: {
-          ...state.sections,
-          [action.sectionId]: {
-            ...state.sections[action.sectionId],
-            hover: action.value,
-          }
-        },
-        columns: Object
-          .keys(state.columns)
-          .reduce((p, c) => {
-            if (c === action.columnId) {
-              return { 
-                ...p, 
-                [c]: {
-                  ...state.columns[c],
-                  hover: true,
-                }
-              };
-            }
-            return { 
-              ...p, 
-              [c]: {
-                ...state.columns[c],
-                hover: false,
-              }
-            };
-          }, {}),  
-      };
+    case LAYOUT_HOVER_ELEMENTS:
+      return { ...state, hover: action.values };
     case LAYOUT_SELECT_ELEMENTS:
       return { ...state, select: action.values };
     case LAYOUT_EDIT_SECTION:
@@ -107,7 +78,7 @@ function reducer(state, action) {
     case LAYOUT_CLEAR_DATA:
       return { };
     case LAYOUT_SET_DATA:
-    case LAYOUT_HOVER_SECTION:
+    case LAYOUT_HOVER_ELEMENTS:
     case LAYOUT_SELECT_ELEMENTS:
     case LAYOUT_EDIT_SECTION:
     case LAYOUT_MOVE_COLUMN:

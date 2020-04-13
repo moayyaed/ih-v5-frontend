@@ -26,8 +26,8 @@ const BUTTONS = [ 'TEXT', 'IMAGE'];
 
 class Properties extends PureComponent {
 
-  handleDragStart = () => {
-
+  handleDragStart = (e) => {
+    e.dataTransfer.setData('text', '1');
   }
 
   handleDragEnd = () => {
@@ -36,33 +36,13 @@ class Properties extends PureComponent {
   
   render() {
     return (
-      <DragDropContext onDragStart={this.handleDragStart} onDragEnd={this.handleDragEnd}>
-        <Droppable droppableId="droppable" type="test">
-          {(provided, snapshot1) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              style={styles.root}
-            >
-              {BUTTONS.map((id, index) =>
-                <Draggable key={id} draggableId={id} index={index}>
-                  {(provided, snapshot2) => (
-                    <div
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      ref={provided.innerRef}
-                      style={{ ...styles.button, ...provided.draggableProps.style }}
-                    >
-                      {id}
-                    </div>
-                  )}
-                </Draggable> 
-              )}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+      <div style={styles.root} >
+        {BUTTONS.map(id =>
+          <div draggable onDragStart={this.handleDragStart} key={id} style={styles.button}>
+            {id}
+          </div>
+        )}
+      </div>
 
     );
   }

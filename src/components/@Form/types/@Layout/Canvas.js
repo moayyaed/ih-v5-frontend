@@ -141,7 +141,9 @@ function ToolbarSection(props) {
 }
 
 function Section(props) {
-  const active = props.isDragging ? props.isPreview : props.item.hover || props.select.section === props.id;
+  const select = props.select.section === props.id;
+  const hover = props.hover.section === props.id;
+  const active = props.isDragging ? props.isPreview : hover || select;
   return (
     <div 
       {...props.provided.draggableProps}
@@ -150,7 +152,7 @@ function Section(props) {
         ...styles.section, 
         ...props.provided.draggableProps.style, 
         height: props.item.height 
-      }} 
+      }}
       onMouseLeave={() => props.isDragging || props.isDraggingGlobal || props.onHoverOut(props.id)}
     >
       <ToolbarSection
@@ -159,7 +161,7 @@ function Section(props) {
         dragHandleProps={props.provided.dragHandleProps} 
         onClick={props.onClickToolbar} 
       />
-      <Droppable droppableId={props.id} direction="horizontal" type={props.id} isCombineEnabled>
+      <Droppable droppableId={props.id} direction="horizontal" type={props.id} >
         {(provided, snapshot1) => (
           <div
             {...provided.droppableProps}
@@ -175,14 +177,16 @@ function Section(props) {
                   {(provided, snapshot2) => (
                     <Column 
                       id={id}
+                      sectionId={props.id} 
                       provided={provided}
                       select={props.select.column}
-                      sectionId={props.id} 
+                      hover={props.hover.column}
                       item={props.columns[id]}
                       isDraggingGlobal={props.isDraggingGlobal}
                       isDragging={props.isDragging || snapshot1.isDraggingOver}
                       isPreview={snapshot2.isDragging}
                       onHoverEnter={props.onHoverEnter}
+                      onDragEnter={props.onDragEnter}
                       onClickToolbar={props.onClickToolbar}
                     />
                   )}
@@ -209,7 +213,9 @@ function ToolbarColumn(props) {
 }
 
 function Column(props) {
-  const active = props.isDragging ? props.isPreview : props.item.hover || props.select === props.id;
+  const select = props.select === props.id;
+  const hover = props.hover === props.id;
+  const active = props.isDragging ? props.isPreview : hover || select;
   return (
     <div
       {...props.provided.draggableProps}
@@ -220,7 +226,8 @@ function Column(props) {
         ...styles.column,
         ...props.provided.draggableProps.style,
         border: active ? '1px dashed #6d7882' : '1px dashed transparent',
-      }} 
+      }}
+      onDragEnter={() => props.onDragEnter(props.sectionId, props.id)}
       onMouseEnter={() => props.isDragging || props.isDraggingGlobal || props.onHoverEnter(props.sectionId, props.id)}
     >
       <ToolbarColumn 
@@ -241,17 +248,17 @@ class Canvas extends Component {
 
   handleHoverEnter = (sectionId, columnId) => {
     core.actions.layout
-      .hoverSection(
+      .hover(
         this.props.id, this.props.prop, 
-        sectionId, columnId, true
+        { section: sectionId, column: columnId }
       )
   }
 
   handleHoverOut = (sectionId) => {
     core.actions.layout
-      .hoverSection(
+      .hover(
         this.props.id, this.props.prop, 
-        sectionId, false
+        { section: null, column: null }
       )
   }
 
@@ -312,9 +319,9 @@ class Canvas extends Component {
 
     if (result.type === 'section') {
       core.actions.layout
-      .hoverSection(
+      .hover(
         this.props.id, this.props.prop, 
-        result.draggableId, null, true
+        { section: result.draggableId, column: null }
       )
     }
   }
@@ -384,6 +391,14 @@ class Canvas extends Component {
     }
   }
 
+  handleDragEnter = (sectionId, columnId) => {
+    /* core.actions.layout
+      .editSection(
+        this.props.id, this.props.prop, 
+        targetSectionId, { columns },
+      ) */
+  }
+
   render() {
     return (
       <DragDropContext onDragStart={this.handleDragStart} onDragEnd={this.handleDragEnd}>
@@ -402,6 +417,7 @@ class Canvas extends Component {
                       id={id}
                       provided={provided}
                       select={this.props.select}
+                      hover={this.props.hover}
                       item={this.props.sections[id]}
                       columns={this.props.columns}
                       isDraggingGlobal={this.props.isDragging}
@@ -410,6 +426,7 @@ class Canvas extends Component {
                       onClickToolbar={this.handleClickToolbar}
                       onHoverEnter={this.handleHoverEnter}
                       onHoverOut={this.handleHoverOut}
+                      onDragEnter={this.handleDragEnter}
                     />
                   )}
                 </Draggable>

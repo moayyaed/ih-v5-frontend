@@ -3,8 +3,8 @@ import {
   LAYOUT_CLEAR_DATA,
 
   LAYOUT_SELECT_ELEMENTS,
+  LAYOUT_HOVER_ELEMENTS,
 
-  LAYOUT_HOVER_SECTION,
   LAYOUT_EDIT_SECTION,
   LAYOUT_REMOVE_SECTION,
 
@@ -27,14 +27,12 @@ export function clear() {
   };
 }
 
-export function hoverSection(id, prop, sectionId, columnId, value) {
+export function hover(id, prop, values) {
   return {
-    type: LAYOUT_HOVER_SECTION,
+    type: LAYOUT_HOVER_ELEMENTS,
     id,
     prop,
-    sectionId,
-    columnId,
-    value
+    values,
   };
 }
 
@@ -83,7 +81,7 @@ export default {
   data,
   clear,
   select,
-  hoverSection,
+  hover,
   editSection,
   removeSection,
   moveColumn,
