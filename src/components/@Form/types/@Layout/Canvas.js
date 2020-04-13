@@ -144,8 +144,8 @@ function Section(props) {
   const active = props.isDragging ? props.isPreview : props.item.hover || props.select.section === props.id;
   return (
     <div 
-      ref={props.provided.innerRef}
       {...props.provided.draggableProps}
+      ref={props.provided.innerRef}
       style={{ 
         ...styles.section, 
         ...props.provided.draggableProps.style, 
@@ -159,7 +159,7 @@ function Section(props) {
         dragHandleProps={props.provided.dragHandleProps} 
         onClick={props.onClickToolbar} 
       />
-      <Droppable droppableId={props.id} direction="horizontal" type={props.id} >
+      <Droppable droppableId={props.id} direction="horizontal" type={props.id} isCombineEnabled>
         {(provided, snapshot1) => (
           <div
             {...provided.droppableProps}
@@ -320,6 +320,7 @@ class Canvas extends Component {
   }
 
   handleDragEnd = (result) => {
+    console.log(result.combine)
     core.actions.layout
       .data(this.props.id, this.props.prop, { isDragging: false });
 
@@ -387,7 +388,7 @@ class Canvas extends Component {
   render() {
     return (
       <DragDropContext onDragStart={this.handleDragStart} onDragEnd={this.handleDragEnd}>
-        <Droppable droppableId="droppable" type="section">
+        <Droppable droppableId="droppable" type="section" >
         {(provided, snapshot1) => (
           <div 
             {...provided.droppableProps}

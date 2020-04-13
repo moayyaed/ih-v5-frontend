@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import core from 'core';
 
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+
 
 const styles = {
   root: {
@@ -19,19 +21,49 @@ const styles = {
   }
 }
 
+const BUTTONS = [ 'TEXT', 'IMAGE'];
+
 
 class Properties extends PureComponent {
+
+  handleDragStart = () => {
+
+  }
+
+  handleDragEnd = () => {
+
+  }
   
   render() {
     return (
-      <div style={styles.root}>
-        <div style={styles.button}>
-          TEXT
-        </div>
-        <div style={styles.button}>
-          IMG
-        </div>
-      </div>
+      <DragDropContext onDragStart={this.handleDragStart} onDragEnd={this.handleDragEnd}>
+        <Droppable droppableId="droppable" type="test">
+          {(provided, snapshot1) => (
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              style={styles.root}
+            >
+              {BUTTONS.map((id, index) =>
+                <Draggable key={id} draggableId={id} index={index}>
+                  {(provided, snapshot2) => (
+                    <div
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      ref={provided.innerRef}
+                      style={{ ...styles.button, ...provided.draggableProps.style }}
+                    >
+                      {id}
+                    </div>
+                  )}
+                </Draggable> 
+              )}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+
     );
   }
 }
