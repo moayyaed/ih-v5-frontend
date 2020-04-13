@@ -2,10 +2,12 @@ import {
   LAYOUT_SET_DATA,
   LAYOUT_CLEAR_DATA,
 
-  LAYOUT_HOVER_SECTION,
   LAYOUT_SELECT_ELEMENTS,
 
+  LAYOUT_HOVER_SECTION,
   LAYOUT_EDIT_SECTION,
+  LAYOUT_REMOVE_SECTION,
+
   LAYOUT_MOVE_COLUMN,
 } from './constants';
 
@@ -58,6 +60,27 @@ function reducerLayout(state, action) {
           }
         },
       }
+    case LAYOUT_REMOVE_SECTION:
+      return { 
+        ...state,
+        list: state.list.filter(i => i !== action.sectionId),
+        sections: Object
+          .keys(state.sections)
+          .reduce((p, c) => {
+            if (c === action.sectionId) {
+              return p;
+            }
+            return { ...p, [c]: state.sections[c] };
+          }, {}),
+        columns: Object
+          .keys(state.columns)
+          .reduce((p, c) => {
+            if (state.sections[action.sectionId].columns.includes(c)) {
+              return p;
+            }
+            return { ...p, [c]: state.columns[c] };
+          }, {})
+      }
     case LAYOUT_MOVE_COLUMN:
       return { 
         ...state,
@@ -88,6 +111,7 @@ function reducer(state, action) {
     case LAYOUT_SELECT_ELEMENTS:
     case LAYOUT_EDIT_SECTION:
     case LAYOUT_MOVE_COLUMN:
+    case LAYOUT_REMOVE_SECTION:
       return { 
         ...state, 
         data: {

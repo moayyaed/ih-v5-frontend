@@ -117,7 +117,8 @@ function ToolbarSection(props) {
     >
       <div 
         style={styles.toolbarSectionButton} 
-        className={css.toolbarSectionButton} 
+        className={css.toolbarSectionButton}
+        onClick={(e) => props.onClick(e, 'b1', props.sectionId)} 
       >
         <AddIcon style={styles.toolbarSectionIcon} />
       </div>
@@ -130,7 +131,8 @@ function ToolbarSection(props) {
       </div>
       <div 
         style={styles.toolbarSectionButton} 
-        className={css.toolbarSectionButton} 
+        className={css.toolbarSectionButton}
+        onClick={(e) => props.onClick(e, 'b3', props.sectionId)} 
       >
         <RemoveIcon style={styles.toolbarSectionIcon} />
       </div>
@@ -258,6 +260,9 @@ class Canvas extends Component {
     if (button === 'b2') {
       this.handleClickSection(value);
     }
+    if (button === 'b3') {
+      this.handleRemoveSection(value);
+    }
     if (button === 'b4') {
       this.handleClickColumn(value);
     }
@@ -268,6 +273,14 @@ class Canvas extends Component {
       .select(
         this.props.id, this.props.prop, 
         { section: sectionId, column: null },
+      )
+  }
+
+  handleRemoveSection = (sectionId) => {
+    core.actions.layout
+      .removeSection(
+        this.props.id, this.props.prop, 
+        sectionId,
       )
   }
 

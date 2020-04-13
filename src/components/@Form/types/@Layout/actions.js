@@ -2,10 +2,12 @@ import {
   LAYOUT_SET_DATA,
   LAYOUT_CLEAR_DATA,
 
-  LAYOUT_HOVER_SECTION,
   LAYOUT_SELECT_ELEMENTS,
-  
+
+  LAYOUT_HOVER_SECTION,
   LAYOUT_EDIT_SECTION,
+  LAYOUT_REMOVE_SECTION,
+
   LAYOUT_MOVE_COLUMN,
 } from './constants';
 
@@ -55,6 +57,15 @@ export function editSection(id, prop, sectionId, data) {
   };
 }
 
+export function removeSection(id, prop, sectionId) {
+  return {
+    type: LAYOUT_REMOVE_SECTION,
+    id,
+    prop,
+    sectionId,
+  };
+}
+
 export function moveColumn(id, prop, sourceSectionId, targetSectionId, sourceColumns, targetColumns) {
   return {
     type: LAYOUT_MOVE_COLUMN,
@@ -71,8 +82,9 @@ export function moveColumn(id, prop, sourceSectionId, targetSectionId, sourceCol
 export default {
   data,
   clear,
-  hoverSection,
   select,
+  hoverSection,
   editSection,
+  removeSection,
   moveColumn,
 }
