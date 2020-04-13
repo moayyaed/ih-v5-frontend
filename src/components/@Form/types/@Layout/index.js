@@ -20,7 +20,7 @@ const EMPTY_ARRAY = [];
 
 const TITLES = {
   canvas: 'Layout',
-  properties: 'Properties',
+  properties: 'Toolbar1',
   toolbar2: 'Toolbar2',
 
 }

@@ -8,12 +8,14 @@ const styles = {
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'center',
     padding: 10,
   },
   button: {
     border: '2px dashed #9E9E9E',
     textAlign: 'center',
     margin: '10px 5px',
+    width: 100,
   }
 }
 
