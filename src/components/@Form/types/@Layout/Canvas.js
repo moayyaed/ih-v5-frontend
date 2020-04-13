@@ -143,6 +143,7 @@ function ToolbarSection(props) {
 function Section(props) {
   const select = props.select.section === props.id;
   const hover = props.hover.section === props.id;
+  const drag = props.drag.section === props.id;
   const active = props.isDragging ? props.isPreview : hover || select;
   return (
     <div 
@@ -181,6 +182,7 @@ function Section(props) {
                       provided={provided}
                       select={props.select.column}
                       hover={props.hover.column}
+                      drag={props.drag.column}
                       item={props.columns[id]}
                       isDraggingGlobal={props.isDraggingGlobal}
                       isDragging={props.isDragging || snapshot1.isDraggingOver}
@@ -215,6 +217,7 @@ function ToolbarColumn(props) {
 function Column(props) {
   const select = props.select === props.id;
   const hover = props.hover === props.id;
+  const drag = props.drag === props.id;
   const active = props.isDragging ? props.isPreview : hover || select;
   return (
     <div
@@ -418,6 +421,7 @@ class Canvas extends Component {
                       provided={provided}
                       select={this.props.select}
                       hover={this.props.hover}
+                      drag={this.props.drag}
                       item={this.props.sections[id]}
                       columns={this.props.columns}
                       isDraggingGlobal={this.props.isDragging}

@@ -55,6 +55,10 @@ class Layout extends PureComponent {
         section: null,
         column: null,
       },
+      drag: {
+        section: null,
+        column: null,
+      },
       list: [ 's1', 's2', 's3', 's4'],
       sections: {
         's1': { height: 50, columns: ['s1_c1', 's1_c2', 's1_c3'] },
@@ -108,6 +112,7 @@ class Layout extends PureComponent {
           isDragging={this.props.data.isDragging}
           select={this.props.data.select || {}} 
           hover={this.props.data.hover || {}}
+          drag={this.props.data.drag || {}}
           list={this.props.data.list || []}
           sections={this.props.data.sections}
           columns={this.props.data.columns}
