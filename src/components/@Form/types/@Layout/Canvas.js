@@ -4,6 +4,8 @@ import core from 'core';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import DragHandleIcon from '@material-ui/icons/DragHandle';
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
 
 import css from './main.module.css';
 
@@ -110,7 +112,9 @@ function ToolbarSection(props) {
       <div 
         style={styles.toolbarSectionButton} 
         className={css.toolbarSectionButton} 
-      />
+      >
+        <AddIcon />
+      </div>
       <div 
         style={styles.toolbarSectionButton} 
         className={css.toolbarSectionButton} 
@@ -121,7 +125,9 @@ function ToolbarSection(props) {
       <div 
         style={styles.toolbarSectionButton} 
         className={css.toolbarSectionButton} 
-      />
+      >
+        <RemoveIcon />
+      </div>
     </div>
   );
 }
