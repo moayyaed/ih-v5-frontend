@@ -212,8 +212,10 @@ function Column(props) {
   const active = props.isDragging ? props.isPreview : props.item.hover || props.select === props.id;
   return (
     <div
-      ref={props.provided.innerRef}
       {...props.provided.draggableProps}
+      ref={props.provided.innerRef}
+      sectionid={props.sectionId}
+      columnid={props.id}
       style={{ 
         ...styles.column,
         ...props.provided.draggableProps.style,
@@ -261,7 +263,7 @@ class Canvas extends Component {
       this.handleClickSection(value);
     }
     if (button === 'b3') {
-      this.handleRemoveSection(value);
+      this.handleRemoveSection(e, value);
     }
     if (button === 'b4') {
       this.handleClickColumn(value);
@@ -276,12 +278,24 @@ class Canvas extends Component {
       )
   }
 
-  handleRemoveSection = (sectionId) => {
+  handleRemoveSection = (e, sectionId) => {
     core.actions.layout
       .removeSection(
         this.props.id, this.props.prop, 
         sectionId,
-      )
+      );
+    
+      if (e) {
+        const elements = window.document.elementsFromPoint(e.clientX, e.clientY);
+        elements.forEach(i => {
+          const sectionid = i.getAttribute('sectionid');
+          const columnid = i.getAttribute('columnid');
+          
+          if (sectionid && sectionid !== '' && columnid && columnid !== '') {
+            this.handleHoverEnter(sectionid, columnid);
+          }
+        });
+      }
   }
 
   handleClickColumn = (columnId) => {
