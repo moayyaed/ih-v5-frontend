@@ -96,10 +96,15 @@ class Layout extends PureComponent {
   }
 
   handleClickBody = () => {
+    this.props.data.isDragging === false &&
     core.actions.layout
-    .select(
+    .data(
       this.props.id, this.props.options.prop, 
-      { section: null, column: null },
+      { 
+        hover: { section: null, column: null },
+        select: { section: null, column: null },
+        drag: { section: null, column: null },
+      },
     )
   }
 
