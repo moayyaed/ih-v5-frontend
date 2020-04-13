@@ -57,7 +57,9 @@ const styles = {
     left: 'calc(50% - 37.5px)',
   },
   toolbarSectionButton: {
-    textAlign: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     width: 25,
     height: 25,
     cursor: 'pointer',
@@ -66,15 +68,19 @@ const styles = {
     position: 'absolute',
     top: 0,
     left: 0,
-    width: 20,
-    height: 20,
+    width: 18,
+    height: 18,
     backgroundColor: '#616161',
     cursor: 'pointer',
     color: '#fff',
   },
+  toolbarSectionIcon: {
+    width: 16,
+    height: 16,
+  },
   toolbarColumnIcon: {
-    width: 20,
-    height: 20,
+    width: 18,
+    height: 18,
   }
 }
 
@@ -113,20 +119,20 @@ function ToolbarSection(props) {
         style={styles.toolbarSectionButton} 
         className={css.toolbarSectionButton} 
       >
-        <AddIcon />
+        <AddIcon style={styles.toolbarSectionIcon} />
       </div>
       <div 
         style={styles.toolbarSectionButton} 
         className={css.toolbarSectionButton} 
         onClick={(e) => props.onClick(e, 'b2', props.sectionId)}
       > 
-        <DragHandleIcon />  
+        <DragHandleIcon style={styles.toolbarSectionIcon} />  
       </div>
       <div 
         style={styles.toolbarSectionButton} 
         className={css.toolbarSectionButton} 
       >
-        <RemoveIcon />
+        <RemoveIcon style={styles.toolbarSectionIcon} />
       </div>
     </div>
   );
