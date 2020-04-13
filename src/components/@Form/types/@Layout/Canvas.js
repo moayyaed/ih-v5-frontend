@@ -320,7 +320,6 @@ class Canvas extends Component {
   }
 
   handleDragEnd = (result) => {
-    console.log(result.combine)
     core.actions.layout
       .data(this.props.id, this.props.prop, { isDragging: false });
 
