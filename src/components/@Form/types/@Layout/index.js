@@ -7,7 +7,7 @@ import {
 } from 'react-mosaic-component';
 
 import Canvas from './Canvas';
-
+import Properties from './Properties';
 
 const styles = {
   root: {
@@ -20,8 +20,7 @@ const EMPTY_ARRAY = [];
 
 const TITLES = {
   canvas: 'Layout',
-  toolbar: 'Toolbar',
-  toolbar1: 'Toolbar1',
+  properties: 'Properties',
   toolbar2: 'Toolbar2',
 
 }
@@ -33,8 +32,9 @@ const state = {
     first: "canvas",
     second: {
       direction: 'column',
-      first: "toolbar1",
+      first: "properties",
       second: "toolbar2",
+      splitPercentage: 60,
     },
     splitPercentage: 80,
   },
@@ -108,6 +108,10 @@ class Layout extends PureComponent {
           columns={this.props.data.columns}
         />
       );
+    }
+    
+    if (id === 'properties') {
+      return <Properties />
     }
     return null;
   }
