@@ -46,6 +46,7 @@ class Layout extends PureComponent {
 
   componentDidMount() {
     core.actions.form.valueBasic(this.props.id, this.props.options.prop, {
+      isDragging: false,
       select: {
         section: null,
         column: null,
@@ -100,6 +101,7 @@ class Layout extends PureComponent {
         <Canvas
           id={this.props.id}
           prop={this.props.options.prop}
+          isDragging={this.props.data.isDragging}
           select={this.props.data.select || {}} 
           list={this.props.data.list || []}
           sections={this.props.data.sections}

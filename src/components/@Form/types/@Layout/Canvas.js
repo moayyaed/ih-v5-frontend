@@ -137,7 +137,7 @@ function Section(props) {
         ...props.provided.draggableProps.style, 
         height: props.item.height 
       }} 
-      onMouseLeave={() => props.onHoverOut(props.id)}
+      onMouseLeave={() => props.isDragging || props.isDraggingGlobal || props.onHoverOut(props.id)}
     >
       <ToolbarSection
         enabled={active} 
@@ -165,6 +165,7 @@ function Section(props) {
                       select={props.select.column}
                       sectionId={props.id} 
                       item={props.columns[id]}
+                      isDraggingGlobal={props.isDraggingGlobal}
                       isDragging={props.isDragging || snapshot1.isDraggingOver}
                       isPreview={snapshot2.isDragging}
                       onHoverEnter={props.onHoverEnter}
@@ -204,7 +205,7 @@ function Column(props) {
         ...props.provided.draggableProps.style,
         border: active ? '1px dashed #6d7882' : '1px dashed transparent',
       }} 
-      onMouseEnter={() => props.isDragging || props.onHoverEnter(props.sectionId, props.id)}
+      onMouseEnter={() => props.isDragging || props.isDraggingGlobal || props.onHoverEnter(props.sectionId, props.id)}
     >
       <ToolbarColumn 
         enabled={active} 
@@ -267,23 +268,22 @@ class Canvas extends Component {
   }
 
   handleDragStart = (result) => {
+    core.actions.layout
+      .data(this.props.id, this.props.prop, { isDragging: true });
+
     if (result.type === 'section') {
       core.actions.layout
       .hoverSection(
         this.props.id, this.props.prop, 
         result.draggableId, null, true
       )
-    } else {
-      /*
-      core.actions.layout
-      .hoverSection(
-        this.props.id, this.props.prop, 
-        result.type, result.draggableId, true
-      ) */
     }
   }
 
   handleDragEnd = (result) => {
+    core.actions.layout
+      .data(this.props.id, this.props.prop, { isDragging: false });
+
     if (!result.destination) {
       return;
     }
@@ -365,6 +365,7 @@ class Canvas extends Component {
                       select={this.props.select}
                       item={this.props.sections[id]}
                       columns={this.props.columns}
+                      isDraggingGlobal={this.props.isDragging}
                       isDragging={snapshot1.isDraggingOver}
                       isPreview={snapshot2.isDragging}
                       onClickToolbar={this.handleClickToolbar}
