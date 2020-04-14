@@ -59,25 +59,7 @@ class Layout extends PureComponent {
         section: null,
         column: null,
       },
-      list: [],
-      sections: {
-        s1: { height: 50, columns: ['s1_c1', 's1_c2', 's1_c3'] },
-        s2: { height: 75, columns: ['s2_c1', 's2_c2', 's2_c3'] },
-        s3: { height: 100, columns: ['s3_c1'] },
-        s4: { height: 150, columns: ['s4_c1', 's4_c2', 's4_c3'] },
-      },
-      columns: {
-        s1_c1: { type: null },
-        s1_c2: { type: null },
-        s1_c3: { type: null },
-        s2_c1: { type: null },
-        s2_c2: { type: null },
-        s2_c3: { type: null },
-        s3_c1: { type: null },
-        s4_c1: { type: null },
-        s4_c2: { type: null },
-        s4_c3: { type: null },
-      },
+
     });
   }
 
