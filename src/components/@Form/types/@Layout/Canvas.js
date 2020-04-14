@@ -4,6 +4,8 @@ import core from 'core';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Scrollbars } from 'react-custom-scrollbars';
 
+import Fab from '@material-ui/core/Fab';
+
 import DragHandleIcon from '@material-ui/icons/DragHandle';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
@@ -83,6 +85,27 @@ const styles = {
   toolbarColumnIcon: {
     width: 18,
     height: 18,
+  },
+  root2: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    padding: 30,
+  },
+  stub: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    height: 175,
+    border: '2px dashed #BDBDBD',
+  },
+  stubText: {
+    margin: 8,
+  },
+  stubButton: {
+    margin: 8,
   }
 }
 
@@ -434,6 +457,18 @@ class Canvas extends Component {
   }
 
   render() {
+    if (this.props.list.length === 0) {
+      return (
+        <div style={styles.root2}>
+          <div style={styles.stub}>
+            <Fab color="primary" style={styles.stubButton}>
+              <AddIcon />
+            </Fab>
+            <div style={styles.stubText}>Drag an element here or click to add new section</div>
+          </div>
+        </div>
+      );
+    }
     return (
       <DragDropContext onDragStart={this.handleDragStart} onDragEnd={this.handleDragEnd}>
         <Droppable droppableId="droppable" type="section" >
