@@ -86,6 +86,14 @@ const styles = {
   }
 }
 
+
+function getIdSection(index, sections) {
+  if (sections[`s${index + 1}`] === undefined) {
+    return `s${index + 1}`;
+  }
+  return getIdSection(index + 1, sections);
+}
+
 function moveTo(list, index, id) {
   const result = Array.from(list);
   result.splice(index, 0, id);
@@ -279,6 +287,9 @@ class Canvas extends Component {
     e.preventDefault();
     e.stopPropagation();
 
+    if (button === 'b1') {
+      this.handleAddSection(value);
+    }
     if (button === 'b2') {
       this.handleClickSection(value);
     }
@@ -288,6 +299,16 @@ class Canvas extends Component {
     if (button === 'b4') {
       this.handleClickColumn(value);
     }
+  }
+  handleAddSection = (sectionId) => {
+    const i = Number(sectionId.slice(1));
+    const newSectionId = getIdSection(i, this.props.sections);
+
+    core.actions.layout
+      .addSection(
+        this.props.id, this.props.prop, 
+        sectionId, newSectionId,
+      );
   }
 
   handleClickSection = (sectionId) => {

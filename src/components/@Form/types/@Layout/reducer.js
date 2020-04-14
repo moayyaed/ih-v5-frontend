@@ -5,6 +5,7 @@ import {
   LAYOUT_SELECT_ELEMENTS,
   LAYOUT_HOVER_ELEMENTS,
 
+  LAYOUT_ADD_SECTION,
   LAYOUT_EDIT_SECTION,
   LAYOUT_REMOVE_SECTION,
 
@@ -20,6 +21,25 @@ function reducerLayout(state, action) {
       return { ...state, hover: action.values };
     case LAYOUT_SELECT_ELEMENTS:
       return { ...state, select: action.values };
+    case LAYOUT_ADD_SECTION:
+      return { 
+        ...state,
+        list: state.list
+          .reduce((p, c) => {
+            if (c === action.sectionId) {
+              return p.concat(c, action.newSectionId);
+            }
+            return p.concat(c);
+          }, []),
+        sections: {
+          ...state.sections,
+          [action.newSectionId]: { height: 75, columns: [`${action.newSectionId}_c1`] },
+        },
+        columns: {
+          ...state.columns,
+          [`${action.newSectionId}_c1`]: { type: null },
+        },
+      };
     case LAYOUT_EDIT_SECTION:
       return { 
         ...state,
@@ -80,8 +100,9 @@ function reducer(state, action) {
     case LAYOUT_SET_DATA:
     case LAYOUT_HOVER_ELEMENTS:
     case LAYOUT_SELECT_ELEMENTS:
-    case LAYOUT_EDIT_SECTION:
     case LAYOUT_MOVE_COLUMN:
+    case LAYOUT_ADD_SECTION:
+    case LAYOUT_EDIT_SECTION:
     case LAYOUT_REMOVE_SECTION:
       return { 
         ...state, 

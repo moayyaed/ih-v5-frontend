@@ -5,6 +5,7 @@ import {
   LAYOUT_SELECT_ELEMENTS,
   LAYOUT_HOVER_ELEMENTS,
 
+  LAYOUT_ADD_SECTION,
   LAYOUT_EDIT_SECTION,
   LAYOUT_REMOVE_SECTION,
 
@@ -45,6 +46,16 @@ export function select(id, prop, values) {
   };
 }
 
+export function addSection(id, prop, sectionId, newSectionId) {
+  return {
+    type: LAYOUT_ADD_SECTION,
+    id,
+    prop,
+    sectionId,
+    newSectionId,
+  };
+}
+
 export function editSection(id, prop, sectionId, data) {
   return {
     type: LAYOUT_EDIT_SECTION,
@@ -82,6 +93,7 @@ export default {
   clear,
   select,
   hover,
+  addSection,
   editSection,
   removeSection,
   moveColumn,
