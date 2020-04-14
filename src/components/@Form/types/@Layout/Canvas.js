@@ -456,12 +456,22 @@ class Canvas extends Component {
       ) */
   }
 
+  handleClickButtonStub = () => {
+    const data = {
+      list: ['s1'],
+      sections: { s1: { height: 100, columns: ['s1_c1'] } },
+      columns: { s1_c1: { type: null } }
+    };
+
+    core.actions.layout.data(this.props.id, this.props.prop, data);
+  }
+
   render() {
     if (this.props.list.length === 0) {
       return (
         <div style={styles.root2}>
           <div style={styles.stub}>
-            <Fab color="primary" style={styles.stubButton}>
+            <Fab color="primary" style={styles.stubButton} onClick={this.handleClickButtonStub}>
               <AddIcon />
             </Fab>
             <div style={styles.stubText}>Drag an element here or click to add new section</div>
