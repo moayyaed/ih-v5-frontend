@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import core from 'core';
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 import DragHandleIcon from '@material-ui/icons/DragHandle';
 import AddIcon from '@material-ui/icons/Add';
@@ -416,37 +417,39 @@ class Canvas extends Component {
       <DragDropContext onDragStart={this.handleDragStart} onDragEnd={this.handleDragEnd}>
         <Droppable droppableId="droppable" type="section" >
         {(provided, snapshot1) => (
-          <div 
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-            style={styles.root}
-            className="canvas"
-          >
-            {this.props.list
-              .map((id, index) =>
-                <Draggable key={id} draggableId={id} index={index}>
-                  {(provided, snapshot2) => (
-                    <Section 
-                      id={id}
-                      provided={provided}
-                      select={this.props.select}
-                      hover={this.props.hover}
-                      drag={this.props.drag}
-                      item={this.props.sections[id]}
-                      columns={this.props.columns}
-                      isDraggingGlobal={this.props.isDragging}
-                      isDragging={snapshot1.isDraggingOver}
-                      isPreview={snapshot2.isDragging}
-                      onClickToolbar={this.handleClickToolbar}
-                      onHoverEnter={this.handleHoverEnter}
-                      onHoverOut={this.handleHoverOut}
-                      onDragEnter={this.handleDragEnter}
-                    />
-                  )}
-                </Draggable>
-            )}
-            {provided.placeholder}
-          </div>
+          <Scrollbars style={{width: '100%', height: '100%' }}>
+            <div 
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              style={styles.root}
+              className="canvas"
+            >
+              {this.props.list
+                .map((id, index) =>
+                  <Draggable key={id} draggableId={id} index={index}>
+                    {(provided, snapshot2) => (
+                      <Section 
+                        id={id}
+                        provided={provided}
+                        select={this.props.select}
+                        hover={this.props.hover}
+                        drag={this.props.drag}
+                        item={this.props.sections[id]}
+                        columns={this.props.columns}
+                        isDraggingGlobal={this.props.isDragging}
+                        isDragging={snapshot1.isDraggingOver}
+                        isPreview={snapshot2.isDragging}
+                        onClickToolbar={this.handleClickToolbar}
+                        onHoverEnter={this.handleHoverEnter}
+                        onHoverOut={this.handleHoverOut}
+                        onDragEnter={this.handleDragEnter}
+                      />
+                    )}
+                  </Draggable>
+              )}
+              {provided.placeholder}
+            </div>
+          </Scrollbars>
         )}
         </Droppable>
       </DragDropContext>
