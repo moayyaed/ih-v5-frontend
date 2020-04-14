@@ -456,8 +456,19 @@ class Canvas extends Component {
       ) */
   }
 
-  handleClickButtonStub = () => {
+  handleClickButtonStub = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     const data = {
+      select: {
+        section: 's1',
+        column: null,
+      },
+      hover: {
+        section: 's1',
+        column: 's1_c1',
+      },
       list: ['s1'],
       sections: { s1: { height: 100, columns: ['s1_c1'] } },
       columns: { s1_c1: { type: null } }
