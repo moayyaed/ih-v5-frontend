@@ -99,7 +99,6 @@ const styles = {
     alignItems: 'center',
     width: '100%',
     height: 175,
-    border: '2px dashed #BDBDBD',
   },
   stubText: {
     margin: 8,
@@ -457,9 +456,11 @@ class Canvas extends Component {
   }
 
   handleClickButtonStub = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+ 
     const data = {
       select: {
         section: 's1',
@@ -474,14 +475,42 @@ class Canvas extends Component {
       columns: { s1_c1: { type: null } }
     };
 
-    core.actions.layout.data(this.props.id, this.props.prop, data);
+    core.actions.layout
+      .data(this.props.id, this.props.prop, data);
+  }
+
+  handleDragDropStub = () => {
+    this.handleClickButtonStub(null);
+  }
+
+  handleDragEnterStub = (e) => {
+    if (e.target.className === 'stub') {
+      core.actions.layout
+        .data(this.props.id, this.props.prop, { isHoverStub: true });
+    }
+  }
+
+  handleDragOutStub = (e) => {
+    if (e.relatedTarget.className === 'canvas') {
+      core.actions.layout
+        .data(this.props.id, this.props.prop, { isHoverStub: false });
+    }
   }
 
   render() {
     if (this.props.list.length === 0) {
       return (
-        <div style={styles.root2}>
-          <div style={styles.stub}>
+        <div style={styles.root2} className="canvas">
+          <div 
+            style={{ 
+              ...styles.stub, 
+              border: this.props.isHoverStub ? '2px dashed #3eaaf5' : '2px dashed #BDBDBD'
+            }} 
+            className="stub"
+            onDrop={this.handleDragDropStub}
+            onDragEnter={this.handleDragEnterStub}
+            onDragLeave={this.handleDragOutStub}
+          >
             <Fab color="primary" style={styles.stubButton} onClick={this.handleClickButtonStub}>
               <AddIcon />
             </Fab>
