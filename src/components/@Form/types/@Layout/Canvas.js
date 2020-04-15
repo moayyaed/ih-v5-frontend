@@ -516,6 +516,11 @@ class Canvas extends Component {
         this.props.id, this.props.prop, 
         columnId, { type },
       )
+    core.actions.layout
+      .hover(
+        this.props.id, this.props.prop, 
+        { section: sectionId, column: columnId }
+      )
   }
 
   handleClickButtonStub = (e) => {
