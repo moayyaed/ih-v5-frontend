@@ -225,6 +225,7 @@ function Section(props) {
                         onHoverEnter={props.onHoverEnter}
                         onDragEnter={props.onDragEnter}
                         onClickToolbar={props.onClickToolbar}
+                        onClickColumn={props.onClickColumn}
                       />
                     )}
                   </Draggable>
@@ -266,6 +267,7 @@ function Column(props) {
         ...props.provided.draggableProps.style,
         border: active ? '1px dashed #6d7882' : drag ? '1px solid #3eaaf5' : '1px dashed transparent',
       }}
+      onClick={e => props.onClickColumn(e)}
       onDragEnter={() => props.onDragEnter(props.sectionId, props.id)}
       onMouseEnter={() => props.isDragging || props.isDraggingGlobal || props.onHoverEnter(props.sectionId, props.id)}
     >
@@ -332,7 +334,7 @@ class Canvas extends Component {
       this.handleRemoveSection(e, value);
     }
     if (button === 'b4') {
-      this.handleClickColumn(value);
+      this.handleClickToolbarColumn(value);
     }
   }
   handleAddSection = (sectionId) => {
@@ -374,12 +376,17 @@ class Canvas extends Component {
       }
   }
 
-  handleClickColumn = (columnId) => {
+  handleClickToolbarColumn = (columnId) => {
     core.actions.layout
       .select(
         this.props.id, this.props.prop, 
         { column: columnId, section: null },
       )
+  }
+
+  handleClickColumn = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
   }
 
   handleDragStart = (result) => {
@@ -587,6 +594,7 @@ class Canvas extends Component {
                         isDragging={snapshot1.isDraggingOver}
                         isPreview={snapshot2.isDragging}
                         onClickToolbar={this.handleClickToolbar}
+                        onClickColumn={this.handleClickColumn}
                         onHoverEnter={this.handleHoverEnter}
                         onHoverOut={this.handleHoverOut}
                         onDragEnter={this.handleDragEnter}
