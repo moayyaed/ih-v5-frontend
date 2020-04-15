@@ -47,7 +47,6 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    border: '1px dashed #d5dadf',
   },
   toolbarSection: {
     color: '#fff',
@@ -280,7 +279,13 @@ function Column(props) {
         onClick={props.onClickToolbar}
         dragHandleProps={props.provided.dragHandleProps}
       />
-      <div style={{ ...styles.columnBody, backgroundColor: drag ? 'rgba(62, 170, 245, 0.3)' : 'unset' }}>
+      <div 
+        style={{ 
+          ...styles.columnBody,
+          border: props.item.type ? active ? '1px solid #3eaaf5' : '1px dashed transparent' : '1px dashed #d5dadf', 
+          backgroundColor: drag ? 'rgba(62, 170, 245, 0.3)' : 'unset',
+        }}
+      >
         <div>{props.id}</div>
         <div>{props.item.type}</div>
       </div>
