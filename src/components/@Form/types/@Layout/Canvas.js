@@ -484,37 +484,34 @@ class Canvas extends Component {
   }
 
   handleDragEnterStub = (e) => {
-    if (e.target.className === 'stub') {
-      core.actions.layout
-        .data(this.props.id, this.props.prop, { isHoverStub: true });
-    }
+    core.actions.layout
+      .data(this.props.id, this.props.prop, { isHoverStub: true });
   }
 
   handleDragOutStub = (e) => {
-    if (e.relatedTarget.className === 'canvas') {
-      core.actions.layout
-        .data(this.props.id, this.props.prop, { isHoverStub: false });
-    }
+    core.actions.layout
+      .data(this.props.id, this.props.prop, { isHoverStub: false });
   }
 
   render() {
     if (this.props.list.length === 0) {
       return (
-        <div style={styles.root2} className="canvas">
+        <div style={styles.root2}>
           <div 
             style={{ 
               ...styles.stub, 
               border: this.props.isHoverStub ? '2px dashed #3eaaf5' : '2px dashed #BDBDBD'
             }} 
-            className="stub"
             onDrop={this.handleDragDropStub}
             onDragEnter={this.handleDragEnterStub}
             onDragLeave={this.handleDragOutStub}
           >
-            <Fab color="primary" style={styles.stubButton} onClick={this.handleClickButtonStub}>
-              <AddIcon />
-            </Fab>
-            <div style={styles.stubText}>Drag an element here or click to add new section</div>
+            <div style={{ ...styles.stub, pointerEvents: this.props.isDraggingToolbar ? 'none': 'all' }}>
+              <Fab color="primary" style={styles.stubButton} onClick={this.handleClickButtonStub}>
+                <AddIcon />
+              </Fab>
+              <div style={styles.stubText}>Drag an element here or click to add new section</div>
+            </div>
           </div>
         </div>
       );

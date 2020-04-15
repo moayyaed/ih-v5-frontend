@@ -28,17 +28,26 @@ class Properties extends PureComponent {
 
   handleDragStart = (e) => {
     e.dataTransfer.setData('text', '1');
+    core.actions.layout
+      .data(this.props.id, this.props.prop, { isDraggingToolbar: true });
   }
 
   handleDragEnd = () => {
-
+    core.actions.layout
+      .data(this.props.id, this.props.prop, { isDraggingToolbar: false });
   }
   
   render() {
     return (
       <div style={styles.root} >
         {BUTTONS.map(id =>
-          <div draggable onDragStart={this.handleDragStart} key={id} style={styles.button}>
+          <div 
+            draggable 
+            key={id} 
+            style={styles.button} 
+            onDragStart={this.handleDragStart} 
+            onDragEnd={this.handleDragEnd}
+          >
             {id}
           </div>
         )}

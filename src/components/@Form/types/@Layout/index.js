@@ -117,6 +117,7 @@ class Layout extends PureComponent {
           id={this.props.id}
           prop={this.props.options.prop}
           isDragging={this.props.data.isDragging}
+          isDraggingToolbar={this.props.data.isDraggingToolbar}
           isHoverStub={this.props.data.isHoverStub}
           select={this.props.data.select || {}} 
           hover={this.props.data.hover || {}}
@@ -129,7 +130,12 @@ class Layout extends PureComponent {
     }
     
     if (id === 'properties') {
-      return <Properties />
+      return (
+        <Properties
+          id={this.props.id}
+          prop={this.props.options.prop}
+        />
+      )
     }
     return null;
   }
