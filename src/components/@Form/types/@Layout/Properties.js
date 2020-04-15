@@ -26,8 +26,8 @@ const BUTTONS = [ 'TEXT', 'IMAGE'];
 
 class Properties extends PureComponent {
 
-  handleDragStart = (e) => {
-    e.dataTransfer.setData('text', '1');
+  handleDragStart = (e, id) => {
+    e.dataTransfer.setData('text', id);
     core.actions.layout
       .data(this.props.id, this.props.prop, { isDraggingToolbar: true });
   }
@@ -48,7 +48,7 @@ class Properties extends PureComponent {
             draggable 
             key={id} 
             style={styles.button} 
-            onDragStart={this.handleDragStart} 
+            onDragStart={(e) => this.handleDragStart(e, id)} 
             onDragEnd={this.handleDragEnd}
           >
             {id}

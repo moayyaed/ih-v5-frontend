@@ -44,6 +44,7 @@ const styles = {
     width: '100%',
     height: '100%',
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     border: '1px dashed #d5dadf',
@@ -224,6 +225,7 @@ function Section(props) {
                         isPreview={snapshot2.isDragging}
                         onHoverEnter={props.onHoverEnter}
                         onDragEnter={props.onDragEnter}
+                        onDragDrop={props.onDragDrop}
                         onClickToolbar={props.onClickToolbar}
                         onClickColumn={props.onClickColumn}
                       />
@@ -269,6 +271,7 @@ function Column(props) {
       }}
       onClick={e => props.onClickColumn(e)}
       onDragEnter={() => props.onDragEnter(props.sectionId, props.id)}
+      onDrop={(e) => props.onDragDrop(e, props.sectionId, props.id)}
       onMouseEnter={() => props.isDragging || props.isDraggingGlobal || props.onHoverEnter(props.sectionId, props.id)}
     >
       <ToolbarColumn 
@@ -278,7 +281,8 @@ function Column(props) {
         dragHandleProps={props.provided.dragHandleProps}
       />
       <div style={{ ...styles.columnBody, backgroundColor: drag ? 'rgba(62, 170, 245, 0.3)' : 'unset' }}>
-        {props.id}
+        <div>{props.id}</div>
+        <div>{props.item.type}</div>
       </div>
     </div>
   );
@@ -500,6 +504,15 @@ class Canvas extends Component {
     }
   }
 
+  handleDragDrop = (e, sectionId, columnId) => {
+    const type = e.dataTransfer.getData('text');
+    core.actions.layout
+      .editColumn(
+        this.props.id, this.props.prop, 
+        columnId, { type },
+      )
+  }
+
   handleClickButtonStub = (e) => {
     if (e) {
       e.preventDefault();
@@ -539,10 +552,6 @@ class Canvas extends Component {
       .data(this.props.id, this.props.prop, { isHoverStub: false });
   }
 
-  handleDragDropRoot = (e) => {
-    console.log('!')
-  }
-
   render() {
     if (this.props.list.length === 0) {
       return (
@@ -576,7 +585,6 @@ class Canvas extends Component {
               ref={provided.innerRef}
               style={styles.root}
               className="canvas"
-              onDrop={this.handleDragDropRoot}
             >
               {this.props.list
                 .map((id, index) =>
@@ -599,6 +607,7 @@ class Canvas extends Component {
                         onHoverOut={this.handleHoverOut}
                         onDragEnter={this.handleDragEnter}
                         onDragOut={this.handleDragOut}
+                        onDragDrop={this.handleDragDrop}
                       />
                     )}
                   </Draggable>

@@ -9,6 +9,7 @@ import {
   LAYOUT_EDIT_SECTION,
   LAYOUT_REMOVE_SECTION,
 
+  LAYOUT_EDIT_COLUMN,
   LAYOUT_MOVE_COLUMN,
 } from './constants';
 
@@ -72,6 +73,17 @@ function reducerLayout(state, action) {
             return { ...p, [c]: state.columns[c] };
           }, {})
       }
+    case LAYOUT_EDIT_COLUMN:
+      return { 
+        ...state,
+        columns: {
+          ...state.columns,
+          [action.columnId]: {
+            ...state.columns[action.columnId],
+            ...action.data,
+          }
+        },
+      }
     case LAYOUT_MOVE_COLUMN:
       return { 
         ...state,
@@ -104,6 +116,7 @@ function reducer(state, action) {
     case LAYOUT_ADD_SECTION:
     case LAYOUT_EDIT_SECTION:
     case LAYOUT_REMOVE_SECTION:
+    case LAYOUT_EDIT_COLUMN:
       return { 
         ...state, 
         data: {
