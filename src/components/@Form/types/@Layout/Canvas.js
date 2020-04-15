@@ -462,6 +462,7 @@ class Canvas extends Component {
     }
  
     const data = {
+      isHoverStub: false,
       select: {
         section: 's1',
         column: null,
