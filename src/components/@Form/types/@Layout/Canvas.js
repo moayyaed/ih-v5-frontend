@@ -270,7 +270,7 @@ function Column(props) {
         border: active ? '1px dashed #6d7882' : drag ? '1px solid #3eaaf5' : '1px dashed transparent',
       }}
       onClick={e => props.onClickColumn(e)}
-      onDragEnter={() => props.item.type === null && props.onDragEnter(props.sectionId, props.id)}
+      onDragEnter={() => props.onDragEnter(props.item.type === null && props.sectionId, props.item.type === null && props.id)}
       onDrop={(e) => props.item.type === null && props.onDragDrop(e, props.sectionId, props.id)}
       onMouseEnter={() => props.isDragging || props.isDraggingGlobal || props.onHoverEnter(props.sectionId, props.id)}
     >
