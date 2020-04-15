@@ -34,7 +34,10 @@ class Properties extends PureComponent {
 
   handleDragEnd = () => {
     core.actions.layout
-      .data(this.props.id, this.props.prop, { isDraggingToolbar: false });
+      .data(this.props.id, this.props.prop, {
+        isDraggingToolbar: false, 
+        drag: { section: null, column: null }  
+      });
   }
   
   render() {

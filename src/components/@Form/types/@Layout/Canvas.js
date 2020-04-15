@@ -261,7 +261,7 @@ function Column(props) {
       style={{ 
         ...styles.column,
         ...props.provided.draggableProps.style,
-        border: active ? '1px dashed #6d7882' : '1px dashed transparent',
+        border: active ? '1px dashed #6d7882' : drag ? '1px solid #3eaaf5' : '1px dashed transparent',
       }}
       onDragEnter={() => props.onDragEnter(props.sectionId, props.id)}
       onMouseEnter={() => props.isDragging || props.isDraggingGlobal || props.onHoverEnter(props.sectionId, props.id)}
@@ -272,7 +272,7 @@ function Column(props) {
         onClick={props.onClickToolbar}
         dragHandleProps={props.provided.dragHandleProps}
       />
-      <div style={styles.columnBody}>
+      <div style={{ ...styles.columnBody, backgroundColor: drag ? 'rgba(62, 170, 245, 0.3)' : 'unset' }}>
         {props.id}
       </div>
     </div>
@@ -458,11 +458,11 @@ class Canvas extends Component {
   }
 
   handleDragEnter = (sectionId, columnId) => {
-    /* core.actions.layout
-      .editSection(
+    core.actions.layout
+      .data(
         this.props.id, this.props.prop, 
-        targetSectionId, { columns },
-      ) */
+        { drag: { section: null, column: columnId } }
+      )
   }
 
   handleClickButtonStub = (e) => {
