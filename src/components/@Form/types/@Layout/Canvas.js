@@ -178,7 +178,10 @@ function Section(props) {
   const drag = props.drag.section === props.id;
   const active = props.isDragging ? props.isPreview : hover || select;
   return (
-    <div onMouseLeave={(e) => props.isDragging || props.isDraggingGlobal || props.onHoverOut(e)}>
+    <div
+      onDragLeave={(e) => props.onDragOut(e)} 
+      onMouseLeave={(e) => props.isDragging || props.isDraggingGlobal || props.onHoverOut(e)}
+    >
       <div 
         {...props.provided.draggableProps}
         ref={props.provided.innerRef}
@@ -465,6 +468,31 @@ class Canvas extends Component {
       )
   }
 
+  handleDragOut = (e) => {
+    if (this.props.drag.column !== null) {
+      let check = false;
+
+      const elements = window.document.elementsFromPoint(e.clientX, e.clientY);
+
+      elements.forEach(i => {
+        const sectionid = i.getAttribute('sectionid');
+        const columnid = i.getAttribute('columnid');
+        
+        if (sectionid && sectionid !== '' && columnid && columnid !== '') {
+          check = true;
+        }
+      });
+
+      if (!check) {
+        core.actions.layout
+          .data(
+            this.props.id, this.props.prop, 
+            { drag: { section: null, column: null } }
+          )
+      }
+    }
+  }
+
   handleClickButtonStub = (e) => {
     if (e) {
       e.preventDefault();
@@ -504,6 +532,10 @@ class Canvas extends Component {
       .data(this.props.id, this.props.prop, { isHoverStub: false });
   }
 
+  handleDragDropRoot = (e) => {
+    console.log('!')
+  }
+
   render() {
     if (this.props.list.length === 0) {
       return (
@@ -537,6 +569,7 @@ class Canvas extends Component {
               ref={provided.innerRef}
               style={styles.root}
               className="canvas"
+              onDrop={this.handleDragDropRoot}
             >
               {this.props.list
                 .map((id, index) =>
@@ -557,6 +590,7 @@ class Canvas extends Component {
                         onHoverEnter={this.handleHoverEnter}
                         onHoverOut={this.handleHoverOut}
                         onDragEnter={this.handleDragEnter}
+                        onDragOut={this.handleDragOut}
                       />
                     )}
                   </Draggable>
