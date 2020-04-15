@@ -291,18 +291,28 @@ class Canvas extends Component {
   }
 
   handleHoverOut = (e) => {
-    if (
-        this.props.hover.section !== null &&
-        this.props.hover.column !== null &&
-        e.relatedTarget.className === "canvas"
-      ) {
-        core.actions.layout
-          .hover(
-            this.props.id, this.props.prop, 
-            { section: null, column: null }
-          )
-      }
+    if (this.props.hover.section !== null && this.props.hover.column !== null) {
+      let check = false;
 
+      const elements = window.document.elementsFromPoint(e.clientX, e.clientY);
+
+      elements.forEach(i => {
+        const sectionid = i.getAttribute('sectionid');
+        const columnid = i.getAttribute('columnid');
+        
+        if (sectionid && sectionid !== '' && columnid && columnid !== '') {
+          check = true;
+        }
+      });
+
+      if (!check) {
+        core.actions.layout
+        .hover(
+          this.props.id, this.props.prop, 
+          { section: null, column: null }
+        )
+      }
+    }
   }
 
   handleClickToolbar = (e, button, value) => {
