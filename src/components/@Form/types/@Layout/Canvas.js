@@ -270,8 +270,8 @@ function Column(props) {
         border: active ? '1px dashed #6d7882' : drag ? '1px solid #3eaaf5' : '1px dashed transparent',
       }}
       onClick={e => props.onClickColumn(e)}
-      onDragEnter={() => props.onDragEnter(props.sectionId, props.id)}
-      onDrop={(e) => props.onDragDrop(e, props.sectionId, props.id)}
+      onDragEnter={() => props.item.type === null && props.onDragEnter(props.sectionId, props.id)}
+      onDrop={(e) => props.item.type === null && props.onDragDrop(e, props.sectionId, props.id)}
       onMouseEnter={() => props.isDragging || props.isDraggingGlobal || props.onHoverEnter(props.sectionId, props.id)}
     >
       <ToolbarColumn 
