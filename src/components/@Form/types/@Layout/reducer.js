@@ -9,7 +9,9 @@ import {
   LAYOUT_EDIT_SECTION,
   LAYOUT_REMOVE_SECTION,
 
+  LAYOUT_ADD_COLUMN,
   LAYOUT_EDIT_COLUMN,
+  LAYOUT_REMOVE_COLUMN,
   LAYOUT_MOVE_COLUMN,
 } from './constants';
 
@@ -73,6 +75,27 @@ function reducerLayout(state, action) {
             return { ...p, [c]: state.columns[c] };
           }, {})
       }
+    case LAYOUT_ADD_COLUMN:
+      return { 
+        ...state,
+        sections: {
+          ...state.sections,
+          [action.sectionId]: { 
+            ...state.sections[action.sectionId],
+            columns: state.sections[action.sectionId].columns
+              .reduce((p, c) => {
+                if (c === action.columnId) {
+                  return p.concat(c, action.newColumnId);
+                }
+                return p.concat(c);
+              }, []),
+          },
+        },
+        columns: {
+          ...state.columns,
+          [action.newColumnId]: { type: null },
+        },
+      };
     case LAYOUT_EDIT_COLUMN:
       return { 
         ...state,
@@ -83,6 +106,25 @@ function reducerLayout(state, action) {
             ...action.data,
           }
         },
+      }
+    case LAYOUT_REMOVE_COLUMN:
+      return { 
+        ...state,
+        sections: {
+          ...state.sections,
+          [action.sectionId]: {
+            ...state.sections[action.sectionId],
+            columns: state.sections[action.sectionId].columns.filter(i => i !== action.columnId),
+          }
+        },
+        columns: Object
+          .keys(state.columns)
+          .reduce((p, c) => {
+            if (c === action.columnId) {
+              return p;
+            }
+            return { ...p, [c]: state.columns[c] };
+          }, {})
       }
     case LAYOUT_MOVE_COLUMN:
       return { 
@@ -116,7 +158,9 @@ function reducer(state, action) {
     case LAYOUT_ADD_SECTION:
     case LAYOUT_EDIT_SECTION:
     case LAYOUT_REMOVE_SECTION:
+    case LAYOUT_ADD_COLUMN:
     case LAYOUT_EDIT_COLUMN:
+    case LAYOUT_REMOVE_COLUMN:
       return { 
         ...state, 
         data: {

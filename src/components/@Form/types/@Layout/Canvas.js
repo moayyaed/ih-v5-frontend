@@ -6,11 +6,12 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 import Fab from '@material-ui/core/Fab';
 
-import DragHandleIcon from '@material-ui/icons/DragHandle';
 import AddIcon from '@material-ui/icons/Add';
-import RemoveIcon from '@material-ui/icons/Remove';
 
-import css from './main.module.css';
+import { ContextMenu } from "@blueprintjs/core";
+import Menu from 'components/Menu';
+
+import Section from './Section';
 
 
 const styles = {
@@ -20,71 +21,6 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     padding: '30px 15px',
-  },
-  section: {
-    position: 'relative',
-    width: '100%',
-    marginTop: 1,
-    marginBottom: 1,
-  },
-  sectionBody: {
-    display: 'flex',
-    width: '100%',
-    height: '100%',
-    // outline: '1px dashed #6d7882',
-    // border: '1px solid #3eaaf5',
-  },
-  column: {
-    position: 'relative',
-    width: '100%',
-    height: '100%',
-    padding: 10,
-  },
-  columnBody: {
-    width: '100%',
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  toolbarSection: {
-    color: '#fff',
-    display: 'flex',
-    position: 'absolute',
-    width: 75,
-    height: 25,
-    boxShadow: '0 -2px 8px rgba(0,0,0,.05)',
-    backgroundColor: '#03A9F4',
-    top: -26,
-    left: 'calc(50% - 37.5px)',
-    
-  },
-  toolbarSectionButton: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 25,
-    height: 25,
-    cursor: 'pointer',
-  },
-  toolbarColumn: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: 18,
-    height: 18,
-    backgroundColor: '#616161',
-    cursor: 'pointer',
-    color: '#fff',
-  },
-  toolbarSectionIcon: {
-    width: 16,
-    height: 16,
-  },
-  toolbarColumnIcon: {
-    width: 18,
-    height: 18,
   },
   root2: {
     width: '100%',
@@ -116,6 +52,13 @@ function getIdSection(index, sections) {
   return getIdSection(index + 1, sections);
 }
 
+function getIdColumn(index, sectioId, columns) {
+  if (columns[`${sectioId}_c${index + 1}`] === undefined) {
+    return `${sectioId}_c${index + 1}`;
+  }
+  return getIdColumn(index + 1, sectioId, columns);
+}
+
 function moveTo(list, index, id) {
   const result = Array.from(list);
   result.splice(index, 0, id);
@@ -136,161 +79,6 @@ function reorder(list, startIndex, endIndex) {
   result.splice(endIndex, 0, removed);
 
   return result;
-}
-
-function ToolbarSection(props) {
-  return (
-    <div
-      {...props.dragHandleProps}
-      style={{
-        ...styles.toolbarSection,
-        display: props.enabled ? 'flex' : 'none',
-      }}
-    >
-      <div 
-        style={styles.toolbarSectionButton} 
-        className={css.toolbarSectionButton}
-        onClick={(e) => props.onClick(e, 'b1', props.sectionId)} 
-      >
-        <AddIcon style={styles.toolbarSectionIcon} />
-      </div>
-      <div 
-        style={styles.toolbarSectionButton} 
-        className={css.toolbarSectionButton} 
-        onClick={(e) => props.onClick(e, 'b2', props.sectionId)}
-      > 
-        <DragHandleIcon style={styles.toolbarSectionIcon} />  
-      </div>
-      <div 
-        style={styles.toolbarSectionButton} 
-        className={css.toolbarSectionButton}
-        onClick={(e) => props.onClick(e, 'b3', props.sectionId)} 
-      >
-        <RemoveIcon style={styles.toolbarSectionIcon} />
-      </div>
-    </div>
-  );
-}
-
-function Section(props) {
-  const select = props.select.section === props.id;
-  const hover = props.hover.section === props.id;
-  const drag = props.drag.section === props.id;
-  const active = props.isDragging ? props.isPreview : hover || select;
-  return (
-    <div
-      onDragLeave={(e) => props.onDragOut(e)} 
-      onMouseLeave={(e) => props.isDragging || props.isDraggingGlobal || props.onHoverOut(e)}
-    >
-      <div 
-        {...props.provided.draggableProps}
-        ref={props.provided.innerRef}
-        style={{ 
-          ...styles.section, 
-          ...props.provided.draggableProps.style, 
-          height: props.item.height 
-        }}
-      >
-        <ToolbarSection
-          enabled={active} 
-          sectionId={props.id}
-          dragHandleProps={props.provided.dragHandleProps} 
-          onClick={props.onClickToolbar} 
-        />
-        <Droppable droppableId={props.id} direction="horizontal" type={props.id} >
-          {(provided, snapshot1) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef} 
-              style={{ 
-                ...styles.sectionBody, 
-                outline: active ? '1px solid #3eaaf5' : 'unset' 
-              }}
-            >
-              {props.item.columns
-                .map((id, index) =>
-                  <Draggable key={id} draggableId={id} index={index}>
-                    {(provided, snapshot2) => (
-                      <Column 
-                        id={id}
-                        sectionId={props.id} 
-                        provided={provided}
-                        select={props.select.column}
-                        hover={props.hover.column}
-                        drag={props.drag.column}
-                        item={props.columns[id]}
-                        isDraggingGlobal={props.isDraggingGlobal}
-                        isDragging={props.isDragging || snapshot1.isDraggingOver}
-                        isPreview={snapshot2.isDragging}
-                        onHoverEnter={props.onHoverEnter}
-                        onDragEnter={props.onDragEnter}
-                        onDragDrop={props.onDragDrop}
-                        onClickToolbar={props.onClickToolbar}
-                        onClickColumn={props.onClickColumn}
-                      />
-                    )}
-                  </Draggable>
-              )}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </div>
-    </div>
-  );
-}
-
-function ToolbarColumn(props) {
-  return (
-    <div
-      {...props.dragHandleProps}
-      style={{ ...styles.toolbarColumn, display: props.enabled ? 'block' : 'none'}}
-      onClick={(e) => props.onClick(e, 'b4', props.columnId)}
-    >
-      <DragHandleIcon style={styles.toolbarColumnIcon} />
-    </div>
-  );
-}
-
-function Column(props) {
-  const select = props.select === props.id;
-  const hover = props.hover === props.id;
-  const drag = props.drag === props.id;
-  const active = props.isDragging ? props.isPreview : hover || select;
-  return (
-    <div
-      {...props.provided.draggableProps}
-      ref={props.provided.innerRef}
-      sectionid={props.sectionId}
-      columnid={props.id}
-      style={{ 
-        ...styles.column,
-        ...props.provided.draggableProps.style,
-        border: active ? '1px dashed #6d7882' : drag ? '1px solid #3eaaf5' : '1px dashed transparent',
-      }}
-      onClick={e => props.onClickColumn(e)}
-      onDragEnter={() => props.onDragEnter(props.item.type === null && props.sectionId, props.item.type === null && props.id)}
-      onDrop={(e) => props.item.type === null && props.onDragDrop(e, props.sectionId, props.id)}
-      onMouseEnter={() => props.isDragging || props.isDraggingGlobal || props.onHoverEnter(props.sectionId, props.id)}
-    >
-      <ToolbarColumn 
-        enabled={active} 
-        columnId={props.id}
-        onClick={props.onClickToolbar}
-        dragHandleProps={props.provided.dragHandleProps}
-      />
-      <div 
-        style={{ 
-          ...styles.columnBody,
-          border: props.item.type ? active ? '1px solid #3eaaf5' : '1px dashed transparent' : '1px dashed #d5dadf', 
-          backgroundColor: drag ? 'rgba(62, 170, 245, 0.3)' : 'unset',
-        }}
-      >
-        <div>{props.id}</div>
-        <div>{props.item.type}</div>
-      </div>
-    </div>
-  );
 }
 
 
@@ -562,6 +350,32 @@ class Canvas extends Component {
       .data(this.props.id, this.props.prop, { isHoverStub: false });
   }
 
+  handleAddColumn = (sectionId, columnId) => {
+    const i = Number(columnId.split('_')[1].slice(1));
+    const newColumnId = getIdColumn(i, sectionId, this.props.columns);
+  
+    core.actions.layout
+      .addColumn(this.props.id, this.props.prop, sectionId, columnId, newColumnId);
+  }
+
+  handleRemoveColumn = (sectionId, columnId) => {
+    core.actions.layout
+      .removeColumn(this.props.id, this.props.prop, sectionId, columnId);
+  }
+
+  handleContextMenu = (e, sectionId, columnId) => {
+    const pos = { left: e.clientX, top: e.clientY };
+    const scheme = {
+      main: [
+        { id: '1', title: 'Add Column', click: () => this.handleAddColumn(sectionId, columnId) },
+        { id: '2', type: 'divider' },
+        { id: '3', title: 'Delete', click: () => this.handleRemoveColumn(sectionId, columnId) },
+      ]
+    }
+
+    ContextMenu.show(<Menu scheme={scheme} />, pos);
+  }
+
   render() {
     if (this.props.list.length === 0) {
       return (
@@ -618,6 +432,7 @@ class Canvas extends Component {
                         onDragEnter={this.handleDragEnter}
                         onDragOut={this.handleDragOut}
                         onDragDrop={this.handleDragDrop}
+                        onContextMenu={this.handleContextMenu}
                       />
                     )}
                   </Draggable>

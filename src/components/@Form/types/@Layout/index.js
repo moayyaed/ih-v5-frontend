@@ -6,6 +6,7 @@ import {
   RemoveButton, ExpandButton, Separator, 
 } from 'react-mosaic-component';
 
+
 import Canvas from './Canvas';
 import Properties from './Properties';
 
