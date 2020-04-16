@@ -8,6 +8,7 @@ import {
   LAYOUT_ADD_SECTION,
   LAYOUT_EDIT_SECTION,
   LAYOUT_REMOVE_SECTION,
+  LAYOUT_CLEAR_SECTION,
 
   LAYOUT_ADD_COLUMN,
   LAYOUT_EDIT_COLUMN,
@@ -75,6 +76,25 @@ function reducerLayout(state, action) {
             return { ...p, [c]: state.columns[c] };
           }, {})
       }
+    case LAYOUT_CLEAR_SECTION:
+      return { 
+        ...state,
+        sections: {
+          ...state.sections,
+          [action.sectionId]: { 
+            ...state.sections[action.sectionId],
+            columns: [`${action.sectionId}_c1`]
+          },
+        },
+        columns: { ...Object
+          .keys(state.columns)
+          .reduce((p, c) => {
+            if (state.sections[action.sectionId].columns.includes(c)) {
+              return p;
+            }
+            return { ...p, [c]: state.columns[c] };
+          }, {}), [`${action.sectionId}_c1`]: { type: null } }
+      };
     case LAYOUT_ADD_COLUMN:
       return { 
         ...state,
@@ -158,6 +178,7 @@ function reducer(state, action) {
     case LAYOUT_ADD_SECTION:
     case LAYOUT_EDIT_SECTION:
     case LAYOUT_REMOVE_SECTION:
+    case LAYOUT_CLEAR_SECTION:
     case LAYOUT_ADD_COLUMN:
     case LAYOUT_EDIT_COLUMN:
     case LAYOUT_REMOVE_COLUMN:

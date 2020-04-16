@@ -8,6 +8,7 @@ import {
   LAYOUT_ADD_SECTION,
   LAYOUT_EDIT_SECTION,
   LAYOUT_REMOVE_SECTION,
+  LAYOUT_CLEAR_SECTION,
 
   LAYOUT_ADD_COLUMN,
   LAYOUT_EDIT_COLUMN,
@@ -78,6 +79,15 @@ export function removeSection(id, prop, sectionId) {
   };
 }
 
+export function clearSection(id, prop, sectionId) {
+  return {
+    type: LAYOUT_CLEAR_SECTION,
+    id,
+    prop,
+    sectionId,
+  };
+}
+
 export function addColumn(id, prop, sectionId, columnId, newColumnId) {
   return {
     type: LAYOUT_ADD_COLUMN,
@@ -130,6 +140,7 @@ export default {
   addSection,
   editSection,
   removeSection,
+  clearSection,
   addColumn,
   editColumn,
   removeColumn,

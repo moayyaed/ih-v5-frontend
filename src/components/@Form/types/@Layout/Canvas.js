@@ -359,8 +359,13 @@ class Canvas extends Component {
   }
 
   handleRemoveColumn = (sectionId, columnId) => {
-    core.actions.layout
-      .removeColumn(this.props.id, this.props.prop, sectionId, columnId);
+    if (this.props.sections[sectionId].columns.length === 1) {
+      core.actions.layout
+        .clearSection(this.props.id, this.props.prop, sectionId);
+    } else {
+      core.actions.layout
+        .removeColumn(this.props.id, this.props.prop, sectionId, columnId);
+    }
   }
 
   handleContextMenu = (e, sectionId, columnId) => {
