@@ -22,7 +22,7 @@ function reducerLayout(state, action) {
     case LAYOUT_SET_DATA:
       return { ...state, ...action.data };
     case LAYOUT_HOVER_ELEMENTS:
-      return { ...state, hover: action.values };
+      return { ...state, hover: { ...state.hover, ...action.values } };
     case LAYOUT_SELECT_ELEMENTS:
       return { ...state, select: action.values };
     case LAYOUT_ADD_SECTION:

@@ -98,17 +98,26 @@ class Layout extends PureComponent {
     return null;
   }
 
-  handleClickBody = () => {
-    this.props.data.isDragging === false &&
-    core.actions.layout
-    .data(
-      this.props.id, this.props.options.prop, 
-      { 
-        hover: { section: null, column: null },
-        select: { section: null, column: null },
-        drag: { section: null, column: null },
-      },
-    )
+  handleClickBody = (e) => {
+    if (this.props.data.isDragging) {
+      /* core.actions.layout
+        .hover(
+          this.props.id, this.props.options.prop, 
+          { 
+            ...this.props.data.hover,
+            check: { x: e.clientX, y: e.clientY }, 
+          }); */
+    } else {
+      core.actions.layout
+        .data(
+          this.props.id, this.props.options.prop, 
+          { 
+            hover: { section: null, column: null },
+            select: { section: null, column: null },
+            drag: { section: null, column: null },
+          },
+        )
+    }
   }
 
   renderComponent = (id) => {
