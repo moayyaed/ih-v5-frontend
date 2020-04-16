@@ -117,10 +117,20 @@ class Canvas extends Component {
     }
   }
 
-  handleCheckHover = (e) => {
+  setCheckHover = (e) => {
+    core.actions.layout
+      .hover(
+        this.props.id, this.props.prop, 
+        { 
+          ...this.props.hover,
+          check: { x: e.clientX, y: e.clientY }, 
+        });
+  }
+
+  handleCheckHover = (x, y) => {
     let found = false;
 
-    const elements = window.document.elementsFromPoint(e.clientX, e.clientY);
+    const elements = window.document.elementsFromPoint(x, y);
 
     elements.forEach(i => {
       const sectionid = i.getAttribute('sectionid');
@@ -135,12 +145,12 @@ class Canvas extends Component {
       core.actions.layout
         .hover(
           this.props.id, this.props.prop, 
-          { section: found.sectionId, column: found.columnId });
+          { section: found.sectionId, column: found.columnId, check: null });
     } else {
       core.actions.layout
         .hover(
           this.props.id, this.props.prop, 
-          { section: null, column: null });
+          { section: null, column: null, check: null });
     }
   }
 
@@ -385,7 +395,7 @@ class Canvas extends Component {
       .addColumn(this.props.id, this.props.prop, sectionId, columnId, newColumnId);
 
     if (e) {
-      this.handleCheckHover(e);
+      this.setCheckHover(e);
     }
   }
 
@@ -399,7 +409,7 @@ class Canvas extends Component {
     }
 
     if (e) {
-      this.handleCheckHover(e);
+      this.setCheckHover(e);
     }
   }
 
@@ -414,6 +424,12 @@ class Canvas extends Component {
     }
 
     ContextMenu.show(<Menu scheme={scheme} />, pos);
+  }
+
+  componentDidUpdate() {
+    if (this.props.hover && this.props.hover.check) {
+      this.handleCheckHover(this.props.hover.check.x, this.props.hover.check.y);
+    }
   }
 
   render() {
