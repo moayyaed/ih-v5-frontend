@@ -117,6 +117,33 @@ class Canvas extends Component {
     }
   }
 
+  handleCheckHover = (e) => {
+    let found = false;
+
+    const elements = window.document.elementsFromPoint(e.clientX, e.clientY);
+
+    elements.forEach(i => {
+      const sectionid = i.getAttribute('sectionid');
+      const columnid = i.getAttribute('columnid');
+      
+      if (sectionid && sectionid !== '' && columnid && columnid !== '') {
+        found = { sectionId: sectionid, columnId: columnid };
+      }
+    });
+
+    if (found) {
+      core.actions.layout
+        .hover(
+          this.props.id, this.props.prop, 
+          { section: found.sectionId, column: found.columnId });
+    } else {
+      core.actions.layout
+        .hover(
+          this.props.id, this.props.prop, 
+          { section: null, column: null });
+    }
+  }
+
   handleClickToolbar = (e, button, value) => {
     e.preventDefault();
     e.stopPropagation();
@@ -350,15 +377,19 @@ class Canvas extends Component {
       .data(this.props.id, this.props.prop, { isHoverStub: false });
   }
 
-  handleAddColumn = (sectionId, columnId) => {
+  handleAddColumn = (e, sectionId, columnId) => {
     const i = Number(columnId.split('_')[1].slice(1));
     const newColumnId = getIdColumn(i, sectionId, this.props.columns);
   
     core.actions.layout
       .addColumn(this.props.id, this.props.prop, sectionId, columnId, newColumnId);
+
+    if (e) {
+      this.handleCheckHover(e);
+    }
   }
 
-  handleRemoveColumn = (sectionId, columnId) => {
+  handleRemoveColumn = (e, sectionId, columnId) => {
     if (this.props.sections[sectionId].columns.length === 1) {
       core.actions.layout
         .clearSection(this.props.id, this.props.prop, sectionId);
@@ -366,15 +397,19 @@ class Canvas extends Component {
       core.actions.layout
         .removeColumn(this.props.id, this.props.prop, sectionId, columnId);
     }
+
+    if (e) {
+      this.handleCheckHover(e);
+    }
   }
 
   handleContextMenu = (e, sectionId, columnId) => {
     const pos = { left: e.clientX, top: e.clientY };
     const scheme = {
       main: [
-        { id: '1', title: 'Add Column', click: () => this.handleAddColumn(sectionId, columnId) },
+        { id: '1', title: 'Add Column', click: (e) => this.handleAddColumn(e, sectionId, columnId) },
         { id: '2', type: 'divider' },
-        { id: '3', title: 'Delete', click: () => this.handleRemoveColumn(sectionId, columnId) },
+        { id: '3', title: 'Delete', click: (e) => this.handleRemoveColumn(e, sectionId, columnId) },
       ]
     }
 

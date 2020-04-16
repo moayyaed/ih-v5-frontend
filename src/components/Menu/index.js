@@ -25,7 +25,7 @@ function itemMenu(i, disabled, click, command) {
         key={i.id} 
         text={i.title} 
         disabled={disabled[i.check] !== undefined ? disabled[i.check] : false} 
-        onClick={() => click(i, command)}
+        onClick={(e) => click(i, command, e)}
       >{i.children.map(x => itemMenu(x, disabled, click, command))}</MenuItem>
     )
   }
@@ -41,7 +41,7 @@ function itemMenu(i, disabled, click, command) {
         labelElement={i.children !== undefined ? null : <CircularProgress style={styles.progress} color="inherit" size={16} />}
         text={i.title} 
         disabled={disabled[i.check] !== undefined ? disabled[i.check] : false} 
-        onClick={() => click(i, command)}
+        onClick={(e) => click(i, command, e)}
       >{itemMenu(i.children, disabled, click, i.command)}</MenuItem>
     )
   }
@@ -51,7 +51,7 @@ function itemMenu(i, disabled, click, command) {
       key={i.id} 
       text={i.title} 
       disabled={disabled[i.check] !== undefined ? disabled[i.check] : false} 
-      onClick={() => click(i, command)}
+      onClick={(e) => click(i, command, e)}
     />
   )
 }
@@ -88,14 +88,14 @@ class _Menu extends Component {
     }
   }
 
-  handleClick = (item, forceCommand) => {
+  handleClick = (item, forceCommand, e) => {
     
     const command = forceCommand ? forceCommand : item.command;
     if (command && this.props.commands[command]) {
       this.props.commands[command].call(null, { popupid: item.id });
     } else {
       if (item.click !== undefined) {
-        item.click.call(null);
+        item.click.call(null, e);
       }
     }
   }
