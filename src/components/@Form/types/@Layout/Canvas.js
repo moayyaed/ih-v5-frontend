@@ -426,6 +426,12 @@ class Canvas extends Component {
     ContextMenu.show(<Menu scheme={scheme} />, pos);
   }
 
+  handleResizeColumn = (e, data) => {
+    const row = data.node.parentNode.parentNode;
+    const cell = data.node.parentNode;
+    console.log(cell.offsetWidth + data.x, cell.style.width);
+  }
+
   componentDidUpdate() {
     if (this.props.hover && this.props.hover.check) {
       this.handleCheckHover(this.props.hover.check.x, this.props.hover.check.y);
@@ -489,6 +495,7 @@ class Canvas extends Component {
                         onDragOut={this.handleDragOut}
                         onDragDrop={this.handleDragDrop}
                         onContextMenu={this.handleContextMenu}
+                        onResizeColumn={this.handleResizeColumn}
                       />
                     )}
                   </Draggable>

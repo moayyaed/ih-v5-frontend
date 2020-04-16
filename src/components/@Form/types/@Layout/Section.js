@@ -139,6 +139,7 @@ function Section(props) {
                         onClickToolbar={props.onClickToolbar}
                         onClickColumn={props.onClickColumn}
                         onContextMenu={props.onContextMenu}
+                        onResizeColumn={props.onResizeColumn}
                       />
                     )}
                   </Draggable>

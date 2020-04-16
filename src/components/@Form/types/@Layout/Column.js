@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Draggable from 'react-draggable';
 import DragHandleIcon from '@material-ui/icons/DragHandle';
 
 
@@ -8,7 +9,7 @@ const styles = {
     position: 'relative',
     width: '100%',
     height: '100%',
-    padding: 10,
+    padding: 0,
   },
   columnBody: {
     width: '100%',
@@ -32,6 +33,16 @@ const styles = {
     width: 18,
     height: 18,
   },
+  resize: {
+    position: 'absolute',
+    width: 5,
+    height: '100%',
+    top: 0,
+    right: -3,
+    cursor: 'col-resize',
+    zIndex: 1000,
+    background: '#9e9e9e61',
+  }
 }
 
 
@@ -75,6 +86,14 @@ function Column(props) {
         onClick={props.onClickToolbar}
         dragHandleProps={props.provided.dragHandleProps}
       />
+        <Draggable 
+          axis='x'
+          position={{ x:0, y: 0 }}
+          onDrag={(e, data) => props.onResizeColumn(e, data)}
+          onStop={(e, data) => props.onResizeColumn(e, data)}
+        >
+          <div style={styles.resize} />
+        </Draggable>
       <div 
         style={{ 
           ...styles.columnBody,
