@@ -9,7 +9,7 @@ const styles = {
     position: 'relative',
     width: '100%',
     height: '100%',
-    padding: 0,
+    padding: 10,
   },
   columnBody: {
     width: '100%',
@@ -41,7 +41,7 @@ const styles = {
     right: -3,
     cursor: 'col-resize',
     zIndex: 1000,
-    background: '#9e9e9e61',
+    background: '#9e9e9e20',
   }
 }
 
