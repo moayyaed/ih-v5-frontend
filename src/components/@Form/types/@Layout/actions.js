@@ -14,6 +14,7 @@ import {
   LAYOUT_EDIT_COLUMN,
   LAYOUT_REMOVE_COLUMN,
   LAYOUT_MOVE_COLUMN,
+  LAYOUT_RESIZE_COLUMNS,
 } from './constants';
 
 
@@ -131,6 +132,18 @@ export function moveColumn(id, prop, sourceSectionId, targetSectionId, sourceCol
   };
 }
 
+export function resizeColumns(id, prop, columnIdA, valueA, columnIdB, valueB) {
+  return {
+    type: LAYOUT_RESIZE_COLUMNS,
+    id,
+    prop,
+    columnIdA,
+    valueA,
+    columnIdB,
+    valueB,
+  };
+}
+
 
 export default {
   data,
@@ -145,4 +158,5 @@ export default {
   editColumn,
   removeColumn,
   moveColumn,
+  resizeColumns,
 }

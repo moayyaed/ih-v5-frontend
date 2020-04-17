@@ -426,10 +426,10 @@ class Canvas extends Component {
     ContextMenu.show(<Menu scheme={scheme} />, pos);
   }
 
-  handleResizeColumn = (e, data) => {
-    const row = data.node.parentNode.parentNode;
-    const cell = data.node.parentNode;
-    console.log(cell.offsetWidth + data.x, cell.style.width);
+  handleResizeColumn = (columnIdA, valueA, columnIdB, valueB) => {
+    core.actions.layout
+      .resizeColumns(this.props.id, this.props.prop,
+        columnIdA, valueA, columnIdB, valueB);
   }
 
   componentDidUpdate() {

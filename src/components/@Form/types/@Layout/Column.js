@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 
 import Draggable from 'react-draggable';
 import DragHandleIcon from '@material-ui/icons/DragHandle';
@@ -7,9 +7,9 @@ import DragHandleIcon from '@material-ui/icons/DragHandle';
 const styles = {
   column: {
     position: 'relative',
-    width: '100%',
     height: '100%',
     padding: 10,
+    flexShrink: 0,
   },
   columnBody: {
     width: '100%',
@@ -41,10 +41,82 @@ const styles = {
     right: -3,
     cursor: 'col-resize',
     zIndex: 1000,
-    background: '#9e9e9e20',
   }
 }
 
+
+class SizeControl extends PureComponent {
+
+  handleDragStart = (e) => {
+    e.preventDefault();
+  
+    window.addEventListener('mouseup', this.handleDragStop, true);
+    window.addEventListener('mousemove', this.handleDragMove, true);
+    document.body.style.cursor = 'col-resize';
+  
+  }
+  
+  handleDragMove = (e) => {
+
+    const { 
+      targetPercent, 
+      nextElementPercent, 
+    } = this.getSize(this.link, e.movementX, e.movementY);
+
+    const target = this.link.parentNode;
+    const nextElement = target.nextElementSibling;
+
+    target.style.width = targetPercent + '%';
+    nextElement.style.width = nextElementPercent + '%';
+  }
+  
+  handleDragStop = (e) => {
+    window.removeEventListener('mousemove', this.handleDragMove, true);
+    window.removeEventListener('mouseup', this.handleDragStop, true);
+    document.body.style.cursor = 'auto';
+
+    const target = this.link.parentNode;
+    const nextElement = target.nextElementSibling;
+
+    const targetId = target.getAttribute('columnid');
+    const nextElementId = nextElement.getAttribute('columnid');
+
+    const { 
+      targetPercent, 
+      nextElementPercent, 
+    } = this.getSize(this.link, e.movementX, e.movementY);
+
+    this.props.onStop(targetId, targetPercent, nextElementId, nextElementPercent)
+  }
+
+  getSize = (node, x, y) => {
+    const parent = node.parentNode.parentNode;
+    const target = node.parentNode;
+    const nextElement = target.nextElementSibling;
+
+    const targetWidth = target.offsetWidth + x;
+    const targetPercent = (targetWidth / (parent.offsetWidth / 100)).toFixed(2);
+
+    const nextElementWidth = nextElement.offsetWidth - x;
+    const nextElementPercent = (nextElementWidth / (parent.offsetWidth / 100)).toFixed(2);
+
+    return { targetPercent, nextElementPercent };
+  }
+
+  linked = (e) => {
+    this.link = e;
+  }
+
+  render() {
+    return (
+      <div
+        ref={this.linked} 
+        style={styles.resize}
+        onMouseDown={this.handleDragStart}
+      />
+    );
+  }
+}
 
 function ToolbarColumn(props) {
   return (
@@ -72,6 +144,7 @@ function Column(props) {
       style={{ 
         ...styles.column,
         ...props.provided.draggableProps.style,
+        width: `${props.item.width}%`,
         border: active ? '1px dashed #6d7882' : drag ? '1px solid #3eaaf5' : '1px dashed transparent',
       }}
       onClick={e => props.onClickColumn(e)}
@@ -86,14 +159,9 @@ function Column(props) {
         onClick={props.onClickToolbar}
         dragHandleProps={props.provided.dragHandleProps}
       />
-        <Draggable 
-          axis='x'
-          position={{ x:0, y: 0 }}
-          onDrag={(e, data) => props.onResizeColumn(e, data)}
-          onStop={(e, data) => props.onResizeColumn(e, data)}
-        >
-          <div style={styles.resize} />
-        </Draggable>
+        <SizeControl 
+          onStop={props.onResizeColumn}
+        />
       <div 
         style={{ 
           ...styles.columnBody,

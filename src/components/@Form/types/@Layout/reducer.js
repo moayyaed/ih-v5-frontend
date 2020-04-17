@@ -14,6 +14,7 @@ import {
   LAYOUT_EDIT_COLUMN,
   LAYOUT_REMOVE_COLUMN,
   LAYOUT_MOVE_COLUMN,
+  LAYOUT_RESIZE_COLUMNS,
 } from './constants';
 
 
@@ -161,6 +162,15 @@ function reducerLayout(state, action) {
           }
         },
       }
+    case LAYOUT_RESIZE_COLUMNS:
+      return {
+        ...state,
+        columns: {
+          ...state.columns,
+          [action.columnIdA]: { ...state.columns[action.columnIdA], width: action.valueA },
+          [action.columnIdB]: { ...state.columns[action.columnIdB], width: action.valueB }
+        }
+      }
     default:
       return state;
   }
@@ -182,6 +192,7 @@ function reducer(state, action) {
     case LAYOUT_ADD_COLUMN:
     case LAYOUT_EDIT_COLUMN:
     case LAYOUT_REMOVE_COLUMN:
+    case LAYOUT_RESIZE_COLUMNS:
       return { 
         ...state, 
         data: {
