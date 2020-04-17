@@ -41,6 +41,7 @@ const styles = {
     right: -3,
     cursor: 'col-resize',
     zIndex: 1000,
+    background: '#9e9e9e20',
   }
 }
 
@@ -57,7 +58,6 @@ class SizeControl extends PureComponent {
   }
   
   handleDragMove = (e) => {
-
     const { 
       targetPercent, 
       nextElementPercent, 
@@ -94,10 +94,30 @@ class SizeControl extends PureComponent {
     const target = node.parentNode;
     const nextElement = target.nextElementSibling;
 
-    const targetWidth = target.offsetWidth + x;
-    const targetPercent = (targetWidth / (parent.offsetWidth / 100)).toFixed(2);
+    let targetWidth = target.offsetWidth + x;
+    let nextElementWidth = nextElement.offsetWidth - x;
 
-    const nextElementWidth = nextElement.offsetWidth - x;
+    const tpl = Number(target.style.paddingLeft.slice(0,target.style.paddingLeft.length - 2));
+    const tpr = Number(target.style.paddingRight.slice(0,target.style.paddingRight.length - 2));
+    const tbl = Number(target.style.borderLeftWidth.slice(0,target.style.borderLeftWidth.length - 2));
+    const tbr = Number(target.style.borderRightWidth.slice(0,target.style.borderRightWidth.length - 2));
+
+    const npl = Number(nextElement.style.paddingLeft.slice(0,nextElement.style.paddingLeft.length - 2));
+    const npr = Number(nextElement.style.paddingRight.slice(0,nextElement.style.paddingRight.length - 2));
+    const nbl = Number(nextElement.style.borderLeftWidth.slice(0,nextElement.style.borderLeftWidth.length - 2));
+    const nbr = Number(nextElement.style.borderRightWidth.slice(0,nextElement.style.borderRightWidth.length - 2));
+
+    if (tpl + tpr + tbl + tbr > targetWidth) {
+      targetWidth = target.offsetWidth;
+      nextElementWidth = nextElement.offsetWidth;
+    }
+
+    if (npl + npr + nbl + nbr > nextElementWidth) {
+      targetWidth = target.offsetWidth;
+      nextElementWidth = nextElement.offsetWidth;
+    }
+
+    const targetPercent = (targetWidth / (parent.offsetWidth / 100)).toFixed(2);
     const nextElementPercent = (nextElementWidth / (parent.offsetWidth / 100)).toFixed(2);
 
     return { targetPercent, nextElementPercent };
