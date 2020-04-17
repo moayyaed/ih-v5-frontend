@@ -41,7 +41,7 @@ const styles = {
     right: -3,
     cursor: 'col-resize',
     zIndex: 1000,
-    background: '#9e9e9e20',
+    // background: '#9e9e9e20',
   }
 }
 
