@@ -8,6 +8,7 @@ const styles = {
   column: {
     position: 'relative',
     height: '100%',
+    width: '100%',
     padding: 10,
     flexShrink: 0,
   },
@@ -35,7 +36,18 @@ const styles = {
   },
 }
 
-
+function getStyle(direction, size, active, drag) {
+  if (direction === 'row') {
+    return {
+      width: `${size}%`,
+      border: active ? '1px dashed #6d7882' : drag ? '1px solid #3eaaf5' : '1px dashed transparent',
+    }
+  }
+  return {
+    height: `${size}%`,
+    border: active ? '1px dashed #6d7882' : drag ? '1px solid #3eaaf5' : '1px dashed transparent',
+  }
+}
 
 
 function ToolbarColumn(props) {
@@ -64,8 +76,7 @@ function Column(props) {
       style={{ 
         ...styles.column,
         ...props.provided.draggableProps.style,
-        width: `${props.item.size}%`,
-        border: active ? '1px dashed #6d7882' : drag ? '1px solid #3eaaf5' : '1px dashed transparent',
+        ...getStyle(props.direction, props.item.size, active, drag),
       }}
       onClick={e => props.onClickColumn(e)}
       onContextMenu={e => props.onContextMenu(e, props.sectionId, props.id)}
@@ -79,7 +90,8 @@ function Column(props) {
         onClick={props.onClickToolbar}
         dragHandleProps={props.provided.dragHandleProps}
       />
-        <SizeControl 
+        <SizeControl
+          type={props.direction} 
           onStop={props.onResizeColumn}
         />
       <div 

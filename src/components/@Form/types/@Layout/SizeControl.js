@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 
 
 const styles = {
-  root: {
+  horizont: {
     position: 'absolute',
     width: 5,
     height: '100%',
@@ -10,7 +10,17 @@ const styles = {
     right: -3,
     cursor: 'col-resize',
     zIndex: 1000,
-    /// background: '#9e9e9e20',
+    background: '#9e9e9e20',
+  },
+  vert: {
+    position: 'absolute',
+    width: '100%',
+    height: 5,
+    left: 0,
+    bottom: -3,
+    cursor: 'row-resize',
+    zIndex: 1000,
+    background: '#9e9e9e20',
   }
 }
 
@@ -29,13 +39,20 @@ class SizeControl extends PureComponent {
     const { 
       targetPercent, 
       nextElementPercent, 
-    } = this.getSize(this.link, e.movementX, e.movementY);
+    } = this.props.type === 'row' ? 
+    this.getSizeWidth(this.link, e.movementX, e.movementY) :
+    this.getSizeHeight(this.link, e.movementX, e.movementY)
 
     const target = this.link.parentNode;
     const nextElement = target.nextElementSibling;
 
-    target.style.width = targetPercent + '%';
-    nextElement.style.width = nextElementPercent + '%';
+    if (this.props.type === 'row') {
+      target.style.width = targetPercent + '%';
+      nextElement.style.width = nextElementPercent + '%';
+    } else {
+      target.style.height = targetPercent + '%';
+      nextElement.style.height = nextElementPercent + '%';
+    }
   }
   
   handleDragStop = (e) => {
@@ -52,12 +69,15 @@ class SizeControl extends PureComponent {
     const { 
       targetPercent, 
       nextElementPercent, 
-    } = this.getSize(this.link, e.movementX, e.movementY);
+    } = this.props.type === 'row' ? 
+      this.getSizeWidth(this.link, e.movementX, e.movementY) :
+      this.getSizeHeight(this.link, e.movementX, e.movementY)
+
 
     this.props.onStop(targetId, targetPercent, nextElementId, nextElementPercent)
   }
 
-  getSize = (node, x, y) => {
+  getSizeWidth = (node, x, y) => {
     const parent = node.parentNode.parentNode;
     const target = node.parentNode;
     const nextElement = target.nextElementSibling;
@@ -91,6 +111,40 @@ class SizeControl extends PureComponent {
     return { targetPercent, nextElementPercent };
   }
 
+  getSizeHeight = (node, x, y) => {
+    const parent = node.parentNode.parentNode;
+    const target = node.parentNode;
+    const nextElement = target.nextElementSibling;
+
+    let targetHeight = target.offsetHeight + y;
+    let nextElementHeight = nextElement.offsetHeight - y;
+
+    const tpl = Number(target.style.paddingTop.slice(0,target.style.paddingTop.length - 2));
+    const tpr = Number(target.style.paddingBottom.slice(0,target.style.paddingBottom.length - 2));
+    const tbl = Number(target.style.borderTopWidth.slice(0,target.style.borderTopWidth.length - 2));
+    const tbr = Number(target.style.borderBottomWidth.slice(0,target.style.borderBottomWidth.length - 2));
+
+    const npl = Number(nextElement.style.paddingTop.slice(0,nextElement.style.paddingTop.length - 2));
+    const npr = Number(nextElement.style.paddingBottom.slice(0,nextElement.style.paddingBottom.length - 2));
+    const nbl = Number(nextElement.style.borderTopWidth.slice(0,nextElement.style.borderTopWidth.length - 2));
+    const nbr = Number(nextElement.style.borderBottomWidth.slice(0,nextElement.style.borderBottomWidth.length - 2));
+
+    if (tpl + tpr + tbl + tbr > targetHeight) {
+      targetHeight = target.offsetHeight;
+      nextElementHeight = nextElement.offsetHeight;
+    }
+
+    if (npl + npr + nbl + nbr > nextElementHeight) {
+      targetHeight = target.offsetHeight;
+      nextElementHeight = nextElement.offsetHeight;
+    }
+
+    const targetPercent = (targetHeight / (parent.offsetHeight / 100)).toFixed(2);
+    const nextElementPercent = (nextElementHeight / (parent.offsetHeight / 100)).toFixed(2);
+
+    return { targetPercent, nextElementPercent };
+  }
+
   linked = (e) => {
     this.link = e;
   }
@@ -99,7 +153,7 @@ class SizeControl extends PureComponent {
     return (
       <div
         ref={this.linked} 
-        style={styles.root}
+        style={this.props.type === 'row' ? styles.horizont : styles.vert}
         onMouseDown={this.handleDragStart}
       />
     );
