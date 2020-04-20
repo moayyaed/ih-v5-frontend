@@ -114,7 +114,8 @@ function Section(props) {
               {...provided.droppableProps}
               ref={provided.innerRef} 
               style={{ 
-                ...styles.sectionBody, 
+                ...styles.sectionBody,
+                flexDirection: props.item.direction, 
                 outline: active ? '1px solid #3eaaf5' : 'unset' 
               }}
             >
@@ -129,6 +130,7 @@ function Section(props) {
                         select={props.select.column}
                         hover={props.hover.column}
                         drag={props.drag.column}
+                        direction={props.item.direction}
                         item={props.columns[id]}
                         isDraggingGlobal={props.isDraggingGlobal}
                         isDragging={props.isDragging || snapshot1.isDraggingOver}
