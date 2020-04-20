@@ -18,6 +18,48 @@ import {
 } from './constants';
 
 
+function removeColumn(list, columns, removeId) {
+  const size = Number(columns[removeId].size);
+  let a = null;
+  let b = null;
+
+  let prev = null;
+  let next = null;
+  
+  list.forEach(key => {
+    if (b) {
+      next = key;
+      b = null;
+    }
+    if (key === removeId) {
+      a = true;
+      b = true
+    }
+    if (a === null) {
+      prev = key;
+    }
+  });
+
+  const temp = Object
+    .keys(columns)
+    .reduce((p, c) => {
+      if (c === removeId) {
+        return p;
+      }
+      return { ...p, [c]: columns[c] };
+    }, {});
+    
+  if (prev) {
+    const s = (Number(temp[prev].size) + size).toFixed(2);
+    temp[prev] = { ...temp[prev], size:  Number(s) }
+  } else {
+    const nextsize = Number(temp[next].size).toFixed(2);
+    const s = (Number(temp[next].size) + size).toFixed(2);
+    temp[next] = { ...temp[next], size: Number(s) }
+  }
+  return temp;
+}
+
 function reducerLayout(state, action) {
   switch (action.type) {
     case LAYOUT_SET_DATA:
@@ -38,11 +80,15 @@ function reducerLayout(state, action) {
           }, []),
         sections: {
           ...state.sections,
-          [action.newSectionId]: { height: 75, columns: [`${action.newSectionId}_c1`] },
+          [action.newSectionId]: { 
+            height: 75, 
+            direction: 'row', 
+            columns: [`${action.newSectionId}_c1`] 
+          },
         },
         columns: {
           ...state.columns,
-          [`${action.newSectionId}_c1`]: { type: null },
+          [`${action.newSectionId}_c1`]: { type: null, size: 100 },
         },
       };
     case LAYOUT_EDIT_SECTION:
@@ -94,7 +140,7 @@ function reducerLayout(state, action) {
               return p;
             }
             return { ...p, [c]: state.columns[c] };
-          }, {}), [`${action.sectionId}_c1`]: { type: null } }
+          }, {}), [`${action.sectionId}_c1`]: { type: null, size: 100 } }
       };
     case LAYOUT_ADD_COLUMN:
       return { 
@@ -114,7 +160,14 @@ function reducerLayout(state, action) {
         },
         columns: {
           ...state.columns,
-          [action.newColumnId]: { type: null },
+          [action.columnId]: { 
+            ...state.columns[action.columnId], 
+            size: Number((Number(state.columns[action.columnId].size) / 2).toFixed(2))
+          },
+          [action.newColumnId]: { 
+            type: null, 
+            size: Number((Number(state.columns[action.columnId].size) / 2).toFixed(2)) 
+          },
         },
       };
     case LAYOUT_EDIT_COLUMN:
@@ -138,14 +191,7 @@ function reducerLayout(state, action) {
             columns: state.sections[action.sectionId].columns.filter(i => i !== action.columnId),
           }
         },
-        columns: Object
-          .keys(state.columns)
-          .reduce((p, c) => {
-            if (c === action.columnId) {
-              return p;
-            }
-            return { ...p, [c]: state.columns[c] };
-          }, {})
+        columns: removeColumn(state.sections[action.sectionId].columns, state.columns, action.columnId)
       }
     case LAYOUT_MOVE_COLUMN:
       return { 

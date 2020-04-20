@@ -365,8 +365,8 @@ class Canvas extends Component {
         column: 's1_c1',
       },
       list: ['s1'],
-      sections: { s1: { height: 100, columns: ['s1_c1'] } },
-      columns: { s1_c1: { type: null } }
+      sections: { s1: { height: 100, direction: 'row', columns: ['s1_c1'] } },
+      columns: { s1_c1: { type: null, size: 100 } }
     };
 
     core.actions.layout
@@ -413,11 +413,14 @@ class Canvas extends Component {
     }
   }
 
-  handleContextMenu = (e, sectionId, columnId) => {
+  handleContextMenu = (e, direction, sectionId, columnId) => {
     const pos = { left: e.clientX, top: e.clientY };
     const scheme = {
       main: [
-        { id: '1', title: 'Add Column', click: (e) => this.handleAddColumn(e, sectionId, columnId) },
+        { id: '1', 
+          title: direction === 'row' ? 'Add Column' : 'Add Row', 
+          click: (e) => this.handleAddColumn(e, sectionId, columnId) 
+        },
         { id: '2', type: 'divider' },
         { id: '3', title: 'Delete', click: (e) => this.handleRemoveColumn(e, sectionId, columnId) },
       ]
