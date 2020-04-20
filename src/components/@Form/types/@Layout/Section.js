@@ -12,6 +12,8 @@ import css from './main.module.css';
 
 const styles = {
   root: {
+  },
+  rootInner: {
     width: '100%',
     height: '100%',
   },
@@ -127,7 +129,7 @@ function Section(props) {
   const color = props.inner ? '#F57C00' : '#3eaaf5'; 
   return (
     <div
-      style={styles.root}
+      style={props.inner ? styles.rootInner : props.root}
       onDragLeave={(e) => props.onDragOut(e)} 
       onMouseLeave={(e) => props.isDragging || props.isDraggingGlobal || props.onHoverOut(e)}
     >
