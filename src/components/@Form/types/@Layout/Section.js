@@ -110,7 +110,7 @@ function Section(props) {
         />
         <Droppable 
           droppableId={props.id} 
-          direction={props.item.direction ? 'horizontal' : 'vertical'} 
+          direction={props.item.direction === 'row' ? 'horizontal' : 'vertical'} 
           type={props.id}
         >
           {(provided, snapshot1) => (
