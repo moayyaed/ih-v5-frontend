@@ -98,7 +98,7 @@ function Section(props) {
         ref={props.provided.innerRef}
         style={{ 
           ...styles.section, 
-          ...props.provided.draggableProps.style,
+          ...props.provided.draggableProps.style, 
           height: props.item.height 
         }}
       >
@@ -111,7 +111,7 @@ function Section(props) {
         <Droppable 
           droppableId={props.id} 
           direction={props.item.direction ? 'horizontal' : 'vertical'} 
-          type={props.id} 
+          type={props.id}
         >
           {(provided, snapshot1) => (
             <div

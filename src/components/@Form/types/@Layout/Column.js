@@ -75,8 +75,8 @@ function Column(props) {
       columnid={props.id}
       style={{ 
         ...styles.column,
-        ...props.provided.draggableProps.style,
         ...getStyle(props.direction, props.item.size, active, drag),
+        ...props.provided.draggableProps.style,
       }}
       onClick={e => props.onClickColumn(e)}
       onContextMenu={e => props.onContextMenu(e, props.sectionId, props.id)}
