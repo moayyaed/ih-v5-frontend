@@ -141,6 +141,8 @@ class Layout extends PureComponent {
         <Properties
           id={this.props.id}
           prop={this.props.options.prop}
+          select={this.props.data.select ? this.props.data.sections[this.props.data.select.section] && this.props.data.select.section : null}
+          section={this.props.data.select && this.props.data.sections[this.props.data.select.section] || {}}
         />
       )
     }
