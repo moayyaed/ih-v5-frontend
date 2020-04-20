@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
+import core from 'core';
 
-import Draggable from 'react-draggable';
 import DragHandleIcon from '@material-ui/icons/DragHandle';
 
 
@@ -54,7 +54,6 @@ class SizeControl extends PureComponent {
     window.addEventListener('mouseup', this.handleDragStop, true);
     window.addEventListener('mousemove', this.handleDragMove, true);
     document.body.style.cursor = 'col-resize';
-  
   }
   
   handleDragMove = (e) => {
