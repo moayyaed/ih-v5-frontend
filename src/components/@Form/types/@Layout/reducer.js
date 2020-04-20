@@ -167,8 +167,8 @@ function reducerLayout(state, action) {
         ...state,
         columns: {
           ...state.columns,
-          [action.columnIdA]: { ...state.columns[action.columnIdA], width: action.valueA },
-          [action.columnIdB]: { ...state.columns[action.columnIdB], width: action.valueB }
+          [action.columnIdA]: { ...state.columns[action.columnIdA], size: action.valueA },
+          [action.columnIdB]: { ...state.columns[action.columnIdB], size: action.valueB }
         }
       }
     default:

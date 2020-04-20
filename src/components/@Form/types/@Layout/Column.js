@@ -164,7 +164,7 @@ function Column(props) {
       style={{ 
         ...styles.column,
         ...props.provided.draggableProps.style,
-        width: `${props.item.width}%`,
+        width: `${props.item.size}%`,
         border: active ? '1px dashed #6d7882' : drag ? '1px solid #3eaaf5' : '1px dashed transparent',
       }}
       onClick={e => props.onClickColumn(e)}
