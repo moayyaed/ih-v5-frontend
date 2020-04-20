@@ -438,7 +438,7 @@ class Canvas extends Component {
         columnIdA, valueA, columnIdB, valueB);
   }
 
-  handleRenderContent = (item) => {
+  handleRenderContent = (columnId, item) => {
     if (item.type === 'SECTION') {
       return (
         <Section
@@ -472,7 +472,10 @@ class Canvas extends Component {
       );
     }
     return (
-      <div>{item.type}</div>
+      <>
+        <div>{columnId}</div>
+        <div>{item.type}</div>
+      </>
     );
   }
 

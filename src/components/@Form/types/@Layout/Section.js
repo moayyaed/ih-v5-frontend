@@ -2,6 +2,7 @@ import React from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 
 import DragHandleIcon from '@material-ui/icons/DragHandle';
+import SettingIcon from '@material-ui/icons/ViewModule';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 
@@ -63,25 +64,35 @@ const styles = {
   },
 }
 
-function getToolbarStyle(inner, enabled) {
-  if (inner) {
-    return {
-      ...styles.toolbarSectionInner,
-      display: enabled ? 'flex' : 'none',
-    }
-  }
-  return {
-    ...styles.toolbarSection,
-    display: enabled ? 'flex' : 'none',
-  }
-}
 
 function ToolbarSection(props) {
-  const color = props.inner ? '#F57C00' : '#3eaaf5'; 
+  if (props.inner) {
+    return (
+      <div
+        {...props.dragHandleProps}
+        style={{ ...styles.toolbarSectionInner, display: props.enabled ? 'flex' : 'none' }}
+      >
+        <div 
+          style={styles.toolbarSectionButton} 
+          className={css.toolbarSectionButtonInner}
+          onClick={(e) => props.onClick(e, 'b2', props.sectionId)}
+        > 
+          <SettingIcon style={styles.toolbarSectionIcon} />  
+        </div>
+        <div 
+          style={styles.toolbarSectionButton} 
+          className={css.toolbarSectionButtonInner}
+          onClick={(e) => props.onClick(e, 'b3', props.sectionId)} 
+        >
+          <RemoveIcon style={styles.toolbarSectionIcon} />
+        </div>
+      </div>
+    );
+  }
   return (
     <div
       {...props.dragHandleProps}
-      style={getToolbarStyle(props.inner, props.enabled)}
+      style={{ ...styles.toolbarSection, display: props.enabled ? 'flex' : 'none' }}
     >
       {props.inner ? null : <div 
         style={styles.toolbarSectionButton} 
@@ -92,14 +103,14 @@ function ToolbarSection(props) {
       </div>}
       <div 
         style={styles.toolbarSectionButton} 
-        className={props.inner ? css.toolbarSectionButtonInner : css.toolbarSectionButton}
+        className={css.toolbarSectionButton}
         onClick={(e) => props.onClick(e, 'b2', props.sectionId)}
       > 
         <DragHandleIcon style={styles.toolbarSectionIcon} />  
       </div>
       <div 
         style={styles.toolbarSectionButton} 
-        className={props.inner ? css.toolbarSectionButtonInner : css.toolbarSectionButton}
+        className={css.toolbarSectionButton}
         onClick={(e) => props.onClick(e, 'b3', props.sectionId)} 
       >
         <RemoveIcon style={styles.toolbarSectionIcon} />
