@@ -82,7 +82,7 @@ function ToolbarSection(props) {
         <div 
           style={styles.toolbarSectionButton} 
           className={css.toolbarSectionButtonInner}
-          onClick={(e) => props.onClick(e, 'b3', props.sectionId)} 
+          onClick={(e) => props.onClick(e, 'b5', props.sectionId, props.inner)} 
         >
           <RemoveIcon style={styles.toolbarSectionIcon} />
         </div>

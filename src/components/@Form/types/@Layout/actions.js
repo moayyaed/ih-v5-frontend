@@ -8,6 +8,7 @@ import {
   LAYOUT_ADD_SECTION,
   LAYOUT_EDIT_SECTION,
   LAYOUT_REMOVE_SECTION,
+  LAYOUT_REMOVE_SECTION_INNER,
   LAYOUT_CLEAR_SECTION,
 
   LAYOUT_ADD_COLUMN,
@@ -77,6 +78,16 @@ export function removeSection(id, prop, sectionId) {
     id,
     prop,
     sectionId,
+  };
+}
+
+export function removeSectionInner(id, prop, sectionId, columnId) {
+  return {
+    type: LAYOUT_REMOVE_SECTION_INNER,
+    id,
+    prop,
+    sectionId,
+    columnId,
   };
 }
 
@@ -153,6 +164,7 @@ export default {
   addSection,
   editSection,
   removeSection,
+  removeSectionInner,
   clearSection,
   addColumn,
   editColumn,

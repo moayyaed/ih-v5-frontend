@@ -154,7 +154,7 @@ class Canvas extends Component {
     }
   }
 
-  handleClickToolbar = (e, button, value) => {
+  handleClickToolbar = (e, button, value, columnId) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -169,6 +169,9 @@ class Canvas extends Component {
     }
     if (button === 'b4') {
       this.handleClickToolbarColumn(value);
+    }
+    if (button === 'b5') {
+      this.handleRemoveSectionInner(e, value, columnId);
     }
   }
   handleAddSection = (sectionId) => {
@@ -195,6 +198,27 @@ class Canvas extends Component {
       .removeSection(
         this.props.id, this.props.prop, 
         sectionId,
+      );
+    
+      if (e) {
+        const elements = window.document.elementsFromPoint(e.clientX, e.clientY);
+        elements.forEach(i => {
+          const sectionid = i.getAttribute('sectionid');
+          const columnid = i.getAttribute('columnid');
+          
+          if (sectionid && sectionid !== '' && columnid && columnid !== '') {
+            this.handleHoverEnter(sectionid, columnid);
+          }
+        });
+      }
+  }
+
+  handleRemoveSectionInner = (e, sectionId, columnId) => { 
+    core.actions.layout
+      .removeSectionInner(
+        this.props.id, this.props.prop, 
+        sectionId,
+        columnId,
       );
     
       if (e) {
@@ -442,7 +466,7 @@ class Canvas extends Component {
     if (item.type === 'SECTION') {
       return (
         <Section
-          inner 
+          inner={columnId} 
           id={item.sectionId}
           provided={{
             draggableProps: {
