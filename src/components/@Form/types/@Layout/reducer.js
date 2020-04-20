@@ -6,6 +6,7 @@ import {
   LAYOUT_HOVER_ELEMENTS,
 
   LAYOUT_ADD_SECTION,
+  LAYOUT_ADD_SECTION_INNER,
   LAYOUT_EDIT_SECTION,
   LAYOUT_REMOVE_SECTION,
   LAYOUT_REMOVE_SECTION_INNER,
@@ -92,6 +93,32 @@ function reducerLayout(state, action) {
           [`${action.newSectionId}_c1`]: { type: null, size: 100 },
         },
       };
+    case LAYOUT_ADD_SECTION_INNER:
+      return {
+        ...state,
+        sections: {
+          ...state.sections,
+          [action.newSectionId]: { 
+            height: '100%', 
+            direction: 'column', 
+            columns: [`${action.newSectionId}_c1`] 
+          },
+        },
+        columns: Object
+          .keys(state.columns)
+          .reduce((p, c) => {
+            if (c === action.columnId) {
+              return { 
+                ...p, [c]: { 
+                  ...state.columns[c], 
+                  type: 'SECTION', 
+                  sectionId: action.newSectionId 
+                } 
+              };
+            }
+            return { ...p, [c]: state.columns[c] };
+          }, { [`${action.newSectionId}_c1`]: { type: null, size: 100 } })
+      }
     case LAYOUT_EDIT_SECTION:
       return { 
         ...state,
@@ -256,6 +283,7 @@ function reducer(state, action) {
     case LAYOUT_SELECT_ELEMENTS:
     case LAYOUT_MOVE_COLUMN:
     case LAYOUT_ADD_SECTION:
+    case LAYOUT_ADD_SECTION_INNER:
     case LAYOUT_EDIT_SECTION:
     case LAYOUT_REMOVE_SECTION:
     case LAYOUT_REMOVE_SECTION_INNER:

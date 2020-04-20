@@ -6,6 +6,7 @@ import {
   LAYOUT_HOVER_ELEMENTS,
 
   LAYOUT_ADD_SECTION,
+  LAYOUT_ADD_SECTION_INNER,
   LAYOUT_EDIT_SECTION,
   LAYOUT_REMOVE_SECTION,
   LAYOUT_REMOVE_SECTION_INNER,
@@ -59,6 +60,16 @@ export function addSection(id, prop, sectionId, newSectionId) {
     prop,
     sectionId,
     newSectionId,
+  };
+}
+
+export function addSectionInner(id, prop, newSectionId, columnId) {
+  return {
+    type: LAYOUT_ADD_SECTION_INNER,
+    id,
+    prop,
+    newSectionId,
+    columnId,
   };
 }
 
@@ -162,6 +173,7 @@ export default {
   select,
   hover,
   addSection,
+  addSectionInner,
   editSection,
   removeSection,
   removeSectionInner,

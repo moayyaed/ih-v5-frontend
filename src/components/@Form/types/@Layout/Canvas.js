@@ -174,6 +174,7 @@ class Canvas extends Component {
       this.handleRemoveSectionInner(e, value, columnId);
     }
   }
+
   handleAddSection = (sectionId) => {
     const i = Number(sectionId.slice(1));
     const newSectionId = getIdSection(i, this.props.sections);
@@ -360,16 +361,32 @@ class Canvas extends Component {
 
   handleDragDrop = (e, sectionId, columnId) => {
     const type = e.dataTransfer.getData('text');
-    core.actions.layout
-      .editColumn(
-        this.props.id, this.props.prop, 
-        columnId, { type },
-      )
-    core.actions.layout
-      .hover(
-        this.props.id, this.props.prop, 
-        { section: sectionId, column: columnId }
-      )
+
+    if (type === 'SECTION') {
+      const i = Number(this.props.list.slice(-1).slice(1));
+      const newSectionId = getIdSection(i, this.props.sections);
+      core.actions.layout
+        .addSectionInner(
+          this.props.id, this.props.prop, 
+          newSectionId, columnId,
+        )
+      core.actions.layout
+        .hover(
+          this.props.id, this.props.prop, 
+          { section: newSectionId, column: `${newSectionId}_c1` }
+        )
+    } else {
+      core.actions.layout
+        .editColumn(
+          this.props.id, this.props.prop, 
+          columnId, { type },
+        )
+      core.actions.layout
+        .hover(
+          this.props.id, this.props.prop, 
+          { section: sectionId, column: columnId }
+        )
+    }
   }
 
   handleClickButtonStub = (e) => {
