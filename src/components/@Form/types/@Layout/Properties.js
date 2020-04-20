@@ -21,7 +21,7 @@ const styles = {
   }
 }
 
-const BUTTONS = [ 'TEXT', 'IMAGE'];
+const BUTTONS = [ 'TEXT', 'IMAGE', 'SECTION'];
 
 
 class Properties extends PureComponent {

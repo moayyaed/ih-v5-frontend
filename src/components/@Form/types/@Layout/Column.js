@@ -102,8 +102,7 @@ function Column(props) {
           backgroundColor: drag ? 'rgba(62, 170, 245, 0.3)' : 'unset',
         }}
       >
-        <div>{props.id}</div>
-        <div>{props.item.type}</div>
+        {props.onRenderContent(props.item)}
       </div>
     </div>
   );

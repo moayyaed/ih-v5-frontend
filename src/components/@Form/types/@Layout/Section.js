@@ -10,6 +10,10 @@ import Column from './Column';
 import css from './main.module.css';
 
 const styles = {
+  root: {
+    width: '100%',
+    height: '100%',
+  },
   section: {
     position: 'relative',
     width: '100%',
@@ -34,6 +38,17 @@ const styles = {
     top: -26,
     left: 'calc(50% - 37.5px)',
   },
+  toolbarSectionInner: {
+    color: '#fff',
+    display: 'flex',
+    position: 'absolute',
+    width: 50,
+    height: 25,
+    boxShadow: '0 -2px 8px rgba(0,0,0,.05)',
+    backgroundColor: '#F57C00',
+    top: -26,
+    left: 'calc(50% - 25px)',
+  },
   toolbarSectionButton: {
     display: 'flex',
     justifyContent: 'center',
@@ -48,33 +63,43 @@ const styles = {
   },
 }
 
+function getToolbarStyle(inner, enabled) {
+  if (inner) {
+    return {
+      ...styles.toolbarSectionInner,
+      display: enabled ? 'flex' : 'none',
+    }
+  }
+  return {
+    ...styles.toolbarSection,
+    display: enabled ? 'flex' : 'none',
+  }
+}
 
 function ToolbarSection(props) {
+  const color = props.inner ? '#F57C00' : '#3eaaf5'; 
   return (
     <div
       {...props.dragHandleProps}
-      style={{
-        ...styles.toolbarSection,
-        display: props.enabled ? 'flex' : 'none',
-      }}
+      style={getToolbarStyle(props.inner, props.enabled)}
     >
-      <div 
+      {props.inner ? null : <div 
         style={styles.toolbarSectionButton} 
         className={css.toolbarSectionButton}
         onClick={(e) => props.onClick(e, 'b1', props.sectionId)} 
       >
         <AddIcon style={styles.toolbarSectionIcon} />
-      </div>
+      </div>}
       <div 
         style={styles.toolbarSectionButton} 
-        className={css.toolbarSectionButton} 
+        className={props.inner ? css.toolbarSectionButtonInner : css.toolbarSectionButton}
         onClick={(e) => props.onClick(e, 'b2', props.sectionId)}
       > 
         <DragHandleIcon style={styles.toolbarSectionIcon} />  
       </div>
       <div 
         style={styles.toolbarSectionButton} 
-        className={css.toolbarSectionButton}
+        className={props.inner ? css.toolbarSectionButtonInner : css.toolbarSectionButton}
         onClick={(e) => props.onClick(e, 'b3', props.sectionId)} 
       >
         <RemoveIcon style={styles.toolbarSectionIcon} />
@@ -88,8 +113,10 @@ function Section(props) {
   const hover = props.hover.section === props.id;
   const drag = props.drag.section === props.id;
   const active = props.isDragging ? props.isPreview : hover || select;
+  const color = props.inner ? '#F57C00' : '#3eaaf5'; 
   return (
     <div
+      style={styles.root}
       onDragLeave={(e) => props.onDragOut(e)} 
       onMouseLeave={(e) => props.isDragging || props.isDraggingGlobal || props.onHoverOut(e)}
     >
@@ -103,6 +130,7 @@ function Section(props) {
         }}
       >
         <ToolbarSection
+          inner={props.inner}
           enabled={active} 
           sectionId={props.id}
           dragHandleProps={props.provided.dragHandleProps} 
@@ -120,7 +148,7 @@ function Section(props) {
               style={{ 
                 ...styles.sectionBody,
                 flexDirection: props.item.direction, 
-                outline: active ? '1px solid #3eaaf5' : 'unset' 
+                outline: active ? `1px solid ${color}` : 'unset' 
               }}
             >
               {props.item.columns
@@ -147,6 +175,7 @@ function Section(props) {
                         onClickColumn={props.onClickColumn}
                         onContextMenu={props.onContextMenu}
                         onResizeColumn={props.onResizeColumn}
+                        onRenderContent={props.onRenderContent}
                       />
                     )}
                   </Draggable>

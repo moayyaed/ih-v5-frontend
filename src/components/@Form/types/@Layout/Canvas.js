@@ -136,7 +136,7 @@ class Canvas extends Component {
       const sectionid = i.getAttribute('sectionid');
       const columnid = i.getAttribute('columnid');
       
-      if (sectionid && sectionid !== '' && columnid && columnid !== '') {
+      if (found === false && sectionid && sectionid !== '' && columnid && columnid !== '') {
         found = { sectionId: sectionid, columnId: columnid };
       }
     });
@@ -414,6 +414,9 @@ class Canvas extends Component {
   }
 
   handleContextMenu = (e, direction, sectionId, columnId) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     const pos = { left: e.clientX, top: e.clientY };
     const scheme = {
       main: [
@@ -433,6 +436,44 @@ class Canvas extends Component {
     core.actions.layout
       .resizeColumns(this.props.id, this.props.prop,
         columnIdA, valueA, columnIdB, valueB);
+  }
+
+  handleRenderContent = (item) => {
+    if (item.type === 'SECTION') {
+      return (
+        <Section
+          inner 
+          id={item.sectionId}
+          provided={{
+            draggableProps: {
+              style: {}
+            },
+            innerRef: null,
+          }}
+          select={this.props.select}
+          hover={this.props.hover}
+          drag={this.props.drag}
+          item={this.props.sections[item.sectionId]}
+          columns={this.props.columns}
+          isDraggingGlobal={this.props.isDragging}
+          isDragging={false}
+          isPreview={false}
+          onClickToolbar={this.handleClickToolbar}
+          onClickColumn={this.handleClickColumn}
+          onHoverEnter={this.handleHoverEnter}
+          onHoverOut={this.handleHoverOut}
+          onDragEnter={this.handleDragEnter}
+          onDragOut={this.handleDragOut}
+          onDragDrop={this.handleDragDrop}
+          onContextMenu={this.handleContextMenu}
+          onResizeColumn={this.handleResizeColumn}
+          onRenderContent={this.handleRenderContent}
+        />
+      );
+    }
+    return (
+      <div>{item.type}</div>
+    );
   }
 
   componentDidUpdate() {
@@ -499,6 +540,7 @@ class Canvas extends Component {
                         onDragDrop={this.handleDragDrop}
                         onContextMenu={this.handleContextMenu}
                         onResizeColumn={this.handleResizeColumn}
+                        onRenderContent={this.handleRenderContent}
                       />
                     )}
                   </Draggable>
