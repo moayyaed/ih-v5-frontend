@@ -10,7 +10,7 @@ const styles = {
     right: -3,
     cursor: 'col-resize',
     zIndex: 1000,
-    background: '#9e9e9e20',
+    // background: '#9e9e9e20',
   },
   vert: {
     position: 'absolute',
@@ -20,7 +20,7 @@ const styles = {
     bottom: -3,
     cursor: 'row-resize',
     zIndex: 1000,
-    background: '#9e9e9e20',
+    // background: '#9e9e9e20',
   }
 }
 
@@ -150,6 +150,9 @@ class SizeControl extends PureComponent {
   }
 
   render() {
+    if (this.props.disabled) {
+      return null;
+    }
     return (
       <div
         ref={this.linked} 

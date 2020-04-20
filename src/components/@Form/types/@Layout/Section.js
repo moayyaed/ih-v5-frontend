@@ -134,8 +134,9 @@ function Section(props) {
                         select={props.select.column}
                         hover={props.hover.column}
                         drag={props.drag.column}
-                        direction={props.item.direction}
                         item={props.columns[id]}
+                        direction={props.item.direction}
+                        disabledSizeControl={index === props.item.columns.length - 1}
                         isDraggingGlobal={props.isDraggingGlobal}
                         isDragging={props.isDragging || snapshot1.isDraggingOver}
                         isPreview={snapshot2.isDragging}

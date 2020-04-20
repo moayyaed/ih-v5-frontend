@@ -91,7 +91,8 @@ function Column(props) {
         dragHandleProps={props.provided.dragHandleProps}
       />
         <SizeControl
-          type={props.direction} 
+          type={props.direction}
+          disabled={props.disabledSizeControl}
           onStop={props.onResizeColumn}
         />
       <div 
