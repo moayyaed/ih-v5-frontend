@@ -309,11 +309,14 @@ class Canvas extends Component {
   }
 
   handleDragEnter = (sectionId, columnId) => {
-    core.actions.layout
-      .data(
-        this.props.id, this.props.prop, 
-        { drag: { section: null, column: columnId } }
-      )
+    if (columnId && this.props.drag.column !== columnId) {
+      core.actions.layout
+        .data(
+          this.props.id, this.props.prop, 
+          { drag: { section: null, column: columnId } }
+        )
+    }
+
   }
 
   handleDragOut = (e) => {
