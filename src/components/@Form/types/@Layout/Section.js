@@ -161,6 +161,7 @@ function Section(props) {
               style={{ 
                 ...styles.sectionBody,
                 flexDirection: props.item.direction, 
+                transition: active ? 'outline 0.5s ease' : 'none',
                 outline: active ? `1px solid ${color}` : 'unset' 
               }}
             >
