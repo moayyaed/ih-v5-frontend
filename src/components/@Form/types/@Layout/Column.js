@@ -84,7 +84,7 @@ function Column(props) {
       onDragEnter={() => props.onDragEnter(props.item.type === null && props.sectionId, props.item.type === null && props.id)}
       onDrop={(e) => props.item.type === null && props.onDragDrop(e, props.sectionId, props.id)}
       onMouseEnter={() => props.isDragging || props.isDraggingGlobal || props.onHoverEnter(props.sectionId, props.id)}
-      onMouseLeave={(e) => props.isDragging || props.isDraggingGlobal || props.onHoverOut(props.sectionId, props.id)}
+      onMouseLeave={(e) => props.isDragging || props.isDraggingGlobal || props.onHoverOut(e, props.sectionId, props.id)}
     >
       <ToolbarColumn 
         enabled={active} 

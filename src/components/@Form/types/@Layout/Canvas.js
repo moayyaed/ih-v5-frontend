@@ -92,12 +92,20 @@ class Canvas extends Component {
       )
   }
 
-  handleHoverOut = (sectionId, columnId) => {
-    core.actions.layout
-      .removeHover(
-        this.props.id, this.props.prop, 
-        sectionId, columnId
-      )
+  handleHoverOut = (e, sectionId, columnId) => {
+    if (e.relatedTarget.parentNode.className === 'toolbar') {
+      core.actions.layout
+        .removeHover(
+          this.props.id, this.props.prop, 
+          null, columnId
+        )
+    } else {
+      core.actions.layout
+        .removeHover(
+          this.props.id, this.props.prop, 
+          sectionId, columnId
+        )
+    }
   }
 
   setCheckHover = (e) => {

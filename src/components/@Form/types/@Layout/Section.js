@@ -73,6 +73,7 @@ function ToolbarSection(props) {
       <div
         {...props.dragHandleProps}
         style={{ ...styles.toolbarSectionInner, display: props.enabled ? 'flex' : 'none' }}
+        className="toolbar"
       >
         <div 
           style={styles.toolbarSectionButton} 
@@ -95,6 +96,7 @@ function ToolbarSection(props) {
     <div
       {...props.dragHandleProps}
       style={{ ...styles.toolbarSection, display: props.enabled ? 'flex' : 'none' }}
+      className="toolbar"
     >
       {props.inner ? null : <div 
         style={styles.toolbarSectionButton} 
