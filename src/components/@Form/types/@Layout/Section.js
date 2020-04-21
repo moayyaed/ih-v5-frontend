@@ -4,7 +4,7 @@ import { Droppable, Draggable } from 'react-beautiful-dnd';
 import DragHandleIcon from '@material-ui/icons/DragHandle';
 import SettingIcon from '@material-ui/icons/ViewModule';
 import AddIcon from '@material-ui/icons/Add';
-import RemoveIcon from '@material-ui/icons/Remove';
+import RemoveIcon from '@material-ui/icons/Close';
 
 import Column from './Column';
 
