@@ -64,7 +64,7 @@ function ToolbarColumn(props) {
 
 function Column(props) {
   const select = props.select === props.id;
-  const hover = props.hover === props.id;
+  const hover = props.hover[props.id] == true;
   const drag = props.drag === props.id;
   const active = props.isDragging ? props.isPreview : hover || select;
   return (
@@ -84,6 +84,7 @@ function Column(props) {
       onDragEnter={() => props.onDragEnter(props.item.type === null && props.sectionId, props.item.type === null && props.id)}
       onDrop={(e) => props.item.type === null && props.onDragDrop(e, props.sectionId, props.id)}
       onMouseEnter={() => props.isDragging || props.isDraggingGlobal || props.onHoverEnter(props.sectionId, props.id)}
+      onMouseLeave={(e) => props.isDragging || props.isDraggingGlobal || props.onHoverOut(props.sectionId, props.id)}
     >
       <ToolbarColumn 
         enabled={active} 

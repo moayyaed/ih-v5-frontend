@@ -4,6 +4,8 @@ import {
 
   LAYOUT_SELECT_ELEMENTS,
   LAYOUT_HOVER_ELEMENTS,
+  LAYOUT_FORCE_HOVER,
+  LAYOUT_REMOVE_HOVER,
 
   LAYOUT_ADD_SECTION,
   LAYOUT_ADD_SECTION_INNER,
@@ -67,7 +69,52 @@ function reducerLayout(state, action) {
     case LAYOUT_SET_DATA:
       return { ...state, ...action.data };
     case LAYOUT_HOVER_ELEMENTS:
-      return { ...state, hover: { ...state.hover, ...action.values } };
+      return { 
+        ...state, 
+        hover: { 
+          ...state.hover, 
+          sections: {
+            ...state.hover.sections,
+            [action.values.section]: true,
+          },
+          columns: {
+            ...state.hover.columns,
+            [action.values.column]: true,
+          },
+          check: null,
+        } 
+      };
+    case LAYOUT_FORCE_HOVER:
+      return { 
+        ...state, 
+        hover: { 
+          ...state.hover,
+          ...action.data,
+        } 
+      };
+    case LAYOUT_REMOVE_HOVER:
+      return { 
+        ...state, 
+        hover: { 
+          ...state.hover,
+          sections: Object
+            .keys(state.hover.sections)
+            .reduce((p, c) => {
+              if (c === action.sectionId) {
+                return p;
+              }
+              return { ...p, [c]: state.hover.sections[c] };
+            }, {}),
+          columns: Object
+          .keys(state.hover.columns)
+          .reduce((p, c) => {
+            if (c === action.columnId) {
+              return p;
+            }
+            return { ...p, [c]: state.hover.columns[c] };
+          }, {}),
+        } 
+      };
     case LAYOUT_SELECT_ELEMENTS:
       return { ...state, select: action.values };
     case LAYOUT_ADD_SECTION:
@@ -281,6 +328,8 @@ function reducer(state, action) {
     case LAYOUT_SET_DATA:
     case LAYOUT_HOVER_ELEMENTS:
     case LAYOUT_SELECT_ELEMENTS:
+    case LAYOUT_FORCE_HOVER:
+    case LAYOUT_REMOVE_HOVER:
     case LAYOUT_MOVE_COLUMN:
     case LAYOUT_ADD_SECTION:
     case LAYOUT_ADD_SECTION_INNER:

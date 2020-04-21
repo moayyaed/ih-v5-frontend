@@ -92,39 +92,20 @@ class Canvas extends Component {
       )
   }
 
-  handleHoverOut = (e) => {
-    if (this.props.hover.section !== null && this.props.hover.column !== null) {
-      let check = false;
-
-      const elements = window.document.elementsFromPoint(e.clientX, e.clientY);
-
-      elements.forEach(i => {
-        const sectionid = i.getAttribute('sectionid');
-        const columnid = i.getAttribute('columnid');
-        
-        if (sectionid && sectionid !== '' && columnid && columnid !== '') {
-          check = true;
-        }
-      });
-
-      if (!check) {
-        core.actions.layout
-        .hover(
-          this.props.id, this.props.prop, 
-          { section: null, column: null }
-        )
-      }
-    }
+  handleHoverOut = (sectionId, columnId) => {
+    core.actions.layout
+      .removeHover(
+        this.props.id, this.props.prop, 
+        sectionId, columnId
+      )
   }
 
   setCheckHover = (e) => {
     core.actions.layout
-      .hover(
+      .forceHover(
         this.props.id, this.props.prop, 
-        { 
-          ...this.props.hover,
-          check: { x: e.clientX, y: e.clientY }, 
-        });
+        { check: { x: e.clientX, y: e.clientY } }
+      );
   }
 
   handleCheckHover = (x, y) => {
@@ -145,12 +126,13 @@ class Canvas extends Component {
       core.actions.layout
         .hover(
           this.props.id, this.props.prop, 
-          { section: found.sectionId, column: found.columnId, check: null });
+          { section: found.sectionId, column: found.columnId });
     } else {
       core.actions.layout
-        .hover(
+        .forceHover(
           this.props.id, this.props.prop, 
-          { section: null, column: null, check: null });
+          { sections: {}, columns: {}, check: null, }
+        );
     }
   }
 
@@ -256,7 +238,7 @@ class Canvas extends Component {
       core.actions.layout
       .hover(
         this.props.id, this.props.prop, 
-        { section: result.draggableId, column: null }
+        { section: result.draggableId, column: 'none' }
       )
     }
   }
@@ -402,8 +384,8 @@ class Canvas extends Component {
         column: null,
       },
       hover: {
-        section: 's1',
-        column: 's1_c1',
+        sections: { s1: true },
+        columns: { s1_c1: true },
       },
       list: ['s1'],
       sections: { s1: { height: 100, direction: 'row', columns: ['s1_c1'] } },

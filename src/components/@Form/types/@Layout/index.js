@@ -53,8 +53,8 @@ class Layout extends PureComponent {
         column: null,
       },
       hover: {
-        section: null,
-        column: null,
+        sections: {},
+        columns: {},
       },
       drag: {
         section: null,
@@ -112,7 +112,7 @@ class Layout extends PureComponent {
         .data(
           this.props.id, this.props.options.prop, 
           { 
-            hover: { section: null, column: null },
+            hover: { sections: {}, columns: {} },
             select: { section: null, column: null },
             drag: { section: null, column: null },
           },

@@ -4,6 +4,8 @@ import {
 
   LAYOUT_SELECT_ELEMENTS,
   LAYOUT_HOVER_ELEMENTS,
+  LAYOUT_FORCE_HOVER,
+  LAYOUT_REMOVE_HOVER,
 
   LAYOUT_ADD_SECTION,
   LAYOUT_ADD_SECTION_INNER,
@@ -41,6 +43,25 @@ export function hover(id, prop, values) {
     id,
     prop,
     values,
+  };
+}
+
+export function forceHover(id, prop, data) {
+  return {
+    type: LAYOUT_FORCE_HOVER,
+    id,
+    prop,
+    data,
+  };
+}
+
+export function removeHover(id, prop, sectionId, columnId) {
+  return {
+    type: LAYOUT_REMOVE_HOVER,
+    id,
+    prop,
+    sectionId,
+    columnId,
   };
 }
 
@@ -172,6 +193,8 @@ export default {
   clear,
   select,
   hover,
+  forceHover,
+  removeHover,
   addSection,
   addSectionInner,
   editSection,

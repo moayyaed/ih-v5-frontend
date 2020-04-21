@@ -123,7 +123,7 @@ function ToolbarSection(props) {
 
 function Section(props) {
   const select = props.select.section === props.id;
-  const hover = props.hover.section === props.id;
+  const hover = props.hover.sections[props.id] == true;
   const drag = props.drag.section === props.id;
   const active = props.isDragging ? props.isPreview : hover || select;
   const color = props.inner ? '#F57C00' : '#3eaaf5'; 
@@ -131,7 +131,6 @@ function Section(props) {
     <div
       style={props.inner ? styles.rootInner : props.root}
       onDragLeave={(e) => props.onDragOut(e)} 
-      onMouseLeave={(e) => props.isDragging || props.isDraggingGlobal || props.onHoverOut(e)}
     >
       <div 
         {...props.provided.draggableProps}
@@ -174,7 +173,7 @@ function Section(props) {
                         sectionId={props.id} 
                         provided={provided}
                         select={props.select.column}
-                        hover={props.hover.column}
+                        hover={props.hover.columns}
                         drag={props.drag.column}
                         item={props.columns[id]}
                         direction={props.item.direction}
@@ -183,6 +182,7 @@ function Section(props) {
                         isDragging={props.isDragging || snapshot1.isDraggingOver}
                         isPreview={snapshot2.isDragging}
                         onHoverEnter={props.onHoverEnter}
+                        onHoverOut={props.onHoverOut}
                         onDragEnter={props.onDragEnter}
                         onDragDrop={props.onDragDrop}
                         onClickToolbar={props.onClickToolbar}
