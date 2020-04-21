@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import core from 'core';
 
 import DragHandleIcon from '@material-ui/icons/DragHandle';
 import SizeControl from './SizeControl';
