@@ -33,8 +33,7 @@ const styles = {
     alignItems: 'stretch',
     position: 'absolute',
     width: '100%',
-    height: 'calc(100% - 130px)',
-    top: 130,
+    height: '100%',
     padding: 16,
   },
   text: {
@@ -59,7 +58,7 @@ function disabled(v) {
   return true;
 }
 
-class Properties extends PureComponent {
+class Properties2 extends PureComponent {
 
   handleDragStart = (e, id) => {
     e.dataTransfer.setData('text', id);
@@ -108,18 +107,36 @@ class Properties extends PureComponent {
   
   render() {
     return (
-      <div style={styles.root} >
-        {BUTTONS.map(id =>
-          <div 
-            draggable 
-            key={id} 
-            style={styles.button} 
-            onDragStart={(e) => this.handleDragStart(e, id)} 
-            onDragEnd={this.handleDragEnd}
-          >
-            {id}
-          </div>
-        )}
+      <div style={styles.root2} >
+          <div style={styles.text}>{`select: ${this.props.select || 'null'}`}</div>
+          <FormControl disabled={!Boolean(this.props.select)}>
+            <InputLabel shrink id="demo-simple-select-label">Direction</InputLabel>
+            <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={this.props.section.direction || 'none'}
+                onChange={this.handleChange}
+              >
+                <MenuItem value="none">None</MenuItem>
+                <MenuItem value="row">Column</MenuItem>
+                <MenuItem value="column">Row</MenuItem>
+              </Select>
+          </FormControl>
+          <Typography style={styles.text2} id="discrete-slider" gutterBottom>
+            Height
+          </Typography>
+          <Slider
+            disabled={disabled(this.props.section.height)}
+            value={this.props.section.height || 0}
+            aria-labelledby="discrete-slider"
+            valueLabelDisplay="auto"
+            step={25}
+            marks
+            min={25}
+            max={400}
+            onClick={this.handleClickSlider}
+            onChange={this.handleChangeSlider}
+          />
       </div>
 
     );
@@ -127,4 +144,4 @@ class Properties extends PureComponent {
 }
 
 
-export default Properties;
+export default Properties2;

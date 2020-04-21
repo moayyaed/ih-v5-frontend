@@ -9,6 +9,7 @@ import {
 
 import Canvas from './Canvas';
 import Properties from './Properties';
+import Properties2 from './Properties2';
 
 const styles = {
   root: {
@@ -35,7 +36,7 @@ const state = {
       direction: 'column',
       first: "properties",
       second: "toolbar2",
-      splitPercentage: 60,
+      splitPercentage: 32,
     },
     splitPercentage: 80,
   },
@@ -155,6 +156,15 @@ class Layout extends PureComponent {
     if (id === 'properties') {
       return (
         <Properties
+          id={this.props.id}
+          prop={this.props.options.prop}
+        />
+      )
+    }
+
+    if (id === 'toolbar2') {
+      return (
+        <Properties2
           id={this.props.id}
           prop={this.props.options.prop}
           select={this.props.data.select ? this.props.data.sections[this.props.data.select.section] && this.props.data.select.section : null}
