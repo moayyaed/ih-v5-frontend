@@ -8,7 +8,6 @@ import RemoveIcon from '@material-ui/icons/Close';
 
 import Column from './Column';
 
-import css from './main.module.css';
 
 const styles = {
   root: {
@@ -40,6 +39,7 @@ const styles = {
     backgroundColor: '#03A9F4',
     top: -26,
     left: 'calc(50% - 37.5px)',
+    zIndex: 1110,
   },
   toolbarSectionInner: {
     color: '#fff',
@@ -73,17 +73,18 @@ function ToolbarSection(props) {
       <div
         {...props.dragHandleProps}
         style={{ ...styles.toolbarSectionInner, display: props.enabled ? 'flex' : 'none' }}
+        className="sectiontoolbarinner"
       >
         <div 
           style={styles.toolbarSectionButton} 
-          className={css.toolbarSectionButtonInner}
+          className="toolbarSectionButtonInner"
           onClick={(e) => props.onClick(e, 'b2', props.sectionId)}
         > 
           <SettingIcon style={styles.toolbarSectionIcon} />  
         </div>
         <div 
           style={styles.toolbarSectionButton} 
-          className={css.toolbarSectionButtonInner}
+          className="toolbarSectionButtonInner"
           onClick={(e) => props.onClick(e, 'b5', props.sectionId, props.inner)} 
         >
           <RemoveIcon style={styles.toolbarSectionIcon} />
@@ -95,24 +96,25 @@ function ToolbarSection(props) {
     <div
       {...props.dragHandleProps}
       style={{ ...styles.toolbarSection, display: props.enabled ? 'flex' : 'none' }}
+      className="sectiontoolbar"
     >
       {props.inner ? null : <div 
         style={styles.toolbarSectionButton} 
-        className={css.toolbarSectionButton}
+        className="toolbarSectionButton"
         onClick={(e) => props.onClick(e, 'b1', props.sectionId)} 
       >
         <AddIcon style={styles.toolbarSectionIcon} />
       </div>}
       <div 
         style={styles.toolbarSectionButton} 
-        className={css.toolbarSectionButton}
+        className="toolbarSectionButton"
         onClick={(e) => props.onClick(e, 'b2', props.sectionId)}
       > 
         <DragHandleIcon style={styles.toolbarSectionIcon} />  
       </div>
       <div 
         style={styles.toolbarSectionButton} 
-        className={css.toolbarSectionButton}
+        className="toolbarSectionButton"
         onClick={(e) => props.onClick(e, 'b3', props.sectionId)} 
       >
         <RemoveIcon style={styles.toolbarSectionIcon} />
@@ -139,8 +141,10 @@ function Section(props) {
         style={{ 
           ...styles.section, 
           ...props.provided.draggableProps.style, 
-          height: props.item.height 
+          height: props.item.height,
+          pointerEvents: 'all',
         }}
+        className={`section${props.inner ? 'inner' : ''}`}
       >
         <ToolbarSection
           inner={props.inner}
@@ -164,6 +168,7 @@ function Section(props) {
                 transition: active ? 'outline 0.5s ease' : 'none',
                 outline: active ? `1px solid ${color}` : 'unset' 
               }}
+              className={`sectionbody${props.inner ? 'inner' : ''}`}
             >
               {props.item.columns
                 .map((id, index) =>

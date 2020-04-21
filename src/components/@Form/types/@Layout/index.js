@@ -10,6 +10,8 @@ import {
 import Canvas from './Canvas';
 import Properties from './Properties';
 
+import './main.css';
+
 const styles = {
   root: {
     width: '100%',

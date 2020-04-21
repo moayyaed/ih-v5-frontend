@@ -37,7 +37,7 @@ export function clear() {
 
 export function hover(id, prop, values) {
   return {
-    type: LAYOUT_HOVER_ELEMENTS,
+    type: LAYOUT_HOVER_ELEMENTS + 1,
     id,
     prop,
     values,

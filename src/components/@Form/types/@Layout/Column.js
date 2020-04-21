@@ -54,6 +54,7 @@ function ToolbarColumn(props) {
     <div
       {...props.dragHandleProps}
       style={{ ...styles.toolbarColumn, display: props.enabled ? 'block' : 'none'}}
+      className="columntoolbar"
       onClick={(e) => props.onClick(e, 'b4', props.columnId)}
     >
       <DragHandleIcon style={styles.toolbarColumnIcon} />
@@ -77,6 +78,7 @@ function Column(props) {
         ...getStyle(props.direction, props.item.size, active, drag),
         ...props.provided.draggableProps.style,
       }}
+      className="column"
       onClick={e => props.onClickColumn(e)}
       onContextMenu={e => props.onContextMenu(e, props.direction, props.sectionId, props.id)}
       onDragEnter={() => props.onDragEnter(props.item.type === null && props.sectionId, props.item.type === null && props.id)}

@@ -208,7 +208,7 @@ class Canvas extends Component {
           const columnid = i.getAttribute('columnid');
           
           if (sectionid && sectionid !== '' && columnid && columnid !== '') {
-            this.handleHoverEnter(sectionid, columnid);
+            // this.handleHoverEnter(sectionid, columnid);
           }
         });
       }

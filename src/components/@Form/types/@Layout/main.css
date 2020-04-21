@@ -1,0 +1,80 @@
+.toolbarSectionButton:hover {
+  background-color: #0288d1;
+}
+.toolbarSectionButton:active {
+  background-color: #0288d1;
+}
+
+.toolbarSectionButtonInner:hover {
+  background-color: #c36402;
+}
+.toolbarSectionButtonInner:active {
+  background-color: #c36402;
+}
+
+@keyframes expand {
+  from {
+    height: 0;
+  }
+}
+
+.section:hover {
+  outline: 1px solid #3eaaf5!important 
+}
+
+.section:hover > .sectiontoolbar {
+  display: flex!important; 
+}
+
+
+.sectioninner:hover {
+  outline: 1px solid #F57C00!important 
+}
+
+.sectioninner:hover > .sectiontoolbarinner {
+  display: flex!important; 
+}
+
+
+.column:hover {
+  border: 1px dashed #6d7882!important 
+}
+
+.column:hover > .columntoolbar {
+  display: block!important;
+}
+
+/*
+.sectioninner:hover .sectiontoolbarinner {
+  outline: 1px solid #F57C00!important 
+}
+
+
+
+.section:hover .sectiontoolbar {
+  display: flex!important;
+}
+
+.section:hover .sectionbody {
+  outline: 1px solid #3eaaf5!important 
+}
+
+
+.sectioninner:hover .sectiontoolbarinner {
+  display: flex!important;
+}
+
+.sectioninner:hover .sectionbodyinner {
+  outline: 1px solid #F57C00!important 
+}
+
+*/
+
+/*
+.column:hover {
+  border: 1px dashed #6d7882!important 
+}
+
+
+*/
+
