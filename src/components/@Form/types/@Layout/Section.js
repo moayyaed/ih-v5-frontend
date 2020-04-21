@@ -74,6 +74,7 @@ function ToolbarSection(props) {
         {...props.dragHandleProps}
         style={{ ...styles.toolbarSectionInner, display: props.enabled ? 'flex' : 'none' }}
         className="toolbar"
+        onMouseLeave={props.onHoverOut}
       >
         <div 
           style={styles.toolbarSectionButton} 
@@ -97,6 +98,7 @@ function ToolbarSection(props) {
       {...props.dragHandleProps}
       style={{ ...styles.toolbarSection, display: props.enabled ? 'flex' : 'none' }}
       className="toolbar"
+      onMouseLeave={props.onHoverOut}
     >
       {props.inner ? null : <div 
         style={styles.toolbarSectionButton} 
@@ -148,7 +150,8 @@ function Section(props) {
           enabled={active} 
           sectionId={props.id}
           dragHandleProps={props.provided.dragHandleProps} 
-          onClick={props.onClickToolbar} 
+          onClick={props.onClickToolbar}
+          onHoverOut={(e) => props.isDragging || props.isDraggingGlobal || props.onHoverOut(e, props.id, null)} 
         />
         <Droppable 
           droppableId={props.id} 

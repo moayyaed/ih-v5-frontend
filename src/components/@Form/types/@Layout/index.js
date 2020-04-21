@@ -60,7 +60,19 @@ class Layout extends PureComponent {
         section: null,
         column: null,
       },
-      
+      list: ['s1', 's2', 's3'],
+      sections: {
+        s1: { height: 50, direction: 'row', columns: ['s1_c1'] },
+        s2: { height: 370, direction: 'row', columns: ['s2_c1', 's2_c2'] },
+        s3: { height: 50, direction: 'row', columns: ['s3_c1'] },
+      },
+      columns: {
+        s1_c1: { type: null, size: 100 },
+        s2_c1: { type: null, size: 30 },
+        s2_c2: { type: null, size: 70  },
+        s3_c1: { type: null, size: 100 },
+      },
+      /*
       list: ['s1', 's2', 's3'],
       sections: {
         s1: { height: 50, direction: 'row', columns: ['s1_c1'] },
@@ -81,6 +93,7 @@ class Layout extends PureComponent {
         s5_c1: { type: null, size: 50 },
         s5_c2: { type: null, size: 50 },
       },
+      */
     });
   }
 
