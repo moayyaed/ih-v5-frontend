@@ -93,7 +93,7 @@ class Canvas extends Component {
   }
 
   handleHoverOut = (e, sectionId, columnId) => {
-    if (e.relatedTarget.parentNode.className === 'toolbar') {
+    if (e.relatedTarget && e.relatedTarget.parentNode && e.relatedTarget.parentNode.className === 'toolbar') {
       core.actions.layout
         .removeHover(
           this.props.id, this.props.prop, 
@@ -513,6 +513,10 @@ class Canvas extends Component {
     );
   }
 
+  handleDragUpdate = (a, b, c, d) => {
+    console.log(a, b, c, d)
+  }
+
   componentDidUpdate() {
     if (this.props.hover && this.props.hover.check) {
       this.handleCheckHover(this.props.hover.check.x, this.props.hover.check.y);
@@ -543,7 +547,7 @@ class Canvas extends Component {
       );
     }
     return (
-      <DragDropContext onDragStart={this.handleDragStart} onDragEnd={this.handleDragEnd}>
+      <DragDropContext onDragStart={this.handleDragStart} onDragUpdate={this.handleDragUpdate} onDragEnd={this.handleDragEnd}>
         <Droppable droppableId="droppable" type="section" >
         {(provided, snapshot1) => (
           <Scrollbars style={{width: '100%', height: '100%' }}>

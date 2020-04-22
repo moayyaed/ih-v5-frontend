@@ -19,6 +19,7 @@
     "react-ace": "^8.1.0",
     "react-base-table": "^1.9.1",
     "react-beautiful-dnd": "^13.0.0",
+    "react-color": "^2.18.0",
     "react-custom-scrollbars": "^4.2.1",
     "react-customscroll": "^4.2.0",
     "react-dnd": "9.5.1",

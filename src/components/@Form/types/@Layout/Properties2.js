@@ -108,7 +108,7 @@ class Properties2 extends PureComponent {
   render() {
     return (
       <div style={styles.root2} >
-          <div style={styles.text}>{`select: ${this.props.select || 'null'}`}</div>
+          <div style={styles.text}>{`select: ${this.props.select || ''}`}</div>
           <FormControl disabled={!Boolean(this.props.select)}>
             <InputLabel shrink id="demo-simple-select-label">Direction</InputLabel>
             <Select

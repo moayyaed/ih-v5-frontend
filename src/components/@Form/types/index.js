@@ -9,6 +9,7 @@ import Droplist from './@Droplist';
 import Tags from './@Tags';
 
 import Layout from './@Layout';
+import Container from './@Container';
 import SmartButton from './@SmartButton';
 import Table from './@Table';
 import Code from './@Code';
@@ -35,6 +36,8 @@ function getComponentByType(type) {
       return Tags;
     case 'layout':
       return Layout;
+    case 'сontainer':
+      return Container;
     case 'smartbutton':
       return SmartButton;
     case 'code':
