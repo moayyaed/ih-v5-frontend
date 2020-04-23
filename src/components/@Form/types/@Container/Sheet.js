@@ -29,6 +29,27 @@ const styles = {
 }
 
 
+function Element(props) {
+  return (
+    <Draggable
+      bounds=".parent"
+      scale={props.scale}
+      position={props.item}
+      onStart={(e, data) => props.onStartMove(e, props.id, data)}
+      onDrag={(e, data) => props.onMove(e, props.id, data)}
+      onStop={(e, data) => props.onStopMove(e, props.id, data)}
+    >
+      <div
+        style={{ 
+          width: props.item.w, 
+          height: props.item.h, 
+          outline: '1px solid red' 
+        }} 
+      />
+    </Draggable>
+  );
+}
+
 class Sheet extends Component {
 
   handleMouseUpContainer = (e) => {
@@ -101,8 +122,27 @@ class Sheet extends Component {
         { x: data.x, y: data.y }
       );
   }
-  
 
+  handleStartMoveElement = (e, id, data) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  handleMoveElement = (e, id, data) => {
+
+  }
+
+  handleStopMoveElement = (e, id, data) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    core.actions.container
+      .editElement(
+        this.props.id, this.props.prop,
+        id, { x: data.x, y: data.y }
+      );
+  }
+  
   linkContainer = (e) => {
     this.container = e;
   } 
@@ -111,7 +151,7 @@ class Sheet extends Component {
     this.sheet = e;
   } 
 
-  render({ settings } = this.props) {
+  render({ settings, list, elements } = this.props) {
     return (
       <div style={styles.root}>
         <div 
@@ -133,7 +173,19 @@ class Sheet extends Component {
               style={{ ...styles.sheet, width: settings.w, height: settings.h }}
               onClick={(e) => this.handleClickSheet}
               onContextMenu={(e) => this.handleContextMenuSheet}
-            />
+            >
+              {list.map(id => 
+                <Element 
+                  key={id}
+                  id={id}
+                  scale={settings.scale} 
+                  item={elements[id]}
+                  onStartMove={this.handleStartMoveElement}
+                  onMove={this.handleMoveElement}
+                  onStopMove={this.handleStopMoveElement} 
+                />
+              )}
+            </Paper>
           </Draggable>
         </div>
       </div>

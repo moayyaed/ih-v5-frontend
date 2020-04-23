@@ -3,6 +3,7 @@ import {
   CONTAINER_CLEAR_DATA,
 
   CONTAINER_SET_SETTINGS,
+  CONTAINER_EDIT_ELEMENT,
 } from './constants';
 
 
@@ -18,6 +19,17 @@ function reducerContainer(state, action) {
           ...action.data 
         }
       };
+    case CONTAINER_EDIT_ELEMENT:
+      return { 
+        ...state,
+        elements: {
+          ...state.elements,
+          [action.elementId]: {
+            ...state.elements[action.elementId],
+            ...action.data,
+          },
+        }
+      };
     default:
       return state;
   }
@@ -30,6 +42,7 @@ function reducer(state, action) {
       return { };
     case CONTAINER_SET_DATA:
     case CONTAINER_SET_SETTINGS:
+    case CONTAINER_EDIT_ELEMENT:
       return { 
         ...state, 
         data: {
