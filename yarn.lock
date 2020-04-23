@@ -8931,7 +8931,7 @@ react-dom@^16.12.0, react-dom@^16.3.0:
     prop-types "^15.6.2"
     scheduler "^0.18.0"
 
-"react-draggable@https://github.com/fast0490f/react-draggable":
+"react-draggable@https://github.com/fast0490f/react-draggable#fd4ba015cfd5d1b0d7a187c9b0d28078dfecd7a2":
   version "4.1.0"
   resolved "https://github.com/fast0490f/react-draggable#fd4ba015cfd5d1b0d7a187c9b0d28078dfecd7a2"
   dependencies:
