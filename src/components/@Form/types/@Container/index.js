@@ -49,10 +49,10 @@ class Container extends PureComponent {
       .data(
         this.props.id, this.props.options.prop, { 
           settings: {
-            x: 220,
-            y: 85,
-            w: 350,
-            h: 350,
+            x: 95,
+            y: 50,
+            w: 650,
+            h: 400,
             scale: 1,
           },
           list: ['1', '2', '3'],
