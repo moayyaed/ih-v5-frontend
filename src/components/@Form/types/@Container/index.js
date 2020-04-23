@@ -6,6 +6,8 @@ import {
   RemoveButton, ExpandButton, Separator, 
 } from 'react-mosaic-component';
 
+import Sheet from './Sheet';
+
 
 const styles = {
   root: {
@@ -17,7 +19,7 @@ const styles = {
 const EMPTY_ARRAY = [];
 
 const TITLES = {
-  canvas: 'Container',
+  sheet: 'Container',
   properties: 'Toolbar1',
   toolbar2: 'Toolbar2',
 
@@ -27,7 +29,7 @@ const state = {
   windows: {
     mode: 0,
     direction: 'row',
-    first: "canvas",
+    first: "sheet",
     second: {
       direction: 'column',
       first: "properties",
@@ -45,9 +47,13 @@ class Container extends PureComponent {
   componentDidMount() {
     core.actions.container
       .data(
-        this.props.id, this.props.options.prop, 
-        { }
-      );
+        this.props.id, this.props.options.prop, { 
+          settings: {
+            x: 300,
+            y: 150,
+            scale: 1,
+          }
+        });
   }
 
   handleChangeWindows = (data) => {
@@ -69,8 +75,14 @@ class Container extends PureComponent {
   }
 
   renderComponent = (id) => {
-    if (id === 'canvas') {
-      return (null);
+    if (id === 'sheet') {
+      return (
+        <Sheet
+          id={this.props.id}
+          prop={this.props.options.prop}
+          settings={this.props.data.settings} 
+        />
+      );
     }
     return null;
   }

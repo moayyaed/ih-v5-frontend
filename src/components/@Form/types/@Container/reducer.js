@@ -1,13 +1,23 @@
 import { 
-  LAYOUT_SET_DATA,
-  LAYOUT_CLEAR_DATA,
+  CONTAINER_SET_DATA,
+  CONTAINER_CLEAR_DATA,
+
+  CONTAINER_SET_SETTINGS,
 } from './constants';
 
 
 function reducerContainer(state, action) {
   switch (action.type) {
-    case LAYOUT_SET_DATA:
+    case CONTAINER_SET_DATA:
       return { ...state, ...action.data };
+    case CONTAINER_SET_SETTINGS:
+      return { 
+        ...state,
+        settings: {
+          ...state.settings,
+          ...action.data 
+        }
+      };
     default:
       return state;
   }
@@ -16,9 +26,10 @@ function reducerContainer(state, action) {
 
 function reducer(state, action) {
   switch (action.type) {
-    case LAYOUT_CLEAR_DATA:
+    case CONTAINER_CLEAR_DATA:
       return { };
-    case LAYOUT_SET_DATA:
+    case CONTAINER_SET_DATA:
+    case CONTAINER_SET_SETTINGS:
       return { 
         ...state, 
         data: {

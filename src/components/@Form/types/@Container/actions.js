@@ -1,12 +1,23 @@
 import { 
-  LAYOUT_SET_DATA,
-  LAYOUT_CLEAR_DATA,
+  CONTAINER_SET_DATA,
+  CONTAINER_CLEAR_DATA,
+
+  CONTAINER_SET_SETTINGS,
 } from './constants';
 
 
 export function data(id, prop, data) {
   return {
-    type: LAYOUT_SET_DATA,
+    type: CONTAINER_SET_DATA,
+    id,
+    prop,
+    data,
+  };
+}
+
+export function settings(id, prop, data) {
+  return {
+    type: CONTAINER_SET_SETTINGS,
     id,
     prop,
     data,
@@ -15,7 +26,7 @@ export function data(id, prop, data) {
 
 export function clear() {
   return {
-    type: LAYOUT_CLEAR_DATA,
+    type: CONTAINER_CLEAR_DATA,
   };
 }
 
@@ -23,4 +34,5 @@ export function clear() {
 export default {
   data,
   clear,
+  settings,
 }
