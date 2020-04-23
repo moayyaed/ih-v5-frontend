@@ -22,6 +22,9 @@ import reducerForm from 'components/@Form/reducer';
 import actionsLayout from 'components/@Form/types/@Layout/actions';
 import reducerLayout from 'components/@Form/types/@Layout/reducer';
 
+import actionsContainer from 'components/@Form/types/@Container/actions';
+import reducerContainer from 'components/@Form/types/@Container/reducer';
+
 import Tabs from 'components/@Tabs';
 
 import App from './pages/App';
@@ -45,13 +48,14 @@ const options = {
     appdialog: actionsAppDialog,
     form: actionsForm,
     layout: actionsLayout,
+    container: actionsContainer,
   },
   reducers: {
     app: reducerApp,
     appmenu: reducerAppMenu,
     appnav: reducerAppNav,
     apptabs: reducerAppTabs,
-    apppage: [{}, reducerAppPage, reducerForm, reducerLayout],
+    apppage: [{}, reducerAppPage, reducerForm, reducerLayout, reducerContainer],
     appdialog: reducerAppDialog,
 
     msgboxtree: reducerAppNav,

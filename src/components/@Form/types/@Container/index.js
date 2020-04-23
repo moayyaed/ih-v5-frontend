@@ -43,8 +43,11 @@ class Container extends PureComponent {
   state = state;
 
   componentDidMount() {
-    core.actions.form.valueBasic(this.props.id, this.props.options.prop, {
-    });
+    core.actions.container
+      .data(
+        this.props.id, this.props.options.prop, 
+        { }
+      );
   }
 
   handleChangeWindows = (data) => {
