@@ -111,7 +111,7 @@ class Sheet extends Component {
     this.sheet = e;
   } 
 
-  render() {
+  render({ settings } = this.props) {
     return (
       <div style={styles.root}>
         <div 
@@ -122,7 +122,7 @@ class Sheet extends Component {
           onWheel={this.handleMouseWhellContainer}
         >
           <Draggable 
-            position={this.props.settings}
+            position={settings}
             onDrag={this.handleMoveSheet}
             onStop={this.handleStopMoveSheet}
           >
@@ -130,7 +130,7 @@ class Sheet extends Component {
               ref={this.linkSheet}
               elevation={2} 
               className="parent" 
-              style={{ ...styles.sheet, width: 200, height: 200 }}
+              style={{ ...styles.sheet, width: settings.w, height: settings.h }}
               onClick={(e) => this.handleClickSheet}
               onContextMenu={(e) => this.handleContextMenuSheet}
             />

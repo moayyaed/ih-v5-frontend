@@ -49,9 +49,17 @@ class Container extends PureComponent {
       .data(
         this.props.id, this.props.options.prop, { 
           settings: {
-            x: 300,
-            y: 150,
+            x: 220,
+            y: 85,
+            w: 350,
+            h: 350,
             scale: 1,
+          },
+          list: ['1', '2', '3'],
+          elements: {
+            1: { x: 10, y: 10, w: 60, h: 60 },
+            2: { x: 100, y: 100, w: 60, h: 60 },
+            3: { x: 200, y: 200, w: 60, h: 60 },
           }
         });
   }
@@ -80,7 +88,7 @@ class Container extends PureComponent {
         <Sheet
           id={this.props.id}
           prop={this.props.options.prop}
-          settings={this.props.data.settings} 
+          settings={this.props.data.settings || {}} 
         />
       );
     }
