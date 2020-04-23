@@ -43,7 +43,7 @@ function Element(props) {
         style={{ 
           width: props.item.w, 
           height: props.item.h, 
-          outline: '1px solid red' 
+          outline: `1px solid ${props.item.borderColor}`
         }} 
       />
     </Draggable>
