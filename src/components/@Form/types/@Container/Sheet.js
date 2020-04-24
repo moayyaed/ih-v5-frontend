@@ -139,11 +139,15 @@ class Sheet extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    core.actions.container
+    if (e.shiftKey && this.props.selectType !== null) {
+
+    } else {
+      core.actions.container
       .select(
         this.props.id, this.props.prop,
         elementId
       );
+    }
   }
   
   linkContainer = (e) => {

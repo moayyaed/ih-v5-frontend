@@ -15,13 +15,17 @@ function reducerContainer(state, action) {
     case CONTAINER_SET_DATA:
       return { ...state, ...action.data };
     case CONTAINER_SET_SELECT:
-      return { ...state,
+      return { 
+        ...state,
+        selectType: 'one',
         selects: {
           [action.elementId]: true,
         }
       };
     case CONTAINER_CLEAR_SELECTS:
-      return { ...state,
+      return { 
+        ...state,
+        selectType: null,
         selects: {}
       };
     case CONTAINER_SET_SETTINGS:

@@ -48,14 +48,9 @@ class Container extends PureComponent {
     core.actions.container
       .data(
         this.props.id, this.props.options.prop, {
+          selectType: null,
           selects: {}, 
-          settings: {
-            x: 95,
-            y: 50,
-            w: 650,
-            h: 400,
-            scale: 1,
-          },
+          settings: { x: 95, y: 50, w: 650, h: 400, scale: 1 },
           list: ['1', '2', '3'],
           elements: {
             '1': { x: 10, y: 10, w: 60, h: 60, borderColor: 'red', },
@@ -92,6 +87,7 @@ class Container extends PureComponent {
         <Sheet
           id={this.props.id}
           prop={this.props.options.prop}
+          selectType={this.props.data.selectType}
           selects={this.props.data.selects || {}}
           list={this.props.data.list || []} 
           settings={this.props.data.settings || {}} 
