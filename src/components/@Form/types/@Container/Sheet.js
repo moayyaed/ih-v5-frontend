@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import core from 'core';
 
+import { ContextMenu } from "@blueprintjs/core";
+
 import Paper from '@material-ui/core/Paper';
 import Draggable from 'react-draggable';
 
 import Element from './Element';
+import Menu from 'components/Menu';
 
 
 const styles = {
@@ -153,6 +156,22 @@ class Sheet extends Component {
         );
     }
   }
+
+  handleContextMenuElement = (e, elementId) => {
+    const pos = { left: e.clientX, top: e.clientY };
+    const scheme = {
+      main: [
+        { id: '1', title: 'Group', click: this.handleClickGroupElements },
+        { id: '2', type: 'divider' },
+      ]
+    }
+
+    ContextMenu.show(<Menu scheme={scheme} />, pos);
+  }
+
+  handleClickGroupElements = () => {
+    console.log('!')
+  }
   
   linkContainer = (e) => {
     this.container = e;
@@ -196,7 +215,8 @@ class Sheet extends Component {
                   onMove={this.handleMoveElement}
                   onStopMove={this.handleStopMoveElement}
                   onChangeSize={this.handleChangeSizeElement}
-                  onClick={this.handleClickElement} 
+                  onClick={this.handleClickElement}
+                  onContextMenu={this.handleContextMenuElement} 
                 />
               )}
             </Paper>

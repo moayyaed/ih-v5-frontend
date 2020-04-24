@@ -28,7 +28,8 @@ function Element(props) {
           height: props.item.h, 
           outline: props.select ? '2px dashed #ff00ff' : '2px dashed transparent',
         }}
-        onClick={(e) => props.onClick(e, props.id)} 
+        onClick={(e) => props.onClick(e, props.id)}
+        onContextMenu={(e) => props.onClick(e, props.id)} 
       >
         <div 
           style={{
