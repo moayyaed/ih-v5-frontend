@@ -3,6 +3,7 @@ import {
   CONTAINER_CLEAR_DATA,
 
   CONTAINER_SET_SELECT,
+  CONTAINER_SET_SELECT_SOME,
   CONTAINER_CLEAR_SELECTS,
 
   CONTAINER_SET_SETTINGS,
@@ -43,6 +44,15 @@ export function select(id, prop, elementId) {
   };
 }
 
+export function selectSome(id, prop, elementId) {
+  return {
+    type: CONTAINER_SET_SELECT_SOME,
+    id,
+    prop,
+    elementId,
+  };
+}
+
 export function clearSelects(id, prop) {
   return {
     type: CONTAINER_CLEAR_SELECTS,
@@ -65,7 +75,8 @@ export default {
   data,
   clear,
   select,
-  clearSelects,
+  selectSome,
+  clearSelects, 
   settings,
   editElement,
 }

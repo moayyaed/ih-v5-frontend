@@ -140,13 +140,17 @@ class Sheet extends Component {
     e.stopPropagation();
 
     if (e.shiftKey && this.props.selectType !== null) {
-
+      core.actions.container
+        .selectSome(
+          this.props.id, this.props.prop,
+          elementId
+        );
     } else {
       core.actions.container
-      .select(
-        this.props.id, this.props.prop,
-        elementId
-      );
+        .select(
+          this.props.id, this.props.prop,
+          elementId
+        );
     }
   }
   

@@ -3,6 +3,7 @@ import {
   CONTAINER_CLEAR_DATA,
 
   CONTAINER_SET_SELECT,
+  CONTAINER_SET_SELECT_SOME,
   CONTAINER_CLEAR_SELECTS,
 
   CONTAINER_SET_SETTINGS,
@@ -19,6 +20,15 @@ function reducerContainer(state, action) {
         ...state,
         selectType: 'one',
         selects: {
+          [action.elementId]: true,
+        }
+      };
+    case CONTAINER_SET_SELECT_SOME:
+      return { 
+        ...state,
+        selectType: 'some',
+        selects: {
+          ...state.selects,
           [action.elementId]: true,
         }
       };
@@ -59,6 +69,7 @@ function reducer(state, action) {
       return { };
     case CONTAINER_SET_DATA:
     case CONTAINER_SET_SELECT:
+    case CONTAINER_SET_SELECT_SOME:
     case CONTAINER_CLEAR_SELECTS:
     case CONTAINER_SET_SETTINGS:
     case CONTAINER_EDIT_ELEMENT:
