@@ -106,7 +106,8 @@ function ResizeControls(props) {
   const positions = getPositionsControls(props.position);
   return (
     <>
-      <Draggable 
+      <Draggable
+        scale={props.scale} 
         position={positions.topLeft}
         onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey, 'TL', props.position, data))}
         onDrag={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey, 'TL', props.position, data))}
@@ -114,7 +115,8 @@ function ResizeControls(props) {
       >
         <div style={styles.control} />
       </Draggable>
-      <Draggable 
+      <Draggable
+        scale={props.scale} 
         position={positions.topRight}
         onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey, 'TR', props.position, data))}
         onDrag={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey, 'TR', props.position, data))}
@@ -122,7 +124,8 @@ function ResizeControls(props) {
       >
         <div style={styles.control} />
       </Draggable>
-      <Draggable 
+      <Draggable
+        scale={props.scale} 
         position={positions.bottomLeft}
         onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey, 'BL', props.position, data))}
         onDrag={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey, 'BL', props.position, data))}
@@ -130,7 +133,8 @@ function ResizeControls(props) {
       >
         <div style={styles.control} />
       </Draggable>
-      <Draggable 
+      <Draggable
+        scale={props.scale} 
         position={positions.bottomRight}
         onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey, 'BR', props.position, data))}
         onDrag={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey, 'BR', props.position, data))}
