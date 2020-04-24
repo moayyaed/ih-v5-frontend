@@ -134,6 +134,17 @@ class Sheet extends Component {
         elementId, position
       );
   }
+
+  handleClickElement = (e, elementId) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    core.actions.container
+      .select(
+        this.props.id, this.props.prop,
+        elementId
+      );
+  }
   
   linkContainer = (e) => {
     this.container = e;
@@ -176,7 +187,8 @@ class Sheet extends Component {
                   onStartMove={this.handleStartMoveElement}
                   onMove={this.handleMoveElement}
                   onStopMove={this.handleStopMoveElement}
-                  onChangeSize={this.handleChangeSizeElement} 
+                  onChangeSize={this.handleChangeSizeElement}
+                  onClick={this.handleClickElement} 
                 />
               )}
             </Paper>

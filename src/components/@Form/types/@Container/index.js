@@ -80,7 +80,10 @@ class Container extends PureComponent {
   }
 
   handleClickBody = (e) => {
-
+    core.actions.container
+      .clearSelects(
+        this.props.id, this.props.options.prop,
+      );
   }
 
   renderComponent = (id) => {

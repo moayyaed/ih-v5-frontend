@@ -2,6 +2,9 @@ import {
   CONTAINER_SET_DATA,
   CONTAINER_CLEAR_DATA,
 
+  CONTAINER_SET_SELECT,
+  CONTAINER_CLEAR_SELECTS,
+
   CONTAINER_SET_SETTINGS,
   CONTAINER_EDIT_ELEMENT,
 } from './constants';
@@ -31,6 +34,23 @@ export function settings(id, prop, data) {
   };
 }
 
+export function select(id, prop, elementId) {
+  return {
+    type: CONTAINER_SET_SELECT,
+    id,
+    prop,
+    elementId,
+  };
+}
+
+export function clearSelects(id, prop) {
+  return {
+    type: CONTAINER_CLEAR_SELECTS,
+    id,
+    prop,
+  };
+}
+
 export function editElement(id, prop, elementId, data) {
   return {
     type: CONTAINER_EDIT_ELEMENT,
@@ -44,6 +64,8 @@ export function editElement(id, prop, elementId, data) {
 export default {
   data,
   clear,
+  select,
+  clearSelects,
   settings,
   editElement,
 }

@@ -26,8 +26,9 @@ function Element(props) {
           position: 'absolute',
           width: props.item.w, 
           height: props.item.h, 
-          outline: '2px dashed #ff00ff'
-        }} 
+          outline: props.select ? '2px dashed #ff00ff' : '2px dashed transparent',
+        }}
+        onClick={(e) => props.onClick(e, props.id)} 
       >
         <div 
           style={{
