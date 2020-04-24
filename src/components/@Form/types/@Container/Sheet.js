@@ -4,7 +4,7 @@ import core from 'core';
 import Paper from '@material-ui/core/Paper';
 import Draggable from 'react-draggable';
 
-import ResizeControls from './ResizeControls';
+import Element from './Element';
 
 
 const styles = {
@@ -28,44 +28,8 @@ const styles = {
     backgroundSize: '50px 50px',
     // backgroundImage: "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+DQogPGxpbmUgeDE9IjEwMCIgeTE9IjAiIHgyPSIxMDAiIHkyPSIxMDAiIHN0cm9rZT0iIzc1NzU3NSIgLz4NCiA8bGluZSB4MT0iMCIgeTE9IjEwMCIgeDI9IjEwMCIgeTI9IjEwMCIgc3Ryb2tlPSIjNzU3NTc1IiAvPg0KPC9zdmc+')",
   },
-  rscontrol: {
-    position: 'absolute',
-    width: 10,
-    height: 10,
-    border: '1px solid #1b7ac5',
-    backgroundColor: '#2196F3',
-  },
 }
 
-
-function Element(props) {
-  return (
-    <Draggable
-      bounds=".parent"
-      scale={props.scale}
-      position={props.item}
-      onStart={(e, data) => props.onStartMove(e, props.id, data)}
-      onDrag={(e, data) => props.onMove(e, props.id, data)}
-      onStop={(e, data) => props.onStopMove(e, props.id, data)}
-    >
-      <div
-        style={{ 
-          position: 'absolute',
-          width: props.item.w, 
-          height: props.item.h, 
-          outline: `1px solid ${props.item.borderColor}`
-        }} 
-      >
-        <ResizeControls
-          id={props.id}
-          position={props.item} 
-          scale={props.scale} 
-          onChange={props.onChangeSize}
-        />
-      </div>
-    </Draggable>
-  );
-}
 
 class Sheet extends Component {
 
@@ -179,7 +143,7 @@ class Sheet extends Component {
     this.sheet = e;
   } 
 
-  render({ settings, list, elements } = this.props) {
+  render({ selects, settings, list, elements } = this.props) {
     return (
       <div style={styles.root}>
         <div 
@@ -206,7 +170,8 @@ class Sheet extends Component {
                 <Element 
                   key={id}
                   id={id}
-                  scale={settings.scale} 
+                  scale={settings.scale}
+                  select={selects[id]} 
                   item={elements[id]}
                   onStartMove={this.handleStartMoveElement}
                   onMove={this.handleMoveElement}
