@@ -4,6 +4,8 @@ import core from 'core';
 import Paper from '@material-ui/core/Paper';
 import Draggable from 'react-draggable';
 
+import ResizeControls from './ResizeControls';
+
 
 const styles = {
   root: {
@@ -25,7 +27,14 @@ const styles = {
     borderRadius: 0,
     backgroundSize: '50px 50px',
     // backgroundImage: "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+DQogPGxpbmUgeDE9IjEwMCIgeTE9IjAiIHgyPSIxMDAiIHkyPSIxMDAiIHN0cm9rZT0iIzc1NzU3NSIgLz4NCiA8bGluZSB4MT0iMCIgeTE9IjEwMCIgeDI9IjEwMCIgeTI9IjEwMCIgc3Ryb2tlPSIjNzU3NTc1IiAvPg0KPC9zdmc+')",
-  }
+  },
+  rscontrol: {
+    position: 'absolute',
+    width: 10,
+    height: 10,
+    border: '1px solid #1b7ac5',
+    backgroundColor: '#2196F3',
+  },
 }
 
 
@@ -41,11 +50,19 @@ function Element(props) {
     >
       <div
         style={{ 
+          position: 'absolute',
           width: props.item.w, 
           height: props.item.h, 
           outline: `1px solid ${props.item.borderColor}`
         }} 
-      />
+      >
+        <ResizeControls
+          id={props.id}
+          position={props.item} 
+          scale={props.scale} 
+          onChange={props.onChangeSize}
+        />
+      </div>
     </Draggable>
   );
 }
@@ -123,23 +140,34 @@ class Sheet extends Component {
       );
   }
 
-  handleStartMoveElement = (e, id, data) => {
+  handleStartMoveElement = (e, elementId, data) => {
     e.preventDefault();
     e.stopPropagation();
   }
 
-  handleMoveElement = (e, id, data) => {
+  handleMoveElement = (e, elementId, data) => {
 
   }
 
-  handleStopMoveElement = (e, id, data) => {
+  handleStopMoveElement = (e, elementId, data) => {
     e.preventDefault();
     e.stopPropagation();
 
     core.actions.container
       .editElement(
         this.props.id, this.props.prop,
-        id, { x: data.x, y: data.y }
+        elementId, { x: data.x, y: data.y }
+      );
+  }
+
+  handleChangeSizeElement = (e, elementId, position) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    core.actions.container
+      .editElement(
+        this.props.id, this.props.prop,
+        elementId, position
       );
   }
   
@@ -182,7 +210,8 @@ class Sheet extends Component {
                   item={elements[id]}
                   onStartMove={this.handleStartMoveElement}
                   onMove={this.handleMoveElement}
-                  onStopMove={this.handleStopMoveElement} 
+                  onStopMove={this.handleStopMoveElement}
+                  onChangeSize={this.handleChangeSizeElement} 
                 />
               )}
             </Paper>
