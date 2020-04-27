@@ -152,7 +152,7 @@ class Sheet extends Component {
       );
   }
 
-  handleChangeSizeElement = (e, elementId, position) => {
+  handleChangeSizeElement = (e, elementId, position, type) => {
     e.preventDefault();
     e.stopPropagation();
 

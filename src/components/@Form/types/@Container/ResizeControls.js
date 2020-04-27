@@ -16,35 +16,66 @@ const styles = {
 }
 
 function getProportionContainer(type, data, pos, old) {
-  switch (type) {
-    case 'TL':
+  const scaleX = pos.w  / old.w;
+  const scaleY = pos.h  / old.h;
+  const delta = scaleX >  scaleY ? 'X' : 'Y'; 
+  switch (type + delta) {
+    case 'TLX':
+      return { 
+        x: pos.x,
+        y: old.y - (old.h * (pos.w  / old.w) - old.h),
+        w: pos.w,
+        h: old.h * (pos.w  / old.w),
+      };
+    case 'TLY':
       return { 
         x: old.x - (old.w * (pos.h  / old.h) - old.w),
         y: pos.y,
         w: old.w * (pos.h  / old.h),
         h: pos.h,
       };
-    case 'TR':
+    case 'TRX':
+      return { 
+        x: pos.x,
+        y: old.y - (old.h * (pos.w  / old.w) - old.h),
+        w: pos.w,
+        h: pos.w,
+      };
+    case 'TRY':
       return { 
         x: pos.x,
         y: pos.y,
         w: (pos.h  / old.h) * old.w,
         h: pos.h,
       };
-    case 'BL':
+    case 'BLX':
       return { 
         x: pos.x,
         y: pos.y,
         w: pos.w,
         h: (pos.w  / old.w) * old.h
       };
-    case 'BR':
-        return { 
-          x: pos.x,
-          y: pos.y,
-          w: pos.w,
-          h: (pos.w  / old.w) * old.h
-        };
+    case 'BLY':
+      return { 
+        x: old.x - (old.w * (pos.h  / old.h) - old.w),
+        y: pos.y,
+        w: old.w * (pos.h  / old.h),
+        h: pos.h,
+      };
+    case 'BRX':
+      return { 
+        x: pos.x,
+        y: pos.y,
+        w: pos.w,
+        h: (pos.w  / old.w) * old.h,
+      };
+    case 'BRY':
+      return { 
+        x: pos.x,
+        y: pos.y,
+        w: (pos.h  / old.h) * old.w,
+        h: pos.h
+      };
     default:
       return pos;
   }
@@ -124,9 +155,9 @@ function ResizeControls(props) {
       <Draggable
         scale={props.scale} 
         position={positions.topLeft}
-        onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TL', props.position, data))}
-        onDrag={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TL', props.position, data))}
-        onStop={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TL', props.position, data))}     
+        onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TL', props.position, data), 'start')}
+        onDrag={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TL', props.position, data), 'move')}
+        onStop={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TL', props.position, data), 'stop')}     
       >
         <div style={styles.control} />
       </Draggable>
