@@ -34,6 +34,23 @@ const styles = {
 }
 
 
+function getAllElementsByGroup(list, elements) {
+  return list
+    .reduce((p, c) => {
+      if (elements[c].type === 'group') {
+        return {
+          ...p,
+          [c]: true,
+          ...getAllElementsByGroup(elements[c].elements, elements)
+        };
+      }
+      return {
+        ...p,
+        [c]: true,
+      };
+    }, {});
+} 
+
 function getIdElement(index, prefix, elements) {
   if (elements[`${prefix}_${index + 1}`] === undefined) {
     return `${prefix}_${index + 1}`;
@@ -139,11 +156,22 @@ class Sheet extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    core.actions.container
-      .editElement(
-        this.props.id, this.props.prop,
-        elementId, position
-      );
+    const element = this.props.elements[elementId];
+
+    if (element.type === 'group') {
+      const childs = getAllElementsByGroup(element.elements, this.props.elements);
+      core.actions.container
+        .resizeGroupElement(
+          this.props.id, this.props.prop,
+          elementId, position, childs,
+        );
+    } else {
+      core.actions.container
+        .editElement(
+          this.props.id, this.props.prop,
+          elementId, position
+        );
+    }
   }
 
   handleClickElement = (e, elementId) => {
@@ -198,7 +226,6 @@ class Sheet extends Component {
         h: h - y, 
         type: 'group',
         elements: list, 
-        borderColor: '#9E9E9E' 
       };
       core.actions.container
         .groupElements(
@@ -234,7 +261,7 @@ class Sheet extends Component {
             position: 'absolute', 
             width: '100%', 
             height: '100%', 
-            outline: `1px solid ${item.borderColor}`, 
+            outline: item.groupId ? 'unset' : `1px dashed #6d7882`, 
           }}
         >
           {item.elements.map(id => 

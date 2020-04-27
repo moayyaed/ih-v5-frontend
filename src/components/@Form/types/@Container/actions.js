@@ -11,6 +11,8 @@ import {
   CONTAINER_GROUP_ELEMENTS,
   CONTAINER_UNGROUP_ELEMENTS,
 
+  CONTAINER_RESIZE_GROUP_ELEMENT,
+
   CONTAINER_ADD_ELEMENT,
   CONTAINER_EDIT_ELEMENT,
 } from './constants';
@@ -85,6 +87,17 @@ export function unGroupElements(id, prop, list) {
   };
 }
 
+export function resizeGroupElement(id, prop, groupId, groupPosition, groupChilds) {
+  return {
+    type: CONTAINER_RESIZE_GROUP_ELEMENT,
+    id,
+    prop,
+    groupId,
+    groupPosition,
+    groupChilds,
+  };
+}
+
 export function addElement(id, prop, elementId, data) {
   return {
     type: CONTAINER_ADD_ELEMENT,
@@ -115,6 +128,7 @@ export default {
 
   groupElements,
   unGroupElements,
+  resizeGroupElement,
 
   addElement,
   editElement,

@@ -7,10 +7,11 @@ import Draggable from 'react-draggable';
 const styles = {
   control: {
     position: 'absolute',
-    width: 10,
-    height: 10,
-    border: '1px solid #9E9E9E',
-    backgroundColor: '#E0E0E0',
+    width: 8,
+    height: 8,
+    border: '1px solid rgba(33, 150, 243, 0.5)',
+    backgroundColor: 'rgba(33, 150, 243, 0.3)',
+    cursor: 'crosshair',
   },
 }
 
@@ -87,9 +88,20 @@ function getPositionContainer(type, position, data) {
 function getSize(isProportion, type, position, data) {
   const newPosition = getPositionContainer(type, position, data);
   if (isProportion) {
-    return getProportionContainer(type, data, newPosition, position);
+    const newPositionProportion = getProportionContainer(type, data, newPosition, position);
+    return {
+      x: Math.round(newPositionProportion.x * 1e2 ) / 1e2,
+      y: Math.round(newPositionProportion.y * 1e2 ) / 1e2,
+      w: Math.round(newPositionProportion.w * 1e2 ) / 1e2,
+      h: Math.round(newPositionProportion.h * 1e2 ) / 1e2,
+    };
   }
-  return newPosition;
+  return {
+    x: Math.round(newPosition.x * 1e2 ) / 1e2,
+    y: Math.round(newPosition.y * 1e2 ) / 1e2,
+    w: Math.round(newPosition.w * 1e2 ) / 1e2,
+    h: Math.round(newPosition.h * 1e2 ) / 1e2,
+  };
 }
 
 function getPositionsControls({ x, y, w, h }) {
@@ -112,36 +124,36 @@ function ResizeControls(props) {
       <Draggable
         scale={props.scale} 
         position={positions.topLeft}
-        onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey, 'TL', props.position, data))}
-        onDrag={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey, 'TL', props.position, data))}
-        onStop={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey, 'TL', props.position, data))}     
+        onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TL', props.position, data))}
+        onDrag={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TL', props.position, data))}
+        onStop={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TL', props.position, data))}     
       >
         <div style={styles.control} />
       </Draggable>
       <Draggable
         scale={props.scale} 
         position={positions.topRight}
-        onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey, 'TR', props.position, data))}
-        onDrag={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey, 'TR', props.position, data))}
-        onStop={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey, 'TR', props.position, data))}     
+        onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TR', props.position, data))}
+        onDrag={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TR', props.position, data))}
+        onStop={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TR', props.position, data))}     
       >
         <div style={styles.control} />
       </Draggable>
       <Draggable
         scale={props.scale} 
         position={positions.bottomLeft}
-        onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey, 'BL', props.position, data))}
-        onDrag={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey, 'BL', props.position, data))}
-        onStop={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey, 'BL', props.position, data))}     
+        onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'BL', props.position, data))}
+        onDrag={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'BL', props.position, data))}
+        onStop={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'BL', props.position, data))}     
       >
         <div style={styles.control} />
       </Draggable>
       <Draggable
         scale={props.scale} 
         position={positions.bottomRight}
-        onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey, 'BR', props.position, data))}
-        onDrag={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey, 'BR', props.position, data))}
-        onStop={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey, 'BR', props.position, data))}     
+        onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'BR', props.position, data))}
+        onDrag={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'BR', props.position, data))}
+        onStop={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'BR', props.position, data))}     
       >
         <div style={styles.control} />
       </Draggable>

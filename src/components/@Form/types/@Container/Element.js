@@ -35,9 +35,10 @@ function Element(props) {
         {props.onRenderElement(props.id, props.item)}
         <ResizeControls
           id={props.id}
-          disabled={props.isGroup}
+          disabled={props.isGroup || !props.select}
           position={props.item} 
           scale={props.scale} 
+          forceProportion={props.item.type === 'group'}
           onChange={props.onChangeSize}
         />
       </div>

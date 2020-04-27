@@ -11,6 +11,8 @@ import {
   CONTAINER_GROUP_ELEMENTS,
   CONTAINER_UNGROUP_ELEMENTS,
 
+  CONTAINER_RESIZE_GROUP_ELEMENT,
+
   CONTAINER_ADD_ELEMENT,
   CONTAINER_EDIT_ELEMENT,
 } from './constants';
@@ -117,6 +119,39 @@ function reducerContainer(state, action) {
             return { ...p, [c]: state.elements[c] }
           }, {}),
       }
+    case CONTAINER_RESIZE_GROUP_ELEMENT:
+      return { 
+        ...state,
+        elements: Object
+          .keys(state.elements)
+          .reduce((p, c) => {
+            if (c === action.groupId) {
+              return { 
+                ...p, 
+                [c]: { 
+                  ...state.elements[c],
+                  ...action.groupPosition,  
+                } 
+              }
+            }
+            if (action.groupChilds[c]) {
+              const nextPos = action.groupPosition;
+              const oldPos = state.elements[action.groupId];
+              const elem = state.elements[c];
+              return { 
+                ...p, 
+                [c]: {
+                  ...state.elements[c],
+                 x: Math.round((elem.x * (nextPos.w / oldPos.w)) * 1e2 ) / 1e2,
+                 y: Math.round((elem.y * (nextPos.h / oldPos.h)) * 1e2 ) / 1e2,
+                 w: Math.round((elem.w * (nextPos.w / oldPos.w)) * 1e2 ) / 1e2,
+                 h: Math.round((elem.h * (nextPos.h / oldPos.h)) * 1e2 ) / 1e2,
+                } 
+              }
+            }
+            return { ...p, [c]: state.elements[c] }
+          }, {}),
+      };
     case CONTAINER_ADD_ELEMENT:
       return { 
         ...state,
@@ -154,6 +189,7 @@ function reducer(state, action) {
     case CONTAINER_CLEAR_SELECTS:
     case CONTAINER_GROUP_ELEMENTS:
     case CONTAINER_UNGROUP_ELEMENTS:
+    case CONTAINER_RESIZE_GROUP_ELEMENT:
     case CONTAINER_ADD_ELEMENT:
     case CONTAINER_EDIT_ELEMENT:
       return { 
