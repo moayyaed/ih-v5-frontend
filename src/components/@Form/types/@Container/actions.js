@@ -2,11 +2,16 @@ import {
   CONTAINER_SET_DATA,
   CONTAINER_CLEAR_DATA,
 
+  CONTAINER_SET_SETTINGS,
+
   CONTAINER_SET_SELECT,
   CONTAINER_SET_SELECT_SOME,
   CONTAINER_CLEAR_SELECTS,
 
-  CONTAINER_SET_SETTINGS,
+  CONTAINER_GROUP_ELEMENTS,
+  CONTAINER_UNGROUP_ELEMENTS,
+
+  CONTAINER_ADD_ELEMENT,
   CONTAINER_EDIT_ELEMENT,
 } from './constants';
 
@@ -61,6 +66,35 @@ export function clearSelects(id, prop) {
   };
 }
 
+export function groupElements(id, prop, groupId, groupData) {
+  return {
+    type: CONTAINER_GROUP_ELEMENTS,
+    id,
+    prop,
+    groupId,
+    groupData,
+  };
+}
+
+export function unGroupElements(id, prop, list) {
+  return {
+    type: CONTAINER_UNGROUP_ELEMENTS,
+    id,
+    prop,
+    list,
+  };
+}
+
+export function addElement(id, prop, elementId, data) {
+  return {
+    type: CONTAINER_ADD_ELEMENT,
+    id,
+    prop,
+    elementId,
+    data,
+  };
+}
+
 export function editElement(id, prop, elementId, data) {
   return {
     type: CONTAINER_EDIT_ELEMENT,
@@ -74,9 +108,14 @@ export function editElement(id, prop, elementId, data) {
 export default {
   data,
   clear,
+  settings,
   select,
   selectSome,
   clearSelects, 
-  settings,
+
+  groupElements,
+  unGroupElements,
+
+  addElement,
   editElement,
 }

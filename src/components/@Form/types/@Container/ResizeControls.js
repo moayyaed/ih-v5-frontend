@@ -103,6 +103,9 @@ function getPositionsControls({ x, y, w, h }) {
 
 
 function ResizeControls(props) {
+  if (props.disabled) {
+    return null;
+  }
   const positions = getPositionsControls(props.position);
   return (
     <>

@@ -51,11 +51,14 @@ class Container extends PureComponent {
           selectType: null,
           selects: {}, 
           settings: { x: 95, y: 50, w: 650, h: 400, scale: 1 },
-          list: ['1', '2', '3'],
+          list: ['1', '2', '3', '4', '5', '6'],
           elements: {
             '1': { x: 10, y: 10, w: 60, h: 60, borderColor: 'red', },
-            '2': { x: 100, y: 100, w: 60, h: 60, borderColor: 'green', },
-            '3': { x: 150, y: 150, w: 60, h: 60, borderColor: 'blue', },
+            '2': { x: 10, y: 160, w: 60, h: 60, borderColor: 'orange', },
+            '3': { x: 10, y: 310, w: 60, h: 60, borderColor: 'pink', },
+            '4': { x: 150, y: 10, w: 60, h: 60, borderColor: 'green', },
+            '5': { x: 150, y: 160, w: 60, h: 60, borderColor: 'blue', },
+            '6': { x: 150, y: 310, w: 60, h: 60, borderColor: 'cadetblue', },
           }
         });
   }

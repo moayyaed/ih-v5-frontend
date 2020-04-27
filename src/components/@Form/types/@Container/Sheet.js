@@ -34,6 +34,14 @@ const styles = {
 }
 
 
+function getIdElement(index, prefix, elements) {
+  if (elements[`${prefix}_${index + 1}`] === undefined) {
+    return `${prefix}_${index + 1}`;
+  }
+  return getIdElement(index + 1, prefix, elements);
+}
+
+
 class Sheet extends Component {
 
   handleMouseUpContainer = (e) => {
@@ -162,7 +170,7 @@ class Sheet extends Component {
     const scheme = {
       main: [
         { id: '1', title: 'Group', click: this.handleClickGroupElements },
-        { id: '2', type: 'divider' },
+        { id: '2', title: 'Ungroup', click: () => this.handleClickUnGroupElement(elementId) },
       ]
     }
 
@@ -170,7 +178,95 @@ class Sheet extends Component {
   }
 
   handleClickGroupElements = () => {
-    console.log('!')
+    if (this.props.selectType === 'some') {
+      const list = [];
+      const groupId = getIdElement(0, 'group', this.props.elements);
+      let x = Infinity, y = Infinity, w = 0, h = 0;
+      Object
+        .keys(this.props.selects)
+        .forEach(key => {
+          const element = this.props.elements[key];
+          x = Math.min(x, element.x);
+          y = Math.min(y, element.y); 
+          w = Math.max(w, element.x + element.w); 
+          h = Math.max(h, element.y + element.h); 
+          list.push(key) 
+        });
+      const groupData = { 
+        x, y, 
+        w: w - x, 
+        h: h - y, 
+        type: 'group',
+        elements: list, 
+        borderColor: '#9E9E9E' 
+      };
+      core.actions.container
+        .groupElements(
+          this.props.id, this.props.prop,
+          groupId, groupData,
+        );
+    }
+  }
+
+  handleClickUnGroupElement = (elementId) => {
+    const list = [];
+    Object
+      .keys(this.props.selects)
+      .forEach(key => {
+        const element = this.props.elements[key];
+        if (element.type === 'group') {
+          list.push(key);
+        }
+      });
+
+    core.actions.container
+      .unGroupElements(
+        this.props.id, this.props.prop,
+        list,
+      );
+  }
+
+  handleRenderElement = (elementId, item) => {
+    if (item.type === 'group') {
+      return (
+        <div 
+          style={{
+            position: 'absolute', 
+            width: '100%', 
+            height: '100%', 
+            outline: `1px solid ${item.borderColor}`, 
+          }}
+        >
+          {item.elements.map(id => 
+            <Element 
+              key={id}
+              id={id}
+              isGroup
+              scale={this.props.settings.scale}
+              select={this.props.selects[id]} 
+              item={this.props.elements[id]}
+              onStartMove={this.handleStartMoveElement}
+              onMove={this.handleMoveElement}
+              onStopMove={this.handleStopMoveElement}
+              onChangeSize={this.handleChangeSizeElement}
+              onClick={this.handleClickElement}
+              onContextMenu={this.handleContextMenuElement} 
+              onRenderElement={this.handleRenderElement}
+            />
+          )}
+        </div>
+      )
+    }
+    return (
+      <div 
+        style={{
+          position: 'absolute', 
+          width: '100%', 
+          height: '100%', 
+          border: `1px solid ${item.borderColor}`, 
+        }}
+      />
+    )
   }
   
   linkContainer = (e) => {
@@ -217,6 +313,7 @@ class Sheet extends Component {
                   onChangeSize={this.handleChangeSizeElement}
                   onClick={this.handleClickElement}
                   onContextMenu={this.handleContextMenuElement} 
+                  onRenderElement={this.handleRenderElement}
                 />
               )}
             </Paper>

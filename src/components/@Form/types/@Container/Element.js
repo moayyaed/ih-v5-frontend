@@ -17,6 +17,7 @@ function Element(props) {
       bounds=".parent"
       scale={props.scale}
       position={props.item}
+      disabled={props.isGroup}
       onStart={(e, data) => props.onStartMove(e, props.id, data)}
       onDrag={(e, data) => props.onMove(e, props.id, data)}
       onStop={(e, data) => props.onStopMove(e, props.id, data)}
@@ -28,19 +29,13 @@ function Element(props) {
           height: props.item.h, 
           outline: props.select ? '2px dashed #ff00ff' : '2px dashed transparent',
         }}
-        onClick={(e) => props.onClick(e, props.id)}
-        onContextMenu={(e) => props.onClick(e, props.id)} 
+        onClick={(e) => props.isGroup || props.onClick(e, props.id)}
+        onContextMenu={(e) => props.isGroup || props.onContextMenu(e, props.id)} 
       >
-        <div 
-          style={{
-            position: 'absolute', 
-            width: '100%', 
-            height: '100%', 
-            border: `1px solid ${props.item.borderColor}`, 
-          }}
-        />
+        {props.onRenderElement(props.id, props.item)}
         <ResizeControls
           id={props.id}
+          disabled={props.isGroup}
           position={props.item} 
           scale={props.scale} 
           onChange={props.onChangeSize}
