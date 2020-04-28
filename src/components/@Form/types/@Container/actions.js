@@ -81,12 +81,13 @@ export function groupElements(id, prop, groupId, groupData) {
   };
 }
 
-export function unGroupElements(id, prop, list) {
+export function unGroupElements(id, prop, list, data) {
   return {
     type: CONTAINER_UNGROUP_ELEMENTS,
     id,
     prop,
     list,
+    data,
   };
 }
 

@@ -61,6 +61,10 @@ function getIdElement(index, prefix, elements) {
 
 class Sheet extends Component {
 
+  componentWillUnmount() {
+    this.dragSelectContainer = null;
+  }
+
   handleMouseUpContainer = (e) => {
 
   }
@@ -251,26 +255,33 @@ class Sheet extends Component {
 
   handleClickUnGroupElement = (elementId) => {
     const list = [];
+    const data = { x: Infinity, y: Infinity, w: 0, h: 0 };
     Object
       .keys(this.props.selects)
       .forEach(key => {
         const element = this.props.elements[key];
+        data.x = Math.min(data.x, element.x);
+        data.y = Math.min(data.y, element.y); 
+        data.w = Math.max(data.w, element.x + element.w); 
+        data.h = Math.max(data.h, element.y + element.h); 
         if (element.type === 'group') {
           list.push(key);
         }
       });
+    data.w = data.w - data.x;
+    data.h = data.h - data.y;
 
     core.actions.container
       .unGroupElements(
         this.props.id, this.props.prop,
-        list,
+        list, data,
       );
   }
 
   handleRenderElement = (elementId, item) => {
     if (item.type === 'group') {
       return (
-        <div 
+        <div
           style={{
             position: 'absolute', 
             width: '100%', 
@@ -314,9 +325,13 @@ class Sheet extends Component {
   handleStartMoveSelectContainer = (e, elementId, data) => {
     e.preventDefault();
     e.stopPropagation();
+    
   }
 
   handleMoveSelectContainer = (e, elementId, data) => {
+    if (!this.dragSelectContainer) {
+      this.dragSelectContainer = true;
+    }
     core.actions.container
       .moveSelectContainer(
         this.props.id, this.props.prop,
@@ -336,19 +351,28 @@ class Sheet extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    if (e.shiftKey) {
-      const elements = window.document.elementsFromPoint(e.clientX, e.clientY);
-      let elementId = null;
-      
-      elements.forEach(i => {
-        const attribute = i.getAttribute('elementid');
-        if (elementId === null && attribute && attribute !== 'select') {
-          elementId = attribute;
+    if (this.dragSelectContainer) {
+      this.dragSelectContainer = null;
+    } else {
+      if (e.shiftKey) {
+        const elements = window.document.elementsFromPoint(e.clientX, e.clientY);
+        let elementId = null;
+        
+        elements.forEach(i => {
+          const attribute = i.getAttribute('elementid');
+         
+          if (elementId === null && attribute && attribute !== 'select') {
+            if (this.props.elements[attribute].groupId) {
+              elementId = this.props.elements[attribute].groupId;
+            } else {
+              elementId = attribute;
+            }
+          }
+        });
+    
+        if (elementId) {
+          this.handleClickElement(e, elementId)
         }
-      });
-  
-      if (elementId) {
-        this.handleClickElement(e, elementId)
       }
     }
   }
@@ -356,6 +380,10 @@ class Sheet extends Component {
   handleChangeSizeSelectContainer = (e, elementId, position) => {
     e.preventDefault();
     e.stopPropagation();
+
+    if (!this.dragSelectContainer) {
+      this.dragSelectContainer = true;
+    }
 
     const childs = getAllElementsByGroup(Object.keys(this.props.selects), this.props.elements)
     core.actions.container

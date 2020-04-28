@@ -85,6 +85,7 @@ function reducerContainer(state, action) {
       return {
         ...state,
         selectType: 'some',
+        selectContainer: action.data,
         selects: Object.
           keys(state.selects)
           .reduce((p, c) => {
