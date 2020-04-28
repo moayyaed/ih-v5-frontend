@@ -17,7 +17,7 @@ function Element(props) {
       bounds=".parent"
       scale={props.scale}
       position={props.item}
-      disabled={props.isGroup}
+      disabled={props.isGroup || props.selectType === 'some'}
       onStart={(e, data) => props.onStartMove(e, props.id, data)}
       onDrag={(e, data) => props.onMove(e, props.id, data)}
       onStop={(e, data) => props.onStopMove(e, props.id, data)}
@@ -29,13 +29,14 @@ function Element(props) {
           height: props.item.h, 
           outline: props.select ? '2px dashed #ff00ff' : '2px dashed transparent',
         }}
+        elementid={props.id}
         onClick={(e) => props.isGroup || props.onClick(e, props.id)}
         onContextMenu={(e) => props.isGroup || props.onContextMenu(e, props.id)} 
       >
         {props.onRenderElement(props.id, props.item)}
         <ResizeControls
           id={props.id}
-          disabled={props.isGroup || !props.select}
+          disabled={props.isGroup || !props.select || props.selectType === 'some'}
           position={props.item} 
           scale={props.scale} 
           forceProportion={props.item.type === 'group'}

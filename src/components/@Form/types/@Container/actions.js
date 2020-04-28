@@ -12,6 +12,8 @@ import {
   CONTAINER_UNGROUP_ELEMENTS,
 
   CONTAINER_RESIZE_GROUP_ELEMENT,
+  CONTAINER_MOVE_SELECT_CONTAINER,
+  CONTAINER_RESIZE_SELECT_CONTAINER,
 
   CONTAINER_ADD_ELEMENT,
   CONTAINER_EDIT_ELEMENT,
@@ -51,12 +53,13 @@ export function select(id, prop, elementId) {
   };
 }
 
-export function selectSome(id, prop, elementId) {
+export function selectSome(id, prop, elementId, data) {
   return {
     type: CONTAINER_SET_SELECT_SOME,
     id,
     prop,
     elementId,
+    data,
   };
 }
 
@@ -98,6 +101,26 @@ export function resizeGroupElement(id, prop, groupId, groupPosition, groupChilds
   };
 }
 
+export function moveSelectContainer(id, prop, x, y) {
+  return {
+    type: CONTAINER_MOVE_SELECT_CONTAINER,
+    id,
+    prop,
+    x,
+    y,
+  };
+}
+
+export function resizeSelectContainer(id, prop, position, childs) {
+  return {
+    type: CONTAINER_RESIZE_SELECT_CONTAINER,
+    id,
+    prop,
+    position,
+    childs,
+  };
+}
+
 export function addElement(id, prop, elementId, data) {
   return {
     type: CONTAINER_ADD_ELEMENT,
@@ -129,6 +152,9 @@ export default {
   groupElements,
   unGroupElements,
   resizeGroupElement,
+
+  moveSelectContainer,
+  resizeSelectContainer,
 
   addElement,
   editElement,

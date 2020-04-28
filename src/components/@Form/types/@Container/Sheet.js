@@ -179,11 +179,25 @@ class Sheet extends Component {
     e.stopPropagation();
 
     if (e.shiftKey && this.props.selectType !== null) {
-      core.actions.container
-        .selectSome(
-          this.props.id, this.props.prop,
-          elementId
-        );
+      if (this.props.selects[elementId] === undefined) {
+        const data = { x: Infinity, y: Infinity, w: 0, h: 0 };
+        Object
+          .keys({ ...this.props.selects, [elementId]: true })
+          .forEach(key => {
+            const element = this.props.elements[key];
+            data.x = Math.min(data.x, element.x);
+            data.y = Math.min(data.y, element.y); 
+            data.w = Math.max(data.w, element.x + element.w); 
+            data.h = Math.max(data.h, element.y + element.h); 
+          });
+        data.w = data.w - data.x;
+        data.h = data.h - data.y;
+        core.actions.container
+          .selectSome(
+            this.props.id, this.props.prop,
+            elementId, data
+          );
+      }
     } else {
       core.actions.container
         .select(
@@ -270,8 +284,9 @@ class Sheet extends Component {
               id={id}
               isGroup
               scale={this.props.settings.scale}
-              select={this.props.selects[id]} 
               item={this.props.elements[id]}
+              select={this.props.selects[id]}
+              selectType={this.props.selectType}  
               onStartMove={this.handleStartMoveElement}
               onMove={this.handleMoveElement}
               onStopMove={this.handleStopMoveElement}
@@ -294,6 +309,91 @@ class Sheet extends Component {
         }}
       />
     )
+  }
+
+  handleStartMoveSelectContainer = (e, elementId, data) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  handleMoveSelectContainer = (e, elementId, data) => {
+    core.actions.container
+      .moveSelectContainer(
+        this.props.id, this.props.prop,
+        data.x, data.y,
+      );
+  }
+
+  handleStopMoveSelectContainer = (e, elementId, data) => {
+    core.actions.container
+      .moveSelectContainer(
+        this.props.id, this.props.prop,
+        data.x, data.y,
+      );
+  }
+
+  handleClickSelectContainer = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (e.shiftKey) {
+      const elements = window.document.elementsFromPoint(e.clientX, e.clientY);
+      let elementId = null;
+      
+      elements.forEach(i => {
+        const attribute = i.getAttribute('elementid');
+        if (elementId === null && attribute && attribute !== 'select') {
+          elementId = attribute;
+        }
+      });
+  
+      if (elementId) {
+        this.handleClickElement(e, elementId)
+      }
+    }
+  }
+
+  handleChangeSizeSelectContainer = (e, elementId, position) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const childs = getAllElementsByGroup(Object.keys(this.props.selects), this.props.elements)
+    core.actions.container
+      .resizeSelectContainer(
+        this.props.id, this.props.prop,
+        position, childs,
+      );
+
+    /*
+    const childs = getAllElementsByGroup(element.elements, this.props.elements);
+
+    */
+  }
+
+  handleRenderContentSelectContainer = () => {
+    return null;
+  }
+
+  handleRenderSelectContainer = () => {
+    if (this.props.selectType === 'some') {
+      return (
+        <Element 
+          key="select"
+          id="select"
+          select
+          scale={this.props.settings.scale}
+          item={this.props.selectContainer}
+          onStartMove={this.handleStartMoveSelectContainer}
+          onMove={this.handleMoveSelectContainer}
+          onStopMove={this.handleStopMoveSelectContainer}
+          onChangeSize={this.handleChangeSizeSelectContainer}
+          onClick={this.handleClickSelectContainer}
+          onContextMenu={this.handleContextMenuElement} 
+          onRenderElement={this.handleRenderContentSelectContainer}
+        />
+      )
+    }
+    return null;
   }
   
   linkContainer = (e) => {
@@ -332,8 +432,9 @@ class Sheet extends Component {
                   key={id}
                   id={id}
                   scale={settings.scale}
-                  select={selects[id]} 
                   item={elements[id]}
+                  select={selects[id]}
+                  selectType={this.props.selectType} 
                   onStartMove={this.handleStartMoveElement}
                   onMove={this.handleMoveElement}
                   onStopMove={this.handleStopMoveElement}
@@ -343,6 +444,7 @@ class Sheet extends Component {
                   onRenderElement={this.handleRenderElement}
                 />
               )}
+              {this.handleRenderSelectContainer()}
             </Paper>
           </Draggable>
         </div>

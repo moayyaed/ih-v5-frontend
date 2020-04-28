@@ -49,6 +49,7 @@ class Container extends PureComponent {
       .data(
         this.props.id, this.props.options.prop, {
           selectType: null,
+          selectContainer: null,
           selects: {}, 
           settings: { x: 95, y: 50, w: 650, h: 400, scale: 1 },
           list: ['1', '2', '3', '4', '5', '6'],
@@ -91,6 +92,7 @@ class Container extends PureComponent {
           id={this.props.id}
           prop={this.props.options.prop}
           selectType={this.props.data.selectType}
+          selectContainer={this.props.data.selectContainer}
           selects={this.props.data.selects || {}}
           list={this.props.data.list || []} 
           settings={this.props.data.settings || {}} 
