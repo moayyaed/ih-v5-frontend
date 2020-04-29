@@ -208,8 +208,10 @@ function http(data, options, resolve, reject) {
       },
     }
   } else {
-    const queryString = Object.keys(data).map(key => key + '=' + data[key]).join('&');
-    _uri = '/api/admin?' + queryString;
+    const queryString = Object.keys(data)
+      .filter(key => key !== 'api')
+      .map(key => key + '=' + data[key]).join('&');
+    _uri = data.api ? `/api/engine/${data.api}?` + queryString : '/api/admin?' + queryString;
     _options = {
       ...options,
       method: 'GET',

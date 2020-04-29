@@ -423,6 +423,17 @@ class Canvas extends Component {
           this.props.id, this.props.prop, 
           { section: newSectionId, column: `${newSectionId}_c1` }
         )
+    } else if (type === 'CONTAINER') {
+      core.actions.layout
+        .editColumn(
+          this.props.id, this.props.prop, 
+          columnId, { type, containerId: { id: 'mn006', title: 'АБК 1 Этаж - Безопасность' } },
+        )
+      core.actions.layout
+        .hover(
+          this.props.id, this.props.prop, 
+          { section: sectionId, column: columnId }
+        )
     } else {
       core.actions.layout
         .editColumn(

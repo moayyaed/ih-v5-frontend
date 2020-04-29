@@ -7,3 +7,5 @@ import './appdialog';
 
 import './components';
 import './pluginform1';
+
+import './widgets';

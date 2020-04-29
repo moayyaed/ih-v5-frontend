@@ -7,7 +7,7 @@ import Empty from './@Empty';
 
 function getWidgetByType(type) {
   switch (type) {
-    case 'CONTAINER1':
+    case 'CONTAINER':
       return Container;
     default:
       return Empty;

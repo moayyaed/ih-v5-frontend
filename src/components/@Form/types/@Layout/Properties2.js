@@ -12,6 +12,9 @@ import Slider from '@material-ui/core/Slider';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 
+
+import Droplist from 'components/@Form/types/@Droplist'
+
 const styles = {
   root: {
     width: '100%',
@@ -100,6 +103,14 @@ class Properties2 extends PureComponent {
     }
   }
 
+  handleChangeDroplist = (id, options, params, v) => {
+    core.actions.layout
+      .editColumn(
+        this.props.id, this.props.prop, 
+        this.props.select2, { containerId: v },
+      )
+  }
+
   handleClickSlider = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -137,6 +148,17 @@ class Properties2 extends PureComponent {
             max={400}
             onClick={this.handleClickSlider}
             onChange={this.handleChangeSlider}
+          />
+          <Droplist
+            id="test"
+            options={{
+              title: 'Сontainer',
+              prop: 'container',
+              data: 'containerList'
+            }}
+            data={this.props.type === 'CONTAINER' ? this.props.column.containerId : {id: '-', title: '-'}}
+            cache={{}}
+            onChange={this.handleChangeDroplist}
           />
       </div>
 
