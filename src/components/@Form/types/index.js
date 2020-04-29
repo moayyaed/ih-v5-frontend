@@ -36,7 +36,7 @@ function getComponentByType(type) {
       return Tags;
     case 'layout':
       return Layout;
-    case 'сontainer':
+    case 'container':
       return Container;
     case 'smartbutton':
       return SmartButton;

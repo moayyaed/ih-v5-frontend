@@ -99,6 +99,9 @@ class Canvas extends Component {
       save({
         [this.props.id]: {
           [this.props.prop]: {
+            select: { section: null, column: null },
+            hover: { sections: {}, columns: {} },
+            drag: { section: null, column: null },
             list: this.props.list,
             sections: this.props.sections,
             columns: this.props.columns,

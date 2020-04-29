@@ -45,7 +45,8 @@ class Container extends PureComponent {
   state = state;
 
   componentDidMount() {
-    core.actions.container
+    if (this.props.data.settings === undefined) {
+      core.actions.container
       .data(
         this.props.id, this.props.options.prop, {
           selectType: null,
@@ -62,6 +63,7 @@ class Container extends PureComponent {
             '6': { x: 150, y: 310, w: 60, h: 60, borderColor: 'cadetblue', },
           }
         });
+    }
   }
 
   handleChangeWindows = (data) => {
