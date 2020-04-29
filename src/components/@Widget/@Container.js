@@ -1,15 +1,17 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import core from 'core';
+
+import ReactResizeDetector from 'react-resize-detector';
 
 
 const styles = {
   root: {
-    width: '100%',
-    height: '100%',
+    width: 100,
+    height: 100,
   }
 }
 
-class Container extends Component {
+class Container extends PureComponent {
   state = { settings: {}, list: [], elements: {} }
 
   componentDidMount() {
@@ -28,26 +30,37 @@ class Container extends Component {
       })
   }
 
-  render() {
+  render({ settings, list } = this.state) {
     return (
-      <div style={styles.root}>
-        {this.state.list
-          .map(key => {
-            const element = this.state.elements[key]
+      <ReactResizeDetector handleWidth handleHeight>
+        {({ width, height }) => {
+          if (width) {
+            const ratio = Math.min((width - 2) / settings.w, (height - 2) / settings.h);
             return (
-              <div
-                key={key} 
-                style={{
-                  position: 'absolute',
-                  transform: `translate3d(${element.x}px, ${element.y}px, 0px)`,
-                  width: element.w,
-                  height: element.h,
-                  border: `1px solid ${element.borderColor}`
-                }} 
-              />
+              <div style={{ width: settings.w * ratio, height: settings.h * ratio }}>
+                {list
+                  .map(key => {
+                    const element = this.state.elements[key]
+                    return (
+                      <div
+                        key={key} 
+                        style={{
+                          position: 'absolute',
+                          transform: `translate3d(${element.x * ratio}px, ${element.y * ratio}px, 0px)`,
+                          width: element.w * ratio,
+                          height: element.h * ratio,
+                          border: `1px solid ${element.borderColor}`
+                        }} 
+                      />
+                    )
+                  })
+                }
+              </div>
             )
-          })}
-      </div>
+          }
+          return <div />;
+        }}
+      </ReactResizeDetector>
     )
   }
 }
