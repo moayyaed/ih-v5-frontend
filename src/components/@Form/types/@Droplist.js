@@ -192,6 +192,7 @@ class Droplist extends PureComponent {
     const list = this.state.list.filter(i => i.hide ? !i.hide(global) : true);
     return (
       <Autocomplete
+        disabled={this.props.disabled}
         disableClearable
         disableListWrap
         style={styles.root}

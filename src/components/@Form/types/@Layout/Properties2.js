@@ -119,8 +119,8 @@ class Properties2 extends PureComponent {
   render() {
     return (
       <div style={styles.root2} >
-          <div style={styles.text}>{this.props.select ? 'SECTION' : this.props.select2 ? this.props.type ? this.props.type : 'COLUMN' : '' }</div>
-          <div style={styles.text}>{`select: ${this.props.select || this.props.select2 || ''}`}</div>
+          <div style={styles.text}>{this.props.select ? 'SECTION' : this.props.select2 ? this.props.type ? this.props.type : 'COLUMN' : '\u00A0' }</div>
+          <div style={styles.text}>{`${this.props.select || this.props.select2 || '\u00A0'}`}</div>
           <FormControl disabled={!Boolean(this.props.select)}>
             <InputLabel shrink id="demo-simple-select-label">Direction</InputLabel>
             <Select
@@ -156,6 +156,7 @@ class Properties2 extends PureComponent {
               prop: 'container',
               data: 'containerList'
             }}
+            disabled={this.props.type !== 'CONTAINER'}
             data={this.props.type === 'CONTAINER' ? this.props.column.containerId : {id: '-', title: '-'}}
             cache={{}}
             onChange={this.handleChangeDroplist}
