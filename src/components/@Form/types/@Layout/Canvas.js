@@ -449,7 +449,12 @@ class Canvas extends Component {
       core.actions.layout
         .editColumn(
           this.props.id, this.props.prop, 
-          columnId, { type, containerId: { id: 'mn006', title: 'АБК 1 Этаж - Безопасность' } },
+          columnId, { type, containerId: { id: '-', title: '-' } },
+        )
+      core.actions.layout
+        .select(
+          this.props.id, this.props.prop, 
+          { section: null, column: columnId, content: type },
         )
       core.actions.layout
         .hover(
