@@ -73,7 +73,6 @@ class Sheet extends Component {
   }
 
   handleTransferData = (button, save, reset) => {
-
     if (button === 'save') {
       save({
         [this.props.id] : {
@@ -143,7 +142,6 @@ class Sheet extends Component {
         this.props.id, this.props.prop,
         { x, y, scale: s }
       );
-    this.save();
   }
 
   handleClickSheet = (e) => {

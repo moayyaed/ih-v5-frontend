@@ -84,6 +84,37 @@ function reorder(list, startIndex, endIndex) {
 
 class Canvas extends Component {
 
+  componentDidMount() {
+    core.transfer.sub('lauout', this.handleTransferData);
+
+  }
+
+  componentWillUnmount() {
+    core.transfer.unsub('lauout', this.handleTransferData);
+    this.isSave = null;
+  }
+
+  handleTransferData = (button, save, reset) => {
+    if (button === 'save') {
+      save({
+        [this.props.id] : {
+          list: this.props.list,
+          sections: this.props.sections,
+          columns: this.props.columns,
+        }
+      })
+    } else {
+      reset();
+    }
+  }
+
+  save = () => {
+    if (!this.isSave) {
+      this.isSave = true;
+      core.actions.apppage.data({ save: 'lauout' })
+    }
+  }
+
   handleHoverEnter = (sectionId, columnId) => {
     core.actions.layout
       .hover(
@@ -174,6 +205,7 @@ class Canvas extends Component {
         this.props.id, this.props.prop, 
         sectionId, newSectionId,
       );
+    this.save();
   }
 
   handleClickSection = (sectionId) => {
@@ -190,6 +222,7 @@ class Canvas extends Component {
         this.props.id, this.props.prop, 
         sectionId,
       );
+    this.save();
     
       if (e) {
         const elements = window.document.elementsFromPoint(e.clientX, e.clientY);
@@ -211,6 +244,7 @@ class Canvas extends Component {
         sectionId,
         columnId,
       );
+    this.save();
     
       if (e) {
         const elements = window.document.elementsFromPoint(e.clientX, e.clientY);
@@ -278,6 +312,7 @@ class Canvas extends Component {
         this.props.id, this.props.prop, 
         { list },
       )
+    this.save();
   }
 
   handleDragEndColumn = (result) => {
@@ -314,6 +349,7 @@ class Canvas extends Component {
           targetSectionId, { columns },
         )
     }
+    this.save();
   }
 
   handleDragEnter = (sectionId, columnId) => {
@@ -323,6 +359,7 @@ class Canvas extends Component {
           this.props.id, this.props.prop, 
           { drag: { section: null, column: columnId } }
         )
+      this.save();
     }
 
   }
@@ -380,6 +417,7 @@ class Canvas extends Component {
           { section: sectionId, column: columnId }
         )
     }
+    this.save();
   }
 
   handleClickButtonStub = (e) => {
@@ -405,6 +443,7 @@ class Canvas extends Component {
 
     core.actions.layout
       .data(this.props.id, this.props.prop, data);
+    this.save();
   }
 
   handleDragDropStub = () => {
@@ -414,6 +453,7 @@ class Canvas extends Component {
   handleDragEnterStub = (e) => {
     core.actions.layout
       .data(this.props.id, this.props.prop, { isHoverStub: true });
+    this.save();
   }
 
   handleDragOutStub = (e) => {
@@ -427,6 +467,7 @@ class Canvas extends Component {
   
     core.actions.layout
       .addColumn(this.props.id, this.props.prop, sectionId, columnId, newColumnId);
+    this.save();
 
     if (e) {
       this.setCheckHover(e);
@@ -441,6 +482,7 @@ class Canvas extends Component {
       core.actions.layout
         .removeColumn(this.props.id, this.props.prop, sectionId, columnId);
     }
+    this.save();
 
     if (e) {
       this.setCheckHover(e);
@@ -470,6 +512,7 @@ class Canvas extends Component {
     core.actions.layout
       .resizeColumns(this.props.id, this.props.prop,
         columnIdA, valueA, columnIdB, valueB);
+    this.save();
   }
 
   handleRenderContent = (columnId, item) => {

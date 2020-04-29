@@ -6,6 +6,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 const styles = {
   root: {
+    width: '100%',
     outline: '1px dashed #F44336',
   }
 }
