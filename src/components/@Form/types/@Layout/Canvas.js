@@ -112,6 +112,7 @@ class Canvas extends Component {
         }
       })
     } else {
+      this.isSave = true;
       reset();
     }
   }

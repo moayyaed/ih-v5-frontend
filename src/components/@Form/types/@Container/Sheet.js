@@ -85,6 +85,7 @@ class Sheet extends Component {
         }
       })
     } else {
+      this.isSave = true;
       reset();
     }
   }
