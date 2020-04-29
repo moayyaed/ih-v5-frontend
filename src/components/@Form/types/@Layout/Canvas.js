@@ -195,7 +195,7 @@ class Canvas extends Component {
       this.handleRemoveSection(e, value);
     }
     if (button === 'b4') {
-      this.handleClickToolbarColumn(value);
+      this.handleClickToolbarColumn(e, value);
     }
     if (button === 'b5') {
       this.handleRemoveSectionInner(e, value, columnId);
@@ -218,7 +218,7 @@ class Canvas extends Component {
     core.actions.layout
       .select(
         this.props.id, this.props.prop, 
-        { section: sectionId, column: null },
+        { section: sectionId, column: null, content: null },
       )
   }
 
@@ -265,17 +265,26 @@ class Canvas extends Component {
       }
   }
 
-  handleClickToolbarColumn = (columnId) => {
+  handleClickToolbarColumn = (e, columnId) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     core.actions.layout
       .select(
         this.props.id, this.props.prop, 
-        { column: columnId, section: null },
+        { column: columnId, section: null, content: null },
       )
   }
 
-  handleClickColumn = (e) => {
+  handleClickColumn = (e, sectionId, columnId, item) => {
     e.preventDefault();
     e.stopPropagation();
+
+    core.actions.layout
+      .select(
+        this.props.id, this.props.prop, 
+        { section: null, column: columnId, content: item.type },
+      )
   }
 
   handleDragStart = (result) => {

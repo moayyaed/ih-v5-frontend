@@ -49,7 +49,7 @@ const styles = {
   }
 }
 
-const BUTTONS = [ 'TEXT', 'IMAGE', 'SECTION'];
+const BUTTONS = [ 'CONTAINER', 'TEXT', 'SECTION'];
 
 
 function disabled(v) {

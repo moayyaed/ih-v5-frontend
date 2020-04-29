@@ -108,7 +108,8 @@ class Properties2 extends PureComponent {
   render() {
     return (
       <div style={styles.root2} >
-          <div style={styles.text}>{`select: ${this.props.select || ''}`}</div>
+          <div style={styles.text}>{this.props.select ? 'SECTION' : this.props.select2 ? this.props.type ? this.props.type : 'COLUMN' : '' }</div>
+          <div style={styles.text}>{`select: ${this.props.select || this.props.select2 || ''}`}</div>
           <FormControl disabled={!Boolean(this.props.select)}>
             <InputLabel shrink id="demo-simple-select-label">Direction</InputLabel>
             <Select

@@ -79,7 +79,7 @@ function Column(props) {
         ...props.provided.draggableProps.style,
       }}
       className="column"
-      onClick={e => props.onClickColumn(e)}
+      onClick={e => props.onClickColumn(e, props.sectionId, props.id, props.item)}
       onContextMenu={e => props.onContextMenu(e, props.direction, props.sectionId, props.id)}
       onDragEnter={() => props.onDragEnter(props.item.type === null && props.sectionId, props.item.type === null && props.id)}
       onDrop={(e) => props.item.type === null && props.onDragDrop(e, props.sectionId, props.id)}

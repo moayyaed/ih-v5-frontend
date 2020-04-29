@@ -170,7 +170,10 @@ class Layout extends PureComponent {
           id={this.props.id}
           prop={this.props.options.prop}
           select={this.props.data.select ? this.props.data.sections[this.props.data.select.section] && this.props.data.select.section : null}
+          select2={this.props.data.select ? this.props.data.columns[this.props.data.select.column] && this.props.data.select.column : null}
+          type={this.props.data.select ? this.props.data.columns[this.props.data.select.column] && this.props.data.select.content : null}
           section={this.props.data.select && this.props.data.sections[this.props.data.select.section] || {}}
+          column={this.props.data.select && this.props.data.columns[this.props.data.select.column] || {}}
         />
       )
     }
