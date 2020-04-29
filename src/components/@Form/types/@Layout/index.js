@@ -114,28 +114,6 @@ class Layout extends PureComponent {
     return null;
   }
 
-  handleClickBody = (e) => {
-    if (this.props.data.isDragging) {
-      /* core.actions.layout
-        .hover(
-          this.props.id, this.props.options.prop, 
-          { 
-            ...this.props.data.hover,
-            check: { x: e.clientX, y: e.clientY }, 
-          }); */
-    } else {
-      core.actions.layout
-        .data(
-          this.props.id, this.props.options.prop, 
-          { 
-            hover: { sections: {}, columns: {} },
-            select: { section: null, column: null },
-            drag: { section: null, column: null },
-          },
-        )
-    }
-  }
-
   renderComponent = (id) => {
     if (id === 'canvas') {
       return (
@@ -182,7 +160,7 @@ class Layout extends PureComponent {
 
   render() {
     return (
-      <div style={styles.root} onClick={this.handleClickBody}>
+      <div style={styles.root} >
         <Mosaic
           className="mosaic-blueprint-theme"
           value={this.state.windows}

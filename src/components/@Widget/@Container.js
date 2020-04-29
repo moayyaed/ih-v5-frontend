@@ -21,13 +21,21 @@ class Container extends PureComponent {
   }
 
   handleRequest = (id) => {
+    console.log(id)
     core
       .request({ method: 'widget_container', params: id })
       .ok(res => {
         this.setState(state => {
+          console.log(res)
           return { ...state, ...res }
         })
       })
+  }
+
+  componentDidUpdate(lastProps) {
+    if (lastProps.params.containerId.id !== this.props.params.containerId.id) {
+      this.handleRequest(this.props.params.containerId.id)
+    }
   }
 
   render({ settings, list } = this.state) {

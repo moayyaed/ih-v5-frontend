@@ -290,6 +290,28 @@ class Canvas extends Component {
       )
   }
 
+  handleClickBody = (e) => {
+    if (this.props.isDragging) {
+      /* core.actions.layout
+        .hover(
+          this.props.id, this.props.options.prop, 
+          { 
+            ...this.props.data.hover,
+            check: { x: e.clientX, y: e.clientY }, 
+          }); */
+    } else {
+      core.actions.layout
+        .data(
+          this.props.id, this.props.prop, 
+          { 
+            hover: { sections: {}, columns: {} },
+            select: { section: null, column: null },
+            drag: { section: null, column: null },
+          },
+        )
+    }
+  }
+
   handleDragStart = (result) => {
     core.actions.layout
       .data(this.props.id, this.props.prop, { isDragging: true });
@@ -623,6 +645,7 @@ class Canvas extends Component {
               ref={provided.innerRef}
               style={styles.root}
               className="canvas"
+              onClick={this.handleClickBody}
             >
               {this.props.list
                 .map((id, index) =>
