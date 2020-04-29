@@ -319,6 +319,8 @@ class Sheet extends Component {
     e.preventDefault();
     e.stopPropagation();
 
+    e.persist();
+
     const disabled = {
       '4': Object.keys(this.props.selects).length === 0,
     }
@@ -326,8 +328,10 @@ class Sheet extends Component {
     const pos = { left: e.clientX, top: e.clientY };
     const scheme = {
       main: [
-        { id: '1', title: 'Group', click: this.handleClickGroupElements },
-        { id: '2', title: 'Ungroup', click: () => this.handleClickUnGroupElement(elementId) },
+        { id: '0', title: 'Add Element', click: () => this.handleAddElement(e) },
+        { id: '-', type: 'divider' },
+        { id: '1', check: '4', title: 'Group', click: this.handleClickGroupElements },
+        { id: '2', check: '4', title: 'Ungroup', click: () => this.handleClickUnGroupElement(elementId) },
         { id: '3', type: 'divider' },
         { id: '4', check: '4', title: 'Delete', click: () => this.handleDeleteElement(elementId) }
       ]
