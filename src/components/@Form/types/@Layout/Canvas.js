@@ -11,6 +11,8 @@ import AddIcon from '@material-ui/icons/Add';
 import { ContextMenu } from "@blueprintjs/core";
 import Menu from 'components/Menu';
 
+import widgets from 'components/@Widget';
+
 import Section from './Section';
 
 
@@ -563,12 +565,7 @@ class Canvas extends Component {
         />
       );
     }
-    return (
-      <>
-        <div>{columnId}</div>
-        <div>{item.type}</div>
-      </>
-    );
+    return widgets(columnId, item)
   }
 
   handleDragUpdate = (a, b, c, d) => {
