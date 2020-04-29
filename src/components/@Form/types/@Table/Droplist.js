@@ -110,7 +110,7 @@ class TableDroplistComponent extends Component {
     if (typeof this.props.column.data !== 'string') {
       this.setData(this.props.column.data)
     } else {
-      this.handleGetData();
+      this.handleGetData(true);
     }
   }
 
@@ -167,12 +167,13 @@ class TableDroplistComponent extends Component {
     this.props.container.props.onChange(id, options, { op: 'edit', column, row }, value)
   }
   
-  handleGetData = () => {
+  handleGetData = (isCache) => {
     if (typeof this.props.column.data === 'string') {
+      const cache = isCache ? this.props.column.data : false
       core
-      .request({ method: 'droplist', params: this.props.column })
-      .loading(() => this.setState(state => ({ ...state, loading: true })))
-      .ok(this.setData);
+        .request({ cache, method: 'droplist', params: this.props.column })
+        .loading(() => this.setState(state => ({ ...state, loading: true })))
+        .ok(this.setData);
     }
   }
 

@@ -107,19 +107,65 @@ class Request {
     this.timerTimeout = setTimeout(this.handleTimeout.bind(this), this.options.timeout);
 
     this.controller = new AbortController();
-    core.progress.start();
 
     const _handleOk = `response_${this.namespace}` ? this.responseEvent.bind(this) : this.responseOk.bind(this);
-
-    if (Array.isArray(this.req)) {
-      Promise
-      .all(this.req.map(req => fetch(req, { signal: this.controller.signal })))
-      .then(_handleOk)
-      .catch(this.responseError.bind(this))
+    if (this.context.cache) {
+      const cacheid = this.context.cache;
+      if (core.cache.requests[cacheid] && core.cache.requests[cacheid].time) {
+        if (Date.now() - core.cache.requests[cacheid].time > 7500) {
+          core.cache.requests[cacheid] = null;
+        }
+      }
+      if (!core.cache.requests[this.context.cache]) {
+        core.progress.start();
+        core.cache.requests[cacheid] = {
+          status: null,
+          list: [],
+          response: null,
+          error: null,
+        };
+        fetch(this.req, { signal: this.controller.signal })
+          .then((response) => {
+            _handleOk(response);
+            core.cache.requests[cacheid].status = 'ok';
+            core.cache.requests[cacheid].list.forEach(i => i.resolve(response));
+            core.cache.requests[cacheid].list = null;
+            core.cache.requests[cacheid].response = response;
+            core.cache.requests[cacheid].time = Date.now();
+          })
+          .catch((e) => {
+            this.responseError.bind(this)(e);
+            core.cache.requests[cacheid].status = 'error';
+            core.cache.requests[cacheid].list.forEach(i => i.reject(e));
+            core.cache.requests[cacheid].list = null;
+            core.cache.requests[cacheid].error = null;
+            core.cache.requests[cacheid] = null;
+            core.cache.requests[cacheid].status = null;
+          })
+      } else {
+        clearTimeout(this.timerDelay);
+        if (core.cache.requests[cacheid].status === null) {
+            core.cache.requests[cacheid].list.push({ resolve: _handleOk , reject: this.responseError.bind(this) });
+        } else {
+          if (core.cache.requests[cacheid].status === 'ok') {
+            _handleOk(core.cache.requests[cacheid].response);
+          } else {
+            this.responseError.bind(this)(core.cache.requests[cacheid].error);
+          }
+        }
+      }
     } else {
-      fetch(this.req, { signal: this.controller.signal })
-      .then(_handleOk)
-      .catch(this.responseError.bind(this))
+      core.progress.start();
+      if (Array.isArray(this.req)) {
+        Promise
+        .all(this.req.map(req => fetch(req, { signal: this.controller.signal })))
+        .then(_handleOk)
+        .catch(this.responseError.bind(this))
+      } else {
+        fetch(this.req, { signal: this.controller.signal })
+        .then(_handleOk)
+        .catch(this.responseError.bind(this))
+      }
     }
   }
 }

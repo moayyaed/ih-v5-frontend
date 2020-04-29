@@ -97,10 +97,12 @@ class Canvas extends Component {
   handleTransferData = (button, save, reset) => {
     if (button === 'save') {
       save({
-        [this.props.id] : {
-          list: this.props.list,
-          sections: this.props.sections,
-          columns: this.props.columns,
+        [this.props.id]: {
+          [this.props.prop]: {
+            list: this.props.list,
+            sections: this.props.sections,
+            columns: this.props.columns,
+          }
         }
       })
     } else {

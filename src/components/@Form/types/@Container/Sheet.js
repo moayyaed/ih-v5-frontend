@@ -75,10 +75,12 @@ class Sheet extends Component {
   handleTransferData = (button, save, reset) => {
     if (button === 'save') {
       save({
-        [this.props.id] : {
-          settings: this.props.settings,
-          list: this.props.list,
-          elements: this.props.elements,
+        [this.props.id]: {
+          [this.props.prop]: {
+            settings: this.props.settings,
+            list: this.props.list,
+            elements: this.props.elements,
+          }
         }
       })
     } else {
