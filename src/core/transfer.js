@@ -10,8 +10,8 @@ function unsub(name, handler) {
   transfer.events.removeListener(name, handler);
 }
 
-function send(name, data) {
-  transfer.events.emit(name, data);
+function send(name, data, param1, param2) {
+  transfer.events.emit(name, data, param1, param2);
 }
 
 const transfer = {

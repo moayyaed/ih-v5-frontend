@@ -63,6 +63,28 @@ class ComponentTabs extends Component {
     }
   }
 
+  handleRequestSave = (route, scheme, forcePayload) => {
+    const tab = scheme.tabs.find(i => i.id === route.tab);
+      
+    if (tab && (forcePayload || this.saveData[route.tab] !== undefined)) {
+      const params = { formid: tab.component[0].id, ...route };
+      const payload = forcePayload || this.saveData[route.tab];
+
+      core
+      .request({ method: 'components_tabs_form_save', params, payload })
+      .ok(res => {
+        if (res.data) {
+          core.actions.appnav.updateNodes('appnav', res.data);
+        }
+        this.saveData[route.tab] = {};
+        this.handleRequest(route, scheme);
+      })
+      .error(res => {
+        core.actions.form.errors(res.data || {})
+      })
+    }
+  }
+
   handleChange = (id, component, target, value) => {
     const { route, state } = this.props;
 
@@ -134,27 +156,14 @@ class ComponentTabs extends Component {
   handleToolbarClick = (button) => {
     const { route, scheme, state } = this.props;
     if (typeof state.save === 'string') {
-      core.transfer.send(state.save, button);
+      core.transfer.send(
+        state.save, 
+        button, 
+        payload => this.handleRequestSave(route, scheme, payload), 
+        () => this.handleRequest(route, scheme),
+      );
     } else if (button === 'save') {
-      const tab = scheme.tabs.find(i => i.id === route.tab);
-      
-      if (tab && this.saveData[route.tab] !== undefined) {
-        const params = { formid: tab.component[0].id, ...route };
-        const payload = this.saveData[route.tab];
-        
-        core
-          .request({ method: 'components_tabs_form_save', params, payload })
-          .ok(res => {
-            if (res.data) {
-              core.actions.appnav.updateNodes('appnav', res.data);
-            }
-            this.saveData[route.tab] = {};
-            this.handleRequest(route, scheme);
-          })
-          .error(res => {
-            core.actions.form.errors(res.data || {})
-          })
-      }
+      this.handleRequestSave(route, scheme);
     } else {
       this.saveData[route.tab] = {};
       this.handleRequest(route, scheme);

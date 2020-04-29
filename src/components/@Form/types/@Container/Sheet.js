@@ -61,8 +61,37 @@ function getIdElement(index, prefix, elements) {
 
 class Sheet extends Component {
 
+  componentDidMount() {
+    core.transfer.sub('container', this.handleTransferData);
+
+  }
+
   componentWillUnmount() {
+    core.transfer.unsub('container', this.handleTransferData);
+    this.isSave = null;
     this.dragSelectContainer = null;
+  }
+
+  handleTransferData = (button, save, reset) => {
+
+    if (button === 'save') {
+      save({
+        [this.props.id] : {
+          settings: this.props.settings,
+          list: this.props.list,
+          elements: this.props.elements,
+        }
+      })
+    } else {
+      reset();
+    }
+  }
+
+  save = () => {
+    if (!this.isSave) {
+      this.isSave = true;
+      core.actions.apppage.data({ save: 'container' })
+    }
   }
 
   handleMouseUpContainer = (e) => {
@@ -114,6 +143,7 @@ class Sheet extends Component {
         this.props.id, this.props.prop,
         { x, y, scale: s }
       );
+    this.save();
   }
 
   handleClickSheet = (e) => {
@@ -134,6 +164,7 @@ class Sheet extends Component {
         this.props.id, this.props.prop,
         { x: data.x, y: data.y }
       );
+    this.save();
   }
 
   handleStartMoveElement = (e, elementId, data) => {
@@ -154,6 +185,7 @@ class Sheet extends Component {
         this.props.id, this.props.prop,
         elementId, { x: data.x, y: data.y }
       );
+    this.save();
   }
 
   handleChangeSizeElement = (e, elementId, position, type) => {
@@ -176,6 +208,7 @@ class Sheet extends Component {
           elementId, position
         );
     }
+    this.save();
   }
 
   handleClickElement = (e, elementId) => {
@@ -345,6 +378,7 @@ class Sheet extends Component {
         this.props.id, this.props.prop,
         data.x, data.y,
       );
+    this.save();
   }
 
   handleClickSelectContainer = (e) => {
@@ -391,11 +425,7 @@ class Sheet extends Component {
         this.props.id, this.props.prop,
         position, childs,
       );
-
-    /*
-    const childs = getAllElementsByGroup(element.elements, this.props.elements);
-
-    */
+    this.save();
   }
 
   handleRenderContentSelectContainer = () => {
