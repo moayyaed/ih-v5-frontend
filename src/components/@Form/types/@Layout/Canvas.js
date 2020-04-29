@@ -96,6 +96,7 @@ class Canvas extends Component {
 
   handleTransferData = (button, save, reset) => {
     if (button === 'save') {
+      this.isSave = null;
       save({
         [this.props.id]: {
           [this.props.prop]: {
