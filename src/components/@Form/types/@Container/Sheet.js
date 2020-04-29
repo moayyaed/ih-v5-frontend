@@ -34,6 +34,15 @@ const styles = {
 }
 
 
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
 function getAllElementsByGroup(list, elements) {
   return list
     .reduce((p, c) => {
@@ -153,7 +162,22 @@ class Sheet extends Component {
   }
 
   handleContextMenuSheet = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
 
+    e.persist();
+
+    const pos = { left: e.clientX, top: e.clientY };
+    const scheme = {
+      main: [
+        { id: '1', 
+          title: 'Add Element', 
+          click: () => this.handleAddElement(e) 
+        },
+      ]
+    }
+
+    ContextMenu.show(<Menu scheme={scheme} />, pos);
   }
 
   handleMoveSheet = (e) => {
@@ -172,6 +196,51 @@ class Sheet extends Component {
   handleStartMoveElement = (e, elementId, data) => {
     e.preventDefault();
     e.stopPropagation();
+  }
+
+  handleAddElement = (e) => {
+    const elementId = getIdElement(0, 'element', this.props.elements);
+
+    const rect = this.sheet.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / this.props.settings.scale;
+    const y = (e.clientY - rect.top) / this.props.settings.scale;
+
+    core.actions.container
+      .data(
+        this.props.id, this.props.prop,
+        { 
+          list: this.props.list.concat(elementId), 
+          elements: {
+            ...this.props.elements,
+            [elementId]: {
+              x: x, y: y,
+              w: 70, h: 70,
+              borderColor: getRandomColor(),
+            }
+          } 
+        }
+      );
+    this.save();
+  }
+
+  handleDeleteElement = () => {
+    core.actions.container
+      .data(
+        this.props.id, this.props.prop,
+        {
+          selectType: null,
+          selectContainer: null,
+          selects: {},
+          list: this.props.list.filter(i => !this.props.selects[i]),
+          elements: Object
+            .keys(this.props.elements)
+            .reduce((p, c) => {
+              if (this.props.selects[c] || this.props.selects[this.props.elements[c].groupId]) {
+                return p;
+              }
+              return { ...p, [c]: this.props.elements[c] }
+            }, {})
+        });
   }
 
   handleMoveElement = (e, elementId, data) => {
@@ -247,15 +316,24 @@ class Sheet extends Component {
   }
 
   handleContextMenuElement = (e, elementId) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const disabled = {
+      '4': Object.keys(this.props.selects).length === 0,
+    }
+
     const pos = { left: e.clientX, top: e.clientY };
     const scheme = {
       main: [
         { id: '1', title: 'Group', click: this.handleClickGroupElements },
         { id: '2', title: 'Ungroup', click: () => this.handleClickUnGroupElement(elementId) },
+        { id: '3', type: 'divider' },
+        { id: '4', check: '4', title: 'Delete', click: () => this.handleDeleteElement(elementId) }
       ]
     }
 
-    ContextMenu.show(<Menu scheme={scheme} />, pos);
+    ContextMenu.show(<Menu disabled={disabled} scheme={scheme} />, pos);
   }
 
   handleClickGroupElements = () => {
@@ -484,8 +562,8 @@ class Sheet extends Component {
               elevation={2} 
               className="parent" 
               style={{ ...styles.sheet, width: settings.w, height: settings.h }}
-              onClick={(e) => this.handleClickSheet}
-              onContextMenu={(e) => this.handleContextMenuSheet}
+              onClick={(e) => this.handleClickSheet(e)}
+              onContextMenu={(e) => this.handleContextMenuSheet(e)}
             >
               {list.map(id => 
                 <Element 
