@@ -25,8 +25,8 @@ import reducerLayout from 'components/@Form/types/@Layout/reducer';
 import actionsContainer from 'components/@Form/types/@Container/actions';
 import reducerContainer from 'components/@Form/types/@Container/reducer';
 
-import actionsTemplate from 'components/@Form/types/@Container/actions';
-import reducerTemplate from 'components/@Form/types/@Container/reducer';
+import actionsTemplate from 'components/@Form/types/@Template/actions';
+import reducerTemplate from 'components/@Form/types/@Template/reducer';
 
 import Tabs from 'components/@Tabs';
 

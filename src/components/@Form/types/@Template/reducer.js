@@ -12,15 +12,15 @@ import {
   TEMPLATE_UNGROUP_ELEMENTS,
 
   TEMPLATE_RESIZE_GROUP_ELEMENT,
-  TEMPLATE_MOVE_SELECT_TEMPLATE,
-  TEMPLATE_RESIZE_SELECT_TEMPLATE,
+  TEMPLATE_MOVE_SELECT_CONTAINER,
+  TEMPLATE_RESIZE_SELECT_CONTAINER,
 
   TEMPLATE_ADD_ELEMENT,
   TEMPLATE_EDIT_ELEMENT,
 } from './constants';
 
 
-function reducerContainer(state, action) {
+function reducerTemplate(state, action) {
   switch (action.type) {
     case TEMPLATE_SET_DATA:
       return { ...state, ...action.data };
@@ -156,7 +156,7 @@ function reducerContainer(state, action) {
             return { ...p, [c]: state.elements[c] }
           }, {}),
       };
-    case TEMPLATE_MOVE_SELECT_TEMPLATE:
+    case TEMPLATE_MOVE_SELECT_CONTAINER:
       return { 
         ...state,
         selectContainer: {
@@ -180,7 +180,7 @@ function reducerContainer(state, action) {
             return { ...p, [c]: state.elements[c] }
           }, {}),
       };
-    case TEMPLATE_RESIZE_SELECT_TEMPLATE:
+    case TEMPLATE_RESIZE_SELECT_CONTAINER:
       return {
         ...state,
         selectContainer: {
@@ -261,8 +261,8 @@ function reducer(state, action) {
     case TEMPLATE_GROUP_ELEMENTS:
     case TEMPLATE_UNGROUP_ELEMENTS:
     case TEMPLATE_RESIZE_GROUP_ELEMENT:
-    case TEMPLATE_MOVE_SELECT_TEMPLATE:
-    case TEMPLATE_RESIZE_SELECT_TEMPLATE:
+    case TEMPLATE_MOVE_SELECT_CONTAINER:
+    case TEMPLATE_RESIZE_SELECT_CONTAINER:
     case TEMPLATE_ADD_ELEMENT:
     case TEMPLATE_EDIT_ELEMENT:
       return { 
@@ -271,7 +271,7 @@ function reducer(state, action) {
           ...state.data,
           [action.id]: {
             ...state.data[action.id],
-            [action.prop]: reducerContainer(state.data[action.id][action.prop], action),
+            [action.prop]: reducerTemplate(state.data[action.id][action.prop], action),
           }
         }
       };
