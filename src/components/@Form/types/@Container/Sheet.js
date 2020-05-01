@@ -21,8 +21,8 @@ const styles = {
     height: '100%',
     overflow: 'hidden',
     position: 'relative',
-    perspective: 1000,
-    WebkitPerspective: 1000,
+    // perspective: 1000,
+    // WebkitPerspective: 1000,
   },
   sheet: {
     transformOrigin: '0 0',
@@ -115,6 +115,49 @@ class Sheet extends Component {
   }
 
   handleMouseWhellContainer = (e) => {
+    const isTouchPad = e.nativeEvent.wheelDeltaY ? 
+    e.nativeEvent.wheelDeltaY === -3 * e.nativeEvent.deltaY : e.nativeEvent.deltaMode === 0;
+
+    const offset = this.container.getBoundingClientRect();
+
+    let x = this.props.settings.x;
+    let y = this.props.settings.y;
+    let s = this.props.settings.scale;
+
+    const px = e.pageX - offset.left;
+    const py = e.pageY - offset.top;
+
+    const tx = (px - (x * s)) / s;
+    const ty = (py - (y * s)) / s;
+
+    if (isTouchPad) {
+      if (e.deltaY > 0) {
+        s -= (e.deltaY * 1 / 450)
+      } else {
+        s += (e.deltaY * -1 / 450)
+      }
+    } else {
+      s += Math.max(-1, Math.min(1, e.deltaY)) * -0.1 * s;
+    } 
+
+    if (s > 8) {
+      s = 8;
+    }
+    if (s < 0.1 ) {
+      s = 0.1;
+    }
+  
+    x = (-tx * s + px) / s
+    y = (-ty * s + py) / s
+
+    core.actions.container
+      .settings(
+        this.props.id, this.props.prop,
+        { x, y, scale: s }
+      );
+  }
+
+  handleMouseWhellContainer2 = (e) => {
     const isTouchPad = e.nativeEvent.wheelDeltaY ? 
     e.nativeEvent.wheelDeltaY === -3 * e.nativeEvent.deltaY : e.nativeEvent.deltaMode === 0;
 
@@ -556,8 +599,9 @@ class Sheet extends Component {
           onMouseDown={this.handleMouseDownContainer}
           onWheel={this.handleMouseWhellContainer}
         >
-          <Draggable 
-            position={settings}
+          <Draggable
+            scale={settings.scale} 
+            position={{ x: settings.x, y: settings.y }}
             onDrag={this.handleMoveSheet}
             onStop={this.handleStopMoveSheet}
           >
@@ -565,7 +609,12 @@ class Sheet extends Component {
               ref={this.linkSheet}
               elevation={2} 
               className="parent" 
-              style={{ ...styles.sheet, width: settings.w, height: settings.h }}
+              style={{ 
+                ...styles.sheet, 
+                width: settings.w, 
+                height: settings.h,
+                zoom: settings.scale,
+              }}
               onClick={(e) => this.handleClickSheet(e)}
               onContextMenu={(e) => this.handleContextMenuSheet(e)}
             >
