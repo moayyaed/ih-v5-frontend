@@ -14,7 +14,6 @@ const styles = {
 function Element(props) {
   return (
     <Draggable
-      bounds=".parent"
       scale={props.scale}
       position={props.item}
       disabled={props.isGroup || props.selectType === 'some'}

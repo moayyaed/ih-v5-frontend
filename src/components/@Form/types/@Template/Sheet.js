@@ -608,7 +608,7 @@ class Sheet extends Component {
             <Paper
               ref={this.linkSheet}
               elevation={2} 
-              className="parent" 
+              className="parent2" 
               style={{ 
                 ...styles.sheet, 
                 width: settings.w, 

@@ -25,7 +25,7 @@
     "react-dnd": "9.5.1",
     "react-dnd-html5-backend": "^10.0.2",
     "react-dom": "^16.12.0",
-    "react-draggable": "https://github.com/fast0490f/react-draggable#c37ee39d3f1a54d568f18bce7237801d3fa4cd0a",
+    "react-draggable": "https://github.com/fast0490f/react-draggable#c0d2111a28ba6978a12c72a6039debb03f193d84",
     "react-draggable-original": "npm:react-draggable",
     "react-mosaic-component": "^4.0.0",
     "react-redux": "^7.1.3",
