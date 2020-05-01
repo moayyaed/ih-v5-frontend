@@ -10,6 +10,7 @@ import Tags from './@Tags';
 
 import Layout from './@Layout';
 import Container from './@Container';
+import Template from './@Template';
 import SmartButton from './@SmartButton';
 import Table from './@Table';
 import Code from './@Code';
@@ -38,6 +39,8 @@ function getComponentByType(type) {
       return Layout;
     case 'container':
       return Container;
+    case 'template':
+      return Template;
     case 'smartbutton':
       return SmartButton;
     case 'code':
