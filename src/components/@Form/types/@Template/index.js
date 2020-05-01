@@ -46,7 +46,7 @@ class Template extends PureComponent {
 
   componentDidMount() {
     if (this.props.data.settings === undefined) {
-      core.actions.container
+      core.actions.template
       .data(
         this.props.id, this.props.options.prop, {
           selectType: null,
@@ -74,7 +74,7 @@ class Template extends PureComponent {
   }
 
   handleClickBody = (e) => {
-    core.actions.container
+    core.actions.template
       .clearSelects(
         this.props.id, this.props.options.prop,
       );

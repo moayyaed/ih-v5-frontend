@@ -71,12 +71,12 @@ function getIdElement(index, prefix, elements) {
 class Sheet extends Component {
 
   componentDidMount() {
-    core.transfer.sub('container', this.handleTransferData);
+    core.transfer.sub('template', this.handleTransferData);
 
   }
 
   componentWillUnmount() {
-    core.transfer.unsub('container', this.handleTransferData);
+    core.transfer.unsub('template', this.handleTransferData);
     this.isSave = null;
     this.dragSelectContainer = null;
   }
@@ -102,7 +102,7 @@ class Sheet extends Component {
   save = () => {
     if (!this.isSave) {
       this.isSave = true;
-      core.actions.apppage.data({ save: 'container' })
+      core.actions.apppage.data({ save: 'template' })
     }
   }
 
@@ -150,7 +150,7 @@ class Sheet extends Component {
     x = (-tx * s + px) / s
     y = (-ty * s + py) / s
 
-    core.actions.container
+    core.actions.template
       .settings(
         this.props.id, this.props.prop,
         { x, y, scale: s }
@@ -193,7 +193,7 @@ class Sheet extends Component {
     x = -tx * s + px
     y = -ty * s + py
 
-    core.actions.container
+    core.actions.template
       .settings(
         this.props.id, this.props.prop,
         { x, y, scale: s }
@@ -228,7 +228,7 @@ class Sheet extends Component {
   }
 
   handleStopMoveSheet = (e, data) => {
-    core.actions.container
+    core.actions.template
       .settings(
         this.props.id, this.props.prop,
         { x: data.x, y: data.y }
@@ -248,7 +248,7 @@ class Sheet extends Component {
     const x = (e.clientX - rect.left) / this.props.settings.scale;
     const y = (e.clientY - rect.top) / this.props.settings.scale;
 
-    core.actions.container
+    core.actions.template
       .data(
         this.props.id, this.props.prop,
         { 
@@ -267,7 +267,7 @@ class Sheet extends Component {
   }
 
   handleDeleteElement = () => {
-    core.actions.container
+    core.actions.template
       .data(
         this.props.id, this.props.prop,
         {
@@ -294,7 +294,7 @@ class Sheet extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    core.actions.container
+    core.actions.template
       .editElement(
         this.props.id, this.props.prop,
         elementId, { x: data.x, y: data.y }
@@ -310,13 +310,13 @@ class Sheet extends Component {
 
     if (element.type === 'group') {
       const childs = getAllElementsByGroup(element.elements, this.props.elements);
-      core.actions.container
+      core.actions.template
         .resizeGroupElement(
           this.props.id, this.props.prop,
           elementId, position, childs,
         );
     } else {
-      core.actions.container
+      core.actions.template
         .editElement(
           this.props.id, this.props.prop,
           elementId, position
@@ -343,14 +343,14 @@ class Sheet extends Component {
           });
         data.w = data.w - data.x;
         data.h = data.h - data.y;
-        core.actions.container
+        core.actions.template
           .selectSome(
             this.props.id, this.props.prop,
             elementId, data
           );
       }
     } else {
-      core.actions.container
+      core.actions.template
         .select(
           this.props.id, this.props.prop,
           elementId
@@ -405,7 +405,7 @@ class Sheet extends Component {
         type: 'group',
         elements: list, 
       };
-      core.actions.container
+      core.actions.template
         .groupElements(
           this.props.id, this.props.prop,
           groupId, groupData,
@@ -431,7 +431,7 @@ class Sheet extends Component {
     data.w = data.w - data.x;
     data.h = data.h - data.y;
 
-    core.actions.container
+    core.actions.template
       .unGroupElements(
         this.props.id, this.props.prop,
         list, data,
@@ -492,7 +492,7 @@ class Sheet extends Component {
     if (!this.dragSelectContainer) {
       this.dragSelectContainer = true;
     }
-    core.actions.container
+    core.actions.template
       .moveSelectContainer(
         this.props.id, this.props.prop,
         data.x, data.y,
@@ -500,7 +500,7 @@ class Sheet extends Component {
   }
 
   handleStopMoveSelectContainer = (e, elementId, data) => {
-    core.actions.container
+    core.actions.template
       .moveSelectContainer(
         this.props.id, this.props.prop,
         data.x, data.y,
@@ -547,7 +547,7 @@ class Sheet extends Component {
     }
 
     const childs = getAllElementsByGroup(Object.keys(this.props.selects), this.props.elements)
-    core.actions.container
+    core.actions.template
       .resizeSelectContainer(
         this.props.id, this.props.prop,
         position, childs,
