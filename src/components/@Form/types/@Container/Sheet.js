@@ -601,7 +601,7 @@ class Sheet extends Component {
         >
           <Draggable
             scale={settings.scale} 
-            position={{ x: settings.x, y: settings.y, scale: settings.scale }}
+            position={settings}
             onDrag={this.handleMoveSheet}
             onStop={this.handleStopMoveSheet}
           >
@@ -613,7 +613,6 @@ class Sheet extends Component {
                 ...styles.sheet, 
                 width: settings.w, 
                 height: settings.h,
-                // zoom: settings.scale,
               }}
               onClick={(e) => this.handleClickSheet(e)}
               onContextMenu={(e) => this.handleContextMenuSheet(e)}
