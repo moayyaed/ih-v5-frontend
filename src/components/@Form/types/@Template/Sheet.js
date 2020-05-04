@@ -209,6 +209,7 @@ class Sheet extends Component {
     e.stopPropagation();
 
     e.persist();
+    // this.handleAddElement(e)
 
     const pos = { left: e.clientX, top: e.clientY };
     const scheme = {
@@ -245,9 +246,10 @@ class Sheet extends Component {
     const elementId = getIdElement(0, 'element', this.props.elements);
 
     const rect = this.sheet.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / this.props.settings.scale;
-    const y = (e.clientY - rect.top) / this.props.settings.scale;
-
+    
+    const x = (e.pageX - (rect.left * this.props.settings.scale)) / this.props.settings.scale // (e.clientX - rect.left) / this.props.settings.scale;
+    const y = (e.pageY - (rect.top * this.props.settings.scale)) / this.props.settings.scale  // (e.clientY - rect.top) / this.props.settings.scale;
+    
     core.actions.template
       .data(
         this.props.id, this.props.prop,

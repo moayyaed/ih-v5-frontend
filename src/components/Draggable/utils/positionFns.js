@@ -85,7 +85,7 @@ export function getControlPosition(e: MouseTouchEvent, touchIdentifier: ?number,
   const node = findDOMNode(draggableCore);
   // User can provide an offsetParent if desired.
   const offsetParent = draggableCore.props.offsetParent || node.offsetParent || node.ownerDocument.body;
-  return offsetXYFromParent(touchObj || e, offsetParent, draggableCore.props.scale);
+  return offsetXYFromParent(touchObj || e, offsetParent, draggableCore.props.scale, draggableCore.props.transform);
 }
 
 // Create an data object exposed by <DraggableCore>'s events

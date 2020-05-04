@@ -348,7 +348,7 @@ export default class DraggableCore extends React.Component<DraggableCoreProps, D
       }
       return;
     }
-
+   
     this.setState({
       lastX: x,
       lastY: y

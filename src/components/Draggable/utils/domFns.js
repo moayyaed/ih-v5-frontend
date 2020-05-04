@@ -101,13 +101,13 @@ export function innerWidth(node: HTMLElement): number {
 }
 
 // Get from offsetParent
-export function offsetXYFromParent(evt: {clientX: number, clientY: number}, offsetParent: HTMLElement, scale: number): ControlPosition {
+export function offsetXYFromParent(evt: {clientX: number, clientY: number}, offsetParent: HTMLElement, scale: number, transform): ControlPosition {
   const isBody = offsetParent === offsetParent.ownerDocument.body;
   const offsetParentRect = isBody ? {left: 0, top: 0} : offsetParent.getBoundingClientRect();
-
+  
   const x = (evt.clientX + offsetParent.scrollLeft - offsetParentRect.left) / scale;
   const y = (evt.clientY + offsetParent.scrollTop - offsetParentRect.top) / scale;
-
+  // console.log(evt.clientY, offsetParent.scrollTop, offsetParentRect.top, y)
   return {x, y};
 }
 

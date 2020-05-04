@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import core from 'core';
 
-import Draggable from 'react-draggable';
+import Draggable from 'components/Draggable';
 
 
 const styles = {
@@ -162,6 +162,7 @@ function ResizeControls(props) {
         <div style={styles.control} />
       </Draggable>
       <Draggable
+        test
         scale={props.scale} 
         position={positions.topRight}
         onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TR', props.position, data))}

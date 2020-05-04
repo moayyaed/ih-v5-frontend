@@ -342,6 +342,7 @@ class Draggable extends React.Component<DraggableProps, DraggableState> {
     const draggable = !controlled || this.state.dragging;
 
     const validPosition = position || defaultPosition;
+    const s = position ? position.scale : null;
     const transformOpts = {
       // Set left if horizontal drag is enabled
       x: canDragX(this) && draggable ?
@@ -352,9 +353,12 @@ class Draggable extends React.Component<DraggableProps, DraggableState> {
       y: canDragY(this) && draggable ?
         this.state.y :
         validPosition.y,
-      scale: position.scale,
+      scale: s,
     };
-
+    if (this.props.test) {
+      // console.log(transformOpts.y)
+    }
+    
     // If this element was SVG, we use the `transform` attribute.
     if (this.state.isElementSVG) {
       svgTransform = createSVGTransform(transformOpts, positionOffset);
