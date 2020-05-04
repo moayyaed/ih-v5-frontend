@@ -14,6 +14,7 @@ import Template from './@Template';
 import SmartButton from './@SmartButton';
 import Table from './@Table';
 import Code from './@Code';
+import Script from './@Script';
 import PluginForm1 from './@PluginForm1';
 
 
@@ -45,6 +46,8 @@ function getComponentByType(type) {
       return SmartButton;
     case 'code':
       return Code;
+    case 'script':
+      return Script;
     case 'pluginform1':
       return PluginForm1;
     default:

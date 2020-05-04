@@ -8939,9 +8939,9 @@ react-dom@^16.12.0, react-dom@^16.3.0:
     classnames "^2.2.5"
     prop-types "^15.6.0"
 
-"react-draggable@https://github.com/fast0490f/react-draggable#c37ee39d3f1a54d568f18bce7237801d3fa4cd0a":
+"react-draggable@https://github.com/fast0490f/react-draggable#c0d2111a28ba6978a12c72a6039debb03f193d84":
   version "4.1.0"
-  resolved "https://github.com/fast0490f/react-draggable#c37ee39d3f1a54d568f18bce7237801d3fa4cd0a"
+  resolved "https://github.com/fast0490f/react-draggable#c0d2111a28ba6978a12c72a6039debb03f193d84"
   dependencies:
     classnames "^2.2.5"
     prop-types "^15.6.0"

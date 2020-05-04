@@ -47,7 +47,7 @@ const scheme = {
 }
 
 const TITLES = {
-  code: 'Code',
+  code: 'Script',
   console: 'Console',
   toolbar: 'Toolbar',
   controls: 'Controls',
