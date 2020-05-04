@@ -16,9 +16,6 @@ import './@Code/code.css';
 
 const scheme = 'script'
 
-const TITLES = {
-  script: 'Script',
-}
 
 const EMPTY_ARRAY = [];
 
@@ -71,7 +68,7 @@ class Script extends PureComponent {
               <MosaicWindow
                 key={id}
                 draggable={true}
-                title={TITLES[id]}
+                title={this.props.options.title}
                 additionalControls={EMPTY_ARRAY}
                 path={path}
                 renderToolbar={null}
