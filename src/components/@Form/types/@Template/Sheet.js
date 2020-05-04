@@ -209,7 +209,6 @@ class Sheet extends Component {
     e.stopPropagation();
 
     e.persist();
-    // this.handleAddElement(e)
 
     const pos = { left: e.clientX, top: e.clientY };
     const scheme = {
@@ -258,7 +257,8 @@ class Sheet extends Component {
           elements: {
             ...this.props.elements,
             [elementId]: {
-              x: x, y: y,
+              x: Math.round(x * 1e2 ) / 1e2, 
+              y: Math.round(y * 1e2 ) / 1e2,
               w: 70, h: 70,
               borderColor: getRandomColor(),
             }
