@@ -49,6 +49,7 @@ class Script extends PureComponent {
               fontSize={14}
               value={props.data}
               setOptions={{ useWorker: false }}
+              readOnly={props.options.disabled}
               onChange={(value) => props.onChange(props.id, props.options, null, value)}
             />}
         </ReactResizeDetector>
