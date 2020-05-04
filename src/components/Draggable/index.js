@@ -272,7 +272,7 @@ class Draggable extends React.Component<DraggableProps, DraggableState> {
       const [newStateX, newStateY] = getBoundPosition(this, newState.x, newState.y);
       newState.x = newStateX;
       newState.y = newStateY;
-     
+      // console.log(newStateX, newStateY)
       // Recalculate slack by noting how much was shaved by the boundPosition handler.
       newState.slackX = this.state.slackX + (x - newState.x);
       newState.slackY = this.state.slackY + (y - newState.y);

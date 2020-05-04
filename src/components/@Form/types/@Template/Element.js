@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import core from 'core';
 
-import Draggable from 'react-draggable';
+import Draggable from 'components/Draggable';
 
 import ResizeControls from './ResizeControls';
 

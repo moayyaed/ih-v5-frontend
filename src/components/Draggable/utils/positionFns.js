@@ -8,6 +8,7 @@ import type {Bounds, ControlPosition, DraggableData, MouseTouchEvent} from './ty
 import type DraggableCore from '../DraggableCore';
 
 export function getBoundPosition(draggable: Draggable, x: number, y: number): [number, number] {
+  const transform = draggable.props.transform;
   // If no bounds, short-circuit and move on
   if (!draggable.props.bounds) return [x, y];
 
@@ -31,14 +32,25 @@ export function getBoundPosition(draggable: Draggable, x: number, y: number): [n
     const nodeStyle = ownerWindow.getComputedStyle(node);
     const boundNodeStyle = ownerWindow.getComputedStyle(boundNode);
     // Compute bounds. This is a pain with padding and offsets but this gets it exactly right.
-    bounds = {
-      left: -node.offsetLeft + int(boundNodeStyle.paddingLeft) + int(nodeStyle.marginLeft),
-      top: -node.offsetTop + int(boundNodeStyle.paddingTop) + int(nodeStyle.marginTop),
-      right: innerWidth(boundNode) - outerWidth(node) - node.offsetLeft +
-        int(boundNodeStyle.paddingRight) - int(nodeStyle.marginRight),
-      bottom: innerHeight(boundNode) - outerHeight(node) - node.offsetTop +
-        int(boundNodeStyle.paddingBottom) - int(nodeStyle.marginBottom)
-    };
+    if (transform) {
+      bounds = {
+        left: -node.offsetLeft + int(boundNodeStyle.paddingLeft) + int(nodeStyle.marginLeft),
+        top: -node.offsetTop + int(boundNodeStyle.paddingTop) + int(nodeStyle.marginTop),
+        right: innerWidth(boundNode) - outerWidth(node) - node.offsetLeft +
+          int(boundNodeStyle.paddingRight) - int(nodeStyle.marginRight),
+        bottom: innerHeight(boundNode) - outerHeight(node) - node.offsetTop +
+          int(boundNodeStyle.paddingBottom) - int(nodeStyle.marginBottom)
+      };
+    } else {
+      bounds = {
+        left: int(boundNodeStyle.paddingLeft) + int(nodeStyle.marginLeft),
+        top: int(boundNodeStyle.paddingTop) + int(nodeStyle.marginTop),
+        right: innerWidth(boundNode) - outerWidth(node) +
+          int(boundNodeStyle.paddingRight) - int(nodeStyle.marginRight),
+        bottom: innerHeight(boundNode) - outerHeight(node) +
+          int(boundNodeStyle.paddingBottom) - int(nodeStyle.marginBottom)
+      };
+    }
   }
 
   // Keep x and y below right and bottom limits...
