@@ -4,7 +4,7 @@ import core from 'core';
 import { ContextMenu } from "@blueprintjs/core";
 
 import Paper from '@material-ui/core/Paper';
-import Draggable from 'react-draggable';
+import Draggable from 'components/Draggable';
 
 import Element from './Element';
 import Menu from 'components/Menu';

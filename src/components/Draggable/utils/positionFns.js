@@ -80,12 +80,13 @@ export function canDragY(draggable: Draggable): boolean {
 
 // Get {x, y} positions from event.
 export function getControlPosition(e: MouseTouchEvent, touchIdentifier: ?number, draggableCore: DraggableCore): ?ControlPosition {
+
   const touchObj = typeof touchIdentifier === 'number' ? getTouch(e, touchIdentifier) : null;
   if (typeof touchIdentifier === 'number' && !touchObj) return null; // not the right touch
   const node = findDOMNode(draggableCore);
   // User can provide an offsetParent if desired.
   const offsetParent = draggableCore.props.offsetParent || node.offsetParent || node.ownerDocument.body;
-  return offsetXYFromParent(touchObj || e, offsetParent, draggableCore.props.scale, draggableCore.props.transform);
+  return offsetXYFromParent(touchObj || e, offsetParent, draggableCore.props.scale, draggableCore.props.originScale);
 }
 
 // Create an data object exposed by <DraggableCore>'s events

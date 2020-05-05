@@ -162,7 +162,6 @@ function ResizeControls(props) {
         <div style={styles.control} />
       </Draggable>
       <Draggable
-        test
         scale={props.scale} 
         position={positions.topRight}
         onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TR', props.position, data))}

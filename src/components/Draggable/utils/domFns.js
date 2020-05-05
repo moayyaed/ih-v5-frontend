@@ -101,14 +101,14 @@ export function innerWidth(node: HTMLElement): number {
 }
 
 // Get from offsetParent
-export function offsetXYFromParent(evt: {clientX: number, clientY: number}, offsetParent: HTMLElement, scale: number, transform): ControlPosition {
+export function offsetXYFromParent(evt: {clientX: number, clientY: number}, offsetParent: HTMLElement, scale: number, originScale): ControlPosition {
   const isBody = offsetParent === offsetParent.ownerDocument.body;
   const offsetParentRect = isBody ? {left: 0, top: 0} : offsetParent.getBoundingClientRect();
+
+  const x = evt.clientX - offsetParentRect.left * originScale // ((evt.clientX + offsetParent.scrollLeft - offsetParentRect.left) / scale);
+  const y = evt.clientY - offsetParentRect.top * originScale // ((evt.clientY + offsetParent.scrollTop - offsetParentRect.top) / scale);
   
-  const x = (evt.clientX + offsetParent.scrollLeft - offsetParentRect.left) / scale;
-  const y = (evt.clientY + offsetParent.scrollTop - offsetParentRect.top) / scale;
-  // console.log(evt.clientY, offsetParent.scrollTop, offsetParentRect.top, y)
-  return {x, y};
+  return { x: Math.round(x * 1e2 ) / 1e2, y: Math.round(y * 1e2 ) / 1e2 };
 }
 
 export function createCSSTransform(controlPos: ControlPosition, positionOffset: PositionOffsetControlPosition, flag): Object {

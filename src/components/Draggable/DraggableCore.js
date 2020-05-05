@@ -312,7 +312,6 @@ export default class DraggableCore extends React.Component<DraggableCoreProps, D
   };
 
   handleDrag: EventHandler<MouseTouchEvent> = (e) => {
-
     // Get the current drag point from the event. This is used as the offset.
     const position = getControlPosition(e, this.state.touchIdentifier, this);
     if (position == null) return;
@@ -348,7 +347,6 @@ export default class DraggableCore extends React.Component<DraggableCoreProps, D
       }
       return;
     }
-   
     this.setState({
       lastX: x,
       lastY: y

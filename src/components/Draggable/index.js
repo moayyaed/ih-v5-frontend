@@ -287,7 +287,7 @@ class Draggable extends React.Component<DraggableProps, DraggableState> {
     // Short-circuit if user's callback killed it.
     const shouldUpdate = this.props.onDrag(e, uiData);
     if (shouldUpdate === false) return false;
-
+    // console.log(this.state.prevPropsPosition.y, this.state.y)
     this.setState(newState);
   };
 
@@ -333,7 +333,7 @@ class Draggable extends React.Component<DraggableProps, DraggableState> {
       transform,
       ...draggableCoreProps
     } = this.props;
-
+  
     let style = {};
     let svgTransform = null;
 
@@ -379,7 +379,7 @@ class Draggable extends React.Component<DraggableProps, DraggableState> {
     // Reuse the child provided
     // This makes it flexible to use whatever element is wanted (div, ul, etc)
     return (
-      <DraggableCore {...draggableCoreProps} onStart={this.onDragStart} onDrag={this.onDrag} onStop={this.onDragStop}>
+      <DraggableCore {...draggableCoreProps} originScale={this.props.scale} onStart={this.onDragStart} onDrag={this.onDrag} onStop={this.onDragStop}>
         {React.cloneElement(React.Children.only(children), {
           className: className,
           style: {...children.props.style, ...style},
