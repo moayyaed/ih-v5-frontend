@@ -52,7 +52,7 @@ class Template extends PureComponent {
           selectType: null,
           selectContainer: null,
           selects: {}, 
-          settings: { x: 95, y: 50, w: 650, h: 400, scale: 1 },
+          settings: { x: 270, y: 120, w: 250, h: 250, scale: 1 },
           list: [],
           elements: {}
         });
