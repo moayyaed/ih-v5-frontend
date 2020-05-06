@@ -549,6 +549,14 @@ class Canvas extends Component {
     e.preventDefault();
     e.stopPropagation();
 
+    if (sectionId) {
+      core.actions.layout
+        .select(
+          this.props.id, this.props.prop, 
+          { section: sectionId, column: null, content: null }
+        )
+    }
+
     const pos = { left: e.clientX, top: e.clientY };
     const scheme = {
       main: [
