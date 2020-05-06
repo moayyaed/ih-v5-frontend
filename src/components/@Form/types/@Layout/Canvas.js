@@ -11,7 +11,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { ContextMenu } from "@blueprintjs/core";
 import Menu from 'components/Menu';
 
-import widgets from 'components/@Widget';
+import widgets from 'components/@Widgets';
 
 import Section from './Section';
 
