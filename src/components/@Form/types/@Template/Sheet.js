@@ -9,6 +9,8 @@ import Draggable from 'components/Draggable';
 import Element from './Element';
 import Menu from 'components/Menu';
 
+import elemets from 'components/@Elements';
+
 
 const styles = {
   root: {
@@ -472,16 +474,7 @@ class Sheet extends Component {
         </div>
       )
     }
-    return (
-      <div 
-        style={{
-          position: 'absolute', 
-          width: '100%', 
-          height: '100%', 
-          border: `1px solid ${item.borderColor}`, 
-        }}
-      />
-    )
+    return elemets(elementId, item)
   }
 
   handleStartMoveSelectContainer = (e, elementId, data) => {
