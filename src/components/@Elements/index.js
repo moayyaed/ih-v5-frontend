@@ -1,13 +1,13 @@
 import React from 'react';
 
 
-import Basic from './@Basic';
+import Block from './@Block';
 
 
 function getElementByType(type) {
   switch (type) {
     default:
-      return Basic;
+      return Block;
   }
 }
 

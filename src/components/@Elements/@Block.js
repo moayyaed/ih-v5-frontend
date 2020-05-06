@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-function Basic(props) {
+function Block(props) {
   return (
     <div 
       style={{
@@ -15,4 +15,4 @@ function Basic(props) {
 }
 
 
-export default Basic;
+export default Block;

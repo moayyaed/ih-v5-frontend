@@ -244,7 +244,7 @@ class Sheet extends Component {
   }
 
   handleAddElement = (e) => {
-    const elementId = getIdElement(0, 'element', this.props.elements);
+    const elementId = getIdElement(0, 'block', this.props.elements);
 
     const rect = this.sheet.getBoundingClientRect();
     
@@ -259,6 +259,7 @@ class Sheet extends Component {
           elements: {
             ...this.props.elements,
             [elementId]: {
+              type: 'block',
               x: Math.round(x * 1e2 ) / 1e2, 
               y: Math.round(y * 1e2 ) / 1e2,
               w: 70, h: 70,
