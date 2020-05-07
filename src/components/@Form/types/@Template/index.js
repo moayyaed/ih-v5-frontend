@@ -39,7 +39,7 @@ const state = {
       second: "property",
       splitPercentage: 32,
     },
-    splitPercentage: 80,
+    splitPercentage: 70,
   },
 }
 

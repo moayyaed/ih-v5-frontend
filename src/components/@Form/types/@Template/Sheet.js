@@ -265,6 +265,7 @@ class Sheet extends Component {
               w: 70, h: 70,
               borderSize: 1,
               borderColor: 'rgba(255,0,0,1)',
+              backgroundColor: 'transparent',
             }
           } 
         }

@@ -65,8 +65,14 @@ function Color(props) {
   const handleChange = (colors, e) => {
     e.preventDefault();
     e.stopPropagation();
+
     const { r, g, b, a } = colors.rgb;
-    props.onChange(props.id, props.options, null, `rgba(${r},${g},${b},${a})`)
+    
+    if (props.data === 'transparent') {
+      props.onChange(props.id, props.options, null, `rgba(${r},${g},${b},1)`)
+    } else {
+      props.onChange(props.id, props.options, null, `rgba(${r},${g},${b},${a})`)
+    }
   }
 
   const open = Boolean(anchorEl);

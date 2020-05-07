@@ -13,6 +13,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import SingleForm from 'components/@Form/Single';
 
+import { Scrollbars } from 'react-custom-scrollbars';
+
 
 export const PROPERTY_BUTTONS = [
   <Button key="3" icon="style" minimal />
@@ -24,6 +26,11 @@ const scheme = [
   {
     title: 'Style 1',
     data: [
+      { 
+        title: 'Background Color', 
+        prop: 'backgroundColor', 
+        type: 'color',
+      },
       { 
         title: 'Border Color', 
         prop: 'borderColor', 
@@ -40,6 +47,11 @@ const scheme = [
     title: 'Style 2',
     data: [
       { 
+        title: 'Background Color', 
+        prop: 'backgroundColor', 
+        type: 'color',
+      },
+      { 
         title: 'Border Color', 
         prop: 'borderColor', 
         type: 'color',
@@ -55,6 +67,11 @@ const scheme = [
     title: 'Style 3',
     data: [
       { 
+        title: 'Background Color', 
+        prop: 'backgroundColor', 
+        type: 'color',
+      },
+      { 
         title: 'Border Color', 
         prop: 'borderColor', 
         type: 'color',
@@ -68,11 +85,8 @@ const scheme = [
   }
 ]
 
-const data = {
-  borderColor: 'transparent',
-}
-
 const cache = {
+  backgroundColor: {},
   borderColor: {},
   borderSize: {},
 }
@@ -112,9 +126,9 @@ class Property extends PureComponent {
       return null;
     }
     return (
-      <div>
+      <Scrollbars style={{ width: '100%', height: '100%' }}>
         {scheme.map(item =>
-          <ExpansionPanel key={item.title}>
+          <ExpansionPanel key={item.title} defaultExpanded>
             <ExpansionPanelSummary 
               style={styles.summary} 
               IconButtonProps={{ size: 'small' }}
@@ -135,7 +149,7 @@ class Property extends PureComponent {
             </ExpansionPanelDetails>
           </ExpansionPanel>
         )}
-      </div>
+      </Scrollbars>
     )
   }
 }
