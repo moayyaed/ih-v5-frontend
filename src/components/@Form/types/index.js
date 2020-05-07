@@ -7,6 +7,8 @@ import Checkbox from './@Checkbox';
 import Textarea from './@Textarea';
 import Droplist from './@Droplist';
 import Tags from './@Tags';
+import Color from './@Color';
+import Slider from './@Slider';
 
 import Layout from './@Layout';
 import Container from './@Container';
@@ -36,6 +38,11 @@ function getComponentByType(type) {
       return Droplist;
     case 'tags':
       return Tags;
+    case 'color':
+      return Color;
+    case 'slider':
+      return Slider;
+      
     case 'layout':
       return Layout;
     case 'container':

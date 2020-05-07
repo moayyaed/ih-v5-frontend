@@ -263,7 +263,8 @@ class Sheet extends Component {
               x: Math.round(x * 1e2 ) / 1e2, 
               y: Math.round(y * 1e2 ) / 1e2,
               w: 70, h: 70,
-              borderColor: getRandomColor(),
+              borderSize: 1,
+              borderColor: 'rgba(255,0,0,1)',
             }
           } 
         }
@@ -277,6 +278,7 @@ class Sheet extends Component {
         this.props.id, this.props.prop,
         {
           selectType: null,
+          selectOne: null,
           selectContainer: null,
           selects: {},
           list: this.props.list.filter(i => !this.props.selects[i]),
@@ -504,6 +506,11 @@ class Sheet extends Component {
     this.save();
   }
 
+  handleClickBody = (e) => {
+    core.actions.template
+      .clearSelects(this.props.id, this.props.prop);
+  }
+
   handleClickSelectContainer = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -587,7 +594,7 @@ class Sheet extends Component {
 
   render({ selects, settings, list, elements } = this.props) {
     return (
-      <div style={styles.root}>
+      <div style={styles.root} onClick={this.handleClickBody}>
         <div 
           ref={this.linkContainer}
           style={styles.container}

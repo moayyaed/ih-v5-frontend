@@ -28,6 +28,7 @@ function reducerTemplate(state, action) {
       return { 
         ...state,
         selectType: 'one',
+        selectOne: action.elementId,
         selects: {
           [action.elementId]: true,
         }
@@ -44,6 +45,7 @@ function reducerTemplate(state, action) {
       return { 
         ...state,
         selectType: 'some',
+        selectOne: null,
         selectContainer: action.data,
         selects: {
           ...state.selects,
@@ -54,6 +56,8 @@ function reducerTemplate(state, action) {
       return { 
         ...state,
         selectType: null,
+        selectOne: null,
+        selectContainer: null,
         selects: {}
       };
     case TEMPLATE_GROUP_ELEMENTS:

@@ -7,6 +7,9 @@ import {
 } from 'react-mosaic-component';
 
 import Sheet from './Sheet';
+import Property, { PROPERTY_BUTTONS } from './Property';
+
+import './main.css';
 
 
 const styles = {
@@ -20,8 +23,8 @@ const EMPTY_ARRAY = [];
 
 const TITLES = {
   sheet: 'Template',
-  properties: 'Toolbar1',
-  toolbar2: 'Toolbar2',
+  toolbar1: 'Toolbar1',
+  property: '',
 
 }
 
@@ -32,8 +35,8 @@ const state = {
     first: "sheet",
     second: {
       direction: 'column',
-      first: "properties",
-      second: "toolbar2",
+      first: "toolbar1",
+      second: "property",
       splitPercentage: 32,
     },
     splitPercentage: 80,
@@ -66,6 +69,9 @@ class Template extends PureComponent {
   }
 
   renderButtons = (id) => {
+    if (id === 'property') {
+      return PROPERTY_BUTTONS;
+    }
     return [];
   }
 
@@ -73,11 +79,12 @@ class Template extends PureComponent {
     return null;
   }
 
-  handleClickBody = (e) => {
+  handleChangeProperty = (key, value) => {
     core.actions.template
-      .clearSelects(
-        this.props.id, this.props.options.prop,
-      );
+    .editElement(
+      this.props.id, this.props.options.prop,
+      this.props.data.selectOne, { [key]: value }
+    );
   }
 
   renderComponent = (id) => {
@@ -87,6 +94,7 @@ class Template extends PureComponent {
           id={this.props.id}
           prop={this.props.options.prop}
           selectType={this.props.data.selectType}
+          selectOne={this.props.data.selectOne}
           selectContainer={this.props.data.selectContainer}
           selects={this.props.data.selects || {}}
           list={this.props.data.list || []} 
@@ -95,12 +103,22 @@ class Template extends PureComponent {
         />
       );
     }
+    if (id === 'property' && this.props.data.elements) {
+      return (
+        <Property
+          type={this.props.data.selectType}
+          elementId={this.props.data.selectOne}
+          elementData={this.props.data.elements[this.props.data.selectOne]}
+          onChange={this.handleChangeProperty} 
+        />
+      )
+    }
     return null;
   }
 
   render() {
     return (
-      <div style={styles.root} onClick={this.handleClickBody}>
+      <div style={styles.root} >
         <Mosaic
           className="mosaic-blueprint-theme"
           value={this.state.windows}
@@ -109,6 +127,7 @@ class Template extends PureComponent {
             return (
               <MosaicWindow
                 key={id}
+                className={id}
                 draggable={false}
                 title={TITLES[id]}
                 additionalControls={EMPTY_ARRAY}
