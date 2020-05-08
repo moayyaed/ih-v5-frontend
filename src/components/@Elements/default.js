@@ -7,6 +7,8 @@ const BLOCK = {
 const TEXT = {
   text: 'Text 1',
   textSize: 14,
+  textAlignH: { id: 'center', title: 'Center' },
+  textAlignV: { id: 'center', title: 'Center' },
   textColor: 'rgba(0,0,0,1)',
   borderSize: 1,
   borderColor: 'rgba(0,255,0,1)',

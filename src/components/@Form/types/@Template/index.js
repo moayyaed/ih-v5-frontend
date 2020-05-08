@@ -8,7 +8,7 @@ import {
 
 import Sheet from './Sheet';
 
-import Property, { PROPERTY_BUTTONS } from './Property';
+import Property, { PROPERTY_BUTTONS } from './Property/index.js';
 import Toolbar, { TOOLBAR_BUTTONS } from './Toolbar';
 
 

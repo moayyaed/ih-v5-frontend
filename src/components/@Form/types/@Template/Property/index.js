@@ -14,28 +14,128 @@ export const PROPERTY_BUTTONS = [
 
 const route = {}
 
-const scheme = [
-  { 
-    title: 'Background Color', 
-    prop: 'backgroundColor', 
-    type: 'color',
-  },
-  { 
-    title: 'Border Color', 
-    prop: 'borderColor', 
-    type: 'color',
-  },
-  { 
-    title: 'Border Size', 
-    prop: 'borderSize', 
-    type: 'slider',
-  }
-]
+const scheme = {
+  block: [
+    { 
+      title: 'Background Color', 
+      prop: 'backgroundColor', 
+      type: 'color',
+    },
+    { 
+      title: 'Border Color', 
+      prop: 'borderColor', 
+      type: 'color',
+    },
+    { 
+      title: 'Border Size', 
+      prop: 'borderSize', 
+      type: 'slider',
+    }
+  ],
+  text: [
+    { 
+      title: 'Background Color', 
+      prop: 'backgroundColor', 
+      type: 'color',
+    },
+    { 
+      title: 'Border Color', 
+      prop: 'borderColor', 
+      type: 'color',
+    },
+    { 
+      title: 'Border Size', 
+      prop: 'borderSize', 
+      type: 'slider',
+    },
+    { 
+      title: 'Text', 
+      prop: 'text', 
+      type: 'input',
+    },
+    { 
+      title: 'Text Size', 
+      prop: 'textSize', 
+      type: 'input',
+    },
+    {
+      prop: 'textAlignH',
+      title: 'Horizontal Alignment',
+      type: 'droplist',
+      data: [
+        {
+          id: 'flex-start',
+          title: 'Left'
+        },
+        {
+          id: 'center',
+          title: 'Center'
+        },
+        {
+          id: 'flex-end',
+          title: 'Right'
+        }
+      ]
+    },
+    {
+      prop: 'textAlignV',
+      title: 'Vertical Alignment',
+      type: 'droplist',
+      data: [
+        {
+          id: 'flex-start',
+          title: 'Top'
+        },
+        {
+          id: 'center',
+          title: 'Center'
+        },
+        {
+          id: 'flex-end',
+          title: 'Bottom'
+        }
+      ]
+    }
+  ],
+  image: [
+    { 
+      title: 'Background Color', 
+      prop: 'backgroundColor', 
+      type: 'color',
+    },
+    { 
+      title: 'Border Color', 
+      prop: 'borderColor', 
+      type: 'color',
+    },
+    { 
+      title: 'Border Size', 
+      prop: 'borderSize', 
+      type: 'slider',
+    }
+  ]
+}
 
 const cache = {
-  backgroundColor: {},
-  borderColor: {},
-  borderSize: {},
+  block: {
+    backgroundColor: {},
+    borderColor: {},
+    borderSize: {},
+  },
+  text: {
+    text: {},
+    textSize: {},
+    textAlignV: {},
+    textAlignH: {},
+    backgroundColor: {},
+    borderColor: {},
+    borderSize: {},
+  },
+  image: {
+    backgroundColor: {},
+    borderColor: {},
+    borderSize: {},
+  }
 }
 
 const styles = {
@@ -75,10 +175,10 @@ class Property extends PureComponent {
           <SingleForm 
             key="property"
             debug={false} 
-            scheme={scheme}
+            scheme={scheme[this.props.elementData.type]}
             route={route}
             data={this.props.elementData}
-            cache={cache}
+            cache={cache[this.props.elementData.type]}
             onChange={this.handleChange}
           />
         </Scrollbars>
