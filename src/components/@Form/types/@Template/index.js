@@ -6,9 +6,11 @@ import {
   RemoveButton, ExpandButton, Separator, 
 } from 'react-mosaic-component';
 
+import { Button } from "@blueprintjs/core";
+
 import Sheet from './Sheet';
 
-import Property, { PROPERTY_BUTTONS } from './Property/index.js';
+import Property from './Property/index.js';
 import Toolbar, { TOOLBAR_BUTTONS } from './Toolbar';
 
 
@@ -73,7 +75,32 @@ class Template extends PureComponent {
 
   renderButtons = (id) => {
     if (id === 'property') {
-      return PROPERTY_BUTTONS;
+      const select = this.props.data.propertyType || 'main';
+      return [
+        <Button 
+          key="1"
+          minimal
+          active={select === 'main'} 
+          icon="highlight"  
+          onClick={() => this.handleChangeProperty('main')} 
+        />,
+        <Separator key="2" />,
+        <Button 
+          key="3"
+          minimal 
+          active={select === 'text'} 
+          icon="font"  
+          onClick={() => this.handleChangeProperty('text')} 
+        />,
+        <Separator key="4" />,
+        <Button 
+          key="5"
+          minimal 
+          active={select === 'image'} 
+          icon="media"  
+          onClick={() => this.handleChangeProperty('image')}
+        />,
+      ];
     }
     if (id === 'toolbar') {
       return TOOLBAR_BUTTONS;
@@ -84,8 +111,16 @@ class Template extends PureComponent {
   renderDownToolbar = (id) => {
     return null;
   }
+  
+  handleChangeProperty = (propertyId) => {
+    core.actions.template
+      .data(
+        this.props.id, this.props.options.prop,
+        { propertyType: propertyId }
+      );
+  }
 
-  handleChangeProperty = (key, value) => {
+  handleChangeValueProperty = (key, value) => {
     core.actions.template
       .editElement(
         this.props.id, this.props.options.prop,
@@ -120,10 +155,11 @@ class Template extends PureComponent {
     if (id === 'property' && this.props.data.elements) {
       return (
         <Property
-          type={this.props.data.selectType}
+          type={this.props.data.propertyType || 'main'}
+          selectType={this.props.data.selectType}
           elementId={this.props.data.selectOne}
           elementData={this.props.data.elements[this.props.data.selectOne]}
-          onChange={this.handleChangeProperty} 
+          onChange={this.handleChangeValueProperty} 
         />
       )
     }

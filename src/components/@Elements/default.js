@@ -16,7 +16,9 @@ const TEXT = {
 }
 
 const IMAGE = {
-  img: 'default.svg',
+  img: 'https://ih-systems.com/wp-content/uploads/2018/08/lamp210.svg',
+  imgSize: 0,
+  imgRotate: 0,
   borderSize: 1,
   borderColor: 'rgba(0,0,255,1)',
   backgroundColor: 'transparent',

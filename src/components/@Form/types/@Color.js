@@ -17,6 +17,9 @@ const styles = {
   root: {
     margin: 12,
   },
+  title: {
+    marginBottom: 6,
+  },
   button: {
     width: 28,
     height: 28,
@@ -79,6 +82,7 @@ function Color(props) {
 
   return (
     <div style={styles.root}>
+      <div style={styles.title}>{props.options.title}</div>
       <div style={styles.button} onClick={handleClick}>
         <div style={styles.buttonBackround}/>
         <div style={{ ...styles.buttonBackround2, backgroundColor: props.data }}/>

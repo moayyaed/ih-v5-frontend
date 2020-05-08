@@ -9,6 +9,7 @@ import Droplist from './@Droplist';
 import Tags from './@Tags';
 import Color from './@Color';
 import Slider from './@Slider';
+import Url from './@Url';
 
 import Layout from './@Layout';
 import Container from './@Container';
@@ -42,6 +43,8 @@ function getComponentByType(type) {
       return Color;
     case 'slider':
       return Slider;
+    case 'url':
+      return Url;
       
     case 'layout':
       return Layout;

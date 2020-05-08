@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-function Block(props) {
+function Text(props) {
   return (
     <div 
       style={{
@@ -22,4 +22,4 @@ function Block(props) {
 }
 
 
-export default Block;
+export default Text;

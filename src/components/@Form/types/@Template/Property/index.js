@@ -1,119 +1,143 @@
 import React, { PureComponent } from 'react';
 import core from 'core';
 
-import { Button } from "@blueprintjs/core";
-
 import SingleForm from 'components/@Form/Single';
 
 import { Scrollbars } from 'react-custom-scrollbars';
 
 
-export const PROPERTY_BUTTONS = [
-  <Button key="3" icon="style" minimal />
-];
-
 const route = {}
 
 const scheme = {
-  block: [
-    { 
-      title: 'Background Color', 
-      prop: 'backgroundColor', 
-      type: 'color',
-    },
-    { 
-      title: 'Border Color', 
-      prop: 'borderColor', 
-      type: 'color',
-    },
-    { 
-      title: 'Border Size', 
-      prop: 'borderSize', 
-      type: 'slider',
-    }
-  ],
-  text: [
-    { 
-      title: 'Background Color', 
-      prop: 'backgroundColor', 
-      type: 'color',
-    },
-    { 
-      title: 'Border Color', 
-      prop: 'borderColor', 
-      type: 'color',
-    },
-    { 
-      title: 'Border Size', 
-      prop: 'borderSize', 
-      type: 'slider',
-    },
-    { 
-      title: 'Text', 
-      prop: 'text', 
-      type: 'input',
-    },
-    { 
-      title: 'Text Size', 
-      prop: 'textSize', 
-      type: 'input',
-    },
-    {
-      prop: 'textAlignH',
-      title: 'Horizontal Alignment',
-      type: 'droplist',
-      data: [
-        {
-          id: 'flex-start',
-          title: 'Left'
-        },
-        {
-          id: 'center',
-          title: 'Center'
-        },
-        {
-          id: 'flex-end',
-          title: 'Right'
-        }
-      ]
-    },
-    {
-      prop: 'textAlignV',
-      title: 'Vertical Alignment',
-      type: 'droplist',
-      data: [
-        {
-          id: 'flex-start',
-          title: 'Top'
-        },
-        {
-          id: 'center',
-          title: 'Center'
-        },
-        {
-          id: 'flex-end',
-          title: 'Bottom'
-        }
-      ]
-    }
-  ],
-  image: [
-    { 
-      title: 'Background Color', 
-      prop: 'backgroundColor', 
-      type: 'color',
-    },
-    { 
-      title: 'Border Color', 
-      prop: 'borderColor', 
-      type: 'color',
-    },
-    { 
-      title: 'Border Size', 
-      prop: 'borderSize', 
-      type: 'slider',
-    }
-  ]
+  block: {
+    main: [
+      { 
+        title: 'Background Color', 
+        prop: 'backgroundColor', 
+        type: 'color',
+      },
+      { 
+        title: 'Border Color', 
+        prop: 'borderColor', 
+        type: 'color',
+      },
+      { 
+        title: 'Border Size', 
+        prop: 'borderSize', 
+        type: 'slider',
+      }
+    ],
+  },
+  text: {
+    main: [
+      { 
+        title: 'Background Color', 
+        prop: 'backgroundColor', 
+        type: 'color',
+      },
+      { 
+        title: 'Border Color', 
+        prop: 'borderColor', 
+        type: 'color',
+      },
+      { 
+        title: 'Border Size', 
+        prop: 'borderSize', 
+        type: 'slider',
+      }
+    ],
+    text: [
+      { 
+        title: 'Text', 
+        prop: 'text', 
+        type: 'input',
+      },
+      { 
+        title: 'Text Size', 
+        prop: 'textSize', 
+        type: 'input',
+      },
+      {
+        prop: 'textAlignH',
+        title: 'Horizontal Alignment',
+        type: 'droplist',
+        data: [
+          {
+            id: 'flex-start',
+            title: 'Left'
+          },
+          {
+            id: 'center',
+            title: 'Center'
+          },
+          {
+            id: 'flex-end',
+            title: 'Right'
+          }
+        ]
+      },
+      {
+        prop: 'textAlignV',
+        title: 'Vertical Alignment',
+        type: 'droplist',
+        data: [
+          {
+            id: 'flex-start',
+            title: 'Top'
+          },
+          {
+            id: 'center',
+            title: 'Center'
+          },
+          {
+            id: 'flex-end',
+            title: 'Bottom'
+          }
+        ]
+      }
+    ],
+  },
+  image: {
+    main: [
+      { 
+        title: 'Background Color', 
+        prop: 'backgroundColor', 
+        type: 'color',
+      },
+      { 
+        title: 'Border Color', 
+        prop: 'borderColor', 
+        type: 'color',
+      },
+      { 
+        title: 'Border Size', 
+        prop: 'borderSize', 
+        type: 'slider',
+      }
+    ],
+    image: [
+      { 
+        title: 'Image URL', 
+        prop: 'img', 
+        type: 'url',
+      },
+      { 
+        title: 'Image Size', 
+        prop: 'imgSize', 
+        type: 'slider',
+        min: -100,
+        max: 100,
+      },
+      { 
+        title: 'Image Rotate', 
+        prop: 'imgRotate', 
+        type: 'slider',
+        min: 0,
+        max: 360,
+      }
+    ],
+  },
+  group: {},
 }
 
 const cache = {
@@ -132,10 +156,14 @@ const cache = {
     borderSize: {},
   },
   image: {
+    img: {},
+    imgSize: {},
+    imgRotate: {},
     backgroundColor: {},
     borderColor: {},
     borderSize: {},
-  }
+  },
+  group: {},
 }
 
 const styles = {
@@ -148,6 +176,13 @@ const styles = {
     height: 31,
     minHeight: 31,
   },
+  stub: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center', 
+    width: '100%',
+    height: '100%',
+  }
 }
 
 
@@ -169,13 +204,17 @@ class Property extends PureComponent {
   }
 
   render() {
-    if (this.props.type === 'one' && this.props.elementData && this.props.elementData.type !== 'group') {
+    if (this.props.selectType === 'one' && this.props.elementData) {
+      const map = scheme[this.props.elementData.type][this.props.type];
+      if (map === undefined) {
+        return <div style={styles.stub}>Properties not supported</div>;
+      }
       return (
         <Scrollbars style={{ width: '100%', height: '100%' }}>
           <SingleForm 
             key="property"
             debug={false} 
-            scheme={scheme[this.props.elementData.type]}
+            scheme={map}
             route={route}
             data={this.props.elementData}
             cache={cache[this.props.elementData.type]}

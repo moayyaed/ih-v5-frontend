@@ -45,11 +45,12 @@ const PrettoSlider = withStyles({
 function Slider(props) {
   return (
     <div style={styles.root}>
+      <div>{props.options.title}</div>
       <PrettoSlider 
         valueLabelDisplay="auto" 
         value={props.data}
-        min={0}
-        max={20}
+        min={props.options.min || 0}
+        max={props.options.max || 20}
         onChange={(e, v) => props.onChange(props.id, props.options, null, v)} 
       />
     </div>
