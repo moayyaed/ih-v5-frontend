@@ -42,7 +42,7 @@ const state = {
       direction: 'column',
       first: "toolbar",
       second: "property",
-      splitPercentage: 32,
+      splitPercentage: 42,
     },
     splitPercentage: 70,
   },
