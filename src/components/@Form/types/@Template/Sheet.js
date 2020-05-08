@@ -10,7 +10,7 @@ import Element from './Element';
 import Menu from 'components/Menu';
 
 import elemets from 'components/@Elements';
-
+import getDefaultParamsElement from 'components/@Elements/default';
 
 const styles = {
   root: {
@@ -243,8 +243,8 @@ class Sheet extends Component {
     e.stopPropagation();
   }
 
-  handleAddElement = (e) => {
-    const elementId = getIdElement(0, 'block', this.props.elements);
+  handleAddElement = (e, type) => {
+    const elementId = getIdElement(0, type, this.props.elements);
 
     const rect = this.sheet.getBoundingClientRect();
     
@@ -259,13 +259,11 @@ class Sheet extends Component {
           elements: {
             ...this.props.elements,
             [elementId]: {
-              type: 'block',
+              type,
               x: Math.round(x * 1e2 ) / 1e2, 
               y: Math.round(y * 1e2 ) / 1e2,
               w: 70, h: 70,
-              borderSize: 1,
-              borderColor: 'rgba(255,0,0,1)',
-              backgroundColor: 'transparent',
+              ...getDefaultParamsElement(type),
             }
           } 
         }
@@ -377,9 +375,14 @@ class Sheet extends Component {
     }
 
     const pos = { left: e.clientX, top: e.clientY };
+    const list = [
+      { id: '0', title: 'Block', click: () => this.handleAddElement(e, 'block') },
+      { id: '1', title: 'Text', click: () => this.handleAddElement(e, 'text') },
+      { id: '2', title: 'Image', click: () => this.handleAddElement(e, 'image') },
+    ]
     const scheme = {
       main: [
-        { id: '0', title: 'Add Element', click: () => this.handleAddElement(e) },
+        { id: '0', title: 'Add Element', children: list },
         { id: '-', type: 'divider' },
         { id: '1', check: '4', title: 'Group', click: this.handleClickGroupElements },
         { id: '2', check: '4', title: 'Ungroup', click: () => this.handleClickUnGroupElement(elementId) },
@@ -619,7 +622,7 @@ class Sheet extends Component {
                 height: settings.h,
               }}
               onClick={(e) => this.handleClickSheet(e)}
-              onContextMenu={(e) => this.handleContextMenuSheet(e)}
+              onContextMenu={(e) => this.handleContextMenuElement(e, null)}
             >
               {list.map(id => 
                 <Element 

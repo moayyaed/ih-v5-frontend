@@ -3,14 +3,6 @@ import core from 'core';
 
 import { Button } from "@blueprintjs/core";
 
-import { withStyles } from '@material-ui/core/styles';
-
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
 import SingleForm from 'components/@Form/Single';
 
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -23,65 +15,20 @@ export const PROPERTY_BUTTONS = [
 const route = {}
 
 const scheme = [
-  {
-    title: 'Style 1',
-    data: [
-      { 
-        title: 'Background Color', 
-        prop: 'backgroundColor', 
-        type: 'color',
-      },
-      { 
-        title: 'Border Color', 
-        prop: 'borderColor', 
-        type: 'color',
-      },
-      { 
-        title: 'Border Size', 
-        prop: 'borderSize', 
-        type: 'slider',
-      }
-    ]
+  { 
+    title: 'Background Color', 
+    prop: 'backgroundColor', 
+    type: 'color',
   },
-  {
-    title: 'Style 2',
-    data: [
-      { 
-        title: 'Background Color', 
-        prop: 'backgroundColor', 
-        type: 'color',
-      },
-      { 
-        title: 'Border Color', 
-        prop: 'borderColor', 
-        type: 'color',
-      },
-      { 
-        title: 'Border Size', 
-        prop: 'borderSize', 
-        type: 'slider',
-      }
-    ]
+  { 
+    title: 'Border Color', 
+    prop: 'borderColor', 
+    type: 'color',
   },
-  {
-    title: 'Style 3',
-    data: [
-      { 
-        title: 'Background Color', 
-        prop: 'backgroundColor', 
-        type: 'color',
-      },
-      { 
-        title: 'Border Color', 
-        prop: 'borderColor', 
-        type: 'color',
-      },
-      { 
-        title: 'Border Size', 
-        prop: 'borderSize', 
-        type: 'slider',
-      }
-    ]
+  { 
+    title: 'Border Size', 
+    prop: 'borderSize', 
+    type: 'slider',
   }
 ]
 
@@ -122,9 +69,33 @@ class Property extends PureComponent {
   }
 
   render() {
-    if (this.props.type !== 'one') {
-      return null;
+    if (this.props.type === 'one' && this.props.elementData && this.props.elementData.type !== 'group') {
+      return (
+        <Scrollbars style={{ width: '100%', height: '100%' }}>
+          <SingleForm 
+            key="property"
+            debug={false} 
+            scheme={scheme}
+            route={route}
+            data={this.props.elementData}
+            cache={cache}
+            onChange={this.handleChange}
+          />
+        </Scrollbars>
+      )
     }
+    return null;
+  }
+}
+
+
+export default Property;
+
+
+
+
+/*
+
     return (
       <Scrollbars style={{ width: '100%', height: '100%' }}>
         {scheme.map(item =>
@@ -151,15 +122,5 @@ class Property extends PureComponent {
         )}
       </Scrollbars>
     )
-  }
-}
 
-
-/*
-
-   
-
-        */
-
-
-export default withStyles(classes)(Property);
+    */

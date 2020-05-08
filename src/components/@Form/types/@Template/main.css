@@ -1,3 +1,19 @@
 .property .mosaic-window-title {
   display: none;
 }
+
+.toolbar .mosaic-window-title {
+  display: none;
+}
+
+.MuiTreeItem-root:focus > .MuiTreeItem-content .MuiTreeItem-label {
+  background-color: unset!important;
+}
+
+.MuiTreeItem-root:hover > .MuiTreeItem-content .MuiTreeItem-label {
+  background-color: unset!important;
+}
+
+.MuiTreeItem-root .Mui-selected> .MuiTreeItem-content .MuiTreeItem-label {
+  background-color: #BBDEFB!important
+}

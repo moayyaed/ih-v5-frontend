@@ -7,7 +7,10 @@ import {
 } from 'react-mosaic-component';
 
 import Sheet from './Sheet';
+
 import Property, { PROPERTY_BUTTONS } from './Property';
+import Toolbar, { TOOLBAR_BUTTONS } from './Toolbar';
+
 
 import './main.css';
 
@@ -23,7 +26,7 @@ const EMPTY_ARRAY = [];
 
 const TITLES = {
   sheet: 'Template',
-  toolbar1: 'Toolbar1',
+  toolbar: '',
   property: '',
 
 }
@@ -35,7 +38,7 @@ const state = {
     first: "sheet",
     second: {
       direction: 'column',
-      first: "toolbar1",
+      first: "toolbar",
       second: "property",
       splitPercentage: 32,
     },
@@ -72,6 +75,9 @@ class Template extends PureComponent {
     if (id === 'property') {
       return PROPERTY_BUTTONS;
     }
+    if (id === 'toolbar') {
+      return TOOLBAR_BUTTONS;
+    }
     return [];
   }
 
@@ -81,10 +87,18 @@ class Template extends PureComponent {
 
   handleChangeProperty = (key, value) => {
     core.actions.template
-    .editElement(
-      this.props.id, this.props.options.prop,
-      this.props.data.selectOne, { [key]: value }
-    );
+      .editElement(
+        this.props.id, this.props.options.prop,
+        this.props.data.selectOne, { [key]: value }
+      );
+  }
+
+  handleClickTree = (elementId) => {
+    core.actions.template
+      .select(
+        this.props.id, this.props.options.prop,
+        elementId
+      );
   }
 
   renderComponent = (id) => {
@@ -110,6 +124,17 @@ class Template extends PureComponent {
           elementId={this.props.data.selectOne}
           elementData={this.props.data.elements[this.props.data.selectOne]}
           onChange={this.handleChangeProperty} 
+        />
+      )
+    }
+
+    if (id === 'toolbar') {
+      return (
+        <Toolbar
+          list={this.props.data.list || []}
+          elements={this.props.data.elements || {}}
+          selects={this.props.data.selects || {} }
+          onClickElement={this.handleClickTree}
         />
       )
     }
