@@ -308,12 +308,22 @@ function reducerTemplate(state, action) {
                 ...p, 
                 [c]: {
                   ...state.state['Master'][0][c],
-                  ...state.state[action.stateId][state.valueState[action.stateId]][c]
+                  ...state.state[action.stateId][state.valueState[action.stateId]][c],
+                  x: state.elements[c].x,
+                  y: state.elements[c].y,
+                  w: state.elements[c].w,
+                  h: state.elements[c].h,
                 }
               };
             }
             return { 
-              ...p, [c]: state.state['Master'][0][c]
+              ...p, [c]: { 
+                ...state.state['Master'][0][c],
+                x: state.elements[c].x,
+                y: state.elements[c].y,
+                w: state.elements[c].w,
+                h: state.elements[c].h,
+              }
             };
           }, {})
       };
@@ -337,12 +347,22 @@ function reducerTemplate(state, action) {
                 ...p, 
                 [c]: {
                   ...state.state['Master'][0][c],
-                  ...state.state[action.stateId][action.value][c]
+                  ...state.state[action.stateId][action.value][c],
+                  x: state.elements[c].x,
+                  y: state.elements[c].y,
+                  w: state.elements[c].w,
+                  h: state.elements[c].h,
                 }
               };
             }
             return { 
-              ...p, [c]: state.state['Master'][0][c]
+              ...p, [c]: { 
+                ...state.state['Master'][0][c],
+                x: state.elements[c].x,
+                y: state.elements[c].y,
+                w: state.elements[c].w,
+                h: state.elements[c].h,
+              }
             };
           }, {})
       }
