@@ -347,6 +347,7 @@ function reducerTemplate(state, action) {
               return { 
                 ...p, 
                 [c]: {
+                  // ...state.elements[c],
                   ...state.state['Master'][0][c],
                   ...state.state[action.stateId][state.valueState[action.stateId]][c],
                   x: state.elements[c].x,
@@ -358,6 +359,7 @@ function reducerTemplate(state, action) {
             }
             return { 
               ...p, [c]: { 
+                // ...state.elements[c],
                 ...state.state['Master'][0][c],
                 x: state.elements[c].x,
                 y: state.elements[c].y,
@@ -386,6 +388,7 @@ function reducerTemplate(state, action) {
               return { 
                 ...p, 
                 [c]: {
+                  // ...state.elements[c],
                   ...state.state['Master'][0][c],
                   ...state.state[action.stateId][action.value][c],
                   x: state.elements[c].x,
@@ -397,6 +400,7 @@ function reducerTemplate(state, action) {
             }
             return { 
               ...p, [c]: { 
+                // ...state.elements[c],
                 ...state.state['Master'][0][c],
                 x: state.elements[c].x,
                 y: state.elements[c].y,
