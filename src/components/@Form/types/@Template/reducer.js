@@ -17,6 +17,7 @@ import {
 
   TEMPLATE_ADD_ELEMENT,
   TEMPLATE_EDIT_ELEMENT,
+  TEMPLATE_DELETE_ELEMENT,
 
   TEMPLATE_CHANGE_STATE,
   TEMPLATE_CHANGE_VALUE_STATE,
@@ -292,6 +293,45 @@ function reducerTemplate(state, action) {
           },
         }
       };
+    case TEMPLATE_DELETE_ELEMENT:
+      return {
+        ...state,
+        selectType: null,
+        selectOne: null,
+        selectContainer: null,
+        selects: {},
+        list: state.list.filter(i => !state.selects[i]),
+        elements: Object
+          .keys(state.elements)
+          .reduce((p, c) => {
+            if (state.selects[c] || state.selects[state.elements[c].groupId]) {
+              return p;
+            }
+            return { ...p, [c]: state.elements[c] }
+          }, {}),
+        state: Object
+          .keys(state.state)
+          .reduce((p, c) => {
+            return { 
+              ...p, 
+              [c]: Object
+                .keys(state.state[c])
+                .reduce((p2, c2) => {
+                  return { 
+                    ...p2,
+                    [c2]: Object
+                      .keys(state.state[c][c2])
+                      .reduce((p3, c3) => {
+                        if (state.selects[c3] || state.selects[state.elements[c3].groupId]) {
+                          return p3;
+                        }
+                        return { ...p3, [c3]: state.state[c][c2][c3] }
+                      }, {}),  
+                  }
+                }, {}),  
+            }
+          }, {})
+      }
     case TEMPLATE_CHANGE_STATE:
       return {
         ...state,
@@ -406,6 +446,7 @@ function reducer(state, action) {
     case TEMPLATE_RESIZE_SELECT_CONTAINER:
     case TEMPLATE_ADD_ELEMENT:
     case TEMPLATE_EDIT_ELEMENT:
+    case TEMPLATE_DELETE_ELEMENT:
     case TEMPLATE_CHANGE_STATE:
     case TEMPLATE_CHANGE_VALUE_STATE:
     case TEMPLATE_EDIT_STATE:

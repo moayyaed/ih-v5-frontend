@@ -17,6 +17,7 @@ import {
 
   TEMPLATE_ADD_ELEMENT,
   TEMPLATE_EDIT_ELEMENT,
+  TEMPLATE_DELETE_ELEMENT,
 
   TEMPLATE_CHANGE_STATE,
   TEMPLATE_CHANGE_VALUE_STATE,
@@ -147,6 +148,14 @@ export function editElement(id, prop, elementId, data) {
   };
 }
 
+export function deleteElement(id, prop) {
+  return {
+    type: TEMPLATE_DELETE_ELEMENT,
+    id,
+    prop,
+  };
+}
+
 export function changeState(id, prop, stateId) {
   return {
     type: TEMPLATE_CHANGE_STATE,
@@ -197,6 +206,7 @@ export default {
 
   addElement,
   editElement,
+  deleteElement,
 
   changeState,
   changeValueState,
