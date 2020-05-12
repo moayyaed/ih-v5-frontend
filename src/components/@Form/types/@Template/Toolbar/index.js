@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import core from 'core';
 
-import { Button } from "@blueprintjs/core";
+import Number from 'components/Number';
 
 import SvgIcon from '@material-ui/core/SvgIcon';
 import { fade, makeStyles, withStyles } from '@material-ui/core/styles';
@@ -10,9 +10,8 @@ import TreeItem from '@material-ui/lab/TreeItem';
 import Collapse from '@material-ui/core/Collapse';
 import { useSpring, animated } from 'react-spring/web.cjs'; // web.cjs is required for IE 11 support
 
-export const TOOLBAR_BUTTONS = [
-  <Button key="3" icon="diagram-tree" minimal />
-];
+import { Scrollbars } from 'react-custom-scrollbars';
+import { select } from '../../@Container/actions';
 
 
 function MinusSquare(props) {
@@ -87,7 +86,39 @@ const StyledTreeItem = withStyles((theme) => ({
 
 
 const styles = {
-  root: {
+  state: {
+    with: '100%',
+    height: '100%',
+    padding: '6px 12px',
+  },
+  stateItem: {
+    width: '100%',
+    height: 26,
+    marginBottom: 4,
+    border: '1px solid #BDBDBD',
+    borderRadius: 4,
+    cursor: 'pointer',
+  },
+  stateBody: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingRight: 26,
+  },
+  stateTtile: {
+    // backgroundColor: 'black',
+    width: '100%',
+    textAlign: 'end',
+    paddingRight: 16,
+  },
+  stateValue: {
+    // backgroundColor: 'yellow',
+    width: 45,
+    flexShrink: 0,
+  },
+  tree: {
     with: '100%',
     height: '100%',
     flexGrow: 1,
@@ -137,10 +168,51 @@ class Toolbar extends PureComponent {
     this.props.onClickElement(id);
   }
 
-  render({ list, elements, selects } = this.props) {
+  handleClickStateItem = (e, id) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.props.onChangeState(id)
+  }
+
+  handleChangeValueState = (id, v) => {
+    this.props.onChangeValueState(id, v)
+  }
+
+  render({ list, listState, valueState, elements, selects, selectState } = this.props) {
+    if (this.props.type === 'state') {
+      return (
+        <div style={styles.state}>
+          <Scrollbars style={{ width: '100%', height: '100%' }}>
+            {listState.map(id =>
+              <div 
+                style={{ 
+                  ...styles.stateItem, 
+                  border: selectState === id ? '2px solid #1E88E5' : '1px solid #BDBDBD' 
+                }}
+                onClick={(e) => this.handleClickStateItem(e, id)}
+              >
+                <div style={{ ...styles.stateBody, border: selectState === id ? 'unset' : '1px solid transparent'}}>
+                  <div style={styles.stateTtile} >
+                    {id}
+                  </div>
+                  <div style={styles.stateValue} >
+                    <Number 
+                      disabled={id === 'Master'} 
+                      value={valueState[id] || 0}
+                      onChange={(v) => this.handleChangeValueState(id, v)} 
+                    />
+                  </div>
+                </div>
+              </div>  
+            )}
+          </Scrollbars>
+        </div>
+      )
+    }
     return (
       <TreeView
-        style={styles.root}
+        style={styles.tree}
         defaultExpanded={['template']}
         defaultCollapseIcon={<MinusSquare />}
         defaultExpandIcon={<PlusSquare />}

@@ -17,6 +17,8 @@ import {
 
   TEMPLATE_ADD_ELEMENT,
   TEMPLATE_EDIT_ELEMENT,
+
+  TEMPLATE_CHANGE_VALUE_STATE,
 } from './constants';
 
 
@@ -247,6 +249,14 @@ function reducerTemplate(state, action) {
           },
         }
       };
+    case TEMPLATE_CHANGE_VALUE_STATE:
+      return {
+        ...state,
+        valueState: {
+          ...state.valueState,
+          [action.key]: action.value,
+        }
+      }
     default:
       return state;
   }
@@ -269,6 +279,7 @@ function reducer(state, action) {
     case TEMPLATE_RESIZE_SELECT_CONTAINER:
     case TEMPLATE_ADD_ELEMENT:
     case TEMPLATE_EDIT_ELEMENT:
+    case TEMPLATE_CHANGE_VALUE_STATE:
       return { 
         ...state, 
         data: {

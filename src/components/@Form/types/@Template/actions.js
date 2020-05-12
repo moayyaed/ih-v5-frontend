@@ -17,6 +17,8 @@ import {
 
   TEMPLATE_ADD_ELEMENT,
   TEMPLATE_EDIT_ELEMENT,
+
+  TEMPLATE_CHANGE_VALUE_STATE,
 } from './constants';
 
 
@@ -142,6 +144,16 @@ export function editElement(id, prop, elementId, data) {
   };
 }
 
+export function changeValueState(id, prop, key, value) {
+  return {
+    type: TEMPLATE_CHANGE_VALUE_STATE,
+    id,
+    prop,
+    key,
+    value,
+  };
+}
+
 export default {
   data,
   clear,
@@ -159,4 +171,6 @@ export default {
 
   addElement,
   editElement,
+
+  changeValueState,
 }

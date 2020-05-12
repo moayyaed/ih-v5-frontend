@@ -6,12 +6,12 @@ import {
   RemoveButton, ExpandButton, Separator, 
 } from 'react-mosaic-component';
 
-import { Button } from "@blueprintjs/core";
+import { Button } from '@blueprintjs/core';
 
 import Sheet from './Sheet';
 
 import Property from './Property/index.js';
-import Toolbar, { TOOLBAR_BUTTONS } from './Toolbar';
+import Toolbar from './Toolbar/index.js';
 
 
 import './main.css';
@@ -21,7 +21,13 @@ const styles = {
   root: {
     width: '100%',
     height: '100%',
-  }
+  },
+  downToolbar: {
+    display: 'flex',
+    height: 24,
+    alignItems: 'center',
+    borderTop: '1px solid rgba(16, 22, 26, 0.15)',
+  },
 }
 
 const EMPTY_ARRAY = [];
@@ -57,11 +63,21 @@ class Template extends PureComponent {
       core.actions.template
       .data(
         this.props.id, this.props.options.prop, {
+          toolbarType: 'state',
+          propertyType: 'main',
+          selectState: 'Master',
           selectType: null,
           selectContainer: null,
           selects: {}, 
           settings: { x: 270, y: 120, w: 250, h: 250, scale: 1 },
           list: [],
+          listState: ['Master', 'State', 'Error'],
+          valueState: {
+            Master: 0,
+            State: 0,
+            Error: 0,
+          },
+          state: {},
           elements: {}
         });
     }
@@ -103,13 +119,67 @@ class Template extends PureComponent {
       ];
     }
     if (id === 'toolbar') {
-      return TOOLBAR_BUTTONS;
+      const select = this.props.data.toolbarType || 'state';
+      return [
+        <Button 
+          key="1"
+          minimal
+          icon="git-branch" 
+          active={select === 'state'}
+          onClick={() => this.handleChangeToolbar('state')} 
+        />,
+        <Separator key="2" />,
+        <Button 
+          key="3"
+          minimal
+          icon="diagram-tree" 
+          active={select === 'tree'}
+          onClick={() => this.handleChangeToolbar('tree')} 
+        />,
+      ];
     }
     return [];
   }
 
   renderDownToolbar = (id) => {
+    if (id === 'toolbar' && this.props.data.toolbarType === 'state') {
+      return (
+        <div style={styles.downToolbar} >
+          <Button icon="plus" minimal />
+          <Button
+            minimal
+            disabled={this.props.data.selectState === 'Master'} 
+            icon="minus"  
+            onClick={() => {}} 
+          />
+        </div>
+      )
+    }
     return null;
+  }
+
+  handleChangeToolbar = (toolbarId) => {
+    core.actions.template
+      .data(
+        this.props.id, this.props.options.prop,
+        { toolbarType: toolbarId }
+      );
+  }
+
+  handleChangeState = (stateId) => {
+    core.actions.template
+      .data(
+        this.props.id, this.props.options.prop,
+        { selectState: stateId }
+      );
+  }
+
+  handleChangeValueState = (key, value) => {
+    core.actions.template
+      .changeValueState(
+        this.props.id, this.props.options.prop,
+        key, value
+      );
   }
   
   handleChangeProperty = (propertyId) => {
@@ -167,10 +237,16 @@ class Template extends PureComponent {
     if (id === 'toolbar') {
       return (
         <Toolbar
+          type={this.props.data.toolbarType || 'state'}
+          selectState={this.props.data.selectState || 'Master'}
           list={this.props.data.list || []}
+          listState={this.props.data.listState || []}
+          valueState={this.props.data.valueState || {}}
           elements={this.props.data.elements || {}}
           selects={this.props.data.selects || {} }
           onClickElement={this.handleClickTree}
+          onChangeState={this.handleChangeState}
+          onChangeValueState={this.handleChangeValueState}
         />
       )
     }

@@ -1,0 +1,32 @@
+/* Chrome, Safari, Edge, Opera */
+input.number::-webkit-outer-spin-button,
+input.number::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input.number[type=number] {
+  -moz-appearance: textfield;
+}
+
+input.number:focus {
+  outline: none;
+}
+
+
+.numberButtonUp:hover {
+  background-color: #F5F5F5;
+}
+
+.numberButtonDown:hover {
+  background-color: #F5F5F5;
+}
+
+.numberButtonUp:active {
+  background-color: #EEEEEE;
+}
+
+.numberButtonDown:active {
+  background-color: #EEEEEE;
+}
