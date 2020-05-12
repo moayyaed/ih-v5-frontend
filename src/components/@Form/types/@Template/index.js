@@ -191,10 +191,11 @@ class Template extends PureComponent {
   }
 
   handleChangeValueProperty = (key, value) => {
+    const stateId = this.props.data.selectState || 'Master';
     core.actions.template
       .editState(
         this.props.id, this.props.options.prop,
-        this.props.data.selectState, this.props.data.valueState[this.props.data.selectState],
+        stateId, this.props.data.valueState[stateId],
         this.props.data.selectOne, { [key]: value },
       );
   }

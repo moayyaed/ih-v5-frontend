@@ -86,12 +86,16 @@ class Sheet extends Component {
   handleTransferData = (button, save, reset) => {
     if (button === 'save') {
       this.isSave = null;
+      const state = core.store.getState().apppage.data[this.props.id][this.props.prop];
       save({
         [this.props.id]: {
           [this.props.prop]: {
-            settings: this.props.settings,
-            list: this.props.list,
-            elements: this.props.elements,
+            settings: state.settings,
+            list: state.list,
+            elements: state.elements,
+            listState: state.listState,
+            valueState: state.valueState,
+            state: state.state,
           }
         }
       })
