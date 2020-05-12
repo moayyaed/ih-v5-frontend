@@ -156,12 +156,12 @@ export function changeState(id, prop, stateId) {
   };
 }
 
-export function changeValueState(id, prop, key, value) {
+export function changeValueState(id, prop, stateId, value) {
   return {
     type: TEMPLATE_CHANGE_VALUE_STATE,
     id,
     prop,
-    key,
+    stateId,
     value,
   };
 }

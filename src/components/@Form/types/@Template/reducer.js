@@ -320,10 +320,31 @@ function reducerTemplate(state, action) {
     case TEMPLATE_CHANGE_VALUE_STATE:
       return {
         ...state,
+        selectState: action.stateId,
         valueState: {
           ...state.valueState,
-          [action.key]: action.value,
-        }
+          [action.stateId]: action.value,
+        },
+        elements: Object
+          .keys(state.elements)
+          .reduce((p, c) => {
+            if (
+              state.state[action.stateId] && 
+              state.state[action.stateId][action.value] &&
+              state.state[action.stateId][action.value][c]
+            ) {
+              return { 
+                ...p, 
+                [c]: {
+                  ...state.state['Master'][0][c],
+                  ...state.state[action.stateId][action.value][c]
+                }
+              };
+            }
+            return { 
+              ...p, [c]: state.state['Master'][0][c]
+            };
+          }, {})
       }
     case TEMPLATE_EDIT_STATE:
       return { 
