@@ -19,8 +19,40 @@ import {
   TEMPLATE_EDIT_ELEMENT,
 
   TEMPLATE_CHANGE_VALUE_STATE,
+  TEMPLATE_CHANGE_MASTER_STATE,
+  TEMPLATE_CHANGE_OTHER_STATE,
 } from './constants';
 
+
+function getNewDataState(state, action) {
+  if (state[action.stateValue] === undefined) {
+    return {
+      ...state,
+      [action.stateValue]: {
+        [action.elementId]: action.data
+      }
+    }
+  }
+  if (state[action.stateValue][action.elementId] === undefined) {
+    return {
+      ...state,
+      [action.stateValue]: {
+        ...state[action.stateValue],
+        [action.elementId]: action.data
+      }
+    }
+  }
+  return {
+    ...state,
+    [action.stateValue]: {
+      ...state[action.stateValue],
+      [action.elementId]: {
+        ...state[action.stateValue][action.elementId],
+        ...action.data
+      }
+    }
+  }
+}
 
 function reducerTemplate(state, action) {
   switch (action.type) {
@@ -232,12 +264,19 @@ function reducerTemplate(state, action) {
     case TEMPLATE_ADD_ELEMENT:
       return { 
         ...state,
-        list: state.list.concat(action.elementId),
+        list: state.list.concat(action.elementId), 
         elements: {
           ...state.elements,
           [action.elementId]: action.data,
+        },
+        state: {
+          ...state.state,
+          Master: {
+            ...state.state.Master,
+            [action.elementId]: action.data,
+          }
         }
-      };
+      }
     case TEMPLATE_EDIT_ELEMENT:
       return { 
         ...state,
@@ -257,6 +296,45 @@ function reducerTemplate(state, action) {
           [action.key]: action.value,
         }
       }
+    case TEMPLATE_CHANGE_MASTER_STATE:
+      return { 
+        ...state,
+        elements: {
+          ...state.elements,
+          [action.elementId]: {
+            ...state.elements[action.elementId],
+            ...action.data,
+          },
+        },
+        state: {
+          ...state.state,
+          Master: {
+            ...state.state.Master,
+            [action.elementId]: {
+              ...state.state.Master[action.elementId],
+              ...action.data,
+            }
+          }
+        }
+      };
+    case TEMPLATE_CHANGE_OTHER_STATE:
+      return { 
+        ...state,
+        elements: {
+          ...state.elements,
+          [action.elementId]: {
+            ...state.elements[action.elementId],
+            ...action.data,
+          },
+        },
+        state: {
+          ...state.state,
+          [action.stateId]: {
+            ...state.state[action.stateId],
+            ...getNewDataState(state.state[action.stateId], action)
+          }
+        }
+      };
     default:
       return state;
   }
@@ -280,6 +358,8 @@ function reducer(state, action) {
     case TEMPLATE_ADD_ELEMENT:
     case TEMPLATE_EDIT_ELEMENT:
     case TEMPLATE_CHANGE_VALUE_STATE:
+    case TEMPLATE_CHANGE_MASTER_STATE:
+    case TEMPLATE_CHANGE_OTHER_STATE:
       return { 
         ...state, 
         data: {

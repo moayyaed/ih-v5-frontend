@@ -191,11 +191,20 @@ class Template extends PureComponent {
   }
 
   handleChangeValueProperty = (key, value) => {
-    core.actions.template
-      .editElement(
-        this.props.id, this.props.options.prop,
-        this.props.data.selectOne, { [key]: value }
-      );
+    if (this.props.data.selectState === 'Master') {
+      core.actions.template
+        .editMasterState(
+          this.props.id, this.props.options.prop,
+          this.props.data.selectOne, { [key]: value }
+        );
+    } else {
+      core.actions.template
+        .editOtherState(
+          this.props.id, this.props.options.prop,
+          this.props.data.selectState, this.props.data.valueState[this.props.data.selectState],
+          this.props.data.selectOne, { [key]: value },
+        );
+    }
   }
 
   handleClickTree = (elementId) => {

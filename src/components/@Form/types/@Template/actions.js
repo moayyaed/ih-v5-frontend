@@ -19,6 +19,8 @@ import {
   TEMPLATE_EDIT_ELEMENT,
 
   TEMPLATE_CHANGE_VALUE_STATE,
+  TEMPLATE_CHANGE_MASTER_STATE,
+  TEMPLATE_CHANGE_OTHER_STATE,
 } from './constants';
 
 
@@ -154,6 +156,29 @@ export function changeValueState(id, prop, key, value) {
   };
 }
 
+export function editMasterState(id, prop, elementId, data) {
+  return {
+    type: TEMPLATE_CHANGE_MASTER_STATE,
+    id,
+    prop,
+    elementId,
+    data,
+  };
+}
+
+export function editOtherState(id, prop, stateId, stateValue, elementId, data) {
+  return {
+    type: TEMPLATE_CHANGE_OTHER_STATE,
+    id,
+    prop,
+    stateId,
+    stateValue,
+    elementId,
+    data,
+  };
+}
+
+
 export default {
   data,
   clear,
@@ -173,4 +198,7 @@ export default {
   editElement,
 
   changeValueState,
+
+  editMasterState,
+  editOtherState,
 }
