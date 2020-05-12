@@ -1,6 +1,6 @@
 const BLOCK = {
   borderSize: 1,
-  borderColor: 'rgba(255,0,0,1)',
+  borderColor: 'rgba(0,0,0,1)',
   backgroundColor: 'transparent',
 }
 

@@ -18,9 +18,10 @@ import {
   TEMPLATE_ADD_ELEMENT,
   TEMPLATE_EDIT_ELEMENT,
 
+  TEMPLATE_CHANGE_STATE,
   TEMPLATE_CHANGE_VALUE_STATE,
-  TEMPLATE_CHANGE_MASTER_STATE,
-  TEMPLATE_CHANGE_OTHER_STATE,
+
+  TEMPLATE_EDIT_STATE,
 } from './constants';
 
 
@@ -273,7 +274,10 @@ function reducerTemplate(state, action) {
           ...state.state,
           Master: {
             ...state.state.Master,
-            [action.elementId]: action.data,
+            [0]: {
+              ...state.state.Master[0],
+              [action.elementId]: action.data, 
+            }
           }
         }
       }
@@ -288,6 +292,31 @@ function reducerTemplate(state, action) {
           },
         }
       };
+    case TEMPLATE_CHANGE_STATE:
+      return {
+        ...state,
+        selectState: action.stateId,
+        elements: Object
+          .keys(state.elements)
+          .reduce((p, c) => {
+            if (
+              state.state[action.stateId] && 
+              state.state[action.stateId][state.valueState[action.stateId]] &&
+              state.state[action.stateId][state.valueState[action.stateId]][c]
+            ) {
+              return { 
+                ...p, 
+                [c]: {
+                  ...state.state['Master'][0][c],
+                  ...state.state[action.stateId][state.valueState[action.stateId]][c]
+                }
+              };
+            }
+            return { 
+              ...p, [c]: state.state['Master'][0][c]
+            };
+          }, {})
+      };
     case TEMPLATE_CHANGE_VALUE_STATE:
       return {
         ...state,
@@ -296,28 +325,7 @@ function reducerTemplate(state, action) {
           [action.key]: action.value,
         }
       }
-    case TEMPLATE_CHANGE_MASTER_STATE:
-      return { 
-        ...state,
-        elements: {
-          ...state.elements,
-          [action.elementId]: {
-            ...state.elements[action.elementId],
-            ...action.data,
-          },
-        },
-        state: {
-          ...state.state,
-          Master: {
-            ...state.state.Master,
-            [action.elementId]: {
-              ...state.state.Master[action.elementId],
-              ...action.data,
-            }
-          }
-        }
-      };
-    case TEMPLATE_CHANGE_OTHER_STATE:
+    case TEMPLATE_EDIT_STATE:
       return { 
         ...state,
         elements: {
@@ -357,9 +365,9 @@ function reducer(state, action) {
     case TEMPLATE_RESIZE_SELECT_CONTAINER:
     case TEMPLATE_ADD_ELEMENT:
     case TEMPLATE_EDIT_ELEMENT:
+    case TEMPLATE_CHANGE_STATE:
     case TEMPLATE_CHANGE_VALUE_STATE:
-    case TEMPLATE_CHANGE_MASTER_STATE:
-    case TEMPLATE_CHANGE_OTHER_STATE:
+    case TEMPLATE_EDIT_STATE:
       return { 
         ...state, 
         data: {
