@@ -72,12 +72,12 @@ class Template extends PureComponent {
           settings: { x: 270, y: 120, w: 250, h: 250, scale: 1 },
           list: [],
           listState: ['Master', 'State', 'Error'],
-          valueState: {
-            Master: 0,
-            State: 0,
-            Error: 0,
+          valueState: { Master: 0, State: 0, Error: 0 },
+          state: {
+            Master: {},
+            State: {},
+            Error: {},
           },
-          state: {},
           elements: {}
         });
     }

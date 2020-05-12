@@ -251,6 +251,16 @@ class Sheet extends Component {
     const x = (e.pageX - (rect.left * this.props.settings.scale)) / this.props.settings.scale // (e.clientX - rect.left) / this.props.settings.scale;
     const y = (e.pageY - (rect.top * this.props.settings.scale)) / this.props.settings.scale  // (e.clientY - rect.top) / this.props.settings.scale;
     
+    const data = {
+      [elementId]: {
+        type,
+        x: Math.round(x * 1e2 ) / 1e2, 
+        y: Math.round(y * 1e2 ) / 1e2,
+        w: 70, h: 70,
+        ...getDefaultParamsElement(type),
+      }
+    };
+    
     core.actions.template
       .data(
         this.props.id, this.props.prop,
@@ -258,14 +268,15 @@ class Sheet extends Component {
           list: this.props.list.concat(elementId), 
           elements: {
             ...this.props.elements,
-            [elementId]: {
-              type,
-              x: Math.round(x * 1e2 ) / 1e2, 
-              y: Math.round(y * 1e2 ) / 1e2,
-              w: 70, h: 70,
-              ...getDefaultParamsElement(type),
+            ...data,
+          },
+          state: {
+            ...this.props.elements,
+            Master: {
+              ...this.props.elements.Master,
+              ...data,
             }
-          } 
+          }
         }
       );
     this.save();
