@@ -6,6 +6,11 @@
   display: none;
 }
 
+.MuiTreeItem-root .MuiTreeItem-label {
+  padding-right: 4px;
+  width: unset;
+}
+
 .MuiTreeItem-root:focus > .MuiTreeItem-content .MuiTreeItem-label {
   background-color: unset!important;
 }
@@ -14,6 +19,16 @@
   background-color: unset!important;
 }
 
-.MuiTreeItem-root .Mui-selected> .MuiTreeItem-content .MuiTreeItem-label {
+.tree .Mui-selected> .MuiTreeItem-content .MuiTreeItem-label {
   background-color: #BBDEFB!important
 }
+
+.animation .Mui-selected> .MuiTreeItem-content .MuiTreeItem-label {
+  background-color: unset!important
+}
+
+.animation .Mui-selected> .MuiTreeItem-content .MuiTreeItem-label .animTitle {
+  background-color: #FFECB3!important
+}
+
+

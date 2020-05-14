@@ -49,6 +49,14 @@ function CloseSquare(props) {
       </SvgIcon>
     );
   }
+  if (props.type === 'animation') {
+    return (
+      <SvgIcon className="close" fontSize="inherit" style={{ width: 16, height: 16 }} {...props}>
+        {/* tslint:disable-next-line: max-line-length */}
+        <path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+      </SvgIcon>
+    );
+  }
   return (
     <SvgIcon className="close" fontSize="inherit" style={{ width: 18, height: 18 }} {...props}>
       {/* tslint:disable-next-line: max-line-length */}
@@ -83,6 +91,36 @@ const StyledTreeItem = withStyles((theme) => ({
   },
 }))((props) => <TreeItem {...props} TransitionComponent={TransitionComponent} />);
 
+const StyledAnimItem = withStyles((theme) => ({
+  content: {
+    height: 22,
+  },
+  label: {
+    display: 'flex',
+    height: 22,
+    alignItems: 'center',
+  },
+  iconContainer: {
+    '& .close': {
+      opacity: 0.3,
+    },
+  },
+  group: {
+    marginLeft: 7,
+    paddingLeft: 18,
+    borderLeft: `1px dashed ${fade(theme.palette.text.primary, 0.4)}`,
+  },
+}))((props) => 
+  <TreeItem 
+    {...props}
+    TransitionComponent={TransitionComponent} 
+    label={
+      <>
+        <Number value={props.value} onChange={(v) => props.onChange(props.nodeId, v)} />
+        <div className="animTitle" style={styles.itemAnimTitle}>{props.nodeId}</div>
+      </>
+    } 
+  />);
 
 
 const styles = {
@@ -120,8 +158,11 @@ const styles = {
   },
   tree: {
     with: '100%',
-    height: '100%',
-    flexGrow: 1,
+  },
+  itemAnimTitle: {
+    marginLeft: 4,
+    paddingLeft: 4,
+    paddingRight: 4,
   },
 }
 
@@ -168,6 +209,16 @@ class Toolbar extends PureComponent {
     this.props.onClickElement(id);
   }
 
+  handleIconClickAnimation = (e, id) => {
+
+  }
+
+  handleLabelClickAnimation = (e, id) => {
+    e.preventDefault();
+
+    this.props.onChangeState(id)
+  }
+
   handleClickStateItem = (e, id) => {
     e.preventDefault();
     e.stopPropagation();
@@ -211,18 +262,43 @@ class Toolbar extends PureComponent {
       )
     }
     return (
-      <TreeView
-        style={styles.tree}
-        defaultExpanded={['template']}
-        defaultCollapseIcon={<MinusSquare />}
-        defaultExpandIcon={<PlusSquare />}
-   
-        selected={Object.keys(selects)}
-      >
-        <StyledTreeItem nodeId="template" label="Template" >
-          {list.map(id => item(id, elements, this.handleIconClickTree, this.handleLabelClick))}
-        </StyledTreeItem>
-      </TreeView>
+      <Scrollbars style={{ width: '100%', height: '100%' }}>
+        <TreeView
+          className="tree"
+          style={styles.tree}
+          defaultExpanded={['template']}
+          defaultCollapseIcon={<MinusSquare />}
+          defaultExpandIcon={<PlusSquare />}
+          selected={Object.keys(selects)}
+        >
+          <StyledTreeItem nodeId="template" label="Template" >
+            {list.map(id => item(id, elements, this.handleIconClickTree, this.handleLabelClick))}
+          </StyledTreeItem>
+        </TreeView>
+        <TreeView
+          style={styles.tree}
+          className="animation"
+          defaultExpanded={['Animation']}
+          defaultCollapseIcon={<MinusSquare />}
+          defaultExpandIcon={<PlusSquare />}
+          selected={selectState}
+        >
+          <StyledTreeItem nodeId="Animation" label="Animation" >
+            {listState.map(id => 
+              <StyledAnimItem 
+                key={id} 
+                nodeId={id} 
+                label={id}
+                value={valueState[id] || 0}
+                endIcon={<CloseSquare type="animation" />}
+                onIconClick={(e) => this.handleIconClickAnimation(e, id)} 
+                onLabelClick={(e) => this.handleLabelClickAnimation(e, id)}
+                onChange={this.handleChangeValueState} 
+              />
+            )}
+          </StyledTreeItem>
+        </TreeView>
+      </Scrollbars>
     )
   }
 

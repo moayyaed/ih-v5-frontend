@@ -94,6 +94,7 @@ class Sheet extends Component {
             list: state.list,
             elements: state.elements,
             listState: state.listState,
+            orderState: state.orderState,
             valueState: state.valueState,
             state: state.state,
           }

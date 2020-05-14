@@ -63,7 +63,7 @@ class Template extends PureComponent {
       core.actions.template
       .data(
         this.props.id, this.props.options.prop, {
-          toolbarType: 'state',
+          toolbarType: 'tree',
           propertyType: 'main',
           selectState: 'Master',
           selectType: null,
@@ -72,6 +72,7 @@ class Template extends PureComponent {
           settings: { x: 270, y: 120, w: 250, h: 250, scale: 1 },
           list: [],
           listState: ['Master', 'State', 'Error'],
+          orderState: ['Master', 'State', 'Error'],
           valueState: { Master: 0, State: 0, Error: 0 },
           state: {
             Master: {},
@@ -119,8 +120,8 @@ class Template extends PureComponent {
       ];
     }
     if (id === 'toolbar') {
-      const select = this.props.data.toolbarType || 'state';
-      return [
+      const select = this.props.data.toolbarType || 'tree';
+      /*
         <Button 
           key="1"
           minimal
@@ -129,6 +130,8 @@ class Template extends PureComponent {
           onClick={() => this.handleChangeToolbar('state')} 
         />,
         <Separator key="2" />,
+      */
+      return [
         <Button 
           key="3"
           minimal
@@ -239,7 +242,7 @@ class Template extends PureComponent {
     if (id === 'toolbar') {
       return (
         <Toolbar
-          type={this.props.data.toolbarType || 'state'}
+          type={this.props.data.toolbarType || 'tree'}
           selectState={this.props.data.selectState || 'Master'}
           list={this.props.data.list || []}
           listState={this.props.data.listState || []}

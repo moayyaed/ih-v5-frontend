@@ -24,6 +24,7 @@ import {
 
   TEMPLATE_EDIT_STATE,
 } from './constants';
+import Template from '.';
 
 
 function getNewDataState(state, action) {
@@ -54,6 +55,27 @@ function getNewDataState(state, action) {
       }
     }
   }
+}
+
+function getStateElements(elements, state, values, slist) {
+  const list = ['Master', 'State', 'Error'];
+  return Object
+    .keys(elements)
+    .reduce((p, c) => {
+      const temp = list.reduce((p2, c2) => { 
+        if (state[c2] && state[c2][values[c2]] && state[c2][values[c2]][c]) {
+          return { ...p2, ...state[c2][values[c2]][c] } 
+        }
+        return { ...p2 };
+      }, elements[c]);
+
+      temp.x = elements[c].x;
+      temp.y = elements[c].y;
+      temp.w = elements[c].w;
+      temp.h = elements[c].h;
+
+      return { ...p, [c]: temp }
+    }, {});
 }
 
 function reducerTemplate(state, action) {
@@ -336,6 +358,7 @@ function reducerTemplate(state, action) {
       return {
         ...state,
         selectState: action.stateId,
+        /*
         elements: Object
           .keys(state.elements)
           .reduce((p, c) => {
@@ -347,8 +370,8 @@ function reducerTemplate(state, action) {
               return { 
                 ...p, 
                 [c]: {
-                  // ...state.elements[c],
-                  ...state.state['Master'][0][c],
+                  ...state.elements[c],
+                  // ...state.state['Master'][0][c],
                   ...state.state[action.stateId][state.valueState[action.stateId]][c],
                   x: state.elements[c].x,
                   y: state.elements[c].y,
@@ -359,8 +382,8 @@ function reducerTemplate(state, action) {
             }
             return { 
               ...p, [c]: { 
-                // ...state.elements[c],
-                ...state.state['Master'][0][c],
+                ...state.elements[c],
+                //...state.state['Master'][0][c],
                 x: state.elements[c].x,
                 y: state.elements[c].y,
                 w: state.elements[c].w,
@@ -368,6 +391,7 @@ function reducerTemplate(state, action) {
               }
             };
           }, {})
+          */
       };
     case TEMPLATE_CHANGE_VALUE_STATE:
       return {
@@ -377,38 +401,12 @@ function reducerTemplate(state, action) {
           ...state.valueState,
           [action.stateId]: action.value,
         },
-        elements: Object
-          .keys(state.elements)
-          .reduce((p, c) => {
-            if (
-              state.state[action.stateId] && 
-              state.state[action.stateId][action.value] &&
-              state.state[action.stateId][action.value][c]
-            ) {
-              return { 
-                ...p, 
-                [c]: {
-                  // ...state.elements[c],
-                  ...state.state['Master'][0][c],
-                  ...state.state[action.stateId][action.value][c],
-                  x: state.elements[c].x,
-                  y: state.elements[c].y,
-                  w: state.elements[c].w,
-                  h: state.elements[c].h,
-                }
-              };
-            }
-            return { 
-              ...p, [c]: { 
-                // ...state.elements[c],
-                ...state.state['Master'][0][c],
-                x: state.elements[c].x,
-                y: state.elements[c].y,
-                w: state.elements[c].w,
-                h: state.elements[c].h,
-              }
-            };
-          }, {})
+        elements: getStateElements(
+          state.elements, 
+          state.state, 
+          { ...state.valueState, [action.stateId]: action.value }, 
+          state.listState
+        ),
       }
     case TEMPLATE_EDIT_STATE:
       return { 
@@ -420,6 +418,9 @@ function reducerTemplate(state, action) {
             ...action.data,
           },
         },
+        orderState: state.orderState
+          .filter(i => i !== state.selectState)
+          .concat(state.selectState),
         state: {
           ...state.state,
           [action.stateId]: {
