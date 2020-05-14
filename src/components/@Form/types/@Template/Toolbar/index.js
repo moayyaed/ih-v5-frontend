@@ -285,7 +285,7 @@ class Toolbar extends PureComponent {
           selected={selectState}
         >
           <StyledTreeItem nodeId="Animation" label="Animation" >
-            {listState.map(id => 
+            {listState.filter(i => i !== 'Master').map(id => 
               <StyledAnimItem 
                 key={id} 
                 nodeId={id} 
