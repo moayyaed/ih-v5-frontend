@@ -267,12 +267,12 @@ class Toolbar extends PureComponent {
         <TreeView
           className="tree"
           style={styles.tree}
-          defaultExpanded={['template']}
+          defaultExpanded={['content']}
           defaultCollapseIcon={<MinusSquare />}
           defaultExpandIcon={<PlusSquare />}
           selected={Object.keys(selects)}
         >
-          <StyledTreeItem nodeId="template" label="Template" >
+          <StyledTreeItem nodeId="content" label="Content" >
             {list.map(id => item(id, elements, this.handleIconClickTree, this.handleLabelClick))}
           </StyledTreeItem>
         </TreeView>
