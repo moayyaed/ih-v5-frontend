@@ -93,6 +93,7 @@ const StyledTreeItem = withStyles((theme) => ({
 
 const StyledAnimItem = withStyles((theme) => ({
   content: {
+    width: 'unset',
     height: 22,
   },
   label: {

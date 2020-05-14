@@ -24,7 +24,6 @@ import {
 
   TEMPLATE_EDIT_STATE,
 } from './constants';
-import Template from '.';
 
 
 function getNewDataState(state, action) {
@@ -76,6 +75,15 @@ function getStateElements(elements, state, values, slist) {
 
       return { ...p, [c]: temp }
     }, {});
+}
+
+function getOrder(list, stateId) {
+ if (stateId === undefined || stateId === 'Master') {
+  return list;
+ }
+ return list
+  .filter(i => i !== stateId)
+  .concat(stateId);
 }
 
 function reducerTemplate(state, action) {
@@ -418,9 +426,7 @@ function reducerTemplate(state, action) {
             ...action.data,
           },
         },
-        orderState: state.orderState
-          .filter(i => i !== state.selectState)
-          .concat(state.selectState),
+        orderState: getOrder(state.orderState, state.selectState),
         state: {
           ...state.state,
           [action.stateId]: {
