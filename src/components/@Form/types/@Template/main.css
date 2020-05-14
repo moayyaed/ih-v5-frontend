@@ -20,7 +20,8 @@
 }
 
 .tree .Mui-selected> .MuiTreeItem-content .MuiTreeItem-label {
-  background-color: #BBDEFB!important
+  background-color: unset!important;
+  font-weight: 600;
 }
 
 .animation .Mui-selected> .MuiTreeItem-content .MuiTreeItem-label {
@@ -28,7 +29,8 @@
 }
 
 .animation .Mui-selected> .MuiTreeItem-content .MuiTreeItem-label .animTitle {
-  background-color: #FFECB3!important
+  background-color: unset!important;
+  font-weight: 600;
 }
 
 
