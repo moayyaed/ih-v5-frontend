@@ -206,7 +206,7 @@ class Property extends PureComponent {
             scheme={map}
             route={route}
             data={this.props.elementData}
-            cache={this.props.stateData}
+            cache={this.props.stateData || {}}
             onChange={this.handleChange}
             getStyle={this.props.getStyle}
           />
