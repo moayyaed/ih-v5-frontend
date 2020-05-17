@@ -39,9 +39,17 @@ export function TypeIcon(props) {
   }
   if (props.type === 'animation') {
     return (
+      <SvgIcon fontSize="inherit" style={{ width: 12, height: 12 }} {...props}>
+        {/* tslint:disable-next-line: max-line-length */}
+        <path d="M22.047 22.074v0 0-20.147 0h-20.12v0 20.147 0h20.12zM22.047 24h-20.12q-.803 0-1.365-.562t-.562-1.365v-20.147q0-.776.562-1.351t1.365-.575h20.147q.776 0 1.351.575t.575 1.351v20.147q0 .803-.575 1.365t-1.378.562v0zM17.873 11.023h-11.826q-.375 0-.669.281t-.294.682v0q0 .401.294 .682t.669.281h11.826q.375 0 .669-.281t.294-.682v0q0-.401-.294-.682t-.669-.281z" />
+      </SvgIcon>
+    );
+  }
+  if (props.type === 'property') {
+    return (
       <SvgIcon className="close" fontSize="inherit" style={{ width: 16, height: 16 }} {...props}>
         {/* tslint:disable-next-line: max-line-length */}
-        <path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+        <path d="M7 14c-1.66 0-3 1.34-3 3 0 1.31-1.16 2-2 2 .92 1.22 2.49 2 4 2 2.21 0 4-1.79 4-4 0-1.66-1.34-3-3-3zm13.71-9.37l-1.34-1.34a.9959.9959 0 00-1.41 0L9 12.25 11.75 15l8.96-8.96c.39-.39.39-1.02 0-1.41z"></path>
       </SvgIcon>
     );
   }

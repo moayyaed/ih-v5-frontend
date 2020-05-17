@@ -24,6 +24,10 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
   },
+  propertyItem: {
+    display: 'flex',
+    alignItems: 'center',
+  },
   buttonVisibility: {
     position: 'absolute',
     right: 8,
@@ -93,17 +97,43 @@ export function AnimationItems(props) {
         onIconClick={(e) => props.onClickIcon(e, 'master')} 
         onLabelClick={(e) => props.onClickLabel(e, 'master')} 
       >
-        {props.list.map((id, key)=> 
-          <TreeItem
-            key={id}
-            nodeId={id}
-            style={{ opacity: props.select === 'master' || props.state[id].hide ? 0.3 : 1 }}
-            label={<AnimationItem {...props} nodeId={id} label={id} index={key} />}
-            endIcon={<TypeIcon type="animation" />}
-            onIconClick={(e) => props.onClickIcon(e, id)} 
-            onLabelClick={(e) => props.onClickLabel(e, id)}
-          />
-        )}
+        {props.list.map((id, key)=> {
+          return (
+            <TreeItem
+              key={id}
+              nodeId={id}
+              style={{ opacity: props.select === 'master' || props.state[id].hide ? 0.3 : 1 }}
+              label={<AnimationItem {...props} nodeId={id} label={id} index={key} />}
+              endIcon={<TypeIcon type="animation" />}
+              onIconClick={(e) => props.onClickIcon(e, id)} 
+              onLabelClick={(e) => props.onClickLabel(e, id)}
+            >
+              {Object
+                .keys(props.state[id].values)
+                .map(v => 
+                  <TreeItem key={v} nodeId={v} label={v} >
+                    {Object
+                      .keys(props.state[id].values[v])
+                      .map(i => 
+                        <TreeItem key={i} nodeId={i} label={i} >
+                          {Object
+                            .keys(props.state[id].values[v][i])
+                            .map(p => 
+                              <TreeItem 
+                                key={p} 
+                                nodeId={p} 
+                                label={<PropertyItem nodeId={p} label={p} value={props.state[id].values[v][i][p]} />}
+                                endIcon={<TypeIcon type="property" />} 
+                              />
+                            )}
+                        </TreeItem>
+                      )}
+                  </TreeItem>
+                )
+              }
+            </TreeItem>
+          )
+        })}
       </BasicItem>
     </BasicItem>
   );
@@ -131,6 +161,43 @@ function AnimationItem(props) {
   );
 }
 
+function PropertyItem(props) {
+  switch(props.label) {
+    case 'backgroundColor':
+    case 'borderColor':
+      return (
+        <div style={styles.propertyItem}>
+          {props.label} : 
+          <div style={{ width: 12, height: 12, marginLeft: 5, backgroundColor: props.value }} />
+        </div>
+      );
+    case 'borderSize':
+    case 'text':
+    case 'textSize':
+    case 'imgRotate':
+    case 'imgSize':
+      return (
+        <div style={styles.propertyItem}>
+          {props.label} : {props.value}
+        </div>
+      );
+    case 'textAlignV':
+    case 'textAlignH':
+      return (
+        <div style={styles.propertyItem}>
+          {props.label} : {props.value.title}
+        </div>
+      );
+    case 'img':
+      return (
+        <div style={styles.propertyItem}>
+          {props.label} : {props.value}
+        </div>
+      );
+    default:
+      return null;
+  }
+}
 
 function TransitionComponent(props) {
   const style = useSpring({
