@@ -80,6 +80,7 @@ class Number extends Component {
       <div 
         style={{ 
           ...styles.root, 
+          ...this.props.style,
           opacity: this.props.disabled ? 0.3 : 1,
           pointerEvents: this.props.disabled ? 'none' : 'all'
         }}

@@ -14,10 +14,10 @@ function Input(props) {
       id={props.options.id} 
       label={props.options.title} 
       style={styles.root}
-      InputLabelProps={{ shrink: true }} 
+      InputLabelProps={{ shrink: true, style: props.getStyle(props) }} 
       value={props.data}
-      error={props.cache.error}
-      helperText={props.cache.error}
+      error={props.cache && props.cache.error}
+      helperText={props.cache && props.cache.error}
       onChange={(e) => props.onChange(props.id, props.options, null, e.target.value)}
     />
   )

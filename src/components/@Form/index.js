@@ -39,8 +39,13 @@ function getPadding(padding) {
   return padding;
 }
 
+const EMPTY_STYLE = {};
 
 class Form extends Component {
+
+  handleStyle = (params) => {
+    return EMPTY_STYLE;
+  }
 
   getGridContent = (id) => {
     const scheme = this.props.scheme[id];
@@ -54,7 +59,7 @@ class Form extends Component {
           return null;
         }
       }
-      return components(id, item, data[item.prop], cache[item.prop], this.props.data, route, this.props.onChange);
+      return components(id, item, data[item.prop], cache[item.prop], this.props.data, route, this.props.onChange, this.handleStyle);
     });
   }
 

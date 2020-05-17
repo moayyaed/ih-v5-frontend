@@ -19,14 +19,17 @@ import {
   TEMPLATE_EDIT_ELEMENT,
   TEMPLATE_DELETE_ELEMENT,
 
+  TEMPLATE_SORT_LIST_STATE,
   TEMPLATE_CHANGE_STATE,
   TEMPLATE_CHANGE_VALUE_STATE,
+  TEMPLATE_CHANGE_VISIBILITY_STATE,
 
   TEMPLATE_EDIT_STATE,
 } from './constants';
 
 
-function getNewDataState(state, action) {
+function editState(state, action) {
+
   if (state[action.stateValue] === undefined) {
     return {
       ...state,
@@ -57,7 +60,7 @@ function getNewDataState(state, action) {
 }
 
 function getStateElements(elements, state, values, slist) {
-  const list = ['Master', 'State', 'Error'];
+  const list = ['master', 'State', 'Error'];
   return Object
     .keys(elements)
     .reduce((p, c) => {
@@ -65,7 +68,7 @@ function getStateElements(elements, state, values, slist) {
         if (state[c2] && state[c2][values[c2]] && state[c2][values[c2]][c]) {
           return { ...p2, ...state[c2][values[c2]][c] } 
         }
-        return { ...p2 };
+        return p2;
       }, elements[c]);
 
       temp.x = elements[c].x;
@@ -78,7 +81,7 @@ function getStateElements(elements, state, values, slist) {
 }
 
 function getOrder(list, stateId) {
- if (stateId === undefined || stateId === 'Master') {
+ if (stateId === undefined || stateId === 'master') {
   return list;
  }
  return list
@@ -303,11 +306,14 @@ function reducerTemplate(state, action) {
         },
         state: {
           ...state.state,
-          Master: {
-            ...state.state.Master,
-            [0]: {
-              ...state.state.Master[0],
-              [action.elementId]: action.data, 
+          master: {
+            ...state.state.master,
+            values: {
+              ...state.state.master.values,
+              [0]: {
+                ...state.state.master[0],
+                [action.elementId]: action.masterData, 
+              }
             }
           }
         }
@@ -344,96 +350,216 @@ function reducerTemplate(state, action) {
           .reduce((p, c) => {
             return { 
               ...p, 
-              [c]: Object
-                .keys(state.state[c])
-                .reduce((p2, c2) => {
-                  return { 
-                    ...p2,
-                    [c2]: Object
-                      .keys(state.state[c][c2])
-                      .reduce((p3, c3) => {
-                        if (state.selects[c3] || state.selects[state.elements[c3].groupId]) {
-                          return p3;
-                        }
-                        return { ...p3, [c3]: state.state[c][c2][c3] }
-                      }, {}),  
-                  }
-                }, {}),  
-            }
+              [c]: {
+                ...state.state[c],
+                values: Object
+                  .keys(state.state[c].values)
+                  .reduce((p2, c2) => {
+                    return { 
+                      ...p2,
+                      [c2]: Object
+                        .keys(state.state[c].values[c2])
+                        .reduce((p3, c3) => {
+                          if (state.selects[c3] || state.selects[state.elements[c3].groupId]) {
+                            return p3;
+                          }
+                          return { ...p3, [c3]: state.state[c].values[c2][c3] }
+                        }, {}),  
+                    }
+                  }, {}), 
+              },
+            };
           }, {})
+      }
+    case TEMPLATE_SORT_LIST_STATE: 
+      return {
+        ...state,
+        listState: action.list,
+        elements: Object
+          .keys(state.elements)
+          .reduce((p, c) => {
+            return {
+              ...p,
+              [c]: ['master']
+                .concat([...action.list].reverse())
+                .reduce((p2, c2) => {
+                  const v = state.state[c2].curent;
+                  if (
+                    state.state[c2] &&
+                    state.state[c2].hide === false && 
+                    state.state[c2].values && 
+                    state.state[c2].values[v] &&
+                    state.state[c2].values[v][c]
+                  ) {
+                    return { ...p2, ...state.state[c2].values[v][c] };
+                  }
+                  return p2
+                }, state.elements[c]),
+            }
+          }, {}),
       }
     case TEMPLATE_CHANGE_STATE:
       return {
         ...state,
         selectState: action.stateId,
-        /*
         elements: Object
           .keys(state.elements)
           .reduce((p, c) => {
-            if (
-              state.state[action.stateId] && 
-              state.state[action.stateId][state.valueState[action.stateId]] &&
-              state.state[action.stateId][state.valueState[action.stateId]][c]
-            ) {
-              return { 
-                ...p, 
-                [c]: {
-                  ...state.elements[c],
-                  // ...state.state['Master'][0][c],
-                  ...state.state[action.stateId][state.valueState[action.stateId]][c],
-                  x: state.elements[c].x,
-                  y: state.elements[c].y,
-                  w: state.elements[c].w,
-                  h: state.elements[c].h,
-                }
-              };
+            return {
+              ...p,
+              [c]: ['master']
+                .concat([...state.listState].reverse())
+                .reduce((p2, c2) => {
+                  if (action.stateId === 'master') {
+                    return { 
+                      ...state.elements[c],
+                      ...state.state.master.values[0][c],
+                    }
+                  }
+                  const v = state.state[c2].curent;
+                  if (
+                    state.state[c2] &&
+                    state.state[c2].hide === false && 
+                    state.state[c2].values && 
+                    state.state[c2].values[v] &&
+                    state.state[c2].values[v][c]
+                  ) {
+                    return { ...p2, ...state.state[c2].values[v][c] };
+                  }
+                  return p2
+                }, state.elements[c]),
             }
-            return { 
-              ...p, [c]: { 
-                ...state.elements[c],
-                //...state.state['Master'][0][c],
-                x: state.elements[c].x,
-                y: state.elements[c].y,
-                w: state.elements[c].w,
-                h: state.elements[c].h,
-              }
-            };
-          }, {})
-          */
+          }, {}),
       };
     case TEMPLATE_CHANGE_VALUE_STATE:
       return {
         ...state,
         selectState: action.stateId,
-        valueState: {
-          ...state.valueState,
-          [action.stateId]: action.value,
-        },
-        elements: getStateElements(
-          state.elements, 
-          state.state, 
-          { ...state.valueState, [action.stateId]: action.value }, 
-          state.listState
-        ),
-      }
-    case TEMPLATE_EDIT_STATE:
-      return { 
-        ...state,
-        elements: {
-          ...state.elements,
-          [action.elementId]: {
-            ...state.elements[action.elementId],
-            ...action.data,
-          },
-        },
-        orderState: getOrder(state.orderState, state.selectState),
+        elements: Object
+          .keys(state.elements)
+          .reduce((p, c) => {
+            return {
+              ...p,
+              [c]: ['master']
+                .concat([...state.listState].reverse())
+                .reduce((p2, c2) => {
+                  const v = c2 === action.stateId ? action.value : state.state[c2].curent;
+                  if (
+                    state.state[c2] &&
+                    state.state[c2].hide === false && 
+                    state.state[c2].values && 
+                    state.state[c2].values[v] &&
+                    state.state[c2].values[v][c]
+                  ) {
+                    return { ...p2, ...state.state[c2].values[v][c] };
+                  }
+                  return p2
+                }, state.elements[c]),
+            }
+          }, {}),
         state: {
           ...state.state,
           [action.stateId]: {
             ...state.state[action.stateId],
-            ...getNewDataState(state.state[action.stateId], action)
+            curent: action.value,
           }
         }
+      }
+    case TEMPLATE_CHANGE_VISIBILITY_STATE:
+      return {
+        ...state,
+        state: {
+          ...state.state,
+          [action.stateId]: {
+            ...state.state[action.stateId],
+            hide: action.value,
+          }
+        },
+        elements: Object
+          .keys(state.elements)
+          .reduce((p, c) => {
+            return {
+              ...p,
+              [c]: ['master']
+                .concat([...state.listState].reverse())
+                .reduce((p2, c2) => {
+                  if (action.stateId === 'master') {
+                    return state.elements[c];
+                  }
+                  const v = state.state[c2].curent;
+                  const h = action.stateId === c2 ? action.value : state.state[c2].hide
+                  if (
+                    state.state[c2] &&
+                    h === false && 
+                    state.state[c2].values && 
+                    state.state[c2].values[v] &&
+                    state.state[c2].values[v][c]
+                  ) {
+                    return { ...p2, ...state.state[c2].values[v][c] };
+                  }
+                  return p2
+                }, state.elements[c]),
+            }
+          }, {}),
+      }
+    case TEMPLATE_EDIT_STATE:
+      return { 
+        ...state,
+        elements: Object
+          .keys(state.elements)
+          .reduce((p, c) => {
+            if (c === action.elementId) {
+              if (action.stateId === 'master') {
+                return { 
+                  ...p, 
+                  [c]: {
+                    ...state.elements[c], 
+                    ...state.state.master.values[0][c],
+                    ...action.data, 
+                  } 
+                }
+              } else {
+                return { 
+                  ...p, 
+                  [c]: ['master']
+                    .concat([...state.listState].reverse())
+                    .reduce((p2, c2) => {
+                      const v = action.stateId === c2 ? action.stateValue : state.state[c2].curent;
+                      const h = state.state[c2].hide;
+                      if (action.stateId === c2) {
+                        if (state.state[c2] && h === false) {
+                          if (state.state[c2].values && state.state[c2].values[v] && state.state[c2].values[v][c]) {
+                            return { ...p2, ...state.state[c2].values[v][c], ...action.data };
+                          } else {
+                            return { ...p2, ...action.data };
+                          }
+                        }
+                        return p2;
+                      } else {
+                        if (
+                          state.state[c2] &&
+                          h === false && 
+                          state.state[c2].values && 
+                          state.state[c2].values[v] &&
+                          state.state[c2].values[v][c]
+                        ) {
+                          return { ...p2, ...state.state[c2].values[v][c] };
+                        }
+                      }
+                      return p2;
+                    }, state.elements[c]),
+                }
+              }
+            }
+            return { ...p, [c]: state.elements[c] }
+          }, {}),
+        state: {
+          ...state.state,
+          [action.stateId]: {
+            ...state.state[action.stateId],
+            values: editState(state.state[action.stateId].values, action)
+          }
+        },
       };
     default:
       return state;
@@ -458,8 +584,10 @@ function reducer(state, action) {
     case TEMPLATE_ADD_ELEMENT:
     case TEMPLATE_EDIT_ELEMENT:
     case TEMPLATE_DELETE_ELEMENT:
+    case TEMPLATE_SORT_LIST_STATE:
     case TEMPLATE_CHANGE_STATE:
     case TEMPLATE_CHANGE_VALUE_STATE:
+    case TEMPLATE_CHANGE_VISIBILITY_STATE:
     case TEMPLATE_EDIT_STATE:
       return { 
         ...state, 

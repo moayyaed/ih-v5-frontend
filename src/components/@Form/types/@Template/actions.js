@@ -19,8 +19,10 @@ import {
   TEMPLATE_EDIT_ELEMENT,
   TEMPLATE_DELETE_ELEMENT,
 
+  TEMPLATE_SORT_LIST_STATE,
   TEMPLATE_CHANGE_STATE,
   TEMPLATE_CHANGE_VALUE_STATE,
+  TEMPLATE_CHANGE_VISIBILITY_STATE,
 
   TEMPLATE_EDIT_STATE,
 } from './constants';
@@ -128,13 +130,14 @@ export function resizeSelectContainer(id, prop, position, childs) {
   };
 }
 
-export function addElement(id, prop, elementId, data) {
+export function addElement(id, prop, elementId, data, masterData) {
   return {
     type: TEMPLATE_ADD_ELEMENT,
     id,
     prop,
     elementId,
     data,
+    masterData,
   };
 }
 
@@ -153,6 +156,15 @@ export function deleteElement(id, prop) {
     type: TEMPLATE_DELETE_ELEMENT,
     id,
     prop,
+  };
+}
+
+export function sortListState(id, prop, list) {
+  return {
+    type: TEMPLATE_SORT_LIST_STATE,
+    id,
+    prop,
+    list,
   };
 }
 
@@ -175,6 +187,15 @@ export function changeValueState(id, prop, stateId, value) {
   };
 }
 
+export function changeVisibilityState(id, prop, stateId, value) {
+  return {
+    type: TEMPLATE_CHANGE_VISIBILITY_STATE,
+    id,
+    prop,
+    stateId,
+    value,
+  };
+}
 
 export function editState(id, prop, stateId, stateValue, elementId, data) {
   return {
@@ -208,8 +229,10 @@ export default {
   editElement,
   deleteElement,
 
+  sortListState,
   changeState,
   changeValueState,
+  changeVisibilityState,
 
   editState,
 }

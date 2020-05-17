@@ -139,7 +139,7 @@ class Droplist extends PureComponent {
     return (
       <TextField 
         {...params}
-        InputLabelProps={{ ...params.InputLabelProps, shrink: true}}
+        InputLabelProps={{ ...params.InputLabelProps, shrink: true, style: this.props.getStyle(this.props) }}
         InputProps={{
           ...params.InputProps,
           endAdornment: (
@@ -150,8 +150,8 @@ class Droplist extends PureComponent {
           ),
         }}
         label={this.props.options.title} 
-        error={this.props.cache.error}
-        helperText={this.props.cache.error}
+        error={this.props.cache && this.props.cache.error}
+        helperText={this.props.cache && this.props.cache.error}
         fullWidth 
       />
     )

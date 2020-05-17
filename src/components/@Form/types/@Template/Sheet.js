@@ -256,18 +256,20 @@ class Sheet extends Component {
     const x = (e.pageX - (rect.left * this.props.settings.scale)) / this.props.settings.scale // (e.clientX - rect.left) / this.props.settings.scale;
     const y = (e.pageY - (rect.top * this.props.settings.scale)) / this.props.settings.scale  // (e.clientY - rect.top) / this.props.settings.scale;
     
+    const masterData = getDefaultParamsElement(type);
+
     const data = {
       type,
       x: Math.round(x * 1e2 ) / 1e2, 
       y: Math.round(y * 1e2 ) / 1e2,
       w: 70, h: 70,
-      ...getDefaultParamsElement(type),
-    };
+      ...masterData
+    }
     
     core.actions.template
       .addElement(
         this.props.id, this.props.prop,
-        elementId, data,
+        elementId, data, masterData,
       );
     this.save();
   }

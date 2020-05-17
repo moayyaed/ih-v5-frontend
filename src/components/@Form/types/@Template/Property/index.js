@@ -186,17 +186,6 @@ const styles = {
 }
 
 
-const classes = theme => ({
-  root: {
-    width: '100%',
-  },
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightRegular,
-  },
-});
-
-
 class Property extends PureComponent {
 
   handleChange = (id, options, target, value) => {
@@ -217,8 +206,9 @@ class Property extends PureComponent {
             scheme={map}
             route={route}
             data={this.props.elementData}
-            cache={cache[this.props.elementData.type]}
+            cache={this.props.stateData}
             onChange={this.handleChange}
+            getStyle={this.props.getStyle}
           />
         </Scrollbars>
       )

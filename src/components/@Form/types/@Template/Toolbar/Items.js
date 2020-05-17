@@ -1,0 +1,151 @@
+import React from 'react';
+
+
+import TreeItem from '@material-ui/lab/TreeItem';
+
+import { useSpring, animated } from 'react-spring/web.cjs';
+import { fade, withStyles } from '@material-ui/core/styles';
+import Collapse from '@material-ui/core/Collapse';
+
+import IconButton from '@material-ui/core/IconButton';
+import Number from 'components/Number';
+
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+
+import { TypeIcon } from './Icons';
+
+
+const styles = {
+  animationItem: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  buttonVisibility: {
+    position: 'absolute',
+    right: 8,
+  },
+  buttonNumber: {
+    position: 'absolute',
+    right: 41,
+  },
+  buttonDown: {
+    position: 'absolute',
+    right: 103,
+  },
+  buttonUp: {
+    position: 'absolute',
+    right: 121,
+  },
+};
+
+const classes = theme => ({
+  iconContainer: {
+    '& .close': {
+      opacity: 0.3,
+    },
+  },
+  group: {
+    marginLeft: 7,
+    paddingLeft: 18,
+    borderLeft: `1px dashed ${fade(theme.palette.text.primary, 0.4)}`,
+  },
+});
+
+
+export function ElementsItems(props) {
+  return (
+    <BasicItem 
+      nodeId="content" 
+      label="Content"
+      onIconClick={(e) => props.onClickIcon(e, 'content')} 
+      onLabelClick={(e) => props.onClickLabel(e, 'content')} 
+    >
+      {props.list.map(id => 
+        <TreeItem
+          key={id}
+          nodeId={id}
+          label={id}
+          endIcon={<TypeIcon type={props.elements[id].type}/>}
+          onIconClick={(e) => props.onClickIcon(e, id)} 
+          onLabelClick={(e) => props.onClickLabel(e, id)} 
+        />
+      )}
+    </BasicItem>
+  );
+}
+
+
+export function AnimationItems(props) {
+  return (
+    <BasicItem 
+      nodeId="animation" 
+      label="Animation"
+      onIconClick={(e) => props.onClickIcon(e, 'animation')} 
+      onLabelClick={(e) => props.onClickLabel(e, 'animation')} 
+    >
+      <BasicItem 
+        nodeId="master" 
+        label="Default" 
+        onIconClick={(e) => props.onClickIcon(e, 'master')} 
+        onLabelClick={(e) => props.onClickLabel(e, 'master')} 
+      >
+        {props.list.map((id, key)=> 
+          <TreeItem
+            key={id}
+            nodeId={id}
+            style={{ opacity: props.select === 'master' || props.state[id].hide ? 0.3 : 1 }}
+            label={<AnimationItem {...props} nodeId={id} label={id} index={key} />}
+            endIcon={<TypeIcon type="animation" />}
+            onIconClick={(e) => props.onClickIcon(e, id)} 
+            onLabelClick={(e) => props.onClickLabel(e, id)}
+          />
+        )}
+      </BasicItem>
+    </BasicItem>
+  );
+}
+
+function AnimationItem(props) {
+  return (
+    <div style={styles.animationItem}>
+      {props.label}
+      <IconButton style={styles.buttonUp} size="small" onClick={(e) => props.onClickUp(e, props.nodeId, props.index)}>
+        <ArrowUpwardIcon fontSize="inherit" />
+      </IconButton>
+      <IconButton style={styles.buttonDown} size="small" onClick={(e) => props.onClickDown(e, props.nodeId, props.index)}>
+        <ArrowDownwardIcon fontSize="inherit" />
+      </IconButton>
+      <Number 
+        value={props.state[props.nodeId].curent || 0}
+        style={styles.buttonNumber}
+        onChange={v => props.onChangeNumber(props.nodeId, v)}
+      />
+      <IconButton style={styles.buttonVisibility} size="small" onClick={(e) => props.onClickVisibility(e, props.nodeId, !props.state[props.nodeId].hide)}>
+        {props.select === 'master' || props.state[props.nodeId].hide ? <VisibilityOffIcon fontSize="inherit" /> : <VisibilityIcon fontSize="inherit" />}
+      </IconButton>
+    </div>
+  );
+}
+
+
+function TransitionComponent(props) {
+  const style = useSpring({
+    from: { opacity: 0, transform: 'translate3d(20px,0,0)' },
+    to: { opacity: props.in ? 1 : 0, transform: `translate3d(${props.in ? 0 : 20}px,0,0)` },
+  });
+  return (
+    <animated.div style={style}>
+      <Collapse {...props} />
+    </animated.div>
+  );
+}
+
+function Item(props) {
+  return <TreeItem {...props} TransitionComponent={TransitionComponent} />;
+}
+
+const BasicItem = withStyles(classes)(Item);

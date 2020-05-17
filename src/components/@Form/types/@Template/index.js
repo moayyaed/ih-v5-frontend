@@ -31,6 +31,8 @@ const styles = {
 }
 
 const EMPTY_ARRAY = [];
+const EMPTY_STYLE = {};
+const COLOR_STYLE = { color: '#2196F3' };
 
 const TITLES = {
   sheet: 'Template',
@@ -65,19 +67,17 @@ class Template extends PureComponent {
         this.props.id, this.props.options.prop, {
           toolbarType: 'tree',
           propertyType: 'main',
-          selectState: 'Master',
+          selectState: 'master',
           selectType: null,
           selectContainer: null,
           selects: {}, 
           settings: { x: 270, y: 120, w: 250, h: 250, scale: 1 },
           list: [],
-          listState: ['Master', 'State', 'Error'],
-          orderState: ['Master', 'State', 'Error'],
-          valueState: { Master: 0, State: 0, Error: 0 },
+          listState: ['state', 'error'],
           state: {
-            Master: {},
-            State: {},
-            Error: {},
+            master: { hide: false, curent: 0, values: { 0: {} } },
+            state: { hide: false, curent: 0, values: {} },
+            error: { hide: false, curent: 0, values: {} },
           },
           elements: {}
         });
@@ -151,7 +151,7 @@ class Template extends PureComponent {
           <Button icon="plus" minimal />
           <Button
             minimal
-            disabled={this.props.data.selectState === 'Master'} 
+            disabled={this.props.data.selectState === 'master'} 
             icon="minus"  
             onClick={() => {}} 
           />
@@ -169,6 +169,14 @@ class Template extends PureComponent {
       );
   }
 
+  handleSortState = (list) => {
+    core.actions.template
+      .sortListState(
+        this.props.id, this.props.options.prop,
+        list,
+      );
+  }
+
   handleChangeState = (stateId) => {
     core.actions.template
       .changeState(
@@ -177,12 +185,20 @@ class Template extends PureComponent {
       );
   }
 
-  handleChangeValueState = (key, value) => {
+  handleChangeValueState = (stateId, value) => {
     core.actions.template
       .changeValueState(
         this.props.id, this.props.options.prop,
-        key, value
+        stateId, value
       );
+  }
+
+  handleChangeVisibilityState = (stateId, value) => {
+    core.actions.template
+    .changeVisibilityState(
+      this.props.id, this.props.options.prop,
+      stateId, value
+    );
   }
   
   handleChangeProperty = (propertyId) => {
@@ -194,13 +210,22 @@ class Template extends PureComponent {
   }
 
   handleChangeValueProperty = (key, value) => {
-    const stateId = this.props.data.selectState || 'Master';
+    const stateId = this.props.data.selectState || 'master';
     core.actions.template
       .editState(
         this.props.id, this.props.options.prop,
-        stateId, this.props.data.valueState[stateId],
+        stateId, this.props.data.state[stateId].curent,
         this.props.data.selectOne, { [key]: value },
       );
+  }
+
+  handleGetStyleProperty = (params) => {
+    const stateId = this.props.data.selectState || 'master';
+
+    if (stateId !== 'master' && params.cache) {
+      return COLOR_STYLE
+    }
+    return EMPTY_STYLE;
   }
 
   handleClickTree = (elementId) => {
@@ -228,13 +253,22 @@ class Template extends PureComponent {
       );
     }
     if (id === 'property' && this.props.data.elements) {
+
+      const selectState = this.props.data.selectState || 'master';
+      const state = this.props.data.state[selectState];
+      const masterData = this.props.data.state.master.values[0][this.props.data.selectOne];
+      const stateData = state.values[state.curent] ? state.values[state.curent][this.props.data.selectOne] : {};
+      const curentData = this.props.data.elements[this.props.data.selectOne];
+
       return (
         <Property
           type={this.props.data.propertyType || 'main'}
           selectType={this.props.data.selectType}
           elementId={this.props.data.selectOne}
-          elementData={this.props.data.elements[this.props.data.selectOne]}
-          onChange={this.handleChangeValueProperty} 
+          elementData={{ ...curentData, ...masterData, ...stateData }}
+          stateData={stateData}
+          onChange={this.handleChangeValueProperty}
+          getStyle={this.handleGetStyleProperty}
         />
       )
     }
@@ -243,15 +277,17 @@ class Template extends PureComponent {
       return (
         <Toolbar
           type={this.props.data.toolbarType || 'tree'}
-          selectState={this.props.data.selectState || 'Master'}
-          list={this.props.data.list || []}
+          selectState={this.props.data.selectState || 'master'}
+          selectElements={this.props.data.selects || {} }
+          listElements={this.props.data.list || []}
           listState={this.props.data.listState || []}
-          valueState={this.props.data.valueState || {}}
+          state={this.props.data.state || {}}
           elements={this.props.data.elements || {}}
-          selects={this.props.data.selects || {} }
           onClickElement={this.handleClickTree}
+          onSortState={this.handleSortState}
           onChangeState={this.handleChangeState}
           onChangeValueState={this.handleChangeValueState}
+          onChangeVisibilityState={this.handleChangeVisibilityState}
         />
       )
     }

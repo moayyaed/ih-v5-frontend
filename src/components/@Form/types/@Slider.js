@@ -45,7 +45,7 @@ const PrettoSlider = withStyles({
 function Slider(props) {
   return (
     <div style={styles.root}>
-      <div>{props.options.title}</div>
+      <div style={props.getStyle(props)}>{props.options.title}</div>
       <PrettoSlider 
         valueLabelDisplay="auto" 
         value={props.data}
