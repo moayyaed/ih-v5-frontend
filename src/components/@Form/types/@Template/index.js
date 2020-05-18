@@ -79,11 +79,11 @@ class Template extends PureComponent {
           selects: {}, 
           settings: { x: 270, y: 120, w: 250, h: 250, scale: 1 },
           list: [],
-          listState: ['state', 'error'],
+          listState: ['state1', 'state2'],
           state: {
             master: { hide: false, curent: 0, values: { 0: {} } },
-            state: { hide: false, curent: 0, values: {} },
-            error: { hide: false, curent: 0, values: {} },
+            state1: { hide: false, curent: 0, values: {}, title: 'state' },
+            state2: { hide: false, curent: 0, values: {}, title: 'error', },
           },
           elements: {}
         });
@@ -201,10 +201,18 @@ class Template extends PureComponent {
 
   handleChangeVisibilityState = (stateId, value) => {
     core.actions.template
-    .changeVisibilityState(
-      this.props.id, this.props.options.prop,
-      stateId, value
-    );
+      .changeVisibilityState(
+        this.props.id, this.props.options.prop,
+        stateId, value
+      );
+  }
+
+  handleChangeTitleState = (stateId, value) => {
+    core.actions.template
+      .changeTitleState(
+        this.props.id, this.props.options.prop,
+        stateId, value
+      );
   }
   
   handleChangeProperty = (propertyId) => {
@@ -259,6 +267,14 @@ class Template extends PureComponent {
       );
   }
 
+  handleClickEditIdState = (stateId, value) => {
+    core.actions.template
+      .editIdState(
+        this.props.id, this.props.options.prop,
+        stateId, value,
+      );
+  }
+
   renderComponent = (id) => {
     if (id === 'sheet') {
       return (
@@ -310,8 +326,10 @@ class Template extends PureComponent {
           onChangeState={this.handleChangeState}
           onChangeValueState={this.handleChangeValueState}
           onChangeVisibilityState={this.handleChangeVisibilityState}
+          onChangeTitleState={this.handleChangeTitleState}
           onClickAddState={this.handleClickAddState}
           onClickDeleteState={this.handleClickDeleteState}
+          onClickEditIdState={this.handleClickEditIdState}
           onClickElement={this.handleClickTree}
         />
       )

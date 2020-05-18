@@ -27,6 +27,9 @@ import {
   TEMPLATE_ADD_STATE,
   TEMPLATE_EDIT_STATE,
   TEMPLATE_DELETE_STATE,
+
+  TEMPLATE_EDIT_ID_STATE,
+  TEMPLATE_CHANGE_TITLE_STATE,
 } from './constants';
 
 
@@ -404,7 +407,7 @@ function reducerTemplate(state, action) {
       return {
         ...state,
         selectState: action.stateId,
-        elements: Object
+        /* elements: Object
           .keys(state.elements)
           .reduce((p, c) => {
             return {
@@ -431,7 +434,7 @@ function reducerTemplate(state, action) {
                   return p2
                 }, state.elements[c]),
             }
-          }, {}),
+          }, {}), */
       };
     case TEMPLATE_CHANGE_VALUE_STATE:
       return {
@@ -485,8 +488,8 @@ function reducerTemplate(state, action) {
               [c]: ['master']
                 .concat([...state.listState].reverse())
                 .reduce((p2, c2) => {
-                  if (action.stateId === 'master') {
-                    return state.state.master.values[0][c];
+                  if (action.stateId === 'master' && action.value) {
+                    return { ...p2, ...state.state.master.values[0][c] };
                   }
                   const v = state.state[c2].curent;
                   const h = action.stateId === c2 ? action.value : state.state[c2].hide
@@ -510,7 +513,7 @@ function reducerTemplate(state, action) {
         listState: state.listState.concat(action.stateId),
         state: {
           ...state.state,
-          [action.stateId]: { hide: false, curent: 0, values: {} },
+          [action.stateId]: { hide: false, curent: 0, values: {}, title: action.stateId, edit: true },
         },
       }
     case TEMPLATE_EDIT_STATE:
@@ -612,6 +615,29 @@ function reducerTemplate(state, action) {
             }
           }, {}),
       }
+      case TEMPLATE_EDIT_ID_STATE:
+        return {
+          ...state,
+          state: Object
+          .keys(state.state)
+          .reduce((p, c) => {
+            if (c === action.stateId) {
+              return { ...p, [c]: { ...state.state[c], edit: action.value } };
+            }
+            return { ...p, [c]: { ...state.state[c], edit: false } };
+          }, {}),
+        }
+      case TEMPLATE_CHANGE_TITLE_STATE:
+        return {
+          ...state,
+          state: {
+            ...state.state,
+            [action.stateId]: {
+              ...state.state[action.stateId],
+              title: action.title
+            },
+          }
+        }
     default:
       return state;
   }
@@ -642,6 +668,8 @@ function reducer(state, action) {
     case TEMPLATE_ADD_STATE:
     case TEMPLATE_EDIT_STATE:
     case TEMPLATE_DELETE_STATE:
+    case TEMPLATE_EDIT_ID_STATE:
+    case TEMPLATE_CHANGE_TITLE_STATE:
       return { 
         ...state, 
         data: {

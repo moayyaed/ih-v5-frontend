@@ -27,6 +27,10 @@ import {
   TEMPLATE_ADD_STATE,
   TEMPLATE_EDIT_STATE,
   TEMPLATE_DELETE_STATE,
+
+  TEMPLATE_EDIT_ID_STATE,
+  TEMPLATE_CHANGE_TITLE_STATE,
+  
 } from './constants';
 
 
@@ -229,6 +233,27 @@ export function deleteState(id, prop, stateId) {
   };
 }
 
+export function editIdState(id, prop, stateId, value) {
+  return {
+    type: TEMPLATE_EDIT_ID_STATE,
+    id,
+    prop,
+    stateId,
+    value,
+  };
+}
+
+export function changeTitleState(id, prop, stateId, title) {
+  return {
+    type: TEMPLATE_CHANGE_TITLE_STATE,
+    id,
+    prop,
+    stateId,
+    title,
+  };
+}
+
+
 export default {
   data,
   clear,
@@ -256,4 +281,7 @@ export default {
   addState,
   editState,
   deleteState,
+
+  editIdState,
+  changeTitleState,
 }

@@ -17,6 +17,7 @@ import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import PostAddOutlinedIcon from '@material-ui/icons/PostAddOutlined';
 import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
+import MoreVertOutlinedIcon from '@material-ui/icons/MoreVertOutlined';
 
 import { TypeIcon } from './Icons';
 
@@ -30,27 +31,29 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
   },
-  editItem: {
+  masterItem: {
     display: 'flex',
     alignItems: 'center',
   },
   itemLabel: {
     width: '100%',
   },
-  itemButtonsDefault: {
+  itemButtonsMaster: {
     display: 'flex',
     alignItems: 'center',
     flexShrink: 0,
     paddingRight: 6,
+    paddingLeft: 12,
   },
   itemButtons: {
     display: 'flex',
     alignItems: 'center',
     flexShrink: 0,
     paddingRight: 6,
+    paddingLeft: 12,
   },
   itemButton: {
-    marginRight: 4,
+    marginRight: 6,
   },
 };
 
@@ -94,91 +97,112 @@ export function ElementsItems(props) {
 export function AnimationItems(props) {
   return (
     <BasicItem 
-      nodeId="animation" 
-      label="Animation"
-      onIconClick={(e) => props.onClickIcon(e, 'animation')} 
-      onLabelClick={(e) => props.onClickLabel(e, 'animation')} 
+      nodeId="master" 
+      label={<MasterItem {...props} label="Style" />}
+      onIconClick={(e) => props.onClickIcon(e, 'master')} 
+      onLabelClick={(e) => props.onClickLabel(e, 'master')} 
     >
-      <BasicItem 
-        nodeId="master" 
-        label={<EditItem {...props} label="Default" />}
-        onIconClick={(e) => props.onClickIcon(e, 'master')} 
-        onLabelClick={(e) => props.onClickLabel(e, 'master')} 
-      >
-        {props.list.map((id, key)=> {
-          return (
-            <TreeItem
-              key={id}
-              nodeId={id}
-              style={{ opacity: props.select === 'master' || props.state[id].hide ? 0.3 : 1 }}
-              label={<AnimationItem {...props} nodeId={id} label={id} index={key} />}
-              endIcon={<TypeIcon type="animation" />}
-              onIconClick={(e) => props.onClickIcon(e, id)} 
-              onLabelClick={(e) => props.onClickLabel(e, id)}
-            >
-              {Object
-                .keys(props.state[id].values)
-                .map(v => 
-                  <TreeItem key={v} nodeId={v} label={v} >
-                    {Object
-                      .keys(props.state[id].values[v])
-                      .map(i => 
-                        <TreeItem key={i} nodeId={i} label={i} >
-                          {Object
-                            .keys(props.state[id].values[v][i])
-                            .map(p => 
-                              <TreeItem 
-                                key={p} 
-                                nodeId={p} 
-                                label={<PropertyItem nodeId={p} label={p} value={props.state[id].values[v][i][p]} />}
-                                endIcon={<TypeIcon type="property" />} 
-                              />
-                            )}
-                        </TreeItem>
-                      )}
-                  </TreeItem>
-                )
-              }
-            </TreeItem>
-          )
-        })}
-      </BasicItem>
+      {props.list.map((id, key)=> {
+        return (
+          <TreeItem
+            key={id}
+            nodeId={id}
+            label={<AnimationItem {...props} nodeId={id} label={id} index={key} />}
+            endIcon={<TypeIcon type="animation" />}
+            onIconClick={(e) => props.onClickIcon(e, id)} 
+            onLabelClick={(e) => props.onClickLabel(e, id)}
+          >
+            {Object
+              .keys(props.state[id].values)
+              .map(v => 
+                <TreeItem key={v} nodeId={v} label={v} >
+                  {Object
+                    .keys(props.state[id].values[v])
+                    .map(i => 
+                      <TreeItem key={i} nodeId={i} label={i} >
+                        {Object
+                          .keys(props.state[id].values[v][i])
+                          .map(p => 
+                            <TreeItem 
+                              key={p} 
+                              nodeId={p} 
+                              label={<PropertyItem nodeId={p} label={p} value={props.state[id].values[v][i][p]} />}
+                              endIcon={<TypeIcon type="property" />} 
+                            />
+                          )}
+                      </TreeItem>
+                    )}
+                </TreeItem>
+              )
+            }
+          </TreeItem>
+        )
+      })}
     </BasicItem>
   );
+}
+
+function EditText(props) {
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  if (props.edit) {
+    return (
+      <input
+        autoFocus
+        className="text" 
+        value={props.value}
+        onClick={handleClick} 
+        onChange={props.onChange}
+        onBlur={props.onComplete}
+      />
+    )
+  }
+  return props.value || '';
 }
 
 function AnimationItem(props) {
   return (
     <div style={styles.animationItem}>
-      <div style={styles.itemLabel}>{props.label}</div>
+      <div style={styles.itemLabel}>
+        <EditText 
+          edit={props.state[props.nodeId].edit} 
+          value={props.state[props.nodeId].title}
+          onChange={(e) => props.onChangeTitle(e, props.nodeId)}
+          onComplete={() => props.onChangeCompliteTitle(props.nodeId)}
+        />
+      </div>
       <div style={styles.itemButtons}>
         <Number 
           value={props.state[props.nodeId].curent || 0}
           style={styles.itemButton}
           onChange={v => props.onChangeNumber(props.nodeId, v)}
         />
-        <IconButton style={styles.itemButton} size="small" onClick={(e) => props.onClickUp(e, props.nodeId, props.index)}>
-          <ArrowUpwardIcon fontSize="inherit" />
-        </IconButton>
-        <IconButton style={styles.itemButton} size="small" onClick={(e) => props.onClickDown(e, props.nodeId, props.index)}>
-          <ArrowDownwardIcon fontSize="inherit" />
-        </IconButton>
         <IconButton style={styles.itemButton} size="small" onClick={(e) => props.onClickVisibility(e, props.nodeId, !props.state[props.nodeId].hide)}>
-          {props.select === 'master' || props.state[props.nodeId].hide ? <VisibilityOffIcon fontSize="inherit" /> : <VisibilityIcon fontSize="inherit" />}
+          {props.state.master.hide || props.state[props.nodeId].hide ? <VisibilityOffIcon fontSize="inherit" /> : <VisibilityIcon fontSize="inherit" />}
         </IconButton>
-        <IconButton size="small" style={styles.itemButton} onClick={(e) => props.onClickDelete(e, props.nodeId)}>
-          <DeleteForeverOutlinedIcon fontSize="inherit" />
+        <IconButton size="small" style={styles.itemButton} onClick={(e) => props.onClickOptions(e, props.nodeId, props.index)}>
+          <MoreVertOutlinedIcon fontSize="inherit" />
         </IconButton>
       </div>
     </div>
   );
 }
 
-function EditItem(props) {
+function MasterItem(props) {
+  if (props.state.master === undefined) {
+    return null;
+  }
   return (
-    <div style={styles.editItem}>
+    <div style={styles.masterItem}>
       <div style={styles.itemLabel}>{props.label}</div>
-      <div style={styles.itemButtonsDefault}>
+      <div style={styles.itemButtonsMaster}>
+        <IconButton style={styles.itemButton} size="small" onClick={(e) => props.onClickVisibility(e, 'master', !props.state.master.hide)}>
+          {props.state.master.hide ? <VisibilityOffIcon fontSize="inherit" /> : <VisibilityIcon fontSize="inherit" />}
+        </IconButton>
         <IconButton size="small" style={styles.itemButton} onClick={(e) => props.onClickAdd(e)}>
           <PostAddOutlinedIcon fontSize="inherit" />
         </IconButton>
@@ -242,3 +266,15 @@ function Item(props) {
 }
 
 const BasicItem = withStyles(classes)(Item);
+
+
+/*
+
+       <IconButton style={styles.itemButton} size="small" onClick={(e) => props.onClickUp(e, props.nodeId, props.index)}>
+          <ArrowUpwardIcon fontSize="inherit" />
+        </IconButton>
+        <IconButton style={styles.itemButton} size="small" onClick={(e) => props.onClickDown(e, props.nodeId, props.index)}>
+          <ArrowDownwardIcon fontSize="inherit" />
+        </IconButton>
+
+*/

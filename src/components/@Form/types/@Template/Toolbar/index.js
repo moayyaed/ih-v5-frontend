@@ -5,9 +5,13 @@ import Scrollbars from 'react-custom-scrollbars';
 
 import TreeView from '@material-ui/lab/TreeView';
 
+import { ContextMenu } from '@blueprintjs/core';
+import Menu from 'components/Menu';
+
 import { ElementsItems, AnimationItems } from './Items';
 import { CollapseIcon, ExpandIcon } from './Icons';
 
+import './main.css';
 
 const styles = {
   container: {
@@ -30,9 +34,43 @@ class Toolbar extends PureComponent {
     this.props.onClickAddState();
   }
 
-  handleClickDelete = (e, id) => {
+  handleClickOptions = (e, id, index) => {
     e.preventDefault();
     e.stopPropagation();
+
+
+    const pos = { left: e.clientX, top: e.clientY };
+    const scheme = {
+      main: [
+        { id: '1', 
+          title: 'Edit', 
+          click: () => this.handleClickEdit(id, true),
+        },
+        { id: '2', type: 'divider' },
+        { id: '3', 
+          title: 'Move Up', 
+          click: () => this.handleClickUp(id, index),
+        },
+        { id: '4', 
+          title: 'Move Down', 
+          click: () => this.handleClickDown(id, index),
+        },
+        { id: '5', type: 'divider' },
+        { id: '6', 
+          title: 'Delete', 
+          click: () => this.handleClickDelete(id),
+        },        
+      ]
+    }
+
+    ContextMenu.show(<Menu scheme={scheme} />, pos);
+  }
+
+  handleClickEdit = (id, v) => {
+    this.props.onClickEditIdState(id, v);
+  }
+
+  handleClickDelete = (id) => {
     this.props.onClickDeleteState(id);
   }
 
@@ -56,17 +94,16 @@ class Toolbar extends PureComponent {
     e.preventDefault();
     e.stopPropagation();
 
-    this.props.onChangeVisibilityState(stateId, value);
+    if (stateId === 'master' || !this.props.state.master.hide) {
+      this.props.onChangeVisibilityState(stateId, value);
+    }
   }
 
   handleChangeNumber = (stateId, value) => {
     this.props.onChangeValueState(stateId, value);
   }
 
-  handleClickUp = (e, stateId, index) => {
-    e.preventDefault();
-    e.stopPropagation();
-
+  handleClickUp = (stateId, index) => {
     const targetId = this.props.listState[index - 1];
     const temp = this.props.listState
       .filter(i => i !== stateId)
@@ -82,10 +119,7 @@ class Toolbar extends PureComponent {
     }
   }
 
-  handleClickDown = (e, stateId, index) => {
-    e.preventDefault();
-    e.stopPropagation();
-
+  handleClickDown = (stateId, index) => {
     const targetId = this.props.listState[index + 1];
     const temp = this.props.listState
       .filter(i => i !== stateId)
@@ -99,6 +133,14 @@ class Toolbar extends PureComponent {
     if (index !== this.props.listState.length - 1) {
       this.props.onSortState(temp);
     }
+  }
+
+  handleChangeTitle = (e, stateId) => {
+    this.props.onChangeTitleState(stateId, e.target.value);
+  }
+
+  handleChangeComplitetitle = (stateId) => {
+    this.props.onClickEditIdState(stateId, false);
   }
 
   render({ selectElements, selectState, listElements, listState, elements, state } = this.props) {
@@ -139,6 +181,9 @@ class Toolbar extends PureComponent {
             onClickUp={this.handleClickUp}
             onClickAdd={this.handleClickAdd}
             onClickDelete={this.handleClickDelete}
+            onClickOptions={this.handleClickOptions}
+            onChangeTitle={this.handleChangeTitle}
+            onChangeCompliteTitle={this.handleChangeComplitetitle}
           />
         </TreeView>
       </Scrollbars>
