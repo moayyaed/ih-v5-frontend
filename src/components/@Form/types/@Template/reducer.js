@@ -24,6 +24,7 @@ import {
   TEMPLATE_CHANGE_VALUE_STATE,
   TEMPLATE_CHANGE_VISIBILITY_STATE,
 
+  TEMPLATE_ADD_STATE,
   TEMPLATE_EDIT_STATE,
 } from './constants';
 
@@ -502,6 +503,15 @@ function reducerTemplate(state, action) {
             }
           }, {}),
       }
+    case TEMPLATE_ADD_STATE: 
+      return {
+        ...state,
+        listState: state.listState.concat(action.stateId),
+        state: {
+          ...state.state,
+          [action.stateId]: { hide: false, curent: 0, values: {} },
+        },
+      }
     case TEMPLATE_EDIT_STATE:
       return { 
         ...state,
@@ -588,6 +598,7 @@ function reducer(state, action) {
     case TEMPLATE_CHANGE_STATE:
     case TEMPLATE_CHANGE_VALUE_STATE:
     case TEMPLATE_CHANGE_VISIBILITY_STATE:
+    case TEMPLATE_ADD_STATE:
     case TEMPLATE_EDIT_STATE:
       return { 
         ...state, 

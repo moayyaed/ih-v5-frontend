@@ -24,6 +24,12 @@ const styles = {
 
 class Toolbar extends PureComponent {
 
+  handleClickAdd = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.onClickAddState();
+  }
+
   handleClickIcon = (e, id) => {
     console.log('icon')
   }
@@ -125,6 +131,7 @@ class Toolbar extends PureComponent {
             onChangeNumber={this.handleChangeNumber}
             onClickDown={this.handleClickDown}
             onClickUp={this.handleClickUp}
+            onClickAdd={this.handleClickAdd}
           />
         </TreeView>
       </Scrollbars>

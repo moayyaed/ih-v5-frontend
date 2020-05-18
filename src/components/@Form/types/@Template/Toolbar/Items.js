@@ -15,6 +15,7 @@ import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import PostAddOutlinedIcon from '@material-ui/icons/PostAddOutlined';
 
 import { TypeIcon } from './Icons';
 
@@ -28,21 +29,27 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
   },
-  buttonVisibility: {
-    position: 'absolute',
-    right: 8,
+  editItem: {
+    display: 'flex',
+    alignItems: 'center',
   },
-  buttonNumber: {
-    position: 'absolute',
-    right: 41,
+  itemLabel: {
+    width: '100%',
   },
-  buttonDown: {
-    position: 'absolute',
-    right: 103,
+  itemButtonsDefault: {
+    display: 'flex',
+    alignItems: 'center',
+    flexShrink: 0,
+    paddingRight: 6,
   },
-  buttonUp: {
-    position: 'absolute',
-    right: 121,
+  itemButtons: {
+    display: 'flex',
+    alignItems: 'center',
+    flexShrink: 0,
+    paddingRight: 6,
+  },
+  itemButton: {
+    marginRight: 4,
   },
 };
 
@@ -93,7 +100,7 @@ export function AnimationItems(props) {
     >
       <BasicItem 
         nodeId="master" 
-        label="Default" 
+        label={<EditItem {...props} label="Default" />}
         onIconClick={(e) => props.onClickIcon(e, 'master')} 
         onLabelClick={(e) => props.onClickLabel(e, 'master')} 
       >
@@ -142,21 +149,36 @@ export function AnimationItems(props) {
 function AnimationItem(props) {
   return (
     <div style={styles.animationItem}>
-      {props.label}
-      <IconButton style={styles.buttonUp} size="small" onClick={(e) => props.onClickUp(e, props.nodeId, props.index)}>
-        <ArrowUpwardIcon fontSize="inherit" />
-      </IconButton>
-      <IconButton style={styles.buttonDown} size="small" onClick={(e) => props.onClickDown(e, props.nodeId, props.index)}>
-        <ArrowDownwardIcon fontSize="inherit" />
-      </IconButton>
-      <Number 
-        value={props.state[props.nodeId].curent || 0}
-        style={styles.buttonNumber}
-        onChange={v => props.onChangeNumber(props.nodeId, v)}
-      />
-      <IconButton style={styles.buttonVisibility} size="small" onClick={(e) => props.onClickVisibility(e, props.nodeId, !props.state[props.nodeId].hide)}>
-        {props.select === 'master' || props.state[props.nodeId].hide ? <VisibilityOffIcon fontSize="inherit" /> : <VisibilityIcon fontSize="inherit" />}
-      </IconButton>
+      <div style={styles.itemLabel}>{props.label}</div>
+      <div style={styles.itemButtons}>
+        <Number 
+          value={props.state[props.nodeId].curent || 0}
+          style={styles.itemButton}
+          onChange={v => props.onChangeNumber(props.nodeId, v)}
+        />
+        <IconButton style={styles.itemButton} size="small" onClick={(e) => props.onClickUp(e, props.nodeId, props.index)}>
+          <ArrowUpwardIcon fontSize="inherit" />
+        </IconButton>
+        <IconButton style={styles.itemButton} size="small" onClick={(e) => props.onClickDown(e, props.nodeId, props.index)}>
+          <ArrowDownwardIcon fontSize="inherit" />
+        </IconButton>
+        <IconButton style={styles.itemButton} size="small" onClick={(e) => props.onClickVisibility(e, props.nodeId, !props.state[props.nodeId].hide)}>
+          {props.select === 'master' || props.state[props.nodeId].hide ? <VisibilityOffIcon fontSize="inherit" /> : <VisibilityIcon fontSize="inherit" />}
+        </IconButton>
+      </div>
+    </div>
+  );
+}
+
+function EditItem(props) {
+  return (
+    <div style={styles.editItem}>
+      <div style={styles.itemLabel}>{props.label}</div>
+      <div style={styles.itemButtonsDefault}>
+        <IconButton size="small" style={styles.itemButton} onClick={(e) => props.onClickAdd(e)}>
+          <PostAddOutlinedIcon fontSize="inherit" />
+        </IconButton>
+      </div>
     </div>
   );
 }

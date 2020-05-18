@@ -30,6 +30,13 @@ const styles = {
   },
 }
 
+function getIdState(index, prefix, state) {
+  if (state[`${prefix}${index + 1}`] === undefined) {
+    return `${prefix}${index + 1}`;
+  }
+  return getIdState(index + 1, prefix, state);
+}
+
 const EMPTY_ARRAY = [];
 const EMPTY_STYLE = {};
 const COLOR_STYLE = { color: '#2196F3' };
@@ -38,7 +45,6 @@ const TITLES = {
   sheet: 'Template',
   toolbar: '',
   property: '',
-
 }
 
 const state = {
@@ -236,6 +242,15 @@ class Template extends PureComponent {
       );
   }
 
+  handleClickAddState = () => {
+    const stateId = getIdState(0, 'state', this.props.data.state);
+    core.actions.template
+      .addState(
+        this.props.id, this.props.options.prop,
+        stateId,
+      );
+  }
+
   renderComponent = (id) => {
     if (id === 'sheet') {
       return (
@@ -283,11 +298,12 @@ class Template extends PureComponent {
           listState={this.props.data.listState || []}
           state={this.props.data.state || {}}
           elements={this.props.data.elements || {}}
-          onClickElement={this.handleClickTree}
           onSortState={this.handleSortState}
           onChangeState={this.handleChangeState}
           onChangeValueState={this.handleChangeValueState}
           onChangeVisibilityState={this.handleChangeVisibilityState}
+          onClickAddState={this.handleClickAddState}
+          onClickElement={this.handleClickTree}
         />
       )
     }

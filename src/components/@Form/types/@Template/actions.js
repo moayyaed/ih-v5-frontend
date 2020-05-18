@@ -24,6 +24,7 @@ import {
   TEMPLATE_CHANGE_VALUE_STATE,
   TEMPLATE_CHANGE_VISIBILITY_STATE,
 
+  TEMPLATE_ADD_STATE,
   TEMPLATE_EDIT_STATE,
 } from './constants';
 
@@ -197,6 +198,15 @@ export function changeVisibilityState(id, prop, stateId, value) {
   };
 }
 
+export function addState(id, prop, stateId) {
+  return {
+    type: TEMPLATE_ADD_STATE,
+    id,
+    prop,
+    stateId,
+  };
+}
+
 export function editState(id, prop, stateId, stateValue, elementId, data) {
   return {
     type: TEMPLATE_EDIT_STATE,
@@ -234,5 +244,6 @@ export default {
   changeValueState,
   changeVisibilityState,
 
+  addState,
   editState,
 }
