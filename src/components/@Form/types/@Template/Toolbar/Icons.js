@@ -39,9 +39,9 @@ export function TypeIcon(props) {
   }
   if (props.type === 'animation') {
     return (
-      <SvgIcon fontSize="inherit" style={{ width: 12, height: 12 }} {...props}>
+      <SvgIcon fontSize="inherit" style={{ width: 16, height: 16 }} {...props}>
         {/* tslint:disable-next-line: max-line-length */}
-        <path d="M22.047 22.074v0 0-20.147 0h-20.12v0 20.147 0h20.12zM22.047 24h-20.12q-.803 0-1.365-.562t-.562-1.365v-20.147q0-.776.562-1.351t1.365-.575h20.147q.776 0 1.351.575t.575 1.351v20.147q0 .803-.575 1.365t-1.378.562v0zM17.873 11.023h-11.826q-.375 0-.669.281t-.294.682v0q0 .401.294 .682t.669.281h11.826q.375 0 .669-.281t.294-.682v0q0-.401-.294-.682t-.669-.281z" />
+        <path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16zm0-11.47L17.74 9 12 13.47 6.26 9 12 4.53z" />
       </SvgIcon>
     );
   }
