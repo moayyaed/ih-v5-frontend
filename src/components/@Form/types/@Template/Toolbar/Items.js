@@ -16,6 +16,7 @@ import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import PostAddOutlinedIcon from '@material-ui/icons/PostAddOutlined';
+import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
 
 import { TypeIcon } from './Icons';
 
@@ -164,6 +165,9 @@ function AnimationItem(props) {
         </IconButton>
         <IconButton style={styles.itemButton} size="small" onClick={(e) => props.onClickVisibility(e, props.nodeId, !props.state[props.nodeId].hide)}>
           {props.select === 'master' || props.state[props.nodeId].hide ? <VisibilityOffIcon fontSize="inherit" /> : <VisibilityIcon fontSize="inherit" />}
+        </IconButton>
+        <IconButton size="small" style={styles.itemButton} onClick={(e) => props.onClickDelete(e, props.nodeId)}>
+          <DeleteForeverOutlinedIcon fontSize="inherit" />
         </IconButton>
       </div>
     </div>

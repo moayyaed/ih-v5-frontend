@@ -251,6 +251,14 @@ class Template extends PureComponent {
       );
   }
 
+  handleClickDeleteState = (stateId) => {
+    core.actions.template
+      .deleteState(
+        this.props.id, this.props.options.prop,
+        stateId,
+      );
+  }
+
   renderComponent = (id) => {
     if (id === 'sheet') {
       return (
@@ -303,6 +311,7 @@ class Template extends PureComponent {
           onChangeValueState={this.handleChangeValueState}
           onChangeVisibilityState={this.handleChangeVisibilityState}
           onClickAddState={this.handleClickAddState}
+          onClickDeleteState={this.handleClickDeleteState}
           onClickElement={this.handleClickTree}
         />
       )

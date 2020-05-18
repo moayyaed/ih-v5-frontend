@@ -26,6 +26,7 @@ import {
 
   TEMPLATE_ADD_STATE,
   TEMPLATE_EDIT_STATE,
+  TEMPLATE_DELETE_STATE,
 } from './constants';
 
 
@@ -219,6 +220,14 @@ export function editState(id, prop, stateId, stateValue, elementId, data) {
   };
 }
 
+export function deleteState(id, prop, stateId) {
+  return {
+    type: TEMPLATE_DELETE_STATE,
+    id,
+    prop,
+    stateId,
+  };
+}
 
 export default {
   data,
@@ -246,4 +255,5 @@ export default {
 
   addState,
   editState,
+  deleteState,
 }

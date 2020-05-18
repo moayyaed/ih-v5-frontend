@@ -30,6 +30,12 @@ class Toolbar extends PureComponent {
     this.props.onClickAddState();
   }
 
+  handleClickDelete = (e, id) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.onClickDeleteState(id);
+  }
+
   handleClickIcon = (e, id) => {
     console.log('icon')
   }
@@ -132,6 +138,7 @@ class Toolbar extends PureComponent {
             onClickDown={this.handleClickDown}
             onClickUp={this.handleClickUp}
             onClickAdd={this.handleClickAdd}
+            onClickDelete={this.handleClickDelete}
           />
         </TreeView>
       </Scrollbars>

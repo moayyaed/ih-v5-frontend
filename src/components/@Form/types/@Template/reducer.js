@@ -26,6 +26,7 @@ import {
 
   TEMPLATE_ADD_STATE,
   TEMPLATE_EDIT_STATE,
+  TEMPLATE_DELETE_STATE,
 } from './constants';
 
 
@@ -485,7 +486,7 @@ function reducerTemplate(state, action) {
                 .concat([...state.listState].reverse())
                 .reduce((p2, c2) => {
                   if (action.stateId === 'master') {
-                    return state.elements[c];
+                    return state.state.master.values[0][c];
                   }
                   const v = state.state[c2].curent;
                   const h = action.stateId === c2 ? action.value : state.state[c2].hide
@@ -571,6 +572,46 @@ function reducerTemplate(state, action) {
           }
         },
       };
+    case TEMPLATE_DELETE_STATE:
+      return {
+        ...state,
+        selectState: 'master',
+        listState: state.listState.filter(i => i !== action.stateId),
+        state: Object
+          .keys(state.state)
+          .reduce((p, c) => {
+            if (c === action.stateId) {
+              return p;
+            }
+            return { ...p, [c]: state.state[c] };
+          }, {}),
+        elements: Object
+          .keys(state.elements)
+          .reduce((p, c) => {
+            return {
+              ...p,
+              [c]: ['master']
+                .concat([...state.listState.filter(i => i !== action.stateId)].reverse())
+                .reduce((p2, c2) => {
+                  if (action.stateId === 'master') {
+                    return state.state.master.values[0][c]
+                  }
+                  const v = state.state[c2].curent;
+                  const h = state.state[c2].hide
+                  if (
+                    state.state[c2] &&
+                    h === false && 
+                    state.state[c2].values && 
+                    state.state[c2].values[v] &&
+                    state.state[c2].values[v][c]
+                  ) {
+                    return { ...p2, ...state.state[c2].values[v][c] };
+                  }
+                  return p2
+                }, state.elements[c]),
+            }
+          }, {}),
+      }
     default:
       return state;
   }
@@ -600,6 +641,7 @@ function reducer(state, action) {
     case TEMPLATE_CHANGE_VISIBILITY_STATE:
     case TEMPLATE_ADD_STATE:
     case TEMPLATE_EDIT_STATE:
+    case TEMPLATE_DELETE_STATE:
       return { 
         ...state, 
         data: {
