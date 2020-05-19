@@ -316,7 +316,7 @@ function reducerTemplate(state, action) {
             values: {
               ...state.state.master.values,
               [0]: {
-                ...state.state.master[0],
+                ...state.state.master.values[0],
                 [action.elementId]: action.masterData, 
               }
             }
@@ -523,16 +523,6 @@ function reducerTemplate(state, action) {
           .keys(state.elements)
           .reduce((p, c) => {
             if (c === action.elementId) {
-              if (action.stateId === 'master') {
-                return { 
-                  ...p, 
-                  [c]: {
-                    ...state.elements[c], 
-                    ...state.state.master.values[0][c],
-                    ...action.data, 
-                  } 
-                }
-              } else {
                 return { 
                   ...p, 
                   [c]: ['master']
@@ -563,7 +553,6 @@ function reducerTemplate(state, action) {
                       return p2;
                     }, state.elements[c]),
                 }
-              }
             }
             return { ...p, [c]: state.elements[c] }
           }, {}),
