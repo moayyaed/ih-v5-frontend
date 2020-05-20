@@ -391,7 +391,7 @@ function reducerTemplate(state, action) {
                   const v = state.state[c2].curent;
                   if (
                     state.state[c2] &&
-                    state.state[c2].hide === false && 
+                    state.state[c2].hide == false && 
                     state.state[c2].values && 
                     state.state[c2].values[v] &&
                     state.state[c2].values[v][c]
@@ -424,7 +424,7 @@ function reducerTemplate(state, action) {
                   const v = state.state[c2].curent;
                   if (
                     state.state[c2] &&
-                    state.state[c2].hide === false && 
+                    state.state[c2].hide == false && 
                     state.state[c2].values && 
                     state.state[c2].values[v] &&
                     state.state[c2].values[v][c]
@@ -449,9 +449,10 @@ function reducerTemplate(state, action) {
                 .concat([...state.listState].reverse())
                 .reduce((p2, c2) => {
                   const v = c2 === action.stateId ? action.value : state.state[c2].curent;
+                  const h = c2 === 'master' ? false : state.state.master.hide ? true : state.state[c2].hide;
                   if (
                     state.state[c2] &&
-                    state.state[c2].hide === false && 
+                    h == false && 
                     state.state[c2].values && 
                     state.state[c2].values[v] &&
                     state.state[c2].values[v][c]
@@ -495,7 +496,7 @@ function reducerTemplate(state, action) {
                   const h = action.stateId === c2 ? action.value : state.state[c2].hide
                   if (
                     state.state[c2] &&
-                    h === false && 
+                    h == false && 
                     state.state[c2].values && 
                     state.state[c2].values[v] &&
                     state.state[c2].values[v][c]
@@ -529,9 +530,9 @@ function reducerTemplate(state, action) {
                     .concat([...state.listState].reverse())
                     .reduce((p2, c2) => {
                       const v = action.stateId === c2 ? action.stateValue : state.state[c2].curent;
-                      const h = state.state[c2].hide;
+                      const h = c2 === 'master' ? false : state.state.master.hide ? true : state.state[c2].hide;
                       if (action.stateId === c2) {
-                        if (state.state[c2] && h === false) {
+                        if (state.state[c2] && h == false) {
                           if (state.state[c2].values && state.state[c2].values[v] && state.state[c2].values[v][c]) {
                             return { ...p2, ...state.state[c2].values[v][c], ...action.data };
                           } else {
@@ -542,7 +543,7 @@ function reducerTemplate(state, action) {
                       } else {
                         if (
                           state.state[c2] &&
-                          h === false && 
+                          h == false && 
                           state.state[c2].values && 
                           state.state[c2].values[v] &&
                           state.state[c2].values[v][c]
@@ -592,7 +593,7 @@ function reducerTemplate(state, action) {
                   const h = state.state[c2].hide
                   if (
                     state.state[c2] &&
-                    h === false && 
+                    h == false && 
                     state.state[c2].values && 
                     state.state[c2].values[v] &&
                     state.state[c2].values[v][c]
