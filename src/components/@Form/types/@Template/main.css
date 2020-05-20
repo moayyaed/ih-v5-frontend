@@ -16,6 +16,15 @@
   font-weight: 600;
 }
 
+.tree-animation .MuiTreeItem-root .MuiTreeItem-label {
+  background-color: unset!important;
+}
+
+.tree-animation .Mui-selected> .MuiTreeItem-content .MuiTreeItem-label {
+  background-color: unset!important;
+  font-weight: unset;
+}
+
 
 /*
 

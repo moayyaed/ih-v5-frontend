@@ -18,6 +18,7 @@ import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import PostAddOutlinedIcon from '@material-ui/icons/PostAddOutlined';
 import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
 import MoreVertOutlinedIcon from '@material-ui/icons/MoreVertOutlined';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 import { TypeIcon } from './Icons';
 
@@ -55,6 +56,10 @@ const styles = {
   itemButton: {
     marginRight: 6,
   },
+  itemButtonLock: {
+    marginRight: 36,
+    marginLeft: 62,
+  }
 };
 
 const classes = theme => ({
@@ -97,14 +102,14 @@ export function ElementsItems(props) {
 export function AnimationItems(props) {
   return (
     <BasicItem 
-      nodeId="master" 
-      label={<MasterItem {...props} label="Style" />}
-      onIconClick={(e) => props.onClickIcon(e, 'master')} 
-      onLabelClick={(e) => props.onClickLabel(e, 'master')} 
+      nodeId="style" 
+      label={<StyleItem {...props} label="Style" />}
+      onIconClick={(e) => props.onClickIcon(e, 'style')} 
+      onLabelClick={(e) => props.onClickLabel(e, 'style')} 
     >
       {props.list.map((id, key)=> {
         return (
-          <TreeItem
+          <BasicItem
             key={id}
             nodeId={id}
             label={<AnimationItem {...props} nodeId={id} label={id} index={key} />}
@@ -115,29 +120,30 @@ export function AnimationItems(props) {
             {Object
               .keys(props.state[id].values)
               .map(v => 
-                <TreeItem key={v} nodeId={v} label={v} >
+                <BasicItem key={v} nodeId={v} label={`${props.state[id].title}: ${v}`} >
                   {Object
                     .keys(props.state[id].values[v])
                     .map(i => 
-                      <TreeItem key={i} nodeId={i} label={i} >
+                      <BasicItem key={i} nodeId={i} label={i} >
                         {Object
                           .keys(props.state[id].values[v][i])
                           .map(p => 
-                            <TreeItem 
+                            <BasicItem 
                               key={p} 
                               nodeId={p} 
                               label={<PropertyItem nodeId={p} label={p} value={props.state[id].values[v][i][p]} />}
                               endIcon={<TypeIcon type="property" />} 
                             />
                           )}
-                      </TreeItem>
+                      </BasicItem>
                     )}
-                </TreeItem>
+                </BasicItem>
               )
             }
-          </TreeItem>
+          </BasicItem>
         )
       })}
+      <MasterItem {...props}/>
     </BasicItem>
   );
 }
@@ -167,7 +173,7 @@ function EditText(props) {
 function AnimationItem(props) {
   return (
     <div style={styles.animationItem}>
-      <div style={styles.itemLabel}>
+      <div style={{ ...styles.itemLabel, backgroundColor: props.nodeId === props.select ? '#B3E5FC' : 'unset' }}>
         <EditText 
           edit={props.state[props.nodeId].edit} 
           value={props.state[props.nodeId].title}
@@ -192,7 +198,8 @@ function AnimationItem(props) {
   );
 }
 
-function MasterItem(props) {
+
+function StyleItem(props) {
   if (props.state.master === undefined) {
     return null;
   }
@@ -208,6 +215,55 @@ function MasterItem(props) {
         </IconButton>
       </div>
     </div>
+  );
+}
+
+function DefaultItem(props) {
+  if (props.state.master === undefined) {
+    return null;
+  }
+  return (
+    <div style={styles.masterItem}>
+      <div style={{ ...styles.itemLabel, backgroundColor: props.select === 'master' ? '#B3E5FC' : 'unset' }}>{props.label}</div>
+      <div style={styles.itemButtonsMaster}>
+        <IconButton disabled size="small" style={styles.itemButtonLock} >
+          <LockOutlinedIcon fontSize="inherit" />
+        </IconButton>
+      </div>
+    </div>
+  );
+}
+
+function MasterItem(props) {
+  if (props.state.master === undefined) {
+    return null;
+  }
+  return (
+    <BasicItem 
+      nodeId="master" 
+      label={<DefaultItem {...props} label="default" />}
+      endIcon={<TypeIcon type="animation" />}
+      onIconClick={(e) => props.onClickIcon(e, 'master')} 
+      onLabelClick={(e) => props.onClickLabel(e, 'master')} 
+    >
+      {Object
+        .keys(props.state.master.values[0])
+        .map(i => 
+          <BasicItem key={i} nodeId={i} label={i} >
+            {Object
+              .keys(props.state.master.values[0][i])
+              .map(p => 
+                <BasicItem 
+                  key={p} 
+                  nodeId={p} 
+                  label={<PropertyItem nodeId={p} label={p} value={props.state.master.values[0][i][p]} />}
+                  endIcon={<TypeIcon type="property" />} 
+                />
+              )}
+          </BasicItem>
+        )
+      }
+    </BasicItem>
   );
 }
 
