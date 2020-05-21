@@ -39,7 +39,7 @@ function Element(props) {
           disabled={props.isGroup || !props.select || props.selectType === 'some'}
           position={props.item} 
           scale={props.scale} 
-          forceProportion={props.item.type === 'group'}
+          forceProportion={props.item.type === 'group' || props.item.type === 'template'}
           onChange={props.onChangeSize}
         />
       </div>

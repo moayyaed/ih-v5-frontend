@@ -11,6 +11,7 @@ class Template extends PureComponent {
 
   handleRenderElement = (elementId, item) => {
     if (item.type === 'group') {
+      const s = this.props.params.w / this.props.params.settings.w;
       return (
         <div
           style={{
@@ -44,13 +45,15 @@ class Template extends PureComponent {
     return elemets(elementId, item)
   }
   render() {
+    const s = this.props.params.w / this.props.params.settings.w;
     return (
       <div
         className="parent2"
         style={{
           position: 'absolute', 
           width: '100%', 
-          height: '100%', 
+          height: '100%',
+          zoom: s, 
         }}
       >
         {this.props.params.list
@@ -58,7 +61,7 @@ class Template extends PureComponent {
             <Element
               key={id}
               isGroup
-              scale={1}
+              scale={s}
               item={this.props.params.elements[id]}
               select={null}
               selectType={null} 
