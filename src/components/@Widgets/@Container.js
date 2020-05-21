@@ -21,12 +21,10 @@ class Container extends PureComponent {
   }
 
   handleRequest = (id) => {
-    console.log(id)
     core
       .request({ method: 'widget_container', params: id })
       .ok(res => {
         this.setState(state => {
-          console.log(res)
           return { ...state, ...res }
         })
       })

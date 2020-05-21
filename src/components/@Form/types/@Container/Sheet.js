@@ -235,19 +235,30 @@ class Sheet extends Component {
       x: Math.round(x * 1e2 ) / 1e2, 
       y: Math.round(y * 1e2 ) / 1e2,
       w: 70, h: 70,
-      ...params
     }
 
     if (type === 'template') {
-      data.templateId = templateId;
-    } 
-
-    core.actions.container
-      .addElement(
-        this.props.id, this.props.prop,
-        elementId, data,
-      );
-    this.save();
+      core
+        .request({ method: 'get_template', params: templateId })
+        .ok(res => {
+          data.templateId = templateId;
+          data.w = res.settings.w; 
+          data.h = res.settings.h;
+          core.actions.container
+            .addElement(
+              this.props.id, this.props.prop,
+              elementId, { ...res, ...data },
+            );
+          this.save();
+        });
+    } else {
+      core.actions.container
+        .addElement(
+          this.props.id, this.props.prop,
+          elementId, { ...params, ...data },
+        );
+      this.save();
+    }
   }
 
   handleDeleteElement = () => {
@@ -368,15 +379,14 @@ class Sheet extends Component {
       { id: '0', title: 'Block', click: () => this.handleAddElement(e, 'block') },
       { id: '1', title: 'Text', click: () => this.handleAddElement(e, 'text') },
       { id: '2', title: 'Image', click: () => this.handleAddElement(e, 'image') },
+      { id: '3', type: 'divider' },
+      { id: '4', title: 'CCTV', click: () => this.handleAddElement(e, 'cctv') },
     ]
-    const listWidgets = [
-      { id: '0', title: 'CCTV', click: () => this.handleAddElement(e, 'cctv') },
-    ]
+  
     const scheme = {
       main: [
         { id: '1', title: 'Add Element', children: listElemnts },
         { id: '2', title: 'Add Template', type: 'remote', popupid: 'vistemplate', command: 'addTemplate' },
-        { id: '3', title: 'Add Widget', children: listWidgets },
         { id: '4', type: 'divider' },
         { id: '5', check: '4', title: 'Group', click: this.handleClickGroupElements },
         { id: '6', check: '4', title: 'Ungroup', click: () => this.handleClickUnGroupElement(elementId) },
