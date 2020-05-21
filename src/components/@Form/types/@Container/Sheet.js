@@ -9,6 +9,9 @@ import Draggable from 'components/Draggable';
 import Element from './Element';
 import Menu from 'components/Menu';
 
+import elemets from 'components/@Elements';
+import getDefaultParamsElement from 'components/@Elements/default';
+
 
 const styles = {
   root: {
@@ -200,29 +203,6 @@ class Sheet extends Component {
       );
   }
 
-  handleClickSheet = (e) => {
-
-  }
-
-  handleContextMenuSheet = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    e.persist();
-
-    const pos = { left: e.clientX, top: e.clientY };
-    const scheme = {
-      main: [
-        { id: '1', 
-          title: 'Add Element', 
-          click: () => this.handleAddElement(e) 
-        },
-      ]
-    }
-
-    ContextMenu.show(<Menu scheme={scheme} />, pos);
-  }
-
   handleMoveSheet = (e) => {
  
   }
@@ -241,28 +221,31 @@ class Sheet extends Component {
     e.stopPropagation();
   }
 
-  handleAddElement = (e) => {
-    const elementId = getIdElement(0, 'element', this.props.elements);
+  handleAddElement = (e, type, templateId) => {
+    const elementId = getIdElement(0, type, this.props.elements);
 
     const rect = this.sheet.getBoundingClientRect();
     const x = (e.pageX - (rect.left * this.props.settings.scale)) / this.props.settings.scale // (e.clientX - rect.left) / this.props.settings.scale;
     const y = (e.pageY - (rect.top * this.props.settings.scale)) / this.props.settings.scale  // (e.clientY - rect.top) / this.props.settings.scale;
     
+    const params = getDefaultParamsElement(type);
+
+    const data = {
+      type,
+      x: Math.round(x * 1e2 ) / 1e2, 
+      y: Math.round(y * 1e2 ) / 1e2,
+      w: 70, h: 70,
+      ...params
+    }
+
+    if (type === 'template') {
+      data.templateId = templateId;
+    } 
+
     core.actions.container
-      .data(
+      .addElement(
         this.props.id, this.props.prop,
-        { 
-          list: this.props.list.concat(elementId), 
-          elements: {
-            ...this.props.elements,
-            [elementId]: {
-              x: Math.round(x * 1e2 ) / 1e2, 
-              y: Math.round(y * 1e2 ) / 1e2,
-              w: 70, h: 70,
-              borderColor: getRandomColor(),
-            }
-          } 
-        }
+        elementId, data,
       );
     this.save();
   }
@@ -326,6 +309,13 @@ class Sheet extends Component {
     this.save();
   }
 
+  handleClickBody = (e) => {
+    core.actions.container
+      .clearSelects(
+        this.props.id, this.props.prop,
+      );
+  }
+
   handleClickElement = (e, elementId) => {
     e.preventDefault();
     e.stopPropagation();
@@ -369,19 +359,33 @@ class Sheet extends Component {
       '4': Object.keys(this.props.selects).length === 0,
     }
 
+    const commands = {
+      addTemplate: ({ popupid }) => this.handleAddElement(e, 'template', popupid), 
+    };
+
     const pos = { left: e.clientX, top: e.clientY };
+    const listElemnts = [
+      { id: '0', title: 'Block', click: () => this.handleAddElement(e, 'block') },
+      { id: '1', title: 'Text', click: () => this.handleAddElement(e, 'text') },
+      { id: '2', title: 'Image', click: () => this.handleAddElement(e, 'image') },
+    ]
+    const listWidgets = [
+      { id: '0', title: 'CCTV', click: () => this.handleAddElement(e, 'cctv') },
+    ]
     const scheme = {
       main: [
-        { id: '0', title: 'Add Element', click: () => this.handleAddElement(e) },
-        { id: '-', type: 'divider' },
-        { id: '1', check: '4', title: 'Group', click: this.handleClickGroupElements },
-        { id: '2', check: '4', title: 'Ungroup', click: () => this.handleClickUnGroupElement(elementId) },
-        { id: '3', type: 'divider' },
-        { id: '4', check: '4', title: 'Delete', click: () => this.handleDeleteElement(elementId) }
+        { id: '1', title: 'Add Element', children: listElemnts },
+        { id: '2', title: 'Add Template', type: 'remote', popupid: 'vistemplate', command: 'addTemplate' },
+        { id: '3', title: 'Add Widget', children: listWidgets },
+        { id: '4', type: 'divider' },
+        { id: '5', check: '4', title: 'Group', click: this.handleClickGroupElements },
+        { id: '6', check: '4', title: 'Ungroup', click: () => this.handleClickUnGroupElement(elementId) },
+        { id: '7', type: 'divider' },
+        { id: '8', check: '4', title: 'Delete', click: () => this.handleDeleteElement(elementId) }
       ]
     }
 
-    ContextMenu.show(<Menu disabled={disabled} scheme={scheme} />, pos);
+    ContextMenu.show(<Menu disabled={disabled} commands={commands} scheme={scheme} />, pos);
   }
 
   handleClickGroupElements = () => {
@@ -471,16 +475,7 @@ class Sheet extends Component {
         </div>
       )
     }
-    return (
-      <div 
-        style={{
-          position: 'absolute', 
-          width: '100%', 
-          height: '100%', 
-          border: `1px solid ${item.borderColor}`, 
-        }}
-      />
-    )
+    return elemets(elementId, item)
   }
 
   handleStartMoveSelectContainer = (e, elementId, data) => {
@@ -592,7 +587,7 @@ class Sheet extends Component {
 
   render({ selects, settings, list, elements } = this.props) {
     return (
-      <div style={styles.root}>
+      <div style={styles.root} onClick={this.handleClickBody}>
         <div 
           ref={this.linkContainer}
           style={styles.container}
@@ -615,8 +610,7 @@ class Sheet extends Component {
                 width: settings.w, 
                 height: settings.h,
               }}
-              onClick={(e) => this.handleClickSheet(e)}
-              onContextMenu={(e) => this.handleContextMenuSheet(e)}
+              onContextMenu={(e) => this.handleContextMenuElement(e, null)}
             >
               {list.map(id => 
                 <Element 

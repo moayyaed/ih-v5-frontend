@@ -6,7 +6,12 @@ import {
   RemoveButton, ExpandButton, Separator, 
 } from 'react-mosaic-component';
 
+import { Button } from '@blueprintjs/core';
+
 import Sheet from './Sheet';
+import Toolbar from './Toolbar/index.js';
+
+import './main.css';
 
 
 const styles = {
@@ -20,8 +25,8 @@ const EMPTY_ARRAY = [];
 
 const TITLES = {
   sheet: 'Container',
-  properties: 'Toolbar1',
-  toolbar2: 'Toolbar2',
+  toolbar: '',
+  property: '',
 
 }
 
@@ -32,11 +37,11 @@ const state = {
     first: "sheet",
     second: {
       direction: 'column',
-      first: "properties",
-      second: "toolbar2",
-      splitPercentage: 32,
+      first: "toolbar",
+      second: "propperty",
+      splitPercentage: 42,
     },
-    splitPercentage: 80,
+    splitPercentage: 70,
   },
 }
 
@@ -65,7 +70,27 @@ class Container extends PureComponent {
     });
   }
 
+  handleChangeToolbar = (toolbarId) => {
+    core.actions.container
+      .data(
+        this.props.id, this.props.options.prop,
+        { toolbarType: toolbarId }
+      );
+  }
+
   renderButtons = (id) => {
+    if (id === 'toolbar') {
+      const select = this.props.data.toolbarType || 'tree';
+      return [
+        <Button 
+          key="3"
+          minimal
+          icon="diagram-tree" 
+          active={select === 'tree'}
+          onClick={() => this.handleChangeToolbar('tree')} 
+        />,
+      ];
+    }
     return [];
   }
 
@@ -73,10 +98,11 @@ class Container extends PureComponent {
     return null;
   }
 
-  handleClickBody = (e) => {
+  handleClickTreeElement = (elementId) => {
     core.actions.container
-      .clearSelects(
+      .select(
         this.props.id, this.props.options.prop,
+        elementId
       );
   }
 
@@ -95,12 +121,23 @@ class Container extends PureComponent {
         />
       );
     }
+    if (id === 'toolbar') {
+      return (
+        <Toolbar
+          type={this.props.data.toolbarType || 'tree'}
+          selectElements={this.props.data.selects || {} }
+          listElements={this.props.data.list || []}
+          elements={this.props.data.elements || {}}
+          onClickElement={this.handleClickTreeElement}
+        />
+      )
+    }
     return null;
   }
 
   render() {
     return (
-      <div style={styles.root} onClick={this.handleClickBody}>
+      <div style={styles.root} >
         <Mosaic
           className="mosaic-blueprint-theme"
           value={this.state.windows}
@@ -109,6 +146,7 @@ class Container extends PureComponent {
             return (
               <MosaicWindow
                 key={id}
+                className={id}
                 draggable={false}
                 title={TITLES[id]}
                 additionalControls={EMPTY_ARRAY}

@@ -242,7 +242,7 @@ class Template extends PureComponent {
     return EMPTY_STYLE;
   }
 
-  handleClickTree = (elementId) => {
+  handleClickTreeElement = (elementId) => {
     core.actions.template
       .select(
         this.props.id, this.props.options.prop,
@@ -330,7 +330,7 @@ class Template extends PureComponent {
           onClickAddState={this.handleClickAddState}
           onClickDeleteState={this.handleClickDeleteState}
           onClickEditIdState={this.handleClickEditIdState}
-          onClickElement={this.handleClickTree}
+          onClickElement={this.handleClickTreeElement}
         />
       )
     }

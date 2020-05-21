@@ -92,7 +92,7 @@ class _Menu extends Component {
     
     const command = forceCommand ? forceCommand : item.command;
     if (command && this.props.commands[command]) {
-      this.props.commands[command].call(null, { popupid: item.id });
+      this.props.commands[command].call(null, { popupid: item.id }, e);
     } else {
       if (item.click !== undefined) {
         item.click.call(null, e);

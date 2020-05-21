@@ -28,6 +28,7 @@ function reducerContainer(state, action) {
       return { 
         ...state,
         selectType: 'one',
+        selectOne: action.elementId,
         selects: {
           [action.elementId]: true,
         }
@@ -44,6 +45,7 @@ function reducerContainer(state, action) {
       return { 
         ...state,
         selectType: 'some',
+        selectOne: null,
         selectContainer: action.data,
         selects: {
           ...state.selects,
@@ -54,12 +56,14 @@ function reducerContainer(state, action) {
       return { 
         ...state,
         selectType: null,
+        selectOne: null,
         selects: {}
       };
     case CONTAINER_GROUP_ELEMENTS:
       return { 
         ...state,
         selectType: 'one',
+        selectOne: action.elementId,
         selects: { [action.groupId]: true },
         list: state.list
           .filter(id => !action.groupData.elements.includes(id))

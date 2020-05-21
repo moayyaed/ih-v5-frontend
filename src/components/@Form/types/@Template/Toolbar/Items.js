@@ -84,20 +84,10 @@ export function ElementsItems(props) {
       onIconClick={(e) => props.onClickIcon(e, 'content')} 
       onLabelClick={(e) => props.onClickLabel(e, 'content')} 
     >
-      {props.list.map(id => 
-        <TreeItem
-          key={id}
-          nodeId={id}
-          label={id}
-          endIcon={<TypeIcon type={props.elements[id].type}/>}
-          onIconClick={(e) => props.onClickIcon(e, id)} 
-          onLabelClick={(e) => props.onClickLabel(e, id)} 
-        />
-      )}
+      <ElementItemGroup { ...props} />
     </BasicItem>
   );
 }
-
 
 export function AnimationItems(props) {
   return (
@@ -168,6 +158,35 @@ function EditText(props) {
     )
   }
   return props.value || '';
+}
+
+function ElementItemGroup(props) {
+  return props.list.map(id => {
+    if (props.elements[id].type === 'group') {
+      return (
+        <BasicItem
+          key={id}
+          nodeId={id}
+          label={id}
+          endIcon={<TypeIcon type={props.elements[id].type}/>}
+          onIconClick={(e) => props.onClickIcon(e, id)} 
+          onLabelClick={(e) => props.onClickLabel(e, id)} 
+        >
+          <ElementItemGroup {...props} list={props.elements[id].elements} />
+        </BasicItem>
+      )
+    }
+    return (
+      <BasicItem
+        key={id}
+        nodeId={id}
+        label={id}
+        endIcon={<TypeIcon type={props.elements[id].type}/>}
+        onIconClick={(e) => props.onClickIcon(e, id)} 
+        onLabelClick={(e) => props.onClickLabel(e, id)} 
+      />
+    )
+  })
 }
 
 function AnimationItem(props) {

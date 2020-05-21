@@ -211,25 +211,6 @@ class Sheet extends Component {
 
   }
 
-  handleContextMenuSheet = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    e.persist();
-
-    const pos = { left: e.clientX, top: e.clientY };
-    const scheme = {
-      main: [
-        { id: '1', 
-          title: 'Add Element', 
-          click: () => this.handleAddElement(e) 
-        },
-      ]
-    }
-
-    ContextMenu.show(<Menu scheme={scheme} />, pos);
-  }
-
   handleMoveSheet = (e) => {
  
   }

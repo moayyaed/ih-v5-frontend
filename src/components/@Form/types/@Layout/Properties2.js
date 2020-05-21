@@ -15,6 +15,8 @@ import FormControl from '@material-ui/core/FormControl';
 
 import Droplist from 'components/@Form/types/@Droplist'
 
+const EMPTY_STYLE = {};
+
 const styles = {
   root: {
     width: '100%',
@@ -103,6 +105,10 @@ class Properties2 extends PureComponent {
     }
   }
 
+  handleStyle = (params) => {
+    return EMPTY_STYLE;
+  }
+
   handleChangeDroplist = (id, options, params, v) => {
     core.actions.layout
       .editColumn(
@@ -160,6 +166,7 @@ class Properties2 extends PureComponent {
             data={this.props.type === 'CONTAINER' ? this.props.column.containerId : {id: '-', title: '-'}}
             cache={{}}
             onChange={this.handleChangeDroplist}
+            getStyle={this.handleStyle}
           />
       </div>
 
