@@ -52,16 +52,44 @@ function getAllElementsByGroup(list, elements) {
       if (elements[c].type === 'group') {
         return {
           ...p,
-          [c]: true,
+          [c]: elements[c],
           ...getAllElementsByGroup(elements[c].elements, elements)
         };
       }
       return {
         ...p,
-        [c]: true,
+        [c]: elements[c],
       };
     }, {});
-} 
+}
+
+function cloneNewStructElements(list, elements, targetElements) {
+  const l = [];
+  const e = {};
+
+  list.forEach(key => {
+    const mergeElements = { ...targetElements, ...e }
+    const id = mergeElements[key] === undefined ? key : getIdElement(0, targetElements[key].type, mergeElements);
+
+    l.push(id);
+    e[id] = elements[key];
+
+    if (elements[key].type === 'group') {
+      const childs = getAllElementsByGroup(elements[key].elements, elements);
+      console.log(childs)
+      Object
+        .keys(childs)
+        .forEach(cid => {
+          if (childs[cid].groupId === key) {
+            console.log('+', cid)
+          } else {
+            console.log('-', cid)
+          }
+        });
+    }
+  });
+  return { list: l, elements: e }
+}
 
 function getIdElement(index, prefix, elements) {
   if (elements[`${prefix}_${index + 1}`] === undefined) {
@@ -367,7 +395,9 @@ class Sheet extends Component {
     e.persist();
 
     const disabled = {
-      '4': Object.keys(this.props.selects).length === 0,
+      'isSelect': Object.keys(this.props.selects).length === 0,
+      'isPaste': !(core.buffer.class === 'container'),
+      'isTemplate': this.props.selectOne ? !(this.props.selectOne && this.props.elements[this.props.selectOne].type === 'template') : false,
     }
 
     const commands = {
@@ -387,11 +417,16 @@ class Sheet extends Component {
       main: [
         { id: '1', title: 'Add Element', children: listElemnts },
         { id: '2', title: 'Add Template', type: 'remote', popupid: 'vistemplate', command: 'addTemplate' },
-        { id: '4', type: 'divider' },
-        { id: '5', check: '4', title: 'Group', click: this.handleClickGroupElements },
-        { id: '6', check: '4', title: 'Ungroup', click: () => this.handleClickUnGroupElement(elementId) },
-        { id: '7', type: 'divider' },
-        { id: '8', check: '4', title: 'Delete', click: () => this.handleDeleteElement(elementId) }
+        { id: '3', type: 'divider' },      
+        { id: '4', check: 'isSelect', title: 'Group', click: this.handleClickGroupElements },
+        { id: '5', check: 'isSelect', title: 'Ungroup', click: () => this.handleClickUnGroupElement(elementId) },
+        { id: '6', type: 'divider' },
+        { id: '7', check: 'isSelect', title: 'Copy', click: this.handleClickCopyElements },
+        { id: '8', check: 'isPaste', title: 'Paste', click: () => this.handleClickPasteElements(e) },
+        { id: '9', type: 'divider' },
+        { id: '10', check: 'isSelect', title: 'Delete', click: () => this.handleDeleteElement(elementId) },
+        { id: '11', type: 'divider' },
+        { id: '12', check: 'isTemplate', title: 'Edit Template', click: this.handleClickEditTemplate },
       ]
     }
 
@@ -451,6 +486,68 @@ class Sheet extends Component {
         this.props.id, this.props.prop,
         list, data,
       );
+  }
+
+  handleClickCopyElements = () => {
+    const list = [];
+    let x = Infinity, y = Infinity, w = 0, h = 0;
+    const elements = Object
+      .keys(this.props.selects)
+      .reduce((p, c) => {
+        list.push(c);
+        x = Math.min(x, this.props.elements[c].x);
+        y = Math.min(y, this.props.elements[c].y); 
+        w = Math.max(w, this.props.elements[c].x + this.props.elements[c].w); 
+        h = Math.max(h, this.props.elements[c].y + this.props.elements[c].h); 
+        if (this.props.elements[c].type === 'group') {
+          const childs = getAllElementsByGroup(this.props.elements[c].elements, this.props.elements);
+          return { ...p, ...childs, [c]: this.props.elements[c] }
+        }
+        return { ...p, [c]: this.props.elements[c] }
+      }, {})
+      
+    const buffer = { list, elements, offsetX: x, offsetY: y };
+    core.buffer = { class: 'container', type: null, data: buffer  };
+  }
+
+  handleClickPasteElements = (e) => {
+    const rect = this.sheet.getBoundingClientRect();
+    const x = (e.pageX - (rect.left * this.props.settings.scale)) / this.props.settings.scale // (e.clientX - rect.left) / this.props.settings.scale;
+    const y = (e.pageY - (rect.top * this.props.settings.scale)) / this.props.settings.scale  // (e.clientY - rect.top) / this.props.settings.scale;
+
+    const clone = cloneNewStructElements(core.buffer.data.list, core.buffer.data.elements, this.props.elements);
+    const elements = Object
+      .keys(clone.elements)
+      .reduce((p, c) => {
+        if (clone.list.includes(c)) {
+          return { 
+            ...p, 
+            [c]: {
+              ...clone.elements[c],
+              x: x + (clone.elements[c].x - core.buffer.data.offsetX),
+              y: y + (clone.elements[c].y - core.buffer.data.offsetY),
+            }  
+          }
+        }
+        return { ...p, [c]: clone.elements[c] }
+      }, {})
+ 
+    core.actions.container
+      .data(
+        this.props.id, this.props.prop,
+        { 
+          list: this.props.list.concat(clone.list),
+          elements: {
+            ...this.props.elements,
+            ...elements,
+          },
+        }
+      );
+  }
+
+  handleClickEditTemplate = () => {
+    const templateId = this.props.elements[this.props.selectOne].templateId;
+    core.route(`vis/vistemplate/vistemplateview/${templateId}/tabVistemplateEditor`);
   }
 
   handleRenderElement = (elementId, item) => {

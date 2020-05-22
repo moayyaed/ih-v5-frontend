@@ -113,6 +113,7 @@ class Container extends PureComponent {
           id={this.props.id}
           prop={this.props.options.prop}
           selectType={this.props.data.selectType}
+          selectOne={this.props.data.selectOne}
           selectContainer={this.props.data.selectContainer}
           selects={this.props.data.selects || {}}
           list={this.props.data.list || []} 
