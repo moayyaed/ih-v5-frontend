@@ -53,6 +53,8 @@ class Template extends PureComponent {
           position: 'absolute', 
           width: '100%', 
           height: '100%',
+          // transform: `scale(${s})`,
+          // transformOrigin: '0px 0px',
           zoom: s, 
         }}
       >
