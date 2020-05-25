@@ -301,6 +301,7 @@ class Sheet extends Component {
         this.props.id, this.props.prop,
         {
           selectType: null,
+          selectOne: null,
           selectContainer: null,
           selects: {},
           list: this.props.list.filter(i => !this.props.selects[i]),
