@@ -17,8 +17,21 @@ import {
 
   CONTAINER_ADD_ELEMENT,
   CONTAINER_EDIT_ELEMENT,
+  CONTAINER_DELETE_ELEMENT,
 } from './constants';
 
+function getParentGroupId(id, elements) {
+  if (elements[id] && elements[id].groupId) {
+    if (elements[elements[id].groupId]) {
+      if (elements[elements[id].groupId].groupId) {
+        return getParentGroupId(elements[elements[id].groupId].groupId, elements)
+      } else {
+        return elements[id].groupId;
+      }
+    } 
+  }
+  return id;
+}
 
 function reducerContainer(state, action) {
   switch (action.type) {
@@ -247,6 +260,29 @@ function reducerContainer(state, action) {
           },
         }
       };
+    case CONTAINER_DELETE_ELEMENT:
+      return { 
+        ...state,
+        selectType: null,
+        selectOne: null,
+        selectContainer: null,
+        selects: {},
+        list: state.list.filter(i => !state.selects[i]),
+        elements: Object
+          .keys(state.elements)
+          .reduce((p, c) => {
+            if (state.selects[c] || state.selects[state.elements[c].groupId]) {
+              return p;
+            }
+            if (state.elements[c].groupId) {
+              const parentGroupId = getParentGroupId(c, state.elements);
+              if (state.selects[parentGroupId]) {
+                return p;
+              }
+            }
+            return { ...p, [c]: state.elements[c] }
+          }, {}),
+      };
     default:
       return state;
   }
@@ -269,6 +305,7 @@ function reducer(state, action) {
     case CONTAINER_RESIZE_SELECT_CONTAINER:
     case CONTAINER_ADD_ELEMENT:
     case CONTAINER_EDIT_ELEMENT:
+    case CONTAINER_DELETE_ELEMENT:
       return { 
         ...state, 
         data: {

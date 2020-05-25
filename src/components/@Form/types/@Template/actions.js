@@ -18,6 +18,7 @@ import {
   TEMPLATE_ADD_ELEMENT,
   TEMPLATE_EDIT_ELEMENT,
   TEMPLATE_DELETE_ELEMENT,
+  TEMPLATE_PASTE_ELEMENT,
 
   TEMPLATE_SORT_LIST_STATE,
   TEMPLATE_CHANGE_STATE,
@@ -165,6 +166,17 @@ export function deleteElement(id, prop) {
   };
 }
 
+export function pasteElement(id, prop, list, elements, masterData) {
+  return {
+    type: TEMPLATE_PASTE_ELEMENT,
+    id,
+    prop,
+    list,
+    elements,
+    masterData,
+  };
+}
+
 export function sortListState(id, prop, list) {
   return {
     type: TEMPLATE_SORT_LIST_STATE,
@@ -272,6 +284,7 @@ export default {
   addElement,
   editElement,
   deleteElement,
+  pasteElement,
 
   sortListState,
   changeState,

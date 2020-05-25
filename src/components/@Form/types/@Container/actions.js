@@ -17,6 +17,7 @@ import {
 
   CONTAINER_ADD_ELEMENT,
   CONTAINER_EDIT_ELEMENT,
+  CONTAINER_DELETE_ELEMENT,
 } from './constants';
 
 
@@ -142,6 +143,14 @@ export function editElement(id, prop, elementId, data) {
   };
 }
 
+export function deleteElement(id, prop) {
+  return {
+    type: CONTAINER_DELETE_ELEMENT,
+    id,
+    prop,
+  };
+}
+
 export default {
   data,
   clear,
@@ -159,4 +168,5 @@ export default {
 
   addElement,
   editElement,
+  deleteElement,
 }

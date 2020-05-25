@@ -297,23 +297,7 @@ class Sheet extends Component {
 
   handleDeleteElement = () => {
     core.actions.container
-      .data(
-        this.props.id, this.props.prop,
-        {
-          selectType: null,
-          selectOne: null,
-          selectContainer: null,
-          selects: {},
-          list: this.props.list.filter(i => !this.props.selects[i]),
-          elements: Object
-            .keys(this.props.elements)
-            .reduce((p, c) => {
-              if (this.props.selects[c] || this.props.selects[this.props.elements[c].groupId]) {
-                return p;
-              }
-              return { ...p, [c]: this.props.elements[c] }
-            }, {})
-        });
+      .deleteElement(this.props.id, this.props.prop);
   }
 
   handleMoveElement = (e, elementId, data) => {

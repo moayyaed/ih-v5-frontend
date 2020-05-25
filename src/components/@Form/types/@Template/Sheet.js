@@ -51,16 +51,50 @@ function getAllElementsByGroup(list, elements) {
       if (elements[c].type === 'group') {
         return {
           ...p,
-          [c]: true,
+          [c]: { ...elements[c] },
           ...getAllElementsByGroup(elements[c].elements, elements)
         };
       }
       return {
         ...p,
-        [c]: true,
+        [c]: { ...elements[c] },
       };
     }, {});
-} 
+}
+
+function cloneNewStructElements(list, elements, targetElements) {
+  const l = [];
+  const e = {};
+
+  function group(newId, oldId, check) {
+    const gl = [];
+    elements[oldId].elements
+      .forEach(cid => {
+        const mergeElements = { ...targetElements, ...e }
+        const id = getIdElement(0, elements[cid].type, mergeElements);
+        e[id] = { ...elements[cid], groupId: newId };
+        gl.push(id)
+        if (elements[cid].type === 'group') {
+          group(id, cid);
+        }
+      });
+      e[newId].elements = gl;
+  }
+
+  list.forEach(key => {
+    const mergeElements = { ...targetElements, ...e }
+    const id = mergeElements[key] === undefined ? key : getIdElement(0, targetElements[key].type, mergeElements);
+
+    l.push(id);
+    e[id] = { ...elements[key] };
+
+    if (elements[key].type === 'group') {
+      group(id, key);
+    }
+
+  });
+  return { list: l, elements: e }
+}
 
 function getIdElement(index, prefix, elements) {
   if (elements[`${prefix}_${index + 1}`] === undefined) {
@@ -255,6 +289,62 @@ class Sheet extends Component {
     this.save();
   }
 
+  handleClickCopyElements = () => {
+    const list = [];
+    let x = Infinity, y = Infinity, w = 0, h = 0;
+    const elements = Object
+      .keys(this.props.selects)
+      .reduce((p, c) => {
+        list.push(c);
+        x = Math.min(x, this.props.elements[c].x);
+        y = Math.min(y, this.props.elements[c].y); 
+        w = Math.max(w, this.props.elements[c].x + this.props.elements[c].w); 
+        h = Math.max(h, this.props.elements[c].y + this.props.elements[c].h); 
+        if (this.props.elements[c].type === 'group') {
+          const childs = getAllElementsByGroup(this.props.elements[c].elements, this.props.elements);
+          return { ...p, ...childs, [c]: { ...this.props.elements[c] } }
+        }
+        return { ...p, [c]: { ...this.props.elements[c] } }
+      }, {})
+      
+    const buffer = { list, elements, offsetX: x, offsetY: y };
+    core.buffer = { class: 'template', type: null, data: buffer  };
+  }
+
+  handleClickPasteElements = (e) => {
+    const rect = this.sheet.getBoundingClientRect();
+    const x = (e.pageX - (rect.left * this.props.settings.scale)) / this.props.settings.scale // (e.clientX - rect.left) / this.props.settings.scale;
+    const y = (e.pageY - (rect.top * this.props.settings.scale)) / this.props.settings.scale  // (e.clientY - rect.top) / this.props.settings.scale;
+
+    const masterData = {};
+
+    const clone = cloneNewStructElements(core.buffer.data.list, core.buffer.data.elements, this.props.elements);
+    const elements = Object
+      .keys(clone.elements)
+      .reduce((p, c) => {
+        if (clone.elements[c].type !== 'group') {
+          masterData[c] = { ...getDefaultParamsElement(clone.elements[c].type) } 
+        }
+        if (clone.list.includes(c)) {
+          return { 
+            ...p, 
+            [c]: {
+              ...clone.elements[c],
+              x: x + (clone.elements[c].x - core.buffer.data.offsetX),
+              y: y + (clone.elements[c].y - core.buffer.data.offsetY),
+            }  
+          }
+        }
+        return { ...p, [c]: clone.elements[c] }
+      }, {})
+ 
+    core.actions.template
+      .pasteElement(
+        this.props.id, this.props.prop,
+        clone.list, elements, masterData,
+      );
+  }
+
   handleDeleteElement = () => {
     core.actions.template
       .deleteElement(this.props.id, this.props.prop);
@@ -339,6 +429,8 @@ class Sheet extends Component {
     e.persist();
 
     const disabled = {
+      'isSelect': Object.keys(this.props.selects).length === 0,
+      'isPaste': !(core.buffer.class === 'template'),
       '4': Object.keys(this.props.selects).length === 0,
     }
 
@@ -355,7 +447,10 @@ class Sheet extends Component {
         { id: '1', check: '4', title: 'Group', click: this.handleClickGroupElements },
         { id: '2', check: '4', title: 'Ungroup', click: () => this.handleClickUnGroupElement(elementId) },
         { id: '3', type: 'divider' },
-        { id: '4', check: '4', title: 'Delete', click: () => this.handleDeleteElement(elementId) }
+        { id: '4', check: 'isSelect', title: 'Copy', click: this.handleClickCopyElements },
+        { id: '5', check: 'isPaste', title: 'Paste', click: () => this.handleClickPasteElements(e) },
+        { id: '6', type: 'divider' },
+        { id: '7', check: '4', title: 'Delete', click: () => this.handleDeleteElement(elementId) }
       ]
     }
 

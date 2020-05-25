@@ -18,6 +18,7 @@ import {
   TEMPLATE_ADD_ELEMENT,
   TEMPLATE_EDIT_ELEMENT,
   TEMPLATE_DELETE_ELEMENT,
+  TEMPLATE_PASTE_ELEMENT,
 
   TEMPLATE_SORT_LIST_STATE,
   TEMPLATE_CHANGE_STATE,
@@ -32,6 +33,19 @@ import {
   TEMPLATE_CHANGE_TITLE_STATE,
 } from './constants';
 
+
+function getParentGroupId(id, elements) {
+  if (elements[id] && elements[id].groupId) {
+    if (elements[elements[id].groupId]) {
+      if (elements[elements[id].groupId].groupId) {
+        return getParentGroupId(elements[elements[id].groupId].groupId, elements)
+      } else {
+        return elements[id].groupId;
+      }
+    } 
+  }
+  return id;
+}
 
 function editState(state, action) {
 
@@ -349,6 +363,12 @@ function reducerTemplate(state, action) {
             if (state.selects[c] || state.selects[state.elements[c].groupId]) {
               return p;
             }
+            if (state.elements[c].groupId) {
+              const parentGroupId = getParentGroupId(c, state.elements);
+              if (state.selects[parentGroupId]) {
+                return p;
+              }
+            }
             return { ...p, [c]: state.elements[c] }
           }, {}),
         state: Object
@@ -376,6 +396,28 @@ function reducerTemplate(state, action) {
               },
             };
           }, {})
+      }
+    case TEMPLATE_PASTE_ELEMENT:
+      return {
+        ...state,
+        list: state.list.concat(action.list),
+        elements: {
+          ...state.elements,
+          ...action.elements,
+        },
+        state: {
+          ...state.state,
+          master: {
+            ...state.state.master,
+            values: {
+              ...state.state.master.values,
+              [0]: {
+                ...state.state.master.values[0],
+                ...action.masterData, 
+              }
+            }
+          }
+        }
       }
     case TEMPLATE_SORT_LIST_STATE: 
       return {
@@ -652,6 +694,7 @@ function reducer(state, action) {
     case TEMPLATE_ADD_ELEMENT:
     case TEMPLATE_EDIT_ELEMENT:
     case TEMPLATE_DELETE_ELEMENT:
+    case TEMPLATE_PASTE_ELEMENT:
     case TEMPLATE_SORT_LIST_STATE:
     case TEMPLATE_CHANGE_STATE:
     case TEMPLATE_CHANGE_VALUE_STATE:
