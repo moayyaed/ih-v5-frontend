@@ -9,7 +9,7 @@ class Template extends PureComponent {
 
   }
 
-  handleRenderElement = (elementId, item) => {
+  handleRenderElementOld = (elementId, item) => {
     if (item.type === 'group') {
       const s = this.props.params.w / this.props.params.settings.w;
       return (
@@ -44,8 +44,41 @@ class Template extends PureComponent {
     }
     return elemets(elementId, item)
   }
+
+  handleRender = (id, item) => {
+    if (item.type === 'group') {
+      return (
+        <div
+          key={id}
+          style={{ 
+            position: 'absolute', 
+            left: item.x,
+            top: item.y,
+            width: item.w,
+            height: item.h,
+          }}
+        >
+          {item.elements.map(cid => this.handleRender(cid, this.props.params.elements[cid]))}
+        </div>
+      )
+    }
+    return (
+      <div
+        key={id}
+        style={{ 
+          position: 'absolute', 
+          left: item.x,
+          top: item.y,
+          width: item.w,
+          height: item.h,
+        }}
+      >
+        {elemets(id, this.props.params.elements[id])}
+      </div>
+    )
+  }
+
   render() {
-    const s = this.props.params.w / this.props.params.settings.w;
     return (
       <div
         className="parent2"
@@ -53,18 +86,26 @@ class Template extends PureComponent {
           position: 'absolute', 
           width: '100%', 
           height: '100%',
-          // transform: `scale(${s})`,
-          // transformOrigin: '0px 0px',
-          zoom: s, 
+          zoom: this.props.params.w / this.props.params.settings.w, 
         }}
       >
-        {this.props.params.list
-          .map(id => 
+        {this.props.params.list.map(id => this.handleRender(id, this.props.params.elements[id]))}
+      </div>
+    )
+  }
+}
+
+export default Template;
+
+
+
+/*
+
             <Element
               key={id}
               isGroup
               scale={s}
-              item={this.props.params.elements[id]}
+              item={}
               select={null}
               selectType={null} 
               onStartMove={this.handleStub}
@@ -75,10 +116,5 @@ class Template extends PureComponent {
               onContextMenu={this.handleStub} 
               onRenderElement={this.handleRenderElement}
             />
-          )}
-      </div>
-    )
-  }
-}
 
-export default Template;
+*/
