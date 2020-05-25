@@ -52,13 +52,13 @@ function getAllElementsByGroup(list, elements) {
       if (elements[c].type === 'group') {
         return {
           ...p,
-          [c]: elements[c],
+          [c]: { ...elements[c] },
           ...getAllElementsByGroup(elements[c].elements, elements)
         };
       }
       return {
         ...p,
-        [c]: elements[c],
+        [c]: { ...elements[c] },
       };
     }, {});
 }
@@ -67,26 +67,32 @@ function cloneNewStructElements(list, elements, targetElements) {
   const l = [];
   const e = {};
 
+  function group(newId, oldId, check) {
+    const gl = [];
+    elements[oldId].elements
+      .forEach(cid => {
+        const mergeElements = { ...targetElements, ...e }
+        const id = getIdElement(0, elements[cid].type, mergeElements);
+        e[id] = { ...elements[cid], groupId: newId };
+        gl.push(id)
+        if (elements[cid].type === 'group') {
+          group(id, cid);
+        }
+      });
+      e[newId].elements = gl;
+  }
+
   list.forEach(key => {
     const mergeElements = { ...targetElements, ...e }
     const id = mergeElements[key] === undefined ? key : getIdElement(0, targetElements[key].type, mergeElements);
 
     l.push(id);
-    e[id] = elements[key];
+    e[id] = { ...elements[key] };
 
     if (elements[key].type === 'group') {
-      const childs = getAllElementsByGroup(elements[key].elements, elements);
-      console.log(childs)
-      Object
-        .keys(childs)
-        .forEach(cid => {
-          if (childs[cid].groupId === key) {
-            console.log('+', cid)
-          } else {
-            console.log('-', cid)
-          }
-        });
+      group(id, key);
     }
+
   });
   return { list: l, elements: e }
 }
@@ -501,9 +507,9 @@ class Sheet extends Component {
         h = Math.max(h, this.props.elements[c].y + this.props.elements[c].h); 
         if (this.props.elements[c].type === 'group') {
           const childs = getAllElementsByGroup(this.props.elements[c].elements, this.props.elements);
-          return { ...p, ...childs, [c]: this.props.elements[c] }
+          return { ...p, ...childs, [c]: { ...this.props.elements[c] } }
         }
-        return { ...p, [c]: this.props.elements[c] }
+        return { ...p, [c]: { ...this.props.elements[c] } }
       }, {})
       
     const buffer = { list, elements, offsetX: x, offsetY: y };
