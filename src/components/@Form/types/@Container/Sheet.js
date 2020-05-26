@@ -129,7 +129,7 @@ class Sheet extends Component {
             settings: state.settings,
             list: state.list,
             elements: state.elements,
-            templates: state.templates,
+            // templates: state.templates,
           }
         }
       })

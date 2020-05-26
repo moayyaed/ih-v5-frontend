@@ -3,13 +3,24 @@ import { generateOptions, generateCache } from './tools';
 
 
 core.network.request('components_tabs_form', (send, context) => {
-  send([
-    { method: 'getmeta', type: context.params.type, id: context.params.id, nodeid: context.params.nodeid },
-    { method: 'get', type: context.params.type, id: context.params.id, nodeid: context.params.nodeid },
-  ]);
+  if (context.params.id === 'formViscont') {
+    send([
+      { method: 'getmeta', type: context.params.type, id: context.params.id, nodeid: context.params.nodeid },
+      { method: 'get', type: context.params.type, id: context.params.id, nodeid: context.params.nodeid },
+      { api: 'templates', containerid: context.params.nodeid }
+    ]);
+  } else {
+    send([
+      { method: 'getmeta', type: context.params.type, id: context.params.id, nodeid: context.params.nodeid },
+      { method: 'get', type: context.params.type, id: context.params.id, nodeid: context.params.nodeid },
+    ]);
+  }
 })
 
 core.network.response('components_tabs_form', (answer, res, context) => {
+  if (context.params.id === 'formViscont') {
+    res[1].data.p1.container.templates = res[2].data;
+  }
   answer({ 
     options: generateOptions(res[0].data), 
     data: res[1].data,
