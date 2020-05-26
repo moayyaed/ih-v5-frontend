@@ -1,6 +1,6 @@
 {
   "name": "intrahouse-d",
-  "version": "0.1.0",
+  "version": "5.0.0",
   "private": true,
   "dependencies": {
     "@blueprintjs/table": "^3.8.3",
