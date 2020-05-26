@@ -11,6 +11,7 @@ import Menu from 'components/Menu';
 
 import elemets from 'components/@Elements';
 import getDefaultParamsElement from 'components/@Elements/default';
+import { red } from '@material-ui/core/colors';
 
 
 const styles = {
@@ -121,12 +122,14 @@ class Sheet extends Component {
   handleTransferData = (button, save, reset) => {
     if (button === 'save') {
       this.isSave = null;
+      const state = core.store.getState().apppage.data[this.props.id][this.props.prop];
       save({
         [this.props.id]: {
           [this.props.prop]: {
-            settings: this.props.settings,
-            list: this.props.list,
-            elements: this.props.elements,
+            settings: state.settings,
+            list: state.list,
+            elements: state.elements,
+            templates: state.templates,
           }
         }
       })
@@ -279,9 +282,9 @@ class Sheet extends Component {
           data.w = res.settings.w; 
           data.h = res.settings.h;
           core.actions.container
-            .addElement(
+            .addTemplate(
               this.props.id, this.props.prop,
-              elementId, { ...res, ...data },
+              elementId, { ...res, ...data }, templateId, res,
             );
           this.save();
         });
@@ -573,7 +576,10 @@ class Sheet extends Component {
         </div>
       )
     }
-    return elemets(elementId, item)
+    if (item.type === 'template') {
+      return elemets(elementId, item, this.props.templates[item.templateId])
+    }
+    return elemets(elementId, item, null)
   }
 
   handleStartMoveSelectContainer = (e, elementId, data) => {

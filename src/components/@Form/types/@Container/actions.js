@@ -16,6 +16,7 @@ import {
   CONTAINER_RESIZE_SELECT_CONTAINER,
 
   CONTAINER_ADD_ELEMENT,
+  CONTAINER_ADD_TEMPLATE,
   CONTAINER_EDIT_ELEMENT,
   CONTAINER_DELETE_ELEMENT,
 } from './constants';
@@ -133,6 +134,18 @@ export function addElement(id, prop, elementId, data) {
   };
 }
 
+export function addTemplate(id, prop, elementId, elementData, templateId, templateData) {
+  return {
+    type: CONTAINER_ADD_TEMPLATE,
+    id,
+    prop,
+    elementId,
+    elementData,
+    templateId,
+    templateData,
+  };
+}
+
 export function editElement(id, prop, elementId, data) {
   return {
     type: CONTAINER_EDIT_ELEMENT,
@@ -167,6 +180,7 @@ export default {
   resizeSelectContainer,
 
   addElement,
+  addTemplate,
   editElement,
   deleteElement,
 }

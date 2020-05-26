@@ -59,7 +59,8 @@ class Container extends PureComponent {
           selects: {}, 
           settings: { x: 95, y: 50, w: 650, h: 400, scale: 1 },
           list: [],
-          elements: {}
+          elements: {},
+          templates: {},
         });
     }
   }
@@ -118,7 +119,8 @@ class Container extends PureComponent {
           selects={this.props.data.selects || {}}
           list={this.props.data.list || []} 
           settings={this.props.data.settings || {}} 
-          elements={this.props.data.elements || {}} 
+          elements={this.props.data.elements || {}}
+          templates={this.props.data.templates || {}} 
         />
       );
     }

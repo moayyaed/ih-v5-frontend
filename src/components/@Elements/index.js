@@ -23,8 +23,8 @@ function getElementByType(type) {
   }
 }
 
-function elements(id, item) {
-  return React.createElement(getElementByType(item.type), { key: id, id: id, params: item });
+function elements(id, item, template) {
+  return React.createElement(getElementByType(item.type), { key: id, id: id, params: item, template });
 }
 
 
