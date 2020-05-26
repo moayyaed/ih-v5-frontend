@@ -5,6 +5,10 @@ import icon from 'components/icons';
 
 import IconButton from '@material-ui/core/IconButton';
 
+import WebIcon from '@material-ui/icons/Web';
+import SettingsIcon from '@material-ui/icons/Settings';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+
 const styles = {
   box: {
     display: 'flex',
@@ -27,6 +31,9 @@ const styles = {
     zIndex: 101,
   },
   container: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
     width: '100%',
     height: 35,
     backgroundColor: '#607D8B',
@@ -37,11 +44,27 @@ const styles = {
   icon: {
     color: '#64b4d7',
     fontSize: 40,
-  }
+  },
+  button: {
+    marginRight: 12,
+    color: '#fafafa',
+  },
 };
 
 function handleClick() {
   core.route('');
+}
+
+function handleClickUserInterface() {
+  window.location.href = "/";
+}
+
+function handleClickSettings() {
+  
+}
+
+function handleClickExit() {
+  window.location.href = "/admin";
 }
 
 function AppBar() {
@@ -53,7 +76,17 @@ function AppBar() {
           {icon('logo2', styles.icon)}
         </IconButton>
       </div>
-      <div style={styles.container}/>
+      <div style={styles.container}>
+        <IconButton style={styles.button} size="small" onClick={handleClickUserInterface}>
+          <WebIcon fontSize="small" />
+        </IconButton>
+        <IconButton style={styles.button} size="small" onClick={handleClickSettings}>
+          <SettingsIcon fontSize="small" />
+        </IconButton>
+        <IconButton style={styles.button} size="small" onClick={handleClickExit}>
+          <ExitToAppIcon fontSize="small" />
+        </IconButton>
+      </div>
     </div>
   );
 }
