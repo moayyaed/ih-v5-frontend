@@ -44,7 +44,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "scripts/build.sh",
+    "start-user": "cp scripts/user.js src/index.js && react-scripts start",
+    "start-admin": "cp scripts/admin.js src/index.js && react-scripts start",
+    "build-user": "cp scripts/user.js src/index.js && react-scripts build",
+    "build-admin": "cp scripts/admin.js src/index.js && react-scripts build",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
