@@ -35,8 +35,8 @@ const Cell = cellProps => {
     return React.createElement(Error, { cellProps, error: error[row.id][column.prop] }, component);
   }
 
-  if (column.hide) {
-    return column.hide(row);
+  if (column.hide && column.hide(row)) {
+    return null
   }
   
   return React.createElement(component, cellProps);
