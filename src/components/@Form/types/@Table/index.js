@@ -46,6 +46,14 @@ function getDefault(type) {
 
 class Table extends PureComponent {
 
+  componentDidMount() {
+    this.check = {};
+  }
+
+  componentWillUnmount() {
+    this.check = null;
+  }
+
   handleRowAdd = () => {
     const { id, options } = this.props;
     const row = options.columns
@@ -96,6 +104,7 @@ class Table extends PureComponent {
       ContextMenu.show(<Menu scheme={scheme} />, pos);
     }
   }
+
 
   renderRow = ({ key, index, children, rowid, ...rest }) => {
     return (
