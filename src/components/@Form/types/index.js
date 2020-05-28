@@ -3,6 +3,7 @@ import React from 'react';
 import Text from './@Text';
 import Header from './@Header';
 import Input from './@Input';
+import Password from './@Password';
 import Checkbox from './@Checkbox';
 import Textarea from './@Textarea';
 import Droplist from './@Droplist';
@@ -31,6 +32,8 @@ function getComponentByType(type) {
       return Header;
     case 'input':
       return Input;
+    case 'password':
+      return Password;
     case 'textarea':
       return Textarea;
     case 'table':
