@@ -30,7 +30,7 @@ const classes = theme => ({
 });
 
 
-class Devlink extends PureComponent {
+class SmartButton extends PureComponent {
 
 
   handleDialogClick = (value) => {
@@ -103,4 +103,4 @@ class Devlink extends PureComponent {
   }
 }
 
-export default withStyles(classes)(Devlink);
+export default withStyles(classes)(SmartButton);

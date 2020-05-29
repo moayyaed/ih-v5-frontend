@@ -2,6 +2,7 @@ import React from 'react';
 
 
 import Devicelink from './@Devicelink';
+import ChannelLink from './@Devicelink';
 
 
 function getComponentByType(type) {
@@ -10,6 +11,8 @@ function getComponentByType(type) {
       return Devicelink;
     case 'devicelink':
       return Devicelink;
+    case 'channellink':
+      return ChannelLink;
     default:
       return null;
   }
