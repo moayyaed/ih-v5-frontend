@@ -754,7 +754,7 @@ class PluginForm1 extends PureComponent {
   }
 
   renderDownToolbar = (id) => {
-    if (id === 'tree') {
+    if (id === 'tree' && this.props.options.toolbar !== false) {
       return (
         <div style={styles.downToolbar} >
           <Button icon="plus" minimal />
@@ -831,7 +831,7 @@ class PluginForm1 extends PureComponent {
               <MosaicWindow
                 key={id}
                 draggable={false}
-                title={TITLES[id]}
+                title={ id === 'tree' ? this.props.options.leftTitle : this.props.options.rightTitle}
                 additionalControls={EMPTY_ARRAY}
                 path={path}
                 renderToolbar={null}

@@ -62,6 +62,7 @@ function getComponentByType(type) {
     case 'script':
       return Script;
     case 'pluginform1':
+    case 'subtree':
       return PluginForm1;
     default:
       return Text;
