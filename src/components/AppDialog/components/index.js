@@ -2,10 +2,11 @@ import React from 'react';
 
 
 import Devicelink from './@Devicelink';
-import ChannelLink from './@Devicelink';
+import ChannelLink from './@ChannelLink';
 
 
 function getComponentByType(type) {
+  console.log(type)
   switch (type) {
     case 'devicelinkfolder':
       return Devicelink;

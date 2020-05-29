@@ -24,3 +24,17 @@ core.network.response('appdialog_devlink_unlink', (answer, res, context) => {
   answer(res);
 })
 
+
+core.network.request('appdialog_channellink', (send, context) => {
+  send({ 
+    method: 'get', 
+    type: 'link',
+    id: 'channellink',
+    nodeid: context.params.id,
+  });
+})
+
+core.network.response('appdialog_channellink', (answer, res, context) => {
+  answer(res);
+})
+

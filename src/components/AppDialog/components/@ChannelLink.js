@@ -98,7 +98,7 @@ function Row(props) {
   )
 }
 
-class Devicelink extends Component {
+class ChannelLink extends Component {
   componentDidMount() {
     this.request();
   }
@@ -108,23 +108,12 @@ class Devicelink extends Component {
     const params = this.props.state.component;
 
     core
-    .request({ method: 'appdialog_devlink', props, params })
-    .ok((res) => {
-      core.actions.appdialog.component({ list: res.data.properties});
-    });
+      .request({ method: 'appdialog_channellink', props, params })
+      .ok((res) => {
+        core.actions.appdialog.component({ list: res.data.properties});
+      });
   }
 
-  handleClickUnlink = (item) => {
-    const params = item.clearreq;
-    core
-    .request({ method: 'appdialog_devlink_unlink', params })
-    .ok(() => {
-      this.request();
-      if (this.props.state.template.selectnodeid === item.did) {
-        core.transfer.send(this.props.state.transferid, null);
-      }
-    });
-  }
 
   handleClickOk = (item) => {
     core.transfer.send(this.props.state.transferid, item.result);
@@ -148,4 +137,4 @@ class Devicelink extends Component {
 }
 
 
-export default Devicelink;
+export default ChannelLink;
