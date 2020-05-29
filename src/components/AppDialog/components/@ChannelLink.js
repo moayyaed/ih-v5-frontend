@@ -110,8 +110,21 @@ class ChannelLink extends Component {
     core
       .request({ method: 'appdialog_channellink', props, params })
       .ok((res) => {
+        console.log(res)
         core.actions.appdialog.component({ list: res.data.properties});
       });
+  }
+
+  handleClickUnlink = (item) => {
+    const params = item.clearreq;
+    core
+    .request({ method: 'appdialog_channellink_unlink', params })
+    .ok(() => {
+      this.request();
+      if (this.props.state.template.selectnodeid === item.did) {
+        core.transfer.send(this.props.state.transferid, null);
+      }
+    });
   }
 
 

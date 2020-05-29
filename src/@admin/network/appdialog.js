@@ -38,3 +38,12 @@ core.network.response('appdialog_channellink', (answer, res, context) => {
   answer(res);
 })
 
+core.network.request('appdialog_channellink_unlink', (send, context) => {
+  send(context.params);
+})
+
+core.network.response('appdialog_channellink_unlink', (answer, res, context) => {
+  answer(res);
+})
+
+
