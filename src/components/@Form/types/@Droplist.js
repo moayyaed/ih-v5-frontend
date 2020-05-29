@@ -171,8 +171,9 @@ class Droplist extends PureComponent {
 
   handleGetData = () => {
     if (typeof this.props.options.data === 'string') {
+      const props = { ...this.props.route, rowid: null }
       core
-      .request({ method: 'droplist', params: this.props.options })
+      .request({ method: 'droplist', params: this.props.options, props })
       .loading(() => this.setState(state => ({ ...state, loading: true })))
       .ok(this.setData);
     }

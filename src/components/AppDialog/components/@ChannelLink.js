@@ -73,20 +73,10 @@ function Row(props) {
       <div style={styles.body}>
         <div style={styles.text}>{getValue(props.params.link)}</div>
         <div style={styles.buttons}>
-          <Tooltip title="Unlink">
-            <Button
-              disabled={!props.params.clear}
-              variant="contained" 
-              color="secondary" 
-              style={styles.buttonUnlink} 
-              startIcon={<UnlinkIcon style={styles.icon} />}
-              onClick={() => props.onClickUnlink(props.params)}
-            />
-          </Tooltip>
           <Button 
             variant="contained" 
             color="primary" 
-            disabled={!props.params.enable} 
+            disabled={false} 
             style={styles.buttonOk}
             onClick={() => props.onClickOk(props.params)} 
           >
@@ -110,7 +100,6 @@ class ChannelLink extends Component {
     core
       .request({ method: 'appdialog_channellink', props, params })
       .ok((res) => {
-        console.log(res)
         core.actions.appdialog.component({ list: res.data.properties});
       });
   }
@@ -129,7 +118,7 @@ class ChannelLink extends Component {
 
 
   handleClickOk = (item) => {
-    core.transfer.send(this.props.state.transferid, item.result);
+    // core.transfer.send(this.props.state.transferid, item.result);
   }
   
 
