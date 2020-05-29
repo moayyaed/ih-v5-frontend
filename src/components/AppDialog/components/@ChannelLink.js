@@ -76,7 +76,7 @@ function Row(props) {
           <Button 
             variant="contained" 
             color="primary" 
-            disabled={false} 
+            disabled={props.params.link} 
             style={styles.buttonOk}
             onClick={() => props.onClickOk(props.params)} 
           >
