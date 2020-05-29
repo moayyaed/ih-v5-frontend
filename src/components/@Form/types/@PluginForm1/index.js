@@ -140,7 +140,7 @@ class PluginForm1 extends PureComponent {
     }
 
     core.transfer.sub('pluginform1', this.handleTransferData);
-    this.props.options.toolbar !== false && core.tunnel.sub(config('plugin', this.props.route), this.handleRealTimeDataConsole);
+    this.props.options.toolbar && core.tunnel.sub(config('plugin', this.props.route), this.handleRealTimeDataConsole);
   }
 
   componentDidUpdate(prevProps) {
@@ -159,7 +159,7 @@ class PluginForm1 extends PureComponent {
   componentWillUnmount() {
     this.save = null;
     core.transfer.unsub('pluginform1', this.handleTransferData);
-    this.props.options.toolbar !== false && core.tunnel.unsub(config('plugin', this.props.route), this.handleRealTimeDataConsole);
+    this.props.options.toolbar && core.tunnel.unsub(config('plugin', this.props.route), this.handleRealTimeDataConsole);
   }
 
   setData = (data) => {
@@ -252,7 +252,7 @@ class PluginForm1 extends PureComponent {
   }
   
   renderButtons = (id) => {
-    if (id === 'tree' && this.props.options.toolbar !== false) {
+    if (id === 'tree' && this.props.options.toolbar) {
       const scheme = {
         main: [
           { id: '1', title: 'Console', click: () => this.handleShowWindow('console') },
@@ -746,7 +746,7 @@ class PluginForm1 extends PureComponent {
   }
 
   renderDownToolbar = (id) => {
-    if (id === 'tree' && this.props.options.toolbar !== false) {
+    if (id === 'tree' && this.props.options.toolbar) {
       return (
         <div style={styles.downToolbar} >
           <Button icon="plus" minimal />
