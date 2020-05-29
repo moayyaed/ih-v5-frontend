@@ -73,14 +73,6 @@ const styles = {
   },
 }
 
-
-const TITLES = {
-  tree: 'Channels',
-  form: 'Properties',
-  console: 'Console',
-  controls: 'Controls',
-}
-
 const EMPTY_ARRAY = [];
 
 function config(type, route) {
@@ -148,7 +140,7 @@ class PluginForm1 extends PureComponent {
     }
 
     core.transfer.sub('pluginform1', this.handleTransferData);
-    core.tunnel.sub(config('plugin', this.props.route), this.handleRealTimeDataConsole);
+    this.props.options.toolbar !== false && core.tunnel.sub(config('plugin', this.props.route), this.handleRealTimeDataConsole);
   }
 
   componentDidUpdate(prevProps) {
@@ -167,7 +159,7 @@ class PluginForm1 extends PureComponent {
   componentWillUnmount() {
     this.save = null;
     core.transfer.unsub('pluginform1', this.handleTransferData);
-    core.tunnel.unsub(config('plugin', this.props.route), this.handleRealTimeDataConsole);
+    this.props.options.toolbar !== false && core.tunnel.unsub(config('plugin', this.props.route), this.handleRealTimeDataConsole);
   }
 
   setData = (data) => {
@@ -260,7 +252,7 @@ class PluginForm1 extends PureComponent {
   }
   
   renderButtons = (id) => {
-    if (id === 'tree') {
+    if (id === 'tree' && this.props.options.toolbar !== false) {
       const scheme = {
         main: [
           { id: '1', title: 'Console', click: () => this.handleShowWindow('console') },
