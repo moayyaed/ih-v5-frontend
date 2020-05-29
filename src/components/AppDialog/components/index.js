@@ -6,7 +6,6 @@ import ChannelLink from './@ChannelLink';
 
 
 function getComponentByType(type) {
-  console.log(type)
   switch (type) {
     case 'devicelinkfolder':
       return Devicelink;

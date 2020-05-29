@@ -45,7 +45,7 @@ const styles = {
 }
 
 function handleClickNode(item, component, nodeid) {
-  core.actions.appdialog.component({ title: item.node.title, type: component, id: nodeid });
+  core.actions.appdialog.component({ title: item.node.title, type: component, id: nodeid, list: [] });
 }
 
 function TemplateTree({ state }) {
