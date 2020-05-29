@@ -15,7 +15,7 @@ function getComponentParams(componentid, params) {
     defaultParams.tab = checkValue(params[6]);
   }
   
-  if (componentid === 'pluginview') {
+  if (componentid === 'pluginview' || componentid === 'deviceview') {
     defaultParams.channelview = checkValue(params[7]);
     defaultParams.channel = checkValue(params[8]);
   }
