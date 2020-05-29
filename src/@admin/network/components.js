@@ -49,6 +49,8 @@ core.network.request('droplist', (send, context) => {
     method: 'get', 
     type: 'droplist',
     id: context.params.data, 
+    nodeid: context.props.nodeid,
+    rowid: context.props.rowid,
   });
 })
 

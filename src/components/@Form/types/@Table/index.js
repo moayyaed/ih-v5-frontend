@@ -140,6 +140,7 @@ class Table extends PureComponent {
               rowProps={this.rowProps}
               rowEventHandlers={{ onContextMenu: this.handleContextMenuRow }}
               components={components}
+              route={this.props.route}
             >
               {this.props.options.columns.map(i => 
                 <Column 

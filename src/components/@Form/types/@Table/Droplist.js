@@ -170,8 +170,9 @@ class TableDroplistComponent extends Component {
   handleGetData = (isCache) => {
     if (typeof this.props.column.data === 'string') {
       const cache = isCache ? this.props.column.data : false
+      const props = { ...this.props.container.props.route, rowid: this.props.rowData.id }
       core
-        .request({ cache, method: 'droplist', params: this.props.column })
+        .request({ cache, method: 'droplist', params: this.props.column, props })
         .loading(() => this.setState(state => ({ ...state, loading: true })))
         .ok(this.setData);
     }
