@@ -111,8 +111,7 @@ class ChannelLink extends Component {
 
 
   handleClickOk = (item) => {
-    console.log(this.props.state, item)
-    // core.transfer.send(this.props.state.transferid, item.result);
+    core.transfer.send(this.props.state.transferid, item);
   }
   
 

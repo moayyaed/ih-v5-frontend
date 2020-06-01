@@ -32,15 +32,28 @@ const classes = theme => ({
 
 class SmartButton extends PureComponent {
 
+  handleAfterClick = (value) => {
+    if (this.props.options.params.dialog === 'channellink') {
+      core
+        .request({ method: 'appdialog_set_channellink', params: value.setreq })
+        .ok((res) => {
+          const { menuid, rootid, componentid, nodeid, tab, channel } = this.props.route;
+          const channelview = res.data.component;
+          core.route(`${menuid}/${rootid}/${componentid}/${nodeid}/${tab}/${channelview}/${channel}`);
+        });
+    } else {
+      this.props.onChange(this.props.id, this.props.options, null, value)
+    }
+  }
+
 
   handleDialogClick = (value) => {
     if (value === null) {
-      this.props.onChange(this.props.id, this.props.options, null, null);
+      this.handleAfterClick(value)
     } else {
       core.transfer.unsub('form_dialog', this.handleDialogClick);
       core.actions.appdialog.close();
-  
-      this.props.onChange(this.props.id, this.props.options, null, value)
+      this.handleAfterClick(value)
     }
   }
 

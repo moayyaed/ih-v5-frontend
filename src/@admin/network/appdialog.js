@@ -39,6 +39,15 @@ core.network.response('appdialog_channellink', (answer, res, context) => {
   answer(res);
 })
 
+
+core.network.request('appdialog_set_channellink', (send, context) => {
+  send(context.params);
+})
+
+core.network.response('appdialog_set_channellink', (answer, res, context) => {
+  answer(res);
+})
+
 core.network.request('appdialog_channellink_unlink', (send, context) => {
   send(context.params);
 })
