@@ -31,6 +31,7 @@ core.network.request('appdialog_channellink', (send, context) => {
     type: 'link',
     id: 'channellink',
     nodeid: context.params.id,
+    anchor: context.props.anchor,
   });
 })
 
