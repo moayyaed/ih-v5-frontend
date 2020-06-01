@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Checkbox from './Checkbox';
 import Number from './Number';
 import Text from './Text';
 import Input from './Input';
@@ -11,6 +12,8 @@ import Error from './Error';
 
 function getComponent(type) {
   switch(type) {
+    case 'cb':
+      return Checkbox;
     case 'number':
       return Number;
     case 'input':

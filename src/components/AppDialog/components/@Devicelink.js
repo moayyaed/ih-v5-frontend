@@ -55,13 +55,6 @@ const styles = {
   }
 }
 
-function getValue(value) {
-  if (value && value != '') {
-    const temp = value.split('.');
-    return `${temp[0]} --> ${temp[1]}`
-  }
-  return value;
-}
 
 function Row(props) {
   return (
@@ -71,7 +64,7 @@ function Row(props) {
       </Typography>
       <div style={styles.select}>{props.params.select ? <SelectIcon style={styles.selectIcon} /> : null}</div>
       <div style={styles.body}>
-        <div style={styles.text}>{getValue(props.params.link)}</div>
+        <div style={styles.text}>{props.params.link}</div>
         <div style={styles.buttons}>
           <Tooltip title="Unlink">
             <Button

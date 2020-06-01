@@ -30,6 +30,8 @@ const styles = {
 
 function getDefault(type) {
   switch(type) {
+    case 'cb':
+      return false;
     case 'number':
       return 0;
     case 'input':
