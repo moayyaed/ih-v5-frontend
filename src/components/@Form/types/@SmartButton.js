@@ -37,6 +37,7 @@ class SmartButton extends PureComponent {
       core
         .request({ method: 'appdialog_set_channellink', params: value.setreq })
         .ok((res) => {
+          // this.props.onChange(this.props.id, this.props.options, null, null)
           const { menuid, rootid, componentid, nodeid, tab, channel } = this.props.route;
           const channelview = res.data.component;
           core.route(`${menuid}/${rootid}/${componentid}/${nodeid}/${tab}/${channelview}/${channel}`);
