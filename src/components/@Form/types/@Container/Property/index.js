@@ -200,7 +200,7 @@ class Property extends PureComponent {
             params: {
               title: 'Привязка к каналу',
               type: 'tree',
-              id: 'pluginsd',
+              id: 'devices',
               dialog: 'channellink'
             }
           }));
