@@ -9,6 +9,8 @@ import {
 import { Button } from '@blueprintjs/core';
 
 import Sheet from './Sheet';
+
+import Property from './Property/index.js';
 import Toolbar from './Toolbar/index.js';
 
 import './main.css';
@@ -22,7 +24,7 @@ const styles = {
 }
 
 const EMPTY_ARRAY = [];
-
+const EMPTY_STYLE = {};
 const TITLES = {
   sheet: 'Container',
   toolbar: '',
@@ -38,7 +40,7 @@ const state = {
     second: {
       direction: 'column',
       first: "toolbar",
-      second: "propperty",
+      second: "property",
       splitPercentage: 42,
     },
     splitPercentage: 70,
@@ -79,7 +81,56 @@ class Container extends PureComponent {
       );
   }
 
+  handleChangeValueProperty = (key, value) => {
+    core.actions.container
+      .editElement(
+        this.props.id, this.props.options.prop,
+        this.props.data.selectOne, { [key]: value }
+      );
+  }
+
+  handleGetStyleProperty = (params) => {
+    return EMPTY_STYLE;
+  }
+
+  handleChangeProperty = (propertyId) => {
+    core.actions.container
+      .data(
+        this.props.id, this.props.options.prop,
+        { propertyType: propertyId }
+      );
+  }
+
   renderButtons = (id) => {
+    if (id === 'property') {
+      const select = this.props.data.propertyType || 'main';
+      return [
+        <Button 
+          key="1"
+          minimal
+          active={select === 'main'} 
+          icon="highlight"  
+          onClick={() => this.handleChangeProperty('main')} 
+        />,
+        <Separator key="2" />,
+        <Button 
+          key="3"
+          minimal 
+          active={select === 'text'} 
+          icon="font"  
+          onClick={() => this.handleChangeProperty('text')} 
+        />,
+        <Separator key="4" />,
+        <Button 
+          key="5"
+          minimal 
+          active={select === 'image'} 
+          icon="media"  
+          onClick={() => this.handleChangeProperty('image')}
+        />,
+      ];
+    }
+
     if (id === 'toolbar') {
       const select = this.props.data.toolbarType || 'tree';
       return [
@@ -132,6 +183,19 @@ class Container extends PureComponent {
           listElements={this.props.data.list || []}
           elements={this.props.data.elements || {}}
           onClickElement={this.handleClickTreeElement}
+        />
+      )
+    }
+    if (id === 'property' && this.props.data.elements) {
+      return (
+        <Property
+          type={this.props.data.propertyType || 'main'}
+          selectType={this.props.data.selectType}
+          elementId={this.props.data.selectOne}
+          elementData={this.props.data.elements[this.props.data.selectOne]}
+          stateData={null}
+          onChange={this.handleChangeValueProperty}
+          getStyle={this.handleGetStyleProperty}
         />
       )
     }
