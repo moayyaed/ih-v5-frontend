@@ -109,8 +109,8 @@ class SmartButton extends PureComponent {
           ),
         }}
         value=""
-        error={this.props.cache.error}
-        helperText={this.props.cache.error}
+        error={this.props.cache && this.props.cache.error}
+        helperText={this.props.cache && this.props.cache.error}
         onClick={this.handleClick}
       />
   )

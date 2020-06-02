@@ -15,6 +15,7 @@ import Url from './@Url';
 import Layout from './@Layout';
 import Container from './@Container';
 import Template from './@Template';
+import Button from './@Button';
 import SmartButton from './@SmartButton';
 import Table from './@Table';
 import Code from './@Code';
@@ -57,6 +58,8 @@ function getComponentByType(type) {
       return Template;
     case 'smartbutton':
       return SmartButton;
+    case 'button':
+      return Button;
     case 'code':
       return Code;
     case 'script':

@@ -103,26 +103,34 @@ class Container extends PureComponent {
 
   renderButtons = (id) => {
     if (id === 'property') {
-      const select = this.props.data.propertyType || 'main';
+      const select = this.props.data.propertyType || 'link';
       return [
         <Button 
           key="1"
+          minimal
+          active={select === 'link'} 
+          icon="link"  
+          onClick={() => this.handleChangeProperty('link')} 
+        />,
+        <Separator key="2" />,
+        <Button 
+          key="3"
           minimal
           active={select === 'main'} 
           icon="highlight"  
           onClick={() => this.handleChangeProperty('main')} 
         />,
-        <Separator key="2" />,
+        <Separator key="4" />,
         <Button 
-          key="3"
+          key="5"
           minimal 
           active={select === 'text'} 
           icon="font"  
           onClick={() => this.handleChangeProperty('text')} 
         />,
-        <Separator key="4" />,
+        <Separator key="6" />,
         <Button 
-          key="5"
+          key="7"
           minimal 
           active={select === 'image'} 
           icon="media"  
@@ -187,13 +195,15 @@ class Container extends PureComponent {
       )
     }
     if (id === 'property' && this.props.data.elements) {
+      const elementData = this.props.data.elements[this.props.data.selectOne];
+      const templateData = elementData && elementData.type === 'template' ? this.props.data.templates[elementData.templateId] : null;
       return (
         <Property
-          type={this.props.data.propertyType || 'main'}
+          type={this.props.data.propertyType || 'link'}
           selectType={this.props.data.selectType}
           elementId={this.props.data.selectOne}
-          elementData={this.props.data.elements[this.props.data.selectOne]}
-          stateData={null}
+          elementData={elementData}
+          templateData={templateData}
           onChange={this.handleChangeValueProperty}
           getStyle={this.handleGetStyleProperty}
         />

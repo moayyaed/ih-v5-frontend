@@ -7,6 +7,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 
 const route = {}
+const cache = {}
 
 const scheme = {
   block: {
@@ -138,7 +139,9 @@ const scheme = {
     ],
   },
   group: {},
-  template: {},
+  template: {
+    link: [],
+  },
 }
 
 
@@ -158,6 +161,14 @@ const styles = {
     alignItems: 'center', 
     width: '100%',
     height: '100%',
+  },
+  scroll: { 
+    width: '100%', 
+    height: '100%' 
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
   }
 }
 
@@ -170,22 +181,45 @@ class Property extends PureComponent {
 
   render() {
     if (this.props.selectType === 'one' && this.props.elementData && this.props.elementData.type) {
-      const map = scheme[this.props.elementData.type][this.props.type];
+      let map = scheme[this.props.elementData.type][this.props.type];
+      let data = this.props.elementData;
       if (map === undefined) {
         return <div style={styles.stub}>Properties not supported</div>;
       }
+      if (this.props.templateData) {
+        data = this.props.templateData.listState
+          .reduce((p, c) => {
+            return { ...p, [c]: {} }
+          }, {});
+        map = this.props.templateData.listState
+          .map(key => ({
+            prop: key,
+            title: this.props.templateData.state[key].title,
+            type: 'smartbutton',
+            command: 'dialog',
+            params: {
+              title: 'Привязка к каналу',
+              type: 'tree',
+              id: 'pluginsd',
+              dialog: 'channellink'
+            }
+          }));
+        map = [{ type: 'button', title: 'link all'}].concat(map);
+      }
       return (
-        <Scrollbars style={{ width: '100%', height: '100%' }}>
-          <SingleForm 
-            key="property"
-            debug={false} 
-            scheme={map}
-            route={route}
-            data={this.props.elementData}
-            cache={this.props.stateData || {}}
-            onChange={this.handleChange}
-            getStyle={this.props.getStyle}
-          />
+        <Scrollbars style={styles.scroll}>
+          <div style={styles.container}>
+            <SingleForm 
+              key="property"
+              debug={false} 
+              scheme={map}
+              route={route}
+              data={data}
+              cache={cache}
+              onChange={this.handleChange}
+              getStyle={this.props.getStyle}
+            />
+          </div>
         </Scrollbars>
       )
     }
