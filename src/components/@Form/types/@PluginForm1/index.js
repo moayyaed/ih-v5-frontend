@@ -547,8 +547,8 @@ class PluginForm1 extends PureComponent {
       .ok((res) => {})
       .error(() => {
         core
-        .request({ method: 'plugin_tree', params })
-        .ok(this.setData);
+          .request({ method: 'plugin_tree', params })
+          .ok(this.setData);
       });
   }
 
@@ -680,7 +680,14 @@ class PluginForm1 extends PureComponent {
 
   handleChangeForm = (id, component, target, value) => {
     if (component.type === 'smartbutton' && value === null) {
-      this.valueBasic(id, component.prop, {});
+      if (component.params.dialog === 'channellink') {
+        const params = { id: this.props.options.data, navnodeid: this.props.route.nodeid };
+        core
+          .request({ method: 'plugin_tree', params })
+          .ok(this.setData);
+      } else {
+        this.valueBasic(id, component.prop, {});
+      }
       return;
     }
     if (!this.save) {
