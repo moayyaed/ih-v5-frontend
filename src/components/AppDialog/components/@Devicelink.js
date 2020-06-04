@@ -66,16 +66,6 @@ function Row(props) {
       <div style={styles.body}>
         <div style={styles.text}>{props.params.link}</div>
         <div style={styles.buttons}>
-          <Tooltip title="Unlink">
-            <Button
-              disabled={!props.params.clear}
-              variant="contained" 
-              color="secondary" 
-              style={styles.buttonUnlink} 
-              startIcon={<UnlinkIcon style={styles.icon} />}
-              onClick={() => props.onClickUnlink(props.params)}
-            />
-          </Tooltip>
           <Button 
             variant="contained" 
             color="primary" 
@@ -104,18 +94,6 @@ class Devicelink extends Component {
     .request({ method: 'appdialog_devlink', props, params })
     .ok((res) => {
       core.actions.appdialog.component({ list: res.data.properties});
-    });
-  }
-
-  handleClickUnlink = (item) => {
-    const params = item.clearreq;
-    core
-    .request({ method: 'appdialog_devlink_unlink', params })
-    .ok(() => {
-      this.request();
-      if (this.props.state.template.selectnodeid === item.did) {
-        core.transfer.send(this.props.state.transferid, null);
-      }
     });
   }
 
