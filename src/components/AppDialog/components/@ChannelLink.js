@@ -4,10 +4,7 @@ import core from 'core';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-import Tooltip from '@material-ui/core/Tooltip';
-
 import SelectIcon from '@material-ui/icons/CheckCircleOutline';
-import UnlinkIcon from '@material-ui/icons/LinkOff';
 
 const styles = {
   root: {
@@ -96,19 +93,6 @@ class ChannelLink extends Component {
         core.actions.appdialog.component({ list: res.data.properties});
       });
   }
-
-  handleClickUnlink = (item) => {
-    const params = item.clearreq;
-    core
-    .request({ method: 'appdialog_channellink_unlink', params })
-    .ok(() => {
-      this.request();
-      if (this.props.state.template.selectnodeid === item.did) {
-        core.transfer.send(this.props.state.transferid, null);
-      }
-    });
-  }
-
 
   handleClickOk = (item) => {
     core.transfer.send(this.props.state.transferid, item);
