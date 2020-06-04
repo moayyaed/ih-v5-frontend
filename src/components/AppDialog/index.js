@@ -6,8 +6,8 @@ import { createSelector } from 'reselect';
 
 import { withStyles } from '@material-ui/core/styles';
 
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
+
 
 import AppBar from './AppBar';
 import template from './templates/index';
@@ -26,10 +26,6 @@ const styles = {
 }
 
 const classes = theme => ({
-  appBar: {
-    position: 'relative',
-    backgroundColor: 'rgb(96, 125, 139)',
-  },
   title: {
     marginLeft: theme.spacing(2),
     flex: 1,

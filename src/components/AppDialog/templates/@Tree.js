@@ -3,7 +3,7 @@ import React from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 import Typography from '@material-ui/core/Typography';
 
