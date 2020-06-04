@@ -16,14 +16,6 @@ core.network.response('appdialog_devlink', (answer, res, context) => {
 })
 
 
-core.network.request('appdialog_devlink_unlink', (send, context) => {
-  send(context.params);
-})
-
-core.network.response('appdialog_devlink_unlink', (answer, res, context) => {
-  answer(res);
-})
-
 
 core.network.request('appdialog_channellink', (send, context) => {
   send({ 
@@ -45,14 +37,6 @@ core.network.request('appdialog_set_channellink', (send, context) => {
 })
 
 core.network.response('appdialog_set_channellink', (answer, res, context) => {
-  answer(res);
-})
-
-core.network.request('appdialog_channellink_unlink', (send, context) => {
-  send(context.params);
-})
-
-core.network.response('appdialog_channellink_unlink', (answer, res, context) => {
   answer(res);
 })
 
