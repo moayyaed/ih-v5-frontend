@@ -2,7 +2,7 @@ import core from 'core';
 import { generateOptions, generateCache } from './tools';
 
 
-core.network.request('plugin_tree', (send, context) => {
+core.network.request('subtree', (send, context) => {
   send([
     { method: 'get', type: 'subtree', id: context.params.id, nodeid: context.params.navnodeid },
     { method: 'getmeta', type: 'subtree', id: context.params.id, nodeid: context.params.navnodeid },
@@ -10,7 +10,7 @@ core.network.request('plugin_tree', (send, context) => {
 })
 
 
-core.network.response('plugin_tree', (answer, res, context) => {
+core.network.response('subtree', (answer, res, context) => {
   answer({ 
     list: res[0].data, 
     options: res[1].data,
@@ -18,7 +18,7 @@ core.network.response('plugin_tree', (answer, res, context) => {
   });
 })
 
-core.network.request('plugin_tree_form', (send, context) => {
+core.network.request('subtree_form', (send, context) => {
   send([
     { method: 'getmeta', type: 'form', id: context.params.component, nodeid: context.params.curent },
     { method: 'get', type: 'form', id: context.params.component, nodeid: context.params.curent },
@@ -26,7 +26,7 @@ core.network.request('plugin_tree_form', (send, context) => {
 })
 
 
-core.network.response('plugin_tree_form', (answer, res, context) => {
+core.network.response('subtree_form', (answer, res, context) => {
   answer({ 
     scheme: generateOptions(res[0].data), 
     data: res[1].data,
@@ -34,7 +34,7 @@ core.network.response('plugin_tree_form', (answer, res, context) => {
   });
 })
 
-core.network.request('plugin_tree_form_save', (send, context) => {
+core.network.request('subtree_form_save', (send, context) => {
   send({ 
     method: 'update', 
     type: 'form',
@@ -44,12 +44,12 @@ core.network.request('plugin_tree_form_save', (send, context) => {
   });
 })
 
-core.network.response('plugin_tree_form_save', (answer, res, context) => {
+core.network.response('subtree_form_save', (answer, res, context) => {
   answer(res);
 })
 
 
-core.network.request('plugin_tree_new_node', (send, context) => {
+core.network.request('subtree_new_node', (send, context) => {
   send({ 
     method: 'insert', 
     type: 'subtree',
@@ -61,11 +61,11 @@ core.network.request('plugin_tree_new_node', (send, context) => {
   });
 })
 
-core.network.response('plugin_tree_new_node', (answer, res, context) => {
+core.network.response('subtree_new_node', (answer, res, context) => {
   answer(res);
 })
 
-core.network.request('plugin_tree_remove_node', (send, context) => {
+core.network.request('subtree_remove_node', (send, context) => {
   send({ 
     method: 'remove', 
     type: 'subtree',
@@ -75,11 +75,11 @@ core.network.request('plugin_tree_remove_node', (send, context) => {
   });
 })
 
-core.network.response('plugin_tree_remove_node', (answer, res, context) => {
+core.network.response('subtree_remove_node', (answer, res, context) => {
   answer(res);
 })
 
-core.network.request('plugin_tree_move_node', (send, context) => {
+core.network.request('subtree_move_node', (send, context) => {
   send({ 
     method: 'update', 
     type: 'subtree',
@@ -91,11 +91,11 @@ core.network.request('plugin_tree_move_node', (send, context) => {
   });
 })
 
-core.network.response('plugin_tree_move_node', (answer, res, context) => {
+core.network.response('subtree_move_node', (answer, res, context) => {
   answer(res);
 })
 
-core.network.request('plugin_tree_paste_node', (send, context) => {
+core.network.request('subtree_paste_node', (send, context) => {
   send({ 
     method: 'copypaste', 
     type: 'subtree',
@@ -107,7 +107,7 @@ core.network.request('plugin_tree_paste_node', (send, context) => {
   });
 })
 
-core.network.response('plugin_tree_paste_node', (answer, res, context) => {
+core.network.response('subtree_paste_node', (answer, res, context) => {
   answer(res);
 })
 

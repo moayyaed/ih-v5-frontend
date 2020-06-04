@@ -20,7 +20,7 @@ import SmartButton from './@SmartButton';
 import Table from './@Table';
 import Code from './@Code';
 import Script from './@Script';
-import PluginForm1 from './@PluginForm1';
+import Subtree from './@Subtree';
 
 
 function getComponentByType(type) {
@@ -66,7 +66,7 @@ function getComponentByType(type) {
       return Script;
     case 'pluginform1':
     case 'subtree':
-      return PluginForm1;
+      return Subtree;
     default:
       return Text;
   }

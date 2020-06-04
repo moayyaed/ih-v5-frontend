@@ -85,7 +85,7 @@ function config(type, route) {
   };
 }
 
-class PluginForm1 extends PureComponent {
+class Subtree extends PureComponent {
 
   state = {
     scheme: {},
@@ -115,7 +115,7 @@ class PluginForm1 extends PureComponent {
   componentDidMount() {
     const params = { id: this.props.options.data, navnodeid: this.props.route.nodeid };
     core
-      .request({ method: 'plugin_tree', params })
+      .request({ method: 'subtree', params })
       .ok((res) => {
         res.loadingTree = false;
         if (this.props.route.channel) {
@@ -139,7 +139,7 @@ class PluginForm1 extends PureComponent {
       this.formRequest(this.props.route.channel, this.props.route.channelview);
     }
 
-    core.transfer.sub('pluginform1', this.handleTransferData);
+    core.transfer.sub('subtree', this.handleTransferData);
     this.props.options.toolbar && core.tunnel.sub(config('plugin', this.props.route), this.handleRealTimeDataConsole);
   }
 
@@ -158,7 +158,7 @@ class PluginForm1 extends PureComponent {
 
   componentWillUnmount() {
     this.save = null;
-    core.transfer.unsub('pluginform1', this.handleTransferData);
+    core.transfer.unsub('subtree', this.handleTransferData);
     this.props.options.toolbar && core.tunnel.unsub(config('plugin', this.props.route), this.handleRealTimeDataConsole);
   }
 
@@ -395,7 +395,7 @@ class PluginForm1 extends PureComponent {
     }
     const params = { component: channelview, curent: nodeid };
     core
-      .request({ method: 'plugin_tree_form', params })
+      .request({ method: 'subtree_form', params })
       .ok(this.setData);
   }
 
@@ -482,7 +482,7 @@ class PluginForm1 extends PureComponent {
     };
 
     core
-      .request({ method: 'plugin_tree_new_node', params, payload })
+      .request({ method: 'subtree_new_node', params, payload })
       .ok((res) => {
         const type = contextMenuItem.popupid === 'folder' ? 'parent' : 'child';
         const list = insertNodes(this.state.list, item.node,  res.data);
@@ -524,7 +524,7 @@ class PluginForm1 extends PureComponent {
     };
     
     core
-    .request({ method: 'plugin_tree_paste_node', params, payload })
+    .request({ method: 'subtree_paste_node', params, payload })
     .ok((res) => {
       const list = insertNodes(this.state.list, item.node, res.data);
       this.setData({ list });
@@ -543,11 +543,11 @@ class PluginForm1 extends PureComponent {
     const payload = [{ nodeid: item.node.id }];
     
     core
-      .request({ method: 'plugin_tree_move_node', params, payload })
+      .request({ method: 'subtree_move_node', params, payload })
       .ok((res) => {})
       .error(() => {
         core
-          .request({ method: 'plugin_tree', params })
+          .request({ method: 'subtree', params })
           .ok(this.setData);
       });
   }
@@ -565,7 +565,7 @@ class PluginForm1 extends PureComponent {
     }
 
     core
-    .request({ method: 'plugin_tree_remove_node', params, payload: struct.map.all })
+    .request({ method: 'subtree_remove_node', params, payload: struct.map.all })
     .ok((res) => {
       const newlist = removeNodes(this.state.list, struct.list);
       this.setData({ 
@@ -579,7 +579,7 @@ class PluginForm1 extends PureComponent {
     })
     .error(() => {
       core
-        .request({ method: 'plugin_tree', params })
+        .request({ method: 'subtree', params })
         .ok(this.setData);
     });
   }
@@ -683,7 +683,7 @@ class PluginForm1 extends PureComponent {
       if (component.params.dialog === 'channellink') {
         const params = { id: this.props.options.data, navnodeid: this.props.route.nodeid };
         core
-          .request({ method: 'plugin_tree', params })
+          .request({ method: 'subtree', params })
           .ok(this.setData);
       } else {
         this.valueBasic(id, component.prop, {});
@@ -692,7 +692,7 @@ class PluginForm1 extends PureComponent {
     }
     if (!this.save) {
       this.save = {};
-      core.actions.apppage.data({ save: 'pluginform1' })
+      core.actions.apppage.data({ save: 'subtree' })
     }
 
     if (this.save[id] === undefined) {
@@ -713,7 +713,7 @@ class PluginForm1 extends PureComponent {
     if (button === 'save') {
       const payload = this.save;
       core
-      .request({ method: 'plugin_tree_form_save', params, payload })
+      .request({ method: 'subtree_form_save', params, payload })
       .ok(res => {
         if (res.data) {
           const items = res.data.reduce((p, c) => ({ ...p, [c.id]: c }), {});
@@ -848,5 +848,5 @@ class PluginForm1 extends PureComponent {
 }
 
 
-export default PluginForm1;
+export default Subtree;
 

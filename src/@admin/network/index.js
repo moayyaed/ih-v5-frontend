@@ -6,6 +6,6 @@ import './appnav';
 import './appdialog';
 
 import './components';
-import './pluginform1';
+import './subtree';
 
 import './widgets';
