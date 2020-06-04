@@ -65,7 +65,15 @@ class SmartButton extends PureComponent {
 
     if (this.props.data.dialognodeid) {
       if (type === 'icon') {
-        this.handleAfterClick({});
+        this.handleAfterClick({
+          dialognodeid: null,
+          did: '',
+          dn: '',
+          name: '',
+          title: '',
+          value: '',
+          anchor: this.props.data.anchor 
+        });
       }
     } else {
       const params = {
