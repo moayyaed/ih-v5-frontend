@@ -10,6 +10,7 @@ import Link from '@material-ui/core/Link';
 import TextField from '@material-ui/core/TextField';
 
 import LinkIcon from '@material-ui/icons/Link';
+import LinkOffIcon from '@material-ui/icons/LinkOff';
 
 const styles = {
   root: {
@@ -61,20 +62,24 @@ class SmartButton extends PureComponent {
   handleClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    
-   const params = {
-    ...this.props.options.params,
-    anchor: this.props.data.anchor,
-    nodeid: this.props.route.channel,
-    selectnodeid: this.props.data.dialognodeid
-   }
 
-    core.transfer.sub('form_dialog', this.handleDialogClick);
-    core.actions.appdialog.data({ 
-      open: true, 
-      transferid: 'form_dialog',
-      template: params,
-    });
+    if (this.props.data.dialognodeid) {
+      this.handleAfterClick({});
+    } else {
+      const params = {
+        ...this.props.options.params,
+        anchor: this.props.data.anchor,
+        nodeid: this.props.route.channel,
+        selectnodeid: this.props.data.dialognodeid
+       }
+    
+        core.transfer.sub('form_dialog', this.handleDialogClick);
+        core.actions.appdialog.data({ 
+          open: true, 
+          transferid: 'form_dialog',
+          template: params,
+        });
+    }
   }
 
   handleClickForward = (e, deviceid) => {
@@ -96,7 +101,7 @@ class SmartButton extends PureComponent {
           classes: this.props.classes,
           endAdornment: (
             <IconButton onClick={this.handleClick} size="small">
-              <LinkIcon fontSize="small" />
+             {this.props.data.dialognodeid ? <LinkOffIcon fontSize="small" /> : <LinkIcon fontSize="small" />}
             </IconButton>
           ),
           startAdornment: (
