@@ -65,7 +65,7 @@ class SmartButton extends PureComponent {
 
     if (this.props.data.dialognodeid) {
       if (type === 'icon') {
-        this.handleAfterClick({
+        const value = {
           dialognodeid: null,
           did: '',
           dn: '',
@@ -73,7 +73,8 @@ class SmartButton extends PureComponent {
           title: '',
           value: '',
           anchor: this.props.data.anchor 
-        });
+        }
+        this.handleAfterClick(value);
       }
     } else {
       const params = {
