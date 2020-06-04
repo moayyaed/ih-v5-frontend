@@ -59,12 +59,14 @@ class SmartButton extends PureComponent {
     }
   }
 
-  handleClick = (e) => {
+  handleClick = (e, type) => {
     e.preventDefault();
     e.stopPropagation();
 
     if (this.props.data.dialognodeid) {
-      this.handleAfterClick({});
+      if (type === 'icon') {
+        this.handleAfterClick({});
+      }
     } else {
       const params = {
         ...this.props.options.params,
@@ -100,7 +102,7 @@ class SmartButton extends PureComponent {
         InputProps={{
           classes: this.props.classes,
           endAdornment: (
-            <IconButton onClick={this.handleClick} size="small">
+            <IconButton onClick={(e) => this.handleClick(e,  'icon')} size="small">
              {this.props.data.dialognodeid ? <LinkOffIcon fontSize="small" /> : <LinkIcon fontSize="small" />}
             </IconButton>
           ),
@@ -116,7 +118,7 @@ class SmartButton extends PureComponent {
         value=""
         error={this.props.cache && this.props.cache.error}
         helperText={this.props.cache && this.props.cache.error}
-        onClick={this.handleClick}
+        onClick={(e) => this.handleClick(e, 'text')}
       />
   )
   }
