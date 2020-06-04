@@ -162,6 +162,9 @@ class Droplist extends PureComponent {
   }
   
   handleOptionLabel = (option) => {
+    if (option === '') {
+      return '-';
+    }
     return option.title;
   }
   
