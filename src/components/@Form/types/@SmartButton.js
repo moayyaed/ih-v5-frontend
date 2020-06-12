@@ -51,8 +51,6 @@ class SmartButton extends PureComponent {
     e.preventDefault();
     e.stopPropagation();
 
-    console.log(this.props.data)
-
     if (this.props.data.title !== '') {
       if (type === 'icon') {
         const value = {
@@ -61,6 +59,9 @@ class SmartButton extends PureComponent {
             value: {},
             anchor: this.props.data.anchor 
           }
+        }
+        if (this.props.data.formreset) {
+          value.formreset = this.props.data.formreset;
         }
         this.handleAfterClick(value);
       }

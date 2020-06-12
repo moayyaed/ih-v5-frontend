@@ -680,9 +680,10 @@ class Subtree extends PureComponent {
 
   handleChangeForm = (id, component, target, value) => {
     if (component.type === 'smartbutton') {
-      if (value.formreq) {
+      if (value.formreq || value.formreset) {
+        const params = value.formreq || value.formreset; 
         core
-          .request({ method: 'subtree_form_update', params: value.formreq })
+          .request({ method: 'subtree_form_update', params })
           .ok(res => {
             this.setData(res);
             this.save = {};
