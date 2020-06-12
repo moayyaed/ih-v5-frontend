@@ -93,11 +93,13 @@ class SmartButton extends PureComponent {
     }
   }
 
-  handleClickForward = (e, deviceid) => {
+  handleClickForward = (e, path) => {
     e.preventDefault();
     e.stopPropagation();
 
-    core.route(`dev/devices/deviceview/${deviceid}/tabDeviceCommon`);
+    if (path) {
+      core.route(path);
+    }
   }
 
   render() {
@@ -117,8 +119,8 @@ class SmartButton extends PureComponent {
           ),
           startAdornment: (
             <Link 
-              href={`/admin/dev/devices/deviceview/${this.props.data.did}/tabDeviceCommon`}
-              onClick={(e) => this.handleClickForward(e, this.props.data.did)}
+              href={`/admin/${this.props.data.path}`}
+              onClick={(e) => this.handleClickForward(e, this.props.data.path)}
             >
               {this.props.data.title}
             </Link>
