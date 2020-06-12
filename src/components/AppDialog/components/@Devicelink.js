@@ -55,7 +55,6 @@ const styles = {
 
 
 function Row(props) {
-  console.log(props)
   return (
     <div style={styles.row}>
       <Typography variant="subtitle2" >
@@ -97,7 +96,7 @@ class Devicelink extends Component {
   }
 
   handleClickOk = (item) => {
-    core.transfer.send(this.props.state.transferid, item.result);
+    core.transfer.send(this.props.state.transferid, item);
   }
   
 

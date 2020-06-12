@@ -34,20 +34,8 @@ const classes = theme => ({
 class SmartButton extends PureComponent {
 
   handleAfterClick = (value) => {
-    if (this.props.options.params.dialog === 'channellink') {
-      core
-        .request({ method: 'appdialog_set_channellink', params: value.setreq })
-        .ok((res) => {
-          this.props.onChange(this.props.id, this.props.options, null, null)
-          const { menuid, rootid, componentid, nodeid, tab, channel } = this.props.route;
-          const channelview = res.data.component;
-          core.route(`${menuid}/${rootid}/${componentid}/${nodeid}/${tab}/${channelview}/${channel}`);
-        });
-    } else {
-      this.props.onChange(this.props.id, this.props.options, null, value)
-    }
+    this.props.onChange(this.props.id, this.props.options, null, value)
   }
-
 
   handleDialogClick = (value) => {
     if (value === null) {
@@ -63,16 +51,16 @@ class SmartButton extends PureComponent {
     e.preventDefault();
     e.stopPropagation();
 
-    if (this.props.data.dialognodeid) {
+    console.log(this.props.data)
+
+    if (this.props.data.title !== '') {
       if (type === 'icon') {
         const value = {
-          dialognodeid: null,
-          did: '',
-          dn: '',
-          name: '',
-          title: '',
-          value: '',
-          anchor: this.props.data.anchor 
+          result: {
+            title: '',
+            value: {},
+            anchor: this.props.data.anchor 
+          }
         }
         this.handleAfterClick(value);
       }
@@ -114,7 +102,7 @@ class SmartButton extends PureComponent {
           classes: this.props.classes,
           endAdornment: (
             <IconButton onClick={(e) => this.handleClick(e,  'icon')} size="small">
-             {this.props.data.dialognodeid ? <LinkOffIcon fontSize="small" /> : <LinkIcon fontSize="small" />}
+             {this.props.data.title !== '' ? <LinkOffIcon fontSize="small" /> : <LinkIcon fontSize="small" />}
             </IconButton>
           ),
           startAdornment: (

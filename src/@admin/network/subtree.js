@@ -34,6 +34,22 @@ core.network.response('subtree_form', (answer, res, context) => {
   });
 })
 
+core.network.request('subtree_form_update', (send, context) => {
+  send([
+    { method: 'getmeta', type: 'form', id: context.params.id, nodeid: context.params.nodeid, rowid: context.params.rowid },
+    { method: 'get', type: 'form', id: context.params.id, nodeid: context.params.nodeid, rowid: context.params.rowid },
+  ]);
+})
+
+
+core.network.response('subtree_form_update', (answer, res, context) => {
+  answer({ 
+    scheme: generateOptions(res[0].data), 
+    data: res[1].data,
+    cache: generateCache(res[0].data)
+  });
+})
+
 core.network.request('subtree_form_save', (send, context) => {
   send({ 
     method: 'update', 

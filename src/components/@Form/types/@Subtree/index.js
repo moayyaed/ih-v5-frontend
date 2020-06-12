@@ -679,16 +679,33 @@ class Subtree extends PureComponent {
   }
 
   handleChangeForm = (id, component, target, value) => {
-    if (component.type === 'smartbutton' && value === null) {
-      if (component.params.dialog === 'channellink') {
-        const params = { id: this.props.options.data, navnodeid: this.props.route.nodeid };
+    if (component.type === 'smartbutton') {
+      if (value.formreq) {
         core
-          .request({ method: 'subtree', params })
-          .ok(this.setData);
+          .request({ method: 'subtree_form_update', params: value.formreq })
+          .ok(res => {
+            this.setData(res);
+            this.save = {};
+            Object
+              .keys(res.data)
+              .forEach(key => {
+                Object
+                  .keys(res.data[key])
+                  .forEach(key2 => {
+                    if (typeof res.data[key][key2] === 'object' && res.data[key][key2].changed) {
+                      if (!this.save[key]) {
+                        this.save[key] = {};
+                      }
+                      this.save[key][key2] = res.data[key][key2];
+                    }
+                  });
+              });
+            core.actions.apppage.data({ save: 'subtree' })
+          });
+        return;
       } else {
-        this.valueBasic(id, component.prop, {});
+        value = value.result;
       }
-      return;
     }
     if (!this.save) {
       this.save = {};

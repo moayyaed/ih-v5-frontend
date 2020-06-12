@@ -54,7 +54,6 @@ const styles = {
 
 
 function Row(props) {
-  console.log(props)
   return (
     <div style={styles.row}>
       <Typography variant="subtitle2" >

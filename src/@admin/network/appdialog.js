@@ -1,4 +1,5 @@
 import core from 'core';
+import { generateOptions, generateCache } from './tools';
 
 
 core.network.request('appdialog_devlink', (send, context) => {
@@ -32,12 +33,5 @@ core.network.response('appdialog_channellink', (answer, res, context) => {
 })
 
 
-core.network.request('appdialog_set_channellink', (send, context) => {
-  send(context.params);
-})
-
-core.network.response('appdialog_set_channellink', (answer, res, context) => {
-  answer(res);
-})
 
 
