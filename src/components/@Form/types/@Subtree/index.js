@@ -157,6 +157,7 @@ class Subtree extends PureComponent {
   }
 
   componentWillUnmount() {
+    this.rowid = null;
     this.save = null;
     core.transfer.unsub('subtree', this.handleTransferData);
     this.props.options.toolbar && core.tunnel.unsub(config('plugin', this.props.route), this.handleRealTimeDataConsole);
@@ -390,6 +391,7 @@ class Subtree extends PureComponent {
 
   formRequest = (nodeid, channelview, foundPosition = true) => {
     if (this.save) {
+      this.rowid = null;
       this.save = null;
       core.actions.apppage.data({ save: false });
     }
@@ -682,6 +684,7 @@ class Subtree extends PureComponent {
     if (component.type === 'smartbutton') {
       if (value.formreq || value.formreset) {
         const params = value.formreq || value.formreset; 
+        this.rowid = params.rowid;
         core
           .request({ method: 'subtree_form_update', params })
           .ok(res => {
@@ -726,7 +729,7 @@ class Subtree extends PureComponent {
 
   handleTransferData = (button) => {
     const { channelview, channel } = this.props.route;
-    const params = { component: channelview, curent: channel };
+    const params = { component: channelview, curent: channel, rowid: this.rowid };
 
     if (button === 'save') {
       const payload = this.save;

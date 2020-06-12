@@ -56,6 +56,7 @@ core.network.request('subtree_form_save', (send, context) => {
     type: 'form',
     id: context.params.component,
     nodeid: context.params.curent,
+    rowid: context.params.rowid,
     payload: context.payload,
   });
 })
