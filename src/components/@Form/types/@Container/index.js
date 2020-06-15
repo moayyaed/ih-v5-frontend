@@ -82,11 +82,16 @@ class Container extends PureComponent {
   }
 
   handleChangeValueProperty = (key, value) => {
-    core.actions.container
-      .editElement(
-        this.props.id, this.props.options.prop,
-        this.props.data.selectOne, { [key]: value }
-      );
+    const propertyType = this.props.data.propertyType || 'link';
+    if (propertyType === 'link') {
+      console.log(value)
+    } else {
+      core.actions.container
+        .editElement(
+          this.props.id, this.props.options.prop,
+          this.props.data.selectOne, { [key]: value }
+        );
+    }
   }
 
   handleGetStyleProperty = (params) => {
