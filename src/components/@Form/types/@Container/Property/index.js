@@ -189,7 +189,7 @@ class Property extends PureComponent {
       if (this.props.templateData) {
         data = this.props.templateData.listState
           .reduce((p, c) => {
-            return { ...p, [c]: {} }
+            return { ...p, [c]: { title: '' } }
           }, {});
         map = this.props.templateData.listState
           .map(key => ({
@@ -204,7 +204,7 @@ class Property extends PureComponent {
               dialog: 'channellink'
             }
           }));
-        map = [{ type: 'button', title: 'link all'}].concat(map);
+        // map = [{ type: 'button', title: 'link all'}].concat(map);
       }
       return (
         <Scrollbars style={styles.scroll}>
