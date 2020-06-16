@@ -44,26 +44,72 @@ export function ElementsItems(props) {
 
 function ElementItemGroup(props) {
   return props.list.map(id => {
-    if (props.sections[id].columns) {
+    const data = props.sections[id] || props.columns[id]
+    if (data.columns) {
       return (
         <BasicItem
           key={id}
           nodeId={id}
           label={id}
-          endIcon={<TypeIcon type={props.sections[id].type}/>}
+          endIcon={<TypeIcon type={data.type}/>}
           onIconClick={(e) => props.onClickIcon(e, id, 'section')} 
           onLabelClick={(e) => props.onClickLabel(e, id, 'section')} 
         >
-          <ElementItemGroup {...props} list={props.sections[id].columns} sections={props.columns} />
+          <ElementItemGroup {...props} list={data.columns} />
         </BasicItem>
       )
     }
+    if (data.type) {
+      if (data.type === 'SECTION') {
+        return (
+          <BasicItem
+            key={id}
+            nodeId={id}
+            label={id}
+            endIcon={<TypeIcon type={data.type}/>}
+            onIconClick={(e) => props.onClickIcon(e, id, 'column')} 
+            onLabelClick={(e) => props.onClickLabel(e, id, 'column')} 
+          >
+            <BasicItem
+              key={data.sectionId}
+              nodeId={data.sectionId}
+              label={data.sectionId}
+              endIcon={<TypeIcon type={props.sections[data.sectionId].type}/>}
+              onIconClick={(e) => props.onClickIcon(e, data.sectionId, 'section')} 
+              onLabelClick={(e) => props.onClickLabel(e, data.sectionId, 'section')} 
+            >
+              <ElementItemGroup {...props} list={props.sections[data.sectionId].columns} />
+            </BasicItem>
+          </BasicItem>
+        )
+      }
+      return (
+        <BasicItem
+          key={id}
+          nodeId={id}
+          label={id}
+          endIcon={<TypeIcon type={data.type}/>}
+          onIconClick={(e) => props.onClickIcon(e, id, 'column')} 
+          onLabelClick={(e) => props.onClickLabel(e, id, 'column')} 
+        >
+          <BasicItem
+            key={id + data.type}
+            nodeId={id + data.type}
+            label={data.type}
+            endIcon={<TypeIcon type={data.type}/>}
+            onIconClick={(e) => props.onClickIcon(e, id, 'content', data.type)} 
+            onLabelClick={(e) => props.onClickLabel(e, id, 'content', data.type)} 
+          />
+        </BasicItem>
+      )
+    }
+    
     return (
       <BasicItem
         key={id}
         nodeId={id}
         label={id}
-        endIcon={<TypeIcon type={props.sections[id].type}/>}
+        endIcon={<TypeIcon type={data.type}/>}
         onIconClick={(e) => props.onClickIcon(e, id, 'column')} 
         onLabelClick={(e) => props.onClickLabel(e, id, 'column')} 
       />

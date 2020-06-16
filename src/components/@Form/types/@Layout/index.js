@@ -21,7 +21,7 @@ const styles = {
   root: {
     width: '100%',
     height: '100%',
-  }
+  },
 }
 
 const EMPTY_ARRAY = [];
@@ -69,18 +69,27 @@ class Layout extends PureComponent {
       );
   }
 
-  handleClickTreeElement = (elementId, type) => {
+  handleClickTreeElement = (elementId, type, content) => {
     if (type === 'section') {
       core.actions.layout
         .select(
           this.props.id, this.props.options.prop, 
           { column: null, section: elementId, content: null },
         )
-    } else {
+    } 
+    if (type === 'column') {
       core.actions.layout
         .select(
           this.props.id, this.props.options.prop, 
           { column: elementId, section: null, content: null },
+        )
+    }
+
+    if (type === 'content') {
+      core.actions.layout
+        .select(
+          this.props.id, this.props.options.prop, 
+          { column: elementId, section: null, content },
         )
     }
   }
@@ -143,6 +152,8 @@ class Layout extends PureComponent {
     if (id === 'toolbar') {
       return (
         <Toolbar
+          id={this.props.id}
+          prop={this.props.options.prop}
           type={this.props.data.toolbarType || 'tree'}
           selectElements={this.props.data.select || {} }
           listElements={this.props.data.list || []}
