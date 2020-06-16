@@ -6,10 +6,16 @@ import {
   RemoveButton, ExpandButton, Separator, 
 } from 'react-mosaic-component';
 
+import { Button } from '@blueprintjs/core';
 
-import Canvas from './Canvas';
+import Sheet from './Sheet';
+
+import Toolbar from './Toolbar/index.js';
+
 import Properties from './Properties';
 import Properties2 from './Properties2';
+
+import './main.css';
 
 const styles = {
   root: {
@@ -21,24 +27,23 @@ const styles = {
 const EMPTY_ARRAY = [];
 
 const TITLES = {
-  canvas: 'Layout',
-  properties: 'Toolbar1',
-  toolbar2: 'Toolbar2',
-
+  sheet: 'Layout',
+  toolbar: '',
+  property: '',
 }
 
 const state = {
   windows: {
     mode: 0,
     direction: 'row',
-    first: "canvas",
+    first: "sheet",
     second: {
       direction: 'column',
-      first: "properties",
-      second: "toolbar2",
-      splitPercentage: 32,
+      first: "toolbar",
+      second: "property",
+      splitPercentage: 42,
     },
-    splitPercentage: 80,
+    splitPercentage: 70,
   },
 }
 
@@ -56,7 +61,50 @@ class Layout extends PureComponent {
     });
   }
 
+  handleChangeToolbar = (toolbarId) => {
+    core.actions.layout
+      .data(
+        this.props.id, this.props.options.prop,
+        { toolbarType: toolbarId }
+      );
+  }
+
+  handleClickTreeElement = (elementId, type) => {
+    if (type === 'section') {
+      core.actions.layout
+        .select(
+          this.props.id, this.props.options.prop, 
+          { column: null, section: elementId, content: null },
+        )
+    } else {
+      core.actions.layout
+        .select(
+          this.props.id, this.props.options.prop, 
+          { column: elementId, section: null, content: null },
+        )
+    }
+  }
+
   renderButtons = (id) => {
+    if (id === 'toolbar') {
+      const select = this.props.data.toolbarType || 'tree';
+      return [
+        <Button 
+          key="3"
+          minimal
+          icon="diagram-tree" 
+          active={select === 'tree'}
+          onClick={() => this.handleChangeToolbar('tree')} 
+        />,
+        <Button 
+          key="4"
+          minimal
+          icon="inbox" 
+          active={select === 'elements'}
+          onClick={() => this.handleChangeToolbar('elements')} 
+        />,
+      ];
+    }
     return [];
   }
 
@@ -65,9 +113,9 @@ class Layout extends PureComponent {
   }
 
   renderComponent = (id) => {
-    if (id === 'canvas') {
+    if (id === 'sheet') {
       return (
-        <Canvas
+        <Sheet
           id={this.props.id}
           prop={this.props.options.prop}
           isDragging={this.props.data.isDragging}
@@ -92,16 +140,15 @@ class Layout extends PureComponent {
       )
     }
 
-    if (id === 'toolbar2') {
+    if (id === 'toolbar') {
       return (
-        <Properties2
-          id={this.props.id}
-          prop={this.props.options.prop}
-          select={this.props.data.select ? this.props.data.sections[this.props.data.select.section] && this.props.data.select.section : null}
-          select2={this.props.data.select ? this.props.data.columns[this.props.data.select.column] && this.props.data.select.column : null}
-          type={this.props.data.select ? this.props.data.columns[this.props.data.select.column] && this.props.data.select.content : null}
-          section={this.props.data.select && this.props.data.sections[this.props.data.select.section] || {}}
-          column={this.props.data.select && this.props.data.columns[this.props.data.select.column] || {}}
+        <Toolbar
+          type={this.props.data.toolbarType || 'tree'}
+          selectElements={this.props.data.select || {} }
+          listElements={this.props.data.list || []}
+          sections={this.props.data.sections || {}}
+          columns={this.props.data.columns || {}}
+          onClickElement={this.handleClickTreeElement}
         />
       )
     }
@@ -119,6 +166,7 @@ class Layout extends PureComponent {
             return (
               <MosaicWindow
                 key={id}
+                className={id}
                 draggable={false}
                 title={TITLES[id]}
                 additionalControls={EMPTY_ARRAY}
