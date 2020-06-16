@@ -84,7 +84,11 @@ class Container extends PureComponent {
   handleChangeValueProperty = (key, value) => {
     const propertyType = this.props.data.propertyType || 'link';
     if (propertyType === 'link') {
-      console.log(value)
+      core.actions.container
+        .changeTemplateLink(
+          this.props.id, this.props.options.prop,
+          this.props.data.selectOne, { [key]: value.result }
+        );
     } else {
       core.actions.container
         .editElement(

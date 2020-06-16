@@ -278,6 +278,7 @@ class Sheet extends Component {
       core
         .request({ method: 'get_template', params: templateId })
         .ok(res => {
+          data.links = {};
           data.templateId = templateId;
           data.w = res.settings.w; 
           data.h = res.settings.h;

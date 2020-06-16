@@ -189,6 +189,9 @@ class Property extends PureComponent {
       if (this.props.templateData) {
         data = this.props.templateData.listState
           .reduce((p, c) => {
+            if (this.props.elementData.links[c]) {
+              return { ...p, [c]: this.props.elementData.links[c] }
+            }
             return { ...p, [c]: { title: '' } }
           }, {});
         map = this.props.templateData.listState
