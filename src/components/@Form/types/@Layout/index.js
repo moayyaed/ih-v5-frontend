@@ -69,6 +69,14 @@ class Layout extends PureComponent {
       );
   }
 
+  handleChangeProperty = (propertyId) => {
+    core.actions.layout
+      .data(
+        this.props.id, this.props.options.prop,
+        { propertyType: propertyId }
+      );
+  }
+
   handleClickTreeElement = (elementId, type, content) => {
     if (type === 'section') {
       core.actions.layout
@@ -95,6 +103,35 @@ class Layout extends PureComponent {
   }
 
   renderButtons = (id) => {
+    if (id === 'property') {
+      const select = this.props.data.propertyType || 'main';
+      return [
+        <Button 
+          key="3"
+          minimal
+          active={select === 'main'} 
+          icon="grid-view"  
+          onClick={() => this.handleChangeProperty('main')} 
+        />,
+        <Separator key="4" />,
+        <Button 
+          key="5"
+          minimal 
+          active={select === 'style'} 
+          icon="style"  
+          onClick={() => this.handleChangeProperty('style')} 
+        />,
+        <Separator key="6" />,
+        <Button 
+          key="7"
+          minimal 
+          active={select === 'ext'} 
+          icon="properties"  
+          onClick={() => this.handleChangeProperty('ext')}
+        />,
+      ];
+    }
+    
     if (id === 'toolbar') {
       const select = this.props.data.toolbarType || 'tree';
       return [
