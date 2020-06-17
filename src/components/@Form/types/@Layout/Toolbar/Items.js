@@ -60,7 +60,7 @@ function ElementItemGroup(props) {
       )
     }
     if (data.type) {
-      if (data.type === 'SECTION') {
+      if (data.type === 'innersection') {
         return (
           <BasicItem
             key={id}

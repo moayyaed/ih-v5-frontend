@@ -34,7 +34,7 @@ const styles = {
 
 }
 
-const ELEMENTS = [ 'CONTAINER', 'TEXT', 'SECTION'];
+const ELEMENTS = [ 'container', 'text', 'innersection'];
 
 class Toolbar extends PureComponent {
 

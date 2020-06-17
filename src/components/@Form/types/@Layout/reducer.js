@@ -158,7 +158,7 @@ function reducerLayout(state, action) {
               return { 
                 ...p, [c]: { 
                   ...state.columns[c], 
-                  type: 'SECTION', 
+                  type: 'innersection', 
                   sectionId: action.newSectionId 
                 } 
               };

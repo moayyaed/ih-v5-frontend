@@ -10,10 +10,8 @@ import { Button } from '@blueprintjs/core';
 
 import Sheet from './Sheet';
 
+import Property from './Property/index.js';
 import Toolbar from './Toolbar/index.js';
-
-import Properties from './Properties';
-import Properties2 from './Properties2';
 
 import './main.css';
 
@@ -24,6 +22,7 @@ const styles = {
   },
 }
 
+const EMPTY_STYLE = {};
 const EMPTY_ARRAY = [];
 
 const TITLES = {
@@ -102,6 +101,29 @@ class Layout extends PureComponent {
     }
   }
 
+  handleChangeValueProperty = (key, value) => {
+    const select = this.props.data.select;
+    const selectType = select.content ? 'column' : select.column ? 'column': 'section';
+    const elementId = select.content ? select.column : select.column ? select.column : select.section;
+
+    if (selectType === 'section') {
+      core.actions.layout
+        .editSection(
+          this.props.id, this.props.options.prop, 
+          elementId, { [key]: value },
+        )
+    } else {
+
+    }
+    /*
+    core.actions.container
+      .editElement(
+        this.props.id, this.props.options.prop,
+        this.props.data.selectOne, { [key]: value }
+      );
+      */
+  }
+
   renderButtons = (id) => {
     if (id === 'property') {
       const select = this.props.data.propertyType || 'main';
@@ -154,6 +176,10 @@ class Layout extends PureComponent {
     return [];
   }
 
+  handleGetStyleProperty = (params) => {
+    return EMPTY_STYLE;
+  }
+
   renderDownToolbar = (id) => {
     return null;
   }
@@ -177,11 +203,19 @@ class Layout extends PureComponent {
       );
     }
     
-    if (id === 'properties') {
+    if (id === 'property' && this.props.data.sections) {
+      const select = this.props.data.select;
+      const selectType = select.content ? select.content : select.column ? 'column': 'section';
+      const elementId = select.content ? select.column : select.column ? select.column : select.section;
+      const elementData = this.props.data.sections[elementId] || this.props.data.columns[elementId]
       return (
-        <Properties
-          id={this.props.id}
-          prop={this.props.options.prop}
+        <Property
+          type={this.props.data.propertyType || 'main'}
+          selectType={selectType}
+          elementId={elementId}
+          elementData={elementData}
+          onChange={this.handleChangeValueProperty}
+          getStyle={this.handleGetStyleProperty}
         />
       )
     }

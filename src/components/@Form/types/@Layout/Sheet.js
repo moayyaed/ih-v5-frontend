@@ -432,7 +432,7 @@ class Canvas extends Component {
   handleDragDrop = (e, sectionId, columnId) => {
     const type = e.dataTransfer.getData('text');
 
-    if (type === 'SECTION') {
+    if (type === 'innersection') {
       const i = Number(this.props.list.slice(-1).slice(1));
       const newSectionId = getIdSection(i, this.props.sections);
       core.actions.layout
@@ -445,7 +445,7 @@ class Canvas extends Component {
           this.props.id, this.props.prop, 
           { section: newSectionId, column: `${newSectionId}_c1` }
         )
-    } else if (type === 'CONTAINER') {
+    } else if (type === 'container') {
       core.actions.layout
         .editColumn(
           this.props.id, this.props.prop, 
@@ -580,7 +580,7 @@ class Canvas extends Component {
   }
 
   handleRenderContent = (columnId, item) => {
-    if (item.type === 'SECTION') {
+    if (item.type === 'innersection') {
       return (
         <Section
           inner={columnId} 

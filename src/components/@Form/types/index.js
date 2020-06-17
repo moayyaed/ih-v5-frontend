@@ -3,6 +3,7 @@ import React from 'react';
 import Text from './@Text';
 import Header from './@Header';
 import Input from './@Input';
+import Number from './@Number';
 import Password from './@Password';
 import Checkbox from './@Checkbox';
 import Textarea from './@Textarea';
@@ -33,6 +34,8 @@ function getComponentByType(type) {
       return Header;
     case 'input':
       return Input;
+    case 'number':
+      return Number;
     case 'password':
       return Password;
     case 'textarea':
