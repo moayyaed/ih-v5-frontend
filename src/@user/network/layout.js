@@ -4,6 +4,7 @@ import core from 'core';
 core.network.request('applayout', (send, context) => {
   console.log(context)
   send([
+    { api: 'layout', id: context.params.layoutId },
     { api: 'containers', layoutid: context.params.layoutId },
     { api: 'templates', layoutid: context.params.layoutId }
   ]);
