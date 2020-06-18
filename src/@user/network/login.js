@@ -12,5 +12,5 @@ core.network.request('login', (send, context) => {
 
 core.network.response('login', (answer, res, context) => {
   core.network.realtime.start(res.token);
-  answer(res.data);
+  answer(res);
 })
