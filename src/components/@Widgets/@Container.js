@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import core from 'core';
 
 import ReactResizeDetector from 'react-resize-detector';
+import elemets from 'components/@Elements';
 
 
 const styles = {
@@ -36,31 +37,64 @@ class Container extends PureComponent {
     }
   }
 
-  render({ settings, list } = this.state) {
+  handleRender = (id, item) => {
+    if (item.type === 'group') {
+      return (
+        <div
+          key={id}
+          style={{ 
+            position: 'absolute', 
+            left: item.x,
+            top: item.y,
+            width: item.w,
+            height: item.h,
+          }}
+        >
+          {item.elements.map(cid => this.handleRender(cid, this.state.elements[cid]))}
+        </div>
+      )
+    }
+    if (item.type === 'template') {
+      return (
+        <div
+          key={id}
+          style={{ 
+            position: 'absolute', 
+            left: item.x,
+            top: item.y,
+            width: item.w,
+            height: item.h,
+          }}
+        >
+          {elemets(id, item, this.state.templates[item.templateId])}
+        </div>
+      )
+    }
+    return (
+      <div
+        key={id}
+        style={{ 
+          position: 'absolute', 
+          left: item.x,
+          top: item.y,
+          width: item.w,
+          height: item.h,
+        }}
+      >
+        {elemets(id, this.state.elements[id], null)}
+      </div>
+    )
+  }
+
+  render({ list, settings, elements } = this.state) {
     return (
       <ReactResizeDetector handleWidth handleHeight>
         {({ width, height }) => {
           if (width) {
-            const ratio = Math.min((width - 2) / settings.w, (height - 2) / settings.h);
+            const scale = Math.min((width) / settings.w, (height) / settings.h);
             return (
-              <div style={{ width: settings.w * ratio, height: settings.h * ratio }}>
-                {list
-                  .map(key => {
-                    const element = this.state.elements[key]
-                    return (
-                      <div
-                        key={key} 
-                        style={{
-                          position: 'absolute',
-                          transform: `translate3d(${element.x * ratio}px, ${element.y * ratio}px, 0px)`,
-                          width: element.w * ratio,
-                          height: element.h * ratio,
-                          border: `1px solid ${element.borderColor}`
-                        }} 
-                      />
-                    )
-                  })
-                }
+              <div style={{ position: 'absolute', width: settings.w, height: settings.h, zoom: scale }}>
+                {list.map(id => this.handleRender(id, elements[id]))}
               </div>
             )
           }

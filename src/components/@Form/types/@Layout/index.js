@@ -113,7 +113,11 @@ class Layout extends PureComponent {
           elementId, { [key]: value },
         )
     } else {
-
+      core.actions.layout
+        .editColumn(
+          this.props.id, this.props.options.prop, 
+          elementId, { [key]: value },
+        )
     }
     /*
     core.actions.container

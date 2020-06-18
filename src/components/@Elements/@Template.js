@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 
-import Element from 'components/@Form/types/@Template/Element';
 import elemets from 'components/@Elements';
 
 class Template extends PureComponent {

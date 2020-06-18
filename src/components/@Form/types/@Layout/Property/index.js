@@ -26,7 +26,14 @@ const scheme = {
 
   },
   container: {
-
+    main: [
+      { 
+        title: 'container', 
+        prop: 'containerId', 
+        type: 'droplist',
+        data: 'containerList',
+      },
+    ]
   },
   innersection: {
 
