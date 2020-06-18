@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import core from 'core';
 
 import ReactResizeDetector from 'react-resize-detector';
@@ -12,7 +12,7 @@ const styles = {
   }
 }
 
-class Container extends PureComponent {
+class Container extends Component {
   state = { settings: {}, list: [], elements: {} }
 
   componentDidMount() {
@@ -90,10 +90,10 @@ class Container extends PureComponent {
     return (
       <ReactResizeDetector handleWidth handleHeight>
         {({ width, height }) => {
-          if (width) {
+          if (width && settings.w) {
             const scale = Math.min((width) / settings.w, (height) / settings.h);
             return (
-              <div style={{ position: 'absolute', width: settings.w, height: settings.h, zoom: scale }}>
+              <div style={{ position: 'relative', width: settings.w, height: settings.h, zoom: scale }}>
                 {list.map(id => this.handleRender(id, elements[id]))}
               </div>
             )
