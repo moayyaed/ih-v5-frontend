@@ -21,6 +21,7 @@ const styles = {
 
 
 function App(props) {
+  console.log(props)
   return (
     <div>USER_INTERFACE</div>
   );
