@@ -1,0 +1,79 @@
+html, body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.content {
+  width: 100%;
+  height: 100%;
+}
+
+.ReactVirtualized__Grid {
+  outline: none;
+}
+
+.inputpass ::-webkit-credentials-auto-fill-button {
+  visibility: hidden;
+  pointer-events: none;
+  position: absolute;
+  right: 10;
+}
+
+.MuiTreeItem-label {
+  font-size: 14px!important
+}
+
+button:focus {
+  outline:0;
+}
+
+/*
+.rst__tree .ReactVirtualized__Grid {
+  overflow: hidden!important;
+} */
+
+.apppage:focus { outline: none; }
+
+.BaseTable > * :focus { outline: none; }
+
+
+.BaseTable__header-cell, .BaseTable__row-cell {
+  -webkit-box-shadow: inset 0 -1px 0 rgba(16,22,26,.15), inset -1px 0 0 rgba(16,22,26,.15);
+    box-shadow: inset 0 -1px 0 rgba(16,22,26,.15), inset -1px 0 0 rgba(16,22,26,.15);
+}
+
+.BaseTable__row-cell {
+  padding: 0 4px!important;
+}
+
+.mosaic-window-body {
+  background-color:  #fafafa!important;
+}
+
+.bp3-input:focus {
+  box-shadow: 0 0 0 0 rgba(19, 124, 189, 0), 0 0 0 0 rgba(19, 124, 189, 0), inset 0 0 0 1px rgba(16, 22, 26, 0.15), inset 0 1px 1px rgba(16, 22, 26, 0.2);
+}
+
+.bp3-transition-container {
+  z-index: 1500;
+}
+
+.bp3-popover-backdrop {
+  z-index: 1400;
+}

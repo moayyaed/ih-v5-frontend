@@ -159,7 +159,7 @@ function Login() {
     .ok(() => {
       core
       .request({ method: 'init', params: {} })
-      .ok(() => core.actions.app.auth(true));
+      .ok(res => core.actions.app.auth(res));
     });
   }
 
