@@ -1,0 +1,1 @@
+export const APP_LAYOUT_SET_DATA = 'APP_LAYOUT_SET_DATA';

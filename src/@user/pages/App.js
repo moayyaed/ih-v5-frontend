@@ -2,6 +2,8 @@ import React from 'react';
 
 import './App.css';
 
+import AppLayout from 'components/AppLayout';
+
 
 const styles = {
   box: {
@@ -21,10 +23,7 @@ const styles = {
 
 
 function App(props) {
-  console.log(props)
-  return (
-    <div>USER_INTERFACE</div>
-  );
+  return <AppLayout key={props.route.layout} />;
 }
 
 
