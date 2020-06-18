@@ -33,7 +33,6 @@ class AppLayout extends Component {
   }
 
   render({ id, route, state, classes } = this.props) {
-    console.log(state)
     return (
       <div style={styles.root}>
         USER_INTERFACE

@@ -156,10 +156,14 @@ function Login() {
 
     core
     .request({ method: 'login', params: values })
-    .ok(() => {
-      core
-      .request({ method: 'init', params: {} })
-      .ok(res => core.actions.app.auth(res));
+    .ok((res) => {
+      if (res) {
+        core.actions.app.auth(res)
+      } else {
+        core
+          .request({ method: 'init', params: {} })
+          .ok(() => core.actions.app.auth(true));
+      }
     });
   }
 
