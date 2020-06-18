@@ -21,18 +21,20 @@ const classes = theme => ({
 class AppLayout extends Component {
 
   componentDidMount() {
-    /*
+    const params = {
+      layoutId: this.props.route.layout || this.props.app.auth.layout,
+    };
+
     core
-      .request({ method: 'applayout' })
-      .ok(core.actions.appmenu.data);
-    */
+      .request({ method: 'applayout', params })
+      .ok(res => console.log(res));
   }
 
   handleClick = (id) => {
 
   }
 
-  render({ id, route, state, classes } = this.props) {
+  render({ id, route, state, auth, classes } = this.props) {
     return (
       <div style={styles.root}>
         USER_INTERFACE
@@ -45,7 +47,8 @@ class AppLayout extends Component {
 const mapStateToProps = createSelector(
   state => state.app.route,
   state => state.applayout,
-  (route, state) => ({ route, state })
+  state => state.app,
+  (route, state, app) => ({ route, state, app })
 )
 
 export default connect(mapStateToProps)(withStyles(classes)(AppLayout));

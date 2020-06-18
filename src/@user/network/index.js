@@ -1,3 +1,3 @@
-import './init';
-
 import './login';
+
+import './layout';
