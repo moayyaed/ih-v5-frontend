@@ -17,11 +17,11 @@ import './network';
 const options = {
   actions: {
     app: actionsApp,
-    applayout: actionsAppLayout,
+    layout: actionsAppLayout,
   },
   reducers: {
     app: reducerApp,
-    applayout: reducerAppLayout,
+    layout: reducerAppLayout,
   },
 
   pages: {

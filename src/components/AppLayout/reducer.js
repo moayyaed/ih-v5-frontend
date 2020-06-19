@@ -2,7 +2,9 @@ import { APP_LAYOUT_SET_DATA } from './constants';
 
 
 const defaultState = {
-
+  layout: { list: [] },
+  containers: {},
+  templates: {},
 };
 
 
