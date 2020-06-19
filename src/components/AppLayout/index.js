@@ -20,6 +20,12 @@ const classes = theme => ({
 
 });
 
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
+}
+
 
 class AppLayout extends Component {
 
@@ -30,7 +36,29 @@ class AppLayout extends Component {
 
     core
       .request({ method: 'applayout', params })
-      .ok(core.actions.layout.data);
+      .ok(data => {
+        core.actions.layout.data(data);
+        // this.emulator();
+    });
+  }
+
+  emulator = () => {
+    const id = 'vt005';
+    setInterval(() => {
+      const values = this.props.state.templates[id].listState
+      .reduce((p, c) => {
+        return { ...p, [c]: getRandomIntInclusive(0, 1) }
+      }, {})
+
+     this.realtime({
+       [id]: values,
+     })
+    }, 1500)
+
+  }
+
+  realtime = (value) => {
+    core.actions.layout.updateTemplates(value);
   }
 
   handleClick = (id) => {
@@ -111,7 +139,7 @@ class AppLayout extends Component {
   }
 
   renderContent = (id, item) => {
-    if (item.type === 'container') {
+    if (item.type === 'container' || item.type === 'container2') {
       item.type = 'container2'
       return widgets(id, item, this.props.state);
     }
