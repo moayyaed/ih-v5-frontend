@@ -9,6 +9,12 @@ core.network.request('components_tabs_form', (send, context) => {
       { method: 'get', type: context.params.type, id: context.params.id, nodeid: context.params.nodeid },
       { api: 'templates', containerid: context.params.nodeid }
     ]);
+  } else if (context.params.id === 'formLayout') {
+    send([
+      { method: 'getmeta', type: context.params.type, id: context.params.id, nodeid: context.params.nodeid },
+      { method: 'get', type: context.params.type, id: context.params.id, nodeid: context.params.nodeid },
+      { api: 'containers', layoutid: context.params.nodeid }
+    ]);
   } else {
     send([
       { method: 'getmeta', type: context.params.type, id: context.params.id, nodeid: context.params.nodeid },
@@ -20,6 +26,10 @@ core.network.request('components_tabs_form', (send, context) => {
 core.network.response('components_tabs_form', (answer, res, context) => {
   if (context.params.id === 'formViscont') {
     res[1].data.p1.container.templates = res[2].data;
+  }
+  if (context.params.id === 'formLayout') {
+    console.log(res[2].data)
+    // res[1].data.p1.container.templates = res[2].data;
   }
   answer({ 
     options: generateOptions(res[0].data), 

@@ -16,6 +16,7 @@ import {
   LAYOUT_RESIZE_SELECT_CONTAINER,
 
   LAYOUT_ADD_ELEMENT,
+  LAYOUT_ADD_CONTAINER,
   LAYOUT_ADD_TEMPLATE,
   LAYOUT_EDIT_ELEMENT,
   LAYOUT_DELETE_ELEMENT,
@@ -287,6 +288,19 @@ function reducerContainer(state, action) {
           [action.elementId]: action.data,
         },
       };
+    case LAYOUT_ADD_CONTAINER:
+      return { 
+        ...state,
+        list: state.list.concat(action.elementId),
+        elements: {
+          ...state.elements,
+          [action.elementId]: action.elementData,
+        },
+        containers: {
+          ...state.containers,
+          [action.containerId]: action.containerData,
+        },
+      };
     case LAYOUT_ADD_TEMPLATE:
       return { 
         ...state,
@@ -356,6 +370,7 @@ function reducer(state, action) {
     case LAYOUT_MOVE_SELECT_CONTAINER:
     case LAYOUT_RESIZE_SELECT_CONTAINER:
     case LAYOUT_ADD_ELEMENT:
+    case LAYOUT_ADD_CONTAINER:
     case LAYOUT_ADD_TEMPLATE:
     case LAYOUT_CHANGE_TEMPLATE_LINK:
     case LAYOUT_EDIT_ELEMENT:

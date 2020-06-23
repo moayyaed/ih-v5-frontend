@@ -53,7 +53,7 @@ class Layout extends PureComponent {
 
   componentDidMount() {
     if (this.props.data.settings === undefined) {
-      core.actions.container
+      core.actions.layout
       .data(
         this.props.id, this.props.options.prop, {
           selectType: null,
@@ -76,7 +76,7 @@ class Layout extends PureComponent {
   }
 
   handleChangeToolbar = (toolbarId) => {
-    core.actions.container
+    core.actions.layout
       .data(
         this.props.id, this.props.options.prop,
         { toolbarType: toolbarId }
@@ -85,13 +85,13 @@ class Layout extends PureComponent {
 
   handleChangeValueProperty = (key, value) => {
     if (this.props.data.selectOne === 'content') {
-      core.actions.container
+      core.actions.layout
         .settings(
           this.props.id, this.props.options.prop,
           { [key]: value }
         );
     } else {
-      core.actions.container
+      core.actions.layout
         .editElement(
           this.props.id, this.props.options.prop,
           this.props.data.selectOne, { [key]: value }
@@ -104,7 +104,7 @@ class Layout extends PureComponent {
   }
 
   handleChangeProperty = (propertyId) => {
-    core.actions.container
+    core.actions.layout
       .data(
         this.props.id, this.props.options.prop,
         { propertyType: propertyId }
@@ -169,7 +169,7 @@ class Layout extends PureComponent {
   }
 
   handleClickTreeElement = (elementId) => {
-    core.actions.container
+    core.actions.layout
       .select(
         this.props.id, this.props.options.prop,
         elementId

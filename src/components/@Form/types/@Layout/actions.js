@@ -16,6 +16,7 @@ import {
   LAYOUT_RESIZE_SELECT_CONTAINER,
 
   LAYOUT_ADD_ELEMENT,
+  LAYOUT_ADD_CONTAINER,
   LAYOUT_ADD_TEMPLATE,
   LAYOUT_EDIT_ELEMENT,
   LAYOUT_DELETE_ELEMENT,
@@ -136,6 +137,18 @@ export function addElement(id, prop, elementId, data) {
   };
 }
 
+export function addContainer(id, prop, elementId, elementData, containerId, containerData) {
+  return {
+    type: LAYOUT_ADD_CONTAINER,
+    id,
+    prop,
+    elementId,
+    elementData,
+    containerId,
+    containerData,
+  };
+}
+
 export function addTemplate(id, prop, elementId, elementData, templateId, templateData) {
   return {
     type: LAYOUT_ADD_TEMPLATE,
@@ -193,6 +206,7 @@ export default {
   resizeSelectContainer,
 
   addElement,
+  addContainer,
   addTemplate,
   editElement,
   deleteElement,

@@ -190,7 +190,7 @@ class Sheet extends Component {
     x = (-tx * s + px) / s
     y = (-ty * s + py) / s
 
-    core.actions.container
+    core.actions.layout
       .settings(
         this.props.id, this.props.prop,
         { x, y, scale: s }
@@ -233,7 +233,7 @@ class Sheet extends Component {
     x = -tx * s + px
     y = -ty * s + py
 
-    core.actions.container
+    core.actions.layout
       .settings(
         this.props.id, this.props.prop,
         { x, y, scale: s }
@@ -245,7 +245,7 @@ class Sheet extends Component {
   }
 
   handleStopMoveSheet = (e, data) => {
-    core.actions.container
+    core.actions.layout
       .settings(
         this.props.id, this.props.prop,
         { x: data.x, y: data.y }
@@ -258,7 +258,7 @@ class Sheet extends Component {
     e.stopPropagation();
   }
 
-  handleAddElement = (e, type, templateId) => {
+  handleAddElement = (e, type, menuItemId) => {
     const elementId = getIdElement(0, type, this.props.elements);
 
     const rect = this.sheet.getBoundingClientRect();
@@ -276,39 +276,36 @@ class Sheet extends Component {
 
     if (type === 'template') {
       core
-        .request({ method: 'get_template', params: templateId })
+        .request({ method: 'get_template', params: menuItemId })
         .ok(res => {
           data.links = {};
-          data.templateId = templateId;
+          data.templateId = menuItemId;
           data.w = res.settings.w; 
           data.h = res.settings.h;
-          core.actions.container
+          core.actions.layout
             .addTemplate(
               this.props.id, this.props.prop,
-              elementId, data, templateId, res,
+              elementId, data, menuItemId, res,
             );
           this.save();
         });
     } else if (type === 'container') {
       core
-        .request({ method: 'get_container', params: templateId })
+        .request({ method: 'get_container', params: menuItemId })
         .ok(res => {
-          console.log(res)
-          /*
           data.links = {};
-          data.templateId = templateId;
+          data.containerId = { id: menuItemId, title: '-' };
           data.w = res.settings.w; 
           data.h = res.settings.h;
-          core.actions.container
-            .addTemplate(
+          core.actions.layout
+            .addContainer(
               this.props.id, this.props.prop,
-              elementId, data, templateId, res,
+              elementId, data, menuItemId, res,
             );
           this.save();
-          */
         });
     } else {
-      core.actions.container
+      core.actions.layout
         .addElement(
           this.props.id, this.props.prop,
           elementId, { ...params, ...data },
@@ -318,7 +315,7 @@ class Sheet extends Component {
   }
 
   handleDeleteElement = () => {
-    core.actions.container
+    core.actions.layout
       .deleteElement(this.props.id, this.props.prop);
   }
 
@@ -330,7 +327,7 @@ class Sheet extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    core.actions.container
+    core.actions.layout
       .editElement(
         this.props.id, this.props.prop,
         elementId, { x: data.x, y: data.y }
@@ -346,13 +343,13 @@ class Sheet extends Component {
 
     if (element.type === 'group') {
       const childs = getAllElementsByGroup(element.elements, this.props.elements);
-      core.actions.container
+      core.actions.layout
         .resizeGroupElement(
           this.props.id, this.props.prop,
           elementId, position, childs,
         );
     } else {
-      core.actions.container
+      core.actions.layout
         .editElement(
           this.props.id, this.props.prop,
           elementId, position
@@ -362,7 +359,7 @@ class Sheet extends Component {
   }
 
   handleClickBody = (e) => {
-    core.actions.container
+    core.actions.layout
       .clearSelects(
         this.props.id, this.props.prop,
       );
@@ -386,14 +383,14 @@ class Sheet extends Component {
           });
         data.w = data.w - data.x;
         data.h = data.h - data.y;
-        core.actions.container
+        core.actions.layout
           .selectSome(
             this.props.id, this.props.prop,
             elementId, data
           );
       }
     } else {
-      core.actions.container
+      core.actions.layout
         .select(
           this.props.id, this.props.prop,
           elementId
@@ -470,7 +467,7 @@ class Sheet extends Component {
         type: 'group',
         elements: list, 
       };
-      core.actions.container
+      core.actions.layout
         .groupElements(
           this.props.id, this.props.prop,
           groupId, groupData,
@@ -496,7 +493,7 @@ class Sheet extends Component {
     data.w = data.w - data.x;
     data.h = data.h - data.y;
 
-    core.actions.container
+    core.actions.layout
       .unGroupElements(
         this.props.id, this.props.prop,
         list, data,
@@ -547,7 +544,7 @@ class Sheet extends Component {
         return { ...p, [c]: clone.elements[c] }
       }, {})
  
-    core.actions.container
+    core.actions.layout
       .data(
         this.props.id, this.props.prop,
         { 
@@ -613,7 +610,7 @@ class Sheet extends Component {
     if (!this.dragSelectContainer) {
       this.dragSelectContainer = true;
     }
-    core.actions.container
+    core.actions.layout
       .moveSelectContainer(
         this.props.id, this.props.prop,
         data.x, data.y,
@@ -621,7 +618,7 @@ class Sheet extends Component {
   }
 
   handleStopMoveSelectContainer = (e, elementId, data) => {
-    core.actions.container
+    core.actions.layout
       .moveSelectContainer(
         this.props.id, this.props.prop,
         data.x, data.y,
@@ -668,7 +665,7 @@ class Sheet extends Component {
     }
 
     const childs = getAllElementsByGroup(Object.keys(this.props.selects), this.props.elements)
-    core.actions.container
+    core.actions.layout
       .resizeSelectContainer(
         this.props.id, this.props.prop,
         position, childs,
