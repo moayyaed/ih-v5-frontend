@@ -189,6 +189,7 @@ class Layout extends PureComponent {
           list={this.props.data.list || []} 
           settings={this.props.data.settings || {}} 
           elements={this.props.data.elements || {}}
+          containers={this.props.data.containers || {}} 
           templates={this.props.data.templates || {}} 
         />
       );

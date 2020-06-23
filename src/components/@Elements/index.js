@@ -17,7 +17,7 @@ function getElementByType(type) {
       return Image;
     case 'container':
       return Container;
-    case 'template':
+    case 'template1':
       return Template;
     case 'cctv':
       return CCTV;

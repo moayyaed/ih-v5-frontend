@@ -596,6 +596,9 @@ class Sheet extends Component {
     if (item.type === 'template') {
       return elemets(elementId, item, this.props.templates[item.templateId])
     }
+    if (item.type === 'container') {
+      return elemets(elementId, item, this.props.containers[item.containerId.id])
+    }
     return elemets(elementId, item, null)
   }
 
