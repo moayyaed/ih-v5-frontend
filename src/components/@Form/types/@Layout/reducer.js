@@ -2,319 +2,339 @@ import {
   LAYOUT_SET_DATA,
   LAYOUT_CLEAR_DATA,
 
-  LAYOUT_SELECT_ELEMENTS,
-  LAYOUT_HOVER_ELEMENTS,
-  LAYOUT_FORCE_HOVER,
-  LAYOUT_REMOVE_HOVER,
+  LAYOUT_SET_SETTINGS,
 
-  LAYOUT_ADD_SECTION,
-  LAYOUT_ADD_SECTION_INNER,
-  LAYOUT_EDIT_SECTION,
-  LAYOUT_REMOVE_SECTION,
-  LAYOUT_REMOVE_SECTION_INNER,
-  LAYOUT_CLEAR_SECTION,
+  LAYOUT_SET_SELECT,
+  LAYOUT_SET_SELECT_SOME,
+  LAYOUT_CLEAR_SELECTS,
 
-  LAYOUT_ADD_COLUMN,
-  LAYOUT_EDIT_COLUMN,
-  LAYOUT_REMOVE_COLUMN,
-  LAYOUT_MOVE_COLUMN,
-  LAYOUT_RESIZE_COLUMNS,
+  LAYOUT_GROUP_ELEMENTS,
+  LAYOUT_UNGROUP_ELEMENTS,
+
+  LAYOUT_RESIZE_GROUP_ELEMENT,
+  LAYOUT_MOVE_SELECT_CONTAINER,
+  LAYOUT_RESIZE_SELECT_CONTAINER,
+
+  LAYOUT_ADD_ELEMENT,
+  LAYOUT_ADD_TEMPLATE,
+  LAYOUT_EDIT_ELEMENT,
+  LAYOUT_DELETE_ELEMENT,
+
+  LAYOUT_CHANGE_TEMPLATE_LINK,
 } from './constants';
 
 
-function removeColumn(list, columns, removeId) {
-  const size = Number(columns[removeId].size);
-  let a = null;
-  let b = null;
-
-  let prev = null;
-  let next = null;
-  
-  list.forEach(key => {
-    if (b) {
-      next = key;
-      b = null;
-    }
-    if (key === removeId) {
-      a = true;
-      b = true
-    }
-    if (a === null) {
-      prev = key;
-    }
-  });
-
-  const temp = Object
-    .keys(columns)
+function deleteElements(elements, templates, selects) {
+  const e = Object
+    .keys(elements)
     .reduce((p, c) => {
-      if (c === removeId) {
+      if (selects[c] || selects[elements[c].groupId]) {
         return p;
       }
-      return { ...p, [c]: columns[c] };
+      if (elements[c].groupId) {
+        const parentGroupId = getParentGroupId(c, elements);
+        if (selects[parentGroupId]) {
+          return p;
+        }
+      }
+      return { ...p, [c]: elements[c] }
     }, {});
-    
-  if (prev) {
-    const s = (Number(temp[prev].size) + size).toFixed(2);
-    temp[prev] = { ...temp[prev], size:  Number(s) }
-  } else {
-    const nextsize = Number(temp[next].size).toFixed(2);
-    const s = (Number(temp[next].size) + size).toFixed(2);
-    temp[next] = { ...temp[next], size: Number(s) }
-  }
-  return temp;
+  const check = Object
+    .keys(e)
+    .reduce((p, c) => {
+      if (e[c].type === 'template') {
+        return { ...p, [e[c].templateId]: true }
+      }
+      return p;
+    }, {})
+  const t = Object
+    .keys(templates)
+    .reduce((p, c) => {
+      if (check[c]) {
+        return { ...p, [c]: templates[c] }
+      }
+      return p;
+    }, {})
+  return { elements: e, templates: t };
 }
 
-function reducerLayout(state, action) {
+function getParentGroupId(id, elements) {
+  if (elements[id] && elements[id].groupId) {
+    if (elements[elements[id].groupId]) {
+      if (elements[elements[id].groupId].groupId) {
+        return getParentGroupId(elements[elements[id].groupId].groupId, elements)
+      } else {
+        return elements[id].groupId;
+      }
+    } 
+  }
+  return id;
+}
+
+function reducerContainer(state, action) {
   switch (action.type) {
     case LAYOUT_SET_DATA:
       return { ...state, ...action.data };
-    case LAYOUT_HOVER_ELEMENTS:
-      return { 
-        ...state, 
-        hover: { 
-          ...state.hover, 
-          sections: {
-            ...state.hover.sections,
-            [action.values.section]: true,
-          },
-          columns: {
-            ...state.hover.columns,
-            [action.values.column]: true,
-          },
-          check: null,
-        } 
-      };
-    case LAYOUT_FORCE_HOVER:
-      return { 
-        ...state, 
-        hover: { 
-          ...state.hover,
-          ...action.data,
-        } 
-      };
-    case LAYOUT_REMOVE_HOVER:
-      return { 
-        ...state, 
-        hover: { 
-          ...state.hover,
-          sections: Object
-            .keys(state.hover.sections)
-            .reduce((p, c) => {
-              if (c === action.sectionId) {
-                return p;
-              }
-              return { ...p, [c]: state.hover.sections[c] };
-            }, {}),
-          columns: Object
-          .keys(state.hover.columns)
-          .reduce((p, c) => {
-            if (c === action.columnId) {
-              return p;
-            }
-            return { ...p, [c]: state.hover.columns[c] };
-          }, {}),
-        } 
-      };
-    case LAYOUT_SELECT_ELEMENTS:
-      return { ...state, select: action.values };
-    case LAYOUT_ADD_SECTION:
+    case LAYOUT_SET_SELECT:
       return { 
         ...state,
-        list: state.list
-          .reduce((p, c) => {
-            if (c === action.sectionId) {
-              return p.concat(c, action.newSectionId);
-            }
-            return p.concat(c);
-          }, []),
-        sections: {
-          ...state.sections,
-          [action.newSectionId]: { 
-            height: 75, 
-            direction: 'row', 
-            columns: [`${action.newSectionId}_c1`] 
-          },
-        },
-        columns: {
-          ...state.columns,
-          [`${action.newSectionId}_c1`]: { type: null, size: 100 },
-        },
-      };
-    case LAYOUT_ADD_SECTION_INNER:
-      return {
-        ...state,
-        sections: {
-          ...state.sections,
-          [action.newSectionId]: { 
-            height: '100%', 
-            direction: 'column', 
-            columns: [`${action.newSectionId}_c1`] 
-          },
-        },
-        columns: Object
-          .keys(state.columns)
-          .reduce((p, c) => {
-            if (c === action.columnId) {
-              return { 
-                ...p, [c]: { 
-                  ...state.columns[c], 
-                  type: 'innersection', 
-                  sectionId: action.newSectionId 
-                } 
-              };
-            }
-            return { ...p, [c]: state.columns[c] };
-          }, { [`${action.newSectionId}_c1`]: { type: null, size: 100 } })
-      }
-    case LAYOUT_EDIT_SECTION:
-      return { 
-        ...state,
-        sections: {
-          ...state.sections,
-          [action.sectionId]: {
-            ...state.sections[action.sectionId],
-            ...action.data,
-          }
-        },
-      }
-    case LAYOUT_REMOVE_SECTION:
-      return { 
-        ...state,
-        list: state.list.filter(i => i !== action.sectionId),
-        sections: Object
-          .keys(state.sections)
-          .reduce((p, c) => {
-            if (c === action.sectionId) {
-              return p;
-            }
-            return { ...p, [c]: state.sections[c] };
-          }, {}),
-        columns: Object
-          .keys(state.columns)
-          .reduce((p, c) => {
-            if (state.sections[action.sectionId].columns.includes(c)) {
-              return p;
-            }
-            return { ...p, [c]: state.columns[c] };
-          }, {})
-      }
-    case LAYOUT_REMOVE_SECTION_INNER:
-      return { 
-        ...state,
-        sections: Object
-          .keys(state.sections)
-          .reduce((p, c) => {
-            if (c === action.sectionId) {
-              return p;
-            }
-            return { ...p, [c]: state.sections[c] };
-          }, {}),
-        columns: Object
-          .keys(state.columns)
-          .reduce((p, c) => {
-            if (state.sections[action.sectionId].columns.includes(c)) {
-              return p;
-            }
-            if (c === action.columnId) {
-              return { ...p, [c]: { type: null, size: state.columns[c].size } };
-            }
-            return { ...p, [c]: state.columns[c] };
-          }, {})
-      }
-    case LAYOUT_CLEAR_SECTION:
-      return { 
-        ...state,
-        sections: {
-          ...state.sections,
-          [action.sectionId]: { 
-            ...state.sections[action.sectionId],
-            columns: [`${action.sectionId}_c1`]
-          },
-        },
-        columns: { ...Object
-          .keys(state.columns)
-          .reduce((p, c) => {
-            if (state.sections[action.sectionId].columns.includes(c)) {
-              return p;
-            }
-            return { ...p, [c]: state.columns[c] };
-          }, {}), [`${action.sectionId}_c1`]: { type: null, size: 100 } }
-      };
-    case LAYOUT_ADD_COLUMN:
-      return { 
-        ...state,
-        sections: {
-          ...state.sections,
-          [action.sectionId]: { 
-            ...state.sections[action.sectionId],
-            columns: state.sections[action.sectionId].columns
-              .reduce((p, c) => {
-                if (c === action.columnId) {
-                  return p.concat(c, action.newColumnId);
-                }
-                return p.concat(c);
-              }, []),
-          },
-        },
-        columns: {
-          ...state.columns,
-          [action.columnId]: { 
-            ...state.columns[action.columnId], 
-            size: Number((Number(state.columns[action.columnId].size) / 2).toFixed(2))
-          },
-          [action.newColumnId]: { 
-            type: null, 
-            size: Number((Number(state.columns[action.columnId].size) / 2).toFixed(2)) 
-          },
-        },
-      };
-    case LAYOUT_EDIT_COLUMN:
-      return { 
-        ...state,
-        columns: {
-          ...state.columns,
-          [action.columnId]: {
-            ...state.columns[action.columnId],
-            ...action.data,
-          }
-        },
-      }
-    case LAYOUT_REMOVE_COLUMN:
-      return { 
-        ...state,
-        sections: {
-          ...state.sections,
-          [action.sectionId]: {
-            ...state.sections[action.sectionId],
-            columns: state.sections[action.sectionId].columns.filter(i => i !== action.columnId),
-          }
-        },
-        columns: removeColumn(state.sections[action.sectionId].columns, state.columns, action.columnId)
-      }
-    case LAYOUT_MOVE_COLUMN:
-      return { 
-        ...state,
-        sections: {
-          ...state.sections,
-          [action.sourceSectionId]: {
-            ...state.sections[action.sourceSectionId],
-            columns: action.sourceColumns,
-          },
-          [action.targetSectionId]: {
-            ...state.sections[action.targetSectionId],
-            columns: action.targetColumns,
-          }
-        },
-      }
-    case LAYOUT_RESIZE_COLUMNS:
-      return {
-        ...state,
-        columns: {
-          ...state.columns,
-          [action.columnIdA]: { ...state.columns[action.columnIdA], size: action.valueA },
-          [action.columnIdB]: { ...state.columns[action.columnIdB], size: action.valueB }
+        selectType: 'one',
+        selectOne: action.elementId,
+        selects: {
+          [action.elementId]: true,
         }
+      };
+    case LAYOUT_SET_SETTINGS:
+      return { 
+        ...state,
+        settings: {
+          ...state.settings,
+          ...action.data 
+        }
+      };
+    case LAYOUT_SET_SELECT_SOME:
+      return { 
+        ...state,
+        selectType: 'some',
+        selectOne: null,
+        selectContainer: action.data,
+        selects: {
+          ...state.selects,
+          [action.elementId]: true,
+        },
+      };
+    case LAYOUT_CLEAR_SELECTS:
+      return { 
+        ...state,
+        selectType: null,
+        selectOne: null,
+        selects: {}
+      };
+    case LAYOUT_GROUP_ELEMENTS:
+      return { 
+        ...state,
+        selectType: 'one',
+        selectOne: action.elementId,
+        selects: { [action.groupId]: true },
+        list: state.list
+          .filter(id => !action.groupData.elements.includes(id))
+          .concat(action.groupId),
+        elements: Object
+          .keys(state.elements)
+          .reduce((p, c) => {
+            if (action.groupData.elements.includes(c)) {
+              return { 
+                ...p, 
+                [c]: {
+                  ...state.elements[c],
+                  groupId: action.groupId,
+                  x: state.elements[c].x - action.groupData.x,
+                  y: state.elements[c].y - action.groupData.y,
+                } 
+              }
+            }
+            return { ...p, [c]: state.elements[c] }
+          }, { [action.groupId]: action.groupData })
+      };
+    case LAYOUT_UNGROUP_ELEMENTS:
+      return {
+        ...state,
+        selectType: 'some',
+        selectContainer: action.data,
+        selects: Object.
+          keys(state.selects)
+          .reduce((p, c) => {
+            if (action.list.includes(c)) {
+              return {
+                 ...p, 
+                 ...state.elements[c].elements
+                  .reduce((p, c) => {
+                    return { ...p, [c]: true };
+                  }, {})
+                }
+            }
+            return { ...p, [c]: true }
+          }, {}),
+        list: state.list
+          .filter(id => !action.list.includes(id))
+          .concat(...action.list.map(id => state.elements[id].elements)),
+        elements: Object
+          .keys(state.elements)
+          .reduce((p, c) => {
+            if (action.list.includes(c)) {
+              return p;
+            }
+            if (action.list.includes(state.elements[c].groupId)) {
+              return { 
+                ...p, 
+                [c]: {
+                  ...state.elements[c],
+                  groupId: null,
+                  x: state.elements[state.elements[c].groupId].x + state.elements[c].x,
+                  y: state.elements[state.elements[c].groupId].y + state.elements[c].y,
+                } 
+              }
+            }
+            return { ...p, [c]: state.elements[c] }
+          }, {}),
       }
+    case LAYOUT_RESIZE_GROUP_ELEMENT:
+      return { 
+        ...state,
+        elements: Object
+          .keys(state.elements)
+          .reduce((p, c) => {
+            if (c === action.groupId) {
+              return { 
+                ...p, 
+                [c]: { 
+                  ...state.elements[c],
+                  ...action.groupPosition,  
+                } 
+              }
+            }
+            if (action.groupChilds[c]) {
+              const nextPos = action.groupPosition;
+              const oldPos = state.elements[action.groupId];
+              const elem = state.elements[c];
+              return { 
+                ...p, 
+                [c]: {
+                  ...state.elements[c],
+                 x: Math.round((elem.x * (nextPos.w / oldPos.w)) * 1e2 ) / 1e2,
+                 y: Math.round((elem.y * (nextPos.h / oldPos.h)) * 1e2 ) / 1e2,
+                 w: Math.round((elem.w * (nextPos.w / oldPos.w)) * 1e2 ) / 1e2,
+                 h: Math.round((elem.h * (nextPos.h / oldPos.h)) * 1e2 ) / 1e2,
+                } 
+              }
+            }
+            return { ...p, [c]: state.elements[c] }
+          }, {}),
+      };
+    case LAYOUT_MOVE_SELECT_CONTAINER:
+      return { 
+        ...state,
+        selectContainer: {
+          ...state.selectContainer,
+          x: action.x,
+          y: action.y,
+        },
+        elements: Object.
+          keys(state.elements)
+          .reduce((p, c) => {
+            if (state.selects[c]) {
+              return { 
+                ...p, 
+                [c]: { 
+                  ...state.elements[c],
+                  x: state.elements[c].x + (action.x - state.selectContainer.x),
+                  y: state.elements[c].y + (action.y - state.selectContainer.y),
+                } 
+              }
+            }
+            return { ...p, [c]: state.elements[c] }
+          }, {}),
+      };
+    case LAYOUT_RESIZE_SELECT_CONTAINER:
+      return {
+        ...state,
+        selectContainer: {
+          ...state.selectContainer,
+          ...action.position,
+        },
+        elements: Object
+          .keys(state.elements)
+          .reduce((p, c) => {
+            if (action.childs[c]) {
+              const nextPos = action.position;
+              const oldPos = state.selectContainer;
+              const elem = state.elements[c];
+              const h = nextPos.w / oldPos.w;
+              const v = nextPos.h / oldPos.h; 
+
+              if (elem.groupId) {
+                return { 
+                  ...p, 
+                  [c]: {
+                    ...state.elements[c],
+                    x: Math.round((elem.x * (nextPos.w / oldPos.w)) * 1e2 ) / 1e2,
+                    y: Math.round((elem.y * (nextPos.h / oldPos.h)) * 1e2 ) / 1e2,
+                    w: Math.round((elem.w * (nextPos.w / oldPos.w)) * 1e2 ) / 1e2,
+                    h: Math.round((elem.h * (nextPos.h / oldPos.h)) * 1e2 ) / 1e2,
+                  } 
+                }
+              }
+              return { 
+                ...p, 
+                [c]: {
+                  ...state.elements[c],
+                x: nextPos.x + ((elem.x - oldPos.x) * h),
+                y: nextPos.y + ((elem.y - oldPos.y) * v),
+                w: (elem.x + elem.w) * h - (elem.x * h),
+                h: (elem.y + elem.h) * v - (elem.y * v),
+                } 
+              }
+            }
+            return { ...p, [c]: state.elements[c] }
+          }, {}),
+      }
+    case LAYOUT_ADD_ELEMENT:
+      return { 
+        ...state,
+        list: state.list.concat(action.elementId),
+        elements: {
+          ...state.elements,
+          [action.elementId]: action.data,
+        },
+      };
+    case LAYOUT_ADD_TEMPLATE:
+      return { 
+        ...state,
+        list: state.list.concat(action.elementId),
+        elements: {
+          ...state.elements,
+          [action.elementId]: action.elementData,
+        },
+        templates: {
+          ...state.templates,
+          [action.templateId]: action.templateData,
+        },
+      };
+    case LAYOUT_CHANGE_TEMPLATE_LINK:
+      return { 
+        ...state,
+        elements: {
+          ...state.elements,
+          [action.elementId]: {
+            ...state.elements[action.elementId],
+            links: {
+              ...state.elements[action.elementId].links,
+              ...action.data,
+            }
+          },
+        }
+      };
+    case LAYOUT_EDIT_ELEMENT:
+      return { 
+        ...state,
+        elements: {
+          ...state.elements,
+          [action.elementId]: {
+            ...state.elements[action.elementId],
+            ...action.data,
+          },
+        }
+      };
+    case LAYOUT_DELETE_ELEMENT:
+      return { 
+        ...state,
+        selectType: null,
+        selectOne: null,
+        selectContainer: null,
+        selects: {},
+        list: state.list.filter(i => !state.selects[i]),
+        ...deleteElements(state.elements, state.templates, state.selects),
+      };
     default:
       return state;
   }
@@ -326,28 +346,27 @@ function reducer(state, action) {
     case LAYOUT_CLEAR_DATA:
       return { };
     case LAYOUT_SET_DATA:
-    case LAYOUT_HOVER_ELEMENTS:
-    case LAYOUT_SELECT_ELEMENTS:
-    case LAYOUT_FORCE_HOVER:
-    case LAYOUT_REMOVE_HOVER:
-    case LAYOUT_MOVE_COLUMN:
-    case LAYOUT_ADD_SECTION:
-    case LAYOUT_ADD_SECTION_INNER:
-    case LAYOUT_EDIT_SECTION:
-    case LAYOUT_REMOVE_SECTION:
-    case LAYOUT_REMOVE_SECTION_INNER:
-    case LAYOUT_CLEAR_SECTION:
-    case LAYOUT_ADD_COLUMN:
-    case LAYOUT_EDIT_COLUMN:
-    case LAYOUT_REMOVE_COLUMN:
-    case LAYOUT_RESIZE_COLUMNS:
+    case LAYOUT_SET_SETTINGS:
+    case LAYOUT_SET_SELECT:
+    case LAYOUT_SET_SELECT_SOME:
+    case LAYOUT_CLEAR_SELECTS:
+    case LAYOUT_GROUP_ELEMENTS:
+    case LAYOUT_UNGROUP_ELEMENTS:
+    case LAYOUT_RESIZE_GROUP_ELEMENT:
+    case LAYOUT_MOVE_SELECT_CONTAINER:
+    case LAYOUT_RESIZE_SELECT_CONTAINER:
+    case LAYOUT_ADD_ELEMENT:
+    case LAYOUT_ADD_TEMPLATE:
+    case LAYOUT_CHANGE_TEMPLATE_LINK:
+    case LAYOUT_EDIT_ELEMENT:
+    case LAYOUT_DELETE_ELEMENT:
       return { 
         ...state, 
         data: {
           ...state.data,
           [action.id]: {
             ...state.data[action.id],
-            [action.prop]: reducerLayout(state.data[action.id][action.prop], action),
+            [action.prop]: reducerContainer(state.data[action.id][action.prop], action),
           }
         }
       };

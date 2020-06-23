@@ -15,20 +15,21 @@ import Toolbar from './Toolbar/index.js';
 
 import './main.css';
 
+
 const styles = {
   root: {
     width: '100%',
     height: '100%',
-  },
+  }
 }
 
-const EMPTY_STYLE = {};
 const EMPTY_ARRAY = [];
-
+const EMPTY_STYLE = {};
 const TITLES = {
   sheet: 'Layout',
   toolbar: '',
   property: '',
+
 }
 
 const state = {
@@ -51,7 +52,19 @@ class Layout extends PureComponent {
   state = state;
 
   componentDidMount() {
- 
+    if (this.props.data.settings === undefined) {
+      core.actions.container
+      .data(
+        this.props.id, this.props.options.prop, {
+          selectType: null,
+          selectContainer: null,
+          selects: {}, 
+          settings: { x: 95, y: 50, w: 650, h: 400, scale: 1 },
+          list: [],
+          elements: {},
+          templates: {},
+        });
+    }
   }
 
   handleChangeWindows = (data) => {
@@ -61,103 +74,80 @@ class Layout extends PureComponent {
   }
 
   handleChangeToolbar = (toolbarId) => {
-    core.actions.layout
+    core.actions.container
       .data(
         this.props.id, this.props.options.prop,
         { toolbarType: toolbarId }
       );
   }
 
+  handleChangeValueProperty = (key, value) => {
+    const propertyType = this.props.data.propertyType || 'link';
+    if (propertyType === 'link') {
+      core.actions.container
+        .changeTemplateLink(
+          this.props.id, this.props.options.prop,
+          this.props.data.selectOne, { [key]: value.result }
+        );
+    } else {
+      core.actions.container
+        .editElement(
+          this.props.id, this.props.options.prop,
+          this.props.data.selectOne, { [key]: value }
+        );
+    }
+  }
+
+  handleGetStyleProperty = (params) => {
+    return EMPTY_STYLE;
+  }
+
   handleChangeProperty = (propertyId) => {
-    core.actions.layout
+    core.actions.container
       .data(
         this.props.id, this.props.options.prop,
         { propertyType: propertyId }
       );
   }
 
-  handleClickTreeElement = (elementId, type, content) => {
-    if (type === 'section') {
-      core.actions.layout
-        .select(
-          this.props.id, this.props.options.prop, 
-          { column: null, section: elementId, content: null },
-        )
-    } 
-    if (type === 'column') {
-      core.actions.layout
-        .select(
-          this.props.id, this.props.options.prop, 
-          { column: elementId, section: null, content: null },
-        )
-    }
-
-    if (type === 'content') {
-      core.actions.layout
-        .select(
-          this.props.id, this.props.options.prop, 
-          { column: elementId, section: null, content },
-        )
-    }
-  }
-
-  handleChangeValueProperty = (key, value) => {
-    const select = this.props.data.select;
-    const selectType = select.content ? 'column' : select.column ? 'column': 'section';
-    const elementId = select.content ? select.column : select.column ? select.column : select.section;
-
-    if (selectType === 'section') {
-      core.actions.layout
-        .editSection(
-          this.props.id, this.props.options.prop, 
-          elementId, { [key]: value },
-        )
-    } else {
-      core.actions.layout
-        .editColumn(
-          this.props.id, this.props.options.prop, 
-          elementId, { [key]: value },
-        )
-    }
-    /*
-    core.actions.container
-      .editElement(
-        this.props.id, this.props.options.prop,
-        this.props.data.selectOne, { [key]: value }
-      );
-      */
-  }
-
   renderButtons = (id) => {
     if (id === 'property') {
-      const select = this.props.data.propertyType || 'main';
+      const select = this.props.data.propertyType || 'link';
       return [
+        <Button 
+          key="1"
+          minimal
+          active={select === 'link'} 
+          icon="link"  
+          onClick={() => this.handleChangeProperty('link')} 
+        />,
+        <Separator key="2" />,
         <Button 
           key="3"
           minimal
           active={select === 'main'} 
-          icon="grid-view"  
+          icon="highlight"  
           onClick={() => this.handleChangeProperty('main')} 
         />,
         <Separator key="4" />,
         <Button 
           key="5"
           minimal 
-          active={select === 'style'} 
-          icon="style"  
-          onClick={() => this.handleChangeProperty('style')} 
+          active={select === 'text'} 
+          icon="font"  
+          onClick={() => this.handleChangeProperty('text')} 
         />,
         <Separator key="6" />,
         <Button 
           key="7"
           minimal 
-          active={select === 'ext'} 
-          icon="properties"  
-          onClick={() => this.handleChangeProperty('ext')}
+          active={select === 'image'} 
+          icon="media"  
+          onClick={() => this.handleChangeProperty('image')}
         />,
       ];
     }
-    
+
     if (id === 'toolbar') {
       const select = this.props.data.toolbarType || 'tree';
       return [
@@ -168,24 +158,21 @@ class Layout extends PureComponent {
           active={select === 'tree'}
           onClick={() => this.handleChangeToolbar('tree')} 
         />,
-        <Button 
-          key="4"
-          minimal
-          icon="inbox" 
-          active={select === 'elements'}
-          onClick={() => this.handleChangeToolbar('elements')} 
-        />,
       ];
     }
     return [];
   }
 
-  handleGetStyleProperty = (params) => {
-    return EMPTY_STYLE;
-  }
-
   renderDownToolbar = (id) => {
     return null;
+  }
+
+  handleClickTreeElement = (elementId) => {
+    core.actions.container
+      .select(
+        this.props.id, this.props.options.prop,
+        elementId
+      );
   }
 
   renderComponent = (id) => {
@@ -194,47 +181,40 @@ class Layout extends PureComponent {
         <Sheet
           id={this.props.id}
           prop={this.props.options.prop}
-          isDragging={this.props.data.isDragging}
-          isDraggingToolbar={this.props.data.isDraggingToolbar}
-          isHoverStub={this.props.data.isHoverStub}
-          select={this.props.data.select || {}} 
-          hover={this.props.data.hover || {}}
-          drag={this.props.data.drag || {}}
-          list={this.props.data.list || []}
-          sections={this.props.data.sections}
-          columns={this.props.data.columns}
+          selectType={this.props.data.selectType}
+          selectOne={this.props.data.selectOne}
+          selectContainer={this.props.data.selectContainer}
+          selects={this.props.data.selects || {}}
+          list={this.props.data.list || []} 
+          settings={this.props.data.settings || {}} 
+          elements={this.props.data.elements || {}}
+          templates={this.props.data.templates || {}} 
         />
       );
     }
-    
-    if (id === 'property' && this.props.data.sections) {
-      const select = this.props.data.select;
-      const selectType = select.content ? select.content : select.column ? 'column': 'section';
-      const elementId = select.content ? select.column : select.column ? select.column : select.section;
-      const elementData = this.props.data.sections[elementId] || this.props.data.columns[elementId]
-      return (
-        <Property
-          type={this.props.data.propertyType || 'main'}
-          selectType={selectType}
-          elementId={elementId}
-          elementData={elementData}
-          onChange={this.handleChangeValueProperty}
-          getStyle={this.handleGetStyleProperty}
-        />
-      )
-    }
-
     if (id === 'toolbar') {
       return (
         <Toolbar
-          id={this.props.id}
-          prop={this.props.options.prop}
           type={this.props.data.toolbarType || 'tree'}
-          selectElements={this.props.data.select || {} }
+          selectElements={this.props.data.selects || {} }
           listElements={this.props.data.list || []}
-          sections={this.props.data.sections || {}}
-          columns={this.props.data.columns || {}}
+          elements={this.props.data.elements || {}}
           onClickElement={this.handleClickTreeElement}
+        />
+      )
+    }
+    if (id === 'property' && this.props.data.elements) {
+      const elementData = this.props.data.elements[this.props.data.selectOne];
+      const templateData = elementData && elementData.type === 'template' ? this.props.data.templates[elementData.templateId] : null;
+      return (
+        <Property
+          type={this.props.data.propertyType || 'link'}
+          selectType={this.props.data.selectType}
+          elementId={this.props.data.selectOne}
+          elementData={elementData}
+          templateData={templateData}
+          onChange={this.handleChangeValueProperty}
+          getStyle={this.handleGetStyleProperty}
         />
       )
     }
@@ -270,5 +250,6 @@ class Layout extends PureComponent {
     )
   }
 }
+
 
 export default Layout;

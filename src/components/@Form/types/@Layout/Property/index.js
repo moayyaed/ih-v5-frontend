@@ -10,33 +10,137 @@ const route = {}
 const cache = {}
 
 const scheme = {
-  section: {
+  block: {
     main: [
       { 
-        title: 'Height', 
-        prop: 'height', 
-        type: 'number',
+        title: 'Background Color', 
+        prop: 'backgroundColor', 
+        type: 'color',
       },
-    ]
-  },
-  column: {
-
+      { 
+        title: 'Border Color', 
+        prop: 'borderColor', 
+        type: 'color',
+      },
+      { 
+        title: 'Border Size', 
+        prop: 'borderSize', 
+        type: 'slider',
+      }
+    ],
   },
   text: {
-
-  },
-  container: {
     main: [
       { 
-        title: 'container', 
-        prop: 'containerId', 
-        type: 'droplist',
-        data: 'containerList',
+        title: 'Background Color', 
+        prop: 'backgroundColor', 
+        type: 'color',
       },
-    ]
+      { 
+        title: 'Border Color', 
+        prop: 'borderColor', 
+        type: 'color',
+      },
+      { 
+        title: 'Border Size', 
+        prop: 'borderSize', 
+        type: 'slider',
+      }
+    ],
+    text: [
+      { 
+        title: 'Text', 
+        prop: 'text', 
+        type: 'input',
+      },
+      { 
+        title: 'Text Size', 
+        prop: 'textSize', 
+        type: 'input',
+      },
+      {
+        prop: 'textAlignH',
+        title: 'Horizontal Alignment',
+        type: 'droplist',
+        data: [
+          {
+            id: 'flex-start',
+            title: 'Left'
+          },
+          {
+            id: 'center',
+            title: 'Center'
+          },
+          {
+            id: 'flex-end',
+            title: 'Right'
+          }
+        ]
+      },
+      {
+        prop: 'textAlignV',
+        title: 'Vertical Alignment',
+        type: 'droplist',
+        data: [
+          {
+            id: 'flex-start',
+            title: 'Top'
+          },
+          {
+            id: 'center',
+            title: 'Center'
+          },
+          {
+            id: 'flex-end',
+            title: 'Bottom'
+          }
+        ]
+      }
+    ],
   },
-  innersection: {
-
+  image: {
+    main: [
+      { 
+        title: 'Background Color', 
+        prop: 'backgroundColor', 
+        type: 'color',
+      },
+      { 
+        title: 'Border Color', 
+        prop: 'borderColor', 
+        type: 'color',
+      },
+      { 
+        title: 'Border Size', 
+        prop: 'borderSize', 
+        type: 'slider',
+      }
+    ],
+    image: [
+      { 
+        title: 'Image URL', 
+        prop: 'img', 
+        type: 'url',
+      },
+      { 
+        title: 'Image Size', 
+        prop: 'imgSize', 
+        type: 'slider',
+        min: -100,
+        max: 100,
+      },
+      { 
+        title: 'Image Rotate', 
+        prop: 'imgRotate', 
+        type: 'slider',
+        min: 0,
+        max: 360,
+      }
+    ],
+  },
+  group: {},
+  template: {
+    link: [],
   },
 }
 
@@ -76,10 +180,34 @@ class Property extends PureComponent {
   }
 
   render() {
-    if (this.props.selectType && this.props.elementData) {
-      const map = scheme[this.props.selectType][this.props.type];
+    if (this.props.selectType === 'one' && this.props.elementData && this.props.elementData.type) {
+      let map = scheme[this.props.elementData.type][this.props.type];
+      let data = this.props.elementData;
       if (map === undefined) {
         return <div style={styles.stub}>Properties not supported</div>;
+      }
+      if (this.props.templateData) {
+        data = this.props.templateData.listState
+          .reduce((p, c) => {
+            if (this.props.elementData.links[c]) {
+              return { ...p, [c]: this.props.elementData.links[c] }
+            }
+            return { ...p, [c]: { title: '' } }
+          }, {});
+        map = this.props.templateData.listState
+          .map(key => ({
+            prop: key,
+            title: this.props.templateData.state[key].title,
+            type: 'smartbutton',
+            command: 'dialog',
+            params: {
+              title: 'Привязка к каналу',
+              type: 'tree',
+              id: 'devices',
+              dialog: 'channellink'
+            }
+          }));
+        // map = [{ type: 'button', title: 'link all'}].concat(map);
       }
       return (
         <Scrollbars style={styles.scroll}>
@@ -89,7 +217,7 @@ class Property extends PureComponent {
               debug={false} 
               scheme={map}
               route={route}
-              data={this.props.elementData}
+              data={data}
               cache={cache}
               onChange={this.handleChange}
               getStyle={this.props.getStyle}

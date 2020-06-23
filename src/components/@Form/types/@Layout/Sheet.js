@@ -1,113 +1,135 @@
 import React, { Component } from 'react';
 import core from 'core';
 
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { Scrollbars } from 'react-custom-scrollbars';
-
-import Fab from '@material-ui/core/Fab';
-
-import AddIcon from '@material-ui/icons/Add';
-
 import { ContextMenu } from "@blueprintjs/core";
+
+import Paper from '@material-ui/core/Paper';
+import Draggable from 'components/Draggable';
+
+import Element from './Element';
 import Menu from 'components/Menu';
 
-import widgets from 'components/@Widgets';
-
-import Section from './Section';
+import elemets from 'components/@Elements';
+import getDefaultParamsElement from 'components/@Elements/default';
+import { red } from '@material-ui/core/colors';
 
 
 const styles = {
   root: {
+    display: 'flex',
     width: '100%',
     height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    padding: '30px 15px',
   },
-  root2: {
+  container: {
     width: '100%',
     height: '100%',
-    display: 'flex',
-    padding: 30,
+    overflow: 'hidden',
+    position: 'relative',
+    // perspective: 1000,
+    // WebkitPerspective: 1000,
   },
-  stub: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    height: 175,
+  sheet: {
+    transformOrigin: '0 0',
+    position: 'absolute',
+    borderRadius: 0,
+    backgroundSize: '50px 50px',
+    // backgroundImage: "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+DQogPGxpbmUgeDE9IjEwMCIgeTE9IjAiIHgyPSIxMDAiIHkyPSIxMDAiIHN0cm9rZT0iIzc1NzU3NSIgLz4NCiA8bGluZSB4MT0iMCIgeTE9IjEwMCIgeDI9IjEwMCIgeTI9IjEwMCIgc3Ryb2tlPSIjNzU3NTc1IiAvPg0KPC9zdmc+')",
   },
-  stubText: {
-    margin: 8,
-  },
-  stubButton: {
-    margin: 8,
+}
+
+
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
   }
+  return color;
 }
 
+function getAllElementsByGroup(list, elements) {
+  return list
+    .reduce((p, c) => {
+      if (elements[c].type === 'group') {
+        return {
+          ...p,
+          [c]: { ...elements[c] },
+          ...getAllElementsByGroup(elements[c].elements, elements)
+        };
+      }
+      return {
+        ...p,
+        [c]: { ...elements[c] },
+      };
+    }, {});
+}
 
-function getIdSection(index, sections) {
-  if (sections[`s${index + 1}`] === undefined) {
-    return `s${index + 1}`;
+function cloneNewStructElements(list, elements, targetElements) {
+  const l = [];
+  const e = {};
+
+  function group(newId, oldId, check) {
+    const gl = [];
+    elements[oldId].elements
+      .forEach(cid => {
+        const mergeElements = { ...targetElements, ...e }
+        const id = getIdElement(0, elements[cid].type, mergeElements);
+        e[id] = { ...elements[cid], groupId: newId };
+        gl.push(id)
+        if (elements[cid].type === 'group') {
+          group(id, cid);
+        }
+      });
+      e[newId].elements = gl;
   }
-  return getIdSection(index + 1, sections);
+
+  list.forEach(key => {
+    const mergeElements = { ...targetElements, ...e }
+    const id = mergeElements[key] === undefined ? key : getIdElement(0, targetElements[key].type, mergeElements);
+
+    l.push(id);
+    e[id] = { ...elements[key] };
+
+    if (elements[key].type === 'group') {
+      group(id, key);
+    }
+
+  });
+  return { list: l, elements: e }
 }
 
-function getIdColumn(index, sectioId, columns) {
-  if (columns[`${sectioId}_c${index + 1}`] === undefined) {
-    return `${sectioId}_c${index + 1}`;
+function getIdElement(index, prefix, elements) {
+  if (elements[`${prefix}_${index + 1}`] === undefined) {
+    return `${prefix}_${index + 1}`;
   }
-  return getIdColumn(index + 1, sectioId, columns);
-}
-
-function moveTo(list, index, id) {
-  const result = Array.from(list);
-  result.splice(index, 0, id);
-
-  return result;
-}
-
-function removeTo(list, index) {
-  const result = Array.from(list);
-  result.splice(index, 1)
-
-  return result;
-}
-
-function reorder(list, startIndex, endIndex) {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-
-  return result;
+  return getIdElement(index + 1, prefix, elements);
 }
 
 
-class Canvas extends Component {
+class Sheet extends Component {
 
   componentDidMount() {
-    core.transfer.sub('lauout', this.handleTransferData);
+    core.transfer.sub('container', this.handleTransferData);
 
   }
 
   componentWillUnmount() {
-    core.transfer.unsub('lauout', this.handleTransferData);
+    core.transfer.unsub('container', this.handleTransferData);
     this.isSave = null;
+    this.dragSelectContainer = null;
   }
 
   handleTransferData = (button, save, reset) => {
     if (button === 'save') {
       this.isSave = null;
+      const state = core.store.getState().apppage.data[this.props.id][this.props.prop];
       save({
         [this.props.id]: {
           [this.props.prop]: {
-            select: { section: null, column: null },
-            hover: { sections: {}, columns: {} },
-            drag: { section: null, column: null },
-            list: this.props.list,
-            sections: this.props.sections,
-            columns: this.props.columns,
+            settings: state.settings,
+            list: state.list,
+            elements: state.elements,
+            // templates: state.templates,
           }
         }
       })
@@ -120,585 +142,606 @@ class Canvas extends Component {
   save = () => {
     if (!this.isSave) {
       this.isSave = true;
-      core.actions.apppage.data({ save: 'lauout' })
+      core.actions.apppage.data({ save: 'container' })
     }
   }
 
-  handleHoverEnter = (sectionId, columnId) => {
-    core.actions.layout
-      .hover(
-        this.props.id, this.props.prop, 
-        { section: sectionId, column: columnId }
-      )
+  handleMouseUpContainer = (e) => {
+
   }
 
-  handleHoverOut = (e, sectionId, columnId) => {
-    if (e.relatedTarget && e.relatedTarget.parentNode && e.relatedTarget.parentNode.className === 'toolbar') {
-      core.actions.layout
-        .removeHover(
-          this.props.id, this.props.prop, 
-          null, columnId
-        )
+  handleMouseDownContainer = (e) => {
+
+  }
+
+  handleMouseWhellContainer = (e) => {
+    const isTouchPad = e.nativeEvent.wheelDeltaY ? 
+    e.nativeEvent.wheelDeltaY === -3 * e.nativeEvent.deltaY : e.nativeEvent.deltaMode === 0;
+
+    const offset = this.container.getBoundingClientRect();
+
+    let x = this.props.settings.x;
+    let y = this.props.settings.y;
+    let s = this.props.settings.scale;
+
+    const px = e.pageX - offset.left;
+    const py = e.pageY - offset.top;
+
+    const tx = (px - (x * s)) / s;
+    const ty = (py - (y * s)) / s;
+
+    if (isTouchPad) {
+      if (e.deltaY > 0) {
+        s -= (e.deltaY * 1 / 450)
+      } else {
+        s += (e.deltaY * -1 / 450)
+      }
     } else {
-      core.actions.layout
-        .removeHover(
-          this.props.id, this.props.prop, 
-          sectionId, columnId
-        )
-    }
-  }
+      s += Math.max(-1, Math.min(1, e.deltaY)) * -0.1 * s;
+    } 
 
-  setCheckHover = (e) => {
-    core.actions.layout
-      .forceHover(
-        this.props.id, this.props.prop, 
-        { check: { x: e.clientX, y: e.clientY } }
+    if (s > 8) {
+      s = 8;
+    }
+    if (s < 0.1 ) {
+      s = 0.1;
+    }
+  
+    x = (-tx * s + px) / s
+    y = (-ty * s + py) / s
+
+    core.actions.container
+      .settings(
+        this.props.id, this.props.prop,
+        { x, y, scale: s }
       );
   }
 
-  handleCheckHover = (x, y) => {
-    let found = false;
+  handleMouseWhellContainer2 = (e) => {
+    const isTouchPad = e.nativeEvent.wheelDeltaY ? 
+    e.nativeEvent.wheelDeltaY === -3 * e.nativeEvent.deltaY : e.nativeEvent.deltaMode === 0;
 
-    const elements = window.document.elementsFromPoint(x, y);
+    const offset = this.container.getBoundingClientRect();
 
-    elements.forEach(i => {
-      const sectionid = i.getAttribute('sectionid');
-      const columnid = i.getAttribute('columnid');
-      
-      if (found === false && sectionid && sectionid !== '' && columnid && columnid !== '') {
-        found = { sectionId: sectionid, columnId: columnid };
+    let x = this.props.settings.x;
+    let y = this.props.settings.y;
+    let s = this.props.settings.scale;
+
+    const px = e.pageX - offset.left;
+    const py = e.pageY - offset.top;
+
+    const tx = (px - x) / s;
+    const ty = (py - y) / s;
+
+    if (isTouchPad) {
+      if (e.deltaY > 0) {
+        s -= (e.deltaY * 1 / 450)
+      } else {
+        s += (e.deltaY * -1 / 450)
       }
-    });
-
-    if (found) {
-      core.actions.layout
-        .hover(
-          this.props.id, this.props.prop, 
-          { section: found.sectionId, column: found.columnId });
     } else {
-      core.actions.layout
-        .forceHover(
-          this.props.id, this.props.prop, 
-          { sections: {}, columns: {}, check: null, }
+      s += Math.max(-1, Math.min(1, e.deltaY)) * -0.1 * s;
+    }
+
+    if (s > 8) {
+      s = 8;
+    }
+    if (s < 0.1 ) {
+      s = 0.1;
+    }
+
+    x = -tx * s + px
+    y = -ty * s + py
+
+    core.actions.container
+      .settings(
+        this.props.id, this.props.prop,
+        { x, y, scale: s }
+      );
+  }
+
+  handleMoveSheet = (e) => {
+ 
+  }
+
+  handleStopMoveSheet = (e, data) => {
+    core.actions.container
+      .settings(
+        this.props.id, this.props.prop,
+        { x: data.x, y: data.y }
+      );
+    this.save();
+  }
+
+  handleStartMoveElement = (e, elementId, data) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  handleAddElement = (e, type, templateId) => {
+    const elementId = getIdElement(0, type, this.props.elements);
+
+    const rect = this.sheet.getBoundingClientRect();
+    const x = (e.pageX - (rect.left * this.props.settings.scale)) / this.props.settings.scale // (e.clientX - rect.left) / this.props.settings.scale;
+    const y = (e.pageY - (rect.top * this.props.settings.scale)) / this.props.settings.scale  // (e.clientY - rect.top) / this.props.settings.scale;
+    
+    const params = getDefaultParamsElement(type);
+
+    const data = {
+      type,
+      x: Math.round(x * 1e2 ) / 1e2, 
+      y: Math.round(y * 1e2 ) / 1e2,
+      w: 70, h: 70,
+    }
+
+    if (type === 'template') {
+      core
+        .request({ method: 'get_template', params: templateId })
+        .ok(res => {
+          data.links = {};
+          data.templateId = templateId;
+          data.w = res.settings.w; 
+          data.h = res.settings.h;
+          core.actions.container
+            .addTemplate(
+              this.props.id, this.props.prop,
+              elementId, data, templateId, res,
+            );
+          this.save();
+        });
+    } else {
+      core.actions.container
+        .addElement(
+          this.props.id, this.props.prop,
+          elementId, { ...params, ...data },
+        );
+      this.save();
+    }
+  }
+
+  handleDeleteElement = () => {
+    core.actions.container
+      .deleteElement(this.props.id, this.props.prop);
+  }
+
+  handleMoveElement = (e, elementId, data) => {
+
+  }
+
+  handleStopMoveElement = (e, elementId, data) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    core.actions.container
+      .editElement(
+        this.props.id, this.props.prop,
+        elementId, { x: data.x, y: data.y }
+      );
+    this.save();
+  }
+
+  handleChangeSizeElement = (e, elementId, position, type) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const element = this.props.elements[elementId];
+
+    if (element.type === 'group') {
+      const childs = getAllElementsByGroup(element.elements, this.props.elements);
+      core.actions.container
+        .resizeGroupElement(
+          this.props.id, this.props.prop,
+          elementId, position, childs,
+        );
+    } else {
+      core.actions.container
+        .editElement(
+          this.props.id, this.props.prop,
+          elementId, position
+        );
+    }
+    this.save();
+  }
+
+  handleClickBody = (e) => {
+    core.actions.container
+      .clearSelects(
+        this.props.id, this.props.prop,
+      );
+  }
+
+  handleClickElement = (e, elementId) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (e.shiftKey && this.props.selectType !== null) {
+      if (this.props.selects[elementId] === undefined) {
+        const data = { x: Infinity, y: Infinity, w: 0, h: 0 };
+        Object
+          .keys({ ...this.props.selects, [elementId]: true })
+          .forEach(key => {
+            const element = this.props.elements[key];
+            data.x = Math.min(data.x, element.x);
+            data.y = Math.min(data.y, element.y); 
+            data.w = Math.max(data.w, element.x + element.w); 
+            data.h = Math.max(data.h, element.y + element.h); 
+          });
+        data.w = data.w - data.x;
+        data.h = data.h - data.y;
+        core.actions.container
+          .selectSome(
+            this.props.id, this.props.prop,
+            elementId, data
+          );
+      }
+    } else {
+      core.actions.container
+        .select(
+          this.props.id, this.props.prop,
+          elementId
         );
     }
   }
 
-  handleClickToolbar = (e, button, value, columnId) => {
+  handleContextMenuElement = (e, elementId) => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (button === 'b1') {
-      this.handleAddSection(value);
-    }
-    if (button === 'b2') {
-      this.handleClickSection(value);
-    }
-    if (button === 'b3') {
-      this.handleRemoveSection(e, value);
-    }
-    if (button === 'b4') {
-      this.handleClickToolbarColumn(e, value);
-    }
-    if (button === 'b5') {
-      this.handleRemoveSectionInner(e, value, columnId);
-    }
-  }
+    e.persist();
 
-  handleAddSection = (sectionId) => {
-    const i = Number(sectionId.slice(1));
-    const newSectionId = getIdSection(i, this.props.sections);
-
-    core.actions.layout
-      .addSection(
-        this.props.id, this.props.prop, 
-        sectionId, newSectionId,
-      );
-    this.save();
-  }
-
-  handleClickSection = (sectionId) => {
-    core.actions.layout
-      .select(
-        this.props.id, this.props.prop, 
-        { section: sectionId, column: null, content: null },
-      )
-  }
-
-  handleRemoveSection = (e, sectionId) => {
-    core.actions.layout
-      .removeSection(
-        this.props.id, this.props.prop, 
-        sectionId,
-      );
-    this.save();
-    
-      if (e) {
-        const elements = window.document.elementsFromPoint(e.clientX, e.clientY);
-        elements.forEach(i => {
-          const sectionid = i.getAttribute('sectionid');
-          const columnid = i.getAttribute('columnid');
-          
-          if (sectionid && sectionid !== '' && columnid && columnid !== '') {
-            this.handleHoverEnter(sectionid, columnid);
-          }
-        });
-      }
-  }
-
-  handleRemoveSectionInner = (e, sectionId, columnId) => { 
-    core.actions.layout
-      .removeSectionInner(
-        this.props.id, this.props.prop, 
-        sectionId,
-        columnId,
-      );
-    this.save();
-    
-      if (e) {
-        const elements = window.document.elementsFromPoint(e.clientX, e.clientY);
-        elements.forEach(i => {
-          const sectionid = i.getAttribute('sectionid');
-          const columnid = i.getAttribute('columnid');
-          
-          if (sectionid && sectionid !== '' && columnid && columnid !== '') {
-            this.handleHoverEnter(sectionid, columnid);
-          }
-        });
-      }
-  }
-
-  handleClickToolbarColumn = (e, columnId) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    core.actions.layout
-      .select(
-        this.props.id, this.props.prop, 
-        { column: columnId, section: null, content: null },
-      )
-  }
-
-  handleClickColumn = (e, sectionId, columnId, item) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    core.actions.layout
-      .select(
-        this.props.id, this.props.prop, 
-        { section: null, column: columnId, content: item.type },
-      )
-  }
-
-  handleClickBody = (e) => {
-    if (this.props.isDragging) {
-      /* core.actions.layout
-        .hover(
-          this.props.id, this.props.options.prop, 
-          { 
-            ...this.props.data.hover,
-            check: { x: e.clientX, y: e.clientY }, 
-          }); */
-    } else {
-      core.actions.layout
-        .data(
-          this.props.id, this.props.prop, 
-          { 
-            hover: { sections: {}, columns: {} },
-            select: { section: null, column: null },
-            drag: { section: null, column: null },
-          },
-        )
-    }
-  }
-
-  handleDragStart = (result) => {
-    core.actions.layout
-      .data(this.props.id, this.props.prop, { isDragging: true });
-
-    if (result.type === 'section') {
-      core.actions.layout
-      .hover(
-        this.props.id, this.props.prop, 
-        { section: result.draggableId, column: 'none' }
-      )
-    }
-  }
-
-  handleDragEnd = (result) => {
-    core.actions.layout
-      .data(this.props.id, this.props.prop, { isDragging: false });
-
-    if (!result.destination) {
-      return;
+    const disabled = {
+      'isSelect': Object.keys(this.props.selects).length === 0,
+      'isPaste': !(core.buffer.class === 'container'),
+      'isTemplate': this.props.selectOne ? !(this.props.selectOne && this.props.elements[this.props.selectOne].type === 'template') : false,
     }
 
-    if (result.type === 'section') {
-      this.handleDragEndSection(result)
-    } else {
-      this.handleDragEndColumn(result)
-    }
-  }
-
-  handleDragEndSection = (result) => {
-    const list = reorder(
-      this.props.list,
-      result.source.index,
-      result.destination.index
-    );
-
-    core.actions.layout
-      .data(
-        this.props.id, this.props.prop, 
-        { list },
-      )
-    this.save();
-  }
-
-  handleDragEndColumn = (result) => {
-    const sourceSectionId = result.source.droppableId;
-    const targetSectionId = result.destination.droppableId;
-
-
-    if (sourceSectionId !== targetSectionId) {
-      const sourceColumns = removeTo(
-        this.props.sections[sourceSectionId].columns,
-        result.source.index,
-      );
-      const targetColumns = moveTo(
-        this.props.sections[targetSectionId].columns,
-        result.destination.index,
-        result.draggableId,
-      );
-
-      core.actions.layout
-        .moveColumn(
-          this.props.id, this.props.prop, 
-          sourceSectionId, targetSectionId, sourceColumns, targetColumns,
-        )
-    } else {
-      const columns = reorder(
-        this.props.sections[targetSectionId].columns,
-        result.source.index,
-        result.destination.index
-      );
-
-      core.actions.layout
-        .editSection(
-          this.props.id, this.props.prop, 
-          targetSectionId, { columns },
-        )
-    }
-    this.save();
-  }
-
-  handleDragEnter = (sectionId, columnId) => {
-    if (columnId && this.props.drag.column !== columnId) {
-      core.actions.layout
-        .data(
-          this.props.id, this.props.prop, 
-          { drag: { section: null, column: columnId } }
-        )
-      this.save();
-    }
-
-  }
-
-  handleDragOut = (e) => {
-    if (this.props.drag.column !== null) {
-      let check = false;
-
-      const elements = window.document.elementsFromPoint(e.clientX, e.clientY);
-
-      elements.forEach(i => {
-        const sectionid = i.getAttribute('sectionid');
-        const columnid = i.getAttribute('columnid');
-        
-        if (sectionid && sectionid !== '' && columnid && columnid !== '') {
-          check = true;
-        }
-      });
-
-      if (!check) {
-        core.actions.layout
-          .data(
-            this.props.id, this.props.prop, 
-            { drag: { section: null, column: null } }
-          )
-      }
-    }
-  }
-
-  handleDragDrop = (e, sectionId, columnId) => {
-    const type = e.dataTransfer.getData('text');
-
-    if (type === 'innersection') {
-      const i = Number(this.props.list.slice(-1).slice(1));
-      const newSectionId = getIdSection(i, this.props.sections);
-      core.actions.layout
-        .addSectionInner(
-          this.props.id, this.props.prop, 
-          newSectionId, columnId,
-        )
-      core.actions.layout
-        .hover(
-          this.props.id, this.props.prop, 
-          { section: newSectionId, column: `${newSectionId}_c1` }
-        )
-    } else if (type === 'container') {
-      core.actions.layout
-        .editColumn(
-          this.props.id, this.props.prop, 
-          columnId, { type, containerId: { id: '-', title: '-' } },
-        )
-      core.actions.layout
-        .select(
-          this.props.id, this.props.prop, 
-          { section: null, column: columnId, content: type },
-        )
-      core.actions.layout
-        .hover(
-          this.props.id, this.props.prop, 
-          { section: sectionId, column: columnId }
-        )
-    } else {
-      core.actions.layout
-        .editColumn(
-          this.props.id, this.props.prop, 
-          columnId, { type },
-        )
-      core.actions.layout
-        .hover(
-          this.props.id, this.props.prop, 
-          { section: sectionId, column: columnId }
-        )
-    }
-    this.save();
-  }
-
-  handleClickButtonStub = (e) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
- 
-    const data = {
-      isHoverStub: false,
-      select: {
-        section: 's1',
-        column: null,
-      },
-      hover: {
-        sections: { s1: true },
-        columns: { s1_c1: true },
-      },
-      list: ['s1'],
-      sections: { s1: { height: 100, direction: 'row', columns: ['s1_c1'] } },
-      columns: { s1_c1: { type: null, size: 100 } }
+    const commands = {
+      addTemplate: ({ popupid }) => this.handleAddElement(e, 'template', popupid), 
     };
 
-    core.actions.layout
-      .data(this.props.id, this.props.prop, data);
-    this.save();
-  }
-
-  handleDragDropStub = () => {
-    this.handleClickButtonStub(null);
-  }
-
-  handleDragEnterStub = (e) => {
-    core.actions.layout
-      .data(this.props.id, this.props.prop, { isHoverStub: true });
-    this.save();
-  }
-
-  handleDragOutStub = (e) => {
-    core.actions.layout
-      .data(this.props.id, this.props.prop, { isHoverStub: false });
-  }
-
-  handleAddColumn = (e, sectionId, columnId) => {
-    const i = Number(columnId.split('_')[1].slice(1));
-    const newColumnId = getIdColumn(i, sectionId, this.props.columns);
-  
-    core.actions.layout
-      .addColumn(this.props.id, this.props.prop, sectionId, columnId, newColumnId);
-    this.save();
-
-    if (e) {
-      this.setCheckHover(e);
-    }
-  }
-
-  handleRemoveColumn = (e, sectionId, columnId) => {
-    if (this.props.sections[sectionId].columns.length === 1) {
-      core.actions.layout
-        .clearSection(this.props.id, this.props.prop, sectionId);
-    } else {
-      core.actions.layout
-        .removeColumn(this.props.id, this.props.prop, sectionId, columnId);
-    }
-    this.save();
-
-    if (e) {
-      this.setCheckHover(e);
-    }
-  }
-
-  handleContextMenu = (e, direction, sectionId, columnId) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (sectionId) {
-      core.actions.layout
-        .select(
-          this.props.id, this.props.prop, 
-          { section: sectionId, column: null, content: null }
-        )
-    }
-
     const pos = { left: e.clientX, top: e.clientY };
+    const listElemnts = [
+      { id: '0', title: 'Block', click: () => this.handleAddElement(e, 'block') },
+      { id: '1', title: 'Text', click: () => this.handleAddElement(e, 'text') },
+      { id: '2', title: 'Image', click: () => this.handleAddElement(e, 'image') },
+      { id: '3', type: 'divider' },
+      { id: '4', title: 'CCTV', click: () => this.handleAddElement(e, 'cctv') },
+    ]
+  
     const scheme = {
       main: [
-        { id: '1', 
-          title: direction === 'row' ? 'Add Column' : 'Add Row', 
-          click: (e) => this.handleAddColumn(e, sectionId, columnId) 
-        },
-        { id: '2', type: 'divider' },
-        { id: '3', title: 'Delete', click: (e) => this.handleRemoveColumn(e, sectionId, columnId) },
+        { id: '1', title: 'Add Element', children: listElemnts },
+        { id: '2', title: 'Add Template', type: 'remote', popupid: 'vistemplate', command: 'addTemplate' },
+        { id: '3', type: 'divider' },      
+        { id: '4', check: 'isSelect', title: 'Group', click: this.handleClickGroupElements },
+        { id: '5', check: 'isSelect', title: 'Ungroup', click: () => this.handleClickUnGroupElement(elementId) },
+        { id: '6', type: 'divider' },
+        { id: '7', check: 'isSelect', title: 'Copy', click: this.handleClickCopyElements },
+        { id: '8', check: 'isPaste', title: 'Paste', click: () => this.handleClickPasteElements(e) },
+        { id: '9', type: 'divider' },
+        { id: '10', check: 'isSelect', title: 'Delete', click: () => this.handleDeleteElement(elementId) },
+        { id: '11', type: 'divider' },
+        { id: '12', check: 'isTemplate', title: 'Edit Template', click: this.handleClickEditTemplate },
       ]
     }
 
-    ContextMenu.show(<Menu scheme={scheme} />, pos);
+    ContextMenu.show(<Menu disabled={disabled} commands={commands} scheme={scheme} />, pos);
   }
 
-  handleResizeColumn = (columnIdA, valueA, columnIdB, valueB) => {
-    core.actions.layout
-      .resizeColumns(this.props.id, this.props.prop,
-        columnIdA, valueA, columnIdB, valueB);
+  handleClickGroupElements = () => {
+    if (this.props.selectType === 'some') {
+      const list = [];
+      const groupId = getIdElement(0, 'group', this.props.elements);
+      let x = Infinity, y = Infinity, w = 0, h = 0;
+      Object
+        .keys(this.props.selects)
+        .forEach(key => {
+          const element = this.props.elements[key];
+          x = Math.min(x, element.x);
+          y = Math.min(y, element.y); 
+          w = Math.max(w, element.x + element.w); 
+          h = Math.max(h, element.y + element.h); 
+          list.push(key) 
+        });
+      const groupData = { 
+        x, y, 
+        w: w - x, 
+        h: h - y, 
+        type: 'group',
+        elements: list, 
+      };
+      core.actions.container
+        .groupElements(
+          this.props.id, this.props.prop,
+          groupId, groupData,
+        );
+    }
+  }
+
+  handleClickUnGroupElement = (elementId) => {
+    const list = [];
+    const data = { x: Infinity, y: Infinity, w: 0, h: 0 };
+    Object
+      .keys(this.props.selects)
+      .forEach(key => {
+        const element = this.props.elements[key];
+        data.x = Math.min(data.x, element.x);
+        data.y = Math.min(data.y, element.y); 
+        data.w = Math.max(data.w, element.x + element.w); 
+        data.h = Math.max(data.h, element.y + element.h); 
+        if (element.type === 'group') {
+          list.push(key);
+        }
+      });
+    data.w = data.w - data.x;
+    data.h = data.h - data.y;
+
+    core.actions.container
+      .unGroupElements(
+        this.props.id, this.props.prop,
+        list, data,
+      );
+  }
+
+  handleClickCopyElements = () => {
+    const list = [];
+    let x = Infinity, y = Infinity, w = 0, h = 0;
+    const elements = Object
+      .keys(this.props.selects)
+      .reduce((p, c) => {
+        list.push(c);
+        x = Math.min(x, this.props.elements[c].x);
+        y = Math.min(y, this.props.elements[c].y); 
+        w = Math.max(w, this.props.elements[c].x + this.props.elements[c].w); 
+        h = Math.max(h, this.props.elements[c].y + this.props.elements[c].h); 
+        if (this.props.elements[c].type === 'group') {
+          const childs = getAllElementsByGroup(this.props.elements[c].elements, this.props.elements);
+          return { ...p, ...childs, [c]: { ...this.props.elements[c] } }
+        }
+        return { ...p, [c]: { ...this.props.elements[c] } }
+      }, {})
+      
+    const buffer = { list, elements, offsetX: x, offsetY: y };
+    core.buffer = { class: 'container', type: null, data: buffer  };
+  }
+
+  handleClickPasteElements = (e) => {
+    const rect = this.sheet.getBoundingClientRect();
+    const x = (e.pageX - (rect.left * this.props.settings.scale)) / this.props.settings.scale // (e.clientX - rect.left) / this.props.settings.scale;
+    const y = (e.pageY - (rect.top * this.props.settings.scale)) / this.props.settings.scale  // (e.clientY - rect.top) / this.props.settings.scale;
+
+    const clone = cloneNewStructElements(core.buffer.data.list, core.buffer.data.elements, this.props.elements);
+    const elements = Object
+      .keys(clone.elements)
+      .reduce((p, c) => {
+        if (clone.list.includes(c)) {
+          return { 
+            ...p, 
+            [c]: {
+              ...clone.elements[c],
+              x: x + (clone.elements[c].x - core.buffer.data.offsetX),
+              y: y + (clone.elements[c].y - core.buffer.data.offsetY),
+            }  
+          }
+        }
+        return { ...p, [c]: clone.elements[c] }
+      }, {})
+ 
+    core.actions.container
+      .data(
+        this.props.id, this.props.prop,
+        { 
+          list: this.props.list.concat(clone.list),
+          elements: {
+            ...this.props.elements,
+            ...elements,
+          },
+        }
+      );
+  }
+
+  handleClickEditTemplate = () => {
+    const templateId = this.props.elements[this.props.selectOne].templateId;
+    core.route(`vis/vistemplate/vistemplateview/${templateId}/tabVistemplateEditor`);
+  }
+
+  handleRenderElement = (elementId, item) => {
+    if (item.type === 'group') {
+      return (
+        <div
+          style={{
+            position: 'absolute', 
+            width: '100%', 
+            height: '100%', 
+            outline: item.groupId ? 'unset' : `1px dashed #6d7882`, 
+          }}
+        >
+          {item.elements.map(id => 
+            <Element 
+              key={id}
+              id={id}
+              isGroup
+              scale={this.props.settings.scale}
+              item={this.props.elements[id]}
+              select={this.props.selects[id]}
+              selectType={this.props.selectType}  
+              onStartMove={this.handleStartMoveElement}
+              onMove={this.handleMoveElement}
+              onStopMove={this.handleStopMoveElement}
+              onChangeSize={this.handleChangeSizeElement}
+              onClick={this.handleClickElement}
+              onContextMenu={this.handleContextMenuElement} 
+              onRenderElement={this.handleRenderElement}
+            />
+          )}
+        </div>
+      )
+    }
+    if (item.type === 'template') {
+      return elemets(elementId, item, this.props.templates[item.templateId])
+    }
+    return elemets(elementId, item, null)
+  }
+
+  handleStartMoveSelectContainer = (e, elementId, data) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+  }
+
+  handleMoveSelectContainer = (e, elementId, data) => {
+    if (!this.dragSelectContainer) {
+      this.dragSelectContainer = true;
+    }
+    core.actions.container
+      .moveSelectContainer(
+        this.props.id, this.props.prop,
+        data.x, data.y,
+      );
+  }
+
+  handleStopMoveSelectContainer = (e, elementId, data) => {
+    core.actions.container
+      .moveSelectContainer(
+        this.props.id, this.props.prop,
+        data.x, data.y,
+      );
     this.save();
   }
 
-  handleRenderContent = (columnId, item) => {
-    if (item.type === 'innersection') {
+  handleClickSelectContainer = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (this.dragSelectContainer) {
+      this.dragSelectContainer = null;
+    } else {
+      if (e.shiftKey) {
+        const elements = window.document.elementsFromPoint(e.clientX, e.clientY);
+        let elementId = null;
+        
+        elements.forEach(i => {
+          const attribute = i.getAttribute('elementid');
+         
+          if (elementId === null && attribute && attribute !== 'select') {
+            if (this.props.elements[attribute].groupId) {
+              elementId = this.props.elements[attribute].groupId;
+            } else {
+              elementId = attribute;
+            }
+          }
+        });
+    
+        if (elementId) {
+          this.handleClickElement(e, elementId)
+        }
+      }
+    }
+  }
+
+  handleChangeSizeSelectContainer = (e, elementId, position) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!this.dragSelectContainer) {
+      this.dragSelectContainer = true;
+    }
+
+    const childs = getAllElementsByGroup(Object.keys(this.props.selects), this.props.elements)
+    core.actions.container
+      .resizeSelectContainer(
+        this.props.id, this.props.prop,
+        position, childs,
+      );
+    this.save();
+  }
+
+  handleRenderContentSelectContainer = () => {
+    return null;
+  }
+
+  handleRenderSelectContainer = () => {
+    if (this.props.selectType === 'some') {
       return (
-        <Section
-          inner={columnId} 
-          id={item.sectionId}
-          provided={{
-            draggableProps: {
-              style: {}
-            },
-            innerRef: null,
-          }}
-          select={this.props.select}
-          hover={this.props.hover}
-          drag={this.props.drag}
-          item={this.props.sections[item.sectionId]}
-          columns={this.props.columns}
-          isDraggingGlobal={this.props.isDragging}
-          isDragging={false}
-          isPreview={false}
-          onClickToolbar={this.handleClickToolbar}
-          onClickColumn={this.handleClickColumn}
-          onHoverEnter={this.handleHoverEnter}
-          onHoverOut={this.handleHoverOut}
-          onDragEnter={this.handleDragEnter}
-          onDragOut={this.handleDragOut}
-          onDragDrop={this.handleDragDrop}
-          onContextMenu={this.handleContextMenu}
-          onResizeColumn={this.handleResizeColumn}
-          onRenderContent={this.handleRenderContent}
+        <Element 
+          key="select"
+          id="select"
+          select
+          scale={this.props.settings.scale}
+          item={this.props.selectContainer}
+          onStartMove={this.handleStartMoveSelectContainer}
+          onMove={this.handleMoveSelectContainer}
+          onStopMove={this.handleStopMoveSelectContainer}
+          onChangeSize={this.handleChangeSizeSelectContainer}
+          onClick={this.handleClickSelectContainer}
+          onContextMenu={this.handleContextMenuElement} 
+          onRenderElement={this.handleRenderContentSelectContainer}
         />
-      );
+      )
     }
-    return widgets(columnId, item)
+    return null;
   }
+  
+  linkContainer = (e) => {
+    this.container = e;
+  } 
 
-  handleDragUpdate = (a, b, c, d) => {
-    console.log(a, b, c, d)
-  }
+  linkSheet = (e) => {
+    this.sheet = e;
+  } 
 
-  componentDidUpdate() {
-    if (this.props.hover && this.props.hover.check) {
-      this.handleCheckHover(this.props.hover.check.x, this.props.hover.check.y);
-    }
-  }
-
-  render() {
-    if (this.props.list.length === 0) {
-      return (
-        <div style={styles.root2}>
-          <div 
-            style={{ 
-              ...styles.stub, 
-              border: this.props.isHoverStub ? '2px dashed #3eaaf5' : '2px dashed #BDBDBD'
-            }} 
-            onDrop={this.handleDragDropStub}
-            onDragEnter={this.handleDragEnterStub}
-            onDragLeave={this.handleDragOutStub}
-          >
-            <div style={{ ...styles.stub, pointerEvents: this.props.isDraggingToolbar ? 'none': 'all' }}>
-              <Fab color="primary" style={styles.stubButton} onClick={this.handleClickButtonStub}>
-                <AddIcon />
-              </Fab>
-              <div style={styles.stubText}>Drag an element here or click to add new section</div>
-            </div>
-          </div>
-        </div>
-      );
-    }
+  render({ selects, settings, list, elements } = this.props) {
     return (
-      <DragDropContext onDragStart={this.handleDragStart} onDragUpdate={this.handleDragUpdate} onDragEnd={this.handleDragEnd}>
-        <Droppable droppableId="droppable" type="section" >
-        {(provided, snapshot1) => (
-          <Scrollbars style={{width: '100%', height: '100%' }}>
-            <div 
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              style={styles.root}
-              className="canvas"
-              onClick={this.handleClickBody}
+      <div style={styles.root} onClick={this.handleClickBody}>
+        <div 
+          ref={this.linkContainer}
+          style={styles.container}
+          onMouseUp={this.handleMouseUpContainer}
+          onMouseDown={this.handleMouseDownContainer}
+          onWheel={this.handleMouseWhellContainer}
+        >
+          <Draggable
+            scale={settings.scale} 
+            position={settings}
+            onDrag={this.handleMoveSheet}
+            onStop={this.handleStopMoveSheet}
+          >
+            <Paper
+              ref={this.linkSheet}
+              elevation={2} 
+              className="parent" 
+              style={{ 
+                ...styles.sheet, 
+                width: settings.w, 
+                height: settings.h,
+              }}
+              onContextMenu={(e) => this.handleContextMenuElement(e, null)}
             >
-              {this.props.list
-                .map((id, index) =>
-                  <Draggable key={id} draggableId={id} index={index}>
-                    {(provided, snapshot2) => (
-                      <Section 
-                        id={id}
-                        provided={provided}
-                        select={this.props.select}
-                        hover={this.props.hover}
-                        drag={this.props.drag}
-                        item={this.props.sections[id]}
-                        columns={this.props.columns}
-                        isDraggingGlobal={this.props.isDragging}
-                        isDragging={snapshot1.isDraggingOver}
-                        isPreview={snapshot2.isDragging}
-                        onClickToolbar={this.handleClickToolbar}
-                        onClickColumn={this.handleClickColumn}
-                        onHoverEnter={this.handleHoverEnter}
-                        onHoverOut={this.handleHoverOut}
-                        onDragEnter={this.handleDragEnter}
-                        onDragOut={this.handleDragOut}
-                        onDragDrop={this.handleDragDrop}
-                        onContextMenu={this.handleContextMenu}
-                        onResizeColumn={this.handleResizeColumn}
-                        onRenderContent={this.handleRenderContent}
-                      />
-                    )}
-                  </Draggable>
+              {list.map(id => 
+                <Element 
+                  key={id}
+                  id={id}
+                  scale={settings.scale}
+                  item={elements[id]}
+                  select={selects[id]}
+                  selectType={this.props.selectType} 
+                  onStartMove={this.handleStartMoveElement}
+                  onMove={this.handleMoveElement}
+                  onStopMove={this.handleStopMoveElement}
+                  onChangeSize={this.handleChangeSizeElement}
+                  onClick={this.handleClickElement}
+                  onContextMenu={this.handleContextMenuElement} 
+                  onRenderElement={this.handleRenderElement}
+                />
               )}
-              {provided.placeholder}
-            </div>
-          </Scrollbars>
-        )}
-        </Droppable>
-      </DragDropContext>
-    );
+              {this.handleRenderSelectContainer()}
+            </Paper>
+          </Draggable>
+        </div>
+      </div>
+    )
   }
-
 }
 
 
-export default Canvas;
+export default Sheet

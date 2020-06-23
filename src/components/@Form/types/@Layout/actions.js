@@ -2,23 +2,25 @@ import {
   LAYOUT_SET_DATA,
   LAYOUT_CLEAR_DATA,
 
-  LAYOUT_SELECT_ELEMENTS,
-  LAYOUT_HOVER_ELEMENTS,
-  LAYOUT_FORCE_HOVER,
-  LAYOUT_REMOVE_HOVER,
+  LAYOUT_SET_SETTINGS,
 
-  LAYOUT_ADD_SECTION,
-  LAYOUT_ADD_SECTION_INNER,
-  LAYOUT_EDIT_SECTION,
-  LAYOUT_REMOVE_SECTION,
-  LAYOUT_REMOVE_SECTION_INNER,
-  LAYOUT_CLEAR_SECTION,
+  LAYOUT_SET_SELECT,
+  LAYOUT_SET_SELECT_SOME,
+  LAYOUT_CLEAR_SELECTS,
 
-  LAYOUT_ADD_COLUMN,
-  LAYOUT_EDIT_COLUMN,
-  LAYOUT_REMOVE_COLUMN,
-  LAYOUT_MOVE_COLUMN,
-  LAYOUT_RESIZE_COLUMNS,
+  LAYOUT_GROUP_ELEMENTS,
+  LAYOUT_UNGROUP_ELEMENTS,
+
+  LAYOUT_RESIZE_GROUP_ELEMENT,
+  LAYOUT_MOVE_SELECT_CONTAINER,
+  LAYOUT_RESIZE_SELECT_CONTAINER,
+
+  LAYOUT_ADD_ELEMENT,
+  LAYOUT_ADD_TEMPLATE,
+  LAYOUT_EDIT_ELEMENT,
+  LAYOUT_DELETE_ELEMENT,
+  
+  LAYOUT_CHANGE_TEMPLATE_LINK,
 } from './constants';
 
 
@@ -37,153 +39,140 @@ export function clear() {
   };
 }
 
-export function hover(id, prop, values) {
+export function settings(id, prop, data) {
   return {
-    type: LAYOUT_HOVER_ELEMENTS,
-    id,
-    prop,
-    values,
-  };
-}
-
-export function forceHover(id, prop, data) {
-  return {
-    type: LAYOUT_FORCE_HOVER,
+    type: LAYOUT_SET_SETTINGS,
     id,
     prop,
     data,
   };
 }
 
-export function removeHover(id, prop, sectionId, columnId) {
+export function select(id, prop, elementId) {
   return {
-    type: LAYOUT_REMOVE_HOVER,
+    type: LAYOUT_SET_SELECT,
     id,
     prop,
-    sectionId,
-    columnId,
+    elementId,
   };
 }
 
-export function select(id, prop, values) {
+export function selectSome(id, prop, elementId, data) {
   return {
-    type: LAYOUT_SELECT_ELEMENTS,
+    type: LAYOUT_SET_SELECT_SOME,
     id,
     prop,
-    values,
-  };
-}
-
-export function addSection(id, prop, sectionId, newSectionId) {
-  return {
-    type: LAYOUT_ADD_SECTION,
-    id,
-    prop,
-    sectionId,
-    newSectionId,
-  };
-}
-
-export function addSectionInner(id, prop, newSectionId, columnId) {
-  return {
-    type: LAYOUT_ADD_SECTION_INNER,
-    id,
-    prop,
-    newSectionId,
-    columnId,
-  };
-}
-
-export function editSection(id, prop, sectionId, data) {
-  return {
-    type: LAYOUT_EDIT_SECTION,
-    id,
-    prop,
-    sectionId,
-    data
-  };
-}
-
-export function removeSection(id, prop, sectionId) {
-  return {
-    type: LAYOUT_REMOVE_SECTION,
-    id,
-    prop,
-    sectionId,
-  };
-}
-
-export function removeSectionInner(id, prop, sectionId, columnId) {
-  return {
-    type: LAYOUT_REMOVE_SECTION_INNER,
-    id,
-    prop,
-    sectionId,
-    columnId,
-  };
-}
-
-export function clearSection(id, prop, sectionId) {
-  return {
-    type: LAYOUT_CLEAR_SECTION,
-    id,
-    prop,
-    sectionId,
-  };
-}
-
-export function addColumn(id, prop, sectionId, columnId, newColumnId) {
-  return {
-    type: LAYOUT_ADD_COLUMN,
-    id,
-    prop,
-    sectionId,
-    columnId,
-    newColumnId,
-  };
-}
-
-export function editColumn(id, prop, columnId, data) {
-  return {
-    type: LAYOUT_EDIT_COLUMN,
-    id,
-    prop,
-    columnId,
+    elementId,
     data,
   };
 }
 
-export function removeColumn(id, prop, sectionId, columnId) {
+export function clearSelects(id, prop) {
   return {
-    type: LAYOUT_REMOVE_COLUMN,
+    type: LAYOUT_CLEAR_SELECTS,
     id,
     prop,
-    sectionId,
-    columnId,
   };
 }
 
-export function moveColumn(id, prop, sourceSectionId, targetSectionId, sourceColumns, targetColumns) {
+export function groupElements(id, prop, groupId, groupData) {
   return {
-    type: LAYOUT_MOVE_COLUMN,
+    type: LAYOUT_GROUP_ELEMENTS,
     id,
     prop,
-    sourceSectionId,
-    targetSectionId,
-    sourceColumns,
-    targetColumns,
+    groupId,
+    groupData,
   };
 }
 
-export function resizeColumns(id, prop, columnIdA, valueA, columnIdB, valueB) {
+export function unGroupElements(id, prop, list, data) {
   return {
-    type: LAYOUT_RESIZE_COLUMNS,
+    type: LAYOUT_UNGROUP_ELEMENTS,
     id,
     prop,
-    columnIdA,
-    valueA,
-    columnIdB,
-    valueB,
+    list,
+    data,
+  };
+}
+
+export function resizeGroupElement(id, prop, groupId, groupPosition, groupChilds) {
+  return {
+    type: LAYOUT_RESIZE_GROUP_ELEMENT,
+    id,
+    prop,
+    groupId,
+    groupPosition,
+    groupChilds,
+  };
+}
+
+export function moveSelectContainer(id, prop, x, y) {
+  return {
+    type: LAYOUT_MOVE_SELECT_CONTAINER,
+    id,
+    prop,
+    x,
+    y,
+  };
+}
+
+export function resizeSelectContainer(id, prop, position, childs) {
+  return {
+    type: LAYOUT_RESIZE_SELECT_CONTAINER,
+    id,
+    prop,
+    position,
+    childs,
+  };
+}
+
+export function addElement(id, prop, elementId, data) {
+  return {
+    type: LAYOUT_ADD_ELEMENT,
+    id,
+    prop,
+    elementId,
+    data,
+  };
+}
+
+export function addTemplate(id, prop, elementId, elementData, templateId, templateData) {
+  return {
+    type: LAYOUT_ADD_TEMPLATE,
+    id,
+    prop,
+    elementId,
+    elementData,
+    templateId,
+    templateData,
+  };
+}
+
+export function changeTemplateLink(id, prop, elementId, data) {
+  return {
+    type: LAYOUT_CHANGE_TEMPLATE_LINK,
+    id,
+    prop,
+    elementId,
+    data,
+  };
+}
+
+export function editElement(id, prop, elementId, data) {
+  return {
+    type: LAYOUT_EDIT_ELEMENT,
+    id,
+    prop,
+    elementId,
+    data,
+  };
+}
+
+export function deleteElement(id, prop) {
+  return {
+    type: LAYOUT_DELETE_ELEMENT,
+    id,
+    prop,
   };
 }
 
@@ -191,19 +180,21 @@ export function resizeColumns(id, prop, columnIdA, valueA, columnIdB, valueB) {
 export default {
   data,
   clear,
+  settings,
   select,
-  hover,
-  forceHover,
-  removeHover,
-  addSection,
-  addSectionInner,
-  editSection,
-  removeSection,
-  removeSectionInner,
-  clearSection,
-  addColumn,
-  editColumn,
-  removeColumn,
-  moveColumn,
-  resizeColumns,
+  selectSome,
+  clearSelects, 
+
+  groupElements,
+  unGroupElements,
+  resizeGroupElement,
+
+  moveSelectContainer,
+  resizeSelectContainer,
+
+  addElement,
+  addTemplate,
+  editElement,
+  deleteElement,
+  changeTemplateLink,
 }
