@@ -293,7 +293,6 @@ class Sheet extends Component {
       core
         .request({ method: 'get_container', params: menuItemId })
         .ok(res => {
-          data.links = {};
           data.containerId = { id: menuItemId, title: '-' };
           data.w = res.settings.w; 
           data.h = res.settings.h;
