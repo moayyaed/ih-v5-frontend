@@ -2,6 +2,7 @@ const BLOCK = {
   borderSize: 1,
   borderColor: 'rgba(0,0,0,1)',
   backgroundColor: 'transparent',
+  zIndex: 100,
 }
 
 const TEXT = {
@@ -13,6 +14,7 @@ const TEXT = {
   borderSize: 1,
   borderColor: 'rgba(0,255,0,1)',
   backgroundColor: 'transparent',
+  zIndex: 100,
 }
 
 const IMAGE = {
@@ -22,6 +24,7 @@ const IMAGE = {
   borderSize: 1,
   borderColor: 'rgba(0,0,255,1)',
   backgroundColor: 'transparent',
+  zIndex: 100,
 }
 
 
