@@ -28,8 +28,7 @@ core.network.response('components_tabs_form', (answer, res, context) => {
     res[1].data.p1.container.templates = res[2].data;
   }
   if (context.params.id === 'formLayout') {
-    console.log(res[2].data)
-    // res[1].data.p1.container.templates = res[2].data;
+    res[1].data.p1.layout.containers = res[2].data;
   }
   answer({ 
     options: generateOptions(res[0].data), 

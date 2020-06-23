@@ -25,7 +25,7 @@ import {
 } from './constants';
 
 
-function deleteElements(elements, templates, selects) {
+function deleteElements(elements, containers, templates, selects) {
   const e = Object
     .keys(elements)
     .reduce((p, c) => {
@@ -40,7 +40,7 @@ function deleteElements(elements, templates, selects) {
       }
       return { ...p, [c]: elements[c] }
     }, {});
-  const check = Object
+  const checkt = Object
     .keys(e)
     .reduce((p, c) => {
       if (e[c].type === 'template') {
@@ -48,15 +48,31 @@ function deleteElements(elements, templates, selects) {
       }
       return p;
     }, {})
-  const t = Object
+  const checkc = Object
+    .keys(e)
+    .reduce((p, c) => {
+      if (e[c].type === 'container') {
+        return { ...p, [e[c].containerId.id]: true }
+      }
+      return p;
+    }, {})
+  const _t = Object
     .keys(templates)
     .reduce((p, c) => {
-      if (check[c]) {
+      if (checkt[c]) {
         return { ...p, [c]: templates[c] }
       }
       return p;
     }, {})
-  return { elements: e, templates: t };
+  const _c = Object
+    .keys(containers)
+    .reduce((p, c) => {
+      if (checkc[c]) {
+        return { ...p, [c]: containers[c] }
+      }
+      return p;
+    }, {})
+  return { elements: e, templates: _t, containers: _c  };
 }
 
 function getParentGroupId(id, elements) {
@@ -347,7 +363,7 @@ function reducerContainer(state, action) {
         selectContainer: null,
         selects: {},
         list: state.list.filter(i => !state.selects[i]),
-        ...deleteElements(state.elements, state.templates, state.selects),
+        ...deleteElements(state.elements, state.containers, state.templates, state.selects),
       };
     default:
       return state;
