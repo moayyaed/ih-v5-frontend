@@ -109,12 +109,12 @@ function getIdElement(index, prefix, elements) {
 class Sheet extends Component {
 
   componentDidMount() {
-    core.transfer.sub('container', this.handleTransferData);
+    core.transfer.sub('layout', this.handleTransferData);
 
   }
 
   componentWillUnmount() {
-    core.transfer.unsub('container', this.handleTransferData);
+    core.transfer.unsub('layout', this.handleTransferData);
     this.isSave = null;
     this.dragSelectContainer = null;
   }
@@ -142,7 +142,7 @@ class Sheet extends Component {
   save = () => {
     if (!this.isSave) {
       this.isSave = true;
-      core.actions.apppage.data({ save: 'container' })
+      core.actions.apppage.data({ save: 'layout' })
     }
   }
 
@@ -289,6 +289,12 @@ class Sheet extends Component {
             );
           this.save();
         });
+    } else if (type === 'container') {
+      core.actions.container
+        .addElement(
+          this.props.id, this.props.prop,
+          elementId, { ...params, ...data },
+        );
     } else {
       core.actions.container
         .addElement(
@@ -391,12 +397,13 @@ class Sheet extends Component {
 
     const disabled = {
       'isSelect': Object.keys(this.props.selects).length === 0,
-      'isPaste': !(core.buffer.class === 'container'),
+      'isPaste': !(core.buffer.class === 'layout'),
       'isTemplate': this.props.selectOne ? !(this.props.selectOne && this.props.elements[this.props.selectOne].type === 'template') : false,
     }
 
     const commands = {
-      addTemplate: ({ popupid }) => this.handleAddElement(e, 'template', popupid), 
+      addContainer: ({ popupid }) => this.handleAddElement(e, 'container', popupid), 
+      // addTemplate: ({ popupid }) => this.handleAddElement(e, 'template', popupid), 
     };
 
     const pos = { left: e.clientX, top: e.clientY };
@@ -411,7 +418,8 @@ class Sheet extends Component {
     const scheme = {
       main: [
         { id: '1', title: 'Add Element', children: listElemnts },
-        { id: '2', title: 'Add Template', type: 'remote', popupid: 'vistemplate', command: 'addTemplate' },
+        { id: '2', title: 'Add Container', type: 'remote', popupid: 'viscont', command: 'addContainer' },
+        // { id: '2', title: 'Add Template', type: 'remote', popupid: 'vistemplate', command: 'addTemplate' },
         { id: '3', type: 'divider' },      
         { id: '4', check: 'isSelect', title: 'Group', click: this.handleClickGroupElements },
         { id: '5', check: 'isSelect', title: 'Ungroup', click: () => this.handleClickUnGroupElement(elementId) },
@@ -502,7 +510,7 @@ class Sheet extends Component {
       }, {})
       
     const buffer = { list, elements, offsetX: x, offsetY: y };
-    core.buffer = { class: 'container', type: null, data: buffer  };
+    core.buffer = { class: 'layout', type: null, data: buffer  };
   }
 
   handleClickPasteElements = (e) => {

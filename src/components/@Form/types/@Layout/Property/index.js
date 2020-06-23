@@ -139,6 +139,8 @@ const scheme = {
     ],
   },
   group: {},
+  container: {
+  },
   template: {
     link: [],
   },
