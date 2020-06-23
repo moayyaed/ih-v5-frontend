@@ -141,9 +141,9 @@ class Layout extends PureComponent {
         <Button 
           key="9"
           minimal 
-          active={select === 'info'} 
-          icon="info-sign"  
-          onClick={() => this.handleChangeProperty('info')}
+          active={select === 'move'} 
+          icon="move"  
+          onClick={() => this.handleChangeProperty('move')}
         />,
       ];
     }

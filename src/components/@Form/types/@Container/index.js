@@ -145,6 +145,14 @@ class Container extends PureComponent {
           icon="media"  
           onClick={() => this.handleChangeProperty('image')}
         />,
+        <Separator key="8" />,
+        <Button 
+          key="9"
+          minimal 
+          active={select === 'move'} 
+          icon="move"  
+          onClick={() => this.handleChangeProperty('move')}
+        />,
       ];
     }
 

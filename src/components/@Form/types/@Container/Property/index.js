@@ -28,6 +28,28 @@ const scheme = {
         type: 'slider',
       }
     ],
+    move: [
+      { 
+        title: 'Position X', 
+        prop: 'x', 
+        type: 'number',
+      },
+      { 
+        title: 'Position Y', 
+        prop: 'y', 
+        type: 'number',
+      },
+      { 
+        title: 'Width', 
+        prop: 'w', 
+        type: 'number',
+      },
+      { 
+        title: 'Height', 
+        prop: 'h', 
+        type: 'number',
+      },
+    ]
   },
   text: {
     main: [
@@ -97,6 +119,28 @@ const scheme = {
         ]
       }
     ],
+    move: [
+      { 
+        title: 'Position X', 
+        prop: 'x', 
+        type: 'number',
+      },
+      { 
+        title: 'Position Y', 
+        prop: 'y', 
+        type: 'number',
+      },
+      { 
+        title: 'Width', 
+        prop: 'w', 
+        type: 'number',
+      },
+      { 
+        title: 'Height', 
+        prop: 'h', 
+        type: 'number',
+      },
+    ]
   },
   image: {
     main: [
@@ -137,10 +181,54 @@ const scheme = {
         max: 360,
       }
     ],
+    move: [
+      { 
+        title: 'Position X', 
+        prop: 'x', 
+        type: 'number',
+      },
+      { 
+        title: 'Position Y', 
+        prop: 'y', 
+        type: 'number',
+      },
+      { 
+        title: 'Width', 
+        prop: 'w', 
+        type: 'number',
+      },
+      { 
+        title: 'Height', 
+        prop: 'h', 
+        type: 'number',
+      },
+    ]
   },
   group: {},
   template: {
     link: [],
+    move: [
+      { 
+        title: 'Position X', 
+        prop: 'x', 
+        type: 'number',
+      },
+      { 
+        title: 'Position Y', 
+        prop: 'y', 
+        type: 'number',
+      },
+      { 
+        title: 'Width', 
+        prop: 'w', 
+        type: 'number',
+      },
+      { 
+        title: 'Height', 
+        prop: 'h', 
+        type: 'number',
+      },
+    ]
   },
 }
 
