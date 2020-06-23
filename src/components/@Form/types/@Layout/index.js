@@ -82,8 +82,8 @@ class Layout extends PureComponent {
   }
 
   handleChangeValueProperty = (key, value) => {
-    const propertyType = this.props.data.propertyType || 'link';
-    if (propertyType === 'link') {
+    const propertyType = this.props.data.propertyType || 'main';
+    if (propertyType === 'main') {
       core.actions.container
         .changeTemplateLink(
           this.props.id, this.props.options.prop,
@@ -112,16 +112,8 @@ class Layout extends PureComponent {
 
   renderButtons = (id) => {
     if (id === 'property') {
-      const select = this.props.data.propertyType || 'link';
+      const select = this.props.data.propertyType || 'main';
       return [
-        <Button 
-          key="1"
-          minimal
-          active={select === 'link'} 
-          icon="link"  
-          onClick={() => this.handleChangeProperty('link')} 
-        />,
-        <Separator key="2" />,
         <Button 
           key="3"
           minimal
@@ -144,6 +136,14 @@ class Layout extends PureComponent {
           active={select === 'image'} 
           icon="media"  
           onClick={() => this.handleChangeProperty('image')}
+        />,
+        <Separator key="8" />,
+        <Button 
+          key="9"
+          minimal 
+          active={select === 'info'} 
+          icon="info-sign"  
+          onClick={() => this.handleChangeProperty('info')}
         />,
       ];
     }
@@ -208,7 +208,7 @@ class Layout extends PureComponent {
       const templateData = elementData && elementData.type === 'template' ? this.props.data.templates[elementData.templateId] : null;
       return (
         <Property
-          type={this.props.data.propertyType || 'link'}
+          type={this.props.data.propertyType || 'main'}
           selectType={this.props.data.selectType}
           elementId={this.props.data.selectOne}
           elementData={elementData}
