@@ -29,6 +29,7 @@ core.network.response('components_tabs_form', (answer, res, context) => {
   }
   if (context.params.id === 'formLayout') {
     res[1].data.p1.layout.containers = res[2].data;
+    res[1].data.p1.layout.templates = {};
   }
   answer({ 
     options: generateOptions(res[0].data), 
