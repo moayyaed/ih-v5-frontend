@@ -290,11 +290,23 @@ class Sheet extends Component {
           this.save();
         });
     } else if (type === 'container') {
-      core.actions.container
-        .addElement(
-          this.props.id, this.props.prop,
-          elementId, { ...params, ...data },
-        );
+      core
+        .request({ method: 'get_container', params: templateId })
+        .ok(res => {
+          console.log(res)
+          /*
+          data.links = {};
+          data.templateId = templateId;
+          data.w = res.settings.w; 
+          data.h = res.settings.h;
+          core.actions.container
+            .addTemplate(
+              this.props.id, this.props.prop,
+              elementId, data, templateId, res,
+            );
+          this.save();
+          */
+        });
     } else {
       core.actions.container
         .addElement(

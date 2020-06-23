@@ -15,6 +15,18 @@ core.network.response('widget_container', (answer, res, context) => {
   answer(data);
 })
 
+core.network.request('get_container', (send, context) => {
+  send({
+    api: 'container', 
+    id: context.params, 
+  });
+})
+
+
+core.network.response('get_container', (answer, res, context) => {
+  answer(res.data);
+})
+
 core.network.request('get_template', (send, context) => {
   send({
     api: 'template', 
