@@ -82,12 +82,11 @@ class Layout extends PureComponent {
   }
 
   handleChangeValueProperty = (key, value) => {
-    const propertyType = this.props.data.propertyType || 'main';
-    if (propertyType === 'main') {
+    if (this.props.data.selectOne === 'content') {
       core.actions.container
-        .changeTemplateLink(
+        .settings(
           this.props.id, this.props.options.prop,
-          this.props.data.selectOne, { [key]: value.result }
+          { [key]: value }
         );
     } else {
       core.actions.container
@@ -204,7 +203,9 @@ class Layout extends PureComponent {
       )
     }
     if (id === 'property' && this.props.data.elements) {
-      const elementData = this.props.data.elements[this.props.data.selectOne];
+      const elementData = this.props.data.selectOne === 'content' ? 
+      { ...this.props.data.settings , type: 'content' } : 
+      this.props.data.elements[this.props.data.selectOne];
       const templateData = elementData && elementData.type === 'template' ? this.props.data.templates[elementData.templateId] : null;
       return (
         <Property
