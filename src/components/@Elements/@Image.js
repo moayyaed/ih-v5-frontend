@@ -29,15 +29,15 @@ function Image(props) {
         position: 'absolute', 
         width: '100%', 
         height: '100%', 
-        backgroundColor: props.params.backgroundColor,
-        border: `${props.params.borderSize}px solid ${props.params.borderColor}`, 
+        backgroundColor: props.item.backgroundColor,
+        border: `${props.item.borderSize}px solid ${props.item.borderColor}`, 
       }}
     >
       <div
         style={{
           ...styles.img,
-          backgroundImage: `url(${props.params.img})`,
-          transform: `scale(${scale(props.params.imgSize)}) rotate(${props.params.imgRotate}deg)`,
+          backgroundImage: `url(${props.item.img})`,
+          transform: `scale(${scale(props.item.imgSize)}) rotate(${props.item.imgRotate}deg)`,
         }}
       />
     </div>

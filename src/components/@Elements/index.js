@@ -17,7 +17,7 @@ function getElementByType(type) {
       return Image;
     case 'container':
       return Container;
-    case 'template1':
+    case 'template':
       return Template;
     case 'cctv':
       return CCTV;
@@ -26,8 +26,8 @@ function getElementByType(type) {
   }
 }
 
-function elements(id, item, template) {
-  return React.createElement(getElementByType(item.type), { key: id, id: id, params: item, template });
+function elements(type, params) {
+  return React.createElement(getElementByType(type), params);
 }
 
 

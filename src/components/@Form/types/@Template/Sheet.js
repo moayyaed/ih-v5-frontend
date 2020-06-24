@@ -544,7 +544,7 @@ class Sheet extends Component {
         </div>
       )
     }
-    return elemets(elementId, item)
+    return elemets(item.type, { item })
   }
 
   handleStartMoveSelectContainer = (e, elementId, data) => {

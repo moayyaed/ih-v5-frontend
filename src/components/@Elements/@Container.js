@@ -17,7 +17,23 @@ class Container extends PureComponent {
             height: item.h,
           }}
         >
-          {item.elements.map(cid => this.handleRender(cid, this.props.template.elements[cid]))}
+          {item.elements.map(cid => this.handleRender(cid, this.props.container.elements[cid]))}
+        </div>
+      )
+    }
+    if (item.type === 'template') {
+      return (
+        <div
+          key={id}
+          style={{ 
+            position: 'absolute', 
+            left: item.x,
+            top: item.y,
+            width: item.w,
+            height: item.h,
+          }}
+        >
+          {elemets(this.props.container.elements[id].type, { item: this.props.container.elements[id], template: this.props.templates[item.templateId] })}
         </div>
       )
     }
@@ -32,13 +48,13 @@ class Container extends PureComponent {
           height: item.h,
         }}
       >
-        {elemets(id, this.props.template.elements[id], null)}
+        {elemets(this.props.container.elements[id].type, { item: this.props.container.elements[id] })}
       </div>
     )
   }
 
   render() {
-    const scale = Math.min((this.props.params.w) / this.props.template.settings.w, (this.props.params.h) / this.props.template.settings.h);
+    const scale = Math.min((this.props.item.w) / this.props.container.settings.w, (this.props.item.h) / this.props.container.settings.h);
     return (
       <div
         style={{
@@ -53,12 +69,12 @@ class Container extends PureComponent {
         <div
           style={{
             position: 'relative', 
-            width: this.props.template.settings.w, 
-            height: this.props.template.settings.h,
+            width: this.props.container.settings.w, 
+            height: this.props.container.settings.h,
             zoom: scale, 
           }}
         >
-          {this.props.template.list.map(id => this.handleRender(id, this.props.template.elements[id]))}
+          {this.props.container.list.map(id => this.handleRender(id, this.props.container.elements[id]))}
         </div>
       </div>
     )

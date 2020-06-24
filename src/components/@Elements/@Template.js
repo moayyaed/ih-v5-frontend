@@ -32,7 +32,7 @@ class Template extends PureComponent {
           height: item.h,
         }}
       >
-        {elemets(id, this.props.template.elements[id], null)}
+        {elemets(this.props.template.elements[id].type, { item: this.props.template.elements[id] })}
       </div>
     )
   }
@@ -45,7 +45,7 @@ class Template extends PureComponent {
           position: 'absolute', 
           width: '100%', 
           height: '100%',
-          zoom: this.props.params.w / this.props.template.settings.w, 
+          zoom: this.props.item.w / this.props.template.settings.w, 
         }}
       >
         {this.props.template.list.map(id => this.handleRender(id, this.props.template.elements[id]))}

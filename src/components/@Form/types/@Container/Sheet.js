@@ -578,9 +578,9 @@ class Sheet extends Component {
       )
     }
     if (item.type === 'template') {
-      return elemets(elementId, item, this.props.templates[item.templateId])
+      return elemets(item.type, { item, template: this.props.templates[item.templateId] })
     }
-    return elemets(elementId, item, null)
+    return elemets(item.type, { item })
   }
 
   handleStartMoveSelectContainer = (e, elementId, data) => {

@@ -49,20 +49,20 @@ function Text(props) {
           position: 'absolute', 
           width: '100%', 
           height: '100%', 
-          backgroundColor: props.params.backgroundColor,
-          border: `${props.params.borderSize}px solid ${props.params.borderColor}`,
-          // fontSize: `${props.params.textSize}px`,
-          // justifyContent: props.params.textAlignH.id,
-          // alignItems: props.params.textAlignV.id, 
+          backgroundColor: props.item.backgroundColor,
+          border: `${props.item.borderSize}px solid ${props.item.borderColor}`,
+          // fontSize: `${props.item.textSize}px`,
+          // justifyContent: props.item.textAlignH.id,
+          // alignItems: props.item.textAlignV.id, 
           overflow: 'hidden',
         }}
       >
         <text 
-          x={getX(props.params.textAlignH.id)} 
-          y={getY(props.params.textAlignV.id, props.params.textSize, props.params.h, props.params.borderSize)} 
-          textAnchor={getTextAnchor(props.params.textAlignH.id)} 
+          x={getX(props.item.textAlignH.id)} 
+          y={getY(props.item.textAlignV.id, props.item.textSize, props.item.h, props.item.borderSize)} 
+          textAnchor={getTextAnchor(props.item.textAlignH.id)} 
           alignmentBaseline="middle" 
-          fontSize={props.params.textSize}>{props.params.text}
+          fontSize={props.item.textSize}>{props.item.text}
         </text>
       </svg>
   );
