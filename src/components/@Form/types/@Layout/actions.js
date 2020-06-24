@@ -137,7 +137,7 @@ export function addElement(id, prop, elementId, data) {
   };
 }
 
-export function addContainer(id, prop, elementId, elementData, containerId, containerData) {
+export function addContainer(id, prop, elementId, elementData, containerId, container, templates) {
   return {
     type: LAYOUT_ADD_CONTAINER,
     id,
@@ -145,7 +145,8 @@ export function addContainer(id, prop, elementId, elementData, containerId, cont
     elementId,
     elementData,
     containerId,
-    containerData,
+    container,
+    templates,
   };
 }
 

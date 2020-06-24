@@ -294,12 +294,12 @@ class Sheet extends Component {
         .request({ method: 'get_container', params: menuItemId })
         .ok(res => {
           data.containerId = { id: menuItemId, title: '-' };
-          data.w = res.settings.w; 
-          data.h = res.settings.h;
+          data.w = res.container.settings.w; 
+          data.h = res.container.settings.h;
           core.actions.layout
             .addContainer(
               this.props.id, this.props.prop,
-              elementId, data, menuItemId, res,
+              elementId, data, menuItemId, res.container, res.templates,
             );
           this.save();
         });

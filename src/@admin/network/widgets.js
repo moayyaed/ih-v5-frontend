@@ -16,15 +16,15 @@ core.network.response('widget_container', (answer, res, context) => {
 })
 
 core.network.request('get_container', (send, context) => {
-  send({
-    api: 'container', 
-    id: context.params, 
-  });
+  send([
+    { api: 'container',  id: context.params },
+    { api: 'templates', containerid: context.params }
+  ]);
 })
 
 
 core.network.response('get_container', (answer, res, context) => {
-  answer(res.data);
+  answer({ container: res[0].data, templates: res[1].data });
 })
 
 core.network.request('get_template', (send, context) => {

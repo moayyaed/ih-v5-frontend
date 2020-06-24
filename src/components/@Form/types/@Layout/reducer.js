@@ -314,7 +314,11 @@ function reducerContainer(state, action) {
         },
         containers: {
           ...state.containers,
-          [action.containerId]: action.containerData,
+          [action.containerId]: action.container,
+        },
+        templates: {
+          ...state.templates,
+          ...action.templates,
         },
       };
     case LAYOUT_ADD_TEMPLATE:
