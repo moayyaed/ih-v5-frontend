@@ -40,39 +40,46 @@ function deleteElements(elements, containers, templates, selects) {
       }
       return { ...p, [c]: elements[c] }
     }, {});
-  const checkt = Object
-    .keys(e)
-    .reduce((p, c) => {
-      if (e[c].type === 'template') {
-        return { ...p, [e[c].templateId]: true }
-      }
-      return p;
-    }, {})
-  const checkc = Object
-    .keys(e)
-    .reduce((p, c) => {
-      if (e[c].type === 'container') {
-        return { ...p, [e[c].containerId.id]: true }
-      }
-      return p;
-    }, {})
-  const _t = Object
-    .keys(templates)
-    .reduce((p, c) => {
-      if (checkt[c]) {
-        return { ...p, [c]: templates[c] }
-      }
-      return p;
-    }, {})
-  const _c = Object
-    .keys(containers)
-    .reduce((p, c) => {
-      if (checkc[c]) {
-        return { ...p, [c]: containers[c] }
-      }
-      return p;
-    }, {})
-  return { elements: e, templates: _t, containers: _c  };
+
+    const check = Object
+      .keys(e)
+      .reduce((p, c) => {
+        if (e[c].type === 'template') {
+          return { ...p, [e[c].templateId]: true }
+        }
+        if (e[c].type === 'container') {
+          const temp = Object
+            .keys(containers[e[c].containerId.id].elements)
+            .reduce((p2, c2) => {
+              if (containers[e[c].containerId.id].elements[c2].type === 'template') {
+                return { ...p2, [containers[e[c].containerId.id].elements[c2].templateId]: true }
+              }
+              return p2;
+            }, {})
+          return { ...p, ...temp }
+        }
+        return p;
+      }, {})
+
+    const t = Object
+      .keys(templates)
+      .reduce((p, c) => {
+        if (check[c]) {
+          return { ...p, [c]: templates[c] }
+        }
+        return p;
+      }, {})
+
+      const _c = Object
+      .keys(containers)
+      .reduce((p, c) => {
+        if (check[c]) {
+          return { ...p, [c]: containers[c] }
+        }
+        return p;
+      }, {})
+ 
+  return { elements: e, containers: _c, templates: t };
 }
 
 function getParentGroupId(id, elements) {
