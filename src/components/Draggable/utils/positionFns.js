@@ -42,15 +42,27 @@ export function getBoundPosition(draggable: Draggable, x: number, y: number): [n
           int(boundNodeStyle.paddingBottom) - int(nodeStyle.marginBottom)
       };
     } else {
-      bounds = {
-        left: int(boundNodeStyle.paddingLeft) + int(nodeStyle.marginLeft),
-        top: int(boundNodeStyle.paddingTop) + int(nodeStyle.marginTop),
-        right: innerWidth(boundNode) - outerWidth(node) +
-          int(boundNodeStyle.paddingRight) - int(nodeStyle.marginRight),
-        bottom: innerHeight(boundNode) - outerHeight(node) +
-          int(boundNodeStyle.paddingBottom) - int(nodeStyle.marginBottom)
-      };
+      if (node.parentNode === boundNode) {
+        bounds = {
+          left: int(boundNodeStyle.paddingLeft) + int(nodeStyle.marginLeft),
+          top: int(boundNodeStyle.paddingTop) + int(nodeStyle.marginTop),
+          right: innerWidth(boundNode) - outerWidth(node) +
+            int(boundNodeStyle.paddingRight) - int(nodeStyle.marginRight),
+          bottom: innerHeight(boundNode) - outerHeight(node) +
+            int(boundNodeStyle.paddingBottom) - int(nodeStyle.marginBottom)
+        };
+      } else {
+        bounds = {
+          left: int(boundNodeStyle.paddingLeft) + int(nodeStyle.marginLeft) - int(node.parentNode.style.left),
+          top: int(boundNodeStyle.paddingTop) + int(nodeStyle.marginTop) - int(node.parentNode.style.top),
+          right: innerWidth(boundNode) - outerWidth(node) +
+            int(boundNodeStyle.paddingRight) - int(nodeStyle.marginRight) - int(node.parentNode.style.left),
+          bottom: innerHeight(boundNode) - outerHeight(node) +
+            int(boundNodeStyle.paddingBottom) - int(nodeStyle.marginBottom) - int(node.parentNode.style.top)
+        };
+      }
     }
+    
   }
 
   // Keep x and y below right and bottom limits...
@@ -60,7 +72,6 @@ export function getBoundPosition(draggable: Draggable, x: number, y: number): [n
   // But above left and top limits.
   if (isNum(bounds.left)) x = Math.max(x, bounds.left);
   if (isNum(bounds.top)) y = Math.max(y, bounds.top);
-
   return [x, y];
 }
 

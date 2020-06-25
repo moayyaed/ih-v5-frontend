@@ -107,7 +107,6 @@ export function offsetXYFromParent(evt: {clientX: number, clientY: number}, offs
 
   const x = evt.clientX - offsetParentRect.left * originScale // ((evt.clientX + offsetParent.scrollLeft - offsetParentRect.left) / scale);
   const y = evt.clientY - offsetParentRect.top * originScale // ((evt.clientY + offsetParent.scrollTop - offsetParentRect.top) / scale);
-  
   return { x: Math.round(x * 1e2 ) / 1e2, y: Math.round(y * 1e2 ) / 1e2 };
 }
 

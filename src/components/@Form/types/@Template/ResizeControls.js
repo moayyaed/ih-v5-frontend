@@ -136,12 +136,21 @@ function getSize(isProportion, type, position, data) {
 }
 
 function getPositionsControls({ x, y, w, h }) {
+  /*
+  return {
+    topLeft: { x: x, y: y },
+    topRight: { x: x + w - styles.control.height, y: y },
+    bottomLeft: { x: 0, y: h - styles.control.height },
+    bottomRight: { x: w - styles.control.height, y: h - styles.control.height }, 
+  } */
+  
   return {
     topLeft: { x: 0, y: 0 },
     topRight: { x: w - styles.control.height, y: 0 },
     bottomLeft: { x: 0, y: h - styles.control.height },
     bottomRight: { x: w - styles.control.height, y: h - styles.control.height }, 
   }
+  
 }
 
 
@@ -153,6 +162,7 @@ function ResizeControls(props) {
   return (
     <>
       <Draggable
+        bounds=".parent2"
         scale={props.scale} 
         position={positions.topLeft}
         onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TL', props.position, data), 'start')}
@@ -162,6 +172,7 @@ function ResizeControls(props) {
         <div style={styles.control} />
       </Draggable>
       <Draggable
+        bounds=".parent2"
         scale={props.scale} 
         position={positions.topRight}
         onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TR', props.position, data))}
@@ -171,6 +182,7 @@ function ResizeControls(props) {
         <div style={styles.control} />
       </Draggable>
       <Draggable
+        bounds=".parent2"
         scale={props.scale} 
         position={positions.bottomLeft}
         onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'BL', props.position, data))}
@@ -180,6 +192,7 @@ function ResizeControls(props) {
         <div style={styles.control} />
       </Draggable>
       <Draggable
+        bounds=".parent2"
         scale={props.scale} 
         position={positions.bottomRight}
         onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'BR', props.position, data))}
