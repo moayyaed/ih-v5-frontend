@@ -90,7 +90,7 @@ class AppLayout extends Component {
             height: item.h * scaleH,
           }}
         >
-          {elemets(this.props.state.layout.elements[id].type, { item: this.props.state.layout.elements[id], container: this.props.state.containers[this.props.state.layout.elements[id].containerId.id], templates: this.props.state.templates })}
+          {elemets(this.props.state.layout.elements[id].type, { item: this.props.state.layout.elements[id], container: this.props.state.containers[this.props.state.layout.elements[id].containerId.id], templates: this.props.state.templates, scaleW, scaleH })}
         </div>
       )
     }
@@ -115,6 +115,7 @@ class AppLayout extends Component {
         <ReactResizeDetector handleWidth handleHeight>
           {({ width, height }) => {
             if (width && state.layout.settings) {
+              console.log(width, width / state.layout.settings.w)
               return (
                 <div style={styles.root}>
                   {state.layout.list.map(id => this.handleRender(id, state.layout.elements[id], width / state.layout.settings.w, height / state.layout.settings.h))}

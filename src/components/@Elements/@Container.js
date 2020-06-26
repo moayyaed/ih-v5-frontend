@@ -54,7 +54,7 @@ class Container extends PureComponent {
   }
 
   render() {
-    const scale = Math.min((this.props.item.w) / this.props.container.settings.w, (this.props.item.h) / this.props.container.settings.h);
+    const scale = Math.min((this.props.item.w * this.props.scaleW) / this.props.container.settings.w, (this.props.item.h * this.props.scaleH) / this.props.container.settings.h);
     return (
       <div
         style={{
