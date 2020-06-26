@@ -46,7 +46,6 @@ class AppLayout extends Component {
   }
 
   handleRender = (id, item, scaleW, scaleH) => {
-    console.log(scaleW, scaleH)
     if (item.type === 'group') {
       return (
         <div

@@ -82,19 +82,28 @@ class Container extends PureComponent {
   }
 
   handleChangeValueProperty = (key, value) => {
-    const propertyType = this.props.data.propertyType || 'link';
-    if (propertyType === 'link') {
+  
+    if (this.props.data.selectOne === 'content') {
       core.actions.container
-        .changeTemplateLink(
+        .settings(
           this.props.id, this.props.options.prop,
-          this.props.data.selectOne, { [key]: value.result }
+          { [key]: value }
         );
     } else {
-      core.actions.container
-        .editElement(
-          this.props.id, this.props.options.prop,
-          this.props.data.selectOne, { [key]: value }
-        );
+      const propertyType = this.props.data.propertyType || 'link';
+      if (propertyType === 'link') {
+        core.actions.container
+          .changeTemplateLink(
+            this.props.id, this.props.options.prop,
+            this.props.data.selectOne, { [key]: value.result }
+          );
+      } else {
+        core.actions.container
+          .editElement(
+            this.props.id, this.props.options.prop,
+            this.props.data.selectOne, { [key]: value }
+          );
+      }
     }
   }
 
