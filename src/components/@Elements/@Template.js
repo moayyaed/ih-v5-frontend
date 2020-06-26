@@ -17,7 +17,7 @@ class Template extends PureComponent {
             height: item.h,
           }}
         >
-          {item.elements.map(cid => this.handleRender(cid, this.props.template.elements[cid]))}
+          {item.elements.map(cid => this.handleRender(cid, this.props.item.elements[id] || this.props.template.elements[cid]))}
         </div>
       )
     }
@@ -32,7 +32,7 @@ class Template extends PureComponent {
           height: item.h,
         }}
       >
-        {elemets(this.props.template.elements[id].type, { item: this.props.template.elements[id] })}
+        {elemets(this.props.template.elements[id].type, { item: this.props.item.elements[id] || this.props.template.elements[id] })}
       </div>
     )
   }
@@ -48,7 +48,7 @@ class Template extends PureComponent {
           zoom: this.props.item.w / this.props.template.settings.w, 
         }}
       >
-        {this.props.template.list.map(id => this.handleRender(id, this.props.template.elements[id]))}
+        {this.props.template.list.map(id => this.handleRender(id, this.props.item.elements[id] || this.props.template.elements[id]))}
       </div>
     )
   }
