@@ -8,9 +8,10 @@ export function data(data) {
   };
 }
 
-export function updateTemplates(data) {
+export function updateTemplates(containerId, data) {
   return {
     type: APP_LAYOUT_UPDATE_TEMPLATES,
+    containerId,
     data,
   };
 }

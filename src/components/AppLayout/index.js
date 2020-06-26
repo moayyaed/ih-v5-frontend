@@ -8,6 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import ReactResizeDetector from 'react-resize-detector';
 import elemets from 'components/@Elements';
+import Container from 'components/@Elements/@Container';
 
 
 const styles = {
@@ -34,11 +35,21 @@ class AppLayout extends Component {
       .request({ method: 'applayout', params })
       .ok(data => {
         core.actions.layout.data(data);
+        data.layout.list.forEach(id => {
+          if (data.layout.elements[id].type === 'container') {
+            core.tunnel.sub({ 
+              method: 'sub',
+              type: 'container',
+              uuid: id,
+              id: data.layout.elements[id].containerId.id,
+            }, (realtime) => this.realtime(data.layout.elements[id].containerId.id, realtime));
+          }
+        });
     });
   }
 
-  realtime = (value) => {
-    core.actions.layout.updateTemplates(value);
+  realtime = (containerId, data) => {
+    core.actions.layout.updateTemplates(containerId, data);
   }
 
   handleClick = (id) => {

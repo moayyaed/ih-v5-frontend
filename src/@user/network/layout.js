@@ -13,7 +13,9 @@ function preparationData(data) {
           const templateId = data.containers[key].elements[id].templateId;
 
           data.containers[key].elements[id].elements = {};
-          data.containers[key].elements[id].states = {};
+          data.containers[key].elements[id].states = {
+            master: 0,
+          };
           
           if (data.templates[templateId]) {
             data.templates[templateId].listState.forEach(stateId => {
@@ -44,6 +46,12 @@ function preparationData(data) {
         }
       });
     });
+
+    Object
+      .keys(data.templates)
+      .forEach(key => {
+        data.templates[key].listState = ['master'].concat([...data.templates[key].listState].reverse());
+      });
   return data;
 }
 
