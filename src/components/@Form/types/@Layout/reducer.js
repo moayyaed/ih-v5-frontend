@@ -56,7 +56,7 @@ function deleteElements(elements, containers, templates, selects) {
               }
               return p2;
             }, {})
-          return { ...p, ...temp }
+          return { ...p, ...temp, [e[c].containerId.id]: true   }
         }
         return p;
       }, {})
@@ -78,6 +78,8 @@ function deleteElements(elements, containers, templates, selects) {
         }
         return p;
       }, {})
+
+      console.log(_c)
  
   return { elements: e, containers: _c, templates: t };
 }
