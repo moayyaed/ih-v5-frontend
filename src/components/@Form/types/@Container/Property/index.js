@@ -230,6 +230,30 @@ const scheme = {
       },
     ]
   },
+  content: {
+    move: [
+      { 
+        title: 'Position X', 
+        prop: 'x', 
+        type: 'number',
+      },
+      { 
+        title: 'Position Y', 
+        prop: 'y', 
+        type: 'number',
+      },
+      { 
+        title: 'Width', 
+        prop: 'w', 
+        type: 'number',
+      },
+      { 
+        title: 'Height', 
+        prop: 'h', 
+        type: 'number',
+      },
+    ]
+  }
 }
 
 

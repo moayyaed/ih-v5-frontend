@@ -27,10 +27,8 @@ class Toolbar extends PureComponent {
   }
 
   handleClickElement = (e, id) => {
-    if (id !== 'content') {
-      e.preventDefault();
-      this.props.onClickElement(id);
-    }
+    e.preventDefault();
+    this.props.onClickElement(id);
   }
 
   render({ selectElements, listElements, elements } = this.props) {

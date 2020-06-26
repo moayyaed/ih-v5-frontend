@@ -212,7 +212,9 @@ class Container extends PureComponent {
       )
     }
     if (id === 'property' && this.props.data.elements) {
-      const elementData = this.props.data.elements[this.props.data.selectOne];
+      const elementData = this.props.data.selectOne === 'content' ? 
+      { ...this.props.data.settings , type: 'content' } : 
+      this.props.data.elements[this.props.data.selectOne];
       const templateData = elementData && elementData.type === 'template' ? this.props.data.templates[elementData.templateId] : null;
       return (
         <Property
