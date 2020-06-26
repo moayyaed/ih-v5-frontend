@@ -115,7 +115,6 @@ class AppLayout extends Component {
         <ReactResizeDetector handleWidth handleHeight>
           {({ width, height }) => {
             if (width && state.layout.settings) {
-              console.log(width, width / state.layout.settings.w)
               return (
                 <div style={styles.root}>
                   {state.layout.list.map(id => this.handleRender(id, state.layout.elements[id], width / state.layout.settings.w, height / state.layout.settings.h))}
