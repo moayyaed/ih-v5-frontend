@@ -30,6 +30,7 @@ class Template extends PureComponent {
           top: item.y,
           width: item.w,
           height: item.h,
+          zIndex: props.item.zIndex,
         }}
       >
         {elemets(this.props.template.elements[id].type, { item: this.props.item.elements ? this.props.item.elements[id] : this.props.template.elements[id] })}
