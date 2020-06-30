@@ -416,11 +416,13 @@ class Sheet extends Component {
 
     const pos = { left: e.clientX, top: e.clientY };
     const listElemnts = [
-      { id: '0', title: 'Block', click: () => this.handleAddElement(e, 'block') },
-      { id: '1', title: 'Text', click: () => this.handleAddElement(e, 'text') },
-      { id: '2', title: 'Image', click: () => this.handleAddElement(e, 'image') },
-      { id: '3', type: 'divider' },
-      { id: '4', title: 'CCTV', click: () => this.handleAddElement(e, 'cctv') },
+      { id: '0', title: 'Rectangle', click: () => this.handleAddElement(e, 'rectangle') },
+      { id: '1', title: 'Circle', click: () => this.handleAddElement(e, 'circle') },
+      { id: '2', title: 'Text', click: () => this.handleAddElement(e, 'text') },
+      { id: '3', title: 'Image', click: () => this.handleAddElement(e, 'image') },
+      { id: '4', title: 'Button', click: () => this.handleAddElement(e, 'button') },
+      { id: '5', type: 'divider' },
+      { id: '6', title: 'CCTV', click: () => this.handleAddElement(e, 'cctv') },
     ]
   
     const scheme = {

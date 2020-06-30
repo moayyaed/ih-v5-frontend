@@ -141,22 +141,38 @@ class Container extends PureComponent {
         <Separator key="4" />,
         <Button 
           key="5"
-          minimal 
-          active={select === 'text'} 
-          icon="font"  
-          onClick={() => this.handleChangeProperty('text')} 
+          minimal
+          active={select === 'border'} 
+          icon="square"  
+          onClick={() => this.handleChangeProperty('border')} 
         />,
         <Separator key="6" />,
         <Button 
           key="7"
           minimal 
-          active={select === 'image'} 
-          icon="media"  
-          onClick={() => this.handleChangeProperty('image')}
+          active={select === 'text'} 
+          icon="font"  
+          onClick={() => this.handleChangeProperty('text')} 
         />,
         <Separator key="8" />,
         <Button 
           key="9"
+          minimal 
+          active={select === 'image'} 
+          icon="media"  
+          onClick={() => this.handleChangeProperty('image')}
+        />,
+        <Separator key="10" />,
+        <Button 
+          key="11"
+          minimal 
+          active={select === 'actions'} 
+          icon="hand-up"  
+          onClick={() => this.handleChangeProperty('actions')}
+        />,
+        <Separator key="12" />,
+        <Button 
+          key="13"
           minimal 
           active={select === 'move'} 
           icon="move"  

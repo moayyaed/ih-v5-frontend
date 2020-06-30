@@ -4,6 +4,8 @@ import React from 'react';
 import Block from './@Block';
 import Text from './@Text';
 import Image from './@Image';
+import Button from './@Button';
+
 import Container from './@Container';
 import Template from './@Template';
 import CCTV from './@CCTV';
@@ -15,6 +17,8 @@ function getElementByType(type) {
       return Text;
     case 'image':
       return Image;
+    case 'button':
+      return Button;
     case 'container':
       return Container;
     case 'template':
