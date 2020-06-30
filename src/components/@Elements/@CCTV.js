@@ -9,7 +9,8 @@ function CCTV(props) {
         width: '100%', 
         height: '100%', 
         backgroundColor: props.item.backgroundColor,
-        border: `${props.item.borderSize}px solid ${props.item.borderColor}`, 
+        border: `${props.item.borderSize}px solid ${props.item.borderColor}`,
+        zIndex: props.item.zIndex,
       }}
     >
       CCTV
