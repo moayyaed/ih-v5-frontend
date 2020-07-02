@@ -475,13 +475,14 @@ class Sheet extends Component {
           h = Math.max(h, element.y + element.h); 
           list.push(key) 
         });
+      const params = getDefaultParamsElement('group');
       const groupData = { 
         x, y, 
         w: w - x, 
         h: h - y, 
         type: 'group',
         elements: list,
-        zIndex: 100,
+        ...params,
       };
       core.actions.template
         .groupElements(
