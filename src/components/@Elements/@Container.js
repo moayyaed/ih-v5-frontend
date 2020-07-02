@@ -46,7 +46,6 @@ class Container extends PureComponent {
           top: item.y,
           width: item.w,
           height: item.h,
-          zIndex: item.zIndex,
         }}
       >
         {elemets(this.props.container.elements[id].type, { item: this.props.container.elements[id] })}

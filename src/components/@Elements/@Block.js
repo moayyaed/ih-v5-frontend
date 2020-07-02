@@ -15,7 +15,6 @@ function Block(props) {
         border: `${props.item.borderSize}px ${borderStyle} ${props.item.borderColor}`,
         borderRadius: borderRadius,
         opacity: opacity,
-        zIndex: props.item.zIndex,
       }}
     />
   );
