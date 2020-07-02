@@ -356,7 +356,7 @@ class Sheet extends Component {
 
     if (e.shiftKey && this.props.selectType !== null) {
       if (this.props.selects[elementId] === undefined) {
-        const data = { x: Infinity, y: Infinity, w: 0, h: 0 };
+        const data = { x: Infinity, y: Infinity, w: 0, h: 0, zIndex: 0 };
         Object
           .keys({ ...this.props.selects, [elementId]: true })
           .forEach(key => {
@@ -365,6 +365,7 @@ class Sheet extends Component {
             data.y = Math.min(data.y, element.y); 
             data.w = Math.max(data.w, element.x + element.w); 
             data.h = Math.max(data.h, element.y + element.h); 
+            data.zIndex = Math.max(data.zIndex, element.zIndex); 
           });
         data.w = data.w - data.x;
         data.h = data.h - data.y;

@@ -108,6 +108,8 @@ function getDefaultParams(type) {
       return IMAGE;
     case 'button':
       return BUTTON;
+    case 'template':
+    case 'container':
     case 'group':
       return GROUP;
     default:

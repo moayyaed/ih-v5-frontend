@@ -247,6 +247,80 @@ const moveSection = [
   },
 ];
 
+const groupSettings = {
+  main: [
+    { 
+      title: 'Opacity', 
+      prop: 'opacity', 
+      type: 'number',
+    },
+    { 
+      title: 'Z-index', 
+      prop: 'zIndex', 
+      type: 'number',
+    },
+  ],
+  move: [
+    { 
+      title: 'Position X', 
+      prop: 'x', 
+      type: 'number',
+    },
+    { 
+      title: 'Position Y', 
+      prop: 'y', 
+      type: 'number',
+    },
+    { 
+      title: 'Width', 
+      prop: 'w', 
+      type: 'text',
+    },
+    { 
+      title: 'Height', 
+      prop: 'h', 
+      type: 'text',
+    },
+  ],
+}
+
+const containerSettings = {
+  main: [
+    { 
+      title: 'Opacity', 
+      prop: 'opacity', 
+      type: 'number',
+    },
+    { 
+      title: 'Z-index', 
+      prop: 'zIndex', 
+      type: 'number',
+    },
+  ],
+  move: [
+    { 
+      title: 'Position X', 
+      prop: 'x', 
+      type: 'number',
+    },
+    { 
+      title: 'Position Y', 
+      prop: 'y', 
+      type: 'number',
+    },
+    { 
+      title: 'Width', 
+      prop: 'w', 
+      type: 'number',
+    },
+    { 
+      title: 'Height', 
+      prop: 'h', 
+      type: 'number',
+    },
+  ],
+}
+
 
 const scheme = {
   block: {
@@ -291,42 +365,8 @@ const scheme = {
   content: {
     move: moveSection,
   },
-  group: {
-    main: [
-      { 
-        title: 'Opacity', 
-        prop: 'opacity', 
-        type: 'number',
-      },
-      { 
-        title: 'Z-index', 
-        prop: 'zIndex', 
-        type: 'number',
-      },
-    ],
-    move: [
-      { 
-        title: 'Position X', 
-        prop: 'x', 
-        type: 'number',
-      },
-      { 
-        title: 'Position Y', 
-        prop: 'y', 
-        type: 'number',
-      },
-      { 
-        title: 'Width', 
-        prop: 'w', 
-        type: 'text',
-      },
-      { 
-        title: 'Height', 
-        prop: 'h', 
-        type: 'text',
-      },
-    ],
-  },
+  group: groupSettings,
+  container: containerSettings,
 }
 
 
