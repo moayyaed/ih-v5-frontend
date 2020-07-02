@@ -15,6 +15,10 @@ class Container extends PureComponent {
             top: item.y,
             width: item.w,
             height: item.h,
+            backgroundColor: item.backgroundColor,
+            border: `${item.borderSize}px ${item.borderStyle.id} ${item.borderColor}`,
+            borderRadius: (Math.min(item.w, item.h) / 2 / 100) * item.borderRadius,
+            opacity: item.opacity / 100 ,
           }}
         >
           {item.elements.map(cid => this.handleRender(cid, this.props.container.elements[cid]))}

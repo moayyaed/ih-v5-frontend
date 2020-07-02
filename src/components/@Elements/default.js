@@ -90,6 +90,16 @@ const BUTTON = {
   longClickRight: '',
 }
 
+const GROUP = {
+  borderSize: 0,
+  borderRadius: 0,
+  borderStyle: { id: 'solid', title: 'Solid' },
+  borderColor: 'rgba(0,0,0,1)',
+  backgroundColor: 'transparent',
+  zIndex: 100,
+  opacity: 100,
+}
+
 
 function getDefaultParams(type) {
   switch (type) {
@@ -103,6 +113,8 @@ function getDefaultParams(type) {
       return IMAGE;
     case 'button':
       return BUTTON;
+    case 'group':
+      return GROUP;
     default:
       return BLOCK;
   }

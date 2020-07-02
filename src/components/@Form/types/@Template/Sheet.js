@@ -479,7 +479,8 @@ class Sheet extends Component {
         w: w - x, 
         h: h - y, 
         type: 'group',
-        elements: list, 
+        elements: list,
+        zIndex: 100,
       };
       core.actions.template
         .groupElements(

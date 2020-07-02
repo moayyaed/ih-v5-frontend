@@ -38,15 +38,6 @@ const styles = {
 }
 
 
-function getRandomColor() {
-  var letters = '0123456789ABCDEF';
-  var color = '#';
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
-
 function getAllElementsByGroup(list, elements) {
   return list
     .reduce((p, c) => {
@@ -461,12 +452,14 @@ class Sheet extends Component {
           h = Math.max(h, element.y + element.h); 
           list.push(key) 
         });
+      const params = getDefaultParamsElement('group');
       const groupData = { 
         x, y, 
         w: w - x, 
         h: h - y, 
         type: 'group',
-        elements: list, 
+        elements: list,
+        ...params,
       };
       core.actions.layout
         .groupElements(
@@ -571,7 +564,11 @@ class Sheet extends Component {
             position: 'absolute', 
             width: '100%', 
             height: '100%', 
-            outline: item.groupId ? 'unset' : `1px dashed #6d7882`, 
+            outline: item.groupId ? 'unset' : `1px dashed #6d7882`,
+            backgroundColor: item.backgroundColor,
+            border: `${item.borderSize}px ${item.borderStyle.id} ${item.borderColor}`,
+            borderRadius: (Math.min(item.w, item.h) / 2 / 100) * item.borderRadius,
+            opacity: item.opacity / 100 ,
           }}
         >
           {item.elements.map(id => 

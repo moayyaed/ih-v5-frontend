@@ -114,7 +114,7 @@ function reducerContainer(state, action) {
       return { 
         ...state,
         selectType: 'one',
-        selectOne: action.elementId,
+        selectOne: action.groupId,
         selects: { [action.groupId]: true },
         list: state.list
           .filter(id => !action.groupData.elements.includes(id))

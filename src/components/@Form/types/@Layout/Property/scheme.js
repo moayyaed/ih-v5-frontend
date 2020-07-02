@@ -291,7 +291,11 @@ const scheme = {
   content: {
     move: moveSection,
   },
-  group: {},
+  group: {
+    main: mainSection,
+    border: borderSection,
+    move: moveSection,
+  },
 }
 
 
