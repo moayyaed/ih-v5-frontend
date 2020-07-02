@@ -131,6 +131,22 @@ class Template extends PureComponent {
           icon="media"  
           onClick={() => this.handleChangeProperty('image')}
         />,
+        <Separator key="10" />,
+        <Button 
+          key="11"
+          minimal 
+          active={select === 'actions'} 
+          icon="hand-up"  
+          onClick={() => this.handleChangeProperty('actions')}
+        />,
+        <Separator key="12" />,
+        <Button 
+          key="13"
+          minimal 
+          active={select === 'move'} 
+          icon="move"  
+          onClick={() => this.handleChangeProperty('move')}
+        />,
       ];
     }
     if (id === 'toolbar') {

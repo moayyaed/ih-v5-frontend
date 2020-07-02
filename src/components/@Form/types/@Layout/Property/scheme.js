@@ -365,7 +365,7 @@ const scheme = {
   },
   template: {
     link: [],
-    move: moveSection,
+    ...groupSettings,
   },
   content: {
     move: moveSection,

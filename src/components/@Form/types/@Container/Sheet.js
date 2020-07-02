@@ -285,7 +285,7 @@ class Sheet extends Component {
           core.actions.container
             .addTemplate(
               this.props.id, this.props.prop,
-              elementId, data, templateId, res,
+              elementId, { ...params, ...data }, templateId, res,
             );
           this.save();
         });
