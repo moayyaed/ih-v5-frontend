@@ -565,9 +565,6 @@ class Sheet extends Component {
             width: '100%', 
             height: '100%', 
             outline: item.groupId ? 'unset' : `1px dashed #6d7882`,
-            backgroundColor: item.backgroundColor,
-            border: `${item.borderSize}px ${item.borderStyle.id} ${item.borderColor}`,
-            borderRadius: (Math.min(item.w, item.h) / 2 / 100) * item.borderRadius,
             opacity: item.opacity / 100 ,
           }}
         >

@@ -15,9 +15,7 @@ class Container extends PureComponent {
             top: item.y,
             width: item.w,
             height: item.h,
-            backgroundColor: item.backgroundColor,
-            border: `${item.borderSize}px ${item.borderStyle.id} ${item.borderColor}`,
-            borderRadius: (Math.min(item.w, item.h) / 2 / 100) * item.borderRadius,
+            zIndex: item.zIndex,
             opacity: item.opacity / 100 ,
           }}
         >
@@ -35,6 +33,8 @@ class Container extends PureComponent {
             top: item.y,
             width: item.w,
             height: item.h,
+            zIndex: item.zIndex,
+            opacity: item.opacity / 100 ,
           }}
         >
           {elemets(this.props.container.elements[id].type, { item: this.props.container.elements[id], template: this.props.templates[item.templateId] })}
@@ -50,6 +50,7 @@ class Container extends PureComponent {
           top: item.y,
           width: item.w,
           height: item.h,
+          zIndex: item.zIndex,
         }}
       >
         {elemets(this.props.container.elements[id].type, { item: this.props.container.elements[id] })}

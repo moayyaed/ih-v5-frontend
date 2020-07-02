@@ -19,15 +19,7 @@ const styles = {
     color: 'rgba(0, 0, 0, 0.87)',
   }
 }
-/*
-function TextOld(props) {
-  return (
-    <FormControl disabled style={styles.root}>
-      <InputLabel shrink style={styles.label}>{props.options.title}</InputLabel>
-      <Input disableUnderline style={styles.input} value={props.data} />
-    </FormControl>
-  )
-} */
+
 
 function Text(props) {
   return (
@@ -38,8 +30,8 @@ function Text(props) {
       style={styles.root}
       InputLabelProps={{ shrink: true }} 
       value={props.data}
-      error={props.cache.error}
-      helperText={props.cache.error}
+      error={props.cache && props.cache.error}
+      helperText={props.cache && props.cache.error}
     />
   )
 }

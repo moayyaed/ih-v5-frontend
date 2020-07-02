@@ -292,9 +292,40 @@ const scheme = {
     move: moveSection,
   },
   group: {
-    main: mainSection,
-    border: borderSection,
-    move: moveSection,
+    main: [
+      { 
+        title: 'Opacity', 
+        prop: 'opacity', 
+        type: 'number',
+      },
+      { 
+        title: 'Z-index', 
+        prop: 'zIndex', 
+        type: 'number',
+      },
+    ],
+    move: [
+      { 
+        title: 'Position X', 
+        prop: 'x', 
+        type: 'number',
+      },
+      { 
+        title: 'Position Y', 
+        prop: 'y', 
+        type: 'number',
+      },
+      { 
+        title: 'Width', 
+        prop: 'w', 
+        type: 'text',
+      },
+      { 
+        title: 'Height', 
+        prop: 'h', 
+        type: 'text',
+      },
+    ],
   },
 }
 
