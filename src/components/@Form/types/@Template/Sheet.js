@@ -525,7 +525,8 @@ class Sheet extends Component {
             position: 'absolute', 
             width: '100%', 
             height: '100%', 
-            outline: item.groupId ? 'unset' : `1px dashed #6d7882`, 
+            outline: item.groupId ? 'unset' : `1px dashed #6d7882`,
+            opacity: item.opacity / 100,
           }}
         >
           {item.elements.map(id => 

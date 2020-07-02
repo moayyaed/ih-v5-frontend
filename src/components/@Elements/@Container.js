@@ -34,7 +34,7 @@ class Container extends PureComponent {
             width: item.w,
             height: item.h,
             zIndex: item.zIndex,
-            opacity: item.opacity / 100 ,
+            opacity: item.opacity / 100,
           }}
         >
           {elemets(this.props.container.elements[id].type, { item: this.props.container.elements[id], template: this.props.templates[item.templateId] })}
@@ -68,7 +68,8 @@ class Container extends PureComponent {
           alignItems: 'center',
           position: 'absolute', 
           width: '100%', 
-          height: '100%', 
+          height: '100%',
+          opacity: this.props.item.opacity / 100, 
         }}
       >
         <div

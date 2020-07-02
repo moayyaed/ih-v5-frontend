@@ -8,7 +8,6 @@ import { withStyles } from '@material-ui/core/styles';
 
 import ReactResizeDetector from 'react-resize-detector';
 import elemets from 'components/@Elements';
-import Container from 'components/@Elements/@Container';
 
 
 const styles = {
@@ -67,6 +66,8 @@ class AppLayout extends Component {
             top: item.y * scaleH,
             width: item.w * scaleW,
             height: item.h * scaleH,
+            opacity: item.opacity / 100,
+            zIndex: item.zIndex,
           }}
         >
           {item.elements.map(cid => this.handleRender(cid, this.props.state.layout.elements[cid], scaleW, scaleH))}
@@ -83,6 +84,8 @@ class AppLayout extends Component {
             top: item.y * scaleH,
             width: item.w * scaleW,
             height: item.h * scaleH,
+            opacity: item.opacity / 100,
+            zIndex: item.zIndex,
           }}
         >
           {elemets(this.props.state.layout.elements[id].type, { item: this.props.state.layout.elements[id], template: this.props.state.templates[item.templateId] })}
@@ -99,6 +102,8 @@ class AppLayout extends Component {
             top: item.y * scaleH,
             width: item.w * scaleW,
             height: item.h * scaleH,
+            opacity: item.opacity / 100,
+            zIndex: item.zIndex,
           }}
         >
           {elemets(this.props.state.layout.elements[id].type, { item: this.props.state.layout.elements[id], container: this.props.state.containers[this.props.state.layout.elements[id].containerId.id], templates: this.props.state.templates, scaleW, scaleH })}
@@ -114,6 +119,7 @@ class AppLayout extends Component {
           top: item.y * scaleH,
           width: item.w * scaleW,
           height: item.h * scaleH,
+          zIndex: item.zIndex,
         }}
       >
         {elemets(this.props.state.layout.elements[id].type, { item: this.props.state.layout.elements[id] })}

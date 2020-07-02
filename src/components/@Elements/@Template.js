@@ -32,7 +32,6 @@ class Template extends PureComponent {
           top: item.y,
           width: item.w,
           height: item.h,
-          zIndex: item.zIndex,
         }}
       >
         {elemets(this.props.template.elements[id].type, { item: this.props.item.elements ? this.props.item.elements[id] : this.props.template.elements[id] })}
@@ -48,7 +47,8 @@ class Template extends PureComponent {
           position: 'absolute', 
           width: '100%', 
           height: '100%',
-          zoom: this.props.item.w / this.props.template.settings.w, 
+          zoom: this.props.item.w / this.props.template.settings.w,
+          opacity: this.props.item.opacity / 100, 
         }}
       >
         {this.props.template.list.map(id => this.handleRender(id, this.props.item.elements ? this.props.item.elements[id] : this.props.template.elements[id]))}
