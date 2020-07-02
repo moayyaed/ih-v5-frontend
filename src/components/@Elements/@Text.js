@@ -9,12 +9,9 @@ const styles = {
 }
 
 function getTextStyle(params) {
-  const size = params.textSize;
-  const family = params.textFontFamily ? params.textFontFamily.id : 'Arial';
-  const italic = params.textItalic ? 'italic': '';
-  const bold = params.textBold ? 'bold' : '';
   return {
-    font: `${italic} ${bold} ${size}px ${family}`
+    fill: params.textColor,
+    font: `${params.textItalic ? 'italic': ''} ${params.textBold ? 'bold' : ''} ${params.textSize}px ${params.textFontFamily.id}`
   };
 }
 

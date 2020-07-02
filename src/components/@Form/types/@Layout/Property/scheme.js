@@ -80,6 +80,11 @@ const textSection = [
     type: 'input',
   },
   { 
+    title: 'Text Color', 
+    prop: 'textColor', 
+    type: 'color',
+  },
+  { 
     title: 'Text Size', 
     prop: 'textSize', 
     type: 'input',
