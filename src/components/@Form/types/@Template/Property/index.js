@@ -25,6 +25,10 @@ const styles = {
     alignItems: 'center', 
     width: '100%',
     height: '100%',
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
   }
 }
 
@@ -43,16 +47,18 @@ class Property extends PureComponent {
       }
       return (
         <Scrollbars style={{ width: '100%', height: '100%' }}>
-          <SingleForm 
-            key="property"
-            debug={false} 
-            scheme={map}
-            route={route}
-            data={this.props.elementData}
-            cache={this.props.stateData || {}}
-            onChange={this.handleChange}
-            getStyle={this.props.getStyle}
-          />
+          <div style={styles.container}>
+            <SingleForm 
+              key="property"
+              debug={false} 
+              scheme={map}
+              route={route}
+              data={this.props.elementData}
+              cache={this.props.stateData || {}}
+              onChange={this.handleChange}
+              getStyle={this.props.getStyle}
+            />
+          </div>
         </Scrollbars>
       )
     }
