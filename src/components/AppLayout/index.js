@@ -127,6 +127,7 @@ class AppLayout extends Component {
   }
 
   render({ id, route, state, auth, classes } = this.props) {
+    console.log(state)
     return (
         <ReactResizeDetector handleWidth handleHeight>
           {({ width, height }) => {

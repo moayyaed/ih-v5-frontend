@@ -32,6 +32,7 @@ import {
   TEMPLATE_EDIT_ID_STATE,
   TEMPLATE_CHANGE_TITLE_STATE,
 } from './constants';
+import actions from 'components/@Form/actions';
 
 
 function getParentGroupId(id, elements) {
@@ -172,7 +173,20 @@ function reducerTemplate(state, action) {
               }
             }
             return { ...p, [c]: state.elements[c] }
-          }, { [action.groupId]: action.groupData })
+          }, { [action.groupId]: action.groupData }),
+          state: {
+            ...state.state,
+            master: {
+              ...state.state.master,
+              values: {
+                ...state.state.master.values,
+                [0]: {
+                  ...state.state.master.values[0],
+                  [action.groupId]: action.masterData, 
+                }
+              }
+            }
+          }
       };
     case TEMPLATE_UNGROUP_ELEMENTS:
       return {
@@ -215,6 +229,31 @@ function reducerTemplate(state, action) {
             }
             return { ...p, [c]: state.elements[c] }
           }, {}),
+        state: Object
+          .keys(state.state)
+          .reduce((p, c) => {
+            return { 
+              ...p, 
+              [c]: {
+                ...state.state[c],
+                values: Object
+                  .keys(state.state[c].values)
+                  .reduce((p2, c2) => {
+                    return { 
+                      ...p2,
+                      [c2]: Object
+                        .keys(state.state[c].values[c2])
+                        .reduce((p3, c3) => {
+                          if (action.list.includes(c3)) {
+                            return p3
+                          }
+                          return { ...p3, [c3]: state.state[c].values[c2][c3] }
+                        }, {}),  
+                    }
+                  }, {}), 
+              },
+            };
+          }, {})
       }
     case TEMPLATE_RESIZE_GROUP_ELEMENT:
       return { 

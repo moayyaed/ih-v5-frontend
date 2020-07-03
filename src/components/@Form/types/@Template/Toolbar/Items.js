@@ -290,22 +290,39 @@ function PropertyItem(props) {
   switch(props.label) {
     case 'backgroundColor':
     case 'borderColor':
+    case 'textColor':
+    case 'imgColor':
       return (
         <div style={styles.propertyItem}>
           {props.label} : 
           <div style={{ width: 12, height: 12, marginLeft: 5, backgroundColor: props.value }} />
         </div>
       );
+    case 'textRotate':
+    case 'opacity':
+    case 'textItalic':
+    case 'textBold':
+    case 'borderRadius':
+    case 'opacity':
+    case 'zIndex':
     case 'borderSize':
     case 'text':
     case 'textSize':
     case 'imgRotate':
     case 'imgSize':
+    case 'singleClickLeft':
+    case 'doubleClickLeft':
+    case 'longClickLeft':
+    case 'singleClickRight':
+    case 'doubleClickRight':
+    case 'longClickRight':
       return (
         <div style={styles.propertyItem}>
           {props.label} : {props.value}
         </div>
       );
+    case 'textFontFamily':
+    case 'borderStyle':
     case 'textAlignV':
     case 'textAlignH':
       return (

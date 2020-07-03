@@ -86,13 +86,14 @@ export function clearSelects(id, prop) {
   };
 }
 
-export function groupElements(id, prop, groupId, groupData) {
+export function groupElements(id, prop, groupId, groupData, masterData) {
   return {
     type: TEMPLATE_GROUP_ELEMENTS,
     id,
     prop,
     groupId,
     groupData,
+    masterData,
   };
 }
 
