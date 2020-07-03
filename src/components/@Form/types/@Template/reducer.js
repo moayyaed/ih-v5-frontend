@@ -452,7 +452,7 @@ function reducerTemplate(state, action) {
               ...state.state.master.values,
               [0]: {
                 ...state.state.master.values[0],
-                ...action.masterData, 
+                ...action.renderData, 
               }
             }
           }

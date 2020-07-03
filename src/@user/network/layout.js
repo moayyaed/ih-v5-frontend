@@ -24,7 +24,7 @@ function preparationData(data) {
 
             const masterState = data.templates[templateId].state.master.values[0];
             const renderState = data.templates[templateId].elements;
-
+            
             Object
             .keys(masterState)
             .forEach(elemId => {

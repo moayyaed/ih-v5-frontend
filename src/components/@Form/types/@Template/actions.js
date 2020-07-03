@@ -167,14 +167,15 @@ export function deleteElement(id, prop) {
   };
 }
 
-export function pasteElement(id, prop, list, elements, masterData) {
+export function pasteElement(id, prop, list, elements, state, renderData) {
   return {
     type: TEMPLATE_PASTE_ELEMENT,
     id,
     prop,
     list,
     elements,
-    masterData,
+    state,
+    renderData,
   };
 }
 

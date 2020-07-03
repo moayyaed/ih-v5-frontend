@@ -62,9 +62,11 @@ function getAllElementsByGroup(list, elements) {
     }, {});
 }
 
-function cloneNewStructElements(list, elements, targetElements) {
+function cloneNewStructElements(list, elements, targetElements, state) {
   const l = [];
   const e = {};
+  const o = {};
+
 
   function group(newId, oldId, check) {
     const gl = [];
@@ -73,6 +75,7 @@ function cloneNewStructElements(list, elements, targetElements) {
         const mergeElements = { ...targetElements, ...e }
         const id = getIdElement(0, elements[cid].type, mergeElements);
         e[id] = { ...elements[cid], groupId: newId };
+        o[id] = cid;
         gl.push(id)
         if (elements[cid].type === 'group') {
           group(id, cid);
@@ -87,13 +90,14 @@ function cloneNewStructElements(list, elements, targetElements) {
 
     l.push(id);
     e[id] = { ...elements[key] };
+    o[id] = key;
 
     if (elements[key].type === 'group') {
       group(id, key);
     }
 
   });
-  return { list: l, elements: e }
+  return { list: l, elements: e, old: o }
 }
 
 function getIdElement(index, prefix, elements) {
@@ -291,6 +295,7 @@ class Sheet extends Component {
 
   handleClickCopyElements = () => {
     const list = [];
+    const store = core.store.getState().apppage.data[this.props.id][this.props.prop];
     let x = Infinity, y = Infinity, w = 0, h = 0;
     const elements = Object
       .keys(this.props.selects)
@@ -306,25 +311,31 @@ class Sheet extends Component {
         }
         return { ...p, [c]: { ...this.props.elements[c] } }
       }, {})
-      
-    const buffer = { list, elements, offsetX: x, offsetY: y };
+    const buffer = { list, elements, offsetX: x, offsetY: y, state: store.state };
     core.buffer = { class: 'template', type: null, data: buffer  };
   }
 
   handleClickPasteElements = (e) => {
+    const store = core.store.getState().apppage.data[this.props.id][this.props.prop];
     const rect = this.sheet.getBoundingClientRect();
     const x = (e.pageX - (rect.left * this.props.settings.scale)) / this.props.settings.scale // (e.clientX - rect.left) / this.props.settings.scale;
     const y = (e.pageY - (rect.top * this.props.settings.scale)) / this.props.settings.scale  // (e.clientY - rect.top) / this.props.settings.scale;
 
-    const masterData = {};
+    const masterData = {}
 
-    const clone = cloneNewStructElements(core.buffer.data.list, core.buffer.data.elements, this.props.elements);
+    const clone = cloneNewStructElements(core.buffer.data.list, core.buffer.data.elements, this.props.elements, core.buffer.data.state);
     const elements = Object
       .keys(clone.elements)
       .reduce((p, c) => {
-        if (clone.elements[c].type !== 'group') {
-          masterData[c] = { ...getDefaultParamsElement(clone.elements[c].type) } 
-        }
+        const defaultData = getDefaultParamsElement(clone.elements[c].type);
+        masterData[c] = Object
+          .keys(defaultData)
+          .reduce((p2, c2) => {
+            if (clone.elements[c][c2] !== undefined) {
+              return { ...p2, [c2]: clone.elements[c][c2] }
+            }
+            return { ...p2, [c2]: defaultData[c2] }
+          }, {})
         if (clone.list.includes(c)) {
           return { 
             ...p, 
@@ -337,12 +348,13 @@ class Sheet extends Component {
         }
         return { ...p, [c]: clone.elements[c] }
       }, {})
- 
+
     core.actions.template
       .pasteElement(
         this.props.id, this.props.prop,
-        clone.list, elements, masterData,
+        clone.list, elements, core.buffer.data.state, masterData, 
       );
+    
   }
 
   handleDeleteElement = () => {
