@@ -19,7 +19,7 @@ class Template extends PureComponent {
             opacity: item.opacity / 100 ,
           }}
         >
-          {item.elements.map(cid => this.handleRender(cid, this.props.item.elements ? this.props.item.elements[id] : this.props.template.elements[cid]))}
+          {item.elements.map(cid => this.handleRender(cid, this.props.item.elements ? this.props.item.elements[cid] : this.props.template.elements[cid]))}
         </div>
       )
     }
