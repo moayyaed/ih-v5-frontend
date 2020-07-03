@@ -14,6 +14,7 @@ const styles = {
   root: {
     width: '100%',
     height: '100%',
+    backgroundColor: '#fff',
   },
 };
 
@@ -66,7 +67,7 @@ class AppLayout extends Component {
             top: item.y * scaleH,
             width: item.w * scaleW,
             height: item.h * scaleH,
-            opacity: item.opacity / 100,
+            // opacity: item.opacity / 100,
             zIndex: item.zIndex,
           }}
         >
@@ -84,7 +85,6 @@ class AppLayout extends Component {
             top: item.y * scaleH,
             width: item.w * scaleW,
             height: item.h * scaleH,
-            opacity: item.opacity / 100,
             zIndex: item.zIndex,
           }}
         >
@@ -102,7 +102,6 @@ class AppLayout extends Component {
             top: item.y * scaleH,
             width: item.w * scaleW,
             height: item.h * scaleH,
-            opacity: item.opacity / 100,
             zIndex: item.zIndex,
           }}
         >
