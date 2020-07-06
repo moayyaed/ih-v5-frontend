@@ -77,3 +77,34 @@ button:focus {
 .bp3-popover-backdrop {
   z-index: 1400;
 }
+
+.custom-picker.shadow-picker {
+  width: 255px;
+	background: #fff;
+	color: rgba(0, 0, 0, 0.87);
+}
+.custom-picker .shadow-picker__position {
+	border: 1px solid #e0e0e0;
+}
+.custom-picker .shadow-picker__position.active {
+  color: #fafafa;
+	background: #3d7afc;
+}
+.custom-picker .shadow-picker__grid {
+	border: 1px solid #e0e0e0;
+}
+.custom-picker .shadow-picker__grid-line {
+	color: #f0f0f0;
+}
+.custom-picker .shadow-picker__grid-handle {
+	color: #3d7afc;
+}
+.custom-picker .shadow-picker__input {
+	border: 1px solid #e0e0e0
+}
+.custom-picker .shadow-picker__slider {
+	background: #9E9E9E;
+}
+.custom-picker .shadow-picker__slider::-webkit-slider-thumb {
+	background: #3d7afc;
+}

@@ -5,6 +5,11 @@ const mainSection = [
     type: 'color',
   },
   { 
+    title: 'Box Shadow', 
+    prop: 'boxShadow', 
+    type: 'shadow',
+  },
+  { 
     title: 'Opacity', 
     prop: 'opacity', 
     type: 'number',

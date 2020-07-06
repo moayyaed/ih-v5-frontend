@@ -11,7 +11,8 @@ function Block(props) {
         backgroundColor: props.item.backgroundColor,
         border: `${props.item.borderSize}px ${props.item.borderStyle.id} ${props.item.borderColor}`,
         borderRadius: (Math.min(props.item.w, props.item.h) / 2 / 100) * props.item.borderRadius,
-        opacity: props.item.opacity / 100 ,
+        opacity: props.item.opacity / 100,
+        boxShadow: props.item.boxShadow,
       }}
     />
   );

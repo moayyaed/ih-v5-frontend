@@ -4,6 +4,7 @@ const BLOCK = {
   borderStyle: { id: 'solid', title: 'Solid' },
   borderColor: 'rgba(0,0,0,1)',
   backgroundColor: 'transparent',
+  boxShadow: 'unset',
   zIndex: 100,
   opacity: 100,
 }
@@ -14,6 +15,7 @@ const RECTANGLE = {
   borderStyle: { id: 'solid', title: 'Solid' },
   borderColor: 'rgba(0,0,0,1)',
   backgroundColor: 'transparent',
+  boxShadow: 'unset',
   zIndex: 100,
   opacity: 100,
 }
@@ -24,6 +26,7 @@ const CIRCLE = {
   borderStyle: { id: 'solid', title: 'Solid' },
   borderColor: 'rgba(0,0,0,1)',
   backgroundColor: 'transparent',
+  boxShadow: 'unset',
   zIndex: 100,
   opacity: 100,
 }
@@ -43,6 +46,7 @@ const TEXT = {
   borderStyle: { id: 'solid', title: 'Solid' },
   borderColor: 'rgba(0,255,0,1)',
   backgroundColor: 'transparent',
+  boxShadow: 'unset',
   zIndex: 100,
   opacity: 100,
 }
@@ -57,6 +61,7 @@ const IMAGE = {
   borderStyle: { id: 'solid', title: 'Solid' },
   borderColor: 'rgba(0,0,255,1)',
   backgroundColor: 'transparent',
+  boxShadow: 'unset',
   zIndex: 100,
   opacity: 100,
 }
@@ -80,14 +85,15 @@ const BUTTON = {
   borderStyle: { id: 'solid', title: 'Solid' },
   borderColor: 'rgba(0,255,0,1)',
   backgroundColor: 'transparent',
-  zIndex: 100,
-  opacity: 100,
   singleClickLeft: 'TOGGLE',
   doubleClickLeft: '',
   longClickLeft: 'DEVICEMENU',
   singleClickRight: '',
   doubleClickRight: '',
   longClickRight: '',
+  boxShadow: 'unset',
+  zIndex: 100,
+  opacity: 100,
 }
 
 const GROUP = {

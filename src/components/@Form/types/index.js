@@ -12,6 +12,7 @@ import Tags from './@Tags';
 import Color from './@Color';
 import Slider from './@Slider';
 import Url from './@Url';
+import Shadow from './@Shadow';
 
 import Layout from './@Layout';
 import Container from './@Container';
@@ -52,6 +53,8 @@ function getComponentByType(type) {
       return Slider;
     case 'url':
       return Url;
+    case 'shadow':
+      return Shadow;
       
     case 'layout':
       return Layout;
