@@ -228,7 +228,7 @@ function Color(props) {
       <div style={{ ...styles.title, ...props.getStyle(props)}}>{props.options.title}</div>
       <div style={styles.button} onClick={handleClick}>
         <div style={styles.buttonBackround}/>
-        <div style={{ ...styles.buttonBackround2, backgroundColor: props.data }}/>
+        <div style={{ ...styles.buttonBackround2, background: props.data.value }}/>
       </div>
       <Popover
         open={open}
