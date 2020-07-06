@@ -119,3 +119,17 @@ button:focus {
   width: 60px;
   margin-right: 8px;
 }
+
+.gp .palette {
+  margin-top: 6px;
+}
+
+.gp .csh {
+  margin-bottom: 0px;
+}
+
+.sketch-picker {
+  box-shadow: unset!important;;
+}
+
+

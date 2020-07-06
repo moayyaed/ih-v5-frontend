@@ -3,7 +3,13 @@ const BLOCK = {
   borderRadius: 0,
   borderStyle: { id: 'solid', title: 'Solid' },
   borderColor: 'rgba(0,0,0,1)',
-  backgroundColor: 'transparent',
+  backgroundColor: { 
+    type: 'fill', 
+    value: 'transparent', 
+    fill: 'transparent',
+    angle: 90,
+    palette: [{ offset: '0.00', color: '#4A90E2', opacity: 1 }, { offset: '1.00', color: '#9013FE', opacity: 1 }]
+  },
   boxShadow: 'unset',
   zIndex: 100,
   opacity: 100,
@@ -14,7 +20,13 @@ const RECTANGLE = {
   borderRadius: 0,
   borderStyle: { id: 'solid', title: 'Solid' },
   borderColor: 'rgba(0,0,0,1)',
-  backgroundColor: 'transparent',
+  backgroundColor: { 
+    type: 'fill', 
+    value: 'transparent', 
+    fill: 'transparent',
+    angle: 90,
+    palette: [{ offset: '0.00', color: '#4A90E2', opacity: 1 }, { offset: '1.00', color: '#9013FE', opacity: 1 }]
+  },
   boxShadow: 'unset',
   zIndex: 100,
   opacity: 100,
@@ -25,7 +37,13 @@ const CIRCLE = {
   borderRadius: 100,
   borderStyle: { id: 'solid', title: 'Solid' },
   borderColor: 'rgba(0,0,0,1)',
-  backgroundColor: 'transparent',
+    backgroundColor: { 
+    type: 'fill', 
+    value: 'transparent', 
+    fill: 'transparent',
+    angle: 90,
+    palette: [{ offset: '0.00', color: '#4A90E2', opacity: 1 }, { offset: '1.00', color: '#9013FE', opacity: 1 }]
+  },
   boxShadow: 'unset',
   zIndex: 100,
   opacity: 100,
@@ -45,7 +63,13 @@ const TEXT = {
   borderRadius: 0,
   borderStyle: { id: 'solid', title: 'Solid' },
   borderColor: 'rgba(0,255,0,1)',
-  backgroundColor: 'transparent',
+    backgroundColor: { 
+    type: 'fill', 
+    value: 'transparent', 
+    fill: 'transparent',
+    angle: 90,
+    palette: [{ offset: '0.00', color: '#4A90E2', opacity: 1 }, { offset: '1.00', color: '#9013FE', opacity: 1 }]
+  },
   boxShadow: 'unset',
   zIndex: 100,
   opacity: 100,
@@ -60,7 +84,13 @@ const IMAGE = {
   borderRadius: 0,
   borderStyle: { id: 'solid', title: 'Solid' },
   borderColor: 'rgba(0,0,255,1)',
-  backgroundColor: 'transparent',
+    backgroundColor: { 
+    type: 'fill', 
+    value: 'transparent', 
+    fill: 'transparent',
+    angle: 90,
+    palette: [{ offset: '0.00', color: '#4A90E2', opacity: 1 }, { offset: '1.00', color: '#9013FE', opacity: 1 }]
+  },
   boxShadow: 'unset',
   zIndex: 100,
   opacity: 100,
@@ -84,7 +114,13 @@ const BUTTON = {
   borderRadius: 0,
   borderStyle: { id: 'solid', title: 'Solid' },
   borderColor: 'rgba(0,255,0,1)',
-  backgroundColor: 'transparent',
+    backgroundColor: { 
+    type: 'fill', 
+    value: 'transparent', 
+    fill: 'transparent',
+    angle: 90,
+    palette: [{ offset: '0.00', color: '#4A90E2', opacity: 1 }, { offset: '1.00', color: '#9013FE', opacity: 1 }]
+  },
   singleClickLeft: 'TOGGLE',
   doubleClickLeft: '',
   longClickLeft: 'DEVICEMENU',
