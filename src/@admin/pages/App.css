@@ -80,6 +80,7 @@ button:focus {
 
 .custom-picker.shadow-picker {
   width: 255px;
+  height: 255px;
 	background: #fff;
 	color: rgba(0, 0, 0, 0.87);
 }
@@ -107,4 +108,14 @@ button:focus {
 }
 .custom-picker .shadow-picker__slider::-webkit-slider-thumb {
 	background: #3d7afc;
+}
+
+.sc-fzokOt .shadow-picker__input {
+  display: none;
+}
+
+.custom-picker input[type="color"] {
+  margin-left: 8px;
+  width: 60px;
+  margin-right: 8px;
 }
