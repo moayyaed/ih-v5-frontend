@@ -3,7 +3,7 @@ import React from 'react';
 import Popover from '@material-ui/core/Popover';
 
 import { SketchPicker } from 'react-color';
-import { GradientPicker, AnglePicker } from 'react-linear-gradient-picker';
+import { GradientPicker, AnglePicker } from 'libs/gradient-picker';
 
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
@@ -261,6 +261,10 @@ function getContent(props, handleChangeFill, handleChangeGradient, handleChangeG
 }
 
 function paletteToString(palette) {
+  if (palette.length === 1) {
+    const i = palette[0];
+    return addOpacityToHex(i.color, i.opacity) + ', ' + addOpacityToHex(i.color, i.opacity);
+  }
   return palette
     .map(i => addOpacityToHex(i.color, i.opacity) + ' ' + Math.round(Number(i.offset) * 100 * 1e2 ) / 1e2 + '%')
     .join(',');
