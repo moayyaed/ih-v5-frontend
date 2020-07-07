@@ -120,6 +120,10 @@ button:focus {
   margin-right: 8px;
 }
 
+.gp {
+  margin-top: 6px;
+}
+
 .gp .palette {
   margin-top: 6px;
 }
@@ -131,5 +135,7 @@ button:focus {
 .sketch-picker {
   box-shadow: unset!important;;
 }
-
+.MuiSelect-select:focus {
+  background-color: unset!important;
+}
 

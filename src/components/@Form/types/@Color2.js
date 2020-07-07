@@ -5,6 +5,9 @@ import Popover from '@material-ui/core/Popover';
 import { SketchPicker } from 'react-color';
 import { GradientPicker, AnglePicker } from 'react-linear-gradient-picker';
 
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+
 const PRESET_COLORS = [
   'transparent',
   '#D0021B', '#F5A623', '#F8E71C',
@@ -13,6 +16,12 @@ const PRESET_COLORS = [
   '#50E3C2', '#B8E986', '#000000',
   '#4A4A4A', '#9B9B9B', '#FFFFFF',
 ];
+
+const OPTIONS = [ 
+  'Fill', 
+  'Linear-gradient', 
+  'Radial-gradient',
+]
 
 const styles = {
   root: {
@@ -95,7 +104,44 @@ const styles = {
     cursor: 'pointer',
     userSelect: 'none',
   },
+  dropListContainer: {
+      display: 'flex',
+      width: '100%',
+      borderTop: '1px solid rgb(238, 238, 238)',
+      alignItems: 'start',
+      padding: '4px 10px',
+      justifyContent: 'space-around',
+  },
+  dropListContainer2: {
+    display: 'flex',
+    width: '100%',
+    height: 40,
+    alignItems: 'center',
+    padding: '4px 10px',
+    borderTop: '1px solid rgb(238, 238, 238)',
+    justifyContent: 'space-around',
+},
+  selectContainer: {
+    width: '100%',
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 8,
+  },
+  select: { 
+    width: '100%', 
+    textAlign: 'center',
+    fontSize: 14,
+    border: '1px solid #BDBDBD',
+    height: 24,
+  },
+  input: {
+    width: 50,
+    textAlign: 'center',
+    marginLeft: 8,
+    marginRight: 6,
+  }
 }
+
 
 function addOpacityToHex(hex, a = 1){
   var c;
@@ -122,7 +168,7 @@ const WrappedSketchPicker = ({ onSelect, ...rest }) => (
 		}}/>
 );
 
-function getContent(props, handleChangeFill, handleChangeGradient, handleChangeAngle) {
+function getContent(props, handleChangeFill, handleChangeGradient, handleChangeGradientRadial, handleChangeDropList, handleChangeAngle) {
   if (props.data.type === 'fill') {
     return (
       <SketchPicker
@@ -133,24 +179,82 @@ function getContent(props, handleChangeFill, handleChangeGradient, handleChangeA
     )
   }
 
+  if (props.data.type === 'line') {
+    return (
+      <>
+        <GradientPicker
+          width={190}
+          paletteHeight={24}
+          palette={props.data.palette}
+          onPaletteChange={handleChangeGradient}
+          setAngle={() => {}}
+        >
+          <WrappedSketchPicker  />
+        </GradientPicker>
+        <div style={styles.angleContainer}>
+          <AnglePicker angle={props.data.angle} setAngle={handleChangeAngle}/>
+          <div style={styles.angleToolbar}>
+            <span style={styles.angleToolbarSpan} onClick={() => handleChangeAngle(props.data.angle - 1)}>&#8722;</span>
+            <input style={styles.angleToolbarInput} value={`${props.data.angle}°`} disabled/>
+            <span style={styles.angleToolbarSpan} onClick={() => handleChangeAngle(props.data.angle + 1)}>&#43;</span>
+          </div>
+        </div>
+      </>
+    )
+  }
+
   return (
     <>
       <GradientPicker
         width={190}
         paletteHeight={24}
         palette={props.data.palette}
-        onPaletteChange={handleChangeGradient}
+        onPaletteChange={handleChangeGradientRadial}
         setAngle={() => {}}
       >
         <WrappedSketchPicker  />
       </GradientPicker>
-      <div style={styles.angleContainer}>
-        <AnglePicker angle={props.data.angle} setAngle={handleChangeAngle}/>
-        <div style={styles.angleToolbar}>
-          <span style={styles.angleToolbarSpan} onClick={() => handleChangeAngle(props.data.angle - 1)}>&#8722;</span>
-          <input style={styles.angleToolbarInput} value={`${props.data.angle}°`} disabled/>
-          <span style={styles.angleToolbarSpan} onClick={() => handleChangeAngle(props.data.angle + 1)}>&#43;</span>
+      <div style={styles.dropListContainer2}>
+        <div>
+          X:
+          <input 
+            style={styles.input} 
+            value={props.data.positionX} 
+            onChange={(e) => handleChangeDropList('positionX', e.target.value)} 
+          />
+          %
         </div>
+        <div>
+          Y:
+          <input 
+            style={styles.input} 
+            value={props.data.positionY} 
+            onChange={(e) => handleChangeDropList('positionY', e.target.value)}
+          />
+          %
+        </div>
+      </div>
+      <div style={styles.dropListContainer}>
+        <Select
+          disableUnderline
+          value={props.data.shape}
+          onChange={(e) => handleChangeDropList('shape', e.target.value)}
+          style={styles.select2}
+        >
+          <MenuItem value="circle">circle</MenuItem>
+          <MenuItem value="ellipse">ellipse</MenuItem>
+        </Select>
+        <Select
+          disableUnderline
+          value={props.data.extent}
+          onChange={(e) => handleChangeDropList('extent', e.target.value)}
+          style={styles.select2}
+        >
+          <MenuItem value="closest-side">closest-side</MenuItem>
+          <MenuItem value="closest-corner">closest-corner</MenuItem>
+          <MenuItem value="farthest-side">farthest-side</MenuItem>
+          <MenuItem value="farthest-corner">farthest-corner</MenuItem>
+        </Select>
       </div>
     </>
   )
@@ -204,6 +308,11 @@ function Color2(props) {
     props.onChange(props.id, props.options, null, { ...props.data, value, palette })
   }
 
+  const handleChangeGradientRadial = (palette) => {
+    const value = `radial-gradient(${props.data.shape} ${props.data.extent} at ${props.data.positionX}% ${props.data.positionY}%, ${paletteToString(palette)})`;
+    props.onChange(props.id, props.options, null, { ...props.data, value, palette })
+  }
+
   const handleChangeAngle = (angle) => {
     angle = angle > 360 ? 0 : angle;
     angle = angle < 0 ? 360 : angle;
@@ -212,13 +321,41 @@ function Color2(props) {
     props.onChange(props.id, props.options, null, { ...props.data, value, angle })
   }
 
-  const handleChangeType = (type) => {
+  const handleChangeType = (e) => {
+    const type = e.target.value;
     if (type === 'fill') {
       props.onChange(props.id, props.options, null, { ...props.data, type, value: props.data.fill })
-    } else {
+    }
+    if (type === 'line') {
       const value = `linear-gradient(${props.data.angle}deg, ${paletteToString(props.data.palette)})`;
       props.onChange(props.id, props.options, null, { ...props.data, type, value })
     }
+    if (type === 'radial') {
+      const value = `radial-gradient(${props.data.shape} ${props.data.extent} at ${props.data.positionX}% ${props.data.positionY}%, ${paletteToString(props.data.palette)})`;
+      props.onChange(props.id, props.options, null, { ...props.data, type, value })
+    }
+  }
+
+  const handleChangeDropList = (key, value) => {
+    const data = { ...props.data }
+
+    if (key === 'shape') {
+      data.shape = value;
+      data.value = `radial-gradient(${value} ${props.data.extent} at ${props.data.positionX}% ${props.data.positionY}%, ${paletteToString(props.data.palette)})`;
+    }
+    if (key === 'extent') {
+      data.extent = value;
+      data.value = `radial-gradient(${props.data.shape} ${value} at ${props.data.positionX}% ${props.data.positionY}%, ${paletteToString(props.data.palette)})`;
+    }
+    if (key === 'positionX') {
+      data.positionX = value;
+      data.value = `radial-gradient(${props.data.shape} ${props.data.extent} at ${Number(value)}% ${props.data.positionY}%, ${paletteToString(props.data.palette)})`;
+    }
+    if (key === 'positionY') {
+      data.positionY = value;
+      data.value = `radial-gradient(${props.data.shape} ${props.data.extent} at ${props.data.positionX}% ${Number(value)}%, ${paletteToString(props.data.palette)})`;
+    }
+    props.onChange(props.id, props.options, null, data)
   }
 
   const open = Boolean(anchorEl);
@@ -238,11 +375,19 @@ function Color2(props) {
         transformOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
         <>
-          <div style={styles.toolbar}>
-            <div style={getStyleButton('fill', props.data.type)} onClick={() => handleChangeType('fill')}>Fill</div>
-            <div style={getStyleButton('gradient', props.data.type)} onClick={() => handleChangeType('gradient')} >Gradient</div>
+          <div style={styles.selectContainer}>
+            <Select
+              disableUnderline
+              value={props.data.type}
+              onChange={handleChangeType}
+              style={styles.select}
+            >
+              <MenuItem value="fill">Fill</MenuItem>
+              <MenuItem value="line">Linear-gradient</MenuItem>
+              <MenuItem value="radial">Radial-gradient</MenuItem>
+            </Select>
           </div>
-          {getContent(props, handleChangeFill, handleChangeGradient, handleChangeAngle)}
+          {getContent(props, handleChangeFill, handleChangeGradient, handleChangeGradientRadial, handleChangeDropList, handleChangeAngle)}
         </>
       </Popover>
     </div>
