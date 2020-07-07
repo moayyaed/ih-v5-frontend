@@ -48,7 +48,7 @@ function Shadow(props) {
   };
 
   const handleChange = (value) => {
-      props.onChange(props.id, props.options, null, value)
+      props.onChange(props.id, props.options, null, { ...props.data, value})
   }
 
   const open = Boolean(anchorEl);
@@ -57,7 +57,7 @@ function Shadow(props) {
     <div style={styles.root}>
       <div style={{ ...styles.title, ...props.getStyle(props)}}>{props.options.title}</div>
       <div style={styles.button} onClick={handleClick}>
-        <div style={{ ...styles.buttonBackround2, backgroundColor: props.data }}/>
+        <div style={{ ...styles.buttonBackround2 }}/>
       </div>
       <Popover
         open={open}
@@ -68,7 +68,7 @@ function Shadow(props) {
       >
         <ShadowPicker
           className="custom-picker"
-          value={props.data}
+          value={props.data.value}
           onChange={handleChange}
         />
       </Popover>

@@ -44,7 +44,7 @@ const CIRCLE = {
     angle: 90,
     palette: [{ offset: '0.00', color: '#4A90E2', opacity: 1 }, { offset: '1.00', color: '#9013FE', opacity: 1 }]
   },
-  boxShadow: 'unset',
+  boxShadow: { active: false, value: 'unset' },
   zIndex: 100,
   opacity: 100,
 }
