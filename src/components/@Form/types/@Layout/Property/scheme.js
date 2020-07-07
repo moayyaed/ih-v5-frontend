@@ -2,7 +2,7 @@ const mainSection = [
   { 
     title: 'Background Color', 
     prop: 'backgroundColor', 
-    type: 'color',
+    type: 'color2',
   },
   { 
     title: 'Box Shadow', 

@@ -10,6 +10,7 @@ import Textarea from './@Textarea';
 import Droplist from './@Droplist';
 import Tags from './@Tags';
 import Color from './@Color';
+import Color2 from './@Color2';
 import Slider from './@Slider';
 import Url from './@Url';
 import Shadow from './@Shadow';
@@ -49,6 +50,8 @@ function getComponentByType(type) {
       return Tags;
     case 'color':
       return Color;
+    case 'color2':
+      return Color2;
     case 'slider':
       return Slider;
     case 'url':
