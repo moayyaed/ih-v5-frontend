@@ -288,6 +288,12 @@ function MasterItem(props) {
 function PropertyItem(props) {
   switch(props.label) {
     case 'backgroundColor':
+      return (
+        <div style={styles.propertyItem}>
+          {props.label} : 
+          <div style={{ width: 12, height: 12, marginLeft: 5, background: props.value.value }} />
+        </div>
+      );
     case 'borderColor':
     case 'textColor':
     case 'imgColor':
