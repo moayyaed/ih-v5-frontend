@@ -111,6 +111,13 @@ class Template extends PureComponent {
             onClick={() => this.handleChangeProperty('actions')} 
           />,
           <Separator key="2" />,
+          <Button 
+            key="3"
+            minimal 
+            active={select === 'move'} 
+            icon="move"  
+            onClick={() => this.handleChangeProperty('move')}
+          />,
         ];
       }
       const select = this.props.data.propertyType || 'main';

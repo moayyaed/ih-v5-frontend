@@ -386,6 +386,7 @@ const scheme = {
     move: moveSection,
   },
   action: {
+    move: moveSection,
     actions: actionsSection,
   },
   template: {
