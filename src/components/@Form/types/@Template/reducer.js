@@ -716,14 +716,20 @@ function reducerTemplate(state, action) {
       case TEMPLATE_SET_MODE_MASTER:
         return {
           ...state,
+          toolbarType: 'tree',
+          propertyType: state.toolbarType === 'events' ? 'main' : state.propertyType,
         }
       case TEMPLATE_SET_MODE_VARS:
         return {
           ...state,
+          toolbarType: 'vars',
+          propertyType: state.toolbarType === 'events' ? 'main' : state.propertyType,
         }
       case TEMPLATE_SET_MODE_EVENTS:
         return {
           ...state,
+          toolbarType: 'events',
+          propertyType: 'actions',
         }
     default:
       return state;

@@ -205,8 +205,6 @@ class Template extends PureComponent {
   }
 
   handleChangeToolbar = (toolbarId) => {
-    const select = this.props.data.toolbarType || 'tree';
-    
     if (toolbarId === 'tree') {
       core.actions.template
         .setModeMaster(this.props.id, this.props.options.prop);
