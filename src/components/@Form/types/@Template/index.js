@@ -342,7 +342,8 @@ class Template extends PureComponent {
           selects={this.props.data.selects || {}}
           list={this.props.data.list || []} 
           settings={this.props.data.settings || {}} 
-          elements={this.props.data.elements || {}} 
+          elements={this.props.data.elements || {}}
+          selectToolbar={this.props.data.toolbarType || 'tree'} 
         />
       );
     }

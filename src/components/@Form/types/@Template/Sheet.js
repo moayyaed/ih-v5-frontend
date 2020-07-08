@@ -33,6 +33,13 @@ const styles = {
     backgroundSize: '50px 50px',
     // backgroundImage: "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+DQogPGxpbmUgeDE9IjEwMCIgeTE9IjAiIHgyPSIxMDAiIHkyPSIxMDAiIHN0cm9rZT0iIzc1NzU3NSIgLz4NCiA8bGluZSB4MT0iMCIgeTE9IjEwMCIgeDI9IjEwMCIgeTI9IjEwMCIgc3Ryb2tlPSIjNzU3NTc1IiAvPg0KPC9zdmc+')",
   },
+  hiddenZone: {
+    position: 'relative',
+    width: '100%',
+    height: '100%',
+    zIndex: 9999,
+    background: 'rgba(255, 255, 255, 0.90)',
+  }
 }
 
 
@@ -672,6 +679,13 @@ class Sheet extends Component {
     }
     return null;
   }
+
+  handleRenderHiddenZone = () => {
+    if (this.props.selectToolbar === 'events') {
+      return <div style={styles.hiddenZone} />
+    }
+    return null;
+  }
   
   linkContainer = (e) => {
     this.container = e;
@@ -716,6 +730,7 @@ class Sheet extends Component {
                   scale={settings.scale}
                   item={elements[id]}
                   select={selects[id]}
+                  selectToolbar={this.props.selectToolbar}
                   selectType={this.props.selectType} 
                   onStartMove={this.handleStartMoveElement}
                   onMove={this.handleMoveElement}
@@ -727,6 +742,7 @@ class Sheet extends Component {
                 />
               )}
               {this.handleRenderSelectContainer()}
+              {this.handleRenderHiddenZone()}
             </Paper>
           </Draggable>
         </div>

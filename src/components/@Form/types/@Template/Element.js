@@ -12,6 +12,9 @@ const styles = {
 
 
 function Element(props) {
+  if (props.selectToolbar !== 'events' && props.item.type === 'action') {
+    return null;
+  }
   return (
     <Draggable
       bounds=".parent2"
