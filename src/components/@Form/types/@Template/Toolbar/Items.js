@@ -75,6 +75,18 @@ const classes = theme => ({
   },
 });
 
+export function EventsItems(props) {
+  return (
+    <BasicItem 
+      nodeId="events" 
+      label="Actions"
+      onIconClick={(e) => props.onClickIcon(e, 'events')} 
+      onLabelClick={(e) => props.onClickLabel(e, 'events')} 
+    >
+      <EventsItemGroup { ...props} />
+    </BasicItem>
+  );
+}
 
 export function ElementsItems(props) {
   return (
@@ -159,6 +171,39 @@ function EditText(props) {
   return props.value || '';
 }
 
+function EventsItemGroup(props) {
+  return props.list.map(id => {
+    if (props.elements[id].type === 'group') {
+      return (
+        <BasicItem
+          key={id}
+          nodeId={id}
+          label={id}
+          endIcon={<TypeIcon type={props.elements[id].type}/>}
+          onIconClick={(e) => props.onClickIcon(e, id)} 
+          onLabelClick={(e) => props.onClickLabel(e, id)} 
+        >
+          <ElementItemGroup {...props} list={props.elements[id].elements} />
+        </BasicItem>
+      )
+    }
+    if (props.elements[id].type === 'action') {
+      return (
+        <BasicItem
+          key={id}
+          nodeId={id}
+          label={id}
+          endIcon={<TypeIcon type={props.elements[id].type}/>}
+          onIconClick={(e) => props.onClickIcon(e, id)} 
+          onLabelClick={(e) => props.onClickLabel(e, id)} 
+        />
+      )
+    }
+
+    return null;
+  })
+}
+
 function ElementItemGroup(props) {
   return props.list.map(id => {
     if (props.elements[id].type === 'group') {
@@ -174,6 +219,9 @@ function ElementItemGroup(props) {
           <ElementItemGroup {...props} list={props.elements[id].elements} />
         </BasicItem>
       )
+    }
+    if (props.elements[id].type === 'action') {
+      return null;
     }
     return (
       <BasicItem

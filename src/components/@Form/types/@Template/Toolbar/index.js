@@ -8,7 +8,7 @@ import TreeView from '@material-ui/lab/TreeView';
 import { ContextMenu } from '@blueprintjs/core';
 import Menu from 'components/Menu';
 
-import { ElementsItems, AnimationItems } from './Items';
+import { ElementsItems, EventsItems, AnimationItems } from './Items';
 import { CollapseIcon, ExpandIcon } from './Icons';
 
 import './main.css';
@@ -208,12 +208,12 @@ class Toolbar extends PureComponent {
             key="3"
             className="tree-elements"
             style={styles.treeElements}
-            defaultExpanded={['content']}
+            defaultExpanded={['events']}
             defaultCollapseIcon={<CollapseIcon />}
             defaultExpandIcon={<ExpandIcon />}
             selected={Object.keys(selectElements)}
           >
-            <ElementsItems 
+            <EventsItems 
               list={listElements}
               elements={elements}
               onClickIcon={this.handleClickIcon}
