@@ -445,9 +445,9 @@ class Sheet extends Component {
 
     const disabled = {
       '1': toolbar === 'vars',
-      'isSelect': Object.keys(this.props.selects).length === 0,
-      'isPaste': !(core.buffer.class === 'template'),
-      '4': Object.keys(this.props.selects).length === 0,
+      'isSelect': toolbar === 'events' || Object.keys(this.props.selects).length === 0,
+      'isPaste': toolbar === 'events' || !(core.buffer.class === 'template'),
+      '4': toolbar === 'events' || Object.keys(this.props.selects).length === 0,
     }
     const pos = { left: e.clientX, top: e.clientY };
     const list = toolbar === 'events'? [

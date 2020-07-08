@@ -209,6 +209,7 @@ const ACTION = {
   longClickRight: '',
   mouseDown: '',
   mouseUp: '',
+  zIndex: 10000,
 }
 
 const GROUP = {
