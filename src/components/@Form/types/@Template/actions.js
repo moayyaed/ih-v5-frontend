@@ -31,6 +31,10 @@ import {
 
   TEMPLATE_EDIT_ID_STATE,
   TEMPLATE_CHANGE_TITLE_STATE,
+
+  TEMPLATE_SET_MODE_MASTER,
+  TEMPLATE_SET_MODE_VARS,
+  TEMPLATE_SET_MODE_EVENTS,
   
 } from './constants';
 
@@ -267,6 +271,30 @@ export function changeTitleState(id, prop, stateId, title) {
   };
 }
 
+export function setModeMaster(id, prop) {
+  return {
+    type: TEMPLATE_SET_MODE_MASTER,
+    id,
+    prop,
+  }
+}
+
+export function setModeVars(id, prop) {
+  return {
+    type: TEMPLATE_SET_MODE_VARS,
+    id,
+    prop,
+  }
+}
+
+export function setModeEvents(id, prop) {
+  return {
+    type: TEMPLATE_SET_MODE_EVENTS,
+    id,
+    prop,
+  }
+}
+
 
 export default {
   data,
@@ -299,4 +327,8 @@ export default {
 
   editIdState,
   changeTitleState,
+
+  setModeMaster,
+  setModeVars,
+  setModeEvents,
 }

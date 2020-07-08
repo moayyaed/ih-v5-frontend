@@ -69,24 +69,24 @@ class Template extends PureComponent {
   componentDidMount() {
     if (this.props.data.settings === undefined) {
       core.actions.template
-      .data(
-        this.props.id, this.props.options.prop, {
-          toolbarType: 'tree',
-          propertyType: 'main',
-          selectState: 'master',
-          selectType: null,
-          selectContainer: null,
-          selects: {}, 
-          settings: { x: 270, y: 120, w: 250, h: 250, scale: 1 },
-          list: [],
-          listState: ['state1', 'state2'],
-          state: {
-            master: { hide: false, curent: 0, values: { 0: {} } },
-            state1: { hide: false, curent: 0, values: {}, title: 'state' },
-            state2: { hide: false, curent: 0, values: {}, title: 'error', },
-          },
-          elements: {}
-        });
+        .data(
+          this.props.id, this.props.options.prop, {
+            toolbarType: 'tree',
+            propertyType: 'main',
+            selectState: 'master',
+            selectType: null,
+            selectContainer: null,
+            selects: {}, 
+            settings: { x: 270, y: 120, w: 250, h: 250, scale: 1 },
+            list: [],
+            listState: ['state1', 'state2'],
+            state: {
+              master: { hide: false, curent: 0, values: { 0: {} } },
+              state1: { hide: false, curent: 0, values: {}, title: 'state' },
+              state2: { hide: false, curent: 0, values: {}, title: 'error', },
+            },
+            elements: {}
+          });
     }
   }
 
@@ -209,26 +209,18 @@ class Template extends PureComponent {
     
     if (toolbarId === 'tree') {
       core.actions.template
-        .data(
-          this.props.id, this.props.options.prop,
-          { toolbarType: toolbarId, propertyType: select === 'events' ? 'main' : this.props.data.propertyType }
-        );
+        .setModeMaster(this.props.id, this.props.options.prop);
+      //  { toolbarType: toolbarId, propertyType: select === 'events' ? 'main' : this.props.data.propertyType }
     }
 
     if (toolbarId === 'vars') {
       core.actions.template
-        .data(
-          this.props.id, this.props.options.prop,
-          { toolbarType: toolbarId, propertyType: select === 'events' ? 'main' : this.props.data.propertyType }
-        );
+        .setModeVars(this.props.id, this.props.options.prop);
     }
 
     if (toolbarId === 'events') {
       core.actions.template
-        .data(
-          this.props.id, this.props.options.prop,
-          { toolbarType: toolbarId, propertyType: 'actions' }
-        );
+        .setModeEvents(this.props.id, this.props.options.prop);
     }
   }
 

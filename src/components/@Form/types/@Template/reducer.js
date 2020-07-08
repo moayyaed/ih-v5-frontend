@@ -31,6 +31,10 @@ import {
 
   TEMPLATE_EDIT_ID_STATE,
   TEMPLATE_CHANGE_TITLE_STATE,
+
+  TEMPLATE_SET_MODE_MASTER,
+  TEMPLATE_SET_MODE_VARS,
+  TEMPLATE_SET_MODE_EVENTS,
 } from './constants';
 
 
@@ -709,6 +713,18 @@ function reducerTemplate(state, action) {
             },
           }
         }
+      case TEMPLATE_SET_MODE_MASTER:
+        return {
+          ...state,
+        }
+      case TEMPLATE_SET_MODE_VARS:
+        return {
+          ...state,
+        }
+      case TEMPLATE_SET_MODE_EVENTS:
+        return {
+          ...state,
+        }
     default:
       return state;
   }
@@ -742,6 +758,9 @@ function reducer(state, action) {
     case TEMPLATE_DELETE_STATE:
     case TEMPLATE_EDIT_ID_STATE:
     case TEMPLATE_CHANGE_TITLE_STATE:
+    case TEMPLATE_SET_MODE_MASTER:
+    case TEMPLATE_SET_MODE_VARS:
+    case TEMPLATE_SET_MODE_EVENTS:
       return { 
         ...state, 
         data: {
