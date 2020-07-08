@@ -271,12 +271,21 @@ class Template extends PureComponent {
 
   handleChangeValueProperty = (key, value) => {
     const stateId = this.props.data.selectState || 'master';
-    core.actions.template
-      .editState(
-        this.props.id, this.props.options.prop,
-        stateId, this.props.data.state[stateId].curent,
-        this.props.data.selectOne, { [key]: value },
-      );
+    if (stateId === 'master') {
+      core.actions.template
+        .editStateMaster(
+          this.props.id, this.props.options.prop,
+          stateId, this.props.data.state[stateId].curent,
+          this.props.data.selectOne, { [key]: value },
+        );
+    } else {
+      core.actions.template
+        .editState(
+          this.props.id, this.props.options.prop,
+          stateId, this.props.data.state[stateId].curent,
+          this.props.data.selectOne, { [key]: value },
+        );
+    }
   }
 
   handleGetStyleProperty = (params) => {

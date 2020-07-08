@@ -27,6 +27,7 @@ import {
 
   TEMPLATE_ADD_STATE,
   TEMPLATE_EDIT_STATE,
+  TEMPLATE_EDIT_STATE_MASTER,
   TEMPLATE_DELETE_STATE,
 
   TEMPLATE_EDIT_ID_STATE,
@@ -650,6 +651,53 @@ function reducerTemplate(state, action) {
           }
         },
       };
+    case TEMPLATE_EDIT_STATE_MASTER:
+      return { 
+        ...state,
+        elements: Object
+          .keys(state.elements)
+          .reduce((p, c) => {
+            if (c === action.elementId) {
+                return { 
+                  ...p, 
+                  [c]: ['master']
+                    .reduce((p2, c2) => {
+                      const v = action.stateId === c2 ? action.stateValue : state.state[c2].curent;
+                      const h = c2 === 'master' ? false : state.state.master.hide ? true : state.state[c2].hide;
+                      if (action.stateId === c2) {
+                        if (state.state[c2] && h == false) {
+                          if (state.state[c2].values && state.state[c2].values[v] && state.state[c2].values[v][c]) {
+                            return { ...p2, ...state.state[c2].values[v][c], ...action.data };
+                          } else {
+                            return { ...p2, ...action.data };
+                          }
+                        }
+                        return p2;
+                      } else {
+                        if (
+                          state.state[c2] &&
+                          h == false && 
+                          state.state[c2].values && 
+                          state.state[c2].values[v] &&
+                          state.state[c2].values[v][c]
+                        ) {
+                          return { ...p2, ...state.state[c2].values[v][c] };
+                        }
+                      }
+                      return p2;
+                    }, state.elements[c]),
+                }
+            }
+            return { ...p, [c]: state.elements[c] }
+          }, {}),
+        state: {
+          ...state.state,
+          [action.stateId]: {
+            ...state.state[action.stateId],
+            values: editState(state.state[action.stateId].values, action)
+          }
+        },
+      };
     case TEMPLATE_DELETE_STATE:
       const listState = state.listState.filter(i => i !== action.stateId);
       return {
@@ -809,6 +857,7 @@ function reducer(state, action) {
     case TEMPLATE_CHANGE_VISIBILITY_STATE:
     case TEMPLATE_ADD_STATE:
     case TEMPLATE_EDIT_STATE:
+    case TEMPLATE_EDIT_STATE_MASTER:
     case TEMPLATE_DELETE_STATE:
     case TEMPLATE_EDIT_ID_STATE:
     case TEMPLATE_CHANGE_TITLE_STATE:

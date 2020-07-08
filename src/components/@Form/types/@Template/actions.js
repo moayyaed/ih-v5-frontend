@@ -27,6 +27,7 @@ import {
 
   TEMPLATE_ADD_STATE,
   TEMPLATE_EDIT_STATE,
+  TEMPLATE_EDIT_STATE_MASTER,
   TEMPLATE_DELETE_STATE,
 
   TEMPLATE_EDIT_ID_STATE,
@@ -242,6 +243,18 @@ export function editState(id, prop, stateId, stateValue, elementId, data) {
   };
 }
 
+export function editStateMaster(id, prop, stateId, stateValue, elementId, data) {
+  return {
+    type: TEMPLATE_EDIT_STATE_MASTER,
+    id,
+    prop,
+    stateId,
+    stateValue,
+    elementId,
+    data,
+  };
+}
+
 export function deleteState(id, prop, stateId) {
   return {
     type: TEMPLATE_DELETE_STATE,
@@ -323,6 +336,7 @@ export default {
 
   addState,
   editState,
+  editStateMaster,
   deleteState,
 
   editIdState,
