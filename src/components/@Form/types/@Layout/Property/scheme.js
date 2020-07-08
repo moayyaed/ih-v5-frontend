@@ -232,6 +232,16 @@ const actionsSection = [
     prop: 'longClickRight', 
     type: 'input',
   },
+  { 
+    title: 'Mouse Down', 
+    prop: 'mouseDown', 
+    type: 'input',
+  },
+  { 
+    title: 'Mouse Up', 
+    prop: 'mouseUp', 
+    type: 'input',
+  },
 ];
 
 const moveSection = [
@@ -360,6 +370,13 @@ const scheme = {
     image: imageSection,
     move: moveSection,
   },
+  text_image: {
+    main: mainSection,
+    border: borderSection,
+    text: textSection,
+    image: imageSection,
+    move: moveSection,
+  },
   button: {
     main: mainSection,
     border: borderSection,
@@ -367,6 +384,9 @@ const scheme = {
     image: imageSection,
     actions: actionsSection,
     move: moveSection,
+  },
+  actions: {
+    actions: actionsSection,
   },
   template: {
     link: [],

@@ -5,6 +5,8 @@ import Block from './@Block';
 import Text from './@Text';
 import Image from './@Image';
 import Button from './@Button';
+import TextImage from './@TextImage';
+import Action from './@Action';
 
 import Container from './@Container';
 import Template from './@Template';
@@ -23,6 +25,10 @@ function getElementByType(type) {
       return Container;
     case 'template':
       return Template;
+    case 'text_image':
+      return TextImage;
+    case 'action':
+      return Action;
     case 'cctv':
       return CCTV;
     default:

@@ -32,7 +32,6 @@ import {
   TEMPLATE_EDIT_ID_STATE,
   TEMPLATE_CHANGE_TITLE_STATE,
 } from './constants';
-import actions from 'components/@Form/actions';
 
 
 function getParentGroupId(id, elements) {

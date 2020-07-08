@@ -98,6 +98,21 @@ class Template extends PureComponent {
 
   renderButtons = (id) => {
     if (id === 'property') {
+      const toolbar = this.props.data.toolbarType || 'tree';
+
+      if (toolbar === 'events') {
+        const select = this.props.data.propertyType || 'actions';
+        return [
+          <Button 
+            key="1"
+            minimal
+            active={select === 'actions'} 
+            icon="hand-up"  
+            onClick={() => this.handleChangeProperty('actions')} 
+          />,
+          <Separator key="2" />,
+        ];
+      }
       const select = this.props.data.propertyType || 'main';
       return [
         <Button 
@@ -133,14 +148,6 @@ class Template extends PureComponent {
         />,
         <Separator key="10" />,
         <Button 
-          key="11"
-          minimal 
-          active={select === 'actions'} 
-          icon="hand-up"  
-          onClick={() => this.handleChangeProperty('actions')}
-        />,
-        <Separator key="12" />,
-        <Button 
           key="13"
           minimal 
           active={select === 'move'} 
@@ -151,16 +158,6 @@ class Template extends PureComponent {
     }
     if (id === 'toolbar') {
       const select = this.props.data.toolbarType || 'tree';
-      /*
-        <Button 
-          key="1"
-          minimal
-          icon="git-branch" 
-          active={select === 'state'}
-          onClick={() => this.handleChangeToolbar('state')} 
-        />,
-        <Separator key="2" />,
-      */
       return [
         <Button 
           key="3"
@@ -168,6 +165,22 @@ class Template extends PureComponent {
           icon="diagram-tree" 
           active={select === 'tree'}
           onClick={() => this.handleChangeToolbar('tree')} 
+        />,
+        <Separator key="4" />,
+        <Button 
+          key="5"
+          minimal
+          icon="changes" 
+          active={select === 'vars'}
+          onClick={() => this.handleChangeToolbar('vars')} 
+        />,
+        <Separator key="6" />,
+        <Button 
+          key="7"
+          minimal
+          icon="widget-button" 
+          active={select === 'events'}
+          onClick={() => this.handleChangeToolbar('events')} 
         />,
       ];
     }
@@ -192,11 +205,31 @@ class Template extends PureComponent {
   }
 
   handleChangeToolbar = (toolbarId) => {
-    core.actions.template
-      .data(
-        this.props.id, this.props.options.prop,
-        { toolbarType: toolbarId }
-      );
+    const select = this.props.data.toolbarType || 'tree';
+    
+    if (toolbarId === 'tree') {
+      core.actions.template
+        .data(
+          this.props.id, this.props.options.prop,
+          { toolbarType: toolbarId, propertyType: select === 'events' ? 'main' : this.props.data.propertyType }
+        );
+    }
+
+    if (toolbarId === 'vars') {
+      core.actions.template
+        .data(
+          this.props.id, this.props.options.prop,
+          { toolbarType: toolbarId, propertyType: select === 'events' ? 'main' : this.props.data.propertyType }
+        );
+    }
+
+    if (toolbarId === 'events') {
+      core.actions.template
+        .data(
+          this.props.id, this.props.options.prop,
+          { toolbarType: toolbarId, propertyType: 'actions' }
+        );
+    }
   }
 
   handleSortState = (list) => {

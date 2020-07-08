@@ -406,9 +406,10 @@ class Sheet extends Component {
       { id: '1', title: 'Circle', click: () => this.handleAddElement(e, 'circle') },
       { id: '2', title: 'Text', click: () => this.handleAddElement(e, 'text') },
       { id: '3', title: 'Image', click: () => this.handleAddElement(e, 'image') },
-      { id: '4', title: 'Button', click: () => this.handleAddElement(e, 'button') },
-      { id: '5', type: 'divider' },
-      { id: '6', title: 'CCTV', click: () => this.handleAddElement(e, 'cctv') },
+      { id: '4', title: 'Text & Image', click: () => this.handleAddElement(e, 'text_image') },
+      { id: '5', title: 'Button', click: () => this.handleAddElement(e, 'button') },
+      { id: '6', type: 'divider' },
+      { id: '7', title: 'CCTV', click: () => this.handleAddElement(e, 'cctv') },
     ]
   
     const scheme = {

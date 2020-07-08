@@ -146,50 +146,83 @@ class Toolbar extends PureComponent {
   }
 
   render({ selectElements, selectState, listElements, listState, elements, state } = this.props) {
-    return (
-      <Scrollbars style={styles.container}>
-        <TreeView
-          className="tree-elements"
-          style={styles.treeElements}
-          defaultExpanded={['content']}
-          defaultCollapseIcon={<CollapseIcon />}
-          defaultExpandIcon={<ExpandIcon />}
-          selected={Object.keys(selectElements)}
-        >
-          <ElementsItems 
-            list={listElements}
-            elements={elements}
-            onClickIcon={this.handleClickIcon}
-            onClickLabel={this.handleClickElement}
-          />
-        </TreeView>
-        <TreeView
-          className="tree-animation"
-          style={styles.treeAnimation}
-          defaultExpanded={['style']}
-          defaultCollapseIcon={<CollapseIcon />}
-          defaultExpandIcon={<ExpandIcon />}
-          selected={selectState}
-        >
-          <AnimationItems 
-            list={listState}
-            state={state}
-            select={selectState}
-            onClickIcon={this.handleClickIcon}
-            onClickLabel={this.handleClickAnimation}
-            onClickVisibility={this.handleClickVisibility}
-            onChangeNumber={this.handleChangeNumber}
-            onClickDown={this.handleClickDown}
-            onClickUp={this.handleClickUp}
-            onClickAdd={this.handleClickAdd}
-            onClickDelete={this.handleClickDelete}
-            onClickOptions={this.handleClickOptions}
-            onChangeTitle={this.handleChangeTitle}
-            onChangeCompliteTitle={this.handleChangeComplitetitle}
-          />
-        </TreeView>
-      </Scrollbars>
-    );
+    if (this.props.type === 'tree') {
+      return (
+        <Scrollbars style={styles.container}>
+          <TreeView
+            key="1"
+            className="tree-elements"
+            style={styles.treeElements}
+            defaultExpanded={['content']}
+            defaultCollapseIcon={<CollapseIcon />}
+            defaultExpandIcon={<ExpandIcon />}
+            selected={Object.keys(selectElements)}
+          >
+            <ElementsItems 
+              list={listElements}
+              elements={elements}
+              onClickIcon={this.handleClickIcon}
+              onClickLabel={this.handleClickElement}
+            />
+          </TreeView>
+        </Scrollbars>
+      );
+    }
+    if (this.props.type === 'vars') {
+      return (
+        <Scrollbars style={styles.container}>
+          <TreeView
+            key="2"
+            className="tree-animation"
+            style={styles.treeAnimation}
+            defaultExpanded={['style']}
+            defaultCollapseIcon={<CollapseIcon />}
+            defaultExpandIcon={<ExpandIcon />}
+            selected={selectState}
+          >
+            <AnimationItems 
+              list={listState}
+              state={state}
+              select={selectState}
+              onClickIcon={this.handleClickIcon}
+              onClickLabel={this.handleClickAnimation}
+              onClickVisibility={this.handleClickVisibility}
+              onChangeNumber={this.handleChangeNumber}
+              onClickDown={this.handleClickDown}
+              onClickUp={this.handleClickUp}
+              onClickAdd={this.handleClickAdd}
+              onClickDelete={this.handleClickDelete}
+              onClickOptions={this.handleClickOptions}
+              onChangeTitle={this.handleChangeTitle}
+              onChangeCompliteTitle={this.handleChangeComplitetitle}
+            />
+          </TreeView>
+        </Scrollbars>
+      );
+    }
+
+    if (this.props.type === 'events') {
+      return (
+        <Scrollbars style={styles.container}>
+          <TreeView
+            key="3"
+            className="tree-elements"
+            style={styles.treeElements}
+            defaultExpanded={['content']}
+            defaultCollapseIcon={<CollapseIcon />}
+            defaultExpandIcon={<ExpandIcon />}
+            selected={Object.keys(selectElements)}
+          >
+            <ElementsItems 
+              list={listElements}
+              elements={elements}
+              onClickIcon={this.handleClickIcon}
+              onClickLabel={this.handleClickElement}
+            />
+          </TreeView>
+        </Scrollbars>
+      );
+    }
   }
 
 }

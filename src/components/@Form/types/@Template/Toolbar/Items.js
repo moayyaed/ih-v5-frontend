@@ -80,7 +80,7 @@ export function ElementsItems(props) {
   return (
     <BasicItem 
       nodeId="content" 
-      label="Content"
+      label="Template"
       onIconClick={(e) => props.onClickIcon(e, 'content')} 
       onLabelClick={(e) => props.onClickLabel(e, 'content')} 
     >
@@ -93,7 +93,7 @@ export function AnimationItems(props) {
   return (
     <BasicItem 
       nodeId="style" 
-      label={<StyleItem {...props} label="Style" />}
+      label={<StyleItem {...props} label="Variables" />}
       onIconClick={(e) => props.onClickIcon(e, 'style')} 
       onLabelClick={(e) => props.onClickLabel(e, 'style')} 
     >
@@ -133,7 +133,6 @@ export function AnimationItems(props) {
           </BasicItem>
         )
       })}
-      <MasterItem {...props}/>
     </BasicItem>
   );
 }

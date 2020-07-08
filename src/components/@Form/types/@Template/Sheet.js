@@ -440,6 +440,8 @@ class Sheet extends Component {
     e.stopPropagation();
 
     e.persist();
+    const store = core.store.getState().apppage.data[this.props.id][this.props.prop];
+    const toolbar = store.toolbarType || 'tree';
 
     const disabled = {
       'isSelect': Object.keys(this.props.selects).length === 0,
@@ -448,12 +450,14 @@ class Sheet extends Component {
     }
 
     const pos = { left: e.clientX, top: e.clientY };
-    const list = [
+    const list = toolbar === 'events'? [
+      { id: '0', title: 'Action Zone', click: () => this.handleAddElement(e, 'action') },
+    ] : [
       { id: '0', title: 'Rectangle', click: () => this.handleAddElement(e, 'rectangle') },
       { id: '1', title: 'Circle', click: () => this.handleAddElement(e, 'circle') },
       { id: '2', title: 'Text', click: () => this.handleAddElement(e, 'text') },
       { id: '3', title: 'Image', click: () => this.handleAddElement(e, 'image') },
-      { id: '4', title: 'Button', click: () => this.handleAddElement(e, 'button') },
+      { id: '4', title: 'Text & Image', click: () => this.handleAddElement(e, 'text_image') },
     ]
     const scheme = {
       main: [

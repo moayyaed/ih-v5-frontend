@@ -116,6 +116,48 @@ const IMAGE = {
   opacity: 100,
 }
 
+const TEXT_IMAGE = {
+  text: 'Text 1',
+  textSize: 14,
+  textBold: 0,
+  textItalic: 0,
+  textFontFamily: { id: 'Arial', title: 'Arial' },
+  textAlignH: { id: 'center', title: 'Center' },
+  textAlignV: { id: 'center', title: 'Center' },
+  textRotate: 0,
+  textColor: 'rgba(0,0,0,1)',
+  img: 'https://ih-systems.com/wp-content/uploads/2018/08/lamp210.svg',
+  imgColor: 'transparent',
+  imgSize: 0,
+  imgRotate: 0,
+  borderSize: 1,
+  borderRadius: 0,
+  borderStyle: { id: 'solid', title: 'Solid' },
+  borderColor: 'rgba(0,255,0,1)',
+    backgroundColor: { 
+    type: 'fill', 
+    value: 'transparent', 
+    fill: 'transparent',
+    angle: 90,
+    shape: 'circle',
+    positionX: 50,
+    positionY: 50,
+    extent: 'closest-side',
+    palette: [{ offset: '0.00', color: '#4A90E2', opacity: 1 }, { offset: '1.00', color: '#9013FE', opacity: 1 }]
+  },
+  singleClickLeft: 'TOGGLE',
+  doubleClickLeft: '',
+  longClickLeft: 'DEVICEMENU',
+  singleClickRight: '',
+  doubleClickRight: '',
+  longClickRight: '',
+  mouseDown: '',
+  mouseUp: '',
+  boxShadow: 'unset',
+  zIndex: 100,
+  opacity: 100,
+}
+
 const BUTTON = {
   text: 'Text 1',
   textSize: 14,
@@ -151,9 +193,22 @@ const BUTTON = {
   singleClickRight: '',
   doubleClickRight: '',
   longClickRight: '',
+  mouseDown: '',
+  mouseUp: '',
   boxShadow: 'unset',
   zIndex: 100,
   opacity: 100,
+}
+
+const ACTION = {
+  singleClickLeft: 'TOGGLE',
+  doubleClickLeft: '',
+  longClickLeft: 'DEVICEMENU',
+  singleClickRight: '',
+  doubleClickRight: '',
+  longClickRight: '',
+  mouseDown: '',
+  mouseUp: '',
 }
 
 const GROUP = {
@@ -174,10 +229,14 @@ function getDefaultParams(type) {
       return IMAGE;
     case 'button':
       return BUTTON;
+    case 'text_image':
+      return TEXT_IMAGE;
     case 'template':
     case 'container':
     case 'group':
       return GROUP;
+    case 'action':
+      return ACTION;
     default:
       return BLOCK;
   }
