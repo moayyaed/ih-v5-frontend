@@ -208,7 +208,6 @@ class Template extends PureComponent {
     if (toolbarId === 'tree') {
       core.actions.template
         .setModeMaster(this.props.id, this.props.options.prop);
-      //  { toolbarType: toolbarId, propertyType: select === 'events' ? 'main' : this.props.data.propertyType }
     }
 
     if (toolbarId === 'vars') {
@@ -345,9 +344,11 @@ class Template extends PureComponent {
       const masterData = this.props.data.state.master.values[0][this.props.data.selectOne];
       const stateData = state.values[state.curent] ? state.values[state.curent][this.props.data.selectOne] : {};
       const curentData = this.props.data.elements[this.props.data.selectOne];
+      const toolbar = this.props.data.toolbarType || 'tree';
 
       return (
         <Property
+          disabled={toolbar === 'vars' && !this.props.data.listState.length}
           type={this.props.data.propertyType || 'main'}
           selectType={this.props.data.selectType}
           elementId={this.props.data.selectOne}

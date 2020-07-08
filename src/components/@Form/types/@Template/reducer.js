@@ -651,10 +651,11 @@ function reducerTemplate(state, action) {
         },
       };
     case TEMPLATE_DELETE_STATE:
+      const listState = state.listState.filter(i => i !== action.stateId);
       return {
         ...state,
-        selectState: 'master',
-        listState: state.listState.filter(i => i !== action.stateId),
+        selectState: listState[listState.length - 1] || 'master',
+        listState: listState,
         state: Object
           .keys(state.state)
           .reduce((p, c) => {
@@ -718,12 +719,59 @@ function reducerTemplate(state, action) {
           ...state,
           toolbarType: 'tree',
           propertyType: state.toolbarType === 'events' ? 'main' : state.propertyType,
+          selectState: 'master',
+          elements: Object
+            .keys(state.elements)
+            .reduce((p, c) => {
+              return {
+                ...p,
+                [c]: ['master']
+                  .reduce((p2, c2) => {
+                    const v = state.state[c2].curent;
+                    const h = false;
+                    if (
+                      state.state[c2] &&
+                      h == false && 
+                      state.state[c2].values && 
+                      state.state[c2].values[v] &&
+                      state.state[c2].values[v][c]
+                    ) {
+                      return { ...p2, ...state.state[c2].values[v][c] };
+                    }
+                    return p2
+                  }, state.elements[c]),
+              }
+            }, {}),
         }
       case TEMPLATE_SET_MODE_VARS:
         return {
           ...state,
           toolbarType: 'vars',
           propertyType: state.toolbarType === 'events' ? 'main' : state.propertyType,
+          selectState: (!state.selectState  || state.selectState === 'master') ? state.listState[0] : state.selectState,
+          elements: Object
+            .keys(state.elements)
+            .reduce((p, c) => {
+              return {
+                ...p,
+                [c]: ['master']
+                  .concat([...state.listState].reverse())
+                  .reduce((p2, c2) => {
+                    const v = state.state[c2].curent;
+                    const h = c2 === 'master' ? false : state.state.master.hide ? true : state.state[c2].hide;
+                    if (
+                      state.state[c2] &&
+                      h == false && 
+                      state.state[c2].values && 
+                      state.state[c2].values[v] &&
+                      state.state[c2].values[v][c]
+                    ) {
+                      return { ...p2, ...state.state[c2].values[v][c] };
+                    }
+                    return p2
+                  }, state.elements[c]),
+              }
+            }, {}),
         }
       case TEMPLATE_SET_MODE_EVENTS:
         return {

@@ -40,6 +40,9 @@ class Property extends PureComponent {
   }
 
   render() {
+    if (this.props.disabled) {
+      return <div style={styles.stub}>Please select var or create new</div>;
+    }
     if (this.props.selectType === 'one' && this.props.elementData && this.props.elementData.type) {
       const map = scheme[this.props.elementData.type][this.props.type];
       if (map === undefined) {
