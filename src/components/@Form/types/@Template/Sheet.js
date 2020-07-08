@@ -444,11 +444,11 @@ class Sheet extends Component {
     const toolbar = store.toolbarType || 'tree';
 
     const disabled = {
+      '1': toolbar === 'vars',
       'isSelect': Object.keys(this.props.selects).length === 0,
       'isPaste': !(core.buffer.class === 'template'),
       '4': Object.keys(this.props.selects).length === 0,
     }
-
     const pos = { left: e.clientX, top: e.clientY };
     const list = toolbar === 'events'? [
       { id: '0', title: 'Action Zone', click: () => this.handleAddElement(e, 'action') },
@@ -461,7 +461,7 @@ class Sheet extends Component {
     ]
     const scheme = {
       main: [
-        { id: '0', title: 'Add Element', children: list },
+        { id: '0', check: '1', title: 'Add Element', children: list },
         { id: '-', type: 'divider' },
         { id: '1', check: '4', title: 'Group', click: this.handleClickGroupElements },
         { id: '2', check: '4', title: 'Ungroup', click: () => this.handleClickUnGroupElement(elementId) },

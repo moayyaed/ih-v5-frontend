@@ -597,6 +597,7 @@ function reducerTemplate(state, action) {
     case TEMPLATE_ADD_STATE: 
       return {
         ...state,
+        selectState: action.stateId,
         listState: state.listState.concat(action.stateId),
         state: {
           ...state.state,
