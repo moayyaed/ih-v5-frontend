@@ -455,6 +455,7 @@ class Sheet extends Component {
       'isSelect': toolbar === 'events' || Object.keys(this.props.selects).length === 0,
       'isPaste': toolbar === 'events' || !(core.buffer.class === 'template'),
       '4': toolbar === 'events' || Object.keys(this.props.selects).length === 0,
+      '5': Object.keys(this.props.selects).length === 0,
     }
     const pos = { left: e.clientX, top: e.clientY };
     const list = toolbar === 'events'? [
@@ -476,7 +477,7 @@ class Sheet extends Component {
         { id: '4', check: 'isSelect', title: 'Copy', click: this.handleClickCopyElements },
         { id: '5', check: 'isPaste', title: 'Paste', click: () => this.handleClickPasteElements(e) },
         { id: '6', type: 'divider' },
-        { id: '7', check: '4', title: 'Delete', click: () => this.handleDeleteElement(elementId) }
+        { id: '7', check: '5', title: 'Delete', click: () => this.handleDeleteElement(elementId) }
       ]
     }
 

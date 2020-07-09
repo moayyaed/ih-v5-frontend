@@ -233,13 +233,23 @@ const actionsSection = [
     type: 'input',
   },
   { 
-    title: 'Mouse Down', 
-    prop: 'mouseDown', 
+    title: 'Mouse Down Left', 
+    prop: 'mouseDownLeft', 
     type: 'input',
   },
   { 
-    title: 'Mouse Up', 
-    prop: 'mouseUp', 
+    title: 'Mouse Up Left', 
+    prop: 'mouseUpLeft', 
+    type: 'input',
+  },
+  { 
+    title: 'Mouse Down Right', 
+    prop: 'mouseDownRight', 
+    type: 'input',
+  },
+  { 
+    title: 'Mouse Up Right', 
+    prop: 'mouseUpRight', 
     type: 'input',
   },
 ];
