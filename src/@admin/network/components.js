@@ -1,5 +1,5 @@
 import core from 'core';
-import { generateOptions, generateCache } from './tools';
+import { generateOptions, generateCache, generateMasterData } from './tools';
 
 
 core.network.request('components_tabs_form', (send, context) => {
@@ -31,6 +31,9 @@ core.network.response('components_tabs_form', (answer, res, context) => {
   if (context.params.id === 'formLayout') {
     res[1].data.p1.layout.containers = res[2].data;
     res[1].data.p1.layout.templates = res[3].data;
+  }
+  if (context.params.id === 'formVistemplate') {
+    res[1].data.p1.template = generateMasterData(res[1].data.p1.template); 
   }
   answer({ 
     options: generateOptions(res[0].data), 
