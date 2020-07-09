@@ -180,6 +180,68 @@ function getElemntsMaster(state) {
     }, {});
 }
 
+function getSelectResizeContainer(action, state) {
+  return Object
+  .keys(state.elements)
+  .reduce((p, c) => {
+    if (action.childs[c]) {
+      const nextPos = action.position;
+      const oldPos = state.selectContainer;
+      const elem = state.elements[c];
+      const h = nextPos.w / oldPos.w;
+      const v = nextPos.h / oldPos.h; 
+
+      if (elem.groupId) {
+        return { 
+          ...p, 
+          [c]: {
+            ...state.elements[c],
+            x: Math.round((elem.x * (nextPos.w / oldPos.w)) * 1e2 ) / 1e2,
+            y: Math.round((elem.y * (nextPos.h / oldPos.h)) * 1e2 ) / 1e2,
+            w: Math.round((elem.w * (nextPos.w / oldPos.w)) * 1e2 ) / 1e2,
+            h: Math.round((elem.h * (nextPos.h / oldPos.h)) * 1e2 ) / 1e2,
+          } 
+        }
+      }
+      return { 
+        ...p, 
+        [c]: {
+          ...state.elements[c],
+        x: nextPos.x + ((elem.x - oldPos.x) * h),
+        y: nextPos.y + ((elem.y - oldPos.y) * v),
+        w: (elem.x + elem.w) * h - (elem.x * h),
+        h: (elem.y + elem.h) * v - (elem.y * v),
+        } 
+      }
+    }
+    return { ...p, [c]: state.elements[c] }
+  }, {});
+}
+
+function getStateResizeContainer(action, elements, data) {
+  Object
+  .keys(action.childs)
+  .forEach(key => {
+    if (data[key]) {
+      data[key] = {
+        ...data[key],
+        x: elements[key].x,
+        y: elements[key].y,
+        w: elements[key].w,
+        h: elements[key].h,
+      };
+    } else {
+      data[key] = {
+        x: elements[key].x,
+        y: elements[key].y,
+        w: elements[key].w,
+        h: elements[key].h,
+      };
+    }
+  });
+  return data;
+}
+
 function mergeData(key, oldData, newData) {
   if (oldData) {
     return { ...oldData[key], ...newData }
@@ -407,47 +469,28 @@ function reducerTemplate(state, action) {
         }
       };
     case TEMPLATE_RESIZE_SELECT_CONTAINER:
+      const resizeElements = getSelectResizeContainer(action, state);
       return {
         ...state,
         selectContainer: {
           ...state.selectContainer,
           ...action.position,
         },
-        elements: Object
-          .keys(state.elements)
-          .reduce((p, c) => {
-            if (action.childs[c]) {
-              const nextPos = action.position;
-              const oldPos = state.selectContainer;
-              const elem = state.elements[c];
-              const h = nextPos.w / oldPos.w;
-              const v = nextPos.h / oldPos.h; 
-
-              if (elem.groupId) {
-                return { 
-                  ...p, 
-                  [c]: {
-                    ...state.elements[c],
-                    x: Math.round((elem.x * (nextPos.w / oldPos.w)) * 1e2 ) / 1e2,
-                    y: Math.round((elem.y * (nextPos.h / oldPos.h)) * 1e2 ) / 1e2,
-                    w: Math.round((elem.w * (nextPos.w / oldPos.w)) * 1e2 ) / 1e2,
-                    h: Math.round((elem.h * (nextPos.h / oldPos.h)) * 1e2 ) / 1e2,
-                  } 
-                }
-              }
-              return { 
-                ...p, 
-                [c]: {
-                  ...state.elements[c],
-                x: nextPos.x + ((elem.x - oldPos.x) * h),
-                y: nextPos.y + ((elem.y - oldPos.y) * v),
-                w: (elem.x + elem.w) * h - (elem.x * h),
-                h: (elem.y + elem.h) * v - (elem.y * v),
-                } 
-              }
+        elements: resizeElements,
+        state: {
+          ...state.state,
+          [state.selectState]: {
+            ...state.state[state.selectState],
+            values: {
+              ...state.state[state.selectState].values,
+              [state.state[state.selectState].curent]: getStateResizeContainer(
+                action,
+                resizeElements,
+                state.state[state.selectState].values[state.state[state.selectState].curent]
+              ),
             }
-            return { ...p, [c]: state.elements[c] }
-          }, {}),
+          }
+        }
       }
     case TEMPLATE_ADD_ELEMENT:
       return { 
