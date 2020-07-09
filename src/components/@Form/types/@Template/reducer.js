@@ -180,6 +180,13 @@ function getElemntsMaster(state) {
     }, {});
 }
 
+function mergeData(key, oldData, newData) {
+  if (oldData) {
+    return { ...oldData[key], ...newData }
+  }
+  return { ...newData }
+}
+
 function reducerTemplate(state, action) {
   switch (action.type) {
     case TEMPLATE_SET_DATA:
@@ -520,10 +527,7 @@ function reducerTemplate(state, action) {
               ...state.state[state.selectState].values,
               [state.state[state.selectState].curent]: {
                 ...state.state[state.selectState].values[state.state[state.selectState].curent],
-                [action.elementId]: {
-                  ...state.state[state.selectState].values[state.state[state.selectState].curent][action.elementId],
-                  ...action.data,
-                },
+                [action.elementId]: mergeData(action.elementId, state.state[state.selectState].values[state.state[state.selectState].curent], action.data),
               }
             }
           }
