@@ -75,6 +75,9 @@ function getStateMoveContainer(selects, elements, selectContainer, action, data)
 }
 
 function getPositionSelectContainer(state, elements) {
+  if (state.toolbarType === 'events') {
+    return null;
+  }
   if (state.selectType === 'some') {
     const data = { x: Infinity, y: Infinity, w: 0, h: 0, zIndex: 0 };
     Object
@@ -906,6 +909,9 @@ function reducerTemplate(state, action) {
           selectState: 'master',
           selectContainer: getPositionSelectContainer(state, elementsMaster),
           elements: elementsMaster,
+          selectType: state.toolbarType === 'events' ? null : state.selectType,
+          selectOne: state.toolbarType === 'events' ? null : state.selectOne,
+          selects: state.toolbarType === 'events' ? {} : state.selects,
         }
       case TEMPLATE_SET_MODE_VARS:
         const elementsState = getElemntsState(state);
@@ -916,12 +922,20 @@ function reducerTemplate(state, action) {
           selectState: (!state.selectState  || state.selectState === 'master') ? state.listState[0] : state.selectState,
           selectContainer: getPositionSelectContainer(state, elementsState),
           elements: elementsState,
+          selectType: state.toolbarType === 'events' ? null : state.selectType,
+          selectOne: state.toolbarType === 'events' ? null : state.selectOne,
+          selects: state.toolbarType === 'events' ? {} : state.selects,
         }
       case TEMPLATE_SET_MODE_EVENTS:
         return {
           ...state,
           toolbarType: 'events',
           propertyType: 'actions',
+          selectState: 'master',
+          selectType: null,
+          selectContainer: null,
+          selectOne: null,
+          selects: {},
         }
     default:
       return state;
