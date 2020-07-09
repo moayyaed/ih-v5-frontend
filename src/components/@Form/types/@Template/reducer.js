@@ -75,7 +75,7 @@ function getStateMoveContainer(selects, elements, selectContainer, action, data)
 }
 
 function getPositionSelectContainer(state, elements) {
-  if (state.toolbarType === 'events') {
+  if (state.toolbarType === 'events' || state.selectOne === 'content') {
     return null;
   }
   if (state.selectType === 'some') {
@@ -969,9 +969,9 @@ function reducerTemplate(state, action) {
           selectState: (!state.selectState  || state.selectState === 'master') ? state.listState[0] : state.selectState,
           selectContainer: getPositionSelectContainer(state, elementsState),
           elements: elementsState,
-          selectType: state.toolbarType === 'events' ? null : state.selectType,
-          selectOne: state.toolbarType === 'events' ? null : state.selectOne,
-          selects: state.toolbarType === 'events' ? {} : state.selects,
+          selectType: (state.toolbarType === 'events' || state.selectOne === 'content') ? null : state.selectType,
+          selectOne: (state.toolbarType === 'events' || state.selectOne === 'content') ? null : state.selectOne,
+          selects: (state.toolbarType === 'events' || state.selectOne === 'content') ? {} : state.selects,
         }
       case TEMPLATE_SET_MODE_EVENTS:
         return {

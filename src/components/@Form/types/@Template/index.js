@@ -282,12 +282,20 @@ class Template extends PureComponent {
     const toolbar = this.props.data.toolbarType || 'tree';
 
     if (toolbar === 'tree' || toolbar === 'events') {
-      core.actions.template
-        .editStateMaster(
-          this.props.id, this.props.options.prop,
-          'master', this.props.data.state[stateId].curent,
-          this.props.data.selectOne, { [key]: value },
-        );
+      if (this.props.data.selectOne === 'content') {
+        core.actions.template
+          .settings(
+            this.props.id, this.props.options.prop,
+            { [key]: value }
+          );
+      } else {
+        core.actions.template
+          .editStateMaster(
+            this.props.id, this.props.options.prop,
+            'master', this.props.data.state[stateId].curent,
+            this.props.data.selectOne, { [key]: value },
+          );
+      }
     }
     if (toolbar === 'vars' && stateId !== 'master') {
       core.actions.template
@@ -367,13 +375,17 @@ class Template extends PureComponent {
       const curentData = this.props.data.elements[this.props.data.selectOne];
       const toolbar = this.props.data.toolbarType || 'tree';
 
+      const elementData = this.props.data.selectOne === 'content' ? 
+      { ...this.props.data.settings , type: 'content' } : 
+      { ...curentData, ...masterData, ...stateData };
+
       return (
         <Property
           disabled={toolbar === 'vars' && !this.props.data.listState.length}
           type={this.props.data.propertyType || 'main'}
           selectType={this.props.data.selectType}
           elementId={this.props.data.selectOne}
-          elementData={{ ...curentData, ...masterData, ...stateData }}
+          elementData={elementData}
           stateData={stateData}
           onChange={this.handleChangeValueProperty}
           getStyle={this.handleGetStyleProperty}

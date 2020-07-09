@@ -79,15 +79,15 @@ class Toolbar extends PureComponent {
   }
 
   handleClickElement = (e, id) => {
-    if (id !== 'content') {
+    if (id !== 'events') {
       e.preventDefault();
       this.props.onClickElement(id);
     }
   }
 
   handleClickAnimation = (e, id) => {
-    e.preventDefault();
-    if (id !== 'style') {
+    if (id !== 'variables') {
+      e.preventDefault();
       this.props.onChangeState(id)
     }
   }
@@ -175,7 +175,7 @@ class Toolbar extends PureComponent {
             key="2"
             className="tree-animation"
             style={styles.treeAnimation}
-            defaultExpanded={['style']}
+            defaultExpanded={['variables']}
             defaultCollapseIcon={<CollapseIcon />}
             defaultExpandIcon={<ExpandIcon />}
             selected={selectState}

@@ -104,10 +104,10 @@ export function ElementsItems(props) {
 export function AnimationItems(props) {
   return (
     <BasicItem 
-      nodeId="style" 
+      nodeId="variables" 
       label={<StyleItem {...props} label="Variables" />}
-      onIconClick={(e) => props.onClickIcon(e, 'style')} 
-      onLabelClick={(e) => props.onClickLabel(e, 'style')} 
+      onIconClick={(e) => props.onClickIcon(e, 'variables')} 
+      onLabelClick={(e) => props.onClickLabel(e, 'variables')} 
     >
       {props.list.map((id, key)=> {
         return (
