@@ -369,11 +369,26 @@ class Sheet extends Component {
     e.preventDefault();
     e.stopPropagation();
 
+   const stateId = this.props.selectState;
+   const toolbar = this.props.selectToolbar;
+   
+   if (toolbar === 'tree' || toolbar === 'events') {
     core.actions.template
       .editElement(
         this.props.id, this.props.prop,
         elementId, { x: data.x, y: data.y }
       );
+   }
+
+   if (toolbar === 'vars' && stateId !== 'master') {
+    core.actions.template
+      .editElement(
+        this.props.id, this.props.prop,
+        elementId, { x: data.x, y: data.y }
+      );
+   }
+
+   
     this.save();
   }
 
@@ -440,7 +455,7 @@ class Sheet extends Component {
 
     e.persist();
     const store = core.store.getState().apppage.data[this.props.id][this.props.prop];
-    const toolbar = store.toolbarType || 'tree';
+    const toolbar = store.toolbarType
 
     const disabled = {
       '1': toolbar === 'vars',
@@ -673,9 +688,14 @@ class Sheet extends Component {
     return null;
   }
 
+  handleClicHiddenZone = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
   handleRenderHiddenZone = () => {
     if (this.props.selectToolbar === 'events') {
-      return <div style={styles.hiddenZone} />
+      return <div onClick={this.handleClicHiddenZone} style={styles.hiddenZone} />
     }
     return null;
   }
