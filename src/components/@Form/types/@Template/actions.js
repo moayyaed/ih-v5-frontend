@@ -19,6 +19,8 @@ import {
   TEMPLATE_EDIT_ELEMENT,
   TEMPLATE_DELETE_ELEMENT,
   TEMPLATE_PASTE_ELEMENT,
+  TEMPLATE_MOVE_ELEMENT_MASTER,
+  TEMPLATE_MOVE_ELEMENT_STATE,
 
   TEMPLATE_SORT_LIST_STATE,
   TEMPLATE_CHANGE_STATE,
@@ -308,6 +310,26 @@ export function setModeEvents(id, prop) {
   }
 }
 
+export function moveElementMaster(id, prop, elementId, data) {
+  return {
+    type: TEMPLATE_MOVE_ELEMENT_MASTER,
+    id,
+    prop,
+    elementId,
+    data,
+  }
+}
+
+export function moveElementState(id, prop, elementId, data) {
+  return {
+    type: TEMPLATE_MOVE_ELEMENT_STATE,
+    id,
+    prop,
+    elementId,
+    data,
+  }
+}
+
 
 export default {
   data,
@@ -328,6 +350,8 @@ export default {
   editElement,
   deleteElement,
   pasteElement,
+  moveElementMaster,
+  moveElementState,
 
   sortListState,
   changeState,

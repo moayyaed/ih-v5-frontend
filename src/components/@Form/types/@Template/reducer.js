@@ -19,6 +19,8 @@ import {
   TEMPLATE_EDIT_ELEMENT,
   TEMPLATE_DELETE_ELEMENT,
   TEMPLATE_PASTE_ELEMENT,
+  TEMPLATE_MOVE_ELEMENT_MASTER,
+  TEMPLATE_MOVE_ELEMENT_STATE,
 
   TEMPLATE_SORT_LIST_STATE,
   TEMPLATE_CHANGE_STATE,
@@ -390,6 +392,60 @@ function reducerTemplate(state, action) {
             ...state.elements[action.elementId],
             ...action.data,
           },
+        }
+      };
+    case TEMPLATE_MOVE_ELEMENT_MASTER:
+      return { 
+        ...state,
+        elements: {
+          ...state.elements,
+          [action.elementId]: {
+            ...state.elements[action.elementId],
+            ...action.data,
+          },
+        },
+        state: {
+          ...state.state,
+          master: {
+            ...state.state.master,
+            values: {
+              ...state.state.master.values,
+              [0]: {
+                ...state.state.master.values[0],
+                [action.elementId]: {
+                  ...state.state.master.values[0][action.elementId],
+                  ...action.data,
+                },
+              }
+            }
+          }
+        }
+      };
+    case TEMPLATE_MOVE_ELEMENT_STATE:
+      return { 
+        ...state,
+        elements: {
+          ...state.elements,
+          [action.elementId]: {
+            ...state.elements[action.elementId],
+            ...action.data,
+          },
+        },
+        state: {
+          ...state.state,
+          [state.selectState]: {
+            ...state.state[state.selectState],
+            values: {
+              ...state.state[state.selectState].values,
+              [state.state[state.selectState].curent]: {
+                ...state.state[state.selectState].values[state.state[state.selectState].curent],
+                [action.elementId]: {
+                  ...state.state[state.selectState].values[state.state[state.selectState].curent][action.elementId],
+                  ...action.data,
+                },
+              }
+            }
+          }
         }
       };
     case TEMPLATE_DELETE_ELEMENT:
@@ -852,6 +908,8 @@ function reducer(state, action) {
     case TEMPLATE_EDIT_ELEMENT:
     case TEMPLATE_DELETE_ELEMENT:
     case TEMPLATE_PASTE_ELEMENT:
+    case TEMPLATE_MOVE_ELEMENT_MASTER:
+    case TEMPLATE_MOVE_ELEMENT_STATE:
     case TEMPLATE_SORT_LIST_STATE:
     case TEMPLATE_CHANGE_STATE:
     case TEMPLATE_CHANGE_VALUE_STATE:

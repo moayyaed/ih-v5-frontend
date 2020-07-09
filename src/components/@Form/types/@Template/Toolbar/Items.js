@@ -369,6 +369,8 @@ function PropertyItem(props) {
     case 'singleClickRight':
     case 'doubleClickRight':
     case 'longClickRight':
+    case 'x':
+    case 'y':
       return (
         <div style={styles.propertyItem}>
           {props.label} : {props.value}

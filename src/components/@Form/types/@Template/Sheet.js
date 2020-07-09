@@ -38,7 +38,8 @@ const styles = {
     width: '100%',
     height: '100%',
     zIndex: 9999,
-    background: 'rgba(255, 255, 255, 0.90)',
+    background: 'rgba(255, 255, 255, 0.9)',
+    outline: '2px solid rgba(255, 255, 255, 0.9)',
   }
 }
 
@@ -274,14 +275,21 @@ class Sheet extends Component {
     const x = (e.pageX - (rect.left * this.props.settings.scale)) / this.props.settings.scale // (e.clientX - rect.left) / this.props.settings.scale;
     const y = (e.pageY - (rect.top * this.props.settings.scale)) / this.props.settings.scale  // (e.clientY - rect.top) / this.props.settings.scale;
     
-    const masterData = getDefaultParamsElement(type);
+    const defaultData = getDefaultParamsElement(type);
 
     const data = {
       type,
       x: Math.round(x * 1e2 ) / 1e2, 
       y: Math.round(y * 1e2 ) / 1e2,
       w: 70, h: 70,
-      ...masterData
+      ...defaultData
+    }
+
+    const masterData = {
+      x: Math.round(x * 1e2 ) / 1e2, 
+      y: Math.round(y * 1e2 ) / 1e2,
+      w: 70, h: 70,
+      ...defaultData,
     }
     
     core.actions.template
@@ -374,7 +382,7 @@ class Sheet extends Component {
    
    if (toolbar === 'tree' || toolbar === 'events') {
     core.actions.template
-      .editElement(
+      .moveElementMaster(
         this.props.id, this.props.prop,
         elementId, { x: data.x, y: data.y }
       );
@@ -382,7 +390,7 @@ class Sheet extends Component {
 
    if (toolbar === 'vars' && stateId !== 'master') {
     core.actions.template
-      .editElement(
+      .moveElementState(
         this.props.id, this.props.prop,
         elementId, { x: data.x, y: data.y }
       );
@@ -459,10 +467,10 @@ class Sheet extends Component {
 
     const disabled = {
       '1': toolbar === 'vars',
-      'isSelect': toolbar === 'events' || Object.keys(this.props.selects).length === 0,
-      'isPaste': toolbar === 'events' || !(core.buffer.class === 'template'),
-      '4': toolbar === 'events' || Object.keys(this.props.selects).length === 0,
-      '5': Object.keys(this.props.selects).length === 0,
+      'isSelect': true, // (toolbar === 'vars' || toolbar === 'events') || Object.keys(this.props.selects).length === 0,
+      'isPaste': true, // (toolbar === 'vars' || toolbar === 'events') || !(core.buffer.class === 'template'),
+      '4': true, // (toolbar === 'vars' || toolbar === 'events') || Object.keys(this.props.selects).length === 0,
+      '5': toolbar === 'vars' || Object.keys(this.props.selects).length === 0,
     }
     const pos = { left: e.clientX, top: e.clientY };
     const list = toolbar === 'events'? [
@@ -506,15 +514,21 @@ class Sheet extends Component {
           h = Math.max(h, element.y + element.h); 
           list.push(key) 
         });
-      const masterData = getDefaultParamsElement('group');
+      const defaultData = getDefaultParamsElement('group');
       const groupData = { 
         x, y, 
         w: w - x, 
         h: h - y, 
         type: 'group',
         elements: list,
-        ...masterData,
+        ...defaultData,
       };
+      const masterData = {
+        x, y, 
+        w: w - x, 
+        h: h - y, 
+        ...defaultData,
+      }
       core.actions.template
         .groupElements(
           this.props.id, this.props.prop,
