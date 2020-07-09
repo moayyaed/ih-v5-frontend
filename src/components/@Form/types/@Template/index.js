@@ -278,14 +278,17 @@ class Template extends PureComponent {
 
   handleChangeValueProperty = (key, value) => {
     const stateId = this.props.data.selectState || 'master';
-    if (stateId === 'master') {
+    const toolbar = this.props.data.toolbarType || 'tree';
+
+    if (toolbar === 'tree' || toolbar === 'events') {
       core.actions.template
         .editStateMaster(
           this.props.id, this.props.options.prop,
-          stateId, this.props.data.state[stateId].curent,
+          'master', this.props.data.state[stateId].curent,
           this.props.data.selectOne, { [key]: value },
         );
-    } else {
+    }
+    if (toolbar === 'vars' && stateId !== 'master') {
       core.actions.template
         .editState(
           this.props.id, this.props.options.prop,
