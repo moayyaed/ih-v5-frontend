@@ -60,6 +60,7 @@ export function generateCache(data) {
 }
 
 export function generateMasterData(data) {
+  return data;
   return {
     ...data,
     elements: Object
