@@ -404,23 +404,35 @@ class Sheet extends Component {
     e.preventDefault();
     e.stopPropagation();
 
+    const stateId = this.props.selectState;
+    const toolbar = this.props.selectToolbar;
     const element = this.props.elements[elementId];
 
-    if (element.type === 'group') {
+    if (toolbar === 'tree' || toolbar === 'events') {
+      core.actions.template
+        .moveElementMaster(
+          this.props.id, this.props.prop,
+          elementId, position
+        );
+     }
+  
+     if (toolbar === 'vars' && stateId !== 'master') {
+      core.actions.template
+        .moveElementState(
+          this.props.id, this.props.prop,
+          elementId, position
+        );
+     }
+
+    this.save();
+    /* if (element.type === 'group') {
       const childs = getAllElementsByGroup(element.elements, this.props.elements);
       core.actions.template
         .resizeGroupElement(
           this.props.id, this.props.prop,
           elementId, position, childs,
         );
-    } else {
-      core.actions.template
-        .editElement(
-          this.props.id, this.props.prop,
-          elementId, position
-        );
-    }
-    this.save();
+    } */
   }
 
   handleClickElement = (e, elementId) => {

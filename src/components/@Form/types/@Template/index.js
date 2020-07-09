@@ -301,7 +301,6 @@ class Template extends PureComponent {
 
   handleGetStyleProperty = (params) => {
     const stateId = this.props.data.selectState || 'master';
-
     if (stateId !== 'master' && params.cache) {
       return COLOR_STYLE
     }
