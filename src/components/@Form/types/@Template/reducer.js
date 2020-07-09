@@ -39,6 +39,7 @@ import {
   TEMPLATE_SET_MODE_VARS,
   TEMPLATE_SET_MODE_EVENTS,
 } from './constants';
+import { getPositioningCSS } from 'nprogress';
 
 
 function getParentGroupId(id, elements) {
@@ -52,6 +53,26 @@ function getParentGroupId(id, elements) {
     } 
   }
   return id;
+}
+
+function getStateMoveContainer(selects, elements, selectContainer, action, data) {
+  Object
+    .keys(selects)
+    .forEach(key => {
+      if (data[key]) {
+        data[key] = {
+          ...data[key],
+          x: elements[key].x + (action.x - selectContainer.x),
+          y: elements[key].y + (action.y - selectContainer.y),
+        };
+      } else {
+        data[key] = {
+          x: elements[key].x + (action.x - selectContainer.x),
+          y: elements[key].y + (action.y - selectContainer.y),
+        };
+      }
+    });
+  return data;
 }
 
 function editState(state, action) {
@@ -317,6 +338,22 @@ function reducerTemplate(state, action) {
             }
             return { ...p, [c]: state.elements[c] }
           }, {}),
+        state: {
+          ...state.state,
+          [state.selectState]: {
+            ...state.state[state.selectState],
+            values: {
+              ...state.state[state.selectState].values,
+              [state.state[state.selectState].curent]: getStateMoveContainer(
+                state.selects, 
+                state.elements,
+                state.selectContainer,
+                action,
+                state.state[state.selectState].values[state.state[state.selectState].curent]
+              ),
+            }
+          }
+        }
       };
     case TEMPLATE_RESIZE_SELECT_CONTAINER:
       return {
