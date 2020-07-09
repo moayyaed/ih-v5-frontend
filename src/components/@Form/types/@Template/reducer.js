@@ -39,7 +39,6 @@ import {
   TEMPLATE_SET_MODE_VARS,
   TEMPLATE_SET_MODE_EVENTS,
 } from './constants';
-import { getPositioningCSS } from 'nprogress';
 
 
 function getParentGroupId(id, elements) {
@@ -75,6 +74,27 @@ function getStateMoveContainer(selects, elements, selectContainer, action, data)
   return data;
 }
 
+function getPositionSelectContainer(state, elements) {
+  if (state.selectType === 'some') {
+    const data = { x: Infinity, y: Infinity, w: 0, h: 0, zIndex: 0 };
+    Object
+      .keys(state.selects)
+      .forEach(key => {
+        const element = elements[key];
+        data.x = Math.min(data.x, element.x);
+        data.y = Math.min(data.y, element.y); 
+        data.w = Math.max(data.w, element.x + element.w); 
+        data.h = Math.max(data.h, element.y + element.h); 
+        data.zIndex = Math.max(data.zIndex, element.zIndex); 
+      });
+    data.w = data.w - data.x;
+    data.h = data.h - data.y;
+
+    return data;
+  }
+  return state.selectContainer;
+}
+
 function editState(state, action) {
 
   if (state[action.stateValue] === undefined) {
@@ -106,34 +126,55 @@ function editState(state, action) {
   }
 }
 
-function getStateElements(elements, state, values, slist) {
-  const list = ['master', 'State', 'Error'];
+function getElemntsState(state) {
   return Object
-    .keys(elements)
-    .reduce((p, c) => {
-      const temp = list.reduce((p2, c2) => { 
-        if (state[c2] && state[c2][values[c2]] && state[c2][values[c2]][c]) {
-          return { ...p2, ...state[c2][values[c2]][c] } 
-        }
-        return p2;
-      }, elements[c]);
-
-      temp.x = elements[c].x;
-      temp.y = elements[c].y;
-      temp.w = elements[c].w;
-      temp.h = elements[c].h;
-
-      return { ...p, [c]: temp }
-    }, {});
+  .keys(state.elements)
+  .reduce((p, c) => {
+    return {
+      ...p,
+      [c]: ['master']
+        .concat([...state.listState].reverse())
+        .reduce((p2, c2) => {
+          const v = state.state[c2].curent;
+          const h = c2 === 'master' ? false : state.state.master.hide ? true : state.state[c2].hide;
+          if (
+            state.state[c2] &&
+            h == false && 
+            state.state[c2].values && 
+            state.state[c2].values[v] &&
+            state.state[c2].values[v][c]
+          ) {
+            return { ...p2, ...state.state[c2].values[v][c] };
+          }
+          return p2
+        }, state.elements[c]),
+    }
+  }, {});
 }
 
-function getOrder(list, stateId) {
- if (stateId === undefined || stateId === 'master') {
-  return list;
- }
- return list
-  .filter(i => i !== stateId)
-  .concat(stateId);
+function getElemntsMaster(state) {
+  return Object
+    .keys(state.elements)
+    .reduce((p, c) => {
+      return {
+        ...p,
+        [c]: ['master']
+          .reduce((p2, c2) => {
+            const v = state.state[c2].curent;
+            const h = false;
+            if (
+              state.state[c2] &&
+              h == false && 
+              state.state[c2].values && 
+              state.state[c2].values[v] &&
+              state.state[c2].values[v][c]
+            ) {
+              return { ...p2, ...state.state[c2].values[v][c] };
+            }
+            return p2
+          }, state.elements[c]),
+      }
+    }, {});
 }
 
 function reducerTemplate(state, action) {
@@ -857,63 +898,24 @@ function reducerTemplate(state, action) {
           }
         }
       case TEMPLATE_SET_MODE_MASTER:
+        const elementsMaster = getElemntsMaster(state);
         return {
           ...state,
           toolbarType: 'tree',
           propertyType: state.toolbarType === 'events' ? 'main' : state.propertyType,
           selectState: 'master',
-          elements: Object
-            .keys(state.elements)
-            .reduce((p, c) => {
-              return {
-                ...p,
-                [c]: ['master']
-                  .reduce((p2, c2) => {
-                    const v = state.state[c2].curent;
-                    const h = false;
-                    if (
-                      state.state[c2] &&
-                      h == false && 
-                      state.state[c2].values && 
-                      state.state[c2].values[v] &&
-                      state.state[c2].values[v][c]
-                    ) {
-                      return { ...p2, ...state.state[c2].values[v][c] };
-                    }
-                    return p2
-                  }, state.elements[c]),
-              }
-            }, {}),
+          selectContainer: getPositionSelectContainer(state, elementsMaster),
+          elements: elementsMaster,
         }
       case TEMPLATE_SET_MODE_VARS:
+        const elementsState = getElemntsState(state);
         return {
           ...state,
           toolbarType: 'vars',
           propertyType: state.toolbarType === 'events' ? 'main' : state.propertyType,
           selectState: (!state.selectState  || state.selectState === 'master') ? state.listState[0] : state.selectState,
-          elements: Object
-            .keys(state.elements)
-            .reduce((p, c) => {
-              return {
-                ...p,
-                [c]: ['master']
-                  .concat([...state.listState].reverse())
-                  .reduce((p2, c2) => {
-                    const v = state.state[c2].curent;
-                    const h = c2 === 'master' ? false : state.state.master.hide ? true : state.state[c2].hide;
-                    if (
-                      state.state[c2] &&
-                      h == false && 
-                      state.state[c2].values && 
-                      state.state[c2].values[v] &&
-                      state.state[c2].values[v][c]
-                    ) {
-                      return { ...p2, ...state.state[c2].values[v][c] };
-                    }
-                    return p2
-                  }, state.elements[c]),
-              }
-            }, {}),
+          selectContainer: getPositionSelectContainer(state, elementsState),
+          elements: elementsState,
         }
       case TEMPLATE_SET_MODE_EVENTS:
         return {
