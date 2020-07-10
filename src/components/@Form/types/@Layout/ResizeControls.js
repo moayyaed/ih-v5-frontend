@@ -151,6 +151,7 @@ function ResizeControls(props) {
     return null;
   }
   const positions = getPositionsControls(props.position);
+
   return (
     <>
       <Draggable

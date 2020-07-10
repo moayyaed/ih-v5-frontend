@@ -362,10 +362,11 @@ export default class DraggableCore extends React.Component<DraggableCoreProps, D
     let {x, y} = position;
 
     // Snap to grid if prop has been provided
+    
     if (Array.isArray(this.props.grid)) {
       let deltaX = x - this.state.lastX, deltaY = y - this.state.lastY;
       [deltaX, deltaY] = snapToGrid(this.props.grid, deltaX, deltaY);
-
+      
       x = this.state.lastX + deltaX;
       y = this.state.lastY + deltaY;
     }
@@ -383,7 +384,6 @@ export default class DraggableCore extends React.Component<DraggableCoreProps, D
     }
 
     log('DraggableCore: handleDragStop: %j', coreEvent);
-
     // Reset the el.
     this.setState({
       dragging: false,

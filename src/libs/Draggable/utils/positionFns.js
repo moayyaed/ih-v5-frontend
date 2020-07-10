@@ -128,15 +128,41 @@ export function createCoreData(draggable: DraggableCore, x: number, y: number): 
 // Create an data exposed by <Draggable>'s events
 export function createDraggableData(draggable: Draggable, coreData: DraggableData): DraggableData {
   const scale = draggable.props.scale;
-  return {
+
+  let deltaX = (coreData.deltaX / scale);
+  let deltaY = (coreData.deltaY / scale);
+
+  if (draggable.props.grid) {
+    [deltaX, deltaY] = snapToGrid(draggable.props.grid, deltaX, deltaY);
+    /*
+    if (deltaX !== 0) {
+      if (deltaX > 0) {
+        deltaX = draggable.props.grid[0]
+      } else {
+        deltaX = -draggable.props.grid[0]
+      }
+    }
+
+    if (deltaY !== 0) {
+      if (deltaY > 0) {
+        deltaY = draggable.props.grid[1]
+      } else {
+        deltaY = -draggable.props.grid[1]
+      }
+    }
+    */
+  }
+  
+  const temp = {
     node: coreData.node,
-    x: draggable.state.x + (coreData.deltaX / scale),
-    y: draggable.state.y + (coreData.deltaY / scale),
-    deltaX: (coreData.deltaX / scale),
-    deltaY: (coreData.deltaY / scale),
+    x: draggable.state.x + deltaX,
+    y: draggable.state.y + deltaY,
+    deltaX: deltaX,
+    deltaY: deltaY,
     lastX: draggable.state.x,
     lastY: draggable.state.y
   };
+  return temp;
 }
 
 // A lot faster than stringify/parse
