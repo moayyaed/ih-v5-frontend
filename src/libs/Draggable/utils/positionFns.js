@@ -78,7 +78,7 @@ export function getBoundPosition(draggable: Draggable, x: number, y: number): [n
 export function snapToGrid(grid: [number, number], pendingX: number, pendingY: number): [number, number] {
   const x = Math.round(pendingX / grid[0]) * grid[0];
   const y = Math.round(pendingY / grid[1]) * grid[1];
-  return [pendingX, pendingY];
+  return [x, y];
 }
 
 export function canDragX(draggable: Draggable): boolean {
