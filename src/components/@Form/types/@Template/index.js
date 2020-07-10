@@ -78,7 +78,7 @@ class Template extends PureComponent {
             selectContainer: null,
             selectOne: null,
             selects: {},
-            settings: { x: 10, y: 10, w: 250, h: 250, scale: 1 },
+            settings: { x: 10, y: 10, w: 250, h: 250, scale: 1, grid: 10 },
             list: [],
             listState: ['state1', 'state2'],
             state: {

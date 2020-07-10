@@ -21,6 +21,7 @@ function Element(props) {
       onStart={(e, data) => props.onStartMove(e, props.id, data)}
       onDrag={(e, data) => props.onMove(e, props.id, data)}
       onStop={(e, data) => props.onStopMove(e, props.id, data)}
+      grid={[props.grid, props.grid]}
     >
       <div
         style={{ 
@@ -39,6 +40,7 @@ function Element(props) {
           id={props.id}
           disabled={props.isGroup || !props.select || props.selectType === 'some'}
           position={props.item} 
+          grid={[props.grid, props.grid]}
           scale={props.scale} 
           forceProportion={props.item.type === 'group' || props.item.type === 'template'}
           onChange={props.onChangeSize}

@@ -18,6 +18,7 @@ function Element(props) {
   return (
     <Draggable
       bounds=".parent2"
+      grid={[props.grid, props.grid]}
       scale={props.scale}
       position={props.item}
       disabled={props.isGroup || props.selectType === 'some'}
@@ -41,7 +42,8 @@ function Element(props) {
         <ResizeControls
           id={props.id}
           disabled={props.isGroup || !props.select || props.selectType === 'some'}
-          position={props.item} 
+          position={props.item}
+          grid={props.grid}
           scale={props.scale} 
           forceProportion={props.item.type === 'group'}
           onChange={props.onChangeSize}

@@ -59,7 +59,7 @@ class Layout extends PureComponent {
           selectType: null,
           selectContainer: null,
           selects: {}, 
-          settings: { x: 95, y: 50, w: 650, h: 400, scale: 1 },
+          settings: { x: 95, y: 50, w: 650, h: 400, scale: 1, grid: 10 },
           list: [],
           containers: {},
           templates: {},

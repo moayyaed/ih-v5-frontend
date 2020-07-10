@@ -404,7 +404,38 @@ const scheme = {
     ...groupSettings,
   },
   content: {
-    move: moveSection,
+    move: [
+      { 
+        title: 'Position X', 
+        prop: 'x', 
+        type: 'number',
+      },
+      { 
+        title: 'Position Y', 
+        prop: 'y', 
+        type: 'number',
+      },
+      { 
+        title: 'Width', 
+        prop: 'w', 
+        type: 'number',
+      },
+      { 
+        title: 'Height', 
+        prop: 'h', 
+        type: 'number',
+      },
+      { 
+        title: 'Scale', 
+        prop: 'scale', 
+        type: 'number',
+      },
+      { 
+        title: 'Grid', 
+        prop: 'grid', 
+        type: 'number',
+      },
+    ],
   },
   group: groupSettings,
   container: containerSettings,

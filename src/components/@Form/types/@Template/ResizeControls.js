@@ -164,6 +164,7 @@ function ResizeControls(props) {
     <>
       <Draggable
         bounds=".parent2"
+        grid={[props.grid, props.grid]}
         scale={props.scale} 
         position={positions.topLeft}
         onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TL', props.position, data), 'start')}
@@ -174,6 +175,7 @@ function ResizeControls(props) {
       </Draggable>
       <Draggable
         bounds=".parent2"
+        grid={[props.grid, props.grid]}
         scale={props.scale} 
         position={positions.topRight}
         onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TR', props.position, data))}
@@ -184,6 +186,7 @@ function ResizeControls(props) {
       </Draggable>
       <Draggable
         bounds=".parent2"
+        grid={[props.grid, props.grid]}
         scale={props.scale} 
         position={positions.bottomLeft}
         onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'BL', props.position, data))}
@@ -194,6 +197,7 @@ function ResizeControls(props) {
       </Draggable>
       <Draggable
         bounds=".parent2"
+        grid={[props.grid, props.grid]}
         scale={props.scale} 
         position={positions.bottomRight}
         onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'BR', props.position, data))}

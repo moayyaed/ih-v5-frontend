@@ -579,6 +579,7 @@ class Sheet extends Component {
               key={id}
               id={id}
               isGroup
+              grid={this.props.settings.grid || 10}
               scale={this.props.settings.scale}
               item={this.props.elements[id]}
               select={this.props.selects[id]}
@@ -691,6 +692,7 @@ class Sheet extends Component {
           key="select"
           id="select"
           select
+          grid={this.props.settings.grid || 10}
           scale={this.props.settings.scale}
           item={this.props.selectContainer}
           onStartMove={this.handleStartMoveSelectContainer}
@@ -745,6 +747,7 @@ class Sheet extends Component {
                 <Element 
                   key={id}
                   id={id}
+                  grid={this.props.settings.grid || 10}
                   scale={settings.scale}
                   item={elements[id]}
                   select={selects[id]}
