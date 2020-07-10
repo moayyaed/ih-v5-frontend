@@ -185,6 +185,8 @@ class Sheet extends Component {
       s += Math.max(-1, Math.min(1, e.deltaY)) * -0.1 * s;
     } 
 
+    s = Math.round(s * 1e2 ) / 1e2;
+
     if (s > 8) {
       s = 8;
     }
@@ -228,6 +230,8 @@ class Sheet extends Component {
       s += Math.max(-1, Math.min(1, e.deltaY)) * -0.1 * s;
     }
 
+    s = Math.round(s * 1e2 ) / 1e2;
+    
     if (s > 8) {
       s = 8;
     }
