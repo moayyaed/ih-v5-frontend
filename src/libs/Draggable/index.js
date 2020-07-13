@@ -254,7 +254,7 @@ class Draggable extends React.Component<DraggableProps, DraggableState> {
 
     const newState: $Shape<DraggableState> = {
       x: uiData.x,
-      y: uiData.y
+      y: uiData.y,
     };
 
     // Keep within bounds.
@@ -285,9 +285,15 @@ class Draggable extends React.Component<DraggableProps, DraggableState> {
     }
 
     // Short-circuit if user's callback killed it.
+    uiData.xx = Math.round(uiData.x / this.props.grid[0]) * this.props.grid[0];
+    uiData.yy = Math.round(uiData.y / this.props.grid[1]) * this.props.grid[1];
     const shouldUpdate = this.props.onDrag(e, uiData);
     if (shouldUpdate === false) return false;
     // console.log(this.state.prevPropsPosition.y, this.state.y)
+  
+    newState.xx = uiData.xx
+    newState.yy = uiData.yy
+
     this.setState(newState);
   };
 
@@ -295,7 +301,10 @@ class Draggable extends React.Component<DraggableProps, DraggableState> {
     if (!this.state.dragging) return false;
 
     // Short-circuit if user's callback killed it.
-    const shouldContinue = this.props.onStop(e, createDraggableData(this, coreData));
+    const _data = createDraggableData(this, coreData);
+    _data.x = this.state.xx || _data.x;
+    _data.y = this.state.yy || _data.y;
+    const shouldContinue = this.props.onStop(e, _data);
     if (shouldContinue === false) return false;
 
     log('Draggable: onDragStop: %j', coreData);
@@ -346,12 +355,12 @@ class Draggable extends React.Component<DraggableProps, DraggableState> {
     const transformOpts = {
       // Set left if horizontal drag is enabled
       x: canDragX(this) && draggable ?
-        this.state.x :
+        this.state.xx === undefined ? this.state.x : this.state.xx :
         validPosition.x,
 
       // Set top if vertical drag is enabled
       y: canDragY(this) && draggable ?
-        this.state.y :
+        this.state.yy === undefined ? this.state.y : this.state.yy :
         validPosition.y,
       scale: s,
     };

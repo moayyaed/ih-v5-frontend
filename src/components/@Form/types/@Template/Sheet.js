@@ -194,8 +194,8 @@ class Sheet extends Component {
       s = 0.1;
     }
   
-    x = (-tx * s + px) / s
-    y = (-ty * s + py) / s
+    x = Math.round((-tx * s + px) / s)
+    y = Math.round((-ty * s + py) / s)
 
     core.actions.template
       .settings(
@@ -751,6 +751,7 @@ class Sheet extends Component {
           onWheel={this.handleMouseWhellContainer}
         >
           <Draggable
+            grid={[1, 1]}
             scale={settings.scale} 
             position={settings}
             onDrag={this.handleMoveSheet}
