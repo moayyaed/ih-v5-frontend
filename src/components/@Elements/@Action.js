@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import ButtonBase from '@material-ui/core/ButtonBase';
 import Hammer from 'hammerjs';
 
 
@@ -17,58 +18,16 @@ const styles = {
   },
   user: {
     width: '100%', 
-    height: '100%', 
+    height: '100%',
   }
 }
-
-const MOUSE_INPUT_MAP = {
-  mousedown: Hammer.INPUT_START,
-  mousemove: Hammer.INPUT_MOVE,
-  mouseup: Hammer.INPUT_END
-};
-
-
-Hammer.inherit(Hammer.MouseInput, Hammer.Input, {
-  handler: function MEhandler(ev) {
-      var eventType = MOUSE_INPUT_MAP[ev.type];
-
-      //modified to handle all buttons
-      //left=0, middle=1, right=2
-      if (eventType & Hammer.INPUT_START) {
-          //firefox sends button 0 for mousemove, so store it here
-          if(this.pressed === false) this.button = ev.button;
-          this.pressed = true;
-      }
-
-      if (eventType & Hammer.INPUT_MOVE && ev.which === 0) {
-          eventType = Hammer.INPUT_END;
-      }
-      // mouse must be down, and mouse events are allowed (see the TouchMouse input)
-      if (!this.pressed || !this.allow) {
-          return;
-      }
-
-      if (eventType & Hammer.INPUT_END) {
-          this.pressed = false;
-          this.button = false;
-      }
-
-      this.callback(this.manager, eventType, {
-                      button: this.button,
-          pointers: [ev],
-          changedPointers: [ev],
-          pointerType: 'mouse',
-          srcEvent: ev
-      });
-  }
-});
-
 
 
 class Action extends PureComponent {
 
   componentDidMount() {
     if (this.link) {
+      
       this.mc = new Hammer.Manager(this.link);
 
       this.mc.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
@@ -83,6 +42,7 @@ class Action extends PureComponent {
       this.mc.on('doubletap', this.handleDoubleTap);
       this.mc.on('press', this.handleLongTap);
       this.mc.on('pressup', this.handlePress);
+      
     }
   }
 
@@ -125,7 +85,12 @@ class Action extends PureComponent {
   render() {
     if (this.props.mode === 'user') {
       return (
-        <div ref={this.linked} style={styles.user} onContextMenu={this.handleContextMenu} />
+        <ButtonBase 
+          ref={this.linked} 
+          centerRipple 
+          style={{ ...styles.user, color: this.props.item.colorRipple }}
+          onContextMenu={this.handleContextMenu}
+        />
       )
     }
     if (this.props.mode === 'admin') {

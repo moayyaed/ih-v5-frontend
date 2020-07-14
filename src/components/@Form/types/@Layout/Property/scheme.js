@@ -203,6 +203,11 @@ const imageSection = [
 
 const actionsSection = [
   { 
+    title: 'Color Ripple', 
+    prop: 'colorRipple', 
+    type: 'color',
+  },
+  { 
     title: 'Single Click Left', 
     prop: 'singleClickLeft', 
     type: 'input',

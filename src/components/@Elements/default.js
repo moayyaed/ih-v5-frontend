@@ -187,6 +187,7 @@ const BUTTON = {
     extent: 'closest-side',
     palette: [{ offset: '0.00', color: '#4A90E2', opacity: 1 }, { offset: '1.00', color: '#9013FE', opacity: 1 }]
   },
+  colorRipple: 'rgba(255,255,255,1)',
   singleClickLeft: 'TOGGLE',
   doubleClickLeft: '',
   longClickLeft: 'DEVICEMENU',
@@ -203,6 +204,7 @@ const BUTTON = {
 }
 
 const ACTION = {
+  colorRipple: 'rgba(255,255,255,1)',
   singleClickLeft: 'TOGGLE',
   doubleClickLeft: '',
   longClickLeft: 'DEVICEMENU',
