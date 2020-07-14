@@ -15,6 +15,7 @@ import './network';
 
 
 const options = {
+  type: 'user',
   actions: {
     app: actionsApp,
     layout: actionsAppLayout,

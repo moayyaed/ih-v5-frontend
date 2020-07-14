@@ -88,7 +88,7 @@ class AppLayout extends Component {
             zIndex: item.zIndex,
           }}
         >
-          {elemets(this.props.state.layout.elements[id].type, { item: this.props.state.layout.elements[id], template: this.props.state.templates[item.templateId] })}
+          {elemets(this.props.state.layout.elements[id].type, { mode: 'user', item: this.props.state.layout.elements[id], template: this.props.state.templates[item.templateId] })}
         </div>
       )
     }
@@ -105,7 +105,7 @@ class AppLayout extends Component {
             zIndex: item.zIndex,
           }}
         >
-          {elemets(this.props.state.layout.elements[id].type, { item: this.props.state.layout.elements[id], container: this.props.state.containers[this.props.state.layout.elements[id].containerId.id], templates: this.props.state.templates, scaleW, scaleH })}
+          {elemets(this.props.state.layout.elements[id].type, { mode: 'user', item: this.props.state.layout.elements[id], container: this.props.state.containers[this.props.state.layout.elements[id].containerId.id], templates: this.props.state.templates, scaleW, scaleH })}
         </div>
       )
     }
@@ -121,7 +121,7 @@ class AppLayout extends Component {
           zIndex: item.zIndex,
         }}
       >
-        {elemets(this.props.state.layout.elements[id].type, { item: this.props.state.layout.elements[id] })}
+        {elemets(this.props.state.layout.elements[id].type, { mode: 'user', item: this.props.state.layout.elements[id] })}
       </div>
     )
   }
