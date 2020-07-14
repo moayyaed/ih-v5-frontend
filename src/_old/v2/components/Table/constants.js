@@ -1,1 +1,0 @@
-export const TABLE_SET_DATA = 'TABLE_SET_DATA';

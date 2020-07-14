@@ -1,8 +1,0 @@
-.dragLine:hover {
-  cursor: col-resize;
-  background-color: #2196F3;
-}
-.dragLine:active {
-  cursor: col-resize;
-  background-color: #2196F3;
-}

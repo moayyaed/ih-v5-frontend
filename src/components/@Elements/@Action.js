@@ -25,6 +25,8 @@ const styles = {
 
 class Action extends PureComponent {
 
+  state = { type: '' }
+
   componentDidMount() {
     if (this.link) {
       
@@ -48,29 +50,49 @@ class Action extends PureComponent {
 
   handleSingleTap = () => {
     console.log('handleSingleTap');
+    this.setState((state) => {
+      return { type: 'single', color: 'green' }
+    })
   }
 
   handleDoubleTap = () => {
     console.log('handleDoubleTap');
+    this.setState((state) => {
+      return { type: 'Double', color: 'orange' }
+    })
   }
 
   handleLongTap = () => {
     console.log('handlePress');
+    this.setState((state) => {
+      return { type: 'Long', color: 'red' }
+    })
   }
 
   handlePressDown = () => {
     console.log('handlePressDown');
+    this.setState((state) => {
+      return { type: 'Down', color: 'purple' }
+    })
   }
 
   handlePressUp = () => {
     console.log('handlePressUp');
+    this.setState((state) => {
+      return { type: 'Up', color: '#795548' }
+    })
+    setTimeout(() => {
+      this.setState((state) => {
+        return { type: '', color: 'unset' }
+      })
+    }, 300)
   }
 
   handlePress = (e) => {
     if (e.isFinal) {
-      this.handlePressDown(e);
-    } else {
       this.handlePressUp(e);
+    } else {
+      this.handlePressDown(e);
     }
   }
 
@@ -88,9 +110,11 @@ class Action extends PureComponent {
         <ButtonBase 
           ref={this.linked} 
           centerRipple 
-          style={{ ...styles.user, color: this.props.item.colorRipple }}
+          style={{ ...styles.user, color: this.props.item.colorRipple, background: this.state.color, fontSize: '30pt' }}
           onContextMenu={this.handleContextMenu}
-        />
+        >
+          {this.state.type}
+        </ButtonBase>
       )
     }
     if (this.props.mode === 'admin') {

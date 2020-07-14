@@ -1,3 +1,0 @@
-export const APP_BODY_SET_DATA = 'APP_BODY_SET_DATA';
-export const APP_BODY_SET_NAV = 'APP_BODY_SET_NAV';
-export const APP_BODY_SET_PAGE = 'APP_BODY_SET_PAGE';
