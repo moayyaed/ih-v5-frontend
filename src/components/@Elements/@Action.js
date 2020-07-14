@@ -14,7 +14,6 @@ const styles = {
     height: '100%', 
   },
   user: {
-    background: 'red',
     width: '100%', 
     height: '100%', 
   }
