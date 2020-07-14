@@ -114,6 +114,10 @@ class Action extends PureComponent {
     }
   }
 
+  handleContextMenu = (e) => {
+    e.preventDefault();
+  }
+
   linked = (e) => {
     this.link = e;
   } 
@@ -121,7 +125,7 @@ class Action extends PureComponent {
   render() {
     if (this.props.mode === 'user') {
       return (
-        <div ref={this.linked} style={styles.user} />
+        <div ref={this.linked} style={styles.user} onContextMenu={this.handleContextMenu} />
       )
     }
     if (this.props.mode === 'admin') {
