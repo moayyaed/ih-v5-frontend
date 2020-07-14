@@ -12,7 +12,7 @@ const styles = {
     // border: '1px solid rgba(33, 150, 243, 0.5)',
     backgroundColor: '#ff00ff',
     cursor: 'crosshair',
-    zIndex: 9999,
+    zIndex: 10001,
   },
 }
 

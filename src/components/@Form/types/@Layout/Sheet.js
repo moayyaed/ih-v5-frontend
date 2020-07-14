@@ -601,12 +601,12 @@ class Sheet extends Component {
       )
     }
     if (item.type === 'template') {
-      return elemets(item.type, { key: elementId, id: elementId, item, template: this.props.templates[item.templateId]})
+      return elemets(item.type, { key: elementId, mode: 'admin', id: elementId, item, template: this.props.templates[item.templateId]})
     }
     if (item.type === 'container') {
       const container = this.props.containers[item.containerId.id];
       const templates = this.props.templates;
-      const params = { key: elementId, id: elementId, item, container, templates, scaleW: 1, scaleH: 1 }
+      const params = { key: elementId, mode: 'admin', id: elementId, item, container, templates, scaleW: 1, scaleH: 1 }
       return elemets(item.type, params)
     }
     return elemets(item.type, { key: elementId, id: elementId, item })

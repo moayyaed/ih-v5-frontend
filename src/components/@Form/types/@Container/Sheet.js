@@ -594,7 +594,7 @@ class Sheet extends Component {
       )
     }
     if (item.type === 'template') {
-      return elemets(item.type, { item, template: this.props.templates[item.templateId] })
+      return elemets(item.type, { mode: 'admin', item, template: this.props.templates[item.templateId] })
     }
     return elemets(item.type, { item })
   }

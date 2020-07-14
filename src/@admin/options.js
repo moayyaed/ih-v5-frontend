@@ -42,6 +42,7 @@ import './network';
 
 
 const options = {
+  type: 'admin',
   actions: {
     app: actionsApp,
     appmenu: actionsAppMenu,
