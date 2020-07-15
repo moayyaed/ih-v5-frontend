@@ -1,6 +1,4 @@
 import { APP_LAYOUT_SET_DATA, APP_LAYOUT_UPDATE_TEMPLATES } from './constants';
-import { act } from '@testing-library/react';
-import elements from 'components/@Elements';
 
 
 const defaultState = {
@@ -8,6 +6,20 @@ const defaultState = {
   containers: {},
   templates: {},
 };
+
+function mergeStates(c3, p3, s, v) {
+  if (s[v[c3]]) {
+    return Object
+    .keys(p3)
+    .reduce((p4, c4) => {
+      if (s[v[c3]][c4]) {
+        return { ...p4, [c4]: { ...p3[c4], ...s[v[c3]][c4] } }
+      }
+      return { ...p4, [c4]: p3[c4] }
+    }, {});
+  }
+  return p3;
+}
 
 
 function reducer(state = defaultState, action) {
@@ -36,17 +48,24 @@ function reducer(state = defaultState, action) {
                               .reduce((p3, c3) => {
                                 const s = state.templates[state.containers[c].elements[c2].templateId].state[c3].values;
                                 const v = { ...state.containers[c].elements[c2].states, ...action.data[c2] };
-                                if (s[v[c3]]) {
-                                  return Object
-                                  .keys(p3)
-                                  .reduce((p4, c4) => {
-                                    if (s[v[c3]][c4]) {
-                                      return { ...p4, [c4]: { ...p3[c4], ...s[v[c3]][c4] } }
+                                const data = mergeStates(c3, p3, s, v);
+                                return Object
+                                  .keys(data)
+                                  .reduce((p5, c5) => {
+                                    if (data[c5].text && typeof data[c5].text.link === 'string') {
+                                      return { 
+                                        ...p5, 
+                                        [c5]: { 
+                                          ...data[c5],
+                                          text: {
+                                            ...data[c5].text,
+                                            value: v[data[c5].text.link]
+                                          } 
+                                        } 
+                                      }
                                     }
-                                    return { ...p4, [c4]: p3[c4] }
-                                  }, {});
-                                }
-                                return p3;
+                                    return { ...p5, [c5]: data[c5] }
+                                  }, {}) 
                               }, state.containers[c].elements[c2].elements),
                           }
                         }

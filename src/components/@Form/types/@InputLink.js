@@ -97,7 +97,7 @@ class InputLink extends PureComponent {
           )
         }}
         InputLabelProps={{ shrink: true, style: this.props.getStyle(this.props) }} 
-        value={this.props.data.value}
+        value={this.props.data.link ? this.props.data.title : this.props.data.value}
         error={this.props.cache && this.props.cache.error}
         helperText={this.props.cache && this.props.cache.error}
         onChange={this.handleChangeText}
