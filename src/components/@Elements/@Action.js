@@ -50,42 +50,22 @@ class Action extends PureComponent {
 
   handleSingleTap = () => {
     console.log('handleSingleTap');
-    this.setState((state) => {
-      return { type: 'single', color: 'green' }
-    })
   }
 
   handleDoubleTap = () => {
     console.log('handleDoubleTap');
-    this.setState((state) => {
-      return { type: 'Double', color: 'orange' }
-    })
   }
 
   handleLongTap = () => {
     console.log('handlePress');
-    this.setState((state) => {
-      return { type: 'Long', color: 'red' }
-    })
   }
 
   handlePressDown = () => {
     console.log('handlePressDown');
-    this.setState((state) => {
-      return { type: 'Down', color: 'purple' }
-    })
   }
 
   handlePressUp = () => {
     console.log('handlePressUp');
-    this.setState((state) => {
-      return { type: 'Up', color: '#795548' }
-    })
-    setTimeout(() => {
-      this.setState((state) => {
-        return { type: '', color: 'unset' }
-      })
-    }, 300)
   }
 
   handlePress = (e) => {
