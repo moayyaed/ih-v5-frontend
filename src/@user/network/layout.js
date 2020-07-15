@@ -41,6 +41,12 @@ function preparationData(data) {
                 ...masterState[elemId],
                 ...curentStateElem,
               }
+              if (
+                data.containers[key].elements[id].elements[elemId].text && 
+                typeof data.containers[key].elements[id].elements[elemId].text.link === 'string'
+              ) {
+                data.containers[key].elements[id].elements[elemId].text.value = data.states[key][id].states[data.containers[key].elements[id].elements[elemId].text.link] || 0;
+              }
             })
           }
         }
