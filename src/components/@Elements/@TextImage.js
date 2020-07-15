@@ -51,7 +51,7 @@ function getX(v) {
 function getY(v, size, h, b) {
   switch(v) {
     case 'flex-start':
-      return b + 'px';
+      return size / 2 + 'px';
     case 'flex-end':
       return (h - (b * 2)) - (size / 2) + 'px';
     default:
