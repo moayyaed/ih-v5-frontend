@@ -99,7 +99,7 @@ class Property extends PureComponent {
                 .map(key =>
                   ({
                     prop: `${c}_${key}`,
-                    title: `${c}.${key}`,
+                    title: `${c} ▪︎ ${key}`,
                     type: 'smartbutton',
                     command: 'dialog',
                     params: {

@@ -20,7 +20,7 @@ import {
   CONTAINER_EDIT_ELEMENT,
   CONTAINER_DELETE_ELEMENT,
 
-  CONTAINER_CHANGE_TEMPLATE_LINK,
+  CONTAINER_CHANGE_TEMPLATE,
 } from './constants';
 
 
@@ -300,15 +300,15 @@ function reducerContainer(state, action) {
           [action.templateId]: action.templateData,
         },
       };
-    case CONTAINER_CHANGE_TEMPLATE_LINK:
+    case CONTAINER_CHANGE_TEMPLATE:
       return { 
         ...state,
         elements: {
           ...state.elements,
           [action.elementId]: {
             ...state.elements[action.elementId],
-            links: {
-              ...state.elements[action.elementId].links,
+            [action.name]: {
+              ...state.elements[action.elementId][action.name],
               ...action.data,
             }
           },
@@ -357,7 +357,7 @@ function reducer(state, action) {
     case CONTAINER_RESIZE_SELECT_CONTAINER:
     case CONTAINER_ADD_ELEMENT:
     case CONTAINER_ADD_TEMPLATE:
-    case CONTAINER_CHANGE_TEMPLATE_LINK:
+    case CONTAINER_CHANGE_TEMPLATE:
     case CONTAINER_EDIT_ELEMENT:
     case CONTAINER_DELETE_ELEMENT:
       return { 

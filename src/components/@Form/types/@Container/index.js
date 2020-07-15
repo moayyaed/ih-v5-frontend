@@ -91,11 +91,12 @@ class Container extends PureComponent {
         );
     } else {
       const propertyType = this.props.data.propertyType || 'main';
-      if (propertyType === 'link') {
+      if (propertyType === 'link' || propertyType === 'actions') {
+        const name = propertyType === 'link' ? 'links' : 'actions'
         core.actions.container
-          .changeTemplateLink(
+          .changeTemplate(
             this.props.id, this.props.options.prop,
-            this.props.data.selectOne, { [key]: value.result }
+            this.props.data.selectOne, name, { [key]: value.result }
           );
       } else {
         core.actions.container

@@ -20,7 +20,7 @@ import {
   CONTAINER_EDIT_ELEMENT,
   CONTAINER_DELETE_ELEMENT,
   
-  CONTAINER_CHANGE_TEMPLATE_LINK,
+  CONTAINER_CHANGE_TEMPLATE,
 } from './constants';
 
 
@@ -148,12 +148,13 @@ export function addTemplate(id, prop, elementId, elementData, templateId, templa
   };
 }
 
-export function changeTemplateLink(id, prop, elementId, data) {
+export function changeTemplate(id, prop, elementId, name, data) {
   return {
-    type: CONTAINER_CHANGE_TEMPLATE_LINK,
+    type: CONTAINER_CHANGE_TEMPLATE,
     id,
     prop,
     elementId,
+    name,
     data,
   };
 }
@@ -196,5 +197,5 @@ export default {
   addTemplate,
   editElement,
   deleteElement,
-  changeTemplateLink,
+  changeTemplate,
 }
