@@ -62,7 +62,7 @@ const CIRCLE = {
 }
 
 const TEXT = {
-  text: 'Text 1',
+  text: { value: 'Text 1'},
   textSize: 14,
   textBold: 0,
   textItalic: 0,
@@ -117,7 +117,7 @@ const IMAGE = {
 }
 
 const TEXT_IMAGE = {
-  text: 'Text 1',
+  text: { value: 'Text 1'},
   textSize: 14,
   textBold: 0,
   textItalic: 0,
@@ -159,7 +159,7 @@ const TEXT_IMAGE = {
 }
 
 const BUTTON = {
-  text: 'Text 1',
+  text: { value: 'Text 1'},
   textSize: 14,
   textBold: 0,
   textItalic: 0,

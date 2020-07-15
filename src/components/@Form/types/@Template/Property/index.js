@@ -6,7 +6,9 @@ import SingleForm from 'components/@Form/Single';
 import { Scrollbars } from 'react-custom-scrollbars';
 import scheme from 'components/@Form/types/@Layout/Property/scheme';
 
-const route = {}
+const route = {
+  type: 'template',
+}
 
 
 const styles = {

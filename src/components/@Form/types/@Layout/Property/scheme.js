@@ -82,7 +82,7 @@ const textSection = [
   { 
     title: 'Text', 
     prop: 'text', 
-    type: 'input',
+    type: 'inputlink',
   },
   { 
     title: 'Text Color', 

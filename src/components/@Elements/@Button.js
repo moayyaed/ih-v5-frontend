@@ -107,7 +107,7 @@ function Text(props) {
           alignmentBaseline="middle"
           style={getTextStyle(props.item)}
         >
-          {props.item.text}
+          {props.item.text.value}
         </text>
       </svg>
     </div>
