@@ -88,6 +88,7 @@ const realtime = {
   start,
   registerEvent,
   unregisterEvent,
+  sendTunnel,
 };
 
 

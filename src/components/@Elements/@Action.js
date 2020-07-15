@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Hammer from 'hammerjs';
+import shortid from 'shortid';
+
+import core from 'core';
 
 
 const styles = {
@@ -48,24 +51,42 @@ class Action extends PureComponent {
     }
   }
 
+  handleAction = (id, event, actions) => {
+    const key = `${id}_${event}`
+    if (actions !== undefined && actions[key] && actions[key].value) {
+      core.tunnel.command({
+        method: 'action',
+        type:'command',
+        id: actions[key].value.did,
+        command: actions[key].value.prop,
+        uuid: shortid.generate(),
+      });
+    }
+  }
+
   handleSingleTap = () => {
-    console.log('handleSingleTap', this.props.id, this.props.actions);
+    const name = 'singleClickLeft';
+    this.handleAction(this.props.id, name, this.props.actions);
   }
 
   handleDoubleTap = () => {
-    console.log('handleDoubleTap');
+    const name = 'doubleClickLeft';
+    this.handleAction(this.props.id, name, this.props.actions);
   }
 
   handleLongTap = () => {
-    console.log('handlePress');
+    const name = 'longClickLeft';
+    this.handleAction(this.props.id, name, this.props.actions);
   }
 
   handlePressDown = () => {
-    console.log('handlePressDown');
+    const name = 'mouseDownLeft';
+    this.handleAction(this.props.id, name, this.props.actions);
   }
 
   handlePressUp = () => {
-    console.log('handlePressUp');
+    const name = 'mouseUpLeft';
+    this.handleAction(this.props.id, name, this.props.actions);
   }
 
   handlePress = (e) => {
