@@ -74,9 +74,9 @@ class InputLink extends PureComponent {
 
   handleClickButton = (title, id) => {
     if (title === null) {
-      this.props.onChange(this.props.id, this.props.options, null, { link: null, text: null, value: this.props.data.text || 'Text 1' })
+      this.props.onChange(this.props.id, this.props.options, null, { link: null, title: null, text: null, value: this.props.data.text || 'Text 1' })
     } else {
-      this.props.onChange(this.props.id, this.props.options, null, { link: id, value: title, text: this.props.data.value })
+      this.props.onChange(this.props.id, this.props.options, null, { link: id, title, value: '0', text: this.props.data.value })
     }
   }
 
