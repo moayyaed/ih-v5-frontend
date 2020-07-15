@@ -48,6 +48,17 @@ function getY(v, size, h, b) {
   }
 }
 
+function pos(v, type, b) {
+  switch(type) {
+    case 'flex-start':
+      return 0
+    case 'flex-end':
+      return v - (b * 2);
+    default:
+      return (v - (b * 2)) / 2;
+  }
+}
+
 function Text(props) {
   return (
     <div
@@ -61,17 +72,18 @@ function Text(props) {
         opacity: props.item.opacity / 100,
         boxShadow: props.item.boxShadow.value,
       }}
-    >
+      >
       <svg 
         style={{
           display: 'flex',
           width: '100%', 
           height: '100%', 
           overflow: 'hidden',
-          transform: `rotate(${props.item.textRotate}deg)`,
+          pointerEvents: 'none',
         }}
       >
-        <text 
+        <text
+          transform={`rotate(${props.item.textRotate} ${pos(props.item.w, props.item.textAlignH.id, props.item.borderSize)} ${pos(props.item.h, props.item.textAlignV.id,  props.item.borderSize)})`}
           x={getX(props.item.textAlignH.id)} 
           y={getY(props.item.textAlignV.id, props.item.textSize, props.item.h, props.item.borderSize)} 
           textAnchor={getTextAnchor(props.item.textAlignH.id)} 

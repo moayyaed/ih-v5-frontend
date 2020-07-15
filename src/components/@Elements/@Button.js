@@ -59,6 +59,17 @@ function getY(v, size, h, b) {
   }
 }
 
+function pos(v, type, b) {
+  switch(type) {
+    case 'flex-start':
+      return 0
+    case 'flex-end':
+      return v - (b * 2);
+    default:
+      return (v - (b * 2)) / 2;
+  }
+}
+
 function scale(value) {
   switch (Math.sign(value)) {
     case 1:
@@ -70,7 +81,7 @@ function scale(value) {
   }
 }
 
-function Text(props) {
+function Button(props) {
   return (
     <div
       style={{
@@ -93,14 +104,16 @@ function Text(props) {
       />
       <svg 
         style={{
+          position: 'absolute', 
           display: 'flex',
           width: '100%', 
           height: '100%', 
           overflow: 'hidden',
-          transform: `rotate(${props.item.textRotate}deg)`,
+          pointerEvents: 'none',
         }}
       >
-        <text 
+        <text
+          transform={`rotate(${props.item.textRotate} ${pos(props.item.w, props.item.textAlignH.id, props.item.borderSize)} ${pos(props.item.h, props.item.textAlignV.id,  props.item.borderSize)})`}
           x={getX(props.item.textAlignH.id)} 
           y={getY(props.item.textAlignV.id, props.item.textSize, props.item.h, props.item.borderSize)} 
           textAnchor={getTextAnchor(props.item.textAlignH.id)} 
@@ -115,4 +128,4 @@ function Text(props) {
 }
 
 
-export default Text;
+export default Button;
