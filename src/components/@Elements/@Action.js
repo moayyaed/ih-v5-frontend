@@ -49,7 +49,7 @@ class Action extends PureComponent {
   }
 
   handleSingleTap = () => {
-    console.log('handleSingleTap');
+    console.log('handleSingleTap', this.props.id, this.props.actions);
   }
 
   handleDoubleTap = () => {

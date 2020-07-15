@@ -35,7 +35,7 @@ class Template extends PureComponent {
           zIndex: item.zIndex,
         }}
       >
-        {elemets(this.props.template.elements[id].type, { mode: this.props.mode, item: this.props.item.elements ? this.props.item.elements[id] : this.props.template.elements[id] })}
+        {elemets(this.props.template.elements[id].type, { id: id, mode: this.props.mode, item: this.props.item.elements ? this.props.item.elements[id] : this.props.template.elements[id], actions: this.props.item.actions })}
       </div>
     )
   }
