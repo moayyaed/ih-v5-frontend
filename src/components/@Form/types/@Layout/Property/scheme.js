@@ -406,6 +406,7 @@ const scheme = {
   },
   template: {
     link: [],
+    actions: [],
     ...groupSettings,
   },
   content: {
@@ -444,6 +445,12 @@ const scheme = {
   },
   group: groupSettings,
   container: containerSettings,
+  listActions: [
+    'singleClickLeft', 'doubleClickLeft', 'longClickLeft', 
+    'singleClickRight', 'doubleClickRight', 'longClickRight', 
+    'mouseDownLeft', 'mouseUpLeft', 'mouseDownLeft',
+    'mouseUpLeft'
+  ],
 }
 
 

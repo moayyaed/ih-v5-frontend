@@ -72,7 +72,45 @@ class Property extends PureComponent {
               dialog: 'channellink'
             }
           }));
-        // map = [{ type: 'button', title: 'link all'}].concat(map);
+      }
+      if (this.props.templateData && this.props.type === 'actions') {
+        const list = this.props.templateData.list
+          .filter(i => this.props.templateData.elements[i].type === 'action');
+        
+        data = list
+          .reduce((p, c) => {
+            const actions = scheme.listActions
+              .filter(key => this.props.templateData.elements[c][key] !== '')
+              .reduce((p2, c2) => {
+                const key = `${c}_${c2}`
+                if (this.props.elementData.actions && this.props.elementData.actions[key]) {
+                  return { ...p2, [key]: this.props.elementData.actions[key] }
+                }
+                return { ...p2, [key]: { title: '' } }
+              }, {});
+            return { ...p, ...actions }
+          }, {});
+
+        map = list
+          .reduce((p, c) => {
+            return p
+              .concat(scheme.listActions
+                .filter(key => this.props.templateData.elements[c][key] !== '')
+                .map(key =>
+                  ({
+                    prop: `${c}_${key}`,
+                    title: `${c}.${key}`,
+                    type: 'smartbutton',
+                    command: 'dialog',
+                    params: {
+                      title: 'Привязка к каналу',
+                      type: 'tree',
+                      id: 'devices',
+                      dialog: 'channellink'
+                    }
+                  })
+                ))
+          }, [])
       }
       return (
         <Scrollbars style={styles.scroll}>

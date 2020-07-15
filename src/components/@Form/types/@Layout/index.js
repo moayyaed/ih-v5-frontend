@@ -150,18 +150,19 @@ class Layout extends PureComponent {
         <Button 
           key="9"
           minimal 
-          active={select === 'actions'} 
-          icon="hand-up"  
-          onClick={() => this.handleChangeProperty('actions')}
+          active={select === 'move'} 
+          icon="move"  
+          onClick={() => this.handleChangeProperty('move')}
         />,
         <Separator key="10" />,
         <Button 
           key="11"
           minimal 
-          active={select === 'move'} 
-          icon="move"  
-          onClick={() => this.handleChangeProperty('move')}
+          active={select === 'actions'} 
+          icon="hand-up"  
+          onClick={() => this.handleChangeProperty('actions')}
         />,
+
       ];
     }
 
