@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import core from 'core';
 
-import SingleForm from 'components/@Form/Single';
+import CompactForm from 'components/@Form/Compact';
 
 import { Scrollbars } from 'react-custom-scrollbars';
 
@@ -78,7 +78,7 @@ class Property extends PureComponent {
       return (
         <Scrollbars style={styles.scroll}>
           <div style={styles.container}>
-            <SingleForm 
+            <CompactForm 
               key="property"
               debug={false} 
               scheme={map}
@@ -98,37 +98,3 @@ class Property extends PureComponent {
 
 
 export default Property;
-
-
-
-
-/*
-
-    return (
-      <Scrollbars style={{ width: '100%', height: '100%' }}>
-        {scheme.map(item =>
-          <ExpansionPanel key={item.title} defaultExpanded>
-            <ExpansionPanelSummary 
-              style={styles.summary} 
-              IconButtonProps={{ size: 'small' }}
-              expandIcon={<ExpandMoreIcon fontSize="inherit" />} 
-            >
-              <Typography className={classes.heading}>{item.title}</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails style={styles.details} >
-              <SingleForm 
-                key="property"
-                debug={false} 
-                scheme={item.data}
-                route={route}
-                data={this.props.elementData}
-                cache={cache}
-                onChange={this.handleChange}
-              />
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-        )}
-      </Scrollbars>
-    )
-
-    */

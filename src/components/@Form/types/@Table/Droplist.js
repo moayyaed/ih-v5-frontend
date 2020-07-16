@@ -103,6 +103,22 @@ const ListboxComponent = React.forwardRef(function ListboxComponent(props, ref) 
 });
 
 
+function createHideFunction(string) {
+  return new Function('data', 'return ' + string);
+}
+
+function generateList(data) {
+  if (data) {
+    return data.map(i => {
+      if (i.hide !== undefined) {
+        return { ...i, hide: createHideFunction(i.hide) };
+      }
+      return i;
+    });
+  }
+  return [];
+}
+
 class TableDroplistComponent extends Component {
   state = { list: [], loading: false }
 
@@ -119,7 +135,7 @@ class TableDroplistComponent extends Component {
       return {
         ...state,
         loading: false,
-        list: list || [],
+        list: generateList(list),
       }
     });
   }
@@ -151,7 +167,7 @@ class TableDroplistComponent extends Component {
   }
   
   handleOptionLabel = (option) => {
-    return option.title;
+    return option.title || '';
   }
   
   handleRenderOption = (option, { id }) => {
@@ -163,7 +179,6 @@ class TableDroplistComponent extends Component {
     const options = this.props.container.props.options;
     const column = this.props.column;
     const row = this.props.rowData;
-    
     this.props.container.props.onChange(id, options, { op: 'edit', column, row }, value)
   }
   
@@ -178,17 +193,32 @@ class TableDroplistComponent extends Component {
     }
   }
 
+  componentDidUpdate() {
+    if (this.props.cellData && this.props.cellData.id !== '-') {
+      const list = this.state.list.filter(i => i.hide ? !i.hide(this.props.rowData) : true);
+      const find = list.find(i => i.id === this.props.cellData.id);
+      if (find === undefined) {
+        const id = this.props.container.props.id;
+        const options = this.props.container.props.options;
+        const column = this.props.column;
+        const row = this.props.rowData;
+        this.props.container.props.onChange(id, options, { op: 'edit', column, row }, { id: '-', title: '-' })
+      }
+    }
+  }
+
 
   render() {
+    const list = this.state.list.filter(i => i.hide ? !i.hide(this.props.rowData) : true);
     return (
       <Autocomplete
         disableListWrap
         disableClearable
         style={styles.root}
         classes={this.props.classes}
-        options={this.state.list}
+        options={list}
         onChange={this.handleChange}
-        defaultValue={this.props.cellData}
+        value={this.props.cellData}
         renderInput={this.handleRenderInput}
         ListboxComponent={ListboxComponent}
         getOptionSelected={this.handleOptionSelected}
