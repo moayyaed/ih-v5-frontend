@@ -16,7 +16,17 @@ import MenuItem from '@material-ui/core/MenuItem';
 const styles = {
   root: {
     margin: 12,
-  }
+  },
+  rootMini: {
+    fontSize: 13,
+    fontFamily: 'Roboto,Helvetica,Arial,sans-serif',
+    fontWeight: 400,
+    color: 'rgba(0, 0, 0, 0.87)',
+    width: '100%',
+    border: 'unset', 
+    height: 21,
+    background: 'unset',
+  },
 }
 
 function ButtonMenu(props) {
@@ -81,6 +91,25 @@ class InputLink extends PureComponent {
   }
 
   render() {
+    if (this.props.mini) {
+      return (
+        <>
+          <input
+            className="core"
+            style={styles.rootMini} 
+            disabled={Boolean(this.props.data.link)}
+            value={this.props.data.link ? this.props.data.title : this.props.data.value}
+            onChange={(e) => this.props.onChange(this.props.id, this.props.options, null, e.target.value)}
+          />
+            <ButtonMenu 
+              enabled={this.props.route.type} 
+              icon={this.props.data.link} 
+              onChange={this.handleClickButton} 
+            />
+        </>
+      )
+    }
+
     return (
       <TextField
         id={this.props.options.id} 

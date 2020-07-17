@@ -19,6 +19,16 @@ const styles = {
   button: {
     position: 'relative',
   },
+  rootMini: {
+    fontSize: 13,
+    fontFamily: 'Roboto,Helvetica,Arial,sans-serif',
+    fontWeight: 400,
+    color: 'rgba(0, 0, 0, 0.87)',
+    width: '100%',
+    border: 'unset', 
+    height: 21,
+    background: 'unset',
+  },
 }
 
 const classes = theme => ({
@@ -92,6 +102,7 @@ class SmartButton extends PureComponent {
   }
 
   render() {
+
     return (
       <TextField
         id={this.props.options.id} 
