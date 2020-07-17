@@ -127,16 +127,8 @@ class Template extends PureComponent {
           key="1"
           minimal
           active={select === 'main'} 
-          icon="highlight"  
+          icon="style"  
           onClick={() => this.handleChangeProperty('main')} 
-        />,
-        <Separator key="2" />,
-        <Button 
-          key="3"
-          minimal
-          active={select === 'border'} 
-          icon="square"  
-          onClick={() => this.handleChangeProperty('border')} 
         />,
         <Separator key="4" />,
         <Button 

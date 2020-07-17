@@ -18,10 +18,26 @@ const styles = {
     transform: 'translate(0, 1.5px) scale(0.75)',
     transformOrigin: 'top left',
   },
+  rootMini: {
+    width: 16,
+    height: 16,
+    padding: 0,
+  },
 }
 
 
 function Checkbox(props) {
+  if (props.mini) {
+    return (
+      <CheckboxMui
+        size="small"
+        color="primary"
+        style={styles.rootMini}
+        checked={Boolean(props.data)}
+        onChange={(e) => props.onChange(props.id, props.options, null, Number(e.target.checked))} 
+      />
+    )
+  }
   return (
     <FormControl style={styles.root} component="fieldset">
       <FormLabel style={styles.label}>{props.options.title}</FormLabel>

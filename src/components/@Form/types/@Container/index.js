@@ -128,18 +128,10 @@ class Container extends PureComponent {
           key="3"
           minimal
           active={select === 'main'} 
-          icon="highlight"  
+          icon="style"  
           onClick={() => this.handleChangeProperty('main')} 
         />,
         <Separator key="4" />,
-        <Button 
-          key="5"
-          minimal
-          active={select === 'border'} 
-          icon="square"  
-          onClick={() => this.handleChangeProperty('border')} 
-        />,
-        <Separator key="6" />,
         <Button 
           key="7"
           minimal 

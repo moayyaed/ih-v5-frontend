@@ -18,7 +18,13 @@ import { VariableSizeList } from 'react-window';
 const styles = {
   root: {
     margin: 12,
-  }
+  },
+  rootMini: {
+    width: '100%',
+    height: 22,
+  },
+  text: {},
+  textMini: { fontSize: 13, top: -3 },
 }
 
 const classes = theme => ({
@@ -142,6 +148,8 @@ class Droplist extends PureComponent {
         InputLabelProps={{ ...params.InputLabelProps, shrink: true, style: this.props.getStyle(this.props) }}
         InputProps={{
           ...params.InputProps,
+          disableUnderline: this.props.mini, 
+          style: this.props.mini ? styles.textMini : styles.text,
           endAdornment: (
             <React.Fragment>
               {this.state.loading ? <CircularProgress color="inherit" size={20} /> : null}
@@ -149,7 +157,7 @@ class Droplist extends PureComponent {
             </React.Fragment>
           ),
         }}
-        label={this.props.options.title} 
+        label={this.props.mini ? "" : this.props.options.title} 
         error={this.props.cache && this.props.cache.error}
         helperText={this.props.cache && this.props.cache.error}
         fullWidth 
@@ -192,14 +200,14 @@ class Droplist extends PureComponent {
     }
   }
 
-  render({ id, options, global } = this.props) {
+  render({ id, options, global, mini } = this.props) {
     const list = this.state.list.filter(i => i.hide ? !i.hide(global) : true);
     return (
       <Autocomplete
         disabled={this.props.disabled}
         disableClearable
         disableListWrap
-        style={styles.root}
+        style={mini ? styles.rootMini : styles.root}
         classes={this.props.classes}
         options={list}
         onChange={(e, v) => this.props.onChange(id, options, null, v)}

@@ -1,51 +1,42 @@
-const mainSection = [
+const backgroundSection = [
   { 
-    title: 'Background Color', 
+    title: 'Background', 
+    prop: 'background', 
+    type: 'divider',
+  },
+  { 
+    title: 'Color', 
     prop: 'backgroundColor', 
     type: 'color2',
   },
-  { 
-    title: 'Box Shadow', 
-    prop: 'boxShadow', 
-    type: 'shadow',
-  },
-  { 
-    title: 'Opacity', 
-    prop: 'opacity', 
-    type: 'number',
-  },
-  { 
-    title: 'Z-index', 
-    prop: 'zIndex', 
-    type: 'number',
-  },
-];
+]
 
 const borderSection = [
   { 
-    title: 'Border Color', 
+    title: 'Border', 
+    prop: 'border', 
+    type: 'divider',
+  },
+  { 
+    title: 'Color', 
     prop: 'borderColor', 
     type: 'color',
   },
   { 
-    title: 'Border Size', 
+    title: 'Size', 
     prop: 'borderSize', 
     type: 'number',
   },
   { 
-    title: 'Border Radius', 
+    title: 'Radius', 
     prop: 'borderRadius', 
     type: 'number',
   },
   { 
-    title: 'Border Style', 
+    title: 'Style', 
     prop: 'borderStyle', 
     type: 'droplist',
     data: [
-      {
-        id: 'hidden',
-        title: 'Hidden'
-      },
       {
         id: 'dotted',
         title: 'Dotted'
@@ -76,36 +67,59 @@ const borderSection = [
       },
     ]
   },
+]
+
+const decorationSection = [
+  { 
+    title: 'Decoration', 
+    prop: 'decoration', 
+    type: 'divider',
+  },
+  { 
+    title: 'Shadow', 
+    prop: 'boxShadow', 
+    type: 'shadow',
+  },
+  { 
+    title: 'Opacity', 
+    prop: 'opacity', 
+    type: 'number',
+  },
 ];
 
 const textSection = [
   { 
     title: 'Text', 
+    prop: 'dividertext', 
+    type: 'divider',
+  },
+  { 
+    title: 'Value', 
     prop: 'text', 
     type: 'inputlink',
   },
   { 
-    title: 'Text Color', 
+    title: 'Color', 
     prop: 'textColor', 
     type: 'color',
   },
   { 
-    title: 'Text Size', 
+    title: 'Size', 
     prop: 'textSize', 
-    type: 'input',
+    type: 'number',
   },
   { 
-    title: 'Text Bold', 
+    title: 'Bold', 
     prop: 'textBold', 
     type: 'cb',
   },
   { 
-    title: 'Text Italic', 
+    title: 'Italic', 
     prop: 'textItalic', 
     type: 'cb',
   },
   { 
-    title: 'Text Font', 
+    title: 'Font', 
     prop: 'textFontFamily',
     type: 'droplist',
     data: [
@@ -129,7 +143,7 @@ const textSection = [
   },
   {
     prop: 'textAlignH',
-    title: 'Horizontal Alignment',
+    title: 'Horizontal',
     type: 'droplist',
     data: [
       {
@@ -148,7 +162,7 @@ const textSection = [
   },
   {
     prop: 'textAlignV',
-    title: 'Vertical Alignment',
+    title: 'Vertical',
     type: 'droplist',
     data: [
       {
@@ -166,9 +180,9 @@ const textSection = [
     ]
   },
   { 
-    title: 'Text Rotate', 
+    title: 'Rotate', 
     prop: 'textRotate', 
-    type: 'slider',
+    type: 'number',
     min: 0,
     max: 360,
   }
@@ -176,26 +190,31 @@ const textSection = [
 
 const imageSection = [
   { 
-    title: 'Image URL', 
-    prop: 'img', 
-    type: 'url',
+    title: 'Image', 
+    prop: 'image', 
+    type: 'divider',
   },
   { 
-    title: 'Image Color', 
+    title: 'URL', 
+    prop: 'img', 
+    type: 'input',
+  },
+  { 
+    title: 'Color', 
     prop: 'imgColor', 
     type: 'color',
   },
   { 
-    title: 'Image Size', 
+    title: 'Size', 
     prop: 'imgSize', 
-    type: 'slider',
+    type: 'number',
     min: -100,
     max: 100,
   },
   { 
-    title: 'Image Rotate', 
+    title: 'Rotate', 
     prop: 'imgRotate', 
-    type: 'slider',
+    type: 'number',
     min: 0,
     max: 360,
   }
@@ -203,81 +222,86 @@ const imageSection = [
 
 const actionsSection = [
   { 
-    title: 'Color Ripple', 
-    prop: 'colorRipple', 
-    type: 'color',
+    title: 'Mouse Left', 
+    prop: 'mouseleft', 
+    type: 'divider',
   },
   { 
-    title: 'Single Click Left', 
+    title: 'Single Click', 
     prop: 'singleClickLeft', 
     type: 'input',
   },
   { 
-    title: 'Double Click Left', 
+    title: 'Double Click', 
     prop: 'doubleClickLeft', 
     type: 'input',
   },
   { 
-    title: 'Long Click Left', 
+    title: 'Long Click', 
     prop: 'longClickLeft', 
     type: 'input',
   },
   { 
-    title: 'Single Click Right', 
-    prop: 'singleClickRight', 
-    type: 'input',
-  },
-  { 
-    title: 'Double Click Right', 
-    prop: 'doubleClickRight', 
-    type: 'input',
-  },
-  { 
-    title: 'Long Click Right', 
-    prop: 'longClickRight', 
-    type: 'input',
-  },
-  { 
-    title: 'Mouse Down Left', 
+    title: 'Mouse Down', 
     prop: 'mouseDownLeft', 
     type: 'input',
   },
   { 
-    title: 'Mouse Up Left', 
+    title: 'Mouse Up', 
     prop: 'mouseUpLeft', 
     type: 'input',
   },
   { 
-    title: 'Mouse Down Right', 
-    prop: 'mouseDownRight', 
+    title: 'Mouse Right', 
+    prop: 'mouseright', 
+    type: 'divider',
+  },
+  { 
+    title: 'Single Click', 
+    prop: 'singleClickRight', 
     type: 'input',
   },
   { 
-    title: 'Mouse Up Right', 
-    prop: 'mouseUpRight', 
-    type: 'input',
+    title: 'Effect ', 
+    prop: 'effect', 
+    type: 'divider',
+  },
+  { 
+    title: 'Color Ripple', 
+    prop: 'colorRipple', 
+    type: 'color',
   },
 ];
 
 const moveSection = [
   { 
-    title: 'Position X', 
+    title: 'Position', 
+    prop: 'position', 
+    type: 'divider',
+  },
+  { 
+    title: 'X', 
     prop: 'x', 
     type: 'number',
   },
   { 
-    title: 'Position Y', 
+    title: 'Y', 
     prop: 'y', 
     type: 'number',
   },
   { 
-    title: 'Width', 
+    title: 'W', 
     prop: 'w', 
     type: 'number',
   },
   { 
-    title: 'Height', 
+    title: 'H', 
     prop: 'h', 
+    type: 'number',
+  },
+  { 
+    title: 'Z', 
+    prop: 'zIndex', 
     type: 'number',
   },
 ];
@@ -285,36 +309,46 @@ const moveSection = [
 const groupSettings = {
   main: [
     { 
-      title: 'Opacity', 
-      prop: 'opacity', 
-      type: 'number',
+      title: 'Decoration', 
+      prop: 'decoration', 
+      type: 'divider',
     },
     { 
-      title: 'Z-index', 
-      prop: 'zIndex', 
+      title: 'Opacity', 
+      prop: 'opacity', 
       type: 'number',
     },
   ],
   move: [
     { 
-      title: 'Position X', 
+      title: 'Position', 
+      prop: 'position', 
+      type: 'divider',
+    },
+    { 
+      title: 'X', 
       prop: 'x', 
       type: 'number',
     },
     { 
-      title: 'Position Y', 
+      title: 'Y', 
       prop: 'y', 
       type: 'number',
     },
     { 
-      title: 'Width', 
+      title: 'W', 
       prop: 'w', 
       type: 'text',
     },
     { 
-      title: 'Height', 
+      title: 'H', 
       prop: 'h', 
       type: 'text',
+    },
+    { 
+      title: 'Z', 
+      prop: 'zIndex', 
+      type: 'number',
     },
   ],
 }
@@ -322,35 +356,45 @@ const groupSettings = {
 const containerSettings = {
   main: [
     { 
-      title: 'Opacity', 
-      prop: 'opacity', 
-      type: 'number',
+      title: 'Decoration', 
+      prop: 'decoration', 
+      type: 'divider',
     },
     { 
-      title: 'Z-index', 
-      prop: 'zIndex', 
+      title: 'Opacity', 
+      prop: 'opacity', 
       type: 'number',
     },
   ],
   move: [
     { 
-      title: 'Position X', 
+      title: 'Position', 
+      prop: 'position', 
+      type: 'divider',
+    },
+    { 
+      title: 'X', 
       prop: 'x', 
       type: 'number',
     },
     { 
-      title: 'Position Y', 
+      title: 'Y', 
       prop: 'y', 
       type: 'number',
     },
     { 
-      title: 'Width', 
+      title: 'W', 
       prop: 'w', 
       type: 'number',
     },
     { 
-      title: 'Height', 
+      title: 'H', 
       prop: 'h', 
+      type: 'number',
+    },
+    { 
+      title: 'Z', 
+      prop: 'zIndex', 
       type: 'number',
     },
   ],
@@ -359,55 +403,97 @@ const containerSettings = {
 
 const scheme = {
   block: {
-    main: mainSection,
-    border: borderSection,
+    main: [
+      ...backgroundSection,
+      ...borderSection,
+      ...decorationSection,
+    ],
     move: moveSection,
   },
   rectangle: {
-    main: mainSection,
-    border: borderSection,
+    main: [
+      ...backgroundSection,
+      ...borderSection,
+      ...decorationSection,
+    ],
     move: moveSection,
   },
   circle: {
-    main: mainSection,
-    border: borderSection,
+    main: [
+      ...backgroundSection,
+      ...borderSection,
+      ...decorationSection,
+    ],
     move: moveSection,
   },
   text: {
-    main: mainSection,
-    border: borderSection,
-    text: textSection,
+    main: [
+      ...backgroundSection,
+      ...borderSection,
+      ...textSection,
+      ...decorationSection,
+    ],
     move: moveSection,
   },
   image: {
-    main: mainSection,
-    border: borderSection,
-    image: imageSection,
+    main: [
+      ...backgroundSection,
+      ...borderSection,
+      ...imageSection,
+      ...decorationSection,
+    ],
     move: moveSection,
   },
   text_image: {
-    main: mainSection,
-    border: borderSection,
-    text: textSection,
-    image: imageSection,
+    main: [
+      ...backgroundSection,
+      ...borderSection,
+      ...textSection,
+      ...imageSection,
+      ...decorationSection,
+    ],
     move: moveSection,
   },
   button: {
-    main: mainSection,
-    border: borderSection,
-    text: textSection,
-    image: imageSection,
+    main: [
+      ...backgroundSection,
+      ...borderSection,
+      ...textSection,
+      ...imageSection,
+      ...decorationSection,
+    ],
     actions: actionsSection,
     move: moveSection,
-  },
-  action: {
-    move: moveSection,
-    actions: actionsSection,
   },
   template: {
     link: [],
     actions: [],
     ...groupSettings,
+  },
+  action: {
+    move: [
+      { 
+        title: 'Position X', 
+        prop: 'x', 
+        type: 'number',
+      },
+      { 
+        title: 'Position Y', 
+        prop: 'y', 
+        type: 'number',
+      },
+      { 
+        title: 'Width', 
+        prop: 'w', 
+        type: 'number',
+      },
+      { 
+        title: 'Height', 
+        prop: 'h', 
+        type: 'number',
+      },
+    ],
+    actions: actionsSection,
   },
   content: {
     move: [
@@ -447,9 +533,7 @@ const scheme = {
   container: containerSettings,
   listActions: [
     'singleClickLeft', 'doubleClickLeft', 'longClickLeft', 
-    'singleClickRight', 'doubleClickRight', 'longClickRight', 
-    'mouseDownLeft', 'mouseUpLeft', 'mouseDownLeft',
-    'mouseUpLeft'
+    'mouseDownLeft', 'mouseUpLeft', 'singleClickRight',
   ],
 }
 

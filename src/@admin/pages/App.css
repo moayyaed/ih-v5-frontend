@@ -139,3 +139,6 @@ button:focus {
   background-color: unset!important;
 }
 
+input.core:focus {
+  outline: none;
+}

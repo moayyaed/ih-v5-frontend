@@ -3,7 +3,7 @@ import core from 'core';
 
 import { Scrollbars } from 'react-custom-scrollbars';
 
-import SingleForm from 'components/@Form/Single';
+import CompactForm from 'components/@Form/Compact';
 import scheme from 'components/@Form/types/@Layout/Property/scheme';
 
 const route = {}
@@ -72,6 +72,7 @@ class Property extends PureComponent {
               dialog: 'channellink'
             }
           }));
+        map = [{ title: 'Bind', prop: 'background', type: 'divider' }].concat(map)
       }
       if (this.props.templateData && this.props.type === 'actions') {
         const list = this.props.templateData.list
@@ -90,16 +91,15 @@ class Property extends PureComponent {
               }, {});
             return { ...p, ...actions }
           }, {});
-
         map = list
           .reduce((p, c) => {
             return p
-              .concat(scheme.listActions
+              .concat([{ title: c, prop: c, type: 'divider' }],scheme.listActions
                 .filter(key => this.props.templateData.elements[c][key] !== '')
                 .map(key =>
                   ({
                     prop: `${c}_${key}`,
-                    title: `${c} ▪︎ ${key}`,
+                    title: `${key}`,
                     type: 'smartbutton',
                     command: 'dialog',
                     params: {
@@ -115,7 +115,7 @@ class Property extends PureComponent {
       return (
         <Scrollbars style={styles.scroll}>
           <div style={styles.container}>
-            <SingleForm 
+            <CompactForm 
               key="property"
               debug={false} 
               scheme={map}

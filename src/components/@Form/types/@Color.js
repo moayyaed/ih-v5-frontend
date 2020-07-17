@@ -17,8 +17,12 @@ const styles = {
   root: {
     margin: 12,
   },
+  rootMini: {},
   title: {
     marginBottom: 6,
+  },
+  titleMini: {
+    display: 'none',
   },
   button: {
     width: 28,
@@ -30,6 +34,14 @@ const styles = {
     cursor: 'pointer',
     position: 'relative',
   },
+  buttonMini: {
+    width: 16,
+    height: 16,
+    border: '1px solid #999',
+    borderRadius: 2,
+    cursor: 'pointer',
+    position: 'relative',
+  },
   buttonBackround: {
     width: 22,
     height: 22,
@@ -38,12 +50,23 @@ const styles = {
     left: 2,
     background: 'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMUlEQVQ4T2NkYGAQYcAP3uCTZhw1gGGYhAGBZIA/nYDCgBDAm9BGDWAAJyRCgLaBCAAgXwixzAS0pgAAAABJRU5ErkJggg==) center center',
   },
+  buttonBackroundMini: {
+    width: 14,
+    height: 14,
+    position: 'absolute',
+    background: 'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMUlEQVQ4T2NkYGAQYcAP3uCTZhw1gGGYhAGBZIA/nYDCgBDAm9BGDWAAJyRCgLaBCAAgXwixzAS0pgAAAABJRU5ErkJggg==) center center',
+  },
   buttonBackround2: {
     width: 22,
     height: 22,
     position: 'absolute',
     top: 2,
     left: 2,
+  },
+  buttonBackround2Mini: {
+    width: 14,
+    height: 14,
+    position: 'absolute',
   }
 }
 
@@ -79,13 +102,28 @@ function Color(props) {
   }
 
   const open = Boolean(anchorEl);
+  const s = {};
+
+  if (props.mini) {
+    s.root = styles.rootMini;
+    s.title = styles.titleMini;
+    s.button = styles.buttonMini;
+    s.buttonBackround = styles.buttonBackroundMini;
+    s.buttonBackround2 = styles.buttonBackround2Mini;
+  } else {
+    s.root = styles.root;
+    s.title = styles.title;
+    s.button = styles.button;
+    s.buttonBackround = styles.buttonBackround;
+    s.buttonBackround2 = styles.buttonBackround2;
+  }
 
   return (
-    <div style={styles.root}>
-      <div style={{ ...styles.title, ...props.getStyle(props)}}>{props.options.title}</div>
-      <div style={styles.button} onClick={handleClick}>
-        <div style={styles.buttonBackround}/>
-        <div style={{ ...styles.buttonBackround2, backgroundColor: props.data }}/>
+    <div style={s.root}>
+      <div style={{ ...s.title, ...props.getStyle(props)}}>{props.options.title}</div>
+      <div style={s.button} onClick={handleClick}>
+        <div style={s.buttonBackround}/>
+        <div style={{ ...s.buttonBackround2, backgroundColor: props.data }}/>
       </div>
       <Popover
         open={open}

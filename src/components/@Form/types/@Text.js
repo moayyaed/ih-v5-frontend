@@ -10,18 +10,38 @@ import InputLabel from '@material-ui/core/InputLabel';
 const styles = {
   root: {
     margin: 12,
-    
   },
   label: {
     color: 'rgba(0, 0, 0, 0.54)',
   },
   input: {
     color: 'rgba(0, 0, 0, 0.87)',
-  }
+  },
+  rootMini: {
+    fontSize: 13,
+    fontFamily: 'Roboto,Helvetica,Arial,sans-serif',
+    fontWeight: 400,
+    color: 'rgba(0, 0, 0, 0.87)',
+    width: '100%',
+    border: 'unset', 
+    height: 21,
+    background: 'unset',
+  },
 }
 
 
 function Text(props) {
+  if (props.mini) {
+    return (
+      <input
+        disabled
+        className="core"
+        style={styles.rootMini} 
+        value={props.data} 
+        onChange={(e) => props.onChange(props.id, props.options, null, e.target.value)}
+      />
+    )
+  }
   return (
     <TextField
       disabled
