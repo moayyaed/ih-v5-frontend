@@ -9,6 +9,11 @@ const backgroundSection = [
     prop: 'backgroundColor', 
     type: 'color2',
   },
+  { 
+    title: 'Image', 
+    prop: 'backgroundImage', 
+    type: 'input',
+  },
 ]
 
 const borderSection = [
@@ -300,10 +305,59 @@ const moveSection = [
     type: 'number',
   },
   { 
-    title: 'Z', 
+    title: 'Z-index', 
     prop: 'zIndex', 
     type: 'number',
   },
+  { 
+    title: 'Transform', 
+    prop: 'transform', 
+    type: 'divider',
+  },
+  { 
+    title: 'Flip H', 
+    prop: 'flipH', 
+    type: 'cb',
+  },
+  { 
+    title: 'Flip V', 
+    prop: 'flipV', 
+    type: 'cb',
+  },
+  { 
+    title: 'Rotate', 
+    prop: 'rotate', 
+    type: 'number',
+    min: 0,
+    max: 360,
+  },
+  { 
+    title: 'Transform-origin', 
+    prop: 'transformOrigin', 
+    type: 'droplist',
+    data: [
+      {
+        id: 'center',
+        title: 'Center'
+      },
+      {
+        id: 'top',
+        title: 'Top'
+      },
+      {
+        id: 'bottom',
+        title: 'Bottom'
+      },
+      {
+        id: 'left',
+        title: 'Left'
+      },
+      {
+        id: 'right',
+        title: 'Right'
+      }
+    ]
+  }
 ];
 
 const groupSettings = {
@@ -346,7 +400,7 @@ const groupSettings = {
       type: 'text',
     },
     { 
-      title: 'Z', 
+      title: 'Z-index', 
       prop: 'zIndex', 
       type: 'number',
     },
@@ -393,7 +447,7 @@ const containerSettings = {
       type: 'number',
     },
     { 
-      title: 'Z', 
+      title: 'Z-index', 
       prop: 'zIndex', 
       type: 'number',
     },

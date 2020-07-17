@@ -14,7 +14,12 @@ const BLOCK = {
     extent: 'closest-side',
     palette: [{ offset: '0.00', color: '#4A90E2', opacity: 1 }, { offset: '1.00', color: '#9013FE', opacity: 1 }]
   },
-  boxShadow: 'unset',
+  backgroundImage: 'unset',
+  rotate: 0,
+  transformOrigin: { id: 'center', title: 'Center' },
+  flipH: false,
+  flipV: false,
+  boxShadow: { active: false, value: '2px 2px 4px 0px #000000' },
   zIndex: 100,
   opacity: 100,
 }
@@ -35,7 +40,12 @@ const RECTANGLE = {
     extent: 'closest-side',
     palette: [{ offset: '0.00', color: '#4A90E2', opacity: 1 }, { offset: '1.00', color: '#9013FE', opacity: 1 }]
   },
-  boxShadow: 'unset',
+  backgroundImage: 'unset',
+  rotate: 0,
+  transformOrigin: { id: 'center', title: 'Center' },
+  flipH: false,
+  flipV: false,
+  boxShadow: { active: false, value: '2px 2px 4px 0px #000000' },
   zIndex: 100,
   opacity: 100,
 }
@@ -56,7 +66,12 @@ const CIRCLE = {
     extent: 'closest-side',
     palette: [{ offset: '0.00', color: '#4A90E2', opacity: 1 }, { offset: '1.00', color: '#9013FE', opacity: 1 }]
   },
-  boxShadow: { active: false, value: 'unset' },
+  backgroundImage: 'unset',
+  rotate: 0,
+  transformOrigin: { id: 'center', title: 'Center' },
+  flipH: false,
+  flipV: false,
+  boxShadow: { active: false, value: '2px 2px 4px 0px #000000' },
   zIndex: 100,
   opacity: 100,
 }
@@ -86,7 +101,12 @@ const TEXT = {
     extent: 'closest-side',
     palette: [{ offset: '0.00', color: '#4A90E2', opacity: 1 }, { offset: '1.00', color: '#9013FE', opacity: 1 }]
   },
-  boxShadow: 'unset',
+  backgroundImage: 'unset',
+  rotate: 0,
+  transformOrigin: { id: 'center', title: 'Center' },
+  flipH: false,
+  flipV: false,
+  boxShadow: { active: false, value: '2px 2px 4px 0px #000000' },
   zIndex: 100,
   opacity: 100,
 }
@@ -111,7 +131,12 @@ const IMAGE = {
     extent: 'closest-side',
     palette: [{ offset: '0.00', color: '#4A90E2', opacity: 1 }, { offset: '1.00', color: '#9013FE', opacity: 1 }]
   },
-  boxShadow: 'unset',
+  backgroundImage: 'unset',
+  rotate: 0,
+  transformOrigin: { id: 'center', title: 'Center' },
+  flipH: false,
+  flipV: false,
+  boxShadow: { active: false, value: '2px 2px 4px 0px #000000' },
   zIndex: 100,
   opacity: 100,
 }
@@ -133,7 +158,7 @@ const TEXT_IMAGE = {
   borderSize: 1,
   borderRadius: 0,
   borderStyle: { id: 'solid', title: 'Solid' },
-  borderColor: 'rgba(0,255,0,1)',
+  borderColor: 'rgba(245,166,35,1)',
     backgroundColor: { 
     type: 'fill', 
     value: 'transparent', 
@@ -153,13 +178,18 @@ const TEXT_IMAGE = {
   longClickRight: '',
   mouseDown: '',
   mouseUp: '',
-  boxShadow: 'unset',
+  backgroundImage: 'unset',
+  rotate: 0,
+  transformOrigin: { id: 'center', title: 'Center' },
+  flipH: false,
+  flipV: false,
+  boxShadow: { active: false, value: '2px 2px 4px 0px #000000' },
   zIndex: 100,
   opacity: 100,
 }
 
 const BUTTON = {
-  text: { value: 'Text 1'},
+  text: { value: 'Button 1'},
   textSize: 14,
   textBold: 0,
   textItalic: 0,
@@ -175,7 +205,7 @@ const BUTTON = {
   borderSize: 1,
   borderRadius: 0,
   borderStyle: { id: 'solid', title: 'Solid' },
-  borderColor: 'rgba(0,255,0,1)',
+  borderColor: 'rgba(139,87,42,1)',
     backgroundColor: { 
     type: 'fill', 
     value: 'transparent', 
@@ -198,7 +228,12 @@ const BUTTON = {
   mouseUpLeft: '',
   mouseDownLeft: '',
   mouseUpLeft: '',
-  boxShadow: 'unset',
+  backgroundImage: 'unset',
+  rotate: 0,
+  transformOrigin: { id: 'center', title: 'Center' },
+  flipH: false,
+  flipV: false,
+  boxShadow: { active: false, value: '2px 2px 4px 0px #000000' },
   zIndex: 100,
   opacity: 100,
 }

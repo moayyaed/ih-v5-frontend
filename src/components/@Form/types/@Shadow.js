@@ -3,6 +3,11 @@ import React from 'react';
 import Popover from '@material-ui/core/Popover';
 import { ShadowPicker } from 'react-shadow-picker';
 
+import IconButton from '@material-ui/core/IconButton';
+
+import CheckboxMui from '@material-ui/core/Checkbox';
+import TuneIcon from '@material-ui/icons/Tune';
+
 const styles = {
   root: {
     margin: 12,
@@ -27,6 +32,14 @@ const styles = {
     top: 2,
     left: 2,
   },
+  checkBox: {
+    display: 'none',
+  },
+  checkBoxMini: {
+    width: 16,
+    height: 16,
+    padding: 0,
+  },
   rootMini: {},
   titleMini: {
     display: 'none',
@@ -40,6 +53,7 @@ const styles = {
     boxShadow: '0 0 0 2px #fff inset',
     cursor: 'pointer',
     position: 'relative',
+    marginLeft: 12,
   },
   buttonBackround2Mini: {
     width: 16,
@@ -67,7 +81,7 @@ function Shadow(props) {
   };
 
   const handleChange = (value) => {
-      props.onChange(props.id, props.options, null, { ...props.data, value})
+      props.onChange(props.id, props.options, null, { ...props.data, active: true, value})
   }
 
   const open = Boolean(anchorEl);
@@ -78,33 +92,44 @@ function Shadow(props) {
     s.title = styles.titleMini;
     s.button = styles.buttonMini;
     s.buttonBackround2 = styles.buttonBackround2Mini;
+    s.checkbox = styles.checkBoxMini
   } else {
     s.root = styles.root;
     s.title = styles.title;
     s.button = styles.button;
     s.buttonBackround2 = styles.buttonBackround2;
+    s.checkbox = styles.checkBox;
   }
-
+  
   return (
-    <div style={s.root}>
-      <div style={{ ...s.title, ...props.getStyle(props)}}>{props.options.title}</div>
-      <div style={s.button} onClick={handleClick}>
-        <div style={{ ...s.buttonBackround2 }}/>
+    <>
+      <CheckboxMui
+        size="small"
+        color="primary"
+        style={s.checkbox}
+        checked={Boolean(props.data.active)}
+        onChange={(e) => props.onChange(props.id, props.options, null, { ...props.data, active: Number(e.target.checked) })} 
+      />
+      <div style={s.root}>
+        <div style={{ ...s.title, ...props.getStyle(props)}}>{props.options.title}</div>
+        <IconButton size="small" onClick={handleClick}>
+          <TuneIcon fontSize="inherit" />
+        </IconButton>
+        <Popover
+          open={open}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
+          <ShadowPicker
+            className="custom-picker"
+            value={props.data.value}
+            onChange={handleChange}
+          />
+        </Popover>
       </div>
-      <Popover
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'center' }}
-      >
-        <ShadowPicker
-          className="custom-picker"
-          value={props.data.value}
-          onChange={handleChange}
-        />
-      </Popover>
-    </div>
+    </>
   );
 }
 
