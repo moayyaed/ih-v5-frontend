@@ -20,14 +20,8 @@ const styles = {
     position: 'relative',
   },
   rootMini: {
-    fontSize: 13,
-    fontFamily: 'Roboto,Helvetica,Arial,sans-serif',
-    fontWeight: 400,
-    color: 'rgba(0, 0, 0, 0.87)',
     width: '100%',
-    border: 'unset', 
-    height: 21,
-    background: 'unset',
+    overflow: 'hidden',
   },
 }
 
@@ -105,12 +99,14 @@ class SmartButton extends PureComponent {
     if (this.props.mini) {
       return (
         <>
-          <input
-            disabled
-            className="core"
-            style={styles.rootMini} 
-            value={this.props.data.title}
-          />
+          <div style={styles.rootMini}>
+            <Link 
+                href={`/admin/${this.props.data.path}`}
+                onClick={(e) => this.handleClickForward(e, this.props.data.path)}
+              >
+              {this.props.data.title}
+            </Link>
+          </div>
           <IconButton onClick={(e) => this.handleClick(e,  'icon')} size="small">
             {this.props.data.title !== '' ? <LinkOffIcon fontSize="small" /> : <LinkIcon fontSize="small" />}
           </IconButton>

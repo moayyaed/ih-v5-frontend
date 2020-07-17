@@ -27,6 +27,17 @@ const styles = {
     height: 21,
     background: 'unset',
   },
+  rootMini2: {
+    fontSize: 13,
+    fontFamily: 'Roboto,Helvetica,Arial,sans-serif',
+    fontWeight: 400,
+    color: 'rgb(48, 84, 150)',
+    width: '100%',
+    border: 'unset', 
+    height: 21,
+    background: 'unset',
+    fontWeight: 'bold',
+  }
 }
 
 function ButtonMenu(props) {
@@ -96,7 +107,7 @@ class InputLink extends PureComponent {
         <>
           <input
             className="core"
-            style={styles.rootMini} 
+            style={this.props.data.link ? styles.rootMini2 : styles.rootMini} 
             disabled={Boolean(this.props.data.link)}
             value={this.props.data.link ? this.props.data.title : this.props.data.value}
             onChange={(e) => this.props.onChange(this.props.id, this.props.options, null, this.handleChangeText)}
