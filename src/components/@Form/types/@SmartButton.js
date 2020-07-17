@@ -102,6 +102,21 @@ class SmartButton extends PureComponent {
   }
 
   render() {
+    if (this.props.mini) {
+      return (
+        <>
+          <input
+            disabled
+            className="core"
+            style={styles.rootMini} 
+            value={this.props.data.title}
+          />
+          <IconButton onClick={(e) => this.handleClick(e,  'icon')} size="small">
+            {this.props.data.title !== '' ? <LinkOffIcon fontSize="small" /> : <LinkIcon fontSize="small" />}
+          </IconButton>
+        </>
+      )
+    }
 
     return (
       <TextField

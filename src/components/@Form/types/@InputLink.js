@@ -99,7 +99,7 @@ class InputLink extends PureComponent {
             style={styles.rootMini} 
             disabled={Boolean(this.props.data.link)}
             value={this.props.data.link ? this.props.data.title : this.props.data.value}
-            onChange={(e) => this.props.onChange(this.props.id, this.props.options, null, e.target.value)}
+            onChange={(e) => this.props.onChange(this.props.id, this.props.options, null, this.handleChangeText)}
           />
             <ButtonMenu 
               enabled={this.props.route.type} 
