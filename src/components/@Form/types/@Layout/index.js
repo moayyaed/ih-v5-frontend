@@ -124,22 +124,6 @@ class Layout extends PureComponent {
         />,
         <Separator key="2" />,
         <Button 
-          key="5"
-          minimal 
-          active={select === 'text'} 
-          icon="font"  
-          onClick={() => this.handleChangeProperty('text')} 
-        />,
-        <Separator key="6" />,
-        <Button 
-          key="7"
-          minimal 
-          active={select === 'image'} 
-          icon="media"  
-          onClick={() => this.handleChangeProperty('image')}
-        />,
-        <Separator key="8" />,
-        <Button 
           key="9"
           minimal 
           active={select === 'move'} 
