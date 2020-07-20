@@ -119,18 +119,60 @@ function handleMouseDown(e, props) {
 }
 
 
+class Button extends Component {
+
+  handleMouseDown = () => {
+    this.long = false;
+    this.timer = setTimeout(this.handleLong, 250);
+  }
+
+  handleMouseUp = () => {
+    if (this.long === false) {
+      this.props.onClick(this.props.step);
+    }
+    
+    this.clear();
+  }
+
+  handleLong = () => {
+    this.long = true;
+    this.timer2 = setInterval(() => this.props.onClick(this.props.step), 100)
+  }
+
+  clear = () => {
+    clearTimeout(this.timer);
+    clearInterval(this.timer2);
+
+    this.long = null;
+    this.timer = null;
+    this.timer2 = null;
+  }
+
+  render() {
+    return (
+      <IconButton 
+        size="small" 
+        style={styles.buttonMini}
+        onMouseDown={this.handleMouseDown}
+        onMouseUp={this.handleMouseUp}
+      >
+        {this.props.type === 'left' ? <ArrowLeftIcon /> :  <ArrowRightIcon />}
+      </IconButton>
+    )
+  }
+}
+
+
 function TouchNumber(props) {
   const step = props.options.step || 1;
   if (props.mini) {
     return (
       <div style={styles.containerMini}>
-        <IconButton 
-          size="small" 
-          style={styles.buttonMini}
-          onClick={(e) => props.onChange(props.id, props.options, null, checkValue(props.data - step, props))}
-        >
-          <ArrowLeftIcon />
-        </IconButton>
+        <Button
+          type="left" 
+          step={step}
+          onClick={v => props.onChange(props.id, props.options, null, checkValue(props.data - v, props))} 
+        />
         <input
           className="core"
           style={styles.rootMini} 
@@ -138,13 +180,11 @@ function TouchNumber(props) {
           onChange={(e) => props.onChange(props.id, props.options, null, checkValue(e.target.value, props))}
           onMouseDown={(e) => handleMouseDown(e, props)}
         />
-        <IconButton 
-          size="small" 
-          style={styles.buttonMini}
-          onClick={(e) => props.onChange(props.id, props.options, null, checkValue(props.data + step, props))}
-        >
-          <ArrowRightIcon />
-        </IconButton>
+        <Button
+          type="right" 
+          step={step}
+          onClick={v => props.onChange(props.id, props.options, null, checkValue(props.data + v, props))} 
+        />
       </div>
     )
   }
