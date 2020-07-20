@@ -151,7 +151,8 @@ class Button extends Component {
   render() {
     return (
       <IconButton 
-        size="small" 
+        size="small"
+        className="nb" 
         style={styles.buttonMini}
         onMouseDown={this.handleMouseDown}
         onMouseUp={this.handleMouseUp}

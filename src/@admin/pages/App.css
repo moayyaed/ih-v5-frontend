@@ -142,3 +142,7 @@ button:focus {
 input.core:focus {
   outline: none;
 }
+
+.nb .MuiIconButton-label {
+  height: 16px;
+}
