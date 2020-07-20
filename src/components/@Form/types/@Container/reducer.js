@@ -82,7 +82,8 @@ function reducerContainer(state, action) {
         selectOne: action.elementId,
         selects: {
           [action.elementId]: true,
-        }
+        },
+        propertyType: (state.selectOne === 'content' && typeof state.selects.content === 'string') ? state.selects.content : state.propertyType,
       };
     case CONTAINER_SET_SETTINGS:
       return { 
@@ -106,9 +107,10 @@ function reducerContainer(state, action) {
     case CONTAINER_CLEAR_SELECTS:
       return { 
         ...state,
-        selectType: null,
-        selectOne: null,
-        selects: {}
+        selectType: 'one',
+        selectOne: 'content',
+        selects: { content: true },
+        propertyType: 'move',
       };
     case CONTAINER_GROUP_ELEMENTS:
       return { 

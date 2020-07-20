@@ -260,7 +260,8 @@ function reducerTemplate(state, action) {
         selectOne: action.elementId,
         selects: {
           [action.elementId]: true,
-        }
+        },
+        propertyType: (state.selectOne === 'content' && typeof state.selects.content === 'string') ? state.selects.content : state.propertyType,
       };
     case TEMPLATE_SET_SETTINGS:
       return { 
@@ -284,10 +285,11 @@ function reducerTemplate(state, action) {
     case TEMPLATE_CLEAR_SELECTS:
       return { 
         ...state,
-        selectType: null,
-        selectOne: null,
+        selectType: 'one',
+        selectOne: 'content',
         selectContainer: null,
-        selects: {}
+        selects: { content: true },
+        propertyType: 'move',
       };
     case TEMPLATE_GROUP_ELEMENTS:
       return { 

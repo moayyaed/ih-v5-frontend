@@ -31,11 +31,16 @@ const borderSection = [
     title: 'Size', 
     prop: 'borderSize', 
     type: 'number',
+    min: 0,
+    max: 5000,
   },
   { 
     title: 'Radius', 
     prop: 'borderRadius', 
     type: 'number',
+    step: 10,
+    min: 0,
+    max: 100,
   },
   { 
     title: 'Style', 
@@ -89,6 +94,9 @@ const decorationSection = [
     title: 'Opacity', 
     prop: 'opacity', 
     type: 'number',
+    step: 5,
+    min: 0,
+    max: 100,
   },
 ];
 
@@ -112,6 +120,8 @@ const textSection = [
     title: 'Size', 
     prop: 'textSize', 
     type: 'number',
+    min: 0,
+    max: 5000,
   },
   { 
     title: 'Bold', 
@@ -188,6 +198,7 @@ const textSection = [
     title: 'Rotate', 
     prop: 'textRotate', 
     type: 'number',
+    step: 10,
     min: 0,
     max: 360,
   }
@@ -220,6 +231,7 @@ const imageSection = [
     title: 'Rotate', 
     prop: 'imgRotate', 
     type: 'number',
+    step: 10,
     min: 0,
     max: 360,
   }
@@ -308,6 +320,8 @@ const moveSection = [
     title: 'Z-index', 
     prop: 'zIndex', 
     type: 'number',
+    min: -100,
+    max: 5000,
   },
   { 
     title: 'Transform', 
@@ -328,6 +342,7 @@ const moveSection = [
     title: 'Rotate', 
     prop: 'rotate', 
     type: 'number',
+    step: 10,
     min: 0,
     max: 360,
   },
@@ -371,6 +386,9 @@ const groupSettings = {
       title: 'Opacity', 
       prop: 'opacity', 
       type: 'number',
+      step: 5,
+      min: 0,
+      max: 100,
     },
   ],
   move: [
@@ -403,6 +421,8 @@ const groupSettings = {
       title: 'Z-index', 
       prop: 'zIndex', 
       type: 'number',
+      min: -100,
+      max: 5000,
     },
   ],
 }
@@ -418,6 +438,9 @@ const containerSettings = {
       title: 'Opacity', 
       prop: 'opacity', 
       type: 'number',
+      step: 5,
+      min: 0,
+      max: 100,
     },
   ],
   move: [
@@ -450,6 +473,8 @@ const containerSettings = {
       title: 'Z-index', 
       prop: 'zIndex', 
       type: 'number',
+      min: -100,
+      max: 5000,
     },
   ],
 }
@@ -527,22 +552,27 @@ const scheme = {
   action: {
     move: [
       { 
-        title: 'Position X', 
+        title: 'Position', 
+        prop: 'position', 
+        type: 'divider',
+      },
+      { 
+        title: 'X', 
         prop: 'x', 
         type: 'number',
       },
       { 
-        title: 'Position Y', 
+        title: 'Y', 
         prop: 'y', 
         type: 'number',
       },
       { 
-        title: 'Width', 
+        title: 'W', 
         prop: 'w', 
         type: 'number',
       },
       { 
-        title: 'Height', 
+        title: 'H', 
         prop: 'h', 
         type: 'number',
       },
@@ -552,34 +582,49 @@ const scheme = {
   content: {
     move: [
       { 
-        title: 'Position X', 
+        title: 'Position', 
+        prop: 'position', 
+        type: 'divider',
+      },
+      { 
+        title: 'X', 
         prop: 'x', 
         type: 'number',
       },
       { 
-        title: 'Position Y', 
+        title: 'Y', 
         prop: 'y', 
         type: 'number',
       },
       { 
-        title: 'Width', 
+        title: 'W', 
         prop: 'w', 
         type: 'number',
       },
       { 
-        title: 'Height', 
+        title: 'H', 
         prop: 'h', 
         type: 'number',
+      },
+      { 
+        title: 'Settings', 
+        prop: 'settings', 
+        type: 'divider',
       },
       { 
         title: 'Scale', 
         prop: 'scale', 
         type: 'number',
+        min: 0.1,
+        max: 8,
       },
       { 
         title: 'Grid', 
         prop: 'grid', 
         type: 'number',
+        step: 0.1,
+        min: 1,
+        max: 100,
       },
     ],
   },
