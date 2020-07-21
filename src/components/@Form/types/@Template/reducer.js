@@ -163,9 +163,9 @@ function getElemntsState(state) {
             state.state[c2].values[v] &&
             state.state[c2].values[v][c]
           ) {
-            return { ...p2, ...state.state[c2].values[v][c] };
+            return { ...p2, ...checkLinks(state.state[c2].values[v][c], state.state) };
           }
-          return p2
+          return checkLinks(p2, state.state)
         }, state.elements[c]),
     }
   }, {});
@@ -188,9 +188,9 @@ function getElemntsMaster(state) {
               state.state[c2].values[v] &&
               state.state[c2].values[v][c]
             ) {
-              return { ...p2, ...state.state[c2].values[v][c] };
+              return { ...p2, ...checkLinks(state.state[c2].values[v][c], state.state) };
             }
-            return p2
+            return checkLinks(p2, state.state)
           }, state.elements[c]),
       }
     }, {});
