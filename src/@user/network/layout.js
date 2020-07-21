@@ -43,9 +43,9 @@ function preparationData(data) {
               }
               if (
                 data.containers[key].elements[id].elements[elemId].text && 
-                typeof data.containers[key].elements[id].elements[elemId].text.link === 'string'
+                typeof data.containers[key].elements[id].elements[elemId].text._bind === 'string'
               ) {
-                data.containers[key].elements[id].elements[elemId].text.value = data.states[key][id].states[data.containers[key].elements[id].elements[elemId].text.link] || 0;
+                data.containers[key].elements[id].elements[elemId].text.value = data.states[key][id].states[data.containers[key].elements[id].elements[elemId].text._bind] || 0;
               }
             })
           }
