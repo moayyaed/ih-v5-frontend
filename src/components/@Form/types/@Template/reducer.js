@@ -41,6 +41,22 @@ import {
 } from './constants';
 
 
+function checkLinks(data, states, id, v) {
+  return Object
+    .keys(data)
+    .reduce((p, c) => {
+      if (typeof data[c].link === 'string') {
+        const value = data[c].link === id ? v : (states[data[c].link] ?  states[data[c].link].curent : data[c].value) 
+        return { 
+          ...p, 
+          [c]: { ...data[c], value }
+        }
+      }
+      return { ...p, [c]: data[c] }
+    }, {})
+}
+
+
 function getParentGroupId(id, elements) {
   if (elements[id] && elements[id].groupId) {
     if (elements[elements[id].groupId]) {
@@ -729,9 +745,9 @@ function reducerTemplate(state, action) {
                     state.state[c2].values[v] &&
                     state.state[c2].values[v][c]
                   ) {
-                    return { ...p2, ...state.state[c2].values[v][c] };
+                    return { ...p2, ...checkLinks(state.state[c2].values[v][c], state.state, action.stateId, action.value) };
                   }
-                  return p2
+                  return checkLinks(p2, state.state, action.stateId, action.value)
                 }, state.elements[c]),
             }
           }, {}),

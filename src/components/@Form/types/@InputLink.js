@@ -49,7 +49,7 @@ function ButtonMenu(props) {
       props.onChange(null);
     } else {
       const store = core.store.getState().apppage.data.p1.template;
-      setList(store.listState.map(id => ({ id, title: store.state[id].title })));
+      setList(store.listState.map(id => ({ id, title: store.state[id].title, value: store.state[id].curent })));
       setAnchorEl(event.currentTarget);
     }
   };
@@ -59,10 +59,10 @@ function ButtonMenu(props) {
     setList([]);
   };
 
-  const handleChangeMenu = (value) => {
+  const handleChangeMenu = (item) => {
     setAnchorEl(null);
     setList([]);
-    props.onChange(value.title, value.id);
+    props.onChange(item.title, item.id, item.value);
   }
 
   if (props.enabled) {
@@ -93,11 +93,11 @@ class InputLink extends PureComponent {
     this.props.onChange(this.props.id, this.props.options, null, { value: e.target.value })
   }
 
-  handleClickButton = (title, id) => {
+  handleClickButton = (title, id, value) => {
     if (title === null) {
       this.props.onChange(this.props.id, this.props.options, null, { link: null, title: null, text: null, value: this.props.data.text || 'Text 1' })
     } else {
-      this.props.onChange(this.props.id, this.props.options, null, { link: id, title, value: '0', text: this.props.data.value })
+      this.props.onChange(this.props.id, this.props.options, null, { link: id, title, value, text: this.props.data.value })
     }
   }
 
