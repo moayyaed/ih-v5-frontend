@@ -120,7 +120,7 @@ const IMAGE = {
   borderRadius: { value: 0 },
   borderStyle: { value: { id: 'solid', title: 'Solid' } },
   borderColor: { value: 'rgba(0,0,255,1)' },
-    backgroundColor: { 
+  backgroundColor: { 
     type: 'fill', 
     value: 'transparent', 
     fill: 'transparent',
