@@ -45,7 +45,7 @@ const borderSection = [
   { 
     title: 'Style', 
     prop: 'borderStyle', 
-    type: 'droplist',
+    type: 'droplistlink',
     data: [
       {
         id: 'dotted',
@@ -136,7 +136,7 @@ const textSection = [
   { 
     title: 'Font', 
     prop: 'textFontFamily',
-    type: 'droplist',
+    type: 'droplistlink',
     data: [
       {
         id: 'Arial',
@@ -159,7 +159,7 @@ const textSection = [
   {
     prop: 'textAlignH',
     title: 'Horizontal',
-    type: 'droplist',
+    type: 'droplistlink',
     data: [
       {
         id: 'flex-start',
@@ -178,7 +178,7 @@ const textSection = [
   {
     prop: 'textAlignV',
     title: 'Vertical',
-    type: 'droplist',
+    type: 'droplistlink',
     data: [
       {
         id: 'flex-start',
@@ -349,7 +349,7 @@ const moveSection = [
   { 
     title: 'Transform-origin', 
     prop: 'transformOrigin', 
-    type: 'droplist',
+    type: 'droplistlink',
     data: [
       {
         id: 'center',

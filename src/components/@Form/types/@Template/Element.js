@@ -20,7 +20,7 @@ function Element(props) {
       bounds=".parent2"
       grid={[props.grid, props.grid]}
       scale={props.scale}
-      position={props.item}
+      position={{ x: props.item.x.value , y: props.item.y.value }}
       disabled={props.isGroup || props.selectType === 'some'}
       onStart={(e, data) => props.onStartMove(e, props.id, data)}
       onDrag={(e, data) => props.onMove(e, props.id, data)}
@@ -29,10 +29,10 @@ function Element(props) {
       <div
         style={{ 
           position: 'absolute',
-          width: props.item.w, 
-          height: props.item.h, 
+          width: props.item.w.value, 
+          height: props.item.h.value, 
           outline: props.select ? '2px dashed #ff00ff' : '2px dashed transparent',
-          zIndex: props.item.zIndex,
+          zIndex: props.item.zIndex.value,
         }}
         elementid={props.id}
         onClick={(e) => props.isGroup || props.onClick(e, props.id)}
