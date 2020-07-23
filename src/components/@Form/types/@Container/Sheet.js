@@ -270,8 +270,8 @@ class Sheet extends Component {
     const elementId = getIdElement(0, type, this.props.elements);
 
     const rect = this.sheet.getBoundingClientRect();
-    const x = (e.pageX - (rect.left * this.props.settings.scale)) / this.props.settings.scale // (e.clientX - rect.left) / this.props.settings.scale;
-    const y = (e.pageY - (rect.top * this.props.settings.scale)) / this.props.settings.scale  // (e.clientY - rect.top) / this.props.settings.scale;
+    const x = (e.pageX - (rect.left * this.props.settings.scale.value)) / this.props.settings.scale.value // (e.clientX - rect.left) / this.props.settings.scale.value;
+    const y = (e.pageY - (rect.top * this.props.settings.scale.value)) / this.props.settings.scale.value  // (e.clientY - rect.top) / this.props.settings.scale.value;
     
     const params = getDefaultParamsElement(type);
 
@@ -576,8 +576,8 @@ class Sheet extends Component {
               key={id}
               id={id}
               isGroup
-              grid={this.props.settings.grid || 10}
-              scale={this.props.settings.scale}
+              grid={this.props.settings.grid.value}
+              scale={this.props.settings.scale.value}
               item={this.props.elements[id]}
               select={this.props.selects[id]}
               selectType={this.props.selectType}  
@@ -683,8 +683,8 @@ class Sheet extends Component {
           key="select"
           id="select"
           select
-          grid={this.props.settings.grid || 10}
-          scale={this.props.settings.scale}
+          grid={this.props.settings.grid.value}
+          scale={this.props.settings.scale.value}
           item={this.props.selectContainer}
           onStartMove={this.handleStartMoveSelectContainer}
           onMove={this.handleMoveSelectContainer}
@@ -739,8 +739,8 @@ class Sheet extends Component {
                 <Element 
                   key={id}
                   id={id}
-                  grid={settings.grid || 10}
-                  scale={settings.scale}
+                  grid={settings.grid.value}
+                  scale={settings.scale.value}
                   item={elements[id]}
                   select={selects[id]}
                   selectType={this.props.selectType} 
