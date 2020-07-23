@@ -59,7 +59,14 @@ class Container extends PureComponent {
           selectType: null,
           selectContainer: null,
           selects: {}, 
-          settings: { x: 95, y: 50, w: 650, h: 400, scale: 1, grid: 10 },
+          settings: {
+            x: { value: 10 }, 
+            y: { value: 10 }, 
+            w: { value: 650 }, 
+            h: { value: 400 }, 
+            scale: { value: 1 }, 
+            grid: { value: 10 }, 
+          },
           list: [],
           elements: {},
           templates: {},
@@ -186,7 +193,7 @@ class Container extends PureComponent {
   }
 
   renderComponent = (id) => {
-    if (id === 'sheet') {
+    if (id === 'sheet' && this.props.data.settings) {
       return (
         <Sheet
           id={this.props.id}
@@ -194,11 +201,11 @@ class Container extends PureComponent {
           selectType={this.props.data.selectType}
           selectOne={this.props.data.selectOne}
           selectContainer={this.props.data.selectContainer}
-          selects={this.props.data.selects || {}}
-          list={this.props.data.list || []} 
-          settings={this.props.data.settings || {}} 
-          elements={this.props.data.elements || {}}
-          templates={this.props.data.templates || {}} 
+          selects={this.props.data.selects}
+          list={this.props.data.list} 
+          settings={this.props.data.settings} 
+          elements={this.props.data.elements}
+          templates={this.props.data.templates} 
         />
       );
     }

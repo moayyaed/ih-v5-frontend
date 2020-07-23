@@ -78,7 +78,14 @@ class Template extends PureComponent {
             selectContainer: null,
             selectOne: null,
             selects: {},
-            settings: { x: 10, y: 10, w: 250, h: 250, scale: 1, grid: 10 },
+            settings: {
+              x: { value: 10 }, 
+              y: { value: 10 }, 
+              w: { value: 250 }, 
+              h: { value: 250 }, 
+              scale: { value: 1 }, 
+              grid: { value: 10 }, 
+            },
             list: [],
             listState: ['state1', 'state2'],
             state: {
@@ -325,7 +332,7 @@ class Template extends PureComponent {
   }
 
   renderComponent = (id) => {
-    if (id === 'sheet') {
+    if (id === 'sheet' && this.props.data.settings) {
       return (
         <Sheet
           id={this.props.id}
@@ -333,12 +340,12 @@ class Template extends PureComponent {
           selectType={this.props.data.selectType}
           selectOne={this.props.data.selectOne}
           selectContainer={this.props.data.selectContainer}
-          selects={this.props.data.selects || {}}
-          list={this.props.data.list || []} 
-          settings={this.props.data.settings || {}} 
-          elements={this.props.data.elements || {}}
-          selectToolbar={this.props.data.toolbarType || 'tree'}
-          selectState={this.props.data.selectState || 'master'}
+          selects={this.props.data.selects}
+          list={this.props.data.list} 
+          settings={this.props.data.settings} 
+          elements={this.props.data.elements}
+          selectToolbar={this.props.data.toolbarType}
+          selectState={this.props.data.selectState}
         />
       );
     }

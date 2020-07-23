@@ -155,9 +155,9 @@ class Sheet extends Component {
 
     const offset = this.container.getBoundingClientRect();
 
-    let x = this.props.settings.x;
-    let y = this.props.settings.y;
-    let s = this.props.settings.scale;
+    let x = this.props.settings.x.value;
+    let y = this.props.settings.y.value;
+    let s = this.props.settings.scale.value;
 
     const px = e.pageX - offset.left;
     const py = e.pageY - offset.top;
@@ -190,7 +190,7 @@ class Sheet extends Component {
     core.actions.layout
       .settings(
         this.props.id, this.props.prop,
-        { x, y, scale: s }
+        { x: { value: x }, y: { value: y }, scale: { value: s } }
       );
   }
 
@@ -200,9 +200,9 @@ class Sheet extends Component {
 
     const offset = this.container.getBoundingClientRect();
 
-    let x = this.props.settings.x;
-    let y = this.props.settings.y;
-    let s = this.props.settings.scale;
+    let x = this.props.settings.x.value;
+    let y = this.props.settings.y.value;
+    let s = this.props.settings.scale.value;
 
     const px = e.pageX - offset.left;
     const py = e.pageY - offset.top;
@@ -235,7 +235,7 @@ class Sheet extends Component {
     core.actions.layout
       .settings(
         this.props.id, this.props.prop,
-        { x, y, scale: s }
+        { x: { value: x }, y: { value: y }, scale: { value: s } }
       );
   }
 
@@ -247,7 +247,7 @@ class Sheet extends Component {
     core.actions.layout
       .settings(
         this.props.id, this.props.prop,
-        { x: data.x, y: data.y }
+        { x: { value: data.x }, y: { value: data.y } }
       );
     this.save();
   }
@@ -279,8 +279,8 @@ class Sheet extends Component {
         .ok(res => {
           data.links = {};
           data.templateId = menuItemId;
-          data.w = res.settings.w; 
-          data.h = res.settings.h;
+          data.w = { value: res.settings.w }; 
+          data.h = { value: res.settings.h };
           core.actions.layout
             .addTemplate(
               this.props.id, this.props.prop,
@@ -293,8 +293,8 @@ class Sheet extends Component {
         .request({ method: 'get_container', params: menuItemId })
         .ok(res => {
           data.containerId = { id: menuItemId, title: '-' };
-          data.w = res.container.settings.w; 
-          data.h = res.container.settings.h;
+          data.w = { value: res.container.settings.w }; 
+          data.h = { value: res.container.settings.h };
           core.actions.layout
             .addContainer(
               this.props.id, this.props.prop,
@@ -732,8 +732,8 @@ class Sheet extends Component {
         >
           <Draggable
             grid={[1, 1]}
-            scale={settings.scale} 
-            position={settings}
+            scale={settings.scale.value} 
+            position={{ x: settings.x.value, y: settings.y.value, scale: settings.scale.value }}
             onDrag={this.handleMoveSheet}
             onStop={this.handleStopMoveSheet}
           >
@@ -743,8 +743,8 @@ class Sheet extends Component {
               className="parent" 
               style={{ 
                 ...styles.sheet, 
-                width: settings.w, 
-                height: settings.h,
+                width: settings.w.value, 
+                height: settings.h.value,
               }}
               onContextMenu={(e) => this.handleContextMenuElement(e, null)}
             >
