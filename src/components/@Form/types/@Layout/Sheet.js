@@ -186,6 +186,8 @@ class Sheet extends Component {
     x = Math.round((-tx * s + px) / s)
     y = Math.round((-ty * s + py) / s)
 
+    console.log(x)
+
     core.actions.layout
       .settings(
         this.props.id, this.props.prop,
@@ -243,6 +245,7 @@ class Sheet extends Component {
   }
 
   handleStopMoveSheet = (e, data) => {
+    console.log(this.props.settings.x.value, data.x)
     core.actions.layout
       .settings(
         this.props.id, this.props.prop,

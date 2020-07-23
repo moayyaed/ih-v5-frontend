@@ -134,27 +134,6 @@ export function createDraggableData(draggable: Draggable, coreData: DraggableDat
   let deltaX = (coreData.deltaX / scale);
   let deltaY = (coreData.deltaY / scale);
 
-  if (draggable.props.grid) {
-    // [deltaX, deltaY] = snapToGrid(draggable.props.grid, deltaX, deltaY);
-    /*
-    if (deltaX !== 0) {
-      if (deltaX > 0) {
-        deltaX = draggable.props.grid[0]
-      } else {
-        deltaX = -draggable.props.grid[0]
-      }
-    }
-
-    if (deltaY !== 0) {
-      if (deltaY > 0) {
-        deltaY = draggable.props.grid[1]
-      } else {
-        deltaY = -draggable.props.grid[1]
-      }
-    }
-    */
-  }
-  
   const temp = {
     node: coreData.node,
     x: draggable.state.x + deltaX,

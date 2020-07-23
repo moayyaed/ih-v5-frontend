@@ -237,13 +237,12 @@ class Draggable extends React.Component<DraggableProps, DraggableState> {
 
   onDragStart: DraggableEventHandler = (e, coreData) => {
     log('Draggable: onDragStart: %j', coreData);
-
     // Short-circuit if user's callback killed it.
     const shouldStart = this.props.onStart(e, createDraggableData(this, coreData));
     // Kills start event on core as well, so move handlers are never bound.
     if (shouldStart === false) return false;
 
-    this.setState({dragging: true, dragged: true});
+    this.setState({dragging: true, dragged: true, xx: this.props.position.x, yy: this.props.position.yy });
   };
 
   onDrag: DraggableEventHandler = (e, coreData) => {
@@ -287,6 +286,7 @@ class Draggable extends React.Component<DraggableProps, DraggableState> {
     // Short-circuit if user's callback killed it.
     uiData.xx = Math.round(uiData.x / this.props.grid[0]) * this.props.grid[0];
     uiData.yy = Math.round(uiData.y / this.props.grid[1]) * this.props.grid[1];
+  
     const shouldUpdate = this.props.onDrag(e, uiData);
     if (shouldUpdate === false) return false;
     // console.log(this.state.prevPropsPosition.y, this.state.y)
@@ -355,12 +355,12 @@ class Draggable extends React.Component<DraggableProps, DraggableState> {
     const transformOpts = {
       // Set left if horizontal drag is enabled
       x: canDragX(this) && draggable ?
-        this.state.xx === undefined ? this.state.x : this.state.xx :
+        (this.state.xx === undefined ? this.state.x : this.state.xx) :
         validPosition.x,
 
       // Set top if vertical drag is enabled
       y: canDragY(this) && draggable ?
-        this.state.yy === undefined ? this.state.y : this.state.yy :
+        (this.state.yy === undefined ? this.state.y : this.state.yy) :
         validPosition.y,
       scale: s,
     };
