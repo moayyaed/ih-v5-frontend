@@ -41,7 +41,7 @@ function getProportionContainer(type, data, pos, old) {
         x: pos.x,
         y: old.y - Math.round(((old.h * (pos.w  / old.w) - old.h)) / grid) * grid,
         w: pos.w,
-        h: pos.w,
+        h: Math.round((old.h * (pos.w  / old.w)) / grid) * grid,
       };
     case 'TRY':
       return { 
