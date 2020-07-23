@@ -11,12 +11,12 @@ class Container extends PureComponent {
           key={id}
           style={{ 
             position: 'absolute', 
-            left: item.x,
-            top: item.y,
-            width: item.w,
-            height: item.h,
-            zIndex: item.zIndex,
-            opacity: item.opacity / 100 ,
+            left: item.x.value,
+            top: item.y.value,
+            width: item.w.value,
+            height: item.h.value,
+            zIndex: item.zIndex.value,
+            opacity: item.opacity.value / 100 ,
           }}
         >
           {item.elements.map(cid => this.handleRender(cid, this.props.container.elements[cid]))}
@@ -29,11 +29,11 @@ class Container extends PureComponent {
           key={id}
           style={{ 
             position: 'absolute', 
-            left: item.x,
-            top: item.y,
-            width: item.w,
-            height: item.h,
-            zIndex: item.zIndex,
+            left: item.x.value,
+            top: item.y.value,
+            width: item.w.value,
+            height: item.h.value,
+            zIndex: item.zIndex.value,
           }}
         >
           {elemets(this.props.container.elements[id].type, { mode: this.props.mode, item: this.props.container.elements[id], template: this.props.templates[item.templateId] })}
@@ -45,11 +45,11 @@ class Container extends PureComponent {
         key={id}
         style={{ 
           position: 'absolute', 
-          left: item.x,
-          top: item.y,
-          width: item.w,
-          height: item.h,
-          zIndex: item.zIndex,
+          left: item.x.value,
+          top: item.y.value,
+          width: item.w.value,
+          height: item.h.value,
+          zIndex: item.zIndex.value,
         }}
       >
         {elemets(this.props.container.elements[id].type, { mode: this.props.mode, item: this.props.container.elements[id] })}
@@ -58,7 +58,9 @@ class Container extends PureComponent {
   }
 
   render() {
-    const scale = Math.min((this.props.item.w * this.props.scaleW) / this.props.container.settings.w, (this.props.item.h * this.props.scaleH) / this.props.container.settings.h);
+  
+    const scale = Math.min((this.props.item.w.value * this.props.scaleW) / this.props.container.settings.w.value, (this.props.item.h.value * this.props.scaleH) / this.props.container.settings.h.value);
+
     return (
       <div
         style={{
@@ -68,14 +70,14 @@ class Container extends PureComponent {
           position: 'absolute', 
           width: '100%', 
           height: '100%',
-          opacity: this.props.item.opacity / 100, 
+          opacity: this.props.item.opacity.value / 100, 
         }}
       >
         <div
           style={{
             position: 'relative', 
-            width: this.props.container.settings.w, 
-            height: this.props.container.settings.h,
+            width: this.props.container.settings.w.value, 
+            height: this.props.container.settings.h.value,
             zoom: scale, 
           }}
         >

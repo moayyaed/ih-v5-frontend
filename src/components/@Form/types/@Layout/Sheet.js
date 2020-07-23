@@ -293,8 +293,8 @@ class Sheet extends Component {
         .request({ method: 'get_container', params: menuItemId })
         .ok(res => {
           data.containerId = { id: menuItemId, title: '-' };
-          data.w = { value: res.container.settings.w }; 
-          data.h = { value: res.container.settings.h };
+          data.w = { value: res.container.settings.w.value }; 
+          data.h = { value: res.container.settings.h.value };
           core.actions.layout
             .addContainer(
               this.props.id, this.props.prop,
