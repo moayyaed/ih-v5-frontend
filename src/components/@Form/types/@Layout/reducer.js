@@ -156,8 +156,8 @@ function reducerContainer(state, action) {
                 [c]: {
                   ...state.elements[c],
                   groupId: action.groupId,
-                  x: state.elements[c].x - action.groupData.x,
-                  y: state.elements[c].y - action.groupData.y,
+                  x: { value: state.elements[c].x.value - action.groupData.x.value },
+                  y: { value: state.elements[c].y.value - action.groupData.y.value },
                 } 
               }
             }
@@ -198,8 +198,8 @@ function reducerContainer(state, action) {
                 [c]: {
                   ...state.elements[c],
                   groupId: null,
-                  x: state.elements[state.elements[c].groupId].x + state.elements[c].x,
-                  y: state.elements[state.elements[c].groupId].y + state.elements[c].y,
+                  x: { value: state.elements[state.elements[c].groupId].x.value + state.elements[c].x.value },
+                  y: { value: state.elements[state.elements[c].groupId].y.value + state.elements[c].y.value },
                 } 
               }
             }
@@ -255,8 +255,8 @@ function reducerContainer(state, action) {
                 ...p, 
                 [c]: { 
                   ...state.elements[c],
-                  x: state.elements[c].x + (action.x - state.selectContainer.x),
-                  y: state.elements[c].y + (action.y - state.selectContainer.y),
+                  x: { value: state.elements[c].x.value + (action.x.value - state.selectContainer.x.value) },
+                  y: { value: state.elements[c].y.value + (action.y.value - state.selectContainer.y.value) },
                 } 
               }
             }
@@ -277,18 +277,18 @@ function reducerContainer(state, action) {
               const nextPos = action.position;
               const oldPos = state.selectContainer;
               const elem = state.elements[c];
-              const h = nextPos.w / oldPos.w;
-              const v = nextPos.h / oldPos.h; 
+              const h = nextPos.w.value / oldPos.w.value;
+              const v = nextPos.h.value / oldPos.h.value; 
 
               if (elem.groupId) {
                 return { 
                   ...p, 
                   [c]: {
                     ...state.elements[c],
-                    x: Math.round((elem.x * (nextPos.w / oldPos.w)) * 1e2 ) / 1e2,
-                    y: Math.round((elem.y * (nextPos.h / oldPos.h)) * 1e2 ) / 1e2,
-                    w: Math.round((elem.w * (nextPos.w / oldPos.w)) * 1e2 ) / 1e2,
-                    h: Math.round((elem.h * (nextPos.h / oldPos.h)) * 1e2 ) / 1e2,
+                    x: { value: Math.round((elem.x.value * (nextPos.w.value / oldPos.w.value)) * 1e2 ) / 1e2 },
+                    y: { value: Math.round((elem.y.value * (nextPos.h.value / oldPos.h.value)) * 1e2 ) / 1e2 },
+                    w: { value: Math.round((elem.w.value * (nextPos.w.value / oldPos.w.value)) * 1e2 ) / 1e2 },
+                    h: { value: Math.round((elem.h.value * (nextPos.h.value / oldPos.h.value)) * 1e2 ) / 1e2 },
                   } 
                 }
               }
@@ -296,10 +296,10 @@ function reducerContainer(state, action) {
                 ...p, 
                 [c]: {
                   ...state.elements[c],
-                x: nextPos.x + ((elem.x - oldPos.x) * h),
-                y: nextPos.y + ((elem.y - oldPos.y) * v),
-                w: (elem.x + elem.w) * h - (elem.x * h),
-                h: (elem.y + elem.h) * v - (elem.y * v),
+                x: { value: nextPos.x.value + ((elem.x.value - oldPos.x.value) * h) },
+                y: { value: nextPos.y.value + ((elem.y.value - oldPos.y.value) * v) },
+                w: { value: (elem.x.value + elem.w.value) * h - (elem.x.value * h) },
+                h: { value: (elem.y.value + elem.h.value) * v - (elem.y.value * v) },
                 } 
               }
             }

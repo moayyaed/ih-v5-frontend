@@ -369,19 +369,26 @@ class Sheet extends Component {
 
     if (e.shiftKey && this.props.selectType !== null) {
       if (this.props.selects[elementId] === undefined) {
-        const data = { x: Infinity, y: Infinity, w: 0, h: 0, zIndex: 0 };
+        const data = { 
+          x: { value: Infinity }, 
+          y: { value: Infinity }, 
+          w: { value: 0 }, 
+          h: { value: 0 }, 
+          zIndex: { value: 0 } 
+        };
         Object
           .keys({ ...this.props.selects, [elementId]: true })
           .forEach(key => {
             const element = this.props.elements[key];
-            data.x = Math.min(data.x, element.x);
-            data.y = Math.min(data.y, element.y); 
-            data.w = Math.max(data.w, element.x + element.w); 
-            data.h = Math.max(data.h, element.y + element.h); 
-            data.zIndex = Math.max(data.zIndex, element.zIndex); 
+            data.x.value = Math.min(data.x.value, element.x.value);
+            data.y.value = Math.min(data.y.value, element.y.value); 
+            data.w.value = Math.max(data.w.value, element.x.value + element.w.value); 
+            data.h.value = Math.max(data.h.value, element.y.value + element.h.value); 
+            data.zIndex.value = Math.max(data.zIndex.value, element.zIndex.value); 
           });
-        data.w = data.w - data.x;
-        data.h = data.h - data.y;
+        data.w.value = data.w.value - data.x.value;
+        data.h.value = data.h.value - data.y.value;
+
         core.actions.layout
           .selectSome(
             this.props.id, this.props.prop,
@@ -451,22 +458,22 @@ class Sheet extends Component {
     if (this.props.selectType === 'some') {
       const list = [];
       const groupId = getIdElement(0, 'group', this.props.elements);
-      let x = Infinity, y = Infinity, w = 0, h = 0;
+      let x = { value: Infinity }, y = { value: Infinity }, w = { value: 0 }, h = { value: 0 };
       Object
         .keys(this.props.selects)
         .forEach(key => {
           const element = this.props.elements[key];
-          x = Math.min(x, element.x);
-          y = Math.min(y, element.y); 
-          w = Math.max(w, element.x + element.w); 
-          h = Math.max(h, element.y + element.h); 
+          x.value = Math.min(x.value, element.x.value);
+          y.value = Math.min(y.value, element.y.value); 
+          w.value = Math.max(w.value, element.x.value + element.w.value); 
+          h.value = Math.max(h.value, element.y.value + element.h.value); 
           list.push(key) 
         });
       const params = getDefaultParamsElement('group');
       const groupData = { 
         x, y, 
-        w: w - x, 
-        h: h - y, 
+        w: { value: w.value - x.value }, 
+        h: { value: h.value - y.value }, 
         type: 'group',
         elements: list,
         ...params,
@@ -481,22 +488,27 @@ class Sheet extends Component {
 
   handleClickUnGroupElement = (elementId) => {
     const list = [];
-    const data = { x: Infinity, y: Infinity, w: 0, h: 0 };
+    const data = { 
+      x: { value: Infinity }, 
+      y: { value: Infinity }, 
+      w: { value: 0 }, 
+      h: { value: 0 },
+      zIndex: {},
+    };
     Object
       .keys(this.props.selects)
       .forEach(key => {
         const element = this.props.elements[key];
-        data.x = Math.min(data.x, element.x);
-        data.y = Math.min(data.y, element.y); 
-        data.w = Math.max(data.w, element.x + element.w); 
-        data.h = Math.max(data.h, element.y + element.h); 
+        data.x.value = Math.min(data.x.value, element.x.value);
+        data.y.value = Math.min(data.y.value, element.y.value); 
+        data.w.value = Math.max(data.w.value, element.x.value + element.w.value); 
+        data.h.value = Math.max(data.h.value, element.y.value + element.h.value); 
         if (element.type === 'group') {
           list.push(key);
         }
       });
-    data.w = data.w - data.x;
-    data.h = data.h - data.y;
-
+    data.w.value = data.w.value - data.x.value;
+    data.h.value = data.h.value - data.y.value;
     core.actions.layout
       .unGroupElements(
         this.props.id, this.props.prop,
@@ -575,7 +587,7 @@ class Sheet extends Component {
             width: '100%', 
             height: '100%', 
             outline: item.groupId ? 'unset' : `1px dashed #6d7882`,
-            opacity: item.opacity / 100,
+            opacity: item.opacity.value / 100,
           }}
         >
           {item.elements.map(id => 
@@ -625,7 +637,7 @@ class Sheet extends Component {
     core.actions.layout
       .moveSelectContainer(
         this.props.id, this.props.prop,
-        data.x, data.y,
+        { value: data.x }, { value: data.y }
       );
   }
 
@@ -633,7 +645,7 @@ class Sheet extends Component {
     core.actions.layout
       .moveSelectContainer(
         this.props.id, this.props.prop,
-        data.x, data.y,
+        { value: data.x }, { value: data.y }
       );
     this.save();
   }
@@ -696,7 +708,7 @@ class Sheet extends Component {
           key="select"
           id="select"
           select
-          grid={this.props.settings.grid.value}
+          grid={1}
           scale={this.props.settings.scale.value}
           item={this.props.selectContainer}
           onStartMove={this.handleStartMoveSelectContainer}

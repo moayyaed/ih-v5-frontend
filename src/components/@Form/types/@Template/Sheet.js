@@ -445,19 +445,25 @@ class Sheet extends Component {
 
     if (e.shiftKey && this.props.selectType !== null) {
       if (this.props.selects[elementId] === undefined) {
-        const data = { x: Infinity, y: Infinity, w: 0, h: 0, zIndex: 0 };
+        const data = { 
+          x: { value: Infinity }, 
+          y: { value: Infinity }, 
+          w: { value: 0 }, 
+          h: { value: 0 }, 
+          zIndex: { value: 0 } 
+        };
         Object
           .keys({ ...this.props.selects, [elementId]: true })
           .forEach(key => {
             const element = this.props.elements[key];
-            data.x = Math.min(data.x, element.x);
-            data.y = Math.min(data.y, element.y); 
-            data.w = Math.max(data.w, element.x + element.w); 
-            data.h = Math.max(data.h, element.y + element.h); 
-            data.zIndex = Math.max(data.zIndex, element.zIndex); 
+            data.x.value = Math.min(data.x.value, element.x.value);
+            data.y.value = Math.min(data.y.value, element.y.value); 
+            data.w.value = Math.max(data.w.value, element.x.value + element.w.value); 
+            data.h.value = Math.max(data.h.value, element.y.value + element.h.value); 
+            data.zIndex.value = Math.max(data.zIndex.value, element.zIndex.value); 
           });
-        data.w = data.w - data.x;
-        data.h = data.h - data.y;
+        data.w.value = data.w.value - data.x.value;
+        data.h.value = data.h.value - data.y.value;
         core.actions.template
           .selectSome(
             this.props.id, this.props.prop,
