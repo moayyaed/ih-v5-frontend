@@ -710,7 +710,7 @@ class Sheet extends Component {
           key="select"
           id="select"
           select
-          grid={1}
+          grid={this.props.settings.grid.value}
           scale={this.props.settings.scale.value}
           item={this.props.selectContainer}
           onStartMove={this.handleStartMoveSelectContainer}
