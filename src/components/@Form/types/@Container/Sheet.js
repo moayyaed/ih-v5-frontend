@@ -407,7 +407,7 @@ class Sheet extends Component {
     const disabled = {
       'isSelect': Object.keys(this.props.selects).length === 0,
       'isPaste': !(core.buffer.class === 'container'),
-      'isTemplate': this.props.selectOne ? !(this.props.selectOne && this.props.elements[this.props.selectOne].type === 'template') : false,
+      'isTemplate': this.props.selectOne ? !(this.props.selectOne && this.props.elements[this.props.selectOne] && this.props.elements[this.props.selectOne].type === 'template') : false,
     }
 
     const commands = {
@@ -620,10 +620,13 @@ class Sheet extends Component {
     if (!this.dragSelectContainer) {
       this.dragSelectContainer = true;
     }
+    const x = Math.round(data.x / this.props.settings.grid.value) * this.props.settings.grid.value;
+    const y = Math.round(data.y / this.props.settings.grid.value) * this.props.settings.grid.value;
+
     core.actions.container
       .moveSelectContainer(
         this.props.id, this.props.prop,
-        { value: data.x }, { value: data.y }
+        { value: x }, { value: y }
       );
   }
 
@@ -694,7 +697,7 @@ class Sheet extends Component {
           key="select"
           id="select"
           select
-          grid={1}
+          grid={this.props.settings.grid.value}
           scale={this.props.settings.scale.value}
           item={this.props.selectContainer}
           onStartMove={this.handleStartMoveSelectContainer}

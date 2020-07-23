@@ -16,7 +16,8 @@ const styles = {
   },
 }
 
-function getProportionContainer(type, data, pos, old, grid) {
+function getProportionContainer(type, data, pos, old) {
+  const grid = 1;
   const scaleX = pos.w  / old.w;
   const scaleY = pos.h  / old.h;
   const delta = scaleX >  scaleY ? 'X' : 'Y'; 

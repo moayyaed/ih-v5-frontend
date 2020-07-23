@@ -11,7 +11,6 @@ import Menu from 'components/Menu';
 
 import elemets from 'components/@Elements';
 import getDefaultParamsElement from 'components/@Elements/default';
-import { red } from '@material-ui/core/colors';
 
 
 const styles = {
@@ -634,10 +633,13 @@ class Sheet extends Component {
     if (!this.dragSelectContainer) {
       this.dragSelectContainer = true;
     }
-    core.actions.layout
+    const x = Math.round(data.x / this.props.settings.grid.value) * this.props.settings.grid.value;
+    const y = Math.round(data.y / this.props.settings.grid.value) * this.props.settings.grid.value;
+
+    core.actions.container
       .moveSelectContainer(
         this.props.id, this.props.prop,
-        { value: data.x }, { value: data.y }
+        { value: x }, { value: y }
       );
   }
 

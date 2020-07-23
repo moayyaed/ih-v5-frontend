@@ -631,10 +631,13 @@ class Sheet extends Component {
     if (!this.dragSelectContainer) {
       this.dragSelectContainer = true;
     }
-    core.actions.template
+    const x = Math.round(data.x / this.props.settings.grid.value) * this.props.settings.grid.value;
+    const y = Math.round(data.y / this.props.settings.grid.value) * this.props.settings.grid.value;
+
+    core.actions.container
       .moveSelectContainer(
         this.props.id, this.props.prop,
-        data.x, data.y,
+        { value: x }, { value: y }
       );
   }
 

@@ -16,10 +16,12 @@ const styles = {
   },
 }
 
-function getProportionContainer(type, data, pos, old, grid) {
+function getProportionContainer(type, data, pos, old) {
+  const grid = 1;
   const scaleX = pos.w  / old.w;
   const scaleY = pos.h  / old.h;
   const delta = scaleX >  scaleY ? 'X' : 'Y'; 
+  console.log(type + delta)
   switch (type + delta) {
     case 'TLX':
       return { 
@@ -40,7 +42,7 @@ function getProportionContainer(type, data, pos, old, grid) {
         x: pos.x,
         y: old.y - Math.round(((old.h * (pos.w  / old.w) - old.h)) / grid) * grid,
         w: pos.w,
-        h: pos.w,
+        h: Math.round((old.h * (pos.w  / old.w)) / grid) * grid,
       };
     case 'TRY':
       return { 
