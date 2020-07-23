@@ -186,8 +186,6 @@ class Sheet extends Component {
     x = Math.round((-tx * s + px) / s)
     y = Math.round((-ty * s + py) / s)
 
-    console.log(x)
-
     core.actions.layout
       .settings(
         this.props.id, this.props.prop,
