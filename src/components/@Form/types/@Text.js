@@ -36,7 +36,7 @@ function Text(props) {
       <input
         className="core"
         style={styles.rootMini} 
-        value={props.data} 
+        value={props.data.value} 
       />
     )
   }

@@ -12,7 +12,7 @@ const backgroundSection = [
   { 
     title: 'Image', 
     prop: 'backgroundImage', 
-    type: 'input',
+    type: 'inputlink',
   },
 ]
 
@@ -213,7 +213,7 @@ const imageSection = [
   { 
     title: 'URL', 
     prop: 'img', 
-    type: 'input',
+    type: 'inputlink',
   },
   { 
     title: 'Color', 

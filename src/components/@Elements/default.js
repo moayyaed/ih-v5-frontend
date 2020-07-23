@@ -45,7 +45,7 @@ const RECTANGLE = {
   transformOrigin: { value: { id: 'center', title: 'Center' } },
   flipH: { value: false },
   flipV: { value: false },
-  boxShadow: { value: { active: false, value: '2px 2px 4px 0px #000000' } },
+  boxShadow: { active: false, value: '2px 2px 4px 0px #000000' },
   zIndex: { value: 100 },
   opacity: { value: 100 },
 }
@@ -183,7 +183,7 @@ const TEXT_IMAGE = {
   transformOrigin: { value: { id: 'center', title: 'Center' } },
   flipH: { value: false },
   flipV: { value: false },
-  boxShadow: { value: { active: false, value: '2px 2px 4px 0px #000000' } },
+  boxShadow: { active: false, value: '2px 2px 4px 0px #000000' },
   zIndex: { value: 100 },
   opacity: { value: 100 },
 }
@@ -233,7 +233,7 @@ const BUTTON = {
   transformOrigin: { value: { id: 'center', title: 'Center' } },
   flipH: { value: false },
   flipV: { value: false },
-  boxShadow: { value: { active: false, value: '2px 2px 4px 0px #000000' } },
+  boxShadow: { active: false, value: '2px 2px 4px 0px #000000' },
   zIndex: { value: 100 },
   opacity: { value: 100 },
 }

@@ -46,7 +46,7 @@ function parseValue(value, oldValue) {
 }
 
 function checkValue(value, props) {
-  let v = parseValue(value, props.data);
+  let v = parseValue(value, props.data.value);
 
   if (v > props.options.max) {
     v = props.options.max;
@@ -62,7 +62,7 @@ function handleMouseDown(e, props) {
 
   let drag = false;
   let old = e.clientX;
-  let init = props.data;
+  let init = props.data.value;
 
   function change() {
     if (init > props.options.max) {
@@ -71,7 +71,7 @@ function handleMouseDown(e, props) {
     if (init < props.options.min) {
       init = props.options.min;
     }
-    props.onChange(props.id, props.options, null, init)
+    props.onChange(props.id, props.options, null, { value: init })
   }
 
   function move(e) {
@@ -163,7 +163,7 @@ class Button extends Component {
   }
 }
 
-
+// onMouseDown={(e) => handleMouseDown(e, props)}
 function TouchNumber(props) {
   const step = props.options.step || 1;
   if (props.mini) {
@@ -172,19 +172,18 @@ function TouchNumber(props) {
         <Button
           type="left" 
           step={step}
-          onClick={v => props.onChange(props.id, props.options, null, checkValue(props.data - v, props))} 
+          onClick={v => props.onChange(props.id, props.options, null, { value: checkValue(props.data.value - v, props) })} 
         />
         <input
           className="core"
           style={styles.rootMini} 
-          value={props.data} 
-          onChange={(e) => props.onChange(props.id, props.options, null, checkValue(e.target.value, props))}
-          onMouseDown={(e) => handleMouseDown(e, props)}
+          value={props.data.value} 
+          onChange={(e) => props.onChange(props.id, props.options, null, { value: checkValue(e.target.value, props) })}
         />
         <Button
           type="right" 
           step={step}
-          onClick={v => props.onChange(props.id, props.options, null, checkValue(props.data + v, props))} 
+          onClick={v => props.onChange(props.id, props.options, null, { value: checkValue(props.data.value + v, props) })} 
         />
       </div>
     )

@@ -95,9 +95,11 @@ function Color(props) {
     const { r, g, b, a } = colors.rgb;
     
     if (props.data === 'transparent') {
-      props.onChange(props.id, props.options, null, `rgba(${r},${g},${b},1)`)
+      const value = props.mini ? { value: `rgba(${r},${g},${b},1)` } : `rgba(${r},${g},${b},1)`;
+      props.onChange(props.id, props.options, null, value)
     } else {
-      props.onChange(props.id, props.options, null, `rgba(${r},${g},${b},${a})`)
+      const value = props.mini ? { value: `rgba(${r},${g},${b},${a})` } : `rgba(${r},${g},${b},${a})`;
+      props.onChange(props.id, props.options, null, value)
     }
   }
 
@@ -110,12 +112,14 @@ function Color(props) {
     s.button = styles.buttonMini;
     s.buttonBackround = styles.buttonBackroundMini;
     s.buttonBackround2 = styles.buttonBackround2Mini;
+    s.data = props.data.value;
   } else {
     s.root = styles.root;
     s.title = styles.title;
     s.button = styles.button;
     s.buttonBackround = styles.buttonBackround;
     s.buttonBackround2 = styles.buttonBackround2;
+    s.data = props.data;
   }
 
   return (
@@ -123,7 +127,7 @@ function Color(props) {
       <div style={{ ...s.title, ...props.getStyle(props)}}>{props.options.title}</div>
       <div style={s.button} onClick={handleClick}>
         <div style={s.buttonBackround}/>
-        <div style={{ ...s.buttonBackround2, backgroundColor: props.data }}/>
+        <div style={{ ...s.buttonBackround2, backgroundColor: s.data }}/>
       </div>
       <Popover
         open={open}
@@ -133,7 +137,7 @@ function Color(props) {
         transformOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
         <SketchPicker
-          color={props.data}
+          color={s.data}
           presetColors={PRESET_COLORS}
           onChange={handleChange}
         />
