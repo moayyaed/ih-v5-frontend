@@ -268,9 +268,9 @@ class Sheet extends Component {
 
     const data = {
       type,
-      x: Math.round(x * 1e2 ) / 1e2, 
-      y: Math.round(y * 1e2 ) / 1e2,
-      w: 70, h: 70,
+      x: { value: Math.round(x * 1e2 ) / 1e2 }, 
+      y: { value: Math.round(y * 1e2 ) / 1e2 },
+      w: { value: 70}, h: { value: 70 },
     }
 
     if (type === 'template') {
@@ -328,7 +328,7 @@ class Sheet extends Component {
     core.actions.layout
       .editElement(
         this.props.id, this.props.prop,
-        elementId, { x: data.x, y: data.y }
+        elementId, { x: { value: data.x }, y: { value: data.y } }
       );
     this.save();
   }
