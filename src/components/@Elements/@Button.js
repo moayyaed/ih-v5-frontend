@@ -94,7 +94,6 @@ function Button(props) {
         opacity: props.item.opacity / 100,
         boxShadow: props.item.boxShadow.active ? props.item.boxShadow.value : 'unset',
         transform: `scale(${props.item.flipH ? -1 : 1}, ${props.item.flipV ? -1 : 1}) rotate(${props.item.rotate}deg)`,
-        transformOrigin: props.item.transformOrigin ? props.item.transformOrigin.id : 'unset'
       }}
     >
       <div

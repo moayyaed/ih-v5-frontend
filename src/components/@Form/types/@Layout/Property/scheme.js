@@ -346,33 +346,6 @@ const moveSection = [
     min: 0,
     max: 360,
   },
-  { 
-    title: 'Transform-origin', 
-    prop: 'transformOrigin', 
-    type: 'droplistlink',
-    data: [
-      {
-        id: 'center',
-        title: 'Center'
-      },
-      {
-        id: 'top',
-        title: 'Top'
-      },
-      {
-        id: 'bottom',
-        title: 'Bottom'
-      },
-      {
-        id: 'left',
-        title: 'Left'
-      },
-      {
-        id: 'right',
-        title: 'Right'
-      }
-    ]
-  }
 ];
 
 const groupSettings = {

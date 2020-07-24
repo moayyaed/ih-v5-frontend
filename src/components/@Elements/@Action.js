@@ -111,7 +111,7 @@ class Action extends PureComponent {
         <ButtonBase 
           ref={this.linked} 
           centerRipple 
-          style={{ ...styles.user, color: this.props.item.colorRipple, background: this.state.color, fontSize: '30pt' }}
+          style={{ ...styles.user, color: this.props.item.colorRipple.value, background: this.state.color, fontSize: '30pt' }}
           onContextMenu={this.handleContextMenu}
         >
           {this.state.type}

@@ -14,7 +14,6 @@ function Block(props) {
         opacity: props.item.opacity.value / 100,
         boxShadow: props.item.boxShadow.active ? props.item.boxShadow.value : 'unset',
         transform: `scale(${props.item.flipH.value ? -1 : 1}, ${props.item.flipV.value ? -1 : 1}) rotate(${props.item.rotate.value}deg)`,
-        transformOrigin: props.item.transformOrigin.value ? props.item.transformOrigin.value.id : 'unset'
       }}
     />
   );
