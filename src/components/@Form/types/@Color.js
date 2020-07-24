@@ -93,8 +93,9 @@ function Color(props) {
     e.stopPropagation();
 
     const { r, g, b, a } = colors.rgb;
+    const v = props.mini ? props.data.value : props.data;
     
-    if (props.data === 'transparent') {
+    if (v === 'transparent') {
       const value = props.mini ? { value: `rgba(${r},${g},${b},1)` } : `rgba(${r},${g},${b},1)`;
       props.onChange(props.id, props.options, null, value)
     } else {
