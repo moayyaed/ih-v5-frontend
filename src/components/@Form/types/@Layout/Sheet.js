@@ -523,10 +523,10 @@ class Sheet extends Component {
       .keys(this.props.selects)
       .reduce((p, c) => {
         list.push(c);
-        x = Math.min(x, this.props.elements[c].x);
-        y = Math.min(y, this.props.elements[c].y); 
-        w = Math.max(w, this.props.elements[c].x + this.props.elements[c].w); 
-        h = Math.max(h, this.props.elements[c].y + this.props.elements[c].h); 
+        x = Math.min(x, this.props.elements[c].x.value);
+        y = Math.min(y, this.props.elements[c].y.value); 
+        w = Math.max(w, this.props.elements[c].x.value + this.props.elements[c].w.value); 
+        h = Math.max(h, this.props.elements[c].y.value + this.props.elements[c].h.value); 
         if (this.props.elements[c].type === 'group') {
           const childs = getAllElementsByGroup(this.props.elements[c].elements, this.props.elements);
           return { ...p, ...childs, [c]: { ...this.props.elements[c] } }
@@ -540,8 +540,8 @@ class Sheet extends Component {
 
   handleClickPasteElements = (e) => {
     const rect = this.sheet.getBoundingClientRect();
-    const x = (e.pageX - (rect.left * this.props.settings.scale)) / this.props.settings.scale // (e.clientX - rect.left) / this.props.settings.scale;
-    const y = (e.pageY - (rect.top * this.props.settings.scale)) / this.props.settings.scale  // (e.clientY - rect.top) / this.props.settings.scale;
+    const x = (e.pageX - (rect.left * this.props.settings.scale.value)) / this.props.settings.scale.value // (e.clientX - rect.left) / this.props.settings.scale.value;
+    const y = (e.pageY - (rect.top * this.props.settings.scale.value)) / this.props.settings.scale.value  // (e.clientY - rect.top) / this.props.settings.scale.value;
 
     const clone = cloneNewStructElements(core.buffer.data.list, core.buffer.data.elements, this.props.elements);
     const elements = Object
@@ -552,8 +552,8 @@ class Sheet extends Component {
             ...p, 
             [c]: {
               ...clone.elements[c],
-              x: x + (clone.elements[c].x - core.buffer.data.offsetX),
-              y: y + (clone.elements[c].y - core.buffer.data.offsetY),
+              x: { value: x + (clone.elements[c].x.value - core.buffer.data.offsetX) },
+              y: { value: y + (clone.elements[c].y.value - core.buffer.data.offsetY) },
             }  
           }
         }
