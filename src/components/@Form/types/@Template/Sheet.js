@@ -732,6 +732,9 @@ class Sheet extends Component {
   handleClicHiddenZone = (e) => {
     e.preventDefault();
     e.stopPropagation();
+
+    core.actions.template
+      .clearSelects(this.props.id, this.props.prop);
   }
 
   handleRenderHiddenZone = () => {

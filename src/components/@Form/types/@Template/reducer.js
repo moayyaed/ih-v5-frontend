@@ -307,11 +307,11 @@ function reducerTemplate(state, action) {
     case TEMPLATE_CLEAR_SELECTS:
       return { 
         ...state,
-        selectType: 'one',
-        selectOne: 'content',
+        selectType: state.toolbarType  === 'tree' ? 'one' : null,
+        selectOne: state.toolbarType  === 'tree' ? 'content': null,
         selectContainer: null,
-        selects: { content: true },
-        propertyType: 'move',
+        selects: state.toolbarType  === 'tree' ? { content: true } : {},
+        propertyType: state.toolbarType  === 'tree' ? 'move' : state.propertyType,
       };
     case TEMPLATE_GROUP_ELEMENTS:
       return { 
