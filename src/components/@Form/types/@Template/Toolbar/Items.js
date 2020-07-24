@@ -348,7 +348,7 @@ function PropertyItem(props) {
       return (
         <div style={styles.propertyItem}>
           {props.label} : 
-          <div style={{ width: 12, height: 12, marginLeft: 5, backgroundColor: props.value }} />
+          <div style={{ width: 12, height: 12, marginLeft: 5, backgroundColor: props.value.value }} />
         </div>
       );
     case 'textRotate':
@@ -375,7 +375,7 @@ function PropertyItem(props) {
     case 'h':
       return (
         <div style={styles.propertyItem}>
-          {props.label} : {props.value}
+          {props.label} : {props.value.value}
         </div>
       );
     case 'textFontFamily':
@@ -384,13 +384,13 @@ function PropertyItem(props) {
     case 'textAlignH':
       return (
         <div style={styles.propertyItem}>
-          {props.label} : {props.value.title}
+          {props.label} : {props.value.value.title}
         </div>
       );
     case 'img':
       return (
         <div style={styles.propertyItem}>
-          {props.label} : {props.value}
+          {props.label} : {props.value.value}
         </div>
       );
     default:
