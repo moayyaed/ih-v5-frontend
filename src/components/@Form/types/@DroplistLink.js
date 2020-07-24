@@ -8,6 +8,14 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Typography from '@material-ui/core/Typography';
 
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+
+import LinkIcon from '@material-ui/icons/Link';
+import LinkOffIcon from '@material-ui/icons/LinkOff';
+
+import IconButton from '@material-ui/core/IconButton';
+
 import { useTheme, withStyles } from '@material-ui/core/styles';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -23,8 +31,23 @@ const styles = {
     width: '100%',
     height: 22,
   },
+  rootMini2: {
+    fontSize: 13,
+    fontFamily: 'Roboto,Helvetica,Arial,sans-serif',
+    fontWeight: 400,
+    color: 'rgb(48, 84, 150)',
+    width: '100%',
+    border: 'unset', 
+    height: 21,
+    background: 'unset',
+    fontWeight: 'bold',
+  },
   text: {},
   textMini: { fontSize: 13, top: -3 },
+  buttonMini: {
+    width: 22,
+    height: 22,
+  }
 }
 
 const classes = theme => ({
@@ -42,6 +65,54 @@ const classes = theme => ({
 });
 
 const LISTBOX_PADDING = 8; //px
+
+function ButtonMenu(props) {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [list, setList] = React.useState([]);
+
+  const handleClick = (event, icon) => {
+    if (icon) {
+      props.onChange(null);
+    } else {
+      const store = core.store.getState().apppage.data.p1.template;
+      setList(store.listState.map(id => ({ id, title: store.state[id].title, value: store.state[id].curent })));
+      setAnchorEl(event.currentTarget);
+    }
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+    setList([]);
+  };
+
+  const handleChangeMenu = (item) => {
+    setAnchorEl(null);
+    setList([]);
+    props.onChange(item.title, item.id, item.value);
+  }
+
+  if (props.enabled) {
+    return (
+      <div>
+        <IconButton className="nb" style={styles.buttonMini} onClick={(e) => handleClick(e, props.icon)} size="small" >
+          {props.icon ? <LinkOffIcon fontSize="small" /> : <LinkIcon fontSize="small" />}
+        </IconButton>
+        <Menu
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          {list.map(i => 
+            <MenuItem key={i.id} onClick={() => handleChangeMenu(i)}>{i.title}</MenuItem>
+          )}
+        </Menu>
+      </div>
+    );
+    
+  }
+  return null;
+}
 
 function renderRow(props) {
   const { data, index, style } = props;
@@ -191,7 +262,7 @@ class DroplistLink extends PureComponent {
   }
 
   componentDidUpdate() {
-    if (this.props.data.value && this.props.data.value.id !== '-') {
+    if (!this.props.data._bind && this.props.data.value && this.props.data.value.id !== '-') {
       const list = this.state.list.filter(i => i.hide ? !i.hide(this.props.global) : true);
       const find = list.find(i => i.id === this.props.data.value.id);
       if (find === undefined) {
@@ -200,27 +271,59 @@ class DroplistLink extends PureComponent {
     }
   }
 
+  handleClickButton = (title, id, value) => {
+    if (title === null) {
+      this.props.onChange(this.props.id, this.props.options, null, { _bind: null, title: null, droplist: null, value: this.props.data.droplist || 0 })
+    } else {
+      this.props.onChange(this.props.id, this.props.options, null, { _bind: id, title, value, droplist: this.props.data.value })
+    }
+  };
+
   render({ id, options, global, mini } = this.props) {
     const list = this.state.list.filter(i => i.hide ? !i.hide(global) : true);
+    if (this.props.data._bind ) {
+      return (
+        <>
+          <input
+            className="core"
+            style={styles.rootMini2} 
+            disabled={true}
+            value={this.props.data.title}
+          />
+          <ButtonMenu 
+            enabled={this.props.options.bind !== undefined ? this.props.options.bind : this.props.route.type} 
+            icon={this.props.data._bind} 
+            onChange={this.handleClickButton} 
+          />
+        </>
+      )
+    }
     return (
-      <Autocomplete
-        disabled={this.props.disabled}
-        disableClearable
-        disableListWrap
-        style={mini ? styles.rootMini : styles.root}
-        classes={this.props.classes}
-        options={list}
-        onChange={(e, value) => this.props.onChange(id, options, null, { ...this.props.data, value })}
-        value={this.props.data.value}
-        renderInput={this.handleRenderInput}
-        ListboxComponent={ListboxComponent}
-        getOptionSelected={this.handleOptionSelected}
-        getOptionLabel={this.handleOptionLabel}
-        renderOption={this.handleRenderOption}
-        loadingText="Loading..."
-        loading={this.state.loading}
-        onOpen={this.handleGetData}
-      />
+      <>
+        <Autocomplete
+          disabled={this.props.disabled}
+          disableClearable
+          disableListWrap
+          style={mini ? styles.rootMini : styles.root}
+          classes={this.props.classes}
+          options={list}
+          onChange={(e, value) => this.props.onChange(id, options, null, { ...this.props.data, value })}
+          value={this.props.data.value}
+          renderInput={this.handleRenderInput}
+          ListboxComponent={ListboxComponent}
+          getOptionSelected={this.handleOptionSelected}
+          getOptionLabel={this.handleOptionLabel}
+          renderOption={this.handleRenderOption}
+          loadingText="Loading..."
+          loading={this.state.loading}
+          onOpen={this.handleGetData}
+        />
+        <ButtonMenu 
+          enabled={this.props.options.bind !== undefined ? this.props.options.bind : this.props.route.type} 
+          icon={this.props.data._bind} 
+          onChange={this.handleClickButton} 
+        />
+      </>
     );
   }
 }
