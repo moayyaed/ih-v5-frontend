@@ -375,7 +375,7 @@ function PropertyItem(props) {
     case 'h':
       return (
         <div style={styles.propertyItem}>
-          {props.label} : {props.value.value}
+          {props.label} : {props.value._bind ? props.value._bind : props.value.value}
         </div>
       );
     case 'textFontFamily':
@@ -415,15 +415,3 @@ function Item(props) {
 }
 
 const BasicItem = withStyles(classes)(Item);
-
-
-/*
-
-       <IconButton style={styles.itemButton} size="small" onClick={(e) => props.onClickUp(e, props.nodeId, props.index)}>
-          <ArrowUpwardIcon fontSize="inherit" />
-        </IconButton>
-        <IconButton style={styles.itemButton} size="small" onClick={(e) => props.onClickDown(e, props.nodeId, props.index)}>
-          <ArrowDownwardIcon fontSize="inherit" />
-        </IconButton>
-
-*/
