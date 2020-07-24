@@ -95,19 +95,25 @@ function getPositionSelectContainer(state, elements) {
     return null;
   }
   if (state.selectType === 'some') {
-    const data = { x: Infinity, y: Infinity, w: 0, h: 0, zIndex: 0 };
+    const data = { 
+      x: { value: Infinity }, 
+      y: { value: Infinity }, 
+      w: { value: 0 }, 
+      h: { value: 0 }, 
+      zIndex: { value: 0 } 
+    };
     Object
       .keys(state.selects)
       .forEach(key => {
         const element = elements[key];
-        data.x = Math.min(data.x, element.x.value);
-        data.y = Math.min(data.y, element.y.value); 
-        data.w = Math.max(data.w, element.x.value + element.w); 
-        data.h = Math.max(data.h, element.y.value + element.h.value); 
-        data.zIndex = Math.max(data.zIndex, element.zIndex.value); 
+        data.x.value = Math.min(data.x.value, element.x.value);
+        data.y.value = Math.min(data.y.value, element.y.value); 
+        data.w.value = Math.max(data.w.value, element.x.value + element.w); 
+        data.h.value = Math.max(data.h.value, element.y.value + element.h.value); 
+        data.zIndex.value = Math.max(data.zIndex.value, element.zIndex.value.value); 
       });
-    data.w = data.w - data.x;
-    data.h = data.h - data.y;
+    data.w.value = data.w.value - data.x.value;
+    data.h.value = data.h.value - data.y.value;
 
     return data;
   }
