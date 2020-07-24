@@ -63,12 +63,12 @@ class AppLayout extends Component {
           key={id}
           style={{ 
             position: 'absolute', 
-            left: item.x * scaleW,
-            top: item.y * scaleH,
-            width: item.w * scaleW,
-            height: item.h * scaleH,
-            opacity: item.opacity / 100,
-            zIndex: item.zIndex,
+            left: item.x.value * scaleW,
+            top: item.y.value * scaleH,
+            width: item.w.value * scaleW,
+            height: item.h.value * scaleH,
+            opacity: item.opacity.value / 100,
+            zIndex: item.zIndex.value,
           }}
         >
           {item.elements.map(cid => this.handleRender(cid, this.props.state.layout.elements[cid], scaleW, scaleH))}
@@ -81,11 +81,11 @@ class AppLayout extends Component {
           key={id}
           style={{ 
             position: 'absolute', 
-            left: item.x * scaleW,
-            top: item.y * scaleH,
-            width: item.w * scaleW,
-            height: item.h * scaleH,
-            zIndex: item.zIndex,
+            left: item.x.value * scaleW,
+            top: item.y.value * scaleH,
+            width: item.w.value * scaleW,
+            height: item.h.value * scaleH,
+            zIndex: item.zIndex.value,
           }}
         >
           {elemets(this.props.state.layout.elements[id].type, { mode: 'user', item: this.props.state.layout.elements[id], template: this.props.state.templates[item.templateId] })}
@@ -98,11 +98,11 @@ class AppLayout extends Component {
           key={id}
           style={{ 
             position: 'absolute', 
-            left: item.x * scaleW,
-            top: item.y * scaleH,
-            width: item.w * scaleW,
-            height: item.h * scaleH,
-            zIndex: item.zIndex,
+            left: item.x.value * scaleW,
+            top: item.y.value * scaleH,
+            width: item.w.value * scaleW,
+            height: item.h.value * scaleH,
+            zIndex: item.zIndex.value,
           }}
         >
           {elemets(this.props.state.layout.elements[id].type, { mode: 'user', item: this.props.state.layout.elements[id], container: this.props.state.containers[this.props.state.layout.elements[id].containerId.id], templates: this.props.state.templates, scaleW, scaleH })}
@@ -114,11 +114,11 @@ class AppLayout extends Component {
         key={id}
         style={{ 
           position: 'absolute', 
-          left: item.x * scaleW,
-          top: item.y * scaleH,
-          width: item.w * scaleW,
-          height: item.h * scaleH,
-          zIndex: item.zIndex,
+          left: item.x.value * scaleW,
+          top: item.y.value * scaleH,
+          width: item.w.value * scaleW,
+          height: item.h.value * scaleH,
+          zIndex: item.zIndex.value,
         }}
       >
         {elemets(this.props.state.layout.elements[id].type, { mode: 'user', item: this.props.state.layout.elements[id] })}
@@ -133,7 +133,7 @@ class AppLayout extends Component {
             if (width && state.layout.settings) {
               return (
                 <div style={styles.root}>
-                  {state.layout.list.map(id => this.handleRender(id, state.layout.elements[id], width / state.layout.settings.w, height / state.layout.settings.h))}
+                  {state.layout.list.map(id => this.handleRender(id, state.layout.elements[id], width / state.layout.settings.w.value, height / state.layout.settings.h.value))}
                 </div>
               )
             }
