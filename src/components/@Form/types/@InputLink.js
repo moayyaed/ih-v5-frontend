@@ -107,14 +107,14 @@ class InputLink extends PureComponent {
         <>
           <input
             className="core"
-            style={this.props.data.link ? styles.rootMini2 : styles.rootMini} 
-            disabled={Boolean(this.props.data.link)}
-            value={this.props.data.link ? this.props.data.title : this.props.data.value}
+            style={this.props.data._bind ? styles.rootMini2 : styles.rootMini} 
+            disabled={Boolean(this.props.data._bind)}
+            value={this.props.data._bind ? this.props.data.title : this.props.data.value}
             onChange={this.handleChangeText}
           />
             <ButtonMenu 
               enabled={this.props.route.type} 
-              icon={this.props.data.link} 
+              icon={this.props.data._bind} 
               onChange={this.handleClickButton} 
             />
         </>
@@ -126,18 +126,18 @@ class InputLink extends PureComponent {
         id={this.props.options.id} 
         label={this.props.options.title} 
         style={styles.root}
-        disabled={Boolean(this.props.data.link)}
+        disabled={Boolean(this.props.data._bind)}
         InputProps={{
           endAdornment: (
             <ButtonMenu 
               enabled={this.props.route.type} 
-              icon={this.props.data.link} 
+              icon={this.props.data._bind} 
               onChange={this.handleClickButton} 
             />
           )
         }}
         InputLabelProps={{ shrink: true, style: this.props.getStyle(this.props) }} 
-        value={this.props.data.link ? this.props.data.title : this.props.data.value}
+        value={this.props.data._bind ? this.props.data.title : this.props.data.value}
         error={this.props.cache && this.props.cache.error}
         helperText={this.props.cache && this.props.cache.error}
         onChange={this.handleChangeText}
