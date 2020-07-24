@@ -90,7 +90,7 @@ function ButtonMenu(props) {
 
 class InputLink extends PureComponent {
   handleChangeText = (e) => {
-    this.props.onChange(this.props.id, this.props.options, null, { value: e.target.value })
+    this.props.onChange(this.props.id, this.props.options, null, { ...this.props.data, value: e.target.value })
   }
 
   handleClickButton = (title, id, value) => {
@@ -110,7 +110,7 @@ class InputLink extends PureComponent {
             style={this.props.data.link ? styles.rootMini2 : styles.rootMini} 
             disabled={Boolean(this.props.data.link)}
             value={this.props.data.link ? this.props.data.title : this.props.data.value}
-            onChange={(e) => this.props.onChange(this.props.id, this.props.options, null, this.handleChangeText)}
+            onChange={this.handleChangeText}
           />
             <ButtonMenu 
               enabled={this.props.route.type} 
