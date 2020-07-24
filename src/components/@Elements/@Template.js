@@ -11,12 +11,12 @@ class Template extends PureComponent {
           key={id}
           style={{ 
             position: 'absolute', 
-            left: item.x,
-            top: item.y,
-            width: item.w,
-            height: item.h,
-            zIndex: item.zIndex,
-            opacity: item.opacity / 100 ,
+            left: item.x.value,
+            top: item.y.value,
+            width: item.w.value,
+            height: item.h.value,
+            zIndex: item.zIndex.value,
+            opacity: item.opacity.value / 100 ,
           }}
         >
           {item.elements.map(cid => this.handleRender(cid, this.props.item.elements ? this.props.item.elements[cid] : this.props.template.elements[cid]))}
@@ -28,11 +28,11 @@ class Template extends PureComponent {
         key={id}
         style={{ 
           position: 'absolute', 
-          left: item.x,
-          top: item.y,
-          width: item.w,
-          height: item.h,
-          zIndex: item.zIndex,
+          left: item.x.value,
+          top: item.y.value,
+          width: item.w.value,
+          height: item.h.value,
+          zIndex: item.zIndex.value,
         }}
       >
         {elemets(this.props.template.elements[id].type, { id: id, mode: this.props.mode, item: this.props.item.elements ? this.props.item.elements[id] : this.props.template.elements[id], actions: this.props.item.actions })}
@@ -48,8 +48,8 @@ class Template extends PureComponent {
           position: 'absolute', 
           width: '100%', 
           height: '100%',
-          zoom: this.props.item.w / this.props.template.settings.w,
-          opacity: this.props.item.opacity / 100, 
+          zoom: this.props.item.w.value / this.props.template.settings.w.value,
+          opacity: this.props.item.opacity.value / 100, 
         }}
       >
         {this.props.template.list.map(id => this.handleRender(id, this.props.item.elements ? this.props.item.elements[id] : this.props.template.elements[id]))}

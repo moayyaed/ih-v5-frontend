@@ -11,7 +11,6 @@ import Menu from 'components/Menu';
 
 import elemets from 'components/@Elements';
 import getDefaultParamsElement from 'components/@Elements/default';
-import { red } from '@material-ui/core/colors';
 
 
 const styles = {
@@ -279,7 +278,7 @@ class Sheet extends Component {
       type,
       x: { value: Math.round(x * 1e2 ) / 1e2 }, 
       y: { value: Math.round(y * 1e2 ) / 1e2 },
-      w: { value: 70}, h: { value: 70 },
+      w: { value: 70 }, h: { value: 70 },
     }
 
     if (type === 'template') {
@@ -288,8 +287,8 @@ class Sheet extends Component {
         .ok(res => {
           data.links = {};
           data.templateId = templateId;
-          data.w = res.settings.w; 
-          data.h = res.settings.h;
+          data.w = { value: res.settings.w.value }; 
+          data.h = { value: res.settings.h.value };
           core.actions.container
             .addTemplate(
               this.props.id, this.props.prop,
@@ -579,7 +578,7 @@ class Sheet extends Component {
             width: '100%', 
             height: '100%', 
             outline: item.groupId ? 'unset' : `1px dashed #6d7882`,
-            opacity: item.opacity / 100,
+            opacity: item.opacity.value / 100,
           }}
         >
           {item.elements.map(id => 
