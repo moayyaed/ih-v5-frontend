@@ -52,19 +52,23 @@ function reducer(state = defaultState, action) {
                                 return Object
                                   .keys(data)
                                   .reduce((p5, c5) => {
-                                    if (data[c5].text._bind) {
-                                      return { 
-                                        ...p5, 
-                                        [c5]: { 
-                                          ...data[c5],
-                                          text: {
-                                            ...data[c5].text,
-                                            value: v[data[c5].text._bind]
-                                          } 
-                                        } 
-                                      }
+                                    return { 
+                                      ...p5, 
+                                      [c5]: Object
+                                        .keys(data[c5])
+                                        .reduce((p6, c6) => {
+                                          if (data[c5][c6]._bind) {
+                                            return { 
+                                              ...p6, 
+                                              [c6]: {
+                                                ...data[c5][c6],
+                                                value: v[data[c5][c6]._bind]
+                                              }
+                                            }
+                                          }
+                                          return { ...p6, [c6]: data[c5][c6]}
+                                        },)
                                     }
-                                    return { ...p5, [c5]: data[c5] }
                                   }, {}) 
                               }, state.containers[c].elements[c2].elements),
                           }
