@@ -45,7 +45,7 @@ function checkLinks(data, states, id, v) {
   return Object
     .keys(data)
     .reduce((p, c) => {
-      if (typeof data[c]._bind === 'string') {
+      if (data[c]._bind) {
         const value = data[c]._bind === id ? v : (states[data[c]._bind] ?  states[data[c]._bind].curent : data[c].value) 
         return { 
           ...p, 
