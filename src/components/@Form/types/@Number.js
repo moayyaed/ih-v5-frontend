@@ -172,18 +172,18 @@ function TouchNumber(props) {
         <Button
           type="left" 
           step={step}
-          onClick={v => props.onChange(props.id, props.options, null, { value: checkValue(props.data.value - v, props) })} 
+          onClick={v => props.onChange(props.id, props.options, null, { ...props.data, value: checkValue(props.data.value - v, props) })} 
         />
         <input
           className="core"
           style={styles.rootMini} 
           value={props.data.value} 
-          onChange={(e) => props.onChange(props.id, props.options, null, { value: checkValue(e.target.value, props) })}
+          onChange={(e) => props.onChange(props.id, props.options, null, { ...props.data, value: checkValue(e.target.value, props) })}
         />
         <Button
           type="right" 
           step={step}
-          onClick={v => props.onChange(props.id, props.options, null, { value: checkValue(props.data.value + v, props) })} 
+          onClick={v => props.onChange(props.id, props.options, null, { ...props.data, value: checkValue(props.data.value + v, props) })} 
         />
       </div>
     )
@@ -197,7 +197,7 @@ function TouchNumber(props) {
       value={props.data}
       error={props.cache && props.cache.error}
       helperText={props.cache && props.cache.error}
-      onChange={(e) => props.onChange(props.id, props.options, null, checkValue(e.target.value, props))}
+      onChange={(e) => props.onChange(props.id, props.options, null, { ...props.data, value: checkValue(e.target.value, props) })}
     />
   )
 }

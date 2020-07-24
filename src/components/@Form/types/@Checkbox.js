@@ -34,7 +34,7 @@ function Checkbox(props) {
         color="primary"
         style={styles.rootMini}
         checked={Boolean(props.data.value)}
-        onChange={(e) => props.onChange(props.id, props.options, null, { value: Number(e.target.checked)})} 
+        onChange={(e) => props.onChange(props.id, props.options, null, { ...props.data, value: Number(e.target.checked)})} 
       />
     )
   }

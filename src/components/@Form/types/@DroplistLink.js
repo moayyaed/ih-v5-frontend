@@ -195,7 +195,7 @@ class DroplistLink extends PureComponent {
       const list = this.state.list.filter(i => i.hide ? !i.hide(this.props.global) : true);
       const find = list.find(i => i.id === this.props.data.value.id);
       if (find === undefined) {
-        this.props.onChange(this.props.id, this.props.options, null, { value: { id: '-', title: '-' } })
+        this.props.onChange(this.props.id, this.props.options, null, { ...this.props.data, value: { id: '-', title: '-' } })
       }
     }
   }
@@ -210,7 +210,7 @@ class DroplistLink extends PureComponent {
         style={mini ? styles.rootMini : styles.root}
         classes={this.props.classes}
         options={list}
-        onChange={(e, value) => this.props.onChange(id, options, null, { value })}
+        onChange={(e, value) => this.props.onChange(id, options, null, { ...this.props.data, value })}
         value={this.props.data.value}
         renderInput={this.handleRenderInput}
         ListboxComponent={ListboxComponent}

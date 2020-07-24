@@ -24,8 +24,8 @@ function Input(props) {
       <input
         className="core"
         style={styles.rootMini} 
-        value={props.data.mini} 
-        onChange={(e) => props.onChange(props.id, props.options, null, { value: e.target.value })}
+        value={props.data.value} 
+        onChange={(e) => props.onChange(props.id, props.options, null, { ...props.data, value: e.target.value })}
       />
     )
   }
