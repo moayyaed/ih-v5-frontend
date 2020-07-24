@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import core from 'core';
 
 import TextField from '@material-ui/core/TextField';
 
@@ -6,6 +7,13 @@ import IconButton from '@material-ui/core/IconButton';
 
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+
+import LinkIcon from '@material-ui/icons/Link';
+import LinkOffIcon from '@material-ui/icons/LinkOff';
+
 
 const styles = {
   root: {
@@ -23,6 +31,17 @@ const styles = {
     marginLeft: 4,
     marginRight: 4,
     textAlign: 'center',
+  },
+  rootMini2: {
+    fontSize: 13,
+    fontFamily: 'Roboto,Helvetica,Arial,sans-serif',
+    fontWeight: 400,
+    color: 'rgb(48, 84, 150)',
+    width: '100%',
+    border: 'unset', 
+    height: 21,
+    background: 'unset',
+    fontWeight: 'bold',
   },
   containerMini: {
     display: 'flex',
@@ -118,6 +137,54 @@ function handleMouseDown(e, props) {
   
 }
 
+function ButtonMenu(props) {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [list, setList] = React.useState([]);
+
+  const handleClick = (event, icon) => {
+    if (icon) {
+      props.onChange(null);
+    } else {
+      const store = core.store.getState().apppage.data.p1.template;
+      setList(store.listState.map(id => ({ id, title: store.state[id].title, value: store.state[id].curent })));
+      setAnchorEl(event.currentTarget);
+    }
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+    setList([]);
+  };
+
+  const handleChangeMenu = (item) => {
+    setAnchorEl(null);
+    setList([]);
+    props.onChange(item.title, item.id, item.value);
+  }
+
+  if (props.enabled) {
+    return (
+      <div>
+        <IconButton className="nb" style={styles.buttonMini} onClick={(e) => handleClick(e, props.icon)} size="small" >
+          {props.icon ? <LinkOffIcon fontSize="small" /> : <LinkIcon fontSize="small" />}
+        </IconButton>
+        <Menu
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          {list.map(i => 
+            <MenuItem key={i.id} onClick={() => handleChangeMenu(i)}>{i.title}</MenuItem>
+          )}
+        </Menu>
+      </div>
+    );
+    
+  }
+  return null;
+}
+
 
 class Button extends Component {
 
@@ -163,10 +230,36 @@ class Button extends Component {
   }
 }
 
+
 // onMouseDown={(e) => handleMouseDown(e, props)}
 function TouchNumber(props) {
+  const handleClickButton = (title, id, value) => {
+    if (title === null) {
+      props.onChange(props.id, props.options, null, { _bind: null, title: null, number: null, value: props.data.number || 0 })
+    } else {
+      props.onChange(props.id, props.options, null, { _bind: id, title, value, number: props.data.value })
+    }
+  };
+
   const step = props.options.step || 1;
   if (props.mini) {
+    if (props.data._bind) {
+      return (
+        <div style={styles.containerMini}>
+          <input
+            className="core"
+            style={styles.rootMini2} 
+            disabled={true}
+            value={props.data.title}
+          />
+          <ButtonMenu 
+            enabled={props.route.type} 
+            icon={props.data._bind} 
+            onChange={handleClickButton} 
+          />
+        </div>
+      )
+    }
     return (
       <div style={styles.containerMini}>
         <Button
@@ -184,6 +277,11 @@ function TouchNumber(props) {
           type="right" 
           step={step}
           onClick={v => props.onChange(props.id, props.options, null, { ...props.data, value: checkValue(props.data.value + v, props) })} 
+        />
+        <ButtonMenu 
+          enabled={props.route.type} 
+          icon={props.data._bind} 
+          onChange={handleClickButton} 
         />
       </div>
     )

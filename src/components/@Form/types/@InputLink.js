@@ -37,6 +37,10 @@ const styles = {
     height: 21,
     background: 'unset',
     fontWeight: 'bold',
+  },
+  buttonMini: {
+    width: 22,
+    height: 22,
   }
 }
 
@@ -68,7 +72,7 @@ function ButtonMenu(props) {
   if (props.enabled) {
     return (
       <div>
-        <IconButton onClick={(e) => handleClick(e, props.icon)} size="small" >
+        <IconButton className="nb" style={styles.buttonMini} onClick={(e) => handleClick(e, props.icon)} size="small" >
           {props.icon ? <LinkOffIcon fontSize="small" /> : <LinkIcon fontSize="small" />}
         </IconButton>
         <Menu
