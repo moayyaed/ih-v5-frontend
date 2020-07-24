@@ -46,6 +46,7 @@ const styles = {
   containerMini: {
     display: 'flex',
     height: 22,
+    width: '100%',
   },
   buttonMini: {
     width: 22,
@@ -253,7 +254,7 @@ function TouchNumber(props) {
             value={props.data.title}
           />
           <ButtonMenu 
-            enabled={props.route.type} 
+            enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
             icon={props.data._bind} 
             onChange={handleClickButton} 
           />
@@ -279,7 +280,7 @@ function TouchNumber(props) {
           onClick={v => props.onChange(props.id, props.options, null, { ...props.data, value: checkValue(props.data.value + v, props) })} 
         />
         <ButtonMenu 
-          enabled={props.route.type} 
+          enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
           icon={props.data._bind} 
           onChange={handleClickButton} 
         />
