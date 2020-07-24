@@ -10,8 +10,8 @@ const styles = {
 
 function getTextStyle(params) {
   return {
-    fill: params.textColor,
-    font: `${params.textItalic ? 'italic': ''} ${params.textBold ? 'bold' : ''} ${params.textSize}px ${params.textFontFamily.id}`
+    fill: params.textColor.value,
+    font: `${params.textItalic.value ? 'italic': ''} ${params.textBold.value ? 'bold' : ''} ${params.textSize.value}px ${params.textFontFamily.value.id}`
   };
 }
 
@@ -67,11 +67,11 @@ function Text(props) {
         width: '100%', 
         height: '100%', 
         background: props.item.backgroundColor.value,
-        border: `${props.item.borderSize}px ${props.item.borderStyle.id} ${props.item.borderColor}`,
-        borderRadius: (Math.min(props.item.w, props.item.h) / 2 / 100) * props.item.borderRadius,
-        opacity: props.item.opacity / 100,
+        border: `${props.item.borderSize.value}px ${props.item.borderStyle.value.id} ${props.item.borderColor.value}`,
+        borderRadius: (Math.min(props.item.w.value, props.item.h.value) / 2 / 100) * props.item.borderRadius.value,
+        opacity: props.item.opacity.value / 100,
         boxShadow: props.item.boxShadow.active ? props.item.boxShadow.value : 'unset',
-        transform: `scale(${props.item.flipH ? -1 : 1}, ${props.item.flipV ? -1 : 1}) rotate(${props.item.rotate}deg)`,
+        transform: `scale(${props.item.flipH.value ? -1 : 1}, ${props.item.flipV.value ? -1 : 1}) rotate(${props.item.rotate.value}deg)`,
       }}
       >
       <svg 
@@ -84,10 +84,10 @@ function Text(props) {
         }}
       >
         <text
-          transform={`rotate(${props.item.textRotate} ${pos(props.item.w, props.item.textAlignH.id, props.item.borderSize)} ${pos(props.item.h, props.item.textAlignV.id,  props.item.borderSize)})`}
-          x={getX(props.item.textAlignH.id)} 
-          y={getY(props.item.textAlignV.id, props.item.textSize, props.item.h, props.item.borderSize)} 
-          textAnchor={getTextAnchor(props.item.textAlignH.id)} 
+          transform={`rotate(${props.item.textRotate.value} ${pos(props.item.w.value, props.item.textAlignH.value.id, props.item.borderSize.value)} ${pos(props.item.h.value, props.item.textAlignV.value.id,  props.item.borderSize.value)})`}
+          x={getX(props.item.textAlignH.value.id)} 
+          y={getY(props.item.textAlignV.value.id, props.item.textSize.value, props.item.h.value, props.item.borderSize.value)} 
+          textAnchor={getTextAnchor(props.item.textAlignH.value.id)} 
           alignmentBaseline="middle"
           style={getTextStyle(props.item)}
         >

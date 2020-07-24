@@ -17,13 +17,9 @@ const styles = {
 }
 
 function getTextStyle(params) {
-  const size = params.textSize.value;
-  const family = params.textFontFamily.value ? params.textFontFamily.value.id : 'Arial';
-  const italic = params.textItalic.value ? 'italic': '';
-  const bold = params.textBold.value ? 'bold' : '';
   return {
     fill: params.textColor.value,
-    font: `${italic} ${bold} ${size}px ${family}`
+    font: `${params.textItalic.value ? 'italic': ''} ${params.textBold.value ? 'bold' : ''} ${params.textSize.value}px ${params.textFontFamily.value.id}`
   };
 }
 
