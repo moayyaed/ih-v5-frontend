@@ -41,10 +41,13 @@ function preparationData(data) {
                 ...masterState[elemId],
                 ...curentStateElem,
               }
-              if (
-                data.containers[key].elements[id].elements[elemId].text._bind) {
-                data.containers[key].elements[id].elements[elemId].text.value = data.states[key][id].states[data.containers[key].elements[id].elements[elemId].text._bind] || 0;
-              }
+              Object
+                .keys(data.containers[key].elements[id].elements[elemId])
+                .forEach(propId => {
+                  if (data.containers[key].elements[id].elements[elemId][propId]._bind) {
+                    data.containers[key].elements[id].elements[elemId][propId].value = data.states[key][id].states[data.containers[key].elements[id].elements[elemId][propId]._bind] || 0;
+                  }
+                }) 
             })
           }
         }
