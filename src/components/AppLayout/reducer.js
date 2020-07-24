@@ -52,14 +52,14 @@ function reducer(state = defaultState, action) {
                                 return Object
                                   .keys(data)
                                   .reduce((p5, c5) => {
-                                    if (data[c5].text && typeof data[c5].text.link === 'string') {
+                                    if (data[c5].text._bind) {
                                       return { 
                                         ...p5, 
                                         [c5]: { 
                                           ...data[c5],
                                           text: {
                                             ...data[c5].text,
-                                            value: v[data[c5].text.link]
+                                            value: v[data[c5].text._bind]
                                           } 
                                         } 
                                       }

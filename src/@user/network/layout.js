@@ -42,9 +42,7 @@ function preparationData(data) {
                 ...curentStateElem,
               }
               if (
-                data.containers[key].elements[id].elements[elemId].text && 
-                typeof data.containers[key].elements[id].elements[elemId].text._bind === 'string'
-              ) {
+                data.containers[key].elements[id].elements[elemId].text._bind) {
                 data.containers[key].elements[id].elements[elemId].text.value = data.states[key][id].states[data.containers[key].elements[id].elements[elemId].text._bind] || 0;
               }
             })
