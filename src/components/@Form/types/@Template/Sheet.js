@@ -645,7 +645,7 @@ class Sheet extends Component {
     core.actions.template
       .moveSelectContainer(
         this.props.id, this.props.prop,
-        data.x, data.y,
+        { value: data.x }, { value: data.y }
       );
     this.save();
   }

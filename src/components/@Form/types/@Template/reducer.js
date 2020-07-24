@@ -77,13 +77,13 @@ function getStateMoveContainer(selects, elements, selectContainer, action, data)
       if (data[key]) {
         data[key] = {
           ...data[key],
-          x: elements[key].x.value + (action.x - selectContainer.x),
-          y: elements[key].y.value + (action.y - selectContainer.y),
+          x: { value: elements[key].x.value + (action.x.value - selectContainer.x.value) },
+          y: { value: elements[key].y.value + (action.y.value - selectContainer.y.value) },
         };
       } else {
         data[key] = {
-          x: elements[key].x.value + (action.x - selectContainer.x),
-          y: elements[key].y.value + (action.y - selectContainer.y),
+          x: { value: elements[key].x.value + (action.x.value - selectContainer.x.value) },
+          y: { value: elements[key].y.value + (action.y.value - selectContainer.y.value) },
         };
       }
     });
@@ -462,8 +462,8 @@ function reducerTemplate(state, action) {
                 ...p, 
                 [c]: { 
                   ...state.elements[c],
-                  x: state.elements[c].x + (action.x - state.selectContainer.x),
-                  y: state.elements[c].y + (action.y - state.selectContainer.y),
+                  x: { value: state.elements[c].x.value + (action.x.value - state.selectContainer.x.value) },
+                  y: { value: state.elements[c].y.value + (action.y.value - state.selectContainer.y.value) },
                 } 
               }
             }
