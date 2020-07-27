@@ -95,8 +95,13 @@ const options = {
   spacing: 10,
   grid: [
     {
+      id: 'p0',
+      xs: 2,
+      class: 'main',
+    },
+    {
       id: 'p1',
-      xs: 12,
+      xs: 10,
       class: 'main',
     },
     {
@@ -106,6 +111,13 @@ const options = {
       height: "fill",
       calc: -130,
       padding: 4,
+    },
+  ],
+  p0: [
+    {
+      prop: 'active',
+      title: 'Enabled',
+      type: 'cb'
     },
   ],
   p1: [
@@ -119,7 +131,9 @@ const options = {
     {
       prop: 'keyframes',
       title: '@Keyframes',
-      type: 'script'
+      type: 'script',
+      mode: 'css',
+      theme: 'tomorrow',
     },
   ],
 }
@@ -147,10 +161,11 @@ function Animation(props) {
         type: 'form',
         options: options,
         data: { 
+          p0: { active: 0 },
           p1: { animation: props.data.active ? props.data.animation : defaultAnimation }, 
           p2: { keyframes: props.data.active ? props.data.keyframes : defaultKeyframes },
         },
-        cache: { p1: {}, p2: {} },
+        cache: { p0: {}, p1: {}, p2: {} },
       },
     });
   };

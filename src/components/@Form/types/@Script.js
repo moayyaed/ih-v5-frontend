@@ -10,6 +10,8 @@ import {
 import 'ace-builds/src-noconflict/theme-tomorrow';
 import 'ace-builds/src-noconflict/mode-javascript';
 
+import 'ace-builds/src-noconflict/mode-css';
+
 import 'react-mosaic-component/react-mosaic-component.css';
 import './@Code/code.css';
 
@@ -41,8 +43,8 @@ class Script extends PureComponent {
         <ReactResizeDetector key={id} handleWidth handleHeight>
           {({ width, height }) => 
             <AceEditor
-              mode="javascript"
-              theme="tomorrow"
+              mode={this.props.options.mode || 'javascript'}
+              theme={this.props.options.theme ||  'tomorrow'}
               width={width || '100%'}
               height={height || '100%'}
               name={id}
