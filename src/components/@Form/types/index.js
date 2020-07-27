@@ -16,7 +16,7 @@ import Color2 from './@Color2';
 import Slider from './@Slider';
 import Url from './@Url';
 import Shadow from './@Shadow';
-import Animation from './@Animation/index';
+import Animation from './@Animation';
 
 import Layout from './@Layout';
 import Container from './@Container';
