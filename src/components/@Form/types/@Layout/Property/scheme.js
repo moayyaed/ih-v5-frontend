@@ -86,6 +86,11 @@ const decorationSection = [
     type: 'divider',
   },
   { 
+    title: 'Animation', 
+    prop: 'animation', 
+    type: 'animation',
+  },
+  { 
     title: 'Shadow', 
     prop: 'boxShadow', 
     type: 'shadow',
