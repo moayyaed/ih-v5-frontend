@@ -1,28 +1,6 @@
 import React from 'react';
 import { transform } from './tools';
 
-/*
-
-let styleSheet = document.styleSheets[0];
-
-try {
-  styleSheet.insertRule(keyframes1, styleSheet.cssRules.length);
-} catch {
-
-}
-try {
-  styleSheet.insertRule(keyframes2, styleSheet.cssRules.length);
-} catch {
-
-}
-try {
-  styleSheet.insertRule(keyframes3, styleSheet.cssRules.length);
-} catch {
-
-}
-*/
-
-
 
 function Block(props) {
   return (

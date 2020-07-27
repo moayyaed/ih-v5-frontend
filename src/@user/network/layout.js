@@ -1,5 +1,5 @@
 import core from 'core';
-
+import css from 'css';
 
 function preparationData(data) {
   // console.log(data.containers, data.states)
@@ -46,6 +46,29 @@ function preparationData(data) {
                 .forEach(propId => {
                   if (propId === 'animation' && data.containers[key].elements[id].elements[elemId][propId].active) {
                     const keyframes = data.containers[key].elements[id].elements[elemId][propId].keyframes;
+                    const styles = css.parse(keyframes);
+                    styles.stylesheet.rules
+                    .forEach(item => {
+                      if (item.type === 'keyframes') {
+                        const style = css.stringify({
+                          stylesheet: {
+                            rules: [item]
+                          },
+                          type: 'stylesheet',
+                        });
+                        try {
+                          document.styleSheets[0].insertRule(style, document.styleSheets[0].cssRules.length);
+                        } catch {
+
+                        }
+                      }
+                    })
+                    try {
+               
+                    } catch {
+                      console.warn('Animation not work, wrong css styles!')
+                    }
+              
                   }
                   if (data.containers[key].elements[id].elements[elemId][propId]._bind) {
                     data.containers[key].elements[id].elements[elemId][propId].value = data.states[key][id].states[data.containers[key].elements[id].elements[elemId][propId]._bind] || 0;
