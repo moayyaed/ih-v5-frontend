@@ -1,11 +1,19 @@
 import React from 'react';
+import core from 'core';
 
 import Popover from '@material-ui/core/Popover';
+
+import IconButton from '@material-ui/core/IconButton';
+
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+
+import LinkIcon from '@material-ui/icons/Link';
+import LinkOffIcon from '@material-ui/icons/LinkOff';
 
 import { SketchPicker } from 'react-color';
 import { GradientPicker, AnglePicker } from 'libs/gradient-picker';
 
-import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 
 const PRESET_COLORS = [
@@ -28,6 +36,17 @@ const styles = {
     margin: 12,
   },
   rootMini: {},
+  rootMini2: {
+    fontSize: 13,
+    fontFamily: 'Roboto,Helvetica,Arial,sans-serif',
+    fontWeight: 400,
+    color: 'rgb(48, 84, 150)',
+    width: '100%',
+    border: 'unset', 
+    height: 21,
+    background: 'unset',
+    fontWeight: 'bold',
+  },
   title: {
     marginBottom: 6,
   },
@@ -51,6 +70,10 @@ const styles = {
     borderRadius: 2,
     cursor: 'pointer',
     position: 'relative',
+  },
+  buttonMini2: {
+    width: 22,
+    height: 22,
   },
   buttonBackround: {
     width: 22,
@@ -163,6 +186,55 @@ const styles = {
     marginLeft: 8,
     marginRight: 6,
   }
+}
+
+
+function ButtonMenu(props) {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [list, setList] = React.useState([]);
+
+  const handleClick = (event, icon) => {
+    if (icon) {
+      props.onChange(null);
+    } else {
+      const store = core.store.getState().apppage.data.p1.template;
+      setList(store.listState.map(id => ({ id, title: store.state[id].title, value: store.state[id].curent })));
+      setAnchorEl(event.currentTarget);
+    }
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+    setList([]);
+  };
+
+  const handleChangeMenu = (item) => {
+    setAnchorEl(null);
+    setList([]);
+    props.onChange(item.title, item.id, item.value);
+  }
+
+  if (props.enabled) {
+    return (
+      <div>
+        <IconButton className="nb" style={styles.buttonMini2} onClick={(e) => handleClick(e, props.icon)} size="small" >
+          {props.icon ? <LinkOffIcon fontSize="small" /> : <LinkIcon fontSize="small" />}
+        </IconButton>
+        <Menu
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          {list.map(i => 
+            <MenuItem key={i.id} onClick={() => handleChangeMenu(i)}>{i.title}</MenuItem>
+          )}
+        </Menu>
+      </div>
+    );
+    
+  }
+  return null;
 }
 
 
@@ -385,6 +457,14 @@ function Color2(props) {
     props.onChange(props.id, props.options, null, data)
   }
 
+  const handleClickButton = (title, id, value) => {
+    if (title === null) {
+      props.onChange(props.id, props.options, null, { ...props.data.old, _bind: null, title: null, old: {} })
+    } else {
+      props.onChange(props.id, props.options, null, { _bind: id, title, value, old: props.data })
+    }
+  };
+
   const open = Boolean(anchorEl);
   const s = {};
 
@@ -402,37 +482,63 @@ function Color2(props) {
     s.buttonBackround2 = styles.buttonBackround2;
   }
 
+
+  if (props.data._bind) {
+    return (
+      <>
+        <input
+          className="core"
+          style={styles.rootMini2} 
+          disabled={true}
+          value={props.data.title}
+        />
+        <ButtonMenu 
+          enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
+          icon={props.data._bind} 
+          onChange={handleClickButton} 
+        />
+      </>
+    )
+  }
+
   return (
-    <div style={s.root}>
-      <div style={{ ...s.title, ...props.getStyle(props)}}>{props.options.title}</div>
-      <div style={s.button} onClick={handleClick}>
-        <div style={s.buttonBackround}/>
-        <div style={{ ...s.buttonBackround2, background: props.data.value }}/>
+    <>
+      <div style={s.root}>
+        <div style={{ ...s.title, ...props.getStyle(props)}}>{props.options.title}</div>
+        <div style={s.button} onClick={handleClick}>
+          <div style={s.buttonBackround}/>
+          <div style={{ ...s.buttonBackround2, background: props.data.value }}/>
+        </div>
+        <Popover
+          open={open}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
+          <>
+            <div style={styles.selectContainer}>
+              <Select
+                disableUnderline
+                value={props.data.type}
+                onChange={handleChangeType}
+                style={styles.select}
+              >
+                <MenuItem value="fill">Fill</MenuItem>
+                <MenuItem value="line">Linear-gradient</MenuItem>
+                <MenuItem value="radial">Radial-gradient</MenuItem>
+              </Select>
+            </div>
+            {getContent(props, handleChangeFill, handleChangeGradient, handleChangeGradientRadial, handleChangeDropList, handleChangeAngle)}
+          </>
+        </Popover>
       </div>
-      <Popover
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'center' }}
-      >
-        <>
-          <div style={styles.selectContainer}>
-            <Select
-              disableUnderline
-              value={props.data.type}
-              onChange={handleChangeType}
-              style={styles.select}
-            >
-              <MenuItem value="fill">Fill</MenuItem>
-              <MenuItem value="line">Linear-gradient</MenuItem>
-              <MenuItem value="radial">Radial-gradient</MenuItem>
-            </Select>
-          </div>
-          {getContent(props, handleChangeFill, handleChangeGradient, handleChangeGradientRadial, handleChangeDropList, handleChangeAngle)}
-        </>
-      </Popover>
-    </div>
+      <ButtonMenu 
+        enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
+        icon={props.data._bind} 
+        onChange={handleClickButton} 
+      />
+    </>
   );
 }
 
