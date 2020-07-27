@@ -98,46 +98,8 @@ function getIdElement(index, prefix, elements) {
 
 class Sheet extends Component {
 
-  componentDidMount() {
-    core.transfer.sub('layout', this.handleTransferData);
-
-  }
-
   componentWillUnmount() {
-    core.transfer.unsub('layout', this.handleTransferData);
-    this.isSave = null;
     this.dragSelectContainer = null;
-  }
-
-  handleTransferData = (button, save, reset) => {
-    if (button === 'save') {
-      this.isSave = null;
-      const store = core.store.getState().apppage.data[this.props.id][this.props.prop];
-      save({
-        [this.props.id]: {
-          [this.props.prop]: {
-            settings: store.settings,
-            list: store.list,
-            elements: store.elements,
-            selects: store.selects,
-            selectContainer: store.selectContainer,
-            selectType: store.selectType,
-            selectOne: store.selectOne,
-            propertyType: store.propertyType,
-          }
-        }
-      })
-    } else {
-      this.isSave = null;
-      reset();
-    }
-  }
-
-  save = () => {
-    if (!this.isSave) {
-      this.isSave = true;
-      core.actions.apppage.data({ save: 'layout' })
-    }
   }
 
   handleMouseUpContainer = (e) => {
@@ -244,12 +206,17 @@ class Sheet extends Component {
 
   handleStopMoveSheet = (e, data) => {
 
-    core.actions.layout
-      .settings(
-        this.props.id, this.props.prop,
-        { x: { value: data.x }, y: { value: data.y } }
-      );
-    this.save();
+    if (
+      data.x !== this.props.settings.x.value ||
+      data.y !== this.props.settings.y.value
+    ) {
+      core.actions.layout
+        .settings(
+          this.props.id, this.props.prop,
+          { x: { value: data.x }, y: { value: data.y } }
+        );
+      this.props.save();
+    }
   }
 
   handleStartMoveElement = (e, elementId, data) => {
@@ -286,7 +253,7 @@ class Sheet extends Component {
               this.props.id, this.props.prop,
               elementId, { ...params, ...data }, menuItemId, res,
             );
-          this.save();
+          this.props.save();
         });
     } else if (type === 'container') {
       core
@@ -300,7 +267,7 @@ class Sheet extends Component {
               this.props.id, this.props.prop,
               elementId, { ...params, ...data }, menuItemId, res.container, res.templates,
             );
-          this.save();
+          this.props.save();
         });
     } else {
       core.actions.layout
@@ -308,13 +275,14 @@ class Sheet extends Component {
           this.props.id, this.props.prop,
           elementId, { ...params, ...data },
         );
-      this.save();
+      this.props.save();
     }
   }
 
   handleDeleteElement = () => {
     core.actions.layout
       .deleteElement(this.props.id, this.props.prop);
+    this.props.save();
   }
 
   handleMoveElement = (e, elementId, data) => {
@@ -325,12 +293,17 @@ class Sheet extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    core.actions.layout
-      .editElement(
-        this.props.id, this.props.prop,
-        elementId, { x: { value: data.x }, y: { value: data.y } }
-      );
-    this.save();
+    if (
+      data.x !== this.props.elements[elementId].x.value || 
+      data.y !== this.props.elements[elementId].y.value
+    ) {
+      core.actions.layout
+        .editElement(
+          this.props.id, this.props.prop,
+          elementId, { x: { value: data.x }, y: { value: data.y } }
+        );
+      this.props.save();
+    }
   }
 
   handleChangeSizeElement = (e, elementId, position, type) => {
@@ -353,7 +326,7 @@ class Sheet extends Component {
           elementId, position
         );
     }
-    this.save();
+    this.props.save();
   }
 
   handleClickBody = (e) => {
@@ -483,6 +456,7 @@ class Sheet extends Component {
           this.props.id, this.props.prop,
           groupId, groupData,
         );
+      this.props.save();
     }
   }
 
@@ -514,6 +488,7 @@ class Sheet extends Component {
         this.props.id, this.props.prop,
         list, data,
       );
+    this.props.save();
   }
 
   handleClickCopyElements = () => {
@@ -571,6 +546,7 @@ class Sheet extends Component {
           },
         }
       );
+    this.props.save();
   }
 
   handleClickEditTemplate = () => {
@@ -650,7 +626,7 @@ class Sheet extends Component {
         this.props.id, this.props.prop,
         { value: data.x }, { value: data.y }
       );
-    this.save();
+    this.props.save();
   }
 
   handleClickSelectContainer = (e) => {
@@ -697,7 +673,7 @@ class Sheet extends Component {
         this.props.id, this.props.prop,
         position, childs,
       );
-    this.save();
+    this.props.save();
   }
 
   handleRenderContentSelectContainer = () => {

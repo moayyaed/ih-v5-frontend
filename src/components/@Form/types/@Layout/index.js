@@ -74,6 +74,44 @@ class Layout extends PureComponent {
           
         });
     }
+    core.transfer.sub('layout', this.handleTransferData);
+  }
+
+  componentWillUnmount() {
+    core.transfer.unsub('layout', this.handleTransferData);
+    this.isSave = null;
+    this.dragSelectContainer = null;
+  }
+
+  handleTransferData = (button, save, reset) => {
+    if (button === 'save') {
+      this.isSave = null;
+      const store = core.store.getState().apppage.data[this.props.id][this.props.options.prop];
+      save({
+        [this.props.id]: {
+          [this.props.options.prop]: {
+            settings: store.settings,
+            list: store.list,
+            elements: store.elements,
+            selects: store.selects,
+            selectContainer: store.selectContainer,
+            selectType: store.selectType,
+            selectOne: store.selectOne,
+            propertyType: store.propertyType,
+          }
+        }
+      })
+    } else {
+      this.isSave = null;
+      reset();
+    }
+  }
+
+  save = () => {
+    if (!this.isSave) {
+      this.isSave = true;
+      core.actions.apppage.data({ save: 'layout' })
+    }
   }
 
   handleChangeWindows = (data) => {
@@ -104,6 +142,7 @@ class Layout extends PureComponent {
           this.props.data.selectOne, { [key]: value }
         );
     }
+    this.save();
   }
 
   handleGetStyleProperty = (params) => {
@@ -190,7 +229,8 @@ class Layout extends PureComponent {
           settings={this.props.data.settings} 
           elements={this.props.data.elements}
           containers={this.props.data.containers} 
-          templates={this.props.data.templates} 
+          templates={this.props.data.templates}
+          save={this.save}
         />
       );
     }
