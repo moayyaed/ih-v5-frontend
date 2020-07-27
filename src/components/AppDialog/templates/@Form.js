@@ -21,8 +21,8 @@ class TemplateForm extends Component {
 
   componentDidMount() {
     const { id, nodeid } = this.props.state.template;
-   
-    core
+    if (this.props.state.template.options === undefined) {
+      core
       .request({ method: 'components_tabs_form', params: { type: 'form', id, nodeid } })
       .ok(res => {
         core.actions.appdialog.form({
@@ -33,7 +33,15 @@ class TemplateForm extends Component {
           cache: res.cache,
         });
       });
-
+    } else {
+      core.actions.appdialog.form({
+        save: false,
+        id: this.props.state.template.id,
+        options: this.props.state.template.options,
+        data: this.props.state.template.data,
+        cache: this.props.state.template.cache,
+      });
+    }
   }
 
   componentWillUnmount() {

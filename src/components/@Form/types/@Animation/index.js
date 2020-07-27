@@ -3,7 +3,6 @@ import core from 'core';
 
 import Script from 'components/@Form/types/@Script'
 
-import Dialog from '@material-ui/core/Dialog';
 import Popover from '@material-ui/core/Popover';
 
 import IconButton from '@material-ui/core/IconButton';
@@ -22,10 +21,8 @@ import Paper from '@material-ui/core/Paper';
 
 import Grid from '@material-ui/core/Grid';
 
-import { withStyles } from '@material-ui/core/styles';
 
-import AppBar from './AppBar';
-
+import MsgBox from 'components/@Form/types/@MsgBox'
 
 
 const styles = {
@@ -110,19 +107,6 @@ const styles = {
   }
 }
 
-const classes = theme => ({
-  title: {
-    marginLeft: theme.spacing(2),
-    flex: 1,
-  },
-  dialog: {
-      background: 'rgb(245, 245, 245)',
-      position: 'relative',
-      minHeight: '80vh',
-      maxHeight: '80vh',
-  },
-});
-
 
 function ButtonMenu(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -172,6 +156,39 @@ function ButtonMenu(props) {
   return null;
 }
 
+const options = {
+  spacing: 10,
+  grid: [
+    {
+      id: 'p1',
+      xs: 12,
+      class: 'main',
+    },
+    {
+      id: 'p2',
+      xs: 12,
+      class: 'main',
+      height: "fill",
+      calc: -130,
+      padding: 4,
+    },
+  ],
+  p1: [
+    {
+      prop: 'animation',
+      title: 'Animation',
+      type: 'input'
+    },
+  ],
+  p2: [
+    {
+      prop: 'keyframes',
+      title: '@Keyframes',
+      type: 'script'
+    },
+  ],
+}
+
 function Shadow(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -179,7 +196,29 @@ function Shadow(props) {
     e.preventDefault();
     e.stopPropagation();
 
-    setAnchorEl(e.currentTarget);
+    core.actions.appdialog.data({
+      id: 'test', 
+      open: true, 
+      transferid: 'form_dialog',
+      template: {
+        type: 'form',
+        options: options,
+        data: {
+          p1: {
+            animation: ''
+          },
+          p2: {
+            keyframes: '',
+          }
+        },
+        cache: {
+          p1: {
+          },
+          p2: {
+          }
+        }
+      },
+    });
   };
 
   const handleClose = (e) => {
@@ -250,38 +289,6 @@ function Shadow(props) {
         <IconButton size="small" onClick={handleClick}>
           <TuneIcon fontSize="inherit" />
         </IconButton>
-        <Dialog 
-          fullWidth 
-          maxWidth="lg"
-          open={open}
-          classes={{ paper: props.classes.dialog }}  
-          onClose={handleClose}
-        >
-          <AppBar title="Animation setting" onClose={handleClose} />
-          <div style={styles.container} >
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <Paper >
-                  <TextField
-                    style={styles.text}
-                    label="Animation" 
-                    InputLabelProps={{ shrink: true }}  
-                    fullWidth
-                  />
-                </Paper>
-              </Grid>
-              <Grid style={{ height: 'calc(100% - 100px)' }} item xs={12}>
-                <Paper style={{ height: '100%' }}>
-                  <Script 
-                    options={{ props: 'test', title: '@keyframes' }} 
-                    data={props.data.keyframes}
-                    onChange={(a, b, c, d) => props.onChange(props.id, props.options, null, { ...props.data, keyframes:d })} 
-                  />
-                </Paper>
-              </Grid>
-            </Grid>
-          </div>
-        </Dialog>
       </div>
       <ButtonMenu 
         enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
@@ -293,4 +300,4 @@ function Shadow(props) {
 }
 
 
-export default React.memo(withStyles(classes)(Shadow));
+export default React.memo(Shadow);
