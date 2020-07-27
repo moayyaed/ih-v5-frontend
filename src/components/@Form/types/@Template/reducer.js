@@ -519,7 +519,13 @@ function reducerTemplate(state, action) {
     case TEMPLATE_ADD_ELEMENT:
       return { 
         ...state,
-        list: state.list.concat(action.elementId), 
+        list: state.list.concat(action.elementId),
+        selectType: 'one',
+        selectOne: action.elementId,
+        selects: {
+          [action.elementId]: true,
+        },
+        selectContainer: null,
         elements: {
           ...state.elements,
           [action.elementId]: action.data,
