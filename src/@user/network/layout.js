@@ -47,24 +47,22 @@ function preparationData(data) {
                   if (propId === 'animation' && data.containers[key].elements[id].elements[elemId][propId].active) {
                     const keyframes = data.containers[key].elements[id].elements[elemId][propId].keyframes;
                     const styles = css.parse(keyframes);
-                    styles.stylesheet.rules
-                    .forEach(item => {
-                      if (item.type === 'keyframes') {
-                        const style = css.stringify({
-                          stylesheet: {
-                            rules: [item]
-                          },
-                          type: 'stylesheet',
-                        });
-                        try {
-                          document.styleSheets[0].insertRule(style, document.styleSheets[0].cssRules.length);
-                        } catch {
-
-                        }
-                      }
-                    })
                     try {
-               
+                      styles.stylesheet.rules
+                        .forEach(item => {
+                          if (item.type === 'keyframes') {
+                            const style = css.stringify({
+                              stylesheet: {
+                                rules: [item]
+                              },
+                              type: 'stylesheet',
+                            });
+                            try {
+                              document.styleSheets[0].insertRule(style, document.styleSheets[0].cssRules.length);
+                            } catch {
+                            }
+                          }
+                        })
                     } catch {
                       console.warn('Animation not work, wrong css styles!')
                     }
