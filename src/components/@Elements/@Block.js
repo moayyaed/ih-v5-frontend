@@ -1,18 +1,7 @@
 import React from 'react';
 import { transform } from './tools';
 
-  /*
-let keyframes1 =`
-@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
-`;
-
-let keyframes2 =`
-@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
-`;
-
-let keyframes3 =`
-@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
-`;
+/*
 
 let styleSheet = document.styleSheets[0];
 
@@ -39,7 +28,6 @@ function Block(props) {
   return (
     <div 
       style={{
-        // animation: 'spin 4s linear infinite',
         position: 'absolute', 
         width: '100%', 
         height: '100%', 

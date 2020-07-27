@@ -124,8 +124,13 @@ const options = {
   ],
 }
 
-const data = { p1: { animation: ''}, p2: { keyframes: ''} };
-const cache = { p1: {}, p2: {} }
+const defaultAnimation = 'spin 4s linear infinite'
+const defaultKeyframes = `
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+`
+
 
 function Animation(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -141,8 +146,11 @@ function Animation(props) {
       template: {
         type: 'form',
         options: options,
-        data: data,
-        cache: cache,
+        data: { 
+          p1: { animation: props.data.active ? props.data.animation : defaultAnimation }, 
+          p2: { keyframes: props.data.active ? props.data.keyframes : defaultKeyframes },
+        },
+        cache: { p1: {}, p2: {} },
       },
     });
   };
