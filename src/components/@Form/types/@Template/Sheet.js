@@ -118,37 +118,8 @@ function getIdElement(index, prefix, elements) {
 
 class Sheet extends Component {
 
-  componentDidMount() {
-    core.transfer.sub('template', this.handleTransferData);
-
-  }
-
   componentWillUnmount() {
-    core.transfer.unsub('template', this.handleTransferData);
-    this.isSave = null;
     this.dragSelectContainer = null;
-  }
-
-  handleTransferData = (button, save, reset) => {
-    if (button === 'save') {
-      this.isSave = null;
-      const store = core.store.getState().apppage.data[this.props.id][this.props.prop];
-      save({
-        [this.props.id]: {
-          [this.props.prop]: store,
-        }
-      })
-    } else {
-      this.isSave = null;
-      reset();
-    }
-  }
-
-  save = () => {
-    if (!this.isSave) {
-      this.isSave = true;
-      core.actions.apppage.data({ save: 'template' })
-    }
   }
 
   handleMouseUpContainer = (e) => {
@@ -258,12 +229,18 @@ class Sheet extends Component {
   }
 
   handleStopMoveSheet = (e, data) => {
-    core.actions.template
-      .settings(
-        this.props.id, this.props.prop,
-        { x: { value: data.x }, y: { value: data.y } }
-      );
-    this.save();
+    if (
+      data.x !== this.props.settings.x.value || 
+      data.y !== this.props.settings.y.value
+    ) {
+      core.actions.template
+        .settings(
+          this.props.id, this.props.prop,
+          { x: { value: data.x }, y: { value: data.y } }
+        );
+      this.props.save();
+    }
+
   }
 
   handleStartMoveElement = (e, elementId, data) => {
@@ -301,7 +278,7 @@ class Sheet extends Component {
         this.props.id, this.props.prop,
         elementId, data, masterData,
       );
-    this.save();
+    this.props.save();
   }
 
   handleClickCopyElements = () => {
@@ -371,6 +348,7 @@ class Sheet extends Component {
   handleDeleteElement = () => {
     core.actions.template
       .deleteElement(this.props.id, this.props.prop);
+    this.props.save();
   }
 
   handleMoveElement = (e, elementId, data) => {
@@ -381,27 +359,30 @@ class Sheet extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-   const stateId = this.props.selectState;
-   const toolbar = this.props.selectToolbar;
+    if (
+      data.x !== this.props.elements[elementId].x.value || 
+      data.y !== this.props.elements[elementId].y.value
+    ) {
+      const stateId = this.props.selectState;
+      const toolbar = this.props.selectToolbar;
+      
+      if (toolbar === 'tree' || toolbar === 'events') {
+       core.actions.template
+         .moveElementMaster(
+           this.props.id, this.props.prop,
+           elementId, { x: { value: data.x }, y: { value: data.y } }
+         );
+      }
    
-   if (toolbar === 'tree' || toolbar === 'events') {
-    core.actions.template
-      .moveElementMaster(
-        this.props.id, this.props.prop,
-        elementId, { x: { value: data.x }, y: { value: data.y } }
-      );
-   }
-
-   if (toolbar === 'vars' && stateId !== 'master') {
-    core.actions.template
-      .moveElementState(
-        this.props.id, this.props.prop,
-        elementId, { x: { value: data.x }, y: { value: data.y } }
-      );
-   }
-
-   
-    this.save();
+      if (toolbar === 'vars' && stateId !== 'master') {
+       core.actions.template
+         .moveElementState(
+           this.props.id, this.props.prop,
+           elementId, { x: { value: data.x }, y: { value: data.y } }
+         );
+      }
+      this.props.save();
+    }
   }
 
   handleChangeSizeElement = (e, elementId, position, type) => {
@@ -428,7 +409,7 @@ class Sheet extends Component {
         );
      }
 
-    this.save();
+    this.props.save();
     /* if (element.type === 'group') {
       const childs = getAllElementsByGroup(element.elements, this.props.elements);
       core.actions.template
@@ -647,7 +628,7 @@ class Sheet extends Component {
         this.props.id, this.props.prop,
         { value: data.x }, { value: data.y }
       );
-    this.save();
+    this.props.save();
   }
 
   handleClickBody = (e) => {
@@ -699,7 +680,7 @@ class Sheet extends Component {
         this.props.id, this.props.prop,
         position, childs,
       );
-    this.save();
+    this.props.save();
   }
 
   handleRenderContentSelectContainer = () => {

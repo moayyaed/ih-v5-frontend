@@ -96,6 +96,35 @@ class Template extends PureComponent {
             elements: {}
           });
     }
+    core.transfer.sub('template', this.handleTransferData);
+  }
+
+  componentWillUnmount() {
+    core.transfer.unsub('template', this.handleTransferData);
+    this.isSave = null;
+    this.dragSelectContainer = null;
+  }
+
+  handleTransferData = (button, save, reset) => {
+    if (button === 'save') {
+      this.isSave = null;
+      const store = core.store.getState().apppage.data[this.props.id][this.props.options.prop];
+      save({
+        [this.props.id]: {
+          [this.props.options.prop]: store,
+        }
+      })
+    } else {
+      this.isSave = null;
+      reset();
+    }
+  }
+
+  save = () => {
+    if (!this.isSave) {
+      this.isSave = true;
+      core.actions.apppage.data({ save: 'template' })
+    }
   }
 
   handleChangeWindows = (data) => {
@@ -288,6 +317,7 @@ class Template extends PureComponent {
           this.props.data.selectOne, { [key]: value },
         );
     }
+    this.save();
   }
 
   handleGetStyleProperty = (params) => {
@@ -346,6 +376,7 @@ class Template extends PureComponent {
           elements={this.props.data.elements}
           selectToolbar={this.props.data.toolbarType}
           selectState={this.props.data.selectState}
+          save={this.save}
         />
       );
     }

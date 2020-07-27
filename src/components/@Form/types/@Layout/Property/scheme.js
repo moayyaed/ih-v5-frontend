@@ -564,18 +564,6 @@ const scheme = {
         type: 'divider',
       },
       { 
-        title: 'X', 
-        prop: 'x', 
-        type: 'number',
-        bind: false,
-      },
-      { 
-        title: 'Y', 
-        prop: 'y', 
-        type: 'number',
-        bind: false,
-      },
-      { 
         title: 'W', 
         prop: 'w', 
         type: 'number',
