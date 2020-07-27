@@ -28,16 +28,49 @@ const classes = theme => ({
 });
 
 
+
 function DialogAppBar(props) {
+
+  const close = () => {
+    if (props.type === 'form') {
+      const store = core.store.getState().appdialog;
+      core.transfer.send(store.transferid, null);
+    }
+    core.actions.appdialog.close();
+  }
+  
+  const save = () => {
+    if (props.type === 'form') {
+      const store = core.store.getState().appdialog;
+      const data = {};
+
+      Object
+        .keys(store.form.data)
+        .forEach((key) => {
+          Object
+            .keys(store.form.data[key])
+            .forEach((key2) => {
+              data[key2] = store.form.data[key][key2];
+            });
+        });
+      data.active = true;
+      core.transfer.send(store.transferid, data);
+    }
+    core.actions.appdialog.close();
+  }
+  
   return (
     <AppBar className={props.classes.appBar}>
       <Toolbar>
-        <IconButton edge="start" color="inherit" onClick={core.actions.appdialog.close} >
+        <IconButton edge="start" color="inherit" onClick={close} >
           <CloseIcon />
         </IconButton>
         <Typography variant="h6" className={props.classes.title}>
           {props.title}
         </Typography>
+        <Button autoFocus color="inherit" onClick={save} >
+            save
+        </Button>
       </Toolbar>
     </AppBar>
   )

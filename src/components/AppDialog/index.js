@@ -39,6 +39,8 @@ const classes = theme => ({
 
 
 function AppDialog(props) {
+
+
   if (props.state.open) {
     return (
       <Dialog 
@@ -46,9 +48,11 @@ function AppDialog(props) {
         maxWidth="lg"
         open={props.state.open}
         classes={{ paper: props.classes.dialog }}  
-        onClose={core.actions.appdialog.close}
       >
-        <AppBar title={props.state.template.title} />
+        <AppBar 
+          type={props.state.template.type} 
+          title={props.state.template.title} 
+        />
         <div style={styles.container} >
           {template(props.state)}
         </div>

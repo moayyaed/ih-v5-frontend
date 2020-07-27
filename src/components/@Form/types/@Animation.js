@@ -95,13 +95,8 @@ const options = {
   spacing: 10,
   grid: [
     {
-      id: 'p0',
-      xs: 2,
-      class: 'main',
-    },
-    {
       id: 'p1',
-      xs: 10,
+      xs: 12,
       class: 'main',
     },
     {
@@ -111,13 +106,6 @@ const options = {
       height: "fill",
       calc: -130,
       padding: 4,
-    },
-  ],
-  p0: [
-    {
-      prop: 'active',
-      title: 'Enabled',
-      type: 'cb'
     },
   ],
   p1: [
@@ -130,7 +118,7 @@ const options = {
   p2: [
     {
       prop: 'keyframes',
-      title: '@Keyframes',
+      title: '@keyframes',
       type: 'script',
       mode: 'css',
       theme: 'tomorrow',
@@ -153,22 +141,30 @@ function Animation(props) {
     e.preventDefault();
     e.stopPropagation();
 
+    core.transfer.sub('form_dialog', handleDialogClick);
     core.actions.appdialog.data({
-      id: 'test', 
+      id: 'animation', 
       open: true, 
       transferid: 'form_dialog',
       template: {
         type: 'form',
+        title: 'Animation Settings',
         options: options,
         data: { 
-          p0: { active: 0 },
-          p1: { animation: props.data.active ? props.data.animation : defaultAnimation }, 
-          p2: { keyframes: props.data.active ? props.data.keyframes : defaultKeyframes },
+          p1: { animation: props.data.animation ? props.data.animation : defaultAnimation }, 
+          p2: { keyframes: props.data.keyframes ? props.data.keyframes : defaultKeyframes },
         },
-        cache: { p0: {}, p1: {}, p2: {} },
+        cache: { p1: {}, p2: {} },
       },
     });
   };
+
+  const handleDialogClick = (data) => {
+    core.transfer.unsub('form_dialog', handleDialogClick);
+    if (data !== null) {
+      props.onChange(props.id, props.options, null, { ...props.data, ...data })
+    }
+  }
 
   const handleClose = (e) => {
     e.preventDefault();
