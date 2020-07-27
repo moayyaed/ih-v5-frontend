@@ -146,3 +146,7 @@ input.core:focus {
 .nb .MuiIconButton-label {
   height: 16px;
 }
+.nb .MuiSvgIcon-fontSizeSmall {
+  height: 18px;
+  width: 18px;
+}
