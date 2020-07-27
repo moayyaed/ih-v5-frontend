@@ -72,6 +72,44 @@ class Container extends PureComponent {
           templates: {},
         });
     }
+    core.transfer.sub('container', this.handleTransferData);
+  }
+
+  componentWillUnmount() {
+    core.transfer.unsub('container', this.handleTransferData);
+    this.isSave = null;
+    this.dragSelectContainer = null;
+  }
+
+  handleTransferData = (button, save, reset) => {
+    if (button === 'save') {
+      this.isSave = null;
+      const store = core.store.getState().apppage.data[this.props.id][this.props.options.prop];
+      save({
+        [this.props.id]: {
+          [this.props.options.prop]: {
+            settings: store.settings,
+            list: store.list,
+            elements: store.elements,
+            selects: store.selects,
+            selectContainer: store.selectContainer,
+            selectType: store.selectType,
+            selectOne: store.selectOne,
+            propertyType: store.propertyType,
+          }
+        }
+      })
+    } else {
+      this.isSave = null;
+      reset();
+    }
+  }
+
+  save = () => {
+    if (!this.isSave) {
+      this.isSave = true;
+      core.actions.apppage.data({ save: 'container' })
+    }
   }
 
   handleChangeWindows = (data) => {
@@ -113,6 +151,7 @@ class Container extends PureComponent {
           );
       }
     }
+    this.save();
   }
 
   handleGetStyleProperty = (params) => {
@@ -205,7 +244,8 @@ class Container extends PureComponent {
           list={this.props.data.list} 
           settings={this.props.data.settings} 
           elements={this.props.data.elements}
-          templates={this.props.data.templates} 
+          templates={this.props.data.templates}
+          save={this.save}
         />
       );
     }
