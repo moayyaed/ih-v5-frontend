@@ -124,6 +124,9 @@ const options = {
   ],
 }
 
+const data = { p1: { animation: ''}, p2: { keyframes: ''} };
+const cache = { p1: {}, p2: {} }
+
 function Animation(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -138,20 +141,8 @@ function Animation(props) {
       template: {
         type: 'form',
         options: options,
-        data: {
-          p1: {
-            animation: ''
-          },
-          p2: {
-            keyframes: '',
-          }
-        },
-        cache: {
-          p1: {
-          },
-          p2: {
-          }
-        }
+        data: data,
+        cache: cache,
       },
     });
   };
