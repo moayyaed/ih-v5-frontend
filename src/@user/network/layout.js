@@ -44,6 +44,9 @@ function preparationData(data) {
               Object
                 .keys(data.containers[key].elements[id].elements[elemId])
                 .forEach(propId => {
+                  if (propId === 'animation' && data.containers[key].elements[id].elements[elemId][propId].active) {
+                    const keyframes = data.containers[key].elements[id].elements[elemId][propId].keyframes;
+                  }
                   if (data.containers[key].elements[id].elements[elemId][propId]._bind) {
                     data.containers[key].elements[id].elements[elemId][propId].value = data.states[key][id].states[data.containers[key].elements[id].elements[elemId][propId]._bind] || 0;
                   }

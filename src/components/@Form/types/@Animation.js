@@ -110,7 +110,7 @@ const options = {
   ],
   p1: [
     {
-      prop: 'animation',
+      prop: 'value',
       title: 'Animation',
       type: 'input'
     },
@@ -151,7 +151,7 @@ function Animation(props) {
         title: 'Animation Settings',
         options: options,
         data: { 
-          p1: { animation: props.data.animation ? props.data.animation : defaultAnimation }, 
+          p1: { value: props.data.value ? props.data.value : defaultAnimation }, 
           p2: { keyframes: props.data.keyframes ? props.data.keyframes : defaultKeyframes },
         },
         cache: { p1: {}, p2: {} },
