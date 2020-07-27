@@ -38,7 +38,12 @@ const classes = theme => ({
 class SmartButton extends PureComponent {
 
   handleAfterClick = (value) => {
-    this.props.onChange(this.props.id, this.props.options, null, value)
+    const id = this.props.container.props.id;
+    const options = this.props.container.props.options;
+    const column = this.props.column;
+    const row = this.props.rowData;
+
+    this.props.container.props.onChange(id, options, { op: 'edit', column, row }, value)
   }
 
   handleDialogClick = (value) => {
@@ -55,26 +60,26 @@ class SmartButton extends PureComponent {
     e.preventDefault();
     e.stopPropagation();
 
-    if (this.props.data.title !== '') {
+    if (this.props.cellData.title !== '') {
       if (type === 'icon') {
         const value = {
           result: {
             title: '',
             value: {},
-            anchor: this.props.data.anchor 
+            anchor: this.props.cellData.anchor 
           }
         }
-        if (this.props.data.formreset) {
-          value.formreset = this.props.data.formreset;
+        if (this.props.cellData.formreset) {
+          value.formreset = this.props.cellData.formreset;
         }
         this.handleAfterClick(value);
       }
     } else {
       const params = {
-        ...this.props.options.params,
-        anchor: this.props.data.anchor,
-        nodeid: this.props.route.channel,
-        selectnodeid: this.props.data.dialognodeid
+        ...this.props.column.params,
+        anchor: this.props.cellData.anchor,
+        nodeid: this.props.container.props.route.channel,
+        selectnodeid: this.props.cellData.dialognodeid
        }
     
         core.transfer.sub('form_dialog', this.handleDialogClick);
@@ -100,14 +105,14 @@ class SmartButton extends PureComponent {
       <>
         <div style={styles.rootMini}>
           <Link 
-              href={`/admin/${this.props.data.path}`}
-              onClick={(e) => this.handleClickForward(e, this.props.data.path)}
+              href={`/admin/${this.props.cellData.path}`}
+              onClick={(e) => this.handleClickForward(e, this.props.cellData.path)}
             >
-            {this.props.data.title}
+            {this.props.cellData.title}
           </Link>
         </div>
         <IconButton onClick={(e) => this.handleClick(e,  'icon')} size="small">
-          {this.props.data.title !== '' ? <LinkOffIcon fontSize="small" /> : <LinkIcon fontSize="small" />}
+          {this.props.cellData.title !== '' ? <LinkOffIcon fontSize="small" /> : <LinkIcon fontSize="small" />}
         </IconButton>
       </>
     )
