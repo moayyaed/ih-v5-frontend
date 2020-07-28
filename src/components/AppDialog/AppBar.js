@@ -69,7 +69,7 @@ function DialogAppBar(props) {
           {props.title}
         </Typography>
         <Button autoFocus color="inherit" onClick={save} >
-            save
+            ok
         </Button>
       </Toolbar>
     </AppBar>

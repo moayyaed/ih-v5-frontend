@@ -44,7 +44,11 @@ function preparationData(data) {
               Object
                 .keys(data.containers[key].elements[id].elements[elemId])
                 .forEach(propId => {
-                  if (propId === 'animation' && data.containers[key].elements[id].elements[elemId][propId].active) {
+                  if (
+                    propId === 'animation' && 
+                    data.containers[key].elements[id].elements[elemId][propId].active &&
+                    data.containers[key].elements[id].elements[elemId][propId].keyframes
+                  ) {
                     const keyframes = data.containers[key].elements[id].elements[elemId][propId].keyframes;
                     const styles = css.parse(keyframes);
                     try {

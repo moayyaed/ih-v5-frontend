@@ -173,8 +173,13 @@ function Animation(props) {
     setAnchorEl(null);
   };
 
-  const handleChange = (value) => {
-      props.onChange(props.id, props.options, null, { ...props.data, active: true, value})
+  const handleChange = (e) => {
+      props.onChange(props.id, props.options, null, { 
+        ...props.data, 
+        active: Number(e.target.checked),
+        value: props.data.value ? props.data.value : defaultAnimation,
+        keyframes: props.data.keyframes ? props.data.keyframes : defaultKeyframes
+      })
   }
 
   const handleClickButton = (title, id, value) => {
@@ -227,7 +232,7 @@ function Animation(props) {
         color="primary"
         style={s.checkbox}
         checked={Boolean(props.data.active)}
-        onChange={(e) => props.onChange(props.id, props.options, null, { ...props.data, active: Number(e.target.checked) })} 
+        onChange={handleChange} 
       />
       <div style={s.root}>
         <div style={{ ...s.title, ...props.getStyle(props)}}>{props.options.title}</div>
