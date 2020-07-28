@@ -2,7 +2,66 @@ import core from 'core';
 import css from 'css';
 
 function preparationData(data) {
-  // console.log(data.containers, data.states)
+  
+  // animation start
+    Object
+      .keys(data.templates)
+      .forEach(templateId => {
+        ['master']
+          .concat(data.templates[templateId].listState)
+          .forEach(stateId => {
+            Object
+              .keys(data.templates[templateId].state[stateId].values)
+              .forEach(value => {
+                Object
+                  .keys(data.templates[templateId].state[stateId].values[value])
+                  .forEach(elemId => {
+                    Object
+                      .keys(data.templates[templateId].state[stateId].values[value][elemId])
+                      .forEach(property => {
+                        const item = data.templates[templateId].state[stateId].values[value][elemId][property];
+                        if (
+                          property === 'animation' &&
+                          item.active &&
+                          item.keyframes &&
+                          item.value
+                        ) {
+                          const values = item.value.split(' ');
+                          const id = `${values[0]}_${templateId}_${stateId}_${value}`;
+
+                          values[0] = id;
+                          data.templates[templateId].state[stateId].values[value][elemId][property].value = values.join(' ');
+
+                          const styles = css.parse(item.keyframes);
+
+                          try {
+                            styles.stylesheet.rules
+                              .forEach(item => {
+                                item.name = `${item.name}_${templateId}_${stateId}_${value}`
+                                if (item.type === 'keyframes') {
+                                  const style = css.stringify({
+                                    stylesheet: {
+                                      rules: [item]
+                                    },
+                                    type: 'stylesheet',
+                                  });
+                                  try {
+                                    document.styleSheets[0].insertRule(style, document.styleSheets[0].cssRules.length);
+                                  } catch {
+                                  }
+                                }
+                              })
+                          } catch {
+                            console.warn('Animation not work, wrong css styles!')
+                          }
+                        }
+                      })
+                  })
+              })
+          });
+      })
+  // animation end
+
   Object
     .keys(data.containers)
     .forEach(key => {
@@ -35,7 +94,7 @@ function preparationData(data) {
                     return { ...p, ...state[elemId] }
                   }
                   return p;
-                }, {});
+                }, {});            
               data.containers[key].elements[id].elements[elemId] = { 
                 ...renderState[elemId], 
                 ...masterState[elemId],
@@ -44,38 +103,10 @@ function preparationData(data) {
               Object
                 .keys(data.containers[key].elements[id].elements[elemId])
                 .forEach(propId => {
-                  if (
-                    propId === 'animation' && 
-                    data.containers[key].elements[id].elements[elemId][propId].active &&
-                    data.containers[key].elements[id].elements[elemId][propId].keyframes
-                  ) {
-                    const keyframes = data.containers[key].elements[id].elements[elemId][propId].keyframes;
-                    const styles = css.parse(keyframes);
-                    try {
-                      styles.stylesheet.rules
-                        .forEach(item => {
-                          if (item.type === 'keyframes') {
-                            const style = css.stringify({
-                              stylesheet: {
-                                rules: [item]
-                              },
-                              type: 'stylesheet',
-                            });
-                            try {
-                              document.styleSheets[0].insertRule(style, document.styleSheets[0].cssRules.length);
-                            } catch {
-                            }
-                          }
-                        })
-                    } catch {
-                      console.warn('Animation not work, wrong css styles!')
-                    }
-              
-                  }
                   if (data.containers[key].elements[id].elements[elemId][propId]._bind) {
                     data.containers[key].elements[id].elements[elemId][propId].value = data.states[key][id].states[data.containers[key].elements[id].elements[elemId][propId]._bind] || 0;
                   }
-                }) 
+                })
             })
           }
         }
