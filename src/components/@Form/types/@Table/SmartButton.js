@@ -47,7 +47,9 @@ class SmartButton extends PureComponent {
   }
 
   handleDialogClick = (value) => {
-    if (value === null) {
+    if (value === ':exit:') {
+      core.transfer.unsub('form_dialog', this.handleDialogClick);
+    } else if (value === null) {
       this.handleAfterClick(value)
     } else {
       core.transfer.unsub('form_dialog', this.handleDialogClick);
@@ -62,12 +64,10 @@ class SmartButton extends PureComponent {
 
     if (this.props.cellData.title !== '') {
       if (type === 'icon') {
-        const value = {
-          result: {
-            title: '',
-            value: {},
-            anchor: this.props.cellData.anchor 
-          }
+        const value = {  
+          path: '',
+          title: '',
+          value: {},
         }
         if (this.props.cellData.formreset) {
           value.formreset = this.props.cellData.formreset;

@@ -32,9 +32,11 @@ const classes = theme => ({
 function DialogAppBar(props) {
 
   const close = () => {
+    const store = core.store.getState().appdialog;
     if (props.type === 'form') {
-      const store = core.store.getState().appdialog;
       core.transfer.send(store.transferid, null);
+    } else {
+      core.transfer.send(store.transferid, ':exit:');
     }
     core.actions.appdialog.close();
   }
@@ -68,9 +70,9 @@ function DialogAppBar(props) {
         <Typography variant="h6" className={props.classes.title}>
           {props.title}
         </Typography>
-        <Button autoFocus color="inherit" onClick={save} >
+        {props.type === 'form' ? <Button autoFocus color="inherit" onClick={save} >
             ok
-        </Button>
+        </Button> : null}
       </Toolbar>
     </AppBar>
   )

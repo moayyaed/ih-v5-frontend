@@ -42,7 +42,9 @@ class SmartButton extends PureComponent {
   }
 
   handleDialogClick = (value) => {
-    if (value === null) {
+    if (value === ':exit:') {
+      core.transfer.unsub('form_dialog', this.handleDialogClick);
+    } else if (value === null) {
       this.handleAfterClick(value)
     } else {
       core.transfer.unsub('form_dialog', this.handleDialogClick);
