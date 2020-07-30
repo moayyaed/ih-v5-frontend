@@ -8,6 +8,7 @@ import Number from './@Number';
 import Password from './@Password';
 import Checkbox from './@Checkbox';
 import Textarea from './@Textarea';
+import List from './@List';
 import Droplist from './@Droplist';
 import DroplistLink from './@DroplistLink';
 import Tags from './@Tags';
@@ -49,6 +50,8 @@ function getComponentByType(type) {
       return Textarea;
     case 'table':
       return Table;
+    case 'list':
+      return List;
     case 'droplist':
       return Droplist;
     case 'droplistlink':

@@ -180,16 +180,87 @@ class Button extends Component {
   }
 }
 
+function options(list) {
+  return {
+      spacing: 10,
+      grid: [
+        {
+          id: 'p1',
+          xs: 2,
+          class: 'main',
+          height: "fill",
+          padding: 4,
+        },
+        {
+          id: 'p2',
+          xs: 10,
+          class: 'main',
+          height: "fill",
+          padding: 4,
+        },
+      ],
+      p1: [
+        {
+          prop: 'bind',
+          title: 'Varibals',
+          type: 'list',
+          data: list,
+        },
+      ],
+      p2: [
+        {
+          prop: 'func',
+          title: 'Function',
+          type: 'script',
+          mode: 'javascript',
+          theme: 'tomorrow',
+        },
+      ],
+    }
+}
 
-// onMouseDown={(e) => handleMouseDown(e, props)}
+const defaultFunction = 'return value;';
+
 function TouchNumber(props) {
-  const handleClickButton = (title, id, value) => {
-    if (title === null) {
-      props.onChange(props.id, props.options, null, { _bind: null, title: null, number: null, value: props.data.number || 0 })
+  const handleClickButton = (value) => {
+    if (value === null) {
+      props.onChange(props.id, props.options, null, { ...props.data, _bind: null, title: null, number: null, value: props.data.number || 0 })
     } else {
-      props.onChange(props.id, props.options, null, { _bind: id, title, value, number: props.data.value })
+      const store = core.store.getState().apppage.data.p1.template;
+      const list = store.listState.map(id => ({ id, title: store.state[id].title, value: store.state[id].curent }));
+      core.transfer.sub('form_dialog', handleDialogClick);
+      core.actions.appdialog.data({
+        id: 'animation', 
+        open: true, 
+        transferid: 'form_dialog',
+        template: {
+          type: 'form',
+          title: 'Binding Settings',
+          options: options(list),
+          data: { 
+            p1: { bind: { id: props.data._bind } }, 
+            p2: { func: props.data.func || defaultFunction },
+          },
+          cache: { p1: {}, p2: {} },
+        },
+      });
     }
   };
+
+  const handleDialogClick = (data) => {
+    core.transfer.unsub('form_dialog', handleDialogClick);
+    if (data !== null) {
+      const id  = data.bind.id || null;
+      const title = data.bind.title; 
+      const value = data.bind.value; 
+      const func = data.func || defaultFunction;
+      if (id) {
+        props.onChange(props.id, props.options, null, { _bind: id, title, value, func, number: props.data.value })
+      }  else {
+        props.onChange(props.id, props.options, null, { _bind: null, title: null, number: null, func, value: props.data.number || 0 })
+      }
+    }
+  }
 
   const step = props.options.step || 1;
   if (props.mini) {
