@@ -58,7 +58,7 @@ function DialogAppBar(props) {
       data.active = true;
       core.transfer.send(store.transferid, data);
     }
-    core.actions.appdialog.close();
+    props.noclose || core.actions.appdialog.close();
   }
   
   return (

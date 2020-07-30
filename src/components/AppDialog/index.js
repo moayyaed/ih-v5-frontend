@@ -49,8 +49,9 @@ function AppDialog(props) {
         open={props.state.open}
         classes={{ paper: props.classes.dialog }}  
       >
-        <AppBar 
-          type={props.state.template.type} 
+        <AppBar
+          type={props.state.template.type}
+          noclose={props.state.template.noclose} 
           title={props.state.template.title} 
         />
         <div style={styles.container} >

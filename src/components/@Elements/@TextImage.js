@@ -24,10 +24,13 @@ function getTextStyle(params) {
   };
 }
 
+
 function getTextAnchor(v) {
   switch(v) {
+    case 'left':
     case 'flex-start':
       return 'start';
+    case 'right':
     case 'flex-end':
       return 'end';
     default:
@@ -37,8 +40,10 @@ function getTextAnchor(v) {
 
 function getX(v) {
   switch(v) {
+    case 'left':
     case 'flex-start':
       return '0%';
+    case 'right': 
     case 'flex-end':
       return '100%';
     default:
@@ -48,8 +53,10 @@ function getX(v) {
 
 function getY(v, size, h, b) {
   switch(v) {
+    case 'top':
     case 'flex-start':
       return size / 2 + 'px';
+    case 'bottom':
     case 'flex-end':
       return (h - (b * 2)) - (size / 2) + 'px';
     default:
@@ -59,8 +66,12 @@ function getY(v, size, h, b) {
 
 function pos(v, type, b) {
   switch(type) {
+    case 'top':
+    case 'left':
     case 'flex-start':
       return 0
+    case 'bottom':
+    case 'right': 
     case 'flex-end':
       return v - (b * 2);
     default:

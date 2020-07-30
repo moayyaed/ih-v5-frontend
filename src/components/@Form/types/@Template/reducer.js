@@ -1,3 +1,7 @@
+import core from 'core';
+import { createValueFunc } from 'components/tools';
+
+
 import { 
   TEMPLATE_SET_DATA,
   TEMPLATE_CLEAR_DATA,
@@ -45,12 +49,21 @@ function checkLinks(data, states, id, v) {
   return Object
     .keys(data)
     .reduce((p, c) => {
-      if (data[c]._bind) {
-        const value = data[c]._bind === id ? v : (states[data[c]._bind] ?  states[data[c]._bind].curent : data[c].value) 
-        return { 
-          ...p, 
-          [c]: { ...data[c], value }
-        }
+      if (data[c]._bind && data[c].enabled) {
+        const value = data[c]._bind === id ? v : (states[data[c]._bind] ?  states[data[c]._bind].curent : data[c].value)
+          try {
+            if (core.cache.functions[data[c].uuid] === undefined) {
+              core.cache.functions[data[c].uuid] = createValueFunc(data[c].func).body;
+            }
+            if (core.cache.functions[data[c].uuid]) {
+              const v = core.cache.functions[data[c].uuid].call(null, value);
+              return { 
+                ...p, 
+                [c]: { ...data[c], value: v }
+              }
+            }
+          } catch(e) {
+          }
       }
       return { ...p, [c]: data[c] }
     }, {})
@@ -707,34 +720,6 @@ function reducerTemplate(state, action) {
       return {
         ...state,
         selectState: action.stateId,
-        /* elements: Object
-          .keys(state.elements)
-          .reduce((p, c) => {
-            return {
-              ...p,
-              [c]: ['master']
-                .concat([...state.listState].reverse())
-                .reduce((p2, c2) => {
-                  if (action.stateId === 'master') {
-                    return { 
-                      ...state.elements[c],
-                      ...state.state.master.values[0][c],
-                    }
-                  }
-                  const v = state.state[c2].curent;
-                  if (
-                    state.state[c2] &&
-                    state.state[c2].hide == false && 
-                    state.state[c2].values && 
-                    state.state[c2].values[v] &&
-                    state.state[c2].values[v][c]
-                  ) {
-                    return { ...p2, ...state.state[c2].values[v][c] };
-                  }
-                  return p2
-                }, state.elements[c]),
-            }
-          }, {}), */
       };
     case TEMPLATE_CHANGE_VALUE_STATE:
       return {

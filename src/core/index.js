@@ -57,7 +57,8 @@ const core = {
   },
   cache: {
     requests: {},
-    componentsParams: {}
+    componentsParams: {},
+    functions: {},
   },
 }
 

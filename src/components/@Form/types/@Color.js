@@ -6,6 +6,10 @@ import ButtonMenu from 'components/@Form/types/@ButtonMenu';
 
 import { SketchPicker } from 'react-color';
 
+import shortid from 'shortid';
+
+import { createValueFunc, options } from 'components/tools';
+
 const PRESET_COLORS = [
   'transparent',
   '#D0021B', '#F5A623', '#F8E71C',
@@ -83,6 +87,8 @@ const styles = {
   },
 }
 
+const defaultFunction = "return value === 1 ? 'red' : 'black';";
+
 
 function Color(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -117,13 +123,74 @@ function Color(props) {
     }
   }
 
-  const handleClickButton = (title, id, value) => {
-    if (title === null) {
-      props.onChange(props.id, props.options, null, { _bind: null, title: null, color: null, value: props.data.color || '' })
+  const handleClickButton = (value) => {
+    if (value === null) {
+      props.onChange(props.id, props.options, null, { ...props.data, enabled: false, color: null, value: props.data.color || '' })
     } else {
-      props.onChange(props.id, props.options, null, { _bind: id, title, value, color: props.data.value })
+      const store = core.store.getState().apppage.data.p1.template;
+      const list = store.listState.map(id => ({ id, title: store.state[id].title, value: store.state[id].curent }));
+      const item = list.find(i => i.id === props.data._bind);
+      
+      core.transfer.sub('form_dialog', handleDialogClick);
+      core.actions.appdialog.data({
+        id: 'animation', 
+        open: true, 
+        transferid: 'form_dialog',
+        template: {
+          noclose: true,
+          type: 'form',
+          title: 'Binding Settings',
+          options: options(list),
+          data: { 
+            p1: { bind: { ...item  } }, 
+            p2: { func: props.data.func || defaultFunction },
+          },
+          cache: { p1: {}, p2: {} },
+        },
+      });
     }
   };
+
+  const handleDialogClick = (data) => {
+    if (data !== null) {
+      const id  = data.bind.id || null;
+      const title = data.bind.title; 
+      const value = data.bind.value; 
+      const func = data.func || defaultFunction;
+      const uuid = shortid.generate();
+
+      if (id) {
+        const obj = createValueFunc(func, value);
+        if (obj.error) {
+          core.actions.app.alertOpen('warning', 'Function error: ' + obj.error.message);
+        } else {
+          try {
+            const store = core.store.getState().apppage.data.p1.template;
+            const vars = store.listState.reduce((p, c) => ({ ...p, [store.state[c].title]: store.state[c].curent }), {});
+            const v = obj.body.call(null, value, vars)
+            
+            if (core.cache.functions[props.data.uuid] !== undefined) {
+              delete core.cache.functions[props.data.uuid]
+            }
+            
+            core.cache.functions[uuid] = obj.body;
+            core.transfer.unsub('form_dialog', handleDialogClick);
+            core.actions.appdialog.close();
+            
+            props.onChange(props.id, props.options, null, { enabled: true, uuid, _bind: id, title, value: v, func, color: props.data.value })
+          } catch (e) {
+            core.actions.app.alertOpen('warning', 'Function error: ' + e.message);
+          }
+        }
+      }  else {
+        core.transfer.unsub('form_dialog', handleDialogClick);
+        core.actions.appdialog.close();
+        props.onChange(props.id, props.options, null, { enabled: false, _bind: null, title: null, color: null, func, value: props.data.color || '' })
+      }
+    } else {
+      core.transfer.unsub('form_dialog', handleDialogClick);
+    }
+  }
 
   const open = Boolean(anchorEl);
   const s = {};
@@ -144,7 +211,7 @@ function Color(props) {
     s.data = props.data;
   }
 
-  if (props.data._bind) {
+  if (props.data.enabled) {
     return (
       <>
         <input
@@ -155,7 +222,7 @@ function Color(props) {
         />
         <ButtonMenu 
           enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
-          icon={props.data._bind} 
+          icon={props.data.enabled} 
           onChange={handleClickButton} 
         />
       </>
@@ -186,7 +253,7 @@ function Color(props) {
       </div>
       <ButtonMenu 
         enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
-        icon={props.data._bind} 
+        icon={props.data.enabled} 
         onChange={handleClickButton} 
       />
     </>

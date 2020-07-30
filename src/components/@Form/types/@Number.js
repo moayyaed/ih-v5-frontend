@@ -8,8 +8,11 @@ import IconButton from '@material-ui/core/IconButton';
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
-
 import ButtonMenu from 'components/@Form/types/@ButtonMenu';
+
+import shortid from 'shortid';
+
+import { createValueFunc, options } from 'components/tools';
 
 
 const styles = {
@@ -50,6 +53,9 @@ const styles = {
     height: 22,
   }
 }
+
+const defaultFunction = 'return value;';
+
 
 function parseValue(value, oldValue) {
   if (value === '') {
@@ -180,65 +186,28 @@ class Button extends Component {
   }
 }
 
-function options(list) {
-  return {
-      spacing: 10,
-      grid: [
-        {
-          id: 'p1',
-          xs: 2,
-          class: 'main',
-          height: "fill",
-          padding: 4,
-        },
-        {
-          id: 'p2',
-          xs: 10,
-          class: 'main',
-          height: "fill",
-          padding: 4,
-        },
-      ],
-      p1: [
-        {
-          prop: 'bind',
-          title: 'Varibals',
-          type: 'list',
-          data: list,
-        },
-      ],
-      p2: [
-        {
-          prop: 'func',
-          title: 'Function',
-          type: 'script',
-          mode: 'javascript',
-          theme: 'tomorrow',
-        },
-      ],
-    }
-}
-
-const defaultFunction = 'return value;';
 
 function TouchNumber(props) {
   const handleClickButton = (value) => {
     if (value === null) {
-      props.onChange(props.id, props.options, null, { ...props.data, _bind: null, title: null, number: null, value: props.data.number || 0 })
+      props.onChange(props.id, props.options, null, { ...props.data, enabled: false, number: null, value: props.data.number || 0 })
     } else {
       const store = core.store.getState().apppage.data.p1.template;
       const list = store.listState.map(id => ({ id, title: store.state[id].title, value: store.state[id].curent }));
+      const item = list.find(i => i.id === props.data._bind);
+      
       core.transfer.sub('form_dialog', handleDialogClick);
       core.actions.appdialog.data({
         id: 'animation', 
         open: true, 
         transferid: 'form_dialog',
         template: {
+          noclose: true,
           type: 'form',
           title: 'Binding Settings',
           options: options(list),
           data: { 
-            p1: { bind: { id: props.data._bind } }, 
+            p1: { bind: { ...item  } }, 
             p2: { func: props.data.func || defaultFunction },
           },
           cache: { p1: {}, p2: {} },
@@ -248,23 +217,49 @@ function TouchNumber(props) {
   };
 
   const handleDialogClick = (data) => {
-    core.transfer.unsub('form_dialog', handleDialogClick);
     if (data !== null) {
       const id  = data.bind.id || null;
       const title = data.bind.title; 
       const value = data.bind.value; 
       const func = data.func || defaultFunction;
+      const uuid = shortid.generate();
+
       if (id) {
-        props.onChange(props.id, props.options, null, { _bind: id, title, value, func, number: props.data.value })
+        const obj = createValueFunc(func, value);
+        if (obj.error) {
+          core.actions.app.alertOpen('warning', 'Function error: ' + obj.error.message);
+        } else {
+          try {
+            const store = core.store.getState().apppage.data.p1.template;
+            const vars = store.listState.reduce((p, c) => ({ ...p, [store.state[c].title]: store.state[c].curent }), {});
+            const v = obj.body.call(null, value, vars)
+            
+            if (core.cache.functions[props.data.uuid] !== undefined) {
+              delete core.cache.functions[props.data.uuid]
+            }
+            
+            core.cache.functions[uuid] = obj.body;
+            core.transfer.unsub('form_dialog', handleDialogClick);
+            core.actions.appdialog.close();
+            
+            props.onChange(props.id, props.options, null, { enabled: true, uuid, _bind: id, title, value: v, func, number: props.data.value })
+          } catch (e) {
+            core.actions.app.alertOpen('warning', 'Function error: ' + e.message);
+          }
+        }
       }  else {
-        props.onChange(props.id, props.options, null, { _bind: null, title: null, number: null, func, value: props.data.number || 0 })
+        core.transfer.unsub('form_dialog', handleDialogClick);
+        core.actions.appdialog.close();
+        props.onChange(props.id, props.options, null, { enabled: false, _bind: null, title: null, number: null, func, value: props.data.number || 0 })
       }
+    } else {
+      core.transfer.unsub('form_dialog', handleDialogClick);
     }
   }
 
   const step = props.options.step || 1;
   if (props.mini) {
-    if (props.data._bind) {
+    if (props.data.enabled) {
       return (
         <div style={styles.containerMini}>
           <input
@@ -275,7 +270,7 @@ function TouchNumber(props) {
           />
           <ButtonMenu 
             enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
-            icon={props.data._bind} 
+            icon={props.data.enabled} 
             onChange={handleClickButton} 
           />
         </div>
@@ -301,7 +296,7 @@ function TouchNumber(props) {
         />
         <ButtonMenu 
           enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
-          icon={props.data._bind} 
+          icon={props.data.enabled} 
           onChange={handleClickButton} 
         />
       </div>

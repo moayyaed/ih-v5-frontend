@@ -119,6 +119,7 @@ function getIdElement(index, prefix, elements) {
 class Sheet extends Component {
 
   componentWillUnmount() {
+    core.cache.functions = {};
     this.dragSelectContainer = null;
   }
 

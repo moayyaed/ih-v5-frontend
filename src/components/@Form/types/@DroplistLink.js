@@ -15,6 +15,10 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { VariableSizeList } from 'react-window';
 
+import shortid from 'shortid';
+
+import { createValueFunc, options } from 'components/tools';
+
 
 const styles = {
   root: {
@@ -132,6 +136,8 @@ function generateList(data) {
   return [];
 }
 
+const defaultFunction = "return value;";
+
 
 class DroplistLink extends PureComponent {
   state = { list: [], loading: false }
@@ -213,17 +219,78 @@ class DroplistLink extends PureComponent {
     }
   }
 
-  handleClickButton = (title, id, value) => {
-    if (title === null) {
-      this.props.onChange(this.props.id, this.props.options, null, { _bind: null, title: null, droplist: null, value: this.props.data.droplist || 0 })
+  handleClickButton = (value) => {
+    if (value === null) {
+      this.props.onChange(this.props.id, this.props.options, null, { ...this.props.data, enabled: false, droplist: null, value: this.props.data.droplist || '' })
     } else {
-      this.props.onChange(this.props.id, this.props.options, null, { _bind: id, title, value, droplist: this.props.data.value })
+      const store = core.store.getState().apppage.data.p1.template;
+      const list = store.listState.map(id => ({ id, title: store.state[id].title, value: store.state[id].curent }));
+      const item = list.find(i => i.id === this.props.data._bind);
+      
+      core.transfer.sub('form_dialog', this.handleDialogClick);
+      core.actions.appdialog.data({
+        id: 'animation', 
+        open: true, 
+        transferid: 'form_dialog',
+        template: {
+          noclose: true,
+          type: 'form',
+          title: 'Binding Settings',
+          options: options(list),
+          data: { 
+            p1: { bind: { ...item  } }, 
+            p2: { func: this.props.data.func || defaultFunction },
+          },
+          cache: { p1: {}, p2: {} },
+        },
+      });
     }
-  };
+  }
+
+  handleDialogClick = (data) => {
+    if (data !== null) {
+      const id  = data.bind.id || null;
+      const title = data.bind.title; 
+      const value = data.bind.value; 
+      const func = data.func || defaultFunction;
+      const uuid = shortid.generate();
+
+      if (id) {
+        const obj = createValueFunc(func, value);
+        if (obj.error) {
+          core.actions.app.alertOpen('warning', 'Function error: ' + obj.error.message);
+        } else {
+          try {
+            const store = core.store.getState().apppage.data.p1.template;
+            const vars = store.listState.reduce((p, c) => ({ ...p, [store.state[c].title]: store.state[c].curent }), {});
+            const v = obj.body.call(null, value, vars)
+            
+            if (core.cache.functions[this.props.data.uuid] !== undefined) {
+              delete core.cache.functions[this.props.data.uuid]
+            }
+            
+            core.cache.functions[uuid] = obj.body;
+            core.transfer.unsub('form_dialog', this.handleDialogClick);
+            core.actions.appdialog.close();
+            
+            this.props.onChange(this.props.id, this.props.options, null, { enabled: true, uuid, _bind: id, title, value: v, func, droplist: this.props.data.value })
+          } catch (e) {
+            core.actions.app.alertOpen('warning', 'Function error: ' + e.message);
+          }
+        }
+      }  else {
+        core.transfer.unsub('form_dialog', this.handleDialogClick);
+        core.actions.appdialog.close();
+        this.props.onChange(this.props.id, this.props.options, null, { enabled: false, _bind: null, title: null, droplist: null, func, value: this.props.data.droplist || {} })
+      }
+    } else {
+      core.transfer.unsub('form_dialog', this.handleDialogClick);
+    }
+  }
 
   render({ id, options, global, mini } = this.props) {
     const list = this.state.list.filter(i => i.hide ? !i.hide(global) : true);
-    if (this.props.data._bind ) {
+    if (this.props.data.enabled ) {
       return (
         <>
           <input
@@ -234,7 +301,7 @@ class DroplistLink extends PureComponent {
           />
           <ButtonMenu 
             enabled={this.props.options.bind !== undefined ? this.props.options.bind : this.props.route.type} 
-            icon={this.props.data._bind} 
+            icon={this.props.data.enabled} 
             onChange={this.handleClickButton} 
           />
         </>
@@ -262,7 +329,7 @@ class DroplistLink extends PureComponent {
         />
         <ButtonMenu 
           enabled={this.props.options.bind !== undefined ? this.props.options.bind : this.props.route.type} 
-          icon={this.props.data._bind} 
+          icon={this.props.data.enabled} 
           onChange={this.handleClickButton} 
         />
       </>

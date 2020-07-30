@@ -7,6 +7,9 @@ import TuneIcon from '@material-ui/icons/Tune';
 
 import ButtonMenu from 'components/@Form/types/@ButtonMenu';
 
+import shortid from 'shortid';
+
+import { createValueFunc, options } from 'components/tools';
 
 const styles = {
   root: {
@@ -91,7 +94,7 @@ const styles = {
 }
 
 
-const options = {
+const options2 = {
   spacing: 10,
   grid: [
     {
@@ -132,7 +135,7 @@ const defaultKeyframes = `
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 `
-
+const defaultFunction = "return `spin ${1 / value}s linear infinite`";
 
 function Animation(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -141,7 +144,7 @@ function Animation(props) {
     e.preventDefault();
     e.stopPropagation();
 
-    core.transfer.sub('form_dialog', handleDialogClick);
+    core.transfer.sub('form_dialog', handleDialogClick2);
     core.actions.appdialog.data({
       id: 'animation', 
       open: true, 
@@ -149,7 +152,7 @@ function Animation(props) {
       template: {
         type: 'form',
         title: 'Animation Settings',
-        options: options,
+        options: options2,
         data: { 
           p1: { value: props.data.value ? props.data.value : defaultAnimation }, 
           p2: { keyframes: props.data.keyframes ? props.data.keyframes : defaultKeyframes },
@@ -159,8 +162,8 @@ function Animation(props) {
     });
   };
 
-  const handleDialogClick = (data) => {
-    core.transfer.unsub('form_dialog', handleDialogClick);
+  const handleDialogClick2 = (data) => {
+    core.transfer.unsub('form_dialog', handleDialogClick2);
     if (data !== null) {
       props.onChange(props.id, props.options, null, { ...props.data, ...data })
     }
@@ -182,13 +185,74 @@ function Animation(props) {
       })
   }
 
-  const handleClickButton = (title, id, value) => {
-    if (title === null) {
-      props.onChange(props.id, props.options, null, { ...props.data.old, _bind: null, title: null, old: {} })
+  const handleClickButton = (value) => {
+    if (value === null) {
+      props.onChange(props.id, props.options, null, { ...props.data, ...props.data.animation, enabled: false, animation: {} })
     } else {
-      props.onChange(props.id, props.options, null, { _bind: id, title, value, old: props.data })
+      const store = core.store.getState().apppage.data.p1.template;
+      const list = store.listState.map(id => ({ id, title: store.state[id].title, value: store.state[id].curent }));
+      const item = list.find(i => i.id === props.data._bind);
+      
+      core.transfer.sub('form_dialog', handleDialogClick);
+      core.actions.appdialog.data({
+        id: 'animation', 
+        open: true, 
+        transferid: 'form_dialog',
+        template: {
+          noclose: true,
+          type: 'form',
+          title: 'Binding Settings',
+          options: options(list),
+          data: { 
+            p1: { bind: { ...item  } }, 
+            p2: { func: props.data.func || defaultFunction },
+          },
+          cache: { p1: {}, p2: {} },
+        },
+      });
     }
   };
+
+  const handleDialogClick = (data) => {
+    if (data !== null) {
+      const id  = data.bind.id || null;
+      const title = data.bind.title; 
+      const value = data.bind.value; 
+      const func = data.func || defaultFunction;
+      const uuid = shortid.generate();
+
+      if (id) {
+        const obj = createValueFunc(func, value);
+        if (obj.error) {
+          core.actions.app.alertOpen('warning', 'Function error: ' + obj.error.message);
+        } else {
+          try {
+            const store = core.store.getState().apppage.data.p1.template;
+            const vars = store.listState.reduce((p, c) => ({ ...p, [store.state[c].title]: store.state[c].curent }), {});
+            const v = obj.body.call(null, value, vars)
+            
+            if (core.cache.functions[props.data.uuid] !== undefined) {
+              delete core.cache.functions[props.data.uuid]
+            }
+            
+            core.cache.functions[uuid] = obj.body;
+            core.transfer.unsub('form_dialog', handleDialogClick);
+            core.actions.appdialog.close();
+            
+            props.onChange(props.id, props.options, null, { active: true, enabled: true, uuid, _bind: id, title, value: v, func, animation: props.data })
+          } catch (e) {
+            core.actions.app.alertOpen('warning', 'Function error: ' + e.message);
+          }
+        }
+      }  else {
+        core.transfer.unsub('form_dialog', handleDialogClick);
+        core.actions.appdialog.close();
+        props.onChange(props.id, props.options, null, { ...props.data, ...props.data.animation, enabled: false, _bind: null, title: null, animation: null, func })
+      }
+    } else {
+      core.transfer.unsub('form_dialog', handleDialogClick);
+    }
+  }
 
   const open = Boolean(anchorEl);
   const s = {};
@@ -207,7 +271,7 @@ function Animation(props) {
     s.checkbox = styles.checkBox;
   }
 
-  if (props.data._bind) {
+  if (props.data.enabled) {
     return (
       <>
         <input
@@ -218,7 +282,7 @@ function Animation(props) {
         />
         <ButtonMenu 
           enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
-          icon={props.data._bind} 
+          icon={props.data.enabled} 
           onChange={handleClickButton} 
         />
       </>
@@ -242,7 +306,7 @@ function Animation(props) {
       </div>
       <ButtonMenu 
         enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
-        icon={props.data._bind} 
+        icon={props.data.enabled} 
         onChange={handleClickButton} 
       />
     </>

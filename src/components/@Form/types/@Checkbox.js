@@ -1,10 +1,15 @@
 import React from 'react';
+import core from 'core';
 
 import CheckboxMui from '@material-ui/core/Checkbox';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import ButtonMenu from 'components/@Form/types/@ButtonMenu';
+
+import shortid from 'shortid';
+
+import { createValueFunc, options } from 'components/tools';
 
 
 const styles = {
@@ -38,19 +43,82 @@ const styles = {
   }
 }
 
+const defaultFunction = "return value;";
 
 function Checkbox(props) {
-  const handleClickButton = (title, id, value) => {
-    if (title === null) {
-      props.onChange(props.id, props.options, null, { _bind: null, title: null, cb: null, value: props.data.cb || 0 })
+  const handleClickButton = (value) => {
+    if (value === null) {
+      props.onChange(props.id, props.options, null, { ...props.data, enabled: false, cb: null, value: props.data.cb || '' })
     } else {
-      props.onChange(props.id, props.options, null, { _bind: id, title, value, cb: props.data.value })
+      const store = core.store.getState().apppage.data.p1.template;
+      const list = store.listState.map(id => ({ id, title: store.state[id].title, value: store.state[id].curent }));
+      const item = list.find(i => i.id === props.data._bind);
+      
+      core.transfer.sub('form_dialog', handleDialogClick);
+      core.actions.appdialog.data({
+        id: 'animation', 
+        open: true, 
+        transferid: 'form_dialog',
+        template: {
+          noclose: true,
+          type: 'form',
+          title: 'Binding Settings',
+          options: options(list),
+          data: { 
+            p1: { bind: { ...item  } }, 
+            p2: { func: props.data.func || defaultFunction },
+          },
+          cache: { p1: {}, p2: {} },
+        },
+      });
     }
   };
+
+  const handleDialogClick = (data) => {
+    if (data !== null) {
+      const id  = data.bind.id || null;
+      const title = data.bind.title; 
+      const value = data.bind.value; 
+      const func = data.func || defaultFunction;
+      const uuid = shortid.generate();
+
+      if (id) {
+        const obj = createValueFunc(func, value);
+        if (obj.error) {
+          core.actions.app.alertOpen('warning', 'Function error: ' + obj.error.message);
+        } else {
+          try {
+            const store = core.store.getState().apppage.data.p1.template;
+            const vars = store.listState.reduce((p, c) => ({ ...p, [store.state[c].title]: store.state[c].curent }), {});
+            const v = obj.body.call(null, value, vars)
+            
+            if (core.cache.functions[props.data.uuid] !== undefined) {
+              delete core.cache.functions[props.data.uuid]
+            }
+            
+            core.cache.functions[uuid] = obj.body;
+            core.transfer.unsub('form_dialog', handleDialogClick);
+            core.actions.appdialog.close();
+            
+            props.onChange(props.id, props.options, null, { enabled: true, uuid, _bind: id, title, value: v, func, color: props.data.value })
+          } catch (e) {
+            core.actions.app.alertOpen('warning', 'Function error: ' + e.message);
+          }
+        }
+      }  else {
+        core.transfer.unsub('form_dialog', handleDialogClick);
+        core.actions.appdialog.close();
+        props.onChange(props.id, props.options, null, { enabled: false, _bind: null, title: null, cb: null, func, value: props.data.cb || 0 })
+      }
+    } else {
+      core.transfer.unsub('form_dialog', handleDialogClick);
+    }
+  }
+
   if (props.mini) {
     return (
       <>
-        {props.data._bind ? 
+        {props.data.enabled ? 
         <input
           className="core"
           style={styles.rootMini2} 
@@ -67,7 +135,7 @@ function Checkbox(props) {
         />}
         <ButtonMenu 
           enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
-          icon={props.data._bind} 
+          icon={props.data.enabled} 
           onChange={handleClickButton} 
         />
       </>
