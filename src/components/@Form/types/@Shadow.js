@@ -78,6 +78,9 @@ const styles = {
     height: 16,
     position: 'absolute',
   },
+  stub: {
+    width: '100%',
+  },
 }
 
 const defaultFunction = "return value === 1 ? 'red 2px 2px 4px 0px' : 'black 2px 2px 4px 0px';";
@@ -219,6 +222,7 @@ function Shadow(props) {
         checked={Boolean(props.data.active)}
         onChange={(e) => props.onChange(props.id, props.options, null, { ...props.data, active: Number(e.target.checked) })} 
       />
+      <div style={styles.stub} />
       <div style={s.root}>
         <div style={{ ...s.title, ...props.getStyle(props)}}>{props.options.title}</div>
         <IconButton size="small" onClick={handleClick}>

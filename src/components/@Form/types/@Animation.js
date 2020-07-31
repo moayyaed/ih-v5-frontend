@@ -90,7 +90,10 @@ const styles = {
   text: {
     margin: 12,
     width: 'calc(100% - 24px)',
-  }
+  },
+  stub: {
+    width: '100%',
+  },
 }
 
 
@@ -282,6 +285,11 @@ function Animation(props) {
           disabled={true}
           value={props.data.title}
         />
+        <div style={s.root}>
+          <IconButton size="small" onClick={handleClick}>
+            <TuneIcon fontSize="inherit" />
+          </IconButton>
+        </div>
         <ButtonMenu 
           enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
           icon={props.data.enabled} 
@@ -300,6 +308,7 @@ function Animation(props) {
         checked={Boolean(props.data.active)}
         onChange={handleChange} 
       />
+      <div style={styles.stub} />
       <div style={s.root}>
         <div style={{ ...s.title, ...props.getStyle(props)}}>{props.options.title}</div>
         <IconButton size="small" onClick={handleClick}>
