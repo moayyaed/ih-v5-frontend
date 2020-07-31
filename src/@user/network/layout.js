@@ -22,16 +22,7 @@ function preparationData(data) {
                       .keys(data.templates[templateId].state[stateId].values[value][elemId])
                       .forEach(property => {
                         const item = data.templates[templateId].state[stateId].values[value][elemId][property];
-                        // bind
-                        if (item.enabled) {
-                          try {
-                            data.templates[templateId].state[stateId].values[value][elemId][property].func = createValueFunc(item.func).body;
-                          } catch {
-
-                          }
-                        }
-                        // bind
-
+                        console.log(item)
                         if (
                           property === 'animation' &&
                           item.active &&
@@ -40,9 +31,13 @@ function preparationData(data) {
                         ) {
                           const values = item.value.split(' ');
                           const id = `${values[0]}_${templateId}_${stateId}_${value}`;
-
+                         
                           values[0] = id;
                           data.templates[templateId].state[stateId].values[value][elemId][property].value = values.join(' ');
+                          if (item.enabled) {
+                            data.templates[templateId].state[stateId].values[value][elemId][property].func = item.func.replace(values[0], id)
+                            console.log(data.templates[templateId].state[stateId].values[value][elemId][property].func)
+                          }
 
                           const styles = css.parse(item.keyframes);
 
@@ -67,6 +62,15 @@ function preparationData(data) {
                             console.warn('Animation not work, wrong css styles!')
                           }
                         }
+                          // bind
+                          if (item.enabled) {
+                            try {
+                              data.templates[templateId].state[stateId].values[value][elemId][property].func = createValueFunc(item.func).body;
+                            } catch {
+
+                            }
+                          }
+                          // bind
                       })
                   })
               })

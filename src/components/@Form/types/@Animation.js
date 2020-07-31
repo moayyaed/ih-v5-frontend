@@ -239,7 +239,7 @@ function Animation(props) {
             core.transfer.unsub('form_dialog', handleDialogClick);
             core.actions.appdialog.close();
             
-            props.onChange(props.id, props.options, null, { active: true, enabled: true, uuid, _bind: id, title, value: v, func, animation: props.data })
+            props.onChange(props.id, props.options, null, { ...props.data, active: true, enabled: true, uuid, _bind: id, title, value: v, func, animation: props.data })
           } catch (e) {
             core.actions.app.alertOpen('warning', 'Function error: ' + e.message);
           }
