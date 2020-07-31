@@ -57,12 +57,12 @@ function reducer(state = defaultState, action) {
                                       [c5]: Object
                                         .keys(data[c5])
                                         .reduce((p6, c6) => {
-                                          if (data[c5][c6]._bind) {
+                                          if (data[c5][c6].enabled) {
                                             return { 
                                               ...p6, 
                                               [c6]: {
                                                 ...data[c5][c6],
-                                                value: v[data[c5][c6]._bind]
+                                                value: data[c5][c6].func.call(null, v[data[c5][c6]._bind], v),
                                               }
                                             }
                                           }

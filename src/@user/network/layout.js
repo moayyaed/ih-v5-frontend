@@ -1,6 +1,8 @@
 import core from 'core';
 import css from 'css';
 
+import { createValueFunc, options } from 'components/tools';
+
 function preparationData(data) {
   
   // animation start
@@ -103,8 +105,15 @@ function preparationData(data) {
               Object
                 .keys(data.containers[key].elements[id].elements[elemId])
                 .forEach(propId => {
-                  if (data.containers[key].elements[id].elements[elemId][propId]._bind) {
-                    data.containers[key].elements[id].elements[elemId][propId].value = data.states[key][id].states[data.containers[key].elements[id].elements[elemId][propId]._bind] || 0;
+                  if (data.containers[key].elements[id].elements[elemId][propId].enabled) {
+                    const value = data.states[key][id].states[data.containers[key].elements[id].elements[elemId][propId]._bind] || 0;
+                    try {
+                      const f = createValueFunc(data.containers[key].elements[id].elements[elemId][propId].func)
+                      data.containers[key].elements[id].elements[elemId][propId].func = f.body;
+                    } catch {
+
+                    }
+                    data.containers[key].elements[id].elements[elemId][propId].value = data.containers[key].elements[id].elements[elemId][propId].func.call(null, value, data.containers[key].elements[id].states);
                   }
                 })
             })
