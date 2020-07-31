@@ -22,6 +22,16 @@ function preparationData(data) {
                       .keys(data.templates[templateId].state[stateId].values[value][elemId])
                       .forEach(property => {
                         const item = data.templates[templateId].state[stateId].values[value][elemId][property];
+                        // bind
+                        if (item.enabled) {
+                          try {
+                            data.templates[templateId].state[stateId].values[value][elemId][property].func = createValueFunc(item.func).body;
+                          } catch {
+
+                          }
+                        }
+                        // bind
+
                         if (
                           property === 'animation' &&
                           item.active &&
@@ -108,8 +118,6 @@ function preparationData(data) {
                   if (data.containers[key].elements[id].elements[elemId][propId].enabled) {
                     const value = data.states[key][id].states[data.containers[key].elements[id].elements[elemId][propId]._bind] || 0;
                     try {
-                      const f = createValueFunc(data.containers[key].elements[id].elements[elemId][propId].func)
-                      data.containers[key].elements[id].elements[elemId][propId].func = f.body;
                       data.containers[key].elements[id].elements[elemId][propId].value = data.containers[key].elements[id].elements[elemId][propId].func.call(null, value, data.containers[key].elements[id].states);
                     } catch {
                       data.containers[key].elements[id].elements[elemId][propId].value = value;
