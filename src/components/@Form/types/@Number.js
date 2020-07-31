@@ -192,32 +192,55 @@ function TouchNumber(props) {
     if (value === null) {
       props.onChange(props.id, props.options, null, { ...props.data, enabled: false, number: null, value: props.data.number || 0 })
     } else {
-      const store = core.store.getState().apppage.data.p1.template;
-      const list = store.listState.map(id => ({ id, title: store.state[id].title, value: store.state[id].curent }));
-      const item = list.find(i => i.id === props.data._bind);
-      
-      core.transfer.sub('form_dialog', handleDialogClick);
-      core.actions.appdialog.data({
-        id: 'animation', 
-        open: true, 
-        transferid: 'form_dialog',
-        template: {
-          noclose: true,
-          type: 'form',
-          title: 'Binding Settings',
-          options: options(list),
-          data: { 
-            p1: { bind: { ...item  } }, 
-            p2: { func: props.data.func || defaultFunction },
+      if (props.route.type) {
+        const store = core.store.getState().apppage.data.p1.template;
+        const list = store.listState.map(id => ({ id, title: store.state[id].title, value: store.state[id].curent }));
+        const item = list.find(i => i.id === props.data._bind);
+        
+        core.transfer.sub('form_dialog', handleDialogClick);
+        core.actions.appdialog.data({
+          id: 'animation', 
+          open: true, 
+          transferid: 'form_dialog',
+          template: {
+            noclose: true,
+            type: 'form',
+            title: 'Binding Settings',
+            options: options(list),
+            data: { 
+              p1: { bind: { ...item  } }, 
+              p2: { func: props.data.func || defaultFunction },
+            },
+            cache: { p1: {}, p2: {} },
           },
-          cache: { p1: {}, p2: {} },
-        },
-      });
+        });
+      } else {
+        core.transfer.sub('form_dialog', handleDialogClick3);
+        core.actions.appdialog.data({
+          id: 'animation', 
+          open: true, 
+          transferid: 'form_dialog',
+          template: {
+            title: 'Binding Settings',
+            type: 'tree',
+            id: 'devices',
+            dialog: 'channellink'
+          },
+        });
+      }
     }
   };
 
+  const handleDialogClick3 = (data) => {
+    const dn = data.result.value.did;
+    const id  = data.result.value.prop;
+    const title = data.result.title
+    console.log(dn, id, title, )
+  }
+
+
   const handleDialogClick = (data) => {
-    if (data !== null) {
+    if (data !== null && data !== ':exit:') {
       const id  = data.bind.id || null;
       const title = data.bind.title; 
       const value = data.bind.value; 
