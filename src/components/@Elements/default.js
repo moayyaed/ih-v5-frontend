@@ -14,7 +14,6 @@ const BLOCK = {
     extent: 'closest-side',
     palette: [{ offset: '0.00', color: '#4A90E2', opacity: 1 }, { offset: '1.00', color: '#9013FE', opacity: 1 }]
   },
-  backgroundImage: { value: 'unset' },
   rotate: { value: 0 },
   animation: {},
   flipH: { value: false },
@@ -40,7 +39,6 @@ const RECTANGLE = {
     extent: 'closest-side',
     palette: [{ offset: '0.00', color: '#4A90E2', opacity: 1 }, { offset: '1.00', color: '#9013FE', opacity: 1 }]
   },
-  backgroundImage: { value: 'unset' },
   rotate: { value: 0 },
   animation: {},
   flipH: { value: false },
@@ -66,7 +64,6 @@ const CIRCLE = {
     extent: 'closest-side',
     palette: [{ offset: '0.00', color: '#4A90E2', opacity: 1 }, { offset: '1.00', color: '#9013FE', opacity: 1 }]
   },
-  backgroundImage: { value: 'unset' },
   rotate: { value: 0 },
   animation: {},
   flipH: { value: false },
@@ -101,7 +98,6 @@ const TEXT = {
     extent: 'closest-side',
     palette: [{ offset: '0.00', color: '#4A90E2', opacity: 1 }, { offset: '1.00', color: '#9013FE', opacity: 1 }]
   },
-  backgroundImage: { value: 'unset' },
   rotate: { value: 0 },
   animation: {},
   flipH: { value: false },
@@ -131,7 +127,6 @@ const IMAGE = {
     extent: 'closest-side',
     palette: [{ offset: '0.00', color: '#4A90E2', opacity: 1 }, { offset: '1.00', color: '#9013FE', opacity: 1 }]
   },
-  backgroundImage: { value: 'unset' },
   rotate: { value: 0 },
   animation: {},
   flipH: { value: false },
@@ -178,7 +173,6 @@ const TEXT_IMAGE = {
   longClickRight: { value: '' },
   mouseDown: { value: '' },
   mouseUp: { value: '' },
-  backgroundImage: { value: 'unset' },
   rotate: { value: 0 },
   animation: {},
   flipH: { value: false },
@@ -228,7 +222,6 @@ const BUTTON = {
   mouseUpLeft: { value: '' },
   mouseDownLeft: { value: '' },
   mouseUpLeft: { value: '' },
-  backgroundImage: { value: 'unset' },
   rotate: { value: 0 },
   animation: {},
   flipH: { value: false },

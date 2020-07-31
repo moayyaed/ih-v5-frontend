@@ -9,11 +9,6 @@ const backgroundSection = [
     prop: 'backgroundColor', 
     type: 'color2',
   },
-  { 
-    title: 'Image', 
-    prop: 'backgroundImage', 
-    type: 'inputlink',
-  },
 ]
 
 const borderSection = [
