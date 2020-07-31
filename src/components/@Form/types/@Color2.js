@@ -458,8 +458,10 @@ function Color2(props) {
             core.cache.functions[uuid] = obj.body;
             core.transfer.unsub('form_dialog', handleDialogClick);
             core.actions.appdialog.close();
-            
-            props.onChange(props.id, props.options, null, { enabled: true, uuid, _bind: id, title, value: v, func, color: props.data })
+
+            const data = { ...props.data, uuid, _bind: id, title, func };
+
+            props.onChange(props.id, props.options, null, { ...props.data, enabled: true, uuid, _bind: id, title, value: v, func, color: data })
           } catch (e) {
             core.actions.app.alertOpen('warning', 'Function error: ' + e.message);
           }
