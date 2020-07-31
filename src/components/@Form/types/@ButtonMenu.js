@@ -20,7 +20,7 @@ function ButtonMenu(props) {
 
   const handleClick = (event, icon) => {
     if (icon) {
-      props.onChange(null);
+      props.onChange();
     } else {
       props.onChange()
     }

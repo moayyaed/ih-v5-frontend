@@ -34,7 +34,7 @@ function _List(props) {
             key={item.id} 
             role={undefined} 
             dense button 
-            onClick={() => props.onChange(props.id, props.options, null, item)}
+            onClick={() => props.onChange(props.id, props.options, null, props.data.id === item.id ? {} : item)}
           >
             <ListItemIcon>
               <Checkbox
