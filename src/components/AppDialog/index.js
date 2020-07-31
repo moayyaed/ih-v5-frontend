@@ -51,6 +51,7 @@ function AppDialog(props) {
       >
         <AppBar
           type={props.state.template.type}
+          disabledSave={props.state.template.disabledSave}
           noclose={props.state.template.noclose} 
           title={props.state.template.title} 
         />

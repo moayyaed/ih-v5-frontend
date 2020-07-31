@@ -156,6 +156,7 @@ function Animation(props) {
         type: 'form',
         title: 'Animation Settings',
         options: options2,
+        disabledSave: props.data.enabled,
         data: { 
           p1: { value: props.data.value ? props.data.value : defaultAnimation }, 
           p2: { keyframes: props.data.keyframes ? props.data.keyframes : defaultKeyframes },

@@ -70,7 +70,7 @@ function DialogAppBar(props) {
         <Typography variant="h6" className={props.classes.title}>
           {props.title}
         </Typography>
-        {props.type === 'form' ? <Button autoFocus color="inherit" onClick={save} >
+        {!props.disabledSave && props.type === 'form' ? <Button autoFocus color="inherit" onClick={save} >
             ok
         </Button> : null}
       </Toolbar>
