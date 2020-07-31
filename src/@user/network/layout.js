@@ -110,10 +110,10 @@ function preparationData(data) {
                     try {
                       const f = createValueFunc(data.containers[key].elements[id].elements[elemId][propId].func)
                       data.containers[key].elements[id].elements[elemId][propId].func = f.body;
+                      data.containers[key].elements[id].elements[elemId][propId].value = data.containers[key].elements[id].elements[elemId][propId].func.call(null, value, data.containers[key].elements[id].states);
                     } catch {
-
+                      data.containers[key].elements[id].elements[elemId][propId].value = value;
                     }
-                    data.containers[key].elements[id].elements[elemId][propId].value = data.containers[key].elements[id].elements[elemId][propId].func.call(null, value, data.containers[key].elements[id].states);
                   }
                 })
             })
