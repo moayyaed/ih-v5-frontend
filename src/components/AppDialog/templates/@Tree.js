@@ -68,6 +68,7 @@ function TemplateTree({ state }) {
         requestId={state.template.id}
         onClickNode={handleClickNode}
         defaultSelectNodeId={state.template.selectnodeid}
+        defaultSelectChildren
       />
         <div style={styles.container} >
           <div style={styles.toolbar}>
