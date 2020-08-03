@@ -262,7 +262,7 @@ function TouchNumber(props) {
           }
         }
       } else {
-        const params = { ...props.data, enabled: null, prop: null, title: null };
+        const params = { ...props.data, enabled: null, prop: null, title: null, func };
 
         core.transfer.unsub('form_dialog', handleDialogClick3);
         core.actions.appdialog.close();
