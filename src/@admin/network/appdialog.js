@@ -32,6 +32,21 @@ core.network.response('appdialog_channellink', (answer, res, context) => {
   answer(res);
 })
 
+core.network.request('appdialog_elementlink', (send, context) => {
+  send({ 
+    method: 'get', 
+    type: 'link',
+    id: 'elementlink',
+    nodeid: context.params.id,
+    anchor: context.props.anchor,
+  });
+})
+
+core.network.response('appdialog_elementlink', (answer, res, context) => {
+  answer(res);
+})
+
+
 
 
 

@@ -21,7 +21,7 @@ function getProportionContainer(type, data, pos, old) {
   const scaleX = pos.w  / old.w;
   const scaleY = pos.h  / old.h;
   const delta = scaleX >  scaleY ? 'X' : 'Y'; 
-  console.log(type + delta)
+
   switch (type + delta) {
     case 'TLX':
       return { 

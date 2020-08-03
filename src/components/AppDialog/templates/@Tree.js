@@ -39,13 +39,22 @@ const styles = {
     height: 'calc(100% - 49px)',
     padding: 20,
   },
+  body2: {
+    backgroundColor: '#f5f5f5',
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    height: 'calc(100% - 49px)',
+    padding: 0,
+  },
   paper: {
     height: '100%',
   }
 }
 
 function handleClickNode(item, component, nodeid) {
-  core.actions.appdialog.component({ title: item.node.title, type: component, id: nodeid, list: [] });
+  core.actions.appdialog.component({ title: item.node.title, type: component, id: nodeid });
 }
 
 function TemplateTree({ state }) {
@@ -66,12 +75,15 @@ function TemplateTree({ state }) {
               {state.component.title}
             </Typography>
           </div>
-          <div style={styles.body}>
-            <Paper style={styles.paper}>
-              <Scrollbars  >
-                {component(`${state.component.type}_${state.component.id}`, state)}
-              </Scrollbars>
-            </Paper>
+          <div style={state.template.noscroll ? styles.body2 : styles.body}>
+            {state.template.noscroll ?
+              component(`${state.component.type}_${state.component.id}`, state) :
+              <Paper style={styles.paper}>
+                <Scrollbars  >
+                  {component(`${state.component.type}_${state.component.id}`, state)}
+                </Scrollbars>
+              </Paper>
+            }
           </div>
         </div>
     </>

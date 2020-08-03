@@ -1,8 +1,10 @@
 import { 
   APP_DIALOG_SET_DATA, 
   APP_DIALOG_CLOSE, 
+
   APP_DIALOG_SET_COMPONENT,
   APP_DIALOG_SET_FORM,
+  APP_DIALOG_SET_SELECT,
 
   APP_DIALOG_FORM_SET_ERRORS,
   APP_DIALOG_FORM_SET_VALUE_BASIC,
@@ -16,7 +18,7 @@ const defaultState = {
   open: false,
   transferid: null,
   template: { title: '', type: null, id: null },
-  component: { type: null, id: null, list: [] },
+  component: { type: null, id: null, list: [], select: {} },
   form: {
     id: null,
     save: false,
@@ -121,6 +123,8 @@ function reducer(state = defaultState, action) {
       return { ...state, component: { ...state.component, ...action.data } };
     case APP_DIALOG_SET_FORM:
       return { ...state, form: action.data };
+    case APP_DIALOG_SET_SELECT:
+      return { ...state, component: { ...state.component, select: { ...state.component.select, ...action.data  } } };
     case APP_DIALOG_FORM_SET_ERRORS:
     case APP_DIALOG_FORM_SET_VALUE_BASIC:
     case APP_DIALOG_FORM_SET_VALUE_TABLE:

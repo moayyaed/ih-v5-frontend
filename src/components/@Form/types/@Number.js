@@ -221,10 +221,15 @@ function TouchNumber(props) {
           open: true, 
           transferid: 'form_dialog',
           template: {
+            noclose: true,
+            noscroll: true,
             title: 'Binding Settings',
             type: 'tree',
-            id: 'devices',
-            dialog: 'channellink'
+            id: 'elements',
+            selectnodeid: props.data.did,
+            selectId: props.data.prop,
+            title: props.data.title,
+            func: props.data.func || defaultFunction,
           },
         });
       }
@@ -232,10 +237,41 @@ function TouchNumber(props) {
   };
 
   const handleDialogClick3 = (data) => {
-    const dn = data.result.value.did;
-    const id  = data.result.value.prop;
-    const title = data.result.title
-    console.log(dn, id, title, )
+    if (data !== null && data !== ':exit:') {
+      const did = data.did;
+      const prop  = data.prop;
+      const title = data.title;
+      const func = data.func;
+
+      if (prop) {
+        const obj = createValueFunc(func);
+
+        if (obj.error) {
+          core.actions.app.alertOpen('warning', 'Function error: ' + obj.error.message);
+        } else { 
+          try {
+            const v = obj.body.call(null, 0, {})
+            const params = { ...props.data, enabled: true, did, prop, title, func };
+
+            core.transfer.unsub('form_dialog', handleDialogClick3);
+            core.actions.appdialog.close();
+      
+            props.onChange(props.id, props.options, null, params)
+          } catch(e) {
+            core.actions.app.alertOpen('warning', 'Function error: ' + e.message);
+          }
+        }
+      } else {
+        const params = { ...props.data, enabled: null, prop: null, title: null };
+
+        core.transfer.unsub('form_dialog', handleDialogClick3);
+        core.actions.appdialog.close();
+
+        props.onChange(props.id, props.options, null, params)
+      }
+    } else {
+      core.transfer.unsub('form_dialog', handleDialogClick3);
+    }
   }
 
 
@@ -248,7 +284,7 @@ function TouchNumber(props) {
       const uuid = shortid.generate();
 
       if (id) {
-        const obj = createValueFunc(func, value);
+        const obj = createValueFunc(func);
         if (obj.error) {
           core.actions.app.alertOpen('warning', 'Function error: ' + obj.error.message);
         } else {

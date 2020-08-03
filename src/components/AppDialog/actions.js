@@ -3,6 +3,7 @@ import {
   APP_DIALOG_CLOSE, 
   APP_DIALOG_SET_COMPONENT,
   APP_DIALOG_SET_FORM,
+  APP_DIALOG_SET_SELECT,
   APP_DIALOG_FORM_SET_ERRORS,
 
   APP_DIALOG_FORM_SET_VALUE_BASIC,
@@ -36,6 +37,13 @@ export function component(data) {
 export function form(data) {
   return {
     type: APP_DIALOG_SET_FORM,
+    data,
+  };
+}
+
+export function select(data) {
+  return {
+    type: APP_DIALOG_SET_SELECT,
     data,
   };
 }
@@ -93,6 +101,7 @@ export default {
   close,
   component,
   form,
+  select,
   formErrors,
   formValueBasic,
   formValueTable,

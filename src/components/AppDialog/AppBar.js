@@ -42,22 +42,28 @@ function DialogAppBar(props) {
   }
   
   const save = () => {
-    if (props.type === 'form') {
+    if (!props.disabledSave) {
       const store = core.store.getState().appdialog;
-      const data = {};
-
-      Object
-        .keys(store.form.data)
-        .forEach((key) => {
-          Object
-            .keys(store.form.data[key])
-            .forEach((key2) => {
-              data[key2] = store.form.data[key][key2];
-            });
-        });
-      data.active = true;
-      core.transfer.send(store.transferid, data);
+      if (props.type === 'form') {
+        const store = core.store.getState().appdialog;
+        const data = {};
+  
+        Object
+          .keys(store.form.data)
+          .forEach((key) => {
+            Object
+              .keys(store.form.data[key])
+              .forEach((key2) => {
+                data[key2] = store.form.data[key][key2];
+              });
+          });
+        data.active = true;
+        core.transfer.send(store.transferid, data);
+      } else {
+        core.transfer.send(store.transferid, store.component.select);
+      }
     }
+
     props.noclose || core.actions.appdialog.close();
   }
   
@@ -70,7 +76,7 @@ function DialogAppBar(props) {
         <Typography variant="h6" className={props.classes.title}>
           {props.title}
         </Typography>
-        {!props.disabledSave && props.type === 'form' ? <Button autoFocus color="inherit" onClick={save} >
+        {!props.disabledSave ? <Button autoFocus color="inherit" onClick={save} >
             ok
         </Button> : null}
       </Toolbar>
