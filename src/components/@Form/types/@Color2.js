@@ -409,29 +409,87 @@ function Color2(props) {
     if (value === null) {
       props.onChange(props.id, props.options, null, { ...props.data, ...props.data.color, enabled: false, color: {} })
     } else {
-      const store = core.store.getState().apppage.data.p1.template;
-      const list = store.listState.map(id => ({ id, title: store.state[id].title, value: store.state[id].curent }));
-      const item = list.find(i => i.id === props.data._bind);
-      
-      core.transfer.sub('form_dialog', handleDialogClick);
-      core.actions.appdialog.data({
-        id: 'animation', 
-        open: true, 
-        transferid: 'form_dialog',
-        template: {
-          noclose: true,
-          type: 'form',
-          title: 'Binding Settings',
-          options: options(list),
-          data: { 
-            p1: { bind: { ...item  } }, 
-            p2: { func: props.data.func || defaultFunction },
+      if (props.route.type) {
+        const store = core.store.getState().apppage.data.p1.template;
+        const list = store.listState.map(id => ({ id, title: store.state[id].title, value: store.state[id].curent }));
+        const item = list.find(i => i.id === props.data._bind);
+        
+        core.transfer.sub('form_dialog', handleDialogClick);
+        core.actions.appdialog.data({
+          id: 'animation', 
+          open: true, 
+          transferid: 'form_dialog',
+          template: {
+            noclose: true,
+            type: 'form',
+            title: 'Binding Settings',
+            options: options(list),
+            data: { 
+              p1: { bind: { ...item  } }, 
+              p2: { func: props.data.func || defaultFunction },
+            },
+            cache: { p1: {}, p2: {} },
           },
-          cache: { p1: {}, p2: {} },
-        },
-      });
+        });
+      } else {
+        core.transfer.sub('form_dialog', handleDialogClick3);
+        core.actions.appdialog.data({
+          id: 'animation', 
+          open: true, 
+          transferid: 'form_dialog',
+          template: {
+            noclose: true,
+            noscroll: true,
+            title: 'Binding Settings',
+            type: 'tree',
+            id: 'elements',
+            selectnodeid: props.data.did,
+            selectId: props.data.prop,
+            title: props.data.title,
+            func: props.data.func || defaultFunction,
+          },
+        });
+      }
     }
   };
+
+  const handleDialogClick3 = (data) => {
+    if (data !== null && data !== ':exit:') {
+      const did = data.did;
+      const prop  = data.prop;
+      const title = data.title;
+      const func = data.func;
+
+      if (prop) {
+        const obj = createValueFunc(func);
+
+        if (obj.error) {
+          core.actions.app.alertOpen('warning', 'Function error: ' + obj.error.message);
+        } else { 
+          try {
+            const v = obj.body.call(null, 0, {})
+            const params = { ...props.data, enabled: true, did, prop, title, func };
+
+            core.transfer.unsub('form_dialog', handleDialogClick3);
+            core.actions.appdialog.close();
+      
+            props.onChange(props.id, props.options, null, params)
+          } catch(e) {
+            core.actions.app.alertOpen('warning', 'Function error: ' + e.message);
+          }
+        }
+      } else {
+        const params = { ...props.data, enabled: null, prop: null, title: null, func };
+
+        core.transfer.unsub('form_dialog', handleDialogClick3);
+        core.actions.appdialog.close();
+
+        props.onChange(props.id, props.options, null, params)
+      }
+    } else {
+      core.transfer.unsub('form_dialog', handleDialogClick3);
+    }
+  }
 
   const handleDialogClick = (data) => {
     if (data !== null) {
