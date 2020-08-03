@@ -4,7 +4,7 @@ import css from 'css';
 import { createValueFunc, options } from 'components/tools';
 
 function preparationData(data) {
-  
+
   // animation start
     Object
       .keys(data.templates)
@@ -130,6 +130,20 @@ function preparationData(data) {
                 })
             })
           }
+        } else {
+          Object
+          .keys(data.containers[key].elements[id])
+          .forEach(propId => {
+            // bind
+            if (data.containers[key].elements[id][propId].enabled) {
+              try {
+                data.containers[key].elements[id][propId].func = createValueFunc(data.containers[key].elements[id][propId].func).body;
+              } catch {
+
+              }
+            }
+            // bind
+          })
         }
       });
     });

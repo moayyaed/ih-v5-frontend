@@ -40,6 +40,34 @@ function reducer(state = defaultState, action) {
                     .keys(state.containers[c].elements)
                     .reduce((p2, c2) => {
                       if (action.data[c2]) {
+                        if (state.containers[c].elements[c2].type !== 'template') {
+                          return { 
+                            ...p2, 
+                            [c2]: Object
+                              .keys(state.containers[c].elements[c2])
+                              .reduce((p3, c3) => {
+                                
+                                if (
+                                  state.containers[c].elements[c2][c3].enabled && 
+                                  action.data[c2][state.containers[c].elements[c2][c3].did] &&
+                                  action.data[c2][state.containers[c].elements[c2][c3].did][state.containers[c].elements[c2][c3].prop] !== undefined 
+                                ) {
+                                  try  {
+                                    return { 
+                                      ...p3, 
+                                      [c3]: {
+                                        ...state.containers[c].elements[c2][c3],
+                                        value: state.containers[c].elements[c2][c3].func.call(null, action.data[c2][state.containers[c].elements[c2][c3].did][state.containers[c].elements[c2][c3].prop], {}),
+                                      }
+                                    }
+                                  } catch (e) {
+                                    return { ...p3, [c3]: state.containers[c].elements[c2][c3] }
+                                  }
+                                }
+                                return { ...p3, [c3]: state.containers[c].elements[c2][c3] }
+                              }, {}),
+                          }
+                        }
                         return { 
                           ...p2, [c2]: {
                             ...state.containers[c].elements[c2],
