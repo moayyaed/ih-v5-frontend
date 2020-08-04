@@ -56,7 +56,7 @@ function handleClick() {
 }
 
 function handleClickUserInterface() {
-  window.location.href = "/";
+  window.open('/', '_blank');
 }
 
 function handleClickSettings() {

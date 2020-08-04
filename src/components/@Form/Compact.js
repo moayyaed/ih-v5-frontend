@@ -99,7 +99,7 @@ function CompactForm({ scheme, data, cache, route, onChange, getStyle }) {
     return (
       <div key={i.prop} style={styles.basic} >
         <div style={q & 1 ? styles.basicItemLabel2: styles.basicItemLabel}>{i.title}</div>
-        <div style={q & 1 ? styles.basicItemValue2: styles.basicItemValue}>{components(i.prop, i, data[i.prop], cache[i.prop], data, route, onChange, getStyle, true)}</div>
+        <div style={q & 1 ? styles.basicItemValue2: styles.basicItemValue}>{components(i.prop, i, data[i.prop] || {}, cache[i.prop], data, route, onChange, getStyle, true)}</div>
       </div>
     )
   })

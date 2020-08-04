@@ -63,7 +63,7 @@ function parseValue(value, oldValue) {
   }
   const v = Number(value);
   if (isNaN(v)) {
-    return oldValue;
+    return oldValue || 0;
   }
   return Number(value);
 }

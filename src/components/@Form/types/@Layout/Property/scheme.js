@@ -317,6 +317,16 @@ const moveSection = [
     type: 'number',
   },
   { 
+    title: 'W⬅', 
+    prop: 'w2', 
+    type: 'number',
+  },
+  { 
+    title: 'H⬆', 
+    prop: 'h2', 
+    type: 'number',
+  },
+  { 
     title: 'Z-index', 
     prop: 'zIndex', 
     type: 'number',
