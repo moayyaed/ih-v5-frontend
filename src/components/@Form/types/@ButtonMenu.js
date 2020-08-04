@@ -32,7 +32,7 @@ function ButtonMenu(props) {
     }
   };
 
-  // if (props.enabled) {
+  if (props.enabled !== false) {
     return (
       <div style={styles.root}>
         <div style={styles.divider} />
@@ -42,7 +42,7 @@ function ButtonMenu(props) {
       </div>
     );
     
-  // }
+  }
   return null;
 }
 
