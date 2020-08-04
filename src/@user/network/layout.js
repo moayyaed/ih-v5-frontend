@@ -5,7 +5,76 @@ import { createValueFunc, options } from 'components/tools';
 
 function preparationData(data) {
 
-  // animation start
+  // layout start
+  Object
+    .keys(data.layout.elements)
+    .forEach(id => {
+      Object
+      .keys(data.layout.elements[id])
+      .forEach(propId => {
+        const item = data.layout.elements[id][propId];
+
+        if (
+          propId === 'animation' &&
+          item.active &&
+          item.keyframes &&
+          item.value
+        ) {
+          const values = item.value.split(' ');
+          const old_id = values[0];
+          const _id = `${values[0]}_${id}`;
+
+          values[0] = _id;
+          data.layout.elements[id][propId].value = values.join(' ');
+          if (item.enabled) {
+            data.layout.elements[id][propId].func = item.func.replace(old_id, _id)                 
+          }
+          
+          const styles = css.parse(item.keyframes);
+
+          try {
+            styles.stylesheet.rules
+              .forEach(item => {
+                item.name = `${item.name}_${id}`
+                if (item.type === 'keyframes') {
+                  const style = css.stringify({
+                    stylesheet: {
+                      rules: [item]
+                    },
+                    type: 'stylesheet',
+                  });
+                  try {
+                    document.styleSheets[0].insertRule(style, document.styleSheets[0].cssRules.length);
+                  } catch {
+                  }
+                }
+              })
+          } catch {
+            console.warn('Animation not work, wrong css styles!')
+          }
+        }
+        // bind
+        if (item.enabled) {
+          try {
+            data.layout.elements[id][propId].func = createValueFunc(item.func).body;
+            if (
+              data.states[id] && 
+              data.states[id][item.did] && 
+              data.states[id][item.did][item.prop] !== undefined
+            ) {
+              data.layout.elements[id][propId].value = data.layout.elements[id][propId].func(data.states[id][item.did][item.prop], {})
+            }
+          } catch {
+
+          }
+        }
+        // bind
+      })
+    });
+
+  // layout
+
+  // containers animation start
     Object
       .keys(data.templates)
       .forEach(templateId => {
@@ -76,7 +145,7 @@ function preparationData(data) {
               })
           });
       })
-  // animation end
+  // containers animation end
 
   Object
     .keys(data.containers)
@@ -134,10 +203,54 @@ function preparationData(data) {
           Object
           .keys(data.containers[key].elements[id])
           .forEach(propId => {
-            // bind
-            if (data.containers[key].elements[id][propId].enabled) {
+            const item = data.containers[key].elements[id][propId];
+
+            if (
+              propId === 'animation' &&
+              item.active &&
+              item.keyframes &&
+              item.value
+            ) {
+              const values = item.value.split(' ');
+              const old_id = values[0];
+              const _id = `${values[0]}_${key}_${id}`;
+
+              values[0] = _id;
+              data.containers[key].elements[id][propId].value = values.join(' ');
+              if (item.enabled) {
+                data.containers[key].elements[id][propId].func = item.func.replace(old_id, _id)                 
+              }
+              
+              const styles = css.parse(item.keyframes);
+
               try {
-                data.containers[key].elements[id][propId].func = createValueFunc(data.containers[key].elements[id][propId].func).body;
+                styles.stylesheet.rules
+                  .forEach(item => {
+                    item.name = `${item.name}_${key}_${id}`
+                    if (item.type === 'keyframes') {
+                      const style = css.stringify({
+                        stylesheet: {
+                          rules: [item]
+                        },
+                        type: 'stylesheet',
+                      });
+                      try {
+                        document.styleSheets[0].insertRule(style, document.styleSheets[0].cssRules.length);
+                      } catch {
+                      }
+                    }
+                  })
+              } catch {
+                console.warn('Animation not work, wrong css styles!')
+              }
+            }
+            // bind
+            if (item.enabled) {
+              try {
+                data.containers[key].elements[id][propId].func = createValueFunc(item.func).body;
+                if (data.states[key][id][item.did] && data.states[key][id][item.did][item.prop] !== undefined) {
+                  data.containers[key].elements[id][propId].value = data.containers[key].elements[id][propId].func(data.states[key][id][item.did][item.prop], {})
+                }
               } catch {
 
               }
@@ -163,6 +276,7 @@ core.network.request('applayout', (send, context) => {
     { api: 'containers', layoutid: context.params.layoutId },
     { api: 'templates', layoutid: context.params.layoutId },
     { api: 'containers', layoutid: context.params.layoutId, rt: 1 },
+    { api: 'layout', id: context.params.layoutId, rt: 1 },
   ]);
 })
 
@@ -172,6 +286,6 @@ core.network.response('applayout', (answer, res, context) => {
     layout: res[0].data,
     containers: res[1].data,
     templates: res[2].data,
-    states: res[3].data,
+    states: { ...res[3].data, ...res[4].data },
   }));
 })

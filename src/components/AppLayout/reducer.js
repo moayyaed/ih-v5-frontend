@@ -1,4 +1,4 @@
-import { APP_LAYOUT_SET_DATA, APP_LAYOUT_UPDATE_TEMPLATES } from './constants';
+import { APP_LAYOUT_SET_DATA, APP_LAYOUT_UPDATE_TEMPLATES, APP_LAYOUT_UPDATE_ELEMENTS } from './constants';
 
 
 const defaultState = {
@@ -26,6 +26,42 @@ function reducer(state = defaultState, action) {
   switch (action.type) {
     case APP_LAYOUT_SET_DATA:
       return { ...state, ...action.data };
+    case APP_LAYOUT_UPDATE_ELEMENTS:
+      return { 
+        ...state,
+        layout: {
+          ...state.layout,
+          elements: Object
+          .keys(state.layout.elements)
+          .reduce((p2, c2) => {
+            return  { 
+              ...p2, 
+              [c2]: Object
+                .keys(state.layout.elements[c2])
+                .reduce((p3, c3) => {
+                  if (
+                    state.layout.elements[c2][c3].enabled && 
+                    action.data[c2][state.layout.elements[c2][c3].did] &&
+                    action.data[c2][state.layout.elements[c2][c3].did][state.layout.elements[c2][c3].prop] !== undefined 
+                  ) {
+                    try  {
+                      return { 
+                        ...p3, 
+                        [c3]: {
+                          ...state.layout.elements[c2][c3],
+                          value: state.layout.elements[c2][c3].func.call(null, action.data[c2][state.layout.elements[c2][c3].did][state.layout.elements[c2][c3].prop], {}),
+                        }
+                      }
+                    } catch (e) {
+                      return { ...p3, [c3]: state.layout.elements[c2][c3] }
+                    }
+                  }
+                  return { ...p3, [c3]: state.layout.elements[c2][c3] }
+                }, {}),
+            }
+          }, {}),
+        },
+      };
     case APP_LAYOUT_UPDATE_TEMPLATES:
       return {
         ...state,

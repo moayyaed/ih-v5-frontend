@@ -35,6 +35,12 @@ class AppLayout extends Component {
       .request({ method: 'applayout', params })
       .ok(data => {
         core.actions.layout.data(data);
+        core.tunnel.sub({ 
+          method: 'sub',
+          type: 'layout',
+          uuid: params.layoutId,
+          id: params.layoutId,
+        }, this.realtimeLayout);
         data.layout.list.forEach(id => {
           if (data.layout.elements[id].type === 'container') {
             core.tunnel.sub({ 
@@ -42,14 +48,18 @@ class AppLayout extends Component {
               type: 'container',
               uuid: id,
               id: data.layout.elements[id].containerId.id,
-            }, (realtime) => this.realtime(data.layout.elements[id].containerId.id, realtime));
+            }, (realtime) => this.realtimeContainer(data.layout.elements[id].containerId.id, realtime));
           }
         });
     });
   }
 
-  realtime = (containerId, data) => {
-    core.actions.layout.updateTemplates(containerId, data);
+  realtimeLayout = (data) => {
+    core.actions.layout.updateElementsLayout(data);
+  }
+
+  realtimeContainer = (containerId, data) => {
+    core.actions.layout.updateElementsContainer(containerId, data);
   }
 
   handleClick = (id) => {
