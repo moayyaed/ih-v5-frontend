@@ -78,7 +78,8 @@ class Container extends PureComponent {
             position: 'relative', 
             width: this.props.container.settings.w.value, 
             height: this.props.container.settings.h.value,
-            zoom: scale, 
+            zoom: scale,
+            overflow: 'hidden',
           }}
         >
           {this.props.container.list.map(id => this.handleRender(id, this.props.container.elements[id]))}

@@ -49,7 +49,8 @@ class Template extends PureComponent {
           width: '100%', 
           height: '100%',
           zoom: this.props.item.w.value / this.props.template.settings.w.value,
-          opacity: this.props.item.opacity.value / 100, 
+          opacity: this.props.item.opacity.value / 100,
+          overflow: 'hidden',
         }}
       >
         {this.props.template.list.map(id => this.handleRender(id, this.props.item.elements ? this.props.item.elements[id] : this.props.template.elements[id]))}
