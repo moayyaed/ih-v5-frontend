@@ -480,38 +480,38 @@ const scheme = {
   },
   text: {
     main: [
+      ...textSection,
       ...backgroundSection,
       ...borderSection,
-      ...textSection,
       ...decorationSection,
     ],
     move: moveSection,
   },
   image: {
     main: [
+      ...imageSection,
       ...backgroundSection,
       ...borderSection,
-      ...imageSection,
       ...decorationSection,
     ],
     move: moveSection,
   },
   text_image: {
     main: [
-      ...backgroundSection,
-      ...borderSection,
       ...textSection,
       ...imageSection,
+      ...backgroundSection,
+      ...borderSection,
       ...decorationSection,
     ],
     move: moveSection,
   },
   button: {
     main: [
-      ...backgroundSection,
-      ...borderSection,
       ...textSection,
       ...imageSection,
+      ...backgroundSection,
+      ...borderSection,
       ...decorationSection,
     ],
     actions: actionsSection,
