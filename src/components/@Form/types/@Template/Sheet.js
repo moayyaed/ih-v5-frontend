@@ -264,7 +264,8 @@ class Sheet extends Component {
       type,
       x: { value: Math.round(x * 1e2 ) / 1e2 }, 
       y: { value: Math.round(y * 1e2 ) / 1e2 },
-      w: { value: 70 }, h: { value: 70},
+      w: { value: 70 }, h: { value: 70 },
+      w2: { value: 0 }, h2: { value: 0 },
       ...defaultData
     }
 
@@ -272,6 +273,7 @@ class Sheet extends Component {
       x: { value: Math.round(x * 1e2 ) / 1e2 }, 
       y: { value: Math.round(y * 1e2 ) / 1e2 },
       w: { value: 70 }, h: { value: 70 },
+      w2: { value: 0 }, h2: { value: 0 },
       ...defaultData,
     }
     

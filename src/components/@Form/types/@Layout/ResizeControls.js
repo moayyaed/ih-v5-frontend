@@ -128,6 +128,8 @@ function getSize(isProportion, type, pos, grid, data) {
       y: { value: newPositionProportion.y },
       w: { value: newPositionProportion.w },
       h: { value: newPositionProportion.h },
+      w2: { value: 0 },
+      h2: { value: 0 },
     };
   }
   return {
@@ -135,6 +137,8 @@ function getSize(isProportion, type, pos, grid, data) {
     y: { value: newPosition.y },
     w: { value: newPosition.w },
     h: { value: newPosition.h },
+    w2: { value: 0 },
+    h2: { value: 0 },
   };
 }
 

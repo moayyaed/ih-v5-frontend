@@ -69,7 +69,8 @@ function parseValue(value, oldValue) {
 }
 
 function checkValue(value, props) {
-  let v = parseValue(value, props.data.value);
+  const data = props.data !== undefined ? props.data : { value: 0 }
+  let v = parseValue(value, data.value);
 
   if (v > props.options.max) {
     v = props.options.max;
@@ -146,6 +147,7 @@ class Button extends Component {
 
   handleMouseDown = () => {
     this.long = false;
+    document.addEventListener('mouseup', this.handleMouseUp)
     this.timer = setTimeout(this.handleLong, 250);
   }
 
@@ -163,6 +165,8 @@ class Button extends Component {
   }
 
   clear = () => {
+    document.removeEventListener('mouseup', this.handleMouseUp)
+
     clearTimeout(this.timer);
     clearInterval(this.timer2);
 
@@ -178,7 +182,6 @@ class Button extends Component {
         className="nb" 
         style={styles.buttonMini}
         onMouseDown={this.handleMouseDown}
-        onMouseUp={this.handleMouseUp}
       >
         {this.props.type === 'left' ? <ArrowLeftIcon /> :  <ArrowRightIcon />}
       </IconButton>
@@ -318,18 +321,19 @@ function TouchNumber(props) {
 
   const step = props.options.step || 1;
   if (props.mini) {
-    if (props.data.enabled) {
+    const data = props.data !== undefined ? props.data : { value: 0 };
+    if (data.enabled) {
       return (
         <div style={styles.containerMini}>
           <input
             className="core"
             style={styles.rootMini2} 
             disabled={true}
-            value={props.data.title}
+            value={data.title}
           />
           <ButtonMenu 
             enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
-            icon={props.data.enabled} 
+            icon={data.enabled} 
             onChange={handleClickButton} 
           />
         </div>
@@ -340,22 +344,22 @@ function TouchNumber(props) {
         <Button
           type="left" 
           step={step}
-          onClick={v => props.onChange(props.id, props.options, null, { ...props.data, value: checkValue(props.data.value - v, props) })} 
+          onClick={v => props.onChange(props.id, props.options, null, { ...data, value: checkValue(data.value - v, props) })} 
         />
         <input
           className="core"
           style={styles.rootMini} 
-          value={props.data.value} 
-          onChange={(e) => props.onChange(props.id, props.options, null, { ...props.data, value: checkValue(e.target.value, props) })}
+          value={data.value} 
+          onChange={(e) => props.onChange(props.id, props.options, null, { ...data, value: checkValue(e.target.value, props) })}
         />
         <Button
           type="right" 
           step={step}
-          onClick={v => props.onChange(props.id, props.options, null, { ...props.data, value: checkValue(props.data.value + v, props) })} 
+          onClick={v => props.onChange(props.id, props.options, null, { ...data, value: checkValue(data.value + v, props) })} 
         />
         <ButtonMenu 
           enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
-          icon={props.data.enabled} 
+          icon={data.enabled} 
           onChange={handleClickButton} 
         />
       </div>

@@ -239,6 +239,7 @@ class Sheet extends Component {
       x: { value: Math.round(x * 1e2 ) / 1e2 }, 
       y: { value: Math.round(y * 1e2 ) / 1e2 },
       w: { value: 70}, h: { value: 70 },
+      w2: { value: 0 }, h2: { value: 0 },
     }
 
     if (type === 'template') {
@@ -249,6 +250,8 @@ class Sheet extends Component {
           data.templateId = menuItemId;
           data.w = { value: res.settings.w }; 
           data.h = { value: res.settings.h };
+          data.w2 = { value: 0 }; 
+          data.h2 = { value: 0 };
           core.actions.layout
             .addTemplate(
               this.props.id, this.props.prop,
@@ -263,6 +266,8 @@ class Sheet extends Component {
           data.containerId = { id: menuItemId, title: '-' };
           data.w = { value: res.container.settings.w.value }; 
           data.h = { value: res.container.settings.h.value };
+          data.w2 = { value: 0 }; 
+          data.h2 = { value: 0 };
           core.actions.layout
             .addContainer(
               this.props.id, this.props.prop,

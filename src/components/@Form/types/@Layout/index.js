@@ -136,11 +136,46 @@ class Layout extends PureComponent {
           { [key]: value }
         );
     } else {
-      core.actions.layout
-        .editElement(
-          this.props.id, this.props.options.prop,
-          this.props.data.selectOne, { [key]: value }
-        );
+      if (key === 'w2' || key === 'h2') {
+        const item = this.props.data.elements[this.props.data.selectOne];
+        const oldValue = item[key] ? item[key].value : 0;
+        const curentValue = value.value;
+        const delta = curentValue - oldValue;
+        const prop1 = key === 'w2' ? 'x': 'y';
+        const prop2 = key === 'w2' ? 'w': 'h';
+        
+        const data = { 
+          [prop1]: { ...item[prop1], value: item[prop1].value - delta },
+          [prop2]: { ...item[prop2], value: item[prop2].value + delta },
+          [key]: value 
+        };
+
+        core.actions.layout
+          .editElement(
+            this.props.id, this.props.options.prop,
+            this.props.data.selectOne, data
+          );
+      } else if (key === 'x' || key === 'y' || key === 'w' || key === 'h') {
+        const item = this.props.data.elements[this.props.data.selectOne];
+        const prop1 = (key === 'x' || key === 'w') ? 'w2': 'h2';
+        
+        const data = { 
+          [prop1]: { ...item[prop1], value: 0 },
+          [key]: value 
+        };
+
+        core.actions.layout
+          .editElement(
+            this.props.id, this.props.options.prop,
+            this.props.data.selectOne, data
+          );
+      } else {
+        core.actions.layout
+          .editElement(
+            this.props.id, this.props.options.prop,
+            this.props.data.selectOne, { [key]: value }
+          );
+      }
     }
     this.save();
   }

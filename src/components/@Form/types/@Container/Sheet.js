@@ -247,6 +247,7 @@ class Sheet extends Component {
       x: { value: Math.round(x * 1e2 ) / 1e2 }, 
       y: { value: Math.round(y * 1e2 ) / 1e2 },
       w: { value: 70 }, h: { value: 70 },
+      w2: { value: 0 }, h2: { value: 0 },
     }
 
     if (type === 'template') {
@@ -257,6 +258,8 @@ class Sheet extends Component {
           data.templateId = templateId;
           data.w = { value: res.settings.w.value }; 
           data.h = { value: res.settings.h.value };
+          data.w2 = { value: 0 }; 
+          data.h2 = { value: 0 };
           core.actions.container
             .addTemplate(
               this.props.id, this.props.prop,
