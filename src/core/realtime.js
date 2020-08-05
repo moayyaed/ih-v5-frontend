@@ -41,7 +41,7 @@ function openTunnel() {
 }
 
 function messageTunnel(e) {
-  // try {
+  try {
     const json = JSON.parse(e.data);
     if (json.data !== undefined) {
       realtime.events.emit(json.uuid, json.data);
@@ -49,9 +49,9 @@ function messageTunnel(e) {
     if (json.error) {
       core.actions.app.alertOpen('warning', 'Real-time: ' + json.error);
     }
-   // } catch (e) {
-    // core.actions.app.alertOpen('error', 'Real-time: incorrect data!');
-  // }
+   } catch (e) {
+    core.actions.app.alertOpen('error', 'Real-time: incorrect data!');
+  }
 }
 
 function errorTunnel() {

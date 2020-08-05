@@ -63,6 +63,7 @@ class Request {
   responseError(e) {
     clearTimeout(this.timerDelay);
     clearTimeout(this.timerTimeout);
+    console.warn(e)
     core.actions.app.alertOpen('error', e.message);
     if (this.handleError) {
       if (e.stack) {

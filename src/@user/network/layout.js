@@ -4,7 +4,6 @@ import css from 'css';
 import { createValueFunc, options } from 'components/tools';
 
 function preparationData(data) {
-
   // layout start
   Object
     .keys(data.layout.elements)
@@ -177,7 +176,7 @@ function preparationData(data) {
           
           if (data.templates[templateId]) {
             data.templates[templateId].listState.forEach(stateId => {
-              data.containers[key].elements[id].states[stateId] = data.states[key][id].states[stateId] || 0;
+              data.containers[key].elements[id].states[stateId] = data.states[key][id][stateId] || 0;
             })
 
             const masterState = data.templates[templateId].state.master.values[0];
@@ -203,7 +202,7 @@ function preparationData(data) {
                 .keys(data.containers[key].elements[id].elements[elemId])
                 .forEach(propId => {
                   if (data.containers[key].elements[id].elements[elemId][propId].enabled) {
-                    const value = data.states[key][id].states[data.containers[key].elements[id].elements[elemId][propId]._bind] || 0;
+                    const value = data.states[key][id][data.containers[key].elements[id].elements[elemId][propId]._bind] || 0;
                     try {
                       if (propId === 'w2' || propId === 'h2') {
                         const prop1 = propId === 'w2' ? 'x': 'y';
