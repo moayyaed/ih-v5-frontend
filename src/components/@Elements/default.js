@@ -232,6 +232,7 @@ const BUTTON = {
 }
 
 const ACTION = {
+  colorHover: { value: 'rgba(0,0,0,0.2)' },
   colorRipple: { value: 'rgba(255,255,255,1)' },
   singleClickLeft: { value: 'TOGGLE' },
   doubleClickLeft: { value: '' },
