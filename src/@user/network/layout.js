@@ -176,6 +176,9 @@ function preparationData(data) {
           
           if (data.templates[templateId]) {
             data.templates[templateId].listState.forEach(stateId => {
+              if (data.states[key][id] === undefined) {
+                data.states[key][id] = {};
+              }
               data.containers[key].elements[id].states[stateId] = data.states[key][id][stateId] || 0;
             })
 
