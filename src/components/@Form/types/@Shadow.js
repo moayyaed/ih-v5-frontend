@@ -83,7 +83,7 @@ const styles = {
   },
 }
 
-const defaultFunction = "return value === 1 ? 'red 2px 2px 4px 0px' : 'black 2px 2px 4px 0px';";
+const defaultFunction = "return inData === 1 ? 'red 2px 2px 4px 0px' : 'black 2px 2px 4px 0px';";
 
 
 function Shadow(props) {

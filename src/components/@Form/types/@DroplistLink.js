@@ -136,7 +136,7 @@ function generateList(data) {
   return [];
 }
 
-const defaultFunction = "return value;";
+const defaultFunction = "return inData;";
 
 
 class DroplistLink extends PureComponent {

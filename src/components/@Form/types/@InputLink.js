@@ -36,7 +36,7 @@ const styles = {
   },
 }
 
-const defaultFunction = 'return value;';
+const defaultFunction = 'return inData;';
 
 
 class InputLink extends PureComponent {

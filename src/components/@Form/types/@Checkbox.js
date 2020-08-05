@@ -43,7 +43,7 @@ const styles = {
   }
 }
 
-const defaultFunction = "return value;";
+const defaultFunction = "return inData;";
 
 function Checkbox(props) {
   const handleClickButton = (value) => {

@@ -183,7 +183,7 @@ const styles = {
   }
 }
 
-const defaultFunction = "return value === 1 ? 'red' : 'black';";
+const defaultFunction = "return inData === 1 ? 'red' : 'black';";
 
 
 function addOpacityToHex(hex, a = 1){

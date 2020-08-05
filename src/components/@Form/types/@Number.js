@@ -54,7 +54,7 @@ const styles = {
   }
 }
 
-const defaultFunction = 'return value;';
+const defaultFunction = 'return inData;';
 
 
 function parseValue(value, oldValue) {

@@ -138,7 +138,7 @@ const defaultKeyframes = `
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 `
-const defaultFunction = "return `spin ${4 / value}s linear infinite`";
+const defaultFunction = "return `spin ${4 / inData}s linear infinite`";
 
 function Animation(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
