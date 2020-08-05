@@ -63,15 +63,16 @@ function preparationData(data) {
               data.states[id][item.did][item.prop] !== undefined
             ) {
               if (propId === 'w2' || propId === 'h2') {
-                const v = data.layout.elements[id][propId].func(data.states[id][item.did][item.prop], {});
-                const oldValue = data.layout.elements[id][propId] ? data.layout.elements[id][propId].value : 0;
-                const curentValue = v;
-                const delta = curentValue - oldValue;
                 const prop1 = propId === 'w2' ? 'x': 'y';
                 const prop2 = propId === 'w2' ? 'w': 'h';
 
+                const v = data.layout.elements[id][propId].func(data.states[id][item.did][item.prop], {});
+                const curentValue = v;
+                const delta = curentValue - data.layout.elements[id][prop2].value;
+              
+
                 data.layout.elements[id][prop1].value = data.layout.elements[id][prop1].value - delta;
-                data.layout.elements[id][prop2].value = data.layout.elements[id][prop2].value + delta;
+                data.layout.elements[id][prop2].value = v;
                 data.layout.elements[id][propId].value = v;
               } else {
                 data.layout.elements[id][propId].value = data.layout.elements[id][propId].func(data.states[id][item.did][item.prop], {})
@@ -205,15 +206,16 @@ function preparationData(data) {
                     const value = data.states[key][id].states[data.containers[key].elements[id].elements[elemId][propId]._bind] || 0;
                     try {
                       if (propId === 'w2' || propId === 'h2') {
-                        const v = data.containers[key].elements[id].elements[elemId][propId].func.call(null, value, data.containers[key].elements[id].states);
-                        const oldValue = data.containers[key].elements[id].elements[elemId][propId] ? data.containers[key].elements[id].elements[elemId][propId].value : 0;
-                        const curentValue = v;
-                        const delta = curentValue - oldValue;
                         const prop1 = propId === 'w2' ? 'x': 'y';
                         const prop2 = propId === 'w2' ? 'w': 'h';
+
+                        const v = data.containers[key].elements[id].elements[elemId][propId].func.call(null, value, data.containers[key].elements[id].states);
+                        const curentValue = v;
+                        const delta = curentValue - data.containers[key].elements[id].elements[elemId][prop2].value;
+                     
                         
                         data.containers[key].elements[id].elements[elemId][prop1].value = data.containers[key].elements[id].elements[elemId][prop1].value - delta;
-                        data.containers[key].elements[id].elements[elemId][prop2].value = data.containers[key].elements[id].elements[elemId][prop2].value + delta;
+                        data.containers[key].elements[id].elements[elemId][prop2].value = v;
                         data.containers[key].elements[id].elements[elemId][propId].value = v;
                       } else {
                         data.containers[key].elements[id].elements[elemId][propId].value = data.containers[key].elements[id].elements[elemId][propId].func.call(null, value, data.containers[key].elements[id].states);
@@ -277,15 +279,16 @@ function preparationData(data) {
                 data.containers[key].elements[id][propId].func = createValueFunc(item.func).body;
                 if (data.states[key][id][item.did] && data.states[key][id][item.did][item.prop] !== undefined) {
                   if (propId === 'w2' || propId === 'h2') {
-                    const v = data.containers[key].elements[id][propId].func(data.states[key][id][item.did][item.prop], {})
-                    const oldValue = data.containers[key].elements[id][propId] ? data.containers[key].elements[id][propId].value : 0;
-                    const curentValue = v;
-                    const delta = curentValue - oldValue;
                     const prop1 = propId === 'w2' ? 'x': 'y';
                     const prop2 = propId === 'w2' ? 'w': 'h';
+
+                    const v = data.containers[key].elements[id][propId].func(data.states[key][id][item.did][item.prop], {})
+                    const curentValue = v;
+                    const delta = curentValue - data.containers[key].elements[id][prop2].value;
+     
     
                     data.containers[key].elements[id][prop1].value = data.containers[key].elements[id][prop1].value - delta;
-                    data.containers[key].elements[id][prop2].value = data.containers[key].elements[id][prop2].value + delta;
+                    data.containers[key].elements[id][prop2].value =  v;
                     data.containers[key].elements[id][propId].value = v;
                   } else {
                     data.containers[key].elements[id][propId].value = data.containers[key].elements[id][propId].func(data.states[key][id][item.did][item.prop], {})
