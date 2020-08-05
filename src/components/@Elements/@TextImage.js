@@ -104,6 +104,7 @@ function Text(props) {
         boxShadow: props.item.boxShadow.active ? props.item.boxShadow.value : 'unset',
         transform: transform(props.item),
         animation: props.item.animation.active ? props.item.animation.value : 'unset',
+        overflow: 'hidden',
       }}
     >
       <div
