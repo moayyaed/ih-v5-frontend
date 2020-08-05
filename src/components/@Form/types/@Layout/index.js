@@ -138,15 +138,17 @@ class Layout extends PureComponent {
     } else {
       if (key === 'w2' || key === 'h2') {
         const item = this.props.data.elements[this.props.data.selectOne];
-        const oldValue = item[key] ? item[key].value : 0;
-        const curentValue = value.value;
-        const delta = curentValue - oldValue;
+
         const prop1 = key === 'w2' ? 'x': 'y';
         const prop2 = key === 'w2' ? 'w': 'h';
+
+        const curentValue = value.value;
+        const delta = curentValue - item[prop2].value;
+      
         
         const data = { 
           [prop1]: { ...item[prop1], value: item[prop1].value - delta },
-          [prop2]: { ...item[prop2], value: item[prop2].value + delta },
+          [prop2]: { ...item[prop2], value: value.value },
           [key]: value 
         };
 
@@ -158,9 +160,8 @@ class Layout extends PureComponent {
       } else if (key === 'x' || key === 'y' || key === 'w' || key === 'h') {
         const item = this.props.data.elements[this.props.data.selectOne];
         const prop1 = (key === 'x' || key === 'w') ? 'w2': 'h2';
-        
         const data = { 
-          [prop1]: { ...item[prop1], value: 0 },
+          [prop1]: { ...item[prop1], value: value.value },
           [key]: value 
         };
 

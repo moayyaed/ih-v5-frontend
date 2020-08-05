@@ -58,16 +58,17 @@ function checkLinks(data, states, id, v) {
             if (core.cache.functions[data[c].uuid]) {
               const v = core.cache.functions[data[c].uuid].call(null, value);
               if (c === 'w2' || c === 'h2') {
-                const oldValue = data[c] ? data[c].value : 0;
-                const curentValue = v;
-                const delta = curentValue - oldValue;
                 const prop1 = c === 'w2' ? 'x': 'y';
                 const prop2 = c === 'w2' ? 'w': 'h';
 
+               
+                const curentValue = v;
+                const delta = curentValue - data[prop2].value;
+              
                 return { 
                   ...p, 
                   [prop1]: { ...data[prop1], value: data[prop1].value - delta },
-                  [prop2]: { ...data[prop2], value: data[prop2].value + delta },
+                  [prop2]: { ...data[prop2], value: v },
                   [c]: { ...data[c], value: v }
                 }
               }

@@ -78,9 +78,6 @@ function deleteElements(elements, containers, templates, selects) {
         }
         return p;
       }, {})
-
-      console.log(_c)
- 
   return { elements: e, containers: _c, templates: t };
 }
 
