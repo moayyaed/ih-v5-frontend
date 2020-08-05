@@ -124,21 +124,21 @@ function getSize(isProportion, type, pos, grid, data) {
   if (isProportion) {
     const newPositionProportion = getProportionContainer(type, data, newPosition, position, grid);
     return {
-      x: { value: newPositionProportion.x },
-      y: { value: newPositionProportion.y },
-      w: { value: newPositionProportion.w },
-      h: { value: newPositionProportion.h },
-      w2: { value: 0 },
-      h2: { value: 0 },
+      x: { ...pos.x, value: newPositionProportion.x },
+      y: { ...pos.y, value: newPositionProportion.y },
+      w: { ...pos.w, value: newPositionProportion.w },
+      h: { ...pos.h, value: newPositionProportion.h },
+      w2: { ...pos.w2, value: newPositionProportion.w  },
+      h2: { ...pos.h2, value: newPositionProportion.h },
     };
   }
   return {
-    x: { value: newPosition.x },
-    y: { value: newPosition.y },
-    w: { value: newPosition.w },
-    h: { value: newPosition.h },
-    w2: { value: 0 },
-    h2: { value: 0 },
+    x: { ...pos.x, value: newPosition.x },
+    y: { ...pos.y, value: newPosition.y },
+    w: { ...pos.w, value: newPosition.w },
+    h: { ...pos.h, value: newPosition.h },
+    w2: { ...pos.w2, value: newPosition.w },
+    h2: { ...pos.h2, value: newPosition.h },
   };
 }
 

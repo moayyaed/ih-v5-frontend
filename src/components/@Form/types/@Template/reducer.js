@@ -104,13 +104,13 @@ function getStateMoveContainer(selects, elements, selectContainer, action, data)
       if (data[key]) {
         data[key] = {
           ...data[key],
-          x: { value: elements[key].x.value + (action.x.value - selectContainer.x.value) },
-          y: { value: elements[key].y.value + (action.y.value - selectContainer.y.value) },
+          x: { ...elements[key].x, value: elements[key].x.value + (action.x.value - selectContainer.x.value) },
+          y: { ...elements[key].y, value: elements[key].y.value + (action.y.value - selectContainer.y.value) },
         };
       } else {
         data[key] = {
-          x: { value: elements[key].x.value + (action.x.value - selectContainer.x.value) },
-          y: { value: elements[key].y.value + (action.y.value - selectContainer.y.value) },
+          x: { ...elements[key].x, value: elements[key].x.value + (action.x.value - selectContainer.x.value) },
+          y: { ...elements[key].y, value: elements[key].y.value + (action.y.value - selectContainer.y.value) },
         };
       }
     });
@@ -245,10 +245,10 @@ function getSelectResizeContainer(action, state) {
           ...p, 
           [c]: {
             ...state.elements[c],
-            x: { value: Math.round((elem.x.value * (nextPos.w.value / oldPos.w.value)) * 1e2 ) / 1e2 },
-            y: { value: Math.round((elem.y.value * (nextPos.h.value / oldPos.h.value)) * 1e2 ) / 1e2 },
-            w: { value: Math.round((elem.w.value * (nextPos.w.value / oldPos.w.value)) * 1e2 ) / 1e2 },
-            h: { value: Math.round((elem.h.value * (nextPos.h.value / oldPos.h.value)) * 1e2 ) / 1e2 },
+            x: { ...state.elements[c].x, value: Math.round((elem.x.value * (nextPos.w.value / oldPos.w.value)) * 1e2 ) / 1e2 },
+            y: { ...state.elements[c].y, value: Math.round((elem.y.value * (nextPos.h.value / oldPos.h.value)) * 1e2 ) / 1e2 },
+            w: { ...state.elements[c].w, value: Math.round((elem.w.value * (nextPos.w.value / oldPos.w.value)) * 1e2 ) / 1e2 },
+            h: { ...state.elements[c].h, value: Math.round((elem.h.value * (nextPos.h.value / oldPos.h.value)) * 1e2 ) / 1e2 },
           } 
         }
       }
@@ -256,10 +256,10 @@ function getSelectResizeContainer(action, state) {
         ...p, 
         [c]: {
           ...state.elements[c],
-        x: { value: nextPos.x.value + ((elem.x.value - oldPos.x.value) * h) },
-        y: { value: nextPos.y.value + ((elem.y.value - oldPos.y.value) * v) },
-        w: { value: (elem.x.value + elem.w.value) * h - (elem.x.value * h) },
-        h: { value: (elem.y.value + elem.h.value) * v - (elem.y.value * v) },
+        x: { ...state.elements[c].x, value: nextPos.x.value + ((elem.x.value - oldPos.x.value) * h) },
+        y: { ...state.elements[c].y, value: nextPos.y.value + ((elem.y.value - oldPos.y.value) * v) },
+        w: { ...state.elements[c].w, value: (elem.x.value + elem.w.value) * h - (elem.x.value * h) },
+        h: { ...state.elements[c].h, value: (elem.y.value + elem.h.value) * v - (elem.y.value * v) },
         } 
       }
     }
@@ -274,17 +274,17 @@ function getStateResizeContainer(action, elements, data) {
     if (data[key]) {
       data[key] = {
         ...data[key],
-        x: { value: elements[key].x.value },
-        y: { value: elements[key].y.value },
-        w: { value: elements[key].w.value },
-        h: { value: elements[key].h.value },
+        x: { ...elements[key].x, value: elements[key].x.value },
+        y: { ...elements[key].y, value: elements[key].y.value },
+        w: { ...elements[key].w, value: elements[key].w.value },
+        h: { ...elements[key].h, value: elements[key].h.value },
       };
     } else {
       data[key] = {
-        x: { value: elements[key].x.value },
-        y: { value: elements[key].y.value },
-        w: { value: elements[key].w.value },
-        h: { value: elements[key].h.value },
+        x: { ...elements[key].x, value: elements[key].x.value },
+        y: { ...elements[key].y, value: elements[key].y.value },
+        w: { ...elements[key].w, value: elements[key].w.value },
+        h: { ...elements[key].h, value: elements[key].h.value },
       };
     }
   });
@@ -469,10 +469,10 @@ function reducerTemplate(state, action) {
                 ...p, 
                 [c]: {
                   ...state.elements[c],
-                 x: { value: Math.round((elem.x.value * (nextPos.w / oldPos.w.value)) * 1e2 ) / 1e2 },
-                 y: { value: Math.round((elem.y.value * (nextPos.h / oldPos.h.value)) * 1e2 ) / 1e2 },
-                 w: { value: Math.round((elem.w.value * (nextPos.w / oldPos.w.value)) * 1e2 ) / 1e2 },
-                 h: { value: Math.round((elem.h.value * (nextPos.h / oldPos.h.value)) * 1e2 ) / 1e2 },
+                 x: { ...state.elements[c].x, value: Math.round((elem.x.value * (nextPos.w / oldPos.w.value)) * 1e2 ) / 1e2 },
+                 y: { ...state.elements[c].y, value: Math.round((elem.y.value * (nextPos.h / oldPos.h.value)) * 1e2 ) / 1e2 },
+                 w: { ...state.elements[c].w, value: Math.round((elem.w.value * (nextPos.w / oldPos.w.value)) * 1e2 ) / 1e2 },
+                 h: { ...state.elements[c].h, value: Math.round((elem.h.value * (nextPos.h / oldPos.h.value)) * 1e2 ) / 1e2 },
                 } 
               }
             }
@@ -495,8 +495,8 @@ function reducerTemplate(state, action) {
                 ...p, 
                 [c]: { 
                   ...state.elements[c],
-                  x: { value: state.elements[c].x.value + (action.x.value - state.selectContainer.x.value) },
-                  y: { value: state.elements[c].y.value + (action.y.value - state.selectContainer.y.value) },
+                  x: { ...state.elements[c].x, value: state.elements[c].x.value + (action.x.value - state.selectContainer.x.value) },
+                  y: { ...state.elements[c].y, value: state.elements[c].y.value + (action.y.value - state.selectContainer.y.value) },
                 } 
               }
             }

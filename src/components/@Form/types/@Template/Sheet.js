@@ -264,16 +264,16 @@ class Sheet extends Component {
       type,
       x: { value: Math.round(x * 1e2 ) / 1e2 }, 
       y: { value: Math.round(y * 1e2 ) / 1e2 },
-      w: { value: 70 }, h: { value: 70 },
-      w2: { value: 0 }, h2: { value: 0 },
+      w: { value: 60 }, h: { value: 60 },
+      w2: { value: 60 }, h2: { value: 60 },
       ...defaultData
     }
 
     const masterData = {
       x: { value: Math.round(x * 1e2 ) / 1e2 }, 
       y: { value: Math.round(y * 1e2 ) / 1e2 },
-      w: { value: 70 }, h: { value: 70 },
-      w2: { value: 0 }, h2: { value: 0 },
+      w: { value: 60 }, h: { value: 60 },
+      w2: { value: 60 }, h2: { value: 60 },
       ...defaultData,
     }
     

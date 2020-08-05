@@ -130,8 +130,8 @@ function reducerContainer(state, action) {
                 [c]: {
                   ...state.elements[c],
                   groupId: action.groupId,
-                  x: { value: state.elements[state.elements[c].groupId].x.value + state.elements[c].x.value },
-                  y: { value: state.elements[state.elements[c].groupId].y.value + state.elements[c].y.value },
+                  x: { ...state.elements[c].x, value: state.elements[state.elements[c].groupId].x.value + state.elements[c].x.value },
+                  y: { ...state.elements[c].y, value: state.elements[state.elements[c].groupId].y.value + state.elements[c].y.value },
                 } 
               }
             }
@@ -172,8 +172,8 @@ function reducerContainer(state, action) {
                 [c]: {
                   ...state.elements[c],
                   groupId: null,
-                  x: state.elements[state.elements[c].groupId].x + state.elements[c].x,
-                  y: state.elements[state.elements[c].groupId].y + state.elements[c].y,
+                  x: { ...state.elements[c].x, value: state.elements[state.elements[c].groupId].x.value + state.elements[c].x.value },
+                  y: { ...state.elements[c].y, value: state.elements[state.elements[c].groupId].y.value + state.elements[c].y.value },
                 } 
               }
             }
@@ -203,10 +203,10 @@ function reducerContainer(state, action) {
                 ...p, 
                 [c]: {
                   ...state.elements[c],
-                 x: { value: Math.round((elem.x.value * (nextPos.w.value / oldPos.w.value)) * 1e2 ) / 1e2 },
-                 y: { value: Math.round((elem.y.value * (nextPos.h.value / oldPos.h.value)) * 1e2 ) / 1e2 },
-                 w: { value: Math.round((elem.w.value * (nextPos.w.value / oldPos.w.value)) * 1e2 ) / 1e2 },
-                 h: { value: Math.round((elem.h.value * (nextPos.h.value / oldPos.h.value)) * 1e2 ) / 1e2 },
+                 x: { ...state.elements[c].x, value: Math.round((elem.x.value * (nextPos.w.value / oldPos.w.value)) * 1e2 ) / 1e2 },
+                 y: { ...state.elements[c].y, value: Math.round((elem.y.value * (nextPos.h.value / oldPos.h.value)) * 1e2 ) / 1e2 },
+                 w: { ...state.elements[c].w, value: Math.round((elem.w.value * (nextPos.w.value / oldPos.w.value)) * 1e2 ) / 1e2 },
+                 h: { ...state.elements[c].h, value: Math.round((elem.h.value * (nextPos.h.value / oldPos.h.value)) * 1e2 ) / 1e2 },
                 } 
               }
             }
@@ -231,8 +231,8 @@ function reducerContainer(state, action) {
                 ...p, 
                 [c]: { 
                   ...state.elements[c],
-                  x: { value: x },
-                  y: { value: y },
+                  x: { ...state.elements[c].x, value: x },
+                  y: { ...state.elements[c].y, value: y },
                 } 
               }
             }
@@ -261,10 +261,10 @@ function reducerContainer(state, action) {
                   ...p, 
                   [c]: {
                     ...state.elements[c],
-                    x: { value: Math.round((elem.x.value * (nextPos.w.value / oldPos.w.value)) * 1e2 ) / 1e2 },
-                    y: { value: Math.round((elem.y.value * (nextPos.h.value / oldPos.h.value)) * 1e2 ) / 1e2 },
-                    w: { value: Math.round((elem.w.value * (nextPos.w.value / oldPos.w.value)) * 1e2 ) / 1e2 },
-                    h: { value: Math.round((elem.h.value * (nextPos.h.value / oldPos.h.value)) * 1e2 ) / 1e2 },
+                    x: { ...state.elements[c].x, value: Math.round((elem.x.value * (nextPos.w.value / oldPos.w.value)) * 1e2 ) / 1e2 },
+                    y: { ...state.elements[c].y, value: Math.round((elem.y.value * (nextPos.h.value / oldPos.h.value)) * 1e2 ) / 1e2 },
+                    w: { ...state.elements[c].w, value: Math.round((elem.w.value * (nextPos.w.value / oldPos.w.value)) * 1e2 ) / 1e2 },
+                    h: { ...state.elements[c].h, value: Math.round((elem.h.value * (nextPos.h.value / oldPos.h.value)) * 1e2 ) / 1e2 },
                   } 
                 }
               }
@@ -272,10 +272,10 @@ function reducerContainer(state, action) {
                 ...p, 
                 [c]: {
                   ...state.elements[c],
-                x: { value: nextPos.x.value + ((elem.x.value - oldPos.x.value) * h) },
-                y: { value: nextPos.y.value + ((elem.y.value - oldPos.y.value) * v) },
-                w: { value: (elem.x.value + elem.w.value) * h - (elem.x.value * h) },
-                h: { value: (elem.y.value + elem.h.value) * v - (elem.y.value * v) },
+                x: { ...state.elements[c].x, value: nextPos.x.value + ((elem.x.value - oldPos.x.value) * h) },
+                y: { ...state.elements[c].y, value: nextPos.y.value + ((elem.y.value - oldPos.y.value) * v) },
+                w: { ...state.elements[c].w, value: (elem.x.value + elem.w.value) * h - (elem.x.value * h) },
+                h: { ...state.elements[c].h, value: (elem.y.value + elem.h.value) * v - (elem.y.value * v) },
                 } 
               }
             }
