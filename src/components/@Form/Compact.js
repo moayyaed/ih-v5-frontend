@@ -35,7 +35,7 @@ const styles = {
   },
   basicItemLabel: {
     display: 'flex',
-    width: '50%',
+    width: '40%',
     alignItems: 'center',
     paddingLeft: 6,
     whiteSpace: 'nowrap',
@@ -45,7 +45,7 @@ const styles = {
   },
   basicItemValue: {
     display: 'flex',
-    width: '50%',
+    width: '60%',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingLeft: 8,
@@ -58,7 +58,7 @@ const styles = {
   },
   basicItemLabel2: {
     display: 'flex',
-    width: '50%',
+    width: '40%',
     alignItems: 'center',
     paddingLeft: 6,
     whiteSpace: 'nowrap',
@@ -68,7 +68,7 @@ const styles = {
   },
   basicItemValue2: {
     display: 'flex',
-    width: '50%',
+    width: '60%',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingLeft: 8,
