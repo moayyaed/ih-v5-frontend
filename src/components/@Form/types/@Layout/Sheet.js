@@ -239,7 +239,7 @@ class Sheet extends Component {
       x: { value: Math.round(x * 1e2 ) / 1e2 }, 
       y: { value: Math.round(y * 1e2 ) / 1e2 },
       w: { value: 60 }, h: { value: 60 },
-      w2: { value: 60 }, h: { value: 60 },
+      w2: { value: 60 }, h2: { value: 60 },
     }
 
     if (type === 'template') {
