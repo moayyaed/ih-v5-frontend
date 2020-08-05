@@ -253,9 +253,6 @@ function AnimationItem(props) {
           style={styles.itemButton}
           onChange={v => props.onChangeNumber(props.nodeId, v)}
         />
-        <IconButton style={styles.itemButton} size="small" onClick={(e) => props.onClickVisibility(e, props.nodeId, !props.state[props.nodeId].hide)}>
-          {props.state.master.hide || props.state[props.nodeId].hide ? <VisibilityOffIcon fontSize="inherit" /> : <VisibilityIcon fontSize="inherit" />}
-        </IconButton>
         <IconButton size="small" style={styles.itemButton} onClick={(e) => props.onClickOptions(e, props.nodeId, props.index)}>
           <MoreVertOutlinedIcon fontSize="inherit" />
         </IconButton>
@@ -273,9 +270,6 @@ function StyleItem(props) {
     <div style={styles.masterItem}>
       <div style={styles.itemLabel}>{props.label}</div>
       <div style={styles.itemButtonsMaster}>
-        <IconButton style={styles.itemButton} size="small" onClick={(e) => props.onClickVisibility(e, 'master', !props.state.master.hide)}>
-          {props.state.master.hide ? <VisibilityOffIcon fontSize="inherit" /> : <VisibilityIcon fontSize="inherit" />}
-        </IconButton>
         <IconButton size="small" style={styles.itemButton} onClick={(e) => props.onClickAdd(e)}>
           <PostAddOutlinedIcon fontSize="inherit" />
         </IconButton>
