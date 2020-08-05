@@ -90,16 +90,16 @@ function reducer(state = defaultState, action) {
                                 ) {
                                   try  {
                                     if (c3 === 'w2' || c3 === 'h2') {
-                                      const oldValue = state.containers[c].elements[c2][c3] ? state.containers[c].elements[c2][c3].value : 0;
-                                      const curentValue = state.containers[c].elements[c2][c3].func.call(null, action.data[c2][state.containers[c].elements[c2][c3].did][state.containers[c].elements[c2][c3].prop], {});
-                                      const delta = curentValue - oldValue;
                                       const prop1 = c3 === 'w2' ? 'x': 'y';
                                       const prop2 = c3 === 'w2' ? 'w': 'h';
-                      
+
+                                      const curentValue = state.containers[c].elements[c2][c3].func.call(null, action.data[c2][state.containers[c].elements[c2][c3].did][state.containers[c].elements[c2][c3].prop], {});
+                                      const delta = curentValue - state.containers[c].elements[c2][prop2].value;
+
                                       return { 
                                         ...p3, 
                                         [prop1]: { ...state.containers[c].elements[c2][prop1], value: state.containers[c].elements[c2][prop1].value - delta },
-                                        [prop2]: { ...state.containers[c].elements[c2][prop2], value: state.containers[c].elements[c2][prop2].value + delta },
+                                        [prop2]: { ...state.containers[c].elements[c2][prop2], value: curentValue },
                                         [c3]: { ...state.containers[c].elements[c2][c3], value: curentValue }
                                       }
                                     }
@@ -138,16 +138,16 @@ function reducer(state = defaultState, action) {
                                           if (data[c5][c6].enabled) {
                                             try  {
                                               if (c6 === 'w2' || c6 === 'h2') {
-                                                const oldValue = data[c5][c6] ? data[c5][c6].value : 0;
-                                                const curentValue = data[c5][c6].func.call(null, v[data[c5][c6]._bind], v);
-                                                const delta = curentValue - oldValue;
                                                 const prop1 = c6 === 'w2' ? 'x': 'y';
                                                 const prop2 = c6 === 'w2' ? 'w': 'h';
-                                
+
+                                                const curentValue = data[c5][c6].func.call(null, v[data[c5][c6]._bind], v);
+                                                const delta = curentValue - data[c5][prop2].value;
+
                                                 return { 
                                                   ...p6, 
                                                   [prop1]: { ...data[c5][prop1], value: data[c5][prop1].value - delta },
-                                                  [prop2]: { ...data[c5][prop2], value: data[c5][prop2].value + delta },
+                                                  [prop2]: { ...data[c5][prop2], value: curentValue },
                                                   [c6]: { ...data[c5][c6], value: curentValue }
                                                 }
                                               }
