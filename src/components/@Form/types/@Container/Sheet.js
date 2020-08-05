@@ -233,7 +233,7 @@ class Sheet extends Component {
     e.stopPropagation();
   }
 
-  handleAddElement = (e, type, templateId) => {
+  handleAddElement = (e, type, templateId, title) => {
     const elementId = getIdElement(0, type, this.props.elements);
 
     const rect = this.sheet.getBoundingClientRect();
@@ -256,6 +256,7 @@ class Sheet extends Component {
         .ok(res => {
           data.links = {};
           data.templateId = templateId;
+          data.title = title;
           data.w = { value: res.settings.w.value }; 
           data.h = { value: res.settings.h.value };
           data.w2 = { value: res.settings.w.value }; 
@@ -387,7 +388,7 @@ class Sheet extends Component {
     }
 
     const commands = {
-      addTemplate: ({ popupid }) => this.handleAddElement(e, 'template', popupid), 
+      addTemplate: ({ popupid, title }) => this.handleAddElement(e, 'template', popupid, title), 
     };
 
     const pos = { left: e.clientX, top: e.clientY };

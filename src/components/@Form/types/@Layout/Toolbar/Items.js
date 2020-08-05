@@ -49,7 +49,7 @@ function ElementItemGroup(props) {
         <BasicItem
           key={id}
           nodeId={id}
-          label={id}
+          label={props.elements[id].title ? `${id} (${props.elements[id].title})`: id}
           endIcon={<TypeIcon type={props.elements[id].type}/>}
           onIconClick={(e) => props.onClickIcon(e, id)} 
           onLabelClick={(e) => props.onClickLabel(e, id)} 
@@ -62,7 +62,7 @@ function ElementItemGroup(props) {
       <BasicItem
         key={id}
         nodeId={id}
-        label={id}
+        label={props.elements[id].title ? `${id} (${props.elements[id].title})`: id}
         endIcon={<TypeIcon type={props.elements[id].type}/>}
         onIconClick={(e) => props.onClickIcon(e, id)} 
         onLabelClick={(e) => props.onClickLabel(e, id)} 

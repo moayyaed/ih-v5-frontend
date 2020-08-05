@@ -225,7 +225,7 @@ class Sheet extends Component {
     e.stopPropagation();
   }
 
-  handleAddElement = (e, type, menuItemId) => {
+  handleAddElement = (e, type, menuItemId, title) => {
     const elementId = getIdElement(0, type, this.props.elements);
 
     const rect = this.sheet.getBoundingClientRect();
@@ -248,6 +248,7 @@ class Sheet extends Component {
         .ok(res => {
           data.links = {};
           data.templateId = menuItemId;
+          data.title = title;
           data.w = { value: res.settings.w }; 
           data.h = { value: res.settings.h };
           data.w2 = { value: res.settings.w }; 
@@ -264,6 +265,7 @@ class Sheet extends Component {
         .request({ method: 'get_container', params: menuItemId })
         .ok(res => {
           data.containerId = { id: menuItemId, title: '-' };
+          data.title = title;
           data.w = { value: res.container.settings.w.value }; 
           data.h = { value: res.container.settings.h.value };
           data.w2 = { value: res.container.settings.w.value }; 
@@ -396,7 +398,7 @@ class Sheet extends Component {
     }
 
     const commands = {
-      addContainer: ({ popupid }) => this.handleAddElement(e, 'container', popupid), 
+      addContainer: ({ popupid, title }) => this.handleAddElement(e, 'container', popupid, title), 
       // addTemplate: ({ popupid }) => this.handleAddElement(e, 'template', popupid), 
     };
 
