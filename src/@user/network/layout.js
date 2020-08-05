@@ -228,79 +228,79 @@ function preparationData(data) {
                 })
             })
           }
-        } else {
-          Object
-          .keys(data.containers[key].elements[id])
-          .forEach(propId => {
-            const item = data.containers[key].elements[id][propId];
-
-            if (
-              propId === 'animation' &&
-              item.active &&
-              item.keyframes &&
-              item.value
-            ) {
-              const values = item.value.split(' ');
-              const old_id = values[0];
-              const _id = `${values[0]}_${key}_${id}`;
-
-              values[0] = _id;
-              data.containers[key].elements[id][propId].value = values.join(' ');
-              if (item.enabled) {
-                data.containers[key].elements[id][propId].func = item.func.replace(old_id, _id)                 
-              }
-              
-              const styles = css.parse(item.keyframes);
-
-              try {
-                styles.stylesheet.rules
-                  .forEach(item => {
-                    item.name = `${item.name}_${key}_${id}`
-                    if (item.type === 'keyframes') {
-                      const style = css.stringify({
-                        stylesheet: {
-                          rules: [item]
-                        },
-                        type: 'stylesheet',
-                      });
-                      try {
-                        document.styleSheets[0].insertRule(style, document.styleSheets[0].cssRules.length);
-                      } catch {
-                      }
-                    }
-                  })
-              } catch {
-                console.warn('Animation not work, wrong css styles!')
-              }
-            }
-            // bind
-            if (item.enabled) {
-              try {
-                data.containers[key].elements[id][propId].func = createValueFunc(item.func).body;
-                if (data.states[key][id][item.did] && data.states[key][id][item.did][item.prop] !== undefined) {
-                  if (propId === 'w2' || propId === 'h2') {
-                    const prop1 = propId === 'w2' ? 'x': 'y';
-                    const prop2 = propId === 'w2' ? 'w': 'h';
-
-                    const v = data.containers[key].elements[id][propId].func(data.states[key][id][item.did][item.prop], {})
-                    const curentValue = v;
-                    const delta = curentValue - data.containers[key].elements[id][prop2].value;
-     
-    
-                    data.containers[key].elements[id][prop1].value = data.containers[key].elements[id][prop1].value - delta;
-                    data.containers[key].elements[id][prop2].value =  v;
-                    data.containers[key].elements[id][propId].value = v;
-                  } else {
-                    data.containers[key].elements[id][propId].value = data.containers[key].elements[id][propId].func(data.states[key][id][item.did][item.prop], {})
-                  }
-                }
-              } catch {
-
-              }
-            }
-            // bind
-          })
         }
+        Object
+        .keys(data.containers[key].elements[id])
+        .forEach(propId => {
+          const item = data.containers[key].elements[id][propId];
+
+          if (
+            propId === 'animation' &&
+            item.active &&
+            item.keyframes &&
+            item.value
+          ) {
+            const values = item.value.split(' ');
+            const old_id = values[0];
+            const _id = `${values[0]}_${key}_${id}`;
+
+            values[0] = _id;
+            data.containers[key].elements[id][propId].value = values.join(' ');
+            if (item.enabled) {
+              data.containers[key].elements[id][propId].func = item.func.replace(old_id, _id)                 
+            }
+            
+            const styles = css.parse(item.keyframes);
+
+            try {
+              styles.stylesheet.rules
+                .forEach(item => {
+                  item.name = `${item.name}_${key}_${id}`
+                  if (item.type === 'keyframes') {
+                    const style = css.stringify({
+                      stylesheet: {
+                        rules: [item]
+                      },
+                      type: 'stylesheet',
+                    });
+                    try {
+                      document.styleSheets[0].insertRule(style, document.styleSheets[0].cssRules.length);
+                    } catch {
+                    }
+                  }
+                })
+            } catch {
+              console.warn('Animation not work, wrong css styles!')
+            }
+          }
+          // bind
+          if (item.enabled) {
+            try {
+              data.containers[key].elements[id][propId].func = createValueFunc(item.func).body;
+              if (data.states[key][id][item.did] && data.states[key][id][item.did][item.prop] !== undefined) {
+                if (propId === 'w2' || propId === 'h2') {
+                  const prop1 = propId === 'w2' ? 'x': 'y';
+                  const prop2 = propId === 'w2' ? 'w': 'h';
+
+                  const v = data.containers[key].elements[id][propId].func(data.states[key][id][item.did][item.prop], {})
+                  const curentValue = v;
+                  const delta = curentValue - data.containers[key].elements[id][prop2].value;
+    
+  
+                  data.containers[key].elements[id][prop1].value = data.containers[key].elements[id][prop1].value - delta;
+                  data.containers[key].elements[id][prop2].value =  v;
+                  data.containers[key].elements[id][propId].value = v;
+                } else {
+                  data.containers[key].elements[id][propId].value = data.containers[key].elements[id][propId].func(data.states[key][id][item.did][item.prop], {})
+                }
+              }
+            } catch {
+
+            }
+          }
+          // bind
+        })
+  
       });
     });
 

@@ -1,4 +1,5 @@
 import { APP_LAYOUT_SET_DATA, APP_LAYOUT_UPDATE_TEMPLATES, APP_LAYOUT_UPDATE_ELEMENTS } from './constants';
+import elements from 'components/@Elements';
 
 
 const defaultState = {
@@ -76,51 +77,53 @@ function reducer(state = defaultState, action) {
                     .keys(state.containers[c].elements)
                     .reduce((p2, c2) => {
                       if (action.data[c2]) {
+                        const elements = Object
+                          .keys(state.containers[c].elements[c2])
+                          .reduce((p3, c3) => {
+                            
+                            if (
+                              state.containers[c].elements[c2][c3].enabled && 
+                              action.data[c2][state.containers[c].elements[c2][c3].did] &&
+                              action.data[c2][state.containers[c].elements[c2][c3].did][state.containers[c].elements[c2][c3].prop] !== undefined 
+                            ) {
+                              try  {
+                                if (c3 === 'w2' || c3 === 'h2') {
+                                  const prop1 = c3 === 'w2' ? 'x': 'y';
+                                  const prop2 = c3 === 'w2' ? 'w': 'h';
+
+                                  const curentValue = state.containers[c].elements[c2][c3].func.call(null, action.data[c2][state.containers[c].elements[c2][c3].did][state.containers[c].elements[c2][c3].prop], {});
+                                  const delta = curentValue - state.containers[c].elements[c2][prop2].value;
+
+                                  return { 
+                                    ...p3, 
+                                    [prop1]: { ...state.containers[c].elements[c2][prop1], value: state.containers[c].elements[c2][prop1].value - delta },
+                                    [prop2]: { ...state.containers[c].elements[c2][prop2], value: curentValue },
+                                    [c3]: { ...state.containers[c].elements[c2][c3], value: curentValue }
+                                  }
+                                }
+                                return { 
+                                  ...p3, 
+                                  [c3]: {
+                                    ...state.containers[c].elements[c2][c3],
+                                    value: state.containers[c].elements[c2][c3].func.call(null, action.data[c2][state.containers[c].elements[c2][c3].did][state.containers[c].elements[c2][c3].prop], {}),
+                                  }
+                                }
+                              } catch (e) {
+                                return { ...p3, [c3]: state.containers[c].elements[c2][c3] }
+                              }
+                            }
+                            return { ...p3, [c3]: state.containers[c].elements[c2][c3] }
+                          }, {});
                         if (state.containers[c].elements[c2].type !== 'template') {
                           return { 
                             ...p2, 
-                            [c2]: Object
-                              .keys(state.containers[c].elements[c2])
-                              .reduce((p3, c3) => {
-                                
-                                if (
-                                  state.containers[c].elements[c2][c3].enabled && 
-                                  action.data[c2][state.containers[c].elements[c2][c3].did] &&
-                                  action.data[c2][state.containers[c].elements[c2][c3].did][state.containers[c].elements[c2][c3].prop] !== undefined 
-                                ) {
-                                  try  {
-                                    if (c3 === 'w2' || c3 === 'h2') {
-                                      const prop1 = c3 === 'w2' ? 'x': 'y';
-                                      const prop2 = c3 === 'w2' ? 'w': 'h';
-
-                                      const curentValue = state.containers[c].elements[c2][c3].func.call(null, action.data[c2][state.containers[c].elements[c2][c3].did][state.containers[c].elements[c2][c3].prop], {});
-                                      const delta = curentValue - state.containers[c].elements[c2][prop2].value;
-
-                                      return { 
-                                        ...p3, 
-                                        [prop1]: { ...state.containers[c].elements[c2][prop1], value: state.containers[c].elements[c2][prop1].value - delta },
-                                        [prop2]: { ...state.containers[c].elements[c2][prop2], value: curentValue },
-                                        [c3]: { ...state.containers[c].elements[c2][c3], value: curentValue }
-                                      }
-                                    }
-                                    return { 
-                                      ...p3, 
-                                      [c3]: {
-                                        ...state.containers[c].elements[c2][c3],
-                                        value: state.containers[c].elements[c2][c3].func.call(null, action.data[c2][state.containers[c].elements[c2][c3].did][state.containers[c].elements[c2][c3].prop], {}),
-                                      }
-                                    }
-                                  } catch (e) {
-                                    return { ...p3, [c3]: state.containers[c].elements[c2][c3] }
-                                  }
-                                }
-                                return { ...p3, [c3]: state.containers[c].elements[c2][c3] }
-                              }, {}),
+                            [c2]: elements,
                           }
                         }
                         return { 
                           ...p2, [c2]: {
                             ...state.containers[c].elements[c2],
+                            ...elements,
                             states: { ...state.containers[c].elements[c2].states, ...action.data[c2] },
                             elements: state.templates[state.containers[c].elements[c2].templateId].listState
                               .reduce((p3, c3) => {
