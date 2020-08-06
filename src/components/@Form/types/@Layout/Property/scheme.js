@@ -366,6 +366,11 @@ const groupSettings = {
       type: 'divider',
     },
     { 
+      title: 'Animation', 
+      prop: 'animation', 
+      type: 'animation',
+    },
+    { 
       title: 'Opacity', 
       prop: 'opacity', 
       type: 'number',
