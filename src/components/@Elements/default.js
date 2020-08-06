@@ -250,6 +250,7 @@ const ACTION = {
 const GROUP = {
   zIndex: { value: 100 },
   opacity: { value: 100 },
+  animation: {},
 }
 
 
