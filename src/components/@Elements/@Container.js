@@ -17,7 +17,7 @@ class Container extends PureComponent {
             height: item.h.value,
             zIndex: item.zIndex.value,
             opacity: item.opacity.value / 100 ,
-            overflow: item.item.overflow.value ? 'hidden' : 'unset',
+            overflow: item.overflow && item.item.overflow.value ? 'hidden' : 'unset',
           }}
         >
           {item.elements.map(cid => this.handleRender(cid, this.props.container.elements[cid]))}
@@ -80,7 +80,7 @@ class Container extends PureComponent {
             width: this.props.container.settings.w.value, 
             height: this.props.container.settings.h.value,
             zoom: scale,
-            overflow: this.props.item.overflow.value ? 'hidden' : 'unset',
+            overflow: this.props.item.overflow && this.props.item.overflow.value ? 'hidden' : 'unset',
           }}
         >
           {this.props.container.list.map(id => this.handleRender(id, this.props.container.elements[id]))}
