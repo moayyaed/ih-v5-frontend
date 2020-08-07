@@ -17,6 +17,7 @@ class Template extends PureComponent {
             height: item.h.value,
             zIndex: item.zIndex.value,
             opacity: item.opacity.value / 100 ,
+            animation: item.animation && item.animation.active ? item.animation.value : 'unset',
             overflow: item.overflow && item.item.overflow.value ? 'hidden' : 'unset',
           }}
         >
@@ -34,6 +35,7 @@ class Template extends PureComponent {
           width: item.w.value,
           height: item.h.value,
           zIndex: item.zIndex.value,
+          animation: item.animation && item.animation.active ? item.animation.value : 'unset',
         }}
       >
         {elemets(this.props.template.elements[id].type, { id: id, mode: this.props.mode, item: this.props.item.elements ? this.props.item.elements[id] : this.props.template.elements[id], actions: this.props.item.actions })}
@@ -51,7 +53,7 @@ class Template extends PureComponent {
           height: '100%',
           zoom: this.props.item.w.value / this.props.template.settings.w.value,
           opacity: this.props.item.opacity.value / 100,
-          animation: this.props.item.animation && this.props.item.animation.active ? this.props.item.animation.value : 'unset',
+          // animation: this.props.item.animation && this.props.item.animation.active ? this.props.item.animation.value : 'unset',
           overflow: this.props.item.overflow && this.props.item.overflow.value ? 'hidden' : 'unset',
         }}
       >

@@ -79,6 +79,8 @@ class AppLayout extends Component {
             height: item.h.value * scaleH,
             opacity: item.opacity.value / 100,
             zIndex: item.zIndex.value,
+            overflow: item.overflow && item.overflow.value ? 'hidden' : 'unset',
+            animation: item.animation && item.animation.active ? item.animation.value : 'unset',
           }}
         >
           {item.elements.map(cid => this.handleRender(cid, this.props.state.layout.elements[cid], scaleW, scaleH))}
@@ -96,6 +98,7 @@ class AppLayout extends Component {
             width: item.w.value * scaleW,
             height: item.h.value * scaleH,
             zIndex: item.zIndex.value,
+            animation: item.animation && item.animation.active ? item.animation.value : 'unset',
           }}
         >
           {elemets(this.props.state.layout.elements[id].type, { mode: 'user', item: this.props.state.layout.elements[id], template: this.props.state.templates[item.templateId] })}
@@ -113,6 +116,7 @@ class AppLayout extends Component {
             width: item.w.value * scaleW,
             height: item.h.value * scaleH,
             zIndex: item.zIndex.value,
+            animation: item.animation && item.animation.active ? item.animation.value : 'unset',
           }}
         >
           {elemets(this.props.state.layout.elements[id].type, { mode: 'user', item: this.props.state.layout.elements[id], container: this.props.state.containers[this.props.state.layout.elements[id].containerId.id], templates: this.props.state.templates, scaleW, scaleH })}
@@ -129,6 +133,7 @@ class AppLayout extends Component {
           width: item.w.value * scaleW,
           height: item.h.value * scaleH,
           zIndex: item.zIndex.value,
+          animation: item.animation && item.animation.active ? item.animation.value : 'unset',
         }}
       >
         {elemets(this.props.state.layout.elements[id].type, { mode: 'user', item: this.props.state.layout.elements[id] })}

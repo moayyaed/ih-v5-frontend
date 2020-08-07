@@ -17,6 +17,7 @@ class Container extends PureComponent {
             height: item.h.value,
             zIndex: item.zIndex.value,
             opacity: item.opacity.value / 100 ,
+            animation: item.animation && item.animation.active ? item.animation.value : 'unset',
             overflow: item.overflow && item.item.overflow.value ? 'hidden' : 'unset',
           }}
         >
@@ -35,6 +36,7 @@ class Container extends PureComponent {
             width: item.w.value,
             height: item.h.value,
             zIndex: item.zIndex.value,
+            animation: item.animation && item.animation.active ? item.animation.value : 'unset',
           }}
         >
           {elemets(this.props.container.elements[id].type, { mode: this.props.mode, item: this.props.container.elements[id], template: this.props.templates[item.templateId] })}
@@ -51,6 +53,7 @@ class Container extends PureComponent {
           width: item.w.value,
           height: item.h.value,
           zIndex: item.zIndex.value,
+          animation: item.animation && item.animation.active ? item.animation.value : 'unset',
         }}
       >
         {elemets(this.props.container.elements[id].type, { mode: this.props.mode, item: this.props.container.elements[id] })}
@@ -71,7 +74,7 @@ class Container extends PureComponent {
           width: '100%', 
           height: '100%',
           opacity: this.props.item.opacity.value / 100,
-          animation: this.props.item.animation && this.props.item.animation.active ? this.props.item.animation.value : 'unset',
+          // animation: this.props.item.animation && this.props.item.animation.active ? this.props.item.animation.value : 'unset',
         }}
       >
         <div
