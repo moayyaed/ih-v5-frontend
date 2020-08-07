@@ -72,7 +72,7 @@ class Container extends PureComponent {
           width: '100%', 
           height: '100%',
           opacity: this.props.item.opacity.value / 100,
-          animation: props.item.animation.active ? props.item.animation.value : 'unset',
+          animation: this.props.item.animation.active ? this.props.item.animation.value : 'unset',
           overflow: this.props.item.overflow && this.props.item.overflow.value ? 'hidden' : 'unset',
         }}
       >
