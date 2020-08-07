@@ -322,8 +322,6 @@ function Animation(props) {
   const open = Boolean(anchorEl);
   const s = {};
 
-  console.log(props)
-
   if (props.mini) {
     s.root = styles.rootMini;
     s.title = styles.titleMini;
