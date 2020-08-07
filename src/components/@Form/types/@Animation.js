@@ -97,41 +97,6 @@ const styles = {
 }
 
 
-const options2 = {
-  spacing: 10,
-  grid: [
-    {
-      id: 'p1',
-      xs: 12,
-      class: 'main',
-    },
-    {
-      id: 'p2',
-      xs: 12,
-      class: 'main',
-      height: "fill",
-      calc: -130,
-      padding: 4,
-    },
-  ],
-  p1: [
-    {
-      prop: 'value',
-      title: 'Animation',
-      type: 'input'
-    },
-  ],
-  p2: [
-    {
-      prop: 'keyframes',
-      title: '@keyframes',
-      type: 'script',
-      mode: 'css',
-      theme: 'tomorrow',
-    },
-  ],
-}
-
 const defaultAnimation = 'spin 4s linear infinite'
 const defaultKeyframes = `
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
@@ -139,6 +104,43 @@ const defaultKeyframes = `
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 `
 const defaultFunction = "return `spin ${4 / inData}s linear infinite`";
+
+function getOptions2(enabled) {
+  return {
+    spacing: 10,
+    grid: [
+      {
+        id: 'p1',
+        xs: 12,
+        class: 'main',
+      },
+      {
+        id: 'p2',
+        xs: 12,
+        class: 'main',
+        height: "fill",
+        calc: -130,
+        padding: 4,
+      },
+    ],
+    p1: [
+      {
+        prop: 'value',
+        title: 'Animation',
+        type: enabled ? 'text' : 'input'
+      },
+    ],
+    p2: [
+      {
+        prop: 'keyframes',
+        title: '@keyframes',
+        type: 'script',
+        mode: 'css',
+        theme: 'tomorrow',
+      },
+    ],
+  }
+}
 
 function Animation(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -155,10 +157,9 @@ function Animation(props) {
       template: {
         type: 'form',
         title: 'Animation Settings',
-        options: options2,
-        disabledSave: props.data.enabled,
+        options: getOptions2(props.data.enabled),
         data: { 
-          p1: { value: props.data.value ? props.data.value : defaultAnimation }, 
+          p1: { value: props.data.enabled ? props.data.func : props.data.value ? props.data.value : defaultAnimation }, 
           p2: { keyframes: props.data.keyframes ? props.data.keyframes : defaultKeyframes },
         },
         cache: { p1: {}, p2: {} },
@@ -169,6 +170,9 @@ function Animation(props) {
   const handleDialogClick2 = (data) => {
     core.transfer.unsub('form_dialog', handleDialogClick2);
     if (data !== null) {
+      if (props.data.enabled) {
+        delete data['value'];
+      }
       props.onChange(props.id, props.options, null, { ...props.data, ...data })
     }
   }
