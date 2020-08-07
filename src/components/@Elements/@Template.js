@@ -17,6 +17,7 @@ class Template extends PureComponent {
             height: item.h.value,
             zIndex: item.zIndex.value,
             opacity: item.opacity.value / 100 ,
+            overflow: item.item.overflow.value ? 'hidden' : 'unset',
           }}
         >
           {item.elements.map(cid => this.handleRender(cid, this.props.item.elements ? this.props.item.elements[cid] : this.props.template.elements[cid]))}
@@ -50,7 +51,7 @@ class Template extends PureComponent {
           height: '100%',
           zoom: this.props.item.w.value / this.props.template.settings.w.value,
           opacity: this.props.item.opacity.value / 100,
-          overflow: 'hidden',
+          overflow: this.props.item.overflow.value ? 'hidden' : 'unset',
         }}
       >
         {this.props.template.list.map(id => this.handleRender(id, this.props.item.elements ? this.props.item.elements[id] : this.props.template.elements[id]))}

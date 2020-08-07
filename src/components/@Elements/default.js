@@ -21,6 +21,7 @@ const BLOCK = {
   boxShadow: { active: false, value: '2px 2px 4px 0px #000000' },
   zIndex: { value: 100 },
   opacity: { value: 100 },
+  overflow: { value: true },
 }
 
 const RECTANGLE = {
@@ -46,6 +47,7 @@ const RECTANGLE = {
   boxShadow: { active: false, value: '2px 2px 4px 0px #000000' },
   zIndex: { value: 100 },
   opacity: { value: 100 },
+  overflow: { value: true },
 }
 
 const CIRCLE = {
@@ -71,6 +73,7 @@ const CIRCLE = {
   boxShadow: { active: false, value: '2px 2px 4px 0px #000000' },
   zIndex: { value: 100 },
   opacity: { value: 100 },
+  overflow: { value: true },
 }
 
 const TEXT = {
@@ -105,6 +108,7 @@ const TEXT = {
   boxShadow: { active: false, value: '2px 2px 4px 0px #000000' },
   zIndex: { value: 100 },
   opacity: { value: 100 },
+  overflow: { value: true },
 }
 
 const IMAGE = {
@@ -134,6 +138,7 @@ const IMAGE = {
   boxShadow: { active: false, value: '2px 2px 4px 0px #000000' },
   zIndex: { value: 100 },
   opacity: { value: 100 },
+  overflow: { value: true },
 }
 
 const TEXT_IMAGE = {
@@ -180,6 +185,7 @@ const TEXT_IMAGE = {
   boxShadow: { active: false, value: '2px 2px 4px 0px #000000' },
   zIndex: { value: 100 },
   opacity: { value: 100 },
+  overflow: { value: true },
 }
 
 const BUTTON = {
@@ -229,6 +235,7 @@ const BUTTON = {
   boxShadow: { active: false, value: '2px 2px 4px 0px #000000' },
   zIndex: { value: 100 },
   opacity: { value: 100 },
+  overflow: { value: true },
 }
 
 const ACTION = {
@@ -248,9 +255,10 @@ const ACTION = {
 }
 
 const GROUP = {
+  animation: {},
   zIndex: { value: 100 },
   opacity: { value: 100 },
-  animation: {},
+  overflow: { value: true },
 }
 
 

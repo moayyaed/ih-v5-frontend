@@ -349,6 +349,11 @@ const moveSection = [
     type: 'cb',
   },
   { 
+    title: 'Overflow', 
+    prop: 'overflow', 
+    type: 'cb',
+  },
+  { 
     title: 'Rotate', 
     prop: 'rotate', 
     type: 'number',
@@ -404,6 +409,11 @@ const groupSettings = {
       title: 'H', 
       prop: 'h', 
       type: 'text',
+    },
+    { 
+      title: 'Overflow', 
+      prop: 'overflow', 
+      type: 'cb',
     },
     { 
       title: 'Z-index', 

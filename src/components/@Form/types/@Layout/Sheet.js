@@ -572,6 +572,7 @@ class Sheet extends Component {
             height: '100%', 
             outline: item.groupId ? 'unset' : `1px dashed #6d7882`,
             opacity: item.opacity.value / 100,
+            overflow: item.overflow.value ? 'hidden' : 'unset',
           }}
         >
           {item.elements.map(id => 
