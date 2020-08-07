@@ -317,9 +317,12 @@ function Animation(props) {
       core.transfer.unsub('form_dialog', handleDialogClick);
     }
   }
+  
 
   const open = Boolean(anchorEl);
   const s = {};
+
+  console.log(props)
 
   if (props.mini) {
     s.root = styles.rootMini;

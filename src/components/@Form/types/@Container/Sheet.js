@@ -702,6 +702,7 @@ class Sheet extends Component {
   } 
 
   render({ selects, settings, list, elements } = this.props) {
+    console.log(this.props)
     return (
       <div style={styles.root} onClick={this.handleClickBody}>
         <div 
