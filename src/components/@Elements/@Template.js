@@ -51,7 +51,7 @@ class Template extends PureComponent {
           height: '100%',
           zoom: this.props.item.w.value / this.props.template.settings.w.value,
           opacity: this.props.item.opacity.value / 100,
-          animation: this.props.item.animation.active ? this.props.item.animation.value : 'unset',
+          animation: this.props.item.animation && this.props.item.animation.active ? this.props.item.animation.value : 'unset',
           overflow: this.props.item.overflow && this.props.item.overflow.value ? 'hidden' : 'unset',
         }}
       >
