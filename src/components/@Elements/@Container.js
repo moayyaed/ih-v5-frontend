@@ -59,7 +59,6 @@ class Container extends PureComponent {
   }
 
   render() {
-  
     const scale = Math.min((this.props.item.w.value * this.props.scaleW) / this.props.container.settings.w.value, (this.props.item.h.value * this.props.scaleH) / this.props.container.settings.h.value);
 
     return (

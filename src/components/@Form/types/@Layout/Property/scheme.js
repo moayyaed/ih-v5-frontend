@@ -474,6 +474,11 @@ const containerSettings = {
       min: -100,
       max: 5000,
     },
+    { 
+      title: 'Overflow', 
+      prop: 'overflow', 
+      type: 'cb',
+    },
   ],
 }
 
