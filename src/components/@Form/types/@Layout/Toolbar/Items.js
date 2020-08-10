@@ -33,7 +33,7 @@ export function ElementsItems(props) {
   return (
     <BasicItem 
       nodeId="content" 
-      label="Content"
+      label="Layout"
       onIconClick={(e) => props.onClickIcon(e, 'content')} 
       onLabelClick={(e) => props.onClickLabel(e, 'content')} 
     >
@@ -89,15 +89,3 @@ function Item(props) {
 }
 
 const BasicItem = withStyles(classes)(Item);
-
-
-/*
-
-       <IconButton style={styles.itemButton} size="small" onClick={(e) => props.onClickUp(e, props.nodeId, props.index)}>
-          <ArrowUpwardIcon fontSize="inherit" />
-        </IconButton>
-        <IconButton style={styles.itemButton} size="small" onClick={(e) => props.onClickDown(e, props.nodeId, props.index)}>
-          <ArrowDownwardIcon fontSize="inherit" />
-        </IconButton>
-
-*/
