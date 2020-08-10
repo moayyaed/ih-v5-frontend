@@ -349,7 +349,7 @@ const moveSection = [
     type: 'cb',
   },
   { 
-    title: 'Overflow', 
+    title: 'Crop', 
     prop: 'overflow', 
     type: 'cb',
   },
@@ -411,7 +411,7 @@ const groupSettings = {
       type: 'text',
     },
     { 
-      title: 'Overflow', 
+      title: 'Crop', 
       prop: 'overflow', 
       type: 'cb',
     },
@@ -475,7 +475,7 @@ const containerSettings = {
       max: 5000,
     },
     { 
-      title: 'Overflow', 
+      title: 'Crop', 
       prop: 'overflow', 
       type: 'cb',
     },
@@ -587,6 +587,36 @@ const scheme = {
     actions: actionsSection,
   },
   content: {
+    main: [
+      { 
+        title: 'Background', 
+        prop: 'background', 
+        type: 'divider',
+      },
+      { 
+        title: 'Color', 
+        prop: 'backgroundColor', 
+        type: 'color2',
+        bind: false,
+      },
+      { 
+        title: 'Image', 
+        prop: 'backgroundImage', 
+        type: 'input',
+        bind: false,
+      },
+      { 
+        title: 'Decoration', 
+        prop: 'decoration2', 
+        type: 'divider',
+      },
+      { 
+        title: 'Overlay Color', 
+        prop: 'overlayColor', 
+        type: 'color2',
+        bind: false,
+      },
+    ],
     move: [
       { 
         title: 'Position', 
