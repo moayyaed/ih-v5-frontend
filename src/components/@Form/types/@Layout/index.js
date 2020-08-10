@@ -68,8 +68,8 @@ class Layout extends PureComponent {
             grid: { value: 10 },
             backgroundColor: { 
               type: 'fill', 
-              value: 'transparent', 
-              fill: 'transparent',
+              value: 'rgba(255,255,255,1)', 
+              fill: 'rgba(255,255,255,1)',
               angle: 90,
               shape: 'circle',
               positionX: 50,
@@ -238,12 +238,11 @@ class Layout extends PureComponent {
         <Separator key="10" />,
         <Button 
           key="11"
-          minimal 
-          active={select === 'actions'} 
-          icon="hand-up"  
-          onClick={() => this.handleChangeProperty('actions')}
+          minimal
+          active={select === 'link'} 
+          icon="link"  
+          onClick={() => this.handleChangeProperty('link')} 
         />,
-
       ];
     }
 

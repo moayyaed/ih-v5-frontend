@@ -68,8 +68,8 @@ class Container extends PureComponent {
             grid: { value: 10 },
             backgroundColor: { 
               type: 'fill', 
-              value: 'transparent', 
-              fill: 'transparent',
+              value: 'rgba(255,255,255,1)', 
+              fill: 'rgba(255,255,255,1)',
               angle: 90,
               shape: 'circle',
               positionX: 50,
@@ -159,7 +159,8 @@ class Container extends PureComponent {
         );
     } else {
       const propertyType = this.props.data.propertyType || 'main';
-      if (propertyType === 'link' || propertyType === 'actions') {
+      const item = this.props.data.elements[this.props.data.selectOne];
+      if (item.type === 'template' && (propertyType === 'link' || propertyType === 'actions')) {
         const name = propertyType === 'link' ? 'links' : 'actions'
         core.actions.container
           .changeTemplate(
@@ -246,14 +247,6 @@ class Container extends PureComponent {
           onClick={() => this.handleChangeProperty('move')}
         />,
         <Separator key="12" />,
-        <Button 
-          key="13"
-          minimal 
-          active={select === 'actions'} 
-          icon="hand-up"  
-          onClick={() => this.handleChangeProperty('actions')}
-        />,
-        <Separator key="14" />,
         <Button 
           key="15"
           minimal

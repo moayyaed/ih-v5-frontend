@@ -52,6 +52,8 @@ class Property extends PureComponent {
         return <div style={styles.stub}>Properties not supported</div>;
       }
       if (this.props.templateData && this.props.type === 'link') {
+        const list = this.props.templateData.list
+          .filter(i => this.props.templateData.elements[i].type === 'action');
         data = this.props.templateData.listState
           .reduce((p, c) => {
             if (this.props.elementData.links[c]) {
@@ -59,6 +61,21 @@ class Property extends PureComponent {
             }
             return { ...p, [c]: { title: '' } }
           }, {});
+        const data2 = list
+          .reduce((p, c) => {
+            const actions = scheme.listActions
+              .filter(key => this.props.templateData.elements[c][key] !== '')
+              .reduce((p2, c2) => {
+                const key = `${c}_${c2}`
+                if (this.props.elementData.actions && this.props.elementData.actions[key]) {
+                  return { ...p2, [key]: this.props.elementData.actions[key] }
+                }
+                return { ...p2, [key]: { title: '' } }
+              }, {});
+            return { ...p, ...actions }
+          }, {});
+        data = { ...data, ...data2 }
+
         map = this.props.templateData.listState
           .map(key => ({
             prop: key,
@@ -72,26 +89,7 @@ class Property extends PureComponent {
               dialog: 'channellink'
             }
           }));
-        map = [{ title: 'Bind', prop: 'background', type: 'divider' }].concat(map)
-      }
-      if (this.props.templateData && this.props.type === 'actions') {
-        const list = this.props.templateData.list
-          .filter(i => this.props.templateData.elements[i].type === 'action');
-        
-        data = list
-          .reduce((p, c) => {
-            const actions = scheme.listActions
-              .filter(key => this.props.templateData.elements[c][key] !== '')
-              .reduce((p2, c2) => {
-                const key = `${c}_${c2}`
-                if (this.props.elementData.actions && this.props.elementData.actions[key]) {
-                  return { ...p2, [key]: this.props.elementData.actions[key] }
-                }
-                return { ...p2, [key]: { title: '' } }
-              }, {});
-            return { ...p, ...actions }
-          }, {});
-        map = list
+        const map2 = list
           .reduce((p, c) => {
             return p
               .concat([{ title: c, prop: c, type: 'divider' }],scheme.listActions
@@ -111,6 +109,8 @@ class Property extends PureComponent {
                   })
                 ))
           }, [])
+        map = [{ title: 'Bind', prop: 'bind', type: 'divider' }]
+          .concat(map, map2)
       }
       return (
         <Scrollbars style={styles.scroll}>

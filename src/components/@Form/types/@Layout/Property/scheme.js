@@ -544,12 +544,11 @@ const scheme = {
       ...borderSection,
       ...decorationSection,
     ],
-    actions: actionsSection,
+    link: actionsSection,
     move: moveSection,
   },
   template: {
     link: [],
-    actions: [],
     ...groupSettings,
   },
   action: {
