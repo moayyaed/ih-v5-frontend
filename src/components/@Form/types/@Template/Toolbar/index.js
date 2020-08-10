@@ -75,7 +75,7 @@ class Toolbar extends PureComponent {
   }
 
   handleClickIcon = (e, id) => {
-    // console.log('icon')
+  
   }
 
   handleClickElement = (e, id) => {

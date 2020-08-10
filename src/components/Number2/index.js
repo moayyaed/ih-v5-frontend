@@ -53,7 +53,6 @@ const styles = {
 class Number2 extends Component {
 
   handleClickUpArrow = (e) => {
-    console.log('!')
     e.preventDefault();
     e.stopPropagation();
   }

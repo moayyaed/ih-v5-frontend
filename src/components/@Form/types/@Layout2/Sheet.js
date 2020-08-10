@@ -616,7 +616,7 @@ class Canvas extends Component {
   }
 
   handleDragUpdate = (a, b, c, d) => {
-    console.log(a, b, c, d)
+    
   }
 
   componentDidUpdate() {

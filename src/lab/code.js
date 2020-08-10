@@ -3,7 +3,6 @@ const lt = ace.require("ace/ext/language_tools");
 
 
 function getCompletions(editor, session, pos, prefix, callback) {
-  console.log(editor, session, pos, prefix);
   var wl = [
     { caption: 'test1', value: 'test1', meta: 'static' },
     { caption: 'test1.', value: 'test1', meta: 'static' }
