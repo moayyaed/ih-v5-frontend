@@ -762,7 +762,6 @@ class Sheet extends Component {
             <Paper
               ref={this.linkSheet}
               elevation={2} 
-              className="parent2" 
               style={{ 
                 ...styles.sheet, 
                 width: settings.w.value, 
@@ -775,7 +774,7 @@ class Sheet extends Component {
               onClick={(e) => this.handleClickSheet(e)}
               onContextMenu={(e) => this.handleContextMenuElement(e, null)}
             >
-              <div style={{ width: '100%', height: '100%', backgroundColor: settings.overlayColor.value }}>
+              <div className="parent2" style={{ width: '100%', height: '100%', backgroundColor: settings.overlayColor.value }}>
                 {list.map(id => 
                   <Element 
                     key={id}
