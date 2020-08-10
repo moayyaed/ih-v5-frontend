@@ -218,16 +218,6 @@ const BUTTON = {
     palette: [{ offset: '0.00', color: '#4A90E2', opacity: 1 }, { offset: '1.00', color: '#9013FE', opacity: 1 }]
   },
   colorRipple: { value: 'rgba(255,255,255,1)' },
-  singleClickLeft: { value: 'TOGGLE' },
-  doubleClickLeft: { value: '' },
-  longClickLeft: { value: 'DEVICEMENU' },
-  singleClickRight: { value: '' },
-  doubleClickRight: { value: '' },
-  longClickRight: { value: '' },
-  mouseDownLeft: { value: '' },
-  mouseUpLeft: { value: '' },
-  mouseDownLeft: { value: '' },
-  mouseUpLeft: { value: '' },
   rotate: { value: 0 },
   animation: {},
   flipH: { value: false },
@@ -236,6 +226,19 @@ const BUTTON = {
   zIndex: { value: 100 },
   opacity: { value: 100 },
   overflow: { value: true },
+  actions: {
+    left: [
+      { action: 'singleClickLeft', value: null },
+      { action: 'doubleClickLeft', value: null },
+      { action: 'longClickLeft', value: null },
+      { action: 'mouseDownLeft', value: null },
+      { action: 'mouseUpLeft', value: null },
+      { action: 'mouseDownLeft', value: null },
+    ],
+    right: [
+      { action: 'singleClickRight', value: null },
+    ]
+  },
 }
 
 const ACTION = {

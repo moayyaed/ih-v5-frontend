@@ -290,6 +290,20 @@ const actionsSection = [
   },
 ];
 
+const actionsSection2 = [
+  { type: 'actions', prop: 'actions' },
+  { 
+    title: 'Effect ', 
+    prop: 'effect', 
+    type: 'divider',
+  },
+  { 
+    title: 'Color Ripple', 
+    prop: 'colorRipple', 
+    type: 'color',
+  },
+];
+
 const moveSection = [
   { 
     title: 'Position', 
@@ -544,7 +558,7 @@ const scheme = {
       ...borderSection,
       ...decorationSection,
     ],
-    link: actionsSection,
+    link: actionsSection2,
     move: moveSection,
   },
   template: {

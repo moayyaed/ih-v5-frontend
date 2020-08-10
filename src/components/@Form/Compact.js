@@ -33,6 +33,12 @@ const styles = {
     fontSize: 12,
     fontFamily: 'Helvetica,Arial,sans-serif',
   },
+  basic2: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    minHeight: 23,
+  },
   basicItemLabel: {
     display: 'flex',
     width: '40%',
@@ -93,6 +99,13 @@ function CompactForm({ scheme, data, cache, route, onChange, getStyle }) {
           <div style={styles.dividerItem} >
             {i.title}
           </div>
+        </div>
+      )
+    }
+    if (i.type === 'actions') {
+      return (
+        <div key={i.prop} style={styles.basic2} >
+          {components(i.prop, i, data[i.prop] || {}, cache[i.prop], data, route, onChange, getStyle, true)}
         </div>
       )
     }

@@ -18,6 +18,7 @@ import Slider from './@Slider';
 import Url from './@Url';
 import Shadow from './@Shadow';
 import Animation from './@Animation';
+import Actions from './@Actions';
 
 import Layout from './@Layout';
 import Container from './@Container';
@@ -70,6 +71,8 @@ function getComponentByType(type) {
       return Shadow;
     case 'animation':
       return Animation;
+    case 'actions':
+      return Actions;
       
     case 'layout':
       return Layout;
