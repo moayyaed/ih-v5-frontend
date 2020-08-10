@@ -147,8 +147,18 @@ class AppLayout extends Component {
           {({ width, height }) => {
             if (width && state.layout.settings) {
               return (
-                <div style={styles.root}>
-                  {state.layout.list.map(id => this.handleRender(id, state.layout.elements[id], width / state.layout.settings.w.value, height / state.layout.settings.h.value))}
+                <div 
+                  style={{
+                    ...styles.root,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center center',
+                    backgroundColor: state.layout.settings.backgroundColor.value,
+                    backgroundImage: state.layout.settings.backgroundImage.value === 'unset' ? 'unset' : `url(${state.layout.settings.backgroundImage.value})`,
+                  }}
+                >
+                  <div style={{ width: '100%', height: '100%', backgroundColor: state.layout.settings.overlayColor.value }}>
+                    {state.layout.list.map(id => this.handleRender(id, state.layout.elements[id], width / state.layout.settings.w.value, height / state.layout.settings.h.value))}
+                  </div>
                 </div>
               )
             }

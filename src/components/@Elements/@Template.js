@@ -55,9 +55,15 @@ class Template extends PureComponent {
           opacity: this.props.item.opacity.value / 100,
           // animation: this.props.item.animation && this.props.item.animation.active ? this.props.item.animation.value : 'unset',
           overflow: this.props.item.overflow && this.props.item.overflow.value ? 'hidden' : 'unset',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center',
+          backgroundColor: this.props.template.settings.backgroundColor.value,
+          backgroundImage: this.props.template.settings.backgroundImage.value === 'unset' ? 'unset' : `url(${this.props.template.settings.backgroundImage.value})`,
         }}
       >
-        {this.props.template.list.map(id => this.handleRender(id, this.props.item.elements ? this.props.item.elements[id] : this.props.template.elements[id]))}
+        <div style={{ width: '100%', height: '100%', backgroundColor: this.props.template.settings.overlayColor.value }}>
+          {this.props.template.list.map(id => this.handleRender(id, this.props.item.elements ? this.props.item.elements[id] : this.props.template.elements[id]))}
+        </div>
       </div>
     )
   }

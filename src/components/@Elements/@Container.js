@@ -67,26 +67,37 @@ class Container extends PureComponent {
     return (
       <div
         style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          position: 'absolute', 
           width: '100%', 
           height: '100%',
           opacity: this.props.item.opacity.value / 100,
-          // animation: this.props.item.animation && this.props.item.animation.active ? this.props.item.animation.value : 'unset',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center',
+          backgroundColor: this.props.container.settings.backgroundColor.value,
+          backgroundImage: this.props.container.settings.backgroundImage.value === 'unset' ? 'unset' : `url(${this.props.container.settings.backgroundImage.value})`,
         }}
       >
-        <div
+        <div 
           style={{
-            position: 'relative', 
-            width: this.props.container.settings.w.value, 
-            height: this.props.container.settings.h.value,
-            zoom: scale,
-            overflow: this.props.item.overflow && this.props.item.overflow.value ? 'hidden' : 'unset',
+            width: '100%', 
+            height: '100%', 
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            position: 'absolute',  
+            backgroundColor: this.props.container.settings.overlayColor.value 
           }}
         >
-          {this.props.container.list.map(id => this.handleRender(id, this.props.container.elements[id]))}
+          <div
+            style={{
+              position: 'relative', 
+              width: this.props.container.settings.w.value, 
+              height: this.props.container.settings.h.value,
+              zoom: scale,
+              overflow: this.props.item.overflow && this.props.item.overflow.value ? 'hidden' : 'unset',
+            }}
+          >
+            {this.props.container.list.map(id => this.handleRender(id, this.props.container.elements[id]))}
+          </div>
         </div>
       </div>
     )
