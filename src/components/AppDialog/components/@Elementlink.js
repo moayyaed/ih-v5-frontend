@@ -116,7 +116,6 @@ class Elementlink extends Component {
     core
       .request({ method: 'appdialog_elementlink', props, params })
       .ok((res) => {
-        console.log(state.component.select.func)
         const select = { 
           did: state.template.selectnodeid, 
           prop: state.template.selectId, 

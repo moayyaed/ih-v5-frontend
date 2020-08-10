@@ -308,7 +308,10 @@ class Sheet extends Component {
       core.actions.layout
         .editElement(
           this.props.id, this.props.prop,
-          elementId, { x: { value: data.x }, y: { value: data.y } }
+          elementId, { 
+            x: { ...this.props.elements[elementId].x, value: data.x }, 
+            y: { ...this.props.elements[elementId].y, value: data.y } 
+          }
         );
       this.props.save();
     }
