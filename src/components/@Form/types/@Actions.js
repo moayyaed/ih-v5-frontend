@@ -183,11 +183,19 @@ function Actions(props) {
     setState({ key, type: 'menu-right', anchorEl: event.currentTarget });
   }
 
-  const handleClickOptionLeft = (event, key) => {
-    setState({ key, type: 'option-left', anchorEl: event.currentTarget });
+  const handleClickOptionLeft = (event, key, item) => {
+    if (item.command) {
+      hanndleDialog(item.command, 'left', key, item.did);
+    } else {
+      setState({ key, type: 'option-left', anchorEl: event.currentTarget });
+    }
   }
-  const handleClickOptionRight = (event, key) => {
-    setState({ key, type: 'option-right', anchorEl: event.currentTarget });
+  const handleClickOptionRight = (event, key, item) => {
+    if (item.command) {
+      hanndleDialog(item.command, 'right', key, item.did);
+    } else {
+      setState({ key, type: 'option-right', anchorEl: event.currentTarget });
+    }
   }
 
   const handleClickLeft = (event) => {
@@ -257,11 +265,12 @@ function Actions(props) {
 
   const handleClickOption = (command) => {
     const type = state.type === 'option-left' ? 'left' : 'right';
-    hanndleDialog(type, state.key);
+    
+    hanndleDialog(command, type, state.key, props.data[type][state.key].did);
     handleClose();
   }
 
-  const hanndleDialog = (type, key) => {
+  const hanndleDialog = (command, type, key, did) => {
     core.transfer.sub('form_dialog', handleDialogClick);
     core.actions.appdialog.data({
       id: 'action_dialog', 
@@ -273,23 +282,29 @@ function Actions(props) {
         type: 'tree',
         id: 'devices',
         dialog: 'channellink',
-        selectnodeid: props.data.did,
-        type,
-        key,
+        selectnodeid: did,
+        itemType: type,
+        itemIndex: key,
+        itemCommand: command,
       },
     });
   }
 
-  const handleDialogClick = (data) => {
+  const handleDialogClick = (data, context) => {
     if (data !== null && data !== ':exit:') {
       core.transfer.unsub('form_dialog', handleDialogClick);
       core.actions.appdialog.close();
-
-      /*
+    
       props.onChange(props.id, props.options, null, { 
-        ...props.data, [state.type]: props.data[state.type].concat({ action: id, value: null }), 
-      }) */
-      // props.onChange(props.id, props.options, null, { ...props.data, ...data.result.value, title: data.result.title })
+        ...props.data, 
+        [context.template.itemType]: props.data[context.template.itemType].map((i, key) => {
+          if (context.template.itemIndex === key) {
+            return { ...i, ...data.result.value, title: data.result.title, command: context.template.itemCommand };
+          }
+          return i;
+        }), 
+      })
+      // props.onChange(props.id, props.options, null, { ...props.data, ...data.result.value,  })
     }
     core.transfer.unsub('form_dialog', handleDialogClick);
   }
@@ -297,11 +312,13 @@ function Actions(props) {
 
   const getMenu = () => {
     if (state.type === 'left') {
-      return LEFT.map((i, key) => <MenuItem key={key} onClick={() => handleClickAdd(i)}>{TITLES[i]}</MenuItem>);
+      return LEFT
+        .map((i, key) => <MenuItem key={key} onClick={() => handleClickAdd(i)}>{TITLES[i]}</MenuItem>);
     }
 
     if (state.type === 'right') {
-      return RIGHT.map((i, key) => <MenuItem key={key} onClick={() => handleClickAdd(i)}>{TITLES[i]}</MenuItem>);
+      return RIGHT
+        .map((i, key) => <MenuItem key={key} onClick={() => handleClickAdd(i)}>{TITLES[i]}</MenuItem>);
     }
 
     if (state.type === 'menu-left' || state.type === 'menu-right') {
@@ -350,7 +367,7 @@ function Actions(props) {
       {props.data.left.map((i, key) =>
         <div key={'l_'+ key} style={styles.item} >
           <div style={key & 1 ? styles.label2 : styles.label}>{TITLES[i.action]}</div>
-          <div style={key & 1 ? styles.value2 : styles.value}><ValueItem data={i} onClick={(e) => handleClickOptionLeft(e, key)} onClick2={(e) => handleClickMenuLeft(e, key)} /></div>
+          <div style={key & 1 ? styles.value2 : styles.value}><ValueItem data={i} onClick={(e) => handleClickOptionLeft(e, key, i)} onClick2={(e) => handleClickMenuLeft(e, key)} /></div>
         </div>
       )}
       <div style={styles.divider} >
@@ -364,7 +381,7 @@ function Actions(props) {
       {props.data.right.map((i, key) =>
         <div key={'r_'+ key} style={styles.item} >
           <div style={key & 1 ? styles.label2 : styles.label}>{TITLES[i.action]}</div>
-          <div style={key & 1 ? styles.value2 : styles.value}><ValueItem data={i} onClick={(e) => handleClickOptionRight(e, key)} onClick2={(e) => handleClickMenuRight(e, key)} /></div>
+          <div style={key & 1 ? styles.value2 : styles.value}><ValueItem data={i} onClick={(e) => handleClickOptionRight(e, key, i)} onClick2={(e) => handleClickMenuRight(e, key)} /></div>
         </div>
       )}
     </>

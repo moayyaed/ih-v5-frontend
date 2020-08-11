@@ -96,7 +96,7 @@ class Devicelink extends Component {
   }
 
   handleClickOk = (item) => {
-    core.transfer.send(this.props.state.transferid, item);
+    core.transfer.send(this.props.state.transferid, item, this.props.state);
   }
   
 
