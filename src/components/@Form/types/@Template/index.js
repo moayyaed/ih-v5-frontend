@@ -87,8 +87,8 @@ class Template extends PureComponent {
               grid: { value: 10 },
               backgroundColor: { 
                 type: 'fill', 
-                value: 'rgba(255,255,255,1)', 
-                fill: 'rgba(255,255,255,1)',
+                value: 'transparent', 
+                fill: 'transparent',
                 angle: 90,
                 shape: 'circle',
                 positionX: 50,
