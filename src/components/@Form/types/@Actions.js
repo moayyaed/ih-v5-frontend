@@ -186,11 +186,47 @@ function Actions(props) {
 
   const handleClickMenu = (command) => {
     const type = state.type === 'menu-left' ? 'left' : 'right';
+    
     if (command === 'delete') {
       handleClose();
       props.onChange(props.id, props.options, null, { 
         ...props.data, [type]: props.data[type].filter((i, key) => key !== state.key), 
       })
+    }
+
+    if (command === 'up') {
+      const targetKey = state.key - 1;
+
+      handleClose();
+      props.onChange(props.id, props.options, null, { 
+        ...props.data, [type]: props.data[type]
+          .filter((i, key) => key !== targetKey)
+          .reduce((p, c, key) => {
+            if (key === targetKey) {
+              return p.concat(c, props.data[type][targetKey])
+            }
+            return p.concat(c)
+          }, []), 
+      })
+    }
+
+    if (command === 'down') {
+      const targetKey = state.key ;
+
+      handleClose();
+
+      if (props.data[type].length -1 !== targetKey) {
+        props.onChange(props.id, props.options, null, { 
+          ...props.data, [type]: props.data[type]
+            .filter((i, key) => key !== state.key)
+            .reduce((p, c, key) => {
+              if (key === targetKey) {
+                return p.concat(c, props.data[type][state.key])
+              }
+              return p.concat(c)
+            }, []), 
+        })
+      }
     }
   }
 
