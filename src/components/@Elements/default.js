@@ -217,7 +217,6 @@ const BUTTON = {
     extent: 'closest-side',
     palette: [{ offset: '0.00', color: '#4A90E2', opacity: 1 }, { offset: '1.00', color: '#9013FE', opacity: 1 }]
   },
-  colorRipple: { value: 'rgba(255,255,255,1)' },
   rotate: { value: 0 },
   animation: {},
   flipH: { value: false },
@@ -226,6 +225,8 @@ const BUTTON = {
   zIndex: { value: 100 },
   opacity: { value: 100 },
   overflow: { value: true },
+  colorRipple: { value: 'rgba(255,255,255,1)' },
+  colorHover: { value: 'rgba(0,0,0,0.2)' },
   actions: {
     left: [
       { action: 'singleClickLeft', value: null },

@@ -100,6 +100,19 @@ const decorationSection = [
   },
 ];
 
+const effectSection = [
+  { 
+    title: 'Color Hover', 
+    prop: 'colorHover', 
+    type: 'color',
+  },
+  { 
+    title: 'Color Ripple', 
+    prop: 'colorRipple', 
+    type: 'color',
+  },
+];
+
 const textSection = [
   { 
     title: 'Text', 
@@ -284,24 +297,20 @@ const actionsSection = [
     type: 'divider',
   },
   { 
+    title: 'Color Hover', 
+    prop: 'colorHover', 
+    type: 'color',
+  },
+  { 
     title: 'Color Ripple', 
     prop: 'colorRipple', 
     type: 'color',
   },
+  
 ];
 
 const actionsSection2 = [
   { type: 'actions', prop: 'actions' },
-  { 
-    title: 'Effect ', 
-    prop: 'effect', 
-    type: 'divider',
-  },
-  { 
-    title: 'Color Ripple', 
-    prop: 'colorRipple', 
-    type: 'color',
-  },
 ];
 
 const moveSection = [
@@ -557,6 +566,7 @@ const scheme = {
       ...backgroundSection,
       ...borderSection,
       ...decorationSection,
+      ...effectSection,
     ],
     link: actionsSection2,
     move: moveSection,

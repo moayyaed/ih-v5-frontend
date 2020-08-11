@@ -8,11 +8,21 @@ import { makeStyles } from '@material-ui/core/styles';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
+import AddIcon from '@material-ui/icons/PostAdd';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import TuneIcon from '@material-ui/icons/Tune';
+
+import LinkIcon from '@material-ui/icons/Link';
+
 
 const styles = {
   root: {
   },
+  root2: {
+    display: 'flex',
+  },
   divider: {
+    position: 'relative',
     height: 22,
     width: '100%',
     display: 'flex',
@@ -91,18 +101,22 @@ const styles = {
   },
   button: {
     position: 'absolute',
-    right: 4,
-    width: 16,
-    height: 16,
-    padding: 8,
+    top: -1,
+    right: 8,
+    width: 20,
+    height: 20,
   },
   button2: {
-    position: 'absolute',
-    right: 4,
-    height: 14,
-    fontSize: 12,
-    minWidth: 40,
-  }
+    width: 22,
+    height: 22,
+  },
+  stub: {
+    width: '100%',
+  },
+  stub2: {
+    borderLeft: '1px solid #d8e1e8',
+    margin: '4px 6px'
+  },
 }
 
 const TITLES = {
@@ -120,6 +134,24 @@ const LEFT = [
 ];
 
 const RIGHT = [ 'singleClickRight' ];
+
+
+function ValueItem(props) {
+  return (
+    <>
+     <div style={styles.stub} />
+      <IconButton size="small" >
+        <TuneIcon fontSize="inherit" />
+      </IconButton>
+      <div style={styles.root2}>
+        <div style={styles.stub2} />
+          <IconButton className="nb" style={styles.button2} size="small" >
+            <MoreVertIcon fontSize="small" />
+          </IconButton>
+      </div>
+    </>
+  )
+}
 
 
 function Actions(props) {
@@ -155,28 +187,28 @@ function Actions(props) {
         <div style={styles.dividerTitle} >
           Mouse Left
         </div>
-        <Button style={styles.button2} variant="outlined" color="primary" onClick={handleClickLeft}>
-          Add More
-        </Button>
+        <IconButton className="nb2" style={styles.button} onClick={handleClickLeft} size="small" >
+          <AddIcon fontSize="small" />
+        </IconButton>
       </div>
       {props.data.left.map((i, key) =>
         <div key={'l_'+ key} style={styles.item} >
           <div style={key & 1 ? styles.label2 : styles.label}>{TITLES[i.action]}</div>
-          <div style={key & 1 ? styles.value2 : styles.value}>-</div>
+          <div style={key & 1 ? styles.value2 : styles.value}><ValueItem /></div>
         </div>
       )}
       <div style={styles.divider} >
         <div style={styles.dividerTitle} >
           Mouse Right
         </div>
-        <Button style={styles.button2} variant="outlined" color="primary" onClick={handleClickRight}>
-          Add More
-        </Button>
+        <IconButton className="nb2" style={styles.button} onClick={handleClickRight} size="small" >
+          <AddIcon fontSize="small" />
+        </IconButton>
       </div>
       {props.data.right.map((i, key) =>
         <div key={'r_'+ key} style={styles.item} >
           <div style={key & 1 ? styles.label2 : styles.label}>{TITLES[i.action]}</div>
-          <div style={key & 1 ? styles.value2 : styles.value}>-</div>
+          <div style={key & 1 ? styles.value2 : styles.value}><ValueItem /></div>
         </div>
       )}
     </>
