@@ -239,7 +239,7 @@ function ElementItemGroup(props) {
 function AnimationItem(props) {
   return (
     <div style={styles.animationItem}>
-      <div style={{ ...styles.itemLabel, backgroundColor: props.nodeId === props.select ? '#B3E5FC' : 'unset' }}>
+      <div style={{ ...styles.itemLabel, fontWeight: props.nodeId === props.select ? 600 : 'unset' }}>
         <EditText 
           edit={props.state[props.nodeId].edit} 
           value={props.state[props.nodeId].title}
@@ -284,7 +284,7 @@ function DefaultItem(props) {
   }
   return (
     <div style={styles.masterItem}>
-      <div style={{ ...styles.itemLabel, backgroundColor: props.select === 'master' ? '#B3E5FC' : 'unset' }}>{props.label}</div>
+      <div style={{ ...styles.itemLabel, fontWeight: props.select === 'master' ? 600 : 'unset' }}>{props.label}</div>
       <div style={styles.itemButtonsMaster}>
         <IconButton disabled size="small" style={styles.itemButtonLock} >
           <LockOutlinedIcon fontSize="inherit" />

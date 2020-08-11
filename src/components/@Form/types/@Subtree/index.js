@@ -371,11 +371,13 @@ class Subtree extends PureComponent {
     const style = {};
     const id = rowinfo.node.id;
     if (this.props.route.channel === id) {
-      style.backgroundColor = 'rgba(158, 158, 158, 0.2)';
+      // style.backgroundColor = 'rgba(158, 158, 158, 0.2)';
+      style.fontWeight = 'bold';
     }
 
     if (this.state.selects.data[id]) {
-      style.backgroundColor = 'rgba(33, 150, 243, 0.2)';
+      // style.backgroundColor = 'rgba(33, 150, 243, 0.2)';
+      style.fontWeight = 'bold';
     } else {
       if (this.state.selects.contextMenu && this.state.selects.contextMenu.id === id) {
         style.outline = '1px solid #2196F3';

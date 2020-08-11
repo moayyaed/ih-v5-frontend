@@ -152,11 +152,13 @@ class AppNav extends Component {
 
     if (this.props.disabledRoute) {
       if (this.props.state.click.id === id) {
-        style.backgroundColor = 'rgba(158, 158, 158, 0.2)';
+        // style.backgroundColor = 'rgba(158, 158, 158, 0.2)';
+        style.fontWeight = 'bold';
       }
     } else {
       if (this.props.route.nodeid === id) {
-        style.backgroundColor = 'rgba(158, 158, 158, 0.2)';
+        // style.backgroundColor = 'rgba(158, 158, 158, 0.2)';
+        style.fontWeight = 'bold';
       }
     }
 
