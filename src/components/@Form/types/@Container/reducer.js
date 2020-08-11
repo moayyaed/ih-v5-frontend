@@ -110,7 +110,7 @@ function reducerContainer(state, action) {
         selectType: 'one',
         selectOne: 'content',
         selects: { content: true },
-        propertyType: 'move',
+        // propertyType: 'move',
       };
     case CONTAINER_GROUP_ELEMENTS:
       return { 

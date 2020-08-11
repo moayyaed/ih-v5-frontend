@@ -311,7 +311,7 @@ function reducerTemplate(state, action) {
         selects: {
           [action.elementId]: true,
         },
-        propertyType: (state.selectOne === 'content' && typeof state.selects.content === 'string') ? state.selects.content : state.propertyType,
+        // propertyType: (state.selectOne === 'content' && typeof state.selects.content === 'string') ? state.selects.content : state.propertyType,
       };
     case TEMPLATE_SET_SETTINGS:
       return { 
@@ -339,7 +339,7 @@ function reducerTemplate(state, action) {
         selectOne: state.toolbarType  === 'tree' ? 'content': null,
         selectContainer: null,
         selects: state.toolbarType  === 'tree' ? { content: true } : {},
-        propertyType: state.toolbarType  === 'tree' ? 'move' : state.propertyType,
+        // propertyType: state.toolbarType  === 'tree' ? 'move' : state.propertyType,
       };
     case TEMPLATE_GROUP_ELEMENTS:
       return { 
@@ -982,7 +982,7 @@ function reducerTemplate(state, action) {
         return {
           ...state,
           toolbarType: 'tree',
-          propertyType: state.toolbarType === 'events' ? 'main' : state.propertyType,
+          // propertyType: state.toolbarType === 'events' ? 'main' : state.propertyType,
           selectState: 'master',
           selectContainer: getPositionSelectContainer(state, elementsMaster),
           elements: elementsMaster,
@@ -995,7 +995,7 @@ function reducerTemplate(state, action) {
         return {
           ...state,
           toolbarType: 'vars',
-          propertyType: state.toolbarType === 'events' ? 'main' : state.propertyType,
+          // propertyType: state.toolbarType === 'events' ? 'main' : state.propertyType,
           selectState: (!state.selectState  || state.selectState === 'master') ? state.listState[0] : state.selectState,
           selectContainer: getPositionSelectContainer(state, elementsState),
           elements: elementsState,
@@ -1007,7 +1007,7 @@ function reducerTemplate(state, action) {
         return {
           ...state,
           toolbarType: 'events',
-          propertyType: 'actions',
+          // propertyType: 'actions',
           selectState: 'master',
           selectType: null,
           selectContainer: null,
