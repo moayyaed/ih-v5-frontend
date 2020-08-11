@@ -8,11 +8,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
+import Divider from '@material-ui/core/Divider';
+
 import AddIcon from '@material-ui/icons/PostAdd';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import TuneIcon from '@material-ui/icons/Tune';
-
-import LinkIcon from '@material-ui/icons/Link';
 
 
 const styles = {
@@ -130,7 +130,7 @@ const TITLES = {
 
 const LEFT = [
   'singleClickLeft', 'doubleClickLeft', 'longClickLeft',
-  'mouseDownLeft', 'mouseUpLeft', 'mouseDownLeft'
+  'mouseDownLeft', 'mouseUpLeft'
 ];
 
 const RIGHT = [ 'singleClickRight' ];
@@ -145,7 +145,7 @@ function ValueItem(props) {
       </IconButton>
       <div style={styles.root2}>
         <div style={styles.stub2} />
-          <IconButton className="nb" style={styles.button2} size="small" >
+          <IconButton className="nb" size="small" style={styles.button2} onClick={props.onClick2} >
             <MoreVertIcon fontSize="small" />
           </IconButton>
       </div>
@@ -155,7 +155,15 @@ function ValueItem(props) {
 
 
 function Actions(props) {
-  const [state, setState] = React.useState({ state: null });
+  const [state, setState] = React.useState({ anchorEl: null, key: null, type: null });
+
+  const handleClickMenuLeft = (event, key) => {
+    setState({ key, type: 'menu-left', anchorEl: event.currentTarget });
+  }
+
+  const handleClickMenuRight = (event, key) => {
+    setState({ key, type: 'menu-right', anchorEl: event.currentTarget });
+  }
 
   const handleClickLeft = (event) => {
     setState({ type: 'left', anchorEl: event.currentTarget });
@@ -166,9 +174,45 @@ function Actions(props) {
   };
 
   const handleClose = () => {
-    setState({});
+    setState({ anchorEl: null, key: null, type: state.type });
   };
 
+  const handleClickAdd = (id) => {
+    handleClose();
+    props.onChange(props.id, props.options, null, { 
+      ...props.data, [state.type]: props.data[state.type].concat({ action: id, value: null }), 
+    })
+  }
+
+  const handleClickMenu = (command) => {
+    const type = state.type === 'menu-left' ? 'left' : 'right';
+    if (command === 'delete') {
+      handleClose();
+      props.onChange(props.id, props.options, null, { 
+        ...props.data, [type]: props.data[type].filter((i, key) => key !== state.key), 
+      })
+    }
+  }
+
+  const getMenu = () => {
+    if (state.type === 'left') {
+      return LEFT.map((i, key) => <MenuItem key={key} onClick={() => handleClickAdd(i)}>{TITLES[i]}</MenuItem>);
+    }
+
+    if (state.type === 'right') {
+      return RIGHT.map((i, key) => <MenuItem key={key} onClick={() => handleClickAdd(i)}>{TITLES[i]}</MenuItem>);
+    }
+
+    if (state.type === 'menu-left' || state.type === 'menu-right') {
+      return [
+        <MenuItem key="1" onClick={() => handleClickMenu('up')}>Up</MenuItem>,
+        <MenuItem key="2" onClick={() => handleClickMenu('down')}>Down</MenuItem>,
+        <Divider key="3" />,
+        <MenuItem key="4" onClick={() => handleClickMenu('delete')}>Delete</MenuItem>,
+      ]
+    }
+    return null;
+  }
 
   return (
     <>
@@ -178,10 +222,7 @@ function Actions(props) {
         open={Boolean(state.anchorEl)}
         onClose={handleClose}
       >
-        {state.type === 'left' ? 
-          LEFT.map(i => <MenuItem onClick={handleClose}>{TITLES[i]}</MenuItem>) :
-          RIGHT.map(i => <MenuItem onClick={handleClose}>{TITLES[i]}</MenuItem>)
-        }
+        {getMenu()}
       </Menu>
       <div style={styles.divider} >
         <div style={styles.dividerTitle} >
@@ -194,7 +235,7 @@ function Actions(props) {
       {props.data.left.map((i, key) =>
         <div key={'l_'+ key} style={styles.item} >
           <div style={key & 1 ? styles.label2 : styles.label}>{TITLES[i.action]}</div>
-          <div style={key & 1 ? styles.value2 : styles.value}><ValueItem /></div>
+          <div style={key & 1 ? styles.value2 : styles.value}><ValueItem onClick2={(e) => handleClickMenuLeft(e, key)} /></div>
         </div>
       )}
       <div style={styles.divider} >
@@ -208,7 +249,7 @@ function Actions(props) {
       {props.data.right.map((i, key) =>
         <div key={'r_'+ key} style={styles.item} >
           <div style={key & 1 ? styles.label2 : styles.label}>{TITLES[i.action]}</div>
-          <div style={key & 1 ? styles.value2 : styles.value}><ValueItem /></div>
+          <div style={key & 1 ? styles.value2 : styles.value}><ValueItem onClick2={(e) => handleClickMenuRight(e, key)} /></div>
         </div>
       )}
     </>
