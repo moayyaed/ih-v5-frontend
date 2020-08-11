@@ -33,6 +33,7 @@ const styles = {
     borderRadius: 0,
     backgroundSize: '50px 50px',
     overflow: 'hidden',
+    background: 'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMUlEQVQ4T2NkYGAQYcAP3uCTZhw1gGGYhAGBZIA/nYDCgBDAm9BGDWAAJyRCgLaBCAAgXwixzAS0pgAAAABJRU5ErkJggg==) center center',
     // backgroundImage: "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+DQogPGxpbmUgeDE9IjEwMCIgeTE9IjAiIHgyPSIxMDAiIHkyPSIxMDAiIHN0cm9rZT0iIzc1NzU3NSIgLz4NCiA8bGluZSB4MT0iMCIgeTE9IjEwMCIgeDI9IjEwMCIgeTI9IjEwMCIgc3Ryb2tlPSIjNzU3NTc1IiAvPg0KPC9zdmc+')",
   },
 }
@@ -730,33 +731,38 @@ class Sheet extends Component {
                 ...styles.sheet, 
                 width: settings.w.value, 
                 height: settings.h.value,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center center',
-                background: settings.backgroundColor.value,
-                backgroundImage: settings.backgroundImage.value === 'unset' ? 'unset' : `url(${settings.backgroundImage.value})`,
               }}
               onContextMenu={(e) => this.handleContextMenuElement(e, null)}
             >
-               <div className="parent" style={{ width: '100%', height: '100%', background: settings.overlayColor.value }}>
-                {list.map(id => 
-                  <Element 
-                    key={id}
-                    id={id}
-                    grid={settings.grid.value}
-                    scale={settings.scale.value}
-                    item={elements[id]}
-                    select={selects[id]}
-                    selectType={this.props.selectType} 
-                    onStartMove={this.handleStartMoveElement}
-                    onMove={this.handleMoveElement}
-                    onStopMove={this.handleStopMoveElement}
-                    onChangeSize={this.handleChangeSizeElement}
-                    onClick={this.handleClickElement}
-                    onContextMenu={this.handleContextMenuElement} 
-                    onRenderElement={this.handleRenderElement}
-                  />
-                )}
-                {this.handleRenderSelectContainer()}
+              <div style={{ 
+                  width: '100%', 
+                  height: '100%', 
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center center',
+                  background: settings.backgroundColor.value,
+                  backgroundImage: settings.backgroundImage.value === 'unset' ? 'unset' : `url(${settings.backgroundImage.value})`,
+              }}>
+                <div className="parent" style={{ width: '100%', height: '100%', background: settings.overlayColor.value }}>
+                  {list.map(id => 
+                    <Element 
+                      key={id}
+                      id={id}
+                      grid={settings.grid.value}
+                      scale={settings.scale.value}
+                      item={elements[id]}
+                      select={selects[id]}
+                      selectType={this.props.selectType} 
+                      onStartMove={this.handleStartMoveElement}
+                      onMove={this.handleMoveElement}
+                      onStopMove={this.handleStopMoveElement}
+                      onChangeSize={this.handleChangeSizeElement}
+                      onClick={this.handleClickElement}
+                      onContextMenu={this.handleContextMenuElement} 
+                      onRenderElement={this.handleRenderElement}
+                    />
+                  )}
+                  {this.handleRenderSelectContainer()}
+                </div>
               </div>
             </Paper>
           </Draggable>
