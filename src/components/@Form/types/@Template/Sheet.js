@@ -768,13 +768,13 @@ class Sheet extends Component {
                 height: settings.h.value,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center center',
-                backgroundColor: settings.backgroundColor.value,
+                background: settings.backgroundColor.value,
                 backgroundImage: settings.backgroundImage.value === 'unset' ? 'unset' : `url(${settings.backgroundImage.value})`,
               }}
               onClick={(e) => this.handleClickSheet(e)}
               onContextMenu={(e) => this.handleContextMenuElement(e, null)}
             >
-              <div className="parent2" style={{ width: '100%', height: '100%', backgroundColor: settings.overlayColor.value }}>
+              <div className="parent2" style={{ width: '100%', height: '100%', background: settings.overlayColor.value }}>
                 {list.map(id => 
                   <Element 
                     key={id}
