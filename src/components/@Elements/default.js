@@ -233,7 +233,6 @@ const BUTTON = {
       { action: 'longClickLeft', value: null },
       { action: 'mouseDownLeft', value: null },
       { action: 'mouseUpLeft', value: null },
-      { action: 'mouseDownLeft', value: null },
     ],
     right: [
       { action: 'singleClickRight', value: null },

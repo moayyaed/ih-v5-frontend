@@ -111,7 +111,6 @@ const TITLES = {
   longClickLeft: 'Long Click',
   mouseDownLeft: 'Mouse Down',
   mouseUpLeft: 'Mouse Up',
-  mouseDownLeft: 'Mouse Right',
   singleClickRight: 'Single Click',
 }
 
