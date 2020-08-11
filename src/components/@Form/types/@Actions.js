@@ -22,6 +22,17 @@ const styles = {
   root2: {
     display: 'flex',
   },
+  input: {
+    fontSize: 13,
+    fontFamily: 'Roboto,Helvetica,Arial,sans-serif',
+    fontWeight: 400,
+    color: 'rgb(48, 84, 150)',
+    width: '100%',
+    border: 'unset', 
+    height: 21,
+    background: 'unset',
+    fontWeight: 'bold',
+  },
   divider: {
     position: 'relative',
     height: 22,
@@ -140,7 +151,13 @@ const RIGHT = [ 'singleClickRight' ];
 function ValueItem(props) {
   return (
     <>
-     <div style={styles.stub} />
+     <input
+       className="core"
+       style={styles.input} 
+       disabled={true}
+       value={props.data.title}
+     />
+     {props.data.did ? null : <div style={styles.stub} />}
       <IconButton size="small" onClick={props.onClick} >
         <TuneIcon fontSize="inherit" />
       </IconButton>
@@ -240,12 +257,11 @@ function Actions(props) {
 
   const handleClickOption = (command) => {
     const type = state.type === 'option-left' ? 'left' : 'right';
-
+    hanndleDialog(type, state.key);
     handleClose();
-    hanndleDialog();
   }
 
-  const hanndleDialog = () => {
+  const hanndleDialog = (type, key) => {
     core.transfer.sub('form_dialog', handleDialogClick);
     core.actions.appdialog.data({
       id: 'action_dialog', 
@@ -258,6 +274,8 @@ function Actions(props) {
         id: 'devices',
         dialog: 'channellink',
         selectnodeid: props.data.did,
+        type,
+        key,
       },
     });
   }
@@ -266,7 +284,12 @@ function Actions(props) {
     if (data !== null && data !== ':exit:') {
       core.transfer.unsub('form_dialog', handleDialogClick);
       core.actions.appdialog.close();
-      props.onChange(props.id, props.options, null, { ...props.data, ...data.result.value })
+
+      /*
+      props.onChange(props.id, props.options, null, { 
+        ...props.data, [state.type]: props.data[state.type].concat({ action: id, value: null }), 
+      }) */
+      // props.onChange(props.id, props.options, null, { ...props.data, ...data.result.value, title: data.result.title })
     }
     core.transfer.unsub('form_dialog', handleDialogClick);
   }
@@ -327,7 +350,7 @@ function Actions(props) {
       {props.data.left.map((i, key) =>
         <div key={'l_'+ key} style={styles.item} >
           <div style={key & 1 ? styles.label2 : styles.label}>{TITLES[i.action]}</div>
-          <div style={key & 1 ? styles.value2 : styles.value}><ValueItem onClick={(e) => handleClickOptionLeft(e, key)} onClick2={(e) => handleClickMenuLeft(e, key)} /></div>
+          <div style={key & 1 ? styles.value2 : styles.value}><ValueItem data={i} onClick={(e) => handleClickOptionLeft(e, key)} onClick2={(e) => handleClickMenuLeft(e, key)} /></div>
         </div>
       )}
       <div style={styles.divider} >
@@ -341,7 +364,7 @@ function Actions(props) {
       {props.data.right.map((i, key) =>
         <div key={'r_'+ key} style={styles.item} >
           <div style={key & 1 ? styles.label2 : styles.label}>{TITLES[i.action]}</div>
-          <div style={key & 1 ? styles.value2 : styles.value}><ValueItem onClick={(e) => handleClickOptionRight(e, key)} onClick2={(e) => handleClickMenuRight(e, key)} /></div>
+          <div style={key & 1 ? styles.value2 : styles.value}><ValueItem data={i} onClick={(e) => handleClickOptionRight(e, key)} onClick2={(e) => handleClickMenuRight(e, key)} /></div>
         </div>
       )}
     </>

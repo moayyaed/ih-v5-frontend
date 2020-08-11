@@ -125,11 +125,12 @@ function reducerContainer(state, action) {
           .keys(state.elements)
           .reduce((p, c) => {
             if (action.groupData.elements.includes(c)) {
+              const temp = { ...state.elements[c] }
+              delete temp['groupId'];
               return { 
                 ...p, 
                 [c]: {
-                  ...state.elements[c],
-                  groupId: action.groupId,
+                  ...temp,
                   x: { ...state.elements[c].x, value: state.elements[state.elements[c].groupId].x.value + state.elements[c].x.value },
                   y: { ...state.elements[c].y, value: state.elements[state.elements[c].groupId].y.value + state.elements[c].y.value },
                 } 

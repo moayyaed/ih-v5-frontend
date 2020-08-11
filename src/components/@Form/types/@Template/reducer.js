@@ -409,11 +409,12 @@ function reducerTemplate(state, action) {
               return p;
             }
             if (action.list.includes(state.elements[c].groupId)) {
+              const temp = { ...state.elements[c] }
+              delete temp['groupId'];
               return { 
                 ...p, 
                 [c]: {
-                  ...state.elements[c],
-                  groupId: null,
+                  ...temp,
                   x: state.elements[state.elements[c].groupId].x + state.elements[c].x,
                   y: state.elements[state.elements[c].groupId].y + state.elements[c].y,
                 } 
