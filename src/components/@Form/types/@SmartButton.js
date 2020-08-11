@@ -76,7 +76,8 @@ class SmartButton extends PureComponent {
         ...this.props.options.params,
         anchor: this.props.data.anchor,
         nodeid: this.props.route.channel,
-        selectnodeid: this.props.data.dialognodeid
+        selectnodeid: this.props.data.dialognodeid,
+        disabledSave: true,
        }
     
         core.transfer.sub('form_dialog', this.handleDialogClick);

@@ -1,4 +1,5 @@
 import React from 'react';
+import core from 'core';
 
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
@@ -241,6 +242,33 @@ function Actions(props) {
     const type = state.type === 'option-left' ? 'left' : 'right';
 
     handleClose();
+    hanndleDialog();
+  }
+
+  const hanndleDialog = () => {
+    core.transfer.sub('form_dialog', handleDialogClick);
+    core.actions.appdialog.data({
+      id: 'action_dialog', 
+      open: true, 
+      transferid: 'form_dialog',
+      template: {
+        disabledSave: true,
+        title: 'Device Command',
+        type: 'tree',
+        id: 'devices',
+        dialog: 'channellink',
+        selectnodeid: props.data.did,
+      },
+    });
+  }
+
+  const handleDialogClick = (data) => {
+    if (data !== null && data !== ':exit:') {
+      core.transfer.unsub('form_dialog', handleDialogClick);
+      core.actions.appdialog.close();
+      props.onChange(props.id, props.options, null, { ...props.data, ...data.result.value })
+    }
+    core.transfer.unsub('form_dialog', handleDialogClick);
   }
 
 

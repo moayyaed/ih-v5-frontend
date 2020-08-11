@@ -104,7 +104,6 @@ class Property extends PureComponent {
                       title: 'Привязка к каналу',
                       type: 'tree',
                       id: 'devices',
-                      dialog: 'channellink'
                     }
                   })
                 ))
