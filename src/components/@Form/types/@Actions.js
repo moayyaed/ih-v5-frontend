@@ -270,8 +270,6 @@ function Actions(props) {
         <MenuItem key="4" onClick={() => handleClickOption('script')}>Run Script</MenuItem>,
         <MenuItem key="5" onClick={() => handleClickOption('layout')}>Go To Layout</MenuItem>,
         <MenuItem key="6" onClick={() => handleClickOption('container')}>Change Container</MenuItem>,
-        <Divider key="-" />,
-        <MenuItem key="7" onClick={() => handleClickOption('none')}>None</MenuItem>,
       ]
     }
     return null;
