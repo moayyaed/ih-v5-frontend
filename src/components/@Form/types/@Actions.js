@@ -270,8 +270,8 @@ function Actions(props) {
         <MenuItem key="5" onClick={() => handleClickOption('layout')}>Go To Layout</MenuItem>,
         <MenuItem key="6" onClick={() => handleClickOption('container')}>Change Container</MenuItem>,
         <Divider key="-" />,
-        <MenuItem key="7" onClick={() => handleClickOption('refresh')}>Refresh</MenuItem>,
-        <MenuItem key="8" onClick={() => handleClickOption('fullscreen')}>Full Screen</MenuItem>,
+        <MenuItem key="7" onClick={() => handleClickOption('fullscreen')}>Full Screen</MenuItem>,
+        <MenuItem key="8" onClick={() => handleClickOption('refresh')}>Refresh</MenuItem>,
         <MenuItem key="9" onClick={() => handleClickOption('exit')}>Exit</MenuItem>,
       ]
     }
