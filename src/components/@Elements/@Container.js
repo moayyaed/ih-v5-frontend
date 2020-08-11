@@ -18,7 +18,7 @@ class Container extends PureComponent {
             zIndex: item.zIndex.value,
             opacity: item.opacity.value / 100 ,
             animation: item.animation && item.animation.active ? item.animation.value : 'unset',
-            overflow: item.overflow && item.item.overflow.value ? 'hidden' : 'unset',
+            overflow: item.overflow && item.overflow.value ? 'hidden' : 'unset',
           }}
         >
           {item.elements.map(cid => this.handleRender(cid, this.props.container.elements[cid]))}
