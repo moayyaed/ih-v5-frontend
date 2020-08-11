@@ -330,22 +330,22 @@ const moveSection = [
     type: 'number',
   },
   { 
-    title: 'W', 
+    title: 'Width', 
     prop: 'w', 
     type: 'number',
   },
   { 
-    title: 'H', 
+    title: 'Height', 
     prop: 'h', 
     type: 'number',
   },
   { 
-    title: 'W⬅', 
+    title: 'Width To Right', 
     prop: 'w2', 
     type: 'number',
   },
   { 
-    title: 'H⬆', 
+    title: 'Height To Bottom', 
     prop: 'h2', 
     type: 'number',
   },
@@ -424,12 +424,12 @@ const groupSettings = {
       type: 'number',
     },
     { 
-      title: 'W', 
+      title: 'Width', 
       prop: 'w', 
       type: 'text',
     },
     { 
-      title: 'H', 
+      title: 'Height', 
       prop: 'h', 
       type: 'text',
     },
@@ -481,12 +481,12 @@ const containerSettings = {
       type: 'number',
     },
     { 
-      title: 'W', 
+      title: 'Width', 
       prop: 'w', 
       type: 'number',
     },
     { 
-      title: 'H', 
+      title: 'Height', 
       prop: 'h', 
       type: 'number',
     },
@@ -595,13 +595,13 @@ const scheme = {
         bind: false,
       },
       { 
-        title: 'W', 
+        title: 'Width', 
         prop: 'w', 
         type: 'number',
         bind: false,
       },
       { 
-        title: 'H', 
+        title: 'Height', 
         prop: 'h', 
         type: 'number',
         bind: false,
@@ -647,13 +647,13 @@ const scheme = {
         type: 'divider',
       },
       { 
-        title: 'W', 
+        title: 'Width', 
         prop: 'w', 
         type: 'number',
         bind: false,
       },
       { 
-        title: 'H', 
+        title: 'Height', 
         prop: 'h', 
         type: 'number',
         bind: false,
