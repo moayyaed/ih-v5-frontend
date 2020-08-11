@@ -46,7 +46,7 @@ function SplitButton(props) {
         <ButtonGroup 
           ref={anchorRef} 
           disabled={props.disabled} 
-          style={{position: 'absolute', right: 20 }} 
+          style={{position: 'absolute', right: 20, top: 5 }} 
           variant="contained" 
           color="primary" 
         >

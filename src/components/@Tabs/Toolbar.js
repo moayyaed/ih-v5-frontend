@@ -11,7 +11,7 @@ import SplitButton from './SplitButton';
 const styles = {
   root: {
     width: '100%',
-    height: 60,
+    height: 20,
     display: 'flex', 
     alignItems: 'center', 
     paddingLeft: 20, 
@@ -78,7 +78,6 @@ function Toolbar(props) {
   }
   return (
     <div style={styles.root}>
-      <Breadcrumbs route={props.route} data={props.breadcrumbs}/>
       <SplitButton disabled={!props.save} onClick={props.onClick} />
     </div>
   )
@@ -86,3 +85,5 @@ function Toolbar(props) {
 
 
 export default Toolbar;
+
+//   <Breadcrumbs route={props.route} data={props.breadcrumbs}/>
