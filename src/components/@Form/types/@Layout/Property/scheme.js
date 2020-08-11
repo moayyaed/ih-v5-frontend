@@ -340,12 +340,12 @@ const moveSection = [
     type: 'number',
   },
   { 
-    title: 'Width To Right', 
+    title: 'Width From Right', 
     prop: 'w2', 
     type: 'number',
   },
   { 
-    title: 'Height To Bottom', 
+    title: 'Height From Bottom', 
     prop: 'h2', 
     type: 'number',
   },
