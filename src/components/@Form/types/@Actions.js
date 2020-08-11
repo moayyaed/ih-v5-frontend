@@ -140,7 +140,7 @@ function ValueItem(props) {
   return (
     <>
      <div style={styles.stub} />
-      <IconButton size="small" >
+      <IconButton size="small" onClick={props.onClick} >
         <TuneIcon fontSize="inherit" />
       </IconButton>
       <div style={styles.root2}>
@@ -163,6 +163,13 @@ function Actions(props) {
 
   const handleClickMenuRight = (event, key) => {
     setState({ key, type: 'menu-right', anchorEl: event.currentTarget });
+  }
+
+  const handleClickOptionLeft = (event, key) => {
+    setState({ key, type: 'option-left', anchorEl: event.currentTarget });
+  }
+  const handleClickOptionRight = (event, key) => {
+    setState({ key, type: 'option-right', anchorEl: event.currentTarget });
   }
 
   const handleClickLeft = (event) => {
@@ -230,6 +237,13 @@ function Actions(props) {
     }
   }
 
+  const handleClickOption = (command) => {
+    const type = state.type === 'option-left' ? 'left' : 'right';
+
+    handleClose();
+  }
+
+
   const getMenu = () => {
     if (state.type === 'left') {
       return LEFT.map((i, key) => <MenuItem key={key} onClick={() => handleClickAdd(i)}>{TITLES[i]}</MenuItem>);
@@ -245,6 +259,19 @@ function Actions(props) {
         <MenuItem key="2" onClick={() => handleClickMenu('down')}>Down</MenuItem>,
         <Divider key="3" />,
         <MenuItem key="4" onClick={() => handleClickMenu('delete')}>Delete</MenuItem>,
+      ]
+    }
+
+    if (state.type === 'option-left' || state.type === 'option-right') {
+      return [
+        <MenuItem key="1" onClick={() => handleClickOption('system')}>System Command</MenuItem>,
+        <MenuItem key="2" onClick={() => handleClickOption('device')}>Device Command</MenuItem>,
+        <MenuItem key="3" onClick={() => handleClickOption('plugin')}>Plugin Command</MenuItem>,
+        <MenuItem key="4" onClick={() => handleClickOption('script')}>Run Script</MenuItem>,
+        <MenuItem key="5" onClick={() => handleClickOption('layout')}>Go To Layout</MenuItem>,
+        <MenuItem key="6" onClick={() => handleClickOption('container')}>Change Container</MenuItem>,
+        <Divider key="-" />,
+        <MenuItem key="7" onClick={() => handleClickOption('none')}>None</MenuItem>,
       ]
     }
     return null;
@@ -271,7 +298,7 @@ function Actions(props) {
       {props.data.left.map((i, key) =>
         <div key={'l_'+ key} style={styles.item} >
           <div style={key & 1 ? styles.label2 : styles.label}>{TITLES[i.action]}</div>
-          <div style={key & 1 ? styles.value2 : styles.value}><ValueItem onClick2={(e) => handleClickMenuLeft(e, key)} /></div>
+          <div style={key & 1 ? styles.value2 : styles.value}><ValueItem onClick={(e) => handleClickOptionLeft(e, key)} onClick2={(e) => handleClickMenuLeft(e, key)} /></div>
         </div>
       )}
       <div style={styles.divider} >
@@ -285,7 +312,7 @@ function Actions(props) {
       {props.data.right.map((i, key) =>
         <div key={'r_'+ key} style={styles.item} >
           <div style={key & 1 ? styles.label2 : styles.label}>{TITLES[i.action]}</div>
-          <div style={key & 1 ? styles.value2 : styles.value}><ValueItem onClick2={(e) => handleClickMenuRight(e, key)} /></div>
+          <div style={key & 1 ? styles.value2 : styles.value}><ValueItem onClick={(e) => handleClickOptionRight(e, key)} onClick2={(e) => handleClickMenuRight(e, key)} /></div>
         </div>
       )}
     </>
