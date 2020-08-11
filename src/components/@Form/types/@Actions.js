@@ -264,12 +264,15 @@ function Actions(props) {
 
     if (state.type === 'option-left' || state.type === 'option-right') {
       return [
-        <MenuItem key="1" onClick={() => handleClickOption('system')}>System Command</MenuItem>,
         <MenuItem key="2" onClick={() => handleClickOption('device')}>Device Command</MenuItem>,
         <MenuItem key="3" onClick={() => handleClickOption('plugin')}>Plugin Command</MenuItem>,
         <MenuItem key="4" onClick={() => handleClickOption('script')}>Run Script</MenuItem>,
         <MenuItem key="5" onClick={() => handleClickOption('layout')}>Go To Layout</MenuItem>,
         <MenuItem key="6" onClick={() => handleClickOption('container')}>Change Container</MenuItem>,
+        <Divider key="-" />,
+        <MenuItem key="7" onClick={() => handleClickOption('refresh')}>Refresh</MenuItem>,
+        <MenuItem key="8" onClick={() => handleClickOption('fullscreen')}>Full Screen</MenuItem>,
+        <MenuItem key="9" onClick={() => handleClickOption('exit')}>Exit</MenuItem>,
       ]
     }
     return null;
