@@ -88,7 +88,8 @@ class Devicelink extends Component {
   request = () => {
     const props = this.props.state.template;
     const params = this.props.state.component;
-
+    params.dialogid = this.props.state.template.id;
+    
     core
     .request({ method: 'appdialog_devlink', props, params })
     .ok((res) => {
@@ -102,6 +103,13 @@ class Devicelink extends Component {
   
 
   render({ state } = this.props) {
+    if (state.component.list.length === 0) {
+      return (
+        <div style={styles.root} >
+    
+        </div>
+      )
+    }
     return (
       <div style={styles.root} >
         {state.component.list.map(i => 

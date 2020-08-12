@@ -85,8 +85,7 @@ class Property extends PureComponent {
             params: {
               title: 'Привязка к каналу',
               type: 'tree',
-              id: 'devices',
-              dialog: 'channellink'
+              id: 'visitems',
             }
           }));
         const map2 = list

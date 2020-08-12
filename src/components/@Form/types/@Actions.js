@@ -281,7 +281,7 @@ function Actions(props) {
         disabledSave: true,
         title: 'Device Command',
         type: 'tree',
-        id: 'devices',
+        id: 'devcmd',
         dialog: 'channellink',
         selectnodeid: did,
         select: prop,
