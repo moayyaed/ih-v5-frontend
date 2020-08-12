@@ -5,11 +5,20 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 import SelectIcon from '@material-ui/icons/CheckCircleOutline';
+import InboxOutlinedIcon from '@material-ui/icons/InboxOutlined';
 
 
 const styles = {
   root: {
     padding: 20,
+  },
+  root2: {
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    color: '#9E9E9E',
   },
   row: {
     position: 'relative',
@@ -89,7 +98,7 @@ class Devicelink extends Component {
     const props = this.props.state.template;
     const params = this.props.state.component;
     params.dialogid = this.props.state.template.id;
-    
+
     core
     .request({ method: 'appdialog_devlink', props, params })
     .ok((res) => {
@@ -105,8 +114,9 @@ class Devicelink extends Component {
   render({ state } = this.props) {
     if (state.component.list.length === 0) {
       return (
-        <div style={styles.root} >
-    
+        <div style={styles.root2} >
+          <InboxOutlinedIcon style={{ fontSize: '6em', margin: 6, color: '#B0BEC5' }} />
+          <Typography variant="h5">It's empty is here</Typography>
         </div>
       )
     }

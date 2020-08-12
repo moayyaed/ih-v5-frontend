@@ -6,6 +6,7 @@ core.network.request('appdialog_devlink', (send, context) => {
   send({ 
     method: 'get', 
     type: 'link',
+    dialogid: context.params.dialogid,
     id: 'devicelink',
     nodeid: context.params.id,
     anchor: context.props.anchor,
