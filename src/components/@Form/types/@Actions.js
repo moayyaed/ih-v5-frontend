@@ -153,9 +153,10 @@ function ValueItem(props) {
     <>
      <input
        className="core"
+       type="text"
        style={styles.input} 
        disabled={true}
-       value={props.data.title}
+       value={props.data.title || ''}
      />
      {props.data.did ? null : <div style={styles.stub} />}
       <IconButton size="small" onClick={props.onClick} >
@@ -304,7 +305,6 @@ function Actions(props) {
           return i;
         }), 
       })
-      // props.onChange(props.id, props.options, null, { ...props.data, ...data.result.value,  })
     }
     core.transfer.unsub('form_dialog', handleDialogClick);
   }
