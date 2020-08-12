@@ -102,7 +102,7 @@ class Devicelink extends Component {
     core
     .request({ method: 'appdialog_devlink', props, params })
     .ok((res) => {
-      core.actions.appdialog.component({ list: res.data.properties});
+      core.actions.appdialog.component({ res: 1, list: res.data.properties });
     });
   }
 
@@ -112,7 +112,7 @@ class Devicelink extends Component {
   
 
   render({ state } = this.props) {
-    if (state.component.list.length === 0) {
+    if (state.component.res && state.component.list.length === 0) {
       return (
         <div style={styles.root2} >
           <InboxOutlinedIcon style={{ fontSize: '6em', margin: 6, color: '#B0BEC5' }} />

@@ -5,10 +5,19 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 import SelectIcon from '@material-ui/icons/CheckCircleOutline';
+import InboxOutlinedIcon from '@material-ui/icons/InboxOutlined';
 
 const styles = {
   root: {
     padding: 20,
+  },
+  root2: {
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    color: '#9E9E9E',
   },
   row: {
     position: 'relative',
@@ -91,7 +100,7 @@ class ChannelLink extends Component {
     core
       .request({ method: 'appdialog_channellink', props, params })
       .ok((res) => {
-        core.actions.appdialog.component({ list: res.data.properties});
+        core.actions.appdialog.component({ res:1, list: res.data.properties});
       });
   }
 
@@ -101,6 +110,14 @@ class ChannelLink extends Component {
   
 
   render({ state } = this.props) {
+    if (state.component.res && state.component.list.length === 0) {
+      return (
+        <div style={styles.root2} >
+          <InboxOutlinedIcon style={{ fontSize: '6em', margin: 6, color: '#B0BEC5' }} />
+          <Typography variant="h5">It's empty is here</Typography>
+        </div>
+      )
+    }
     return (
       <div style={styles.root} >
         {state.component.list.map(i => 
