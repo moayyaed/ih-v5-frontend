@@ -55,12 +55,13 @@ const styles = {
 
 
 function Row(props) {
+  const select = props.params.select || (props.context.template.selectnodeid === props.params.result.value.did && props.context.template.select === props.params.result.value.prop);
   return (
     <div style={styles.row}>
       <Typography variant="subtitle2" >
         {props.params.prop.toUpperCase()}
       </Typography>
-      <div style={styles.select}>{props.params.select ? <SelectIcon style={styles.selectIcon} /> : null}</div>
+      <div style={styles.select}>{select ? <SelectIcon style={styles.selectIcon} /> : null}</div>
       <div style={styles.body}>
         <div style={styles.text}>{props.params.link}</div>
         <div style={styles.buttons}>
@@ -107,6 +108,7 @@ class Devicelink extends Component {
           <Row 
             key={i.prop} 
             params={i}
+            context={state}
             onClickUnlink={this.handleClickUnlink}
             onClickOk={this.handleClickOk}
           />

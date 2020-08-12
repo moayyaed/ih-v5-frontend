@@ -186,14 +186,14 @@ function Actions(props) {
 
   const handleClickOptionLeft = (event, key, item) => {
     if (item.command) {
-      hanndleDialog(item.command, 'left', key, item.did);
+      hanndleDialog(item.command, 'left', key, item.did, item.prop);
     } else {
       setState({ key, type: 'option-left', anchorEl: event.currentTarget });
     }
   }
   const handleClickOptionRight = (event, key, item) => {
     if (item.command) {
-      hanndleDialog(item.command, 'right', key, item.did);
+      hanndleDialog(item.command, 'right', key, item.did, item.prop);
     } else {
       setState({ key, type: 'option-right', anchorEl: event.currentTarget });
     }
@@ -267,11 +267,11 @@ function Actions(props) {
   const handleClickOption = (command) => {
     const type = state.type === 'option-left' ? 'left' : 'right';
     
-    hanndleDialog(command, type, state.key, props.data[type][state.key].did);
+    hanndleDialog(command, type, state.key, props.data[type][state.key].did, props.data[type][state.key].prop);
     handleClose();
   }
 
-  const hanndleDialog = (command, type, key, did) => {
+  const hanndleDialog = (command, type, key, did, prop) => {
     core.transfer.sub('form_dialog', handleDialogClick);
     core.actions.appdialog.data({
       id: 'action_dialog', 
@@ -284,6 +284,7 @@ function Actions(props) {
         id: 'devices',
         dialog: 'channellink',
         selectnodeid: did,
+        select: prop,
         itemType: type,
         itemIndex: key,
         itemCommand: command,
