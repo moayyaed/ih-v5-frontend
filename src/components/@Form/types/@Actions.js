@@ -133,7 +133,9 @@ const styles = {
 
 const COMMANDS = {
   device: 'devcmd',
-  layout: 'layoutx'
+  layout: 'layoutx',
+  plugin: 'pluginx',
+  script: 'scriptx',
 }
 
 const TITLES = {
