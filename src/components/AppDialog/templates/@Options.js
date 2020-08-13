@@ -7,6 +7,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 import AppNav from 'components/AppNav';
 import Form from 'components/@Form';
+import { getValue } from 'react-base-table/lib/utils';
 
 const styles = {
   root: {
@@ -45,12 +46,22 @@ const styles = {
   },
 }
 
+function getFormValue(id, key, form, old, def) {
+  if (form[id] !== undefined && form[id][key] !== undefined) {
+    return form[id][key];
+  }
+
+  if (old[key] !== undefined) {
+    return old[key];
+  }
+
+  return def[id][key]
+}
+
 
 class TemplateOptions extends Component {
 
   componentDidMount() {
-    const id = 'formDeviceCommon'
-    
  
   }
 
@@ -64,6 +75,8 @@ class TemplateOptions extends Component {
   }
 
   request = (id, nodeid) => {
+    const data = this.props.state.template.data.value;
+    const form = this.props.state.form.data;
     core
       .request({ method: 'components_tabs_form', params: { type: 'form', id, nodeid } })
       .ok(res => {
@@ -71,19 +84,27 @@ class TemplateOptions extends Component {
           save: false,
           id: `${id}_${nodeid}`,
           options: res.options,
-          data: res.data,
+          data: Object
+            .keys(res.data)
+            .reduce((p, c) => {
+              return { 
+                ...p, 
+                [c]: Object
+                  .keys(res.data[c])
+                  .reduce((p2, c2) => {
+                    return { 
+                      ...p2, 
+                      [c2]: getFormValue(c, c2, form, data, res.data) 
+                    }
+                  }, {}) 
+              }
+            }, {}),
           cache: res.cache,
         });
       });
   }
 
   handleChange = (id, component, target, value) => {
-  
-    /*
-    if (state.save === false) {
-      core.actions.apppage.data({ save: true })
-    } 
-    */
 
     if (this.save === undefined) {
       this.save = {}

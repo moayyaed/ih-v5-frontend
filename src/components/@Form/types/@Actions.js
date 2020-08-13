@@ -295,7 +295,7 @@ function Actions(props) {
         itemType: type,
         itemIndex: key,
         itemCommand: command,
-        // data: this.props.data,
+        data: props.data[type][key],
       },
     });
   }
@@ -304,7 +304,6 @@ function Actions(props) {
     if (data !== null && data !== ':exit:') {
       core.transfer.unsub('form_dialog', handleDialogClick);
       core.actions.appdialog.close();
- 
       if (context.template.itemCommand === 'device') {
         props.onChange(props.id, props.options, null, { 
           ...props.data, 
@@ -318,6 +317,22 @@ function Actions(props) {
       } else {
         core.transfer.unsub('form_dialog', handleDialogClick);
         core.actions.appdialog.close();
+       
+        props.onChange(props.id, props.options, null, { 
+          ...props.data, 
+          [context.template.itemType]: props.data[context.template.itemType].map((i, key) => {
+            if (context.template.itemIndex === key) {
+              return { 
+                ...i, 
+                id: context.component.id,
+                title: context.component.title, 
+                value: data, 
+                command: context.template.itemCommand 
+              };
+            }
+            return i;
+          }), 
+        }) 
       }
     }
     core.transfer.unsub('form_dialog', handleDialogClick);

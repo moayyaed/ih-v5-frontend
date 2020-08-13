@@ -44,8 +44,7 @@ function DialogAppBar(props) {
   const save = () => {
     if (!props.disabledSave) {
       const store = core.store.getState().appdialog;
-      console.log(store)
-      if (props.type === 'form') {
+      if (props.type === 'form' || props.type === 'options') {
         const store = core.store.getState().appdialog;
         const data = {};
   
@@ -59,7 +58,7 @@ function DialogAppBar(props) {
               });
           });
         data.active = true;
-        core.transfer.send(store.transferid, data);
+        core.transfer.send(store.transferid, data, store);
       } else {
         core.transfer.send(store.transferid, store.component.select);
       }

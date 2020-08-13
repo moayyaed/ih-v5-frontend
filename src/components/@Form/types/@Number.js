@@ -82,6 +82,19 @@ function checkValue(value, props) {
   return v;
 }
 
+function checkValue2(value, props) {
+  let v = parseValue(value, props.data);
+
+  if (v > props.options.max) {
+    v = props.options.max;
+  }
+  if (v < props.options.min) {
+    v = props.options.min;
+  }
+
+  return v;
+}
+
 function handleMouseDown(e, props) {
 
   let drag = false;
@@ -374,7 +387,7 @@ function TouchNumber(props) {
       value={props.data}
       error={props.cache && props.cache.error}
       helperText={props.cache && props.cache.error}
-      onChange={(e) => props.onChange(props.id, props.options, null, { ...props.data, value: checkValue(e.target.value, props) })}
+      onChange={(e) => props.onChange(props.id, props.options, null, checkValue2(e.target.value, props) )}
     />
   )
 }
