@@ -138,6 +138,13 @@ const COMMANDS = {
   script: 'scriptx',
 }
 
+const COMMANDS_TITLES = {
+  device: 'Device Command',
+  plugin: 'Plugin Command',
+  layout: 'Go To Layout',
+  script: 'Run Script',
+}
+
 const TITLES = {
   singleClickLeft: 'Single Click',
   doubleClickLeft: 'Double Click',
@@ -165,7 +172,7 @@ function ValueItem(props) {
        disabled={true}
        value={props.data.title || ''}
      />
-     {props.data.did ? null : <div style={styles.stub} />}
+     {props.data.command ? null : <div style={styles.stub} />}
       <IconButton size="small" onClick={props.onClick} >
         <TuneIcon fontSize="inherit" />
       </IconButton>
@@ -192,14 +199,14 @@ function Actions(props) {
   }
 
   const handleClickOptionLeft = (event, key, item) => {
-    if (item.command) {
+    if (item.command && !(item.command === 'fullscreen' || item.command === 'refresh' || item.command === 'exit' )) {
       hanndleDialog(item.command, 'left', key, item.did, item.prop);
     } else {
       setState({ key, type: 'option-left', anchorEl: event.currentTarget });
     }
   }
   const handleClickOptionRight = (event, key, item) => {
-    if (item.command) {
+    if (item.command && !(item.command === 'fullscreen' || item.command === 'refresh' || item.command === 'exit' )) {
       hanndleDialog(item.command, 'right', key, item.did, item.prop);
     } else {
       setState({ key, type: 'option-right', anchorEl: event.currentTarget });
@@ -274,7 +281,19 @@ function Actions(props) {
   const handleClickOption = (command) => {
     const type = state.type === 'option-left' ? 'left' : 'right';
     
-    hanndleDialog(command, type, state.key, props.data[type][state.key].did, props.data[type][state.key].prop);
+    if (command === 'fullscreen' || command === 'refresh' || command === 'exit' ) {
+      props.onChange(props.id, props.options, null, { 
+        ...props.data, 
+        [type]: props.data[type].map((i, key) => {
+          if (state.key === key) {
+            return { action: i.action, value: {}, title: command, command};
+          }
+          return i;
+        }), 
+      })
+    } else {
+      hanndleDialog(command, type, state.key, props.data[type][state.key].did, props.data[type][state.key].prop);
+    }
     handleClose();
   }
 
@@ -286,7 +305,7 @@ function Actions(props) {
       transferid: 'form_dialog',
       template: {
         disabledSave: command === 'device' ? true : false,
-        title: 'Device Command',
+        title: COMMANDS_TITLES[command],
         type: command === 'device' ? 'tree' : 'options',
         id: COMMANDS[command] || 'devcmd',
         dialog: 'channellink',
@@ -365,7 +384,6 @@ function Actions(props) {
         <MenuItem key="3" onClick={() => handleClickOption('plugin')}>Plugin Command</MenuItem>,
         <MenuItem key="4" onClick={() => handleClickOption('script')}>Run Script</MenuItem>,
         <MenuItem key="5" onClick={() => handleClickOption('layout')}>Go To Layout</MenuItem>,
-        <MenuItem key="6" onClick={() => handleClickOption('container')}>Change Container</MenuItem>,
         <Divider key="-" />,
         <MenuItem key="7" onClick={() => handleClickOption('fullscreen')}>Full Screen</MenuItem>,
         <MenuItem key="8" onClick={() => handleClickOption('refresh')}>Refresh</MenuItem>,
