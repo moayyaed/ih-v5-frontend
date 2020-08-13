@@ -3,6 +3,7 @@ import React from 'react';
 
 import Tree from './@Tree';
 import Form from './@Form';
+import Options from './@Options';
 
 
 function getTemplateByType(type) {
@@ -11,6 +12,8 @@ function getTemplateByType(type) {
       return Tree;
     case 'form':
       return Form;
+    case 'options':
+      return Options;
     default:
       return null;
   }

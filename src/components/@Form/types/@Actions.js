@@ -283,9 +283,9 @@ function Actions(props) {
       open: true, 
       transferid: 'form_dialog',
       template: {
-        disabledSave: true,
+        disabledSave: command === 'device' ? true : false,
         title: 'Device Command',
-        type: 'tree',
+        type: command === 'device' ? 'tree' : 'options',
         id: COMMANDS[command] || 'devcmd',
         dialog: 'channellink',
         selectnodeid: did,
@@ -301,7 +301,8 @@ function Actions(props) {
     if (data !== null && data !== ':exit:') {
       core.transfer.unsub('form_dialog', handleDialogClick);
       core.actions.appdialog.close();
-    
+      console.log(data)
+      /*
       props.onChange(props.id, props.options, null, { 
         ...props.data, 
         [context.template.itemType]: props.data[context.template.itemType].map((i, key) => {
@@ -311,6 +312,7 @@ function Actions(props) {
           return i;
         }), 
       })
+      */
     }
     core.transfer.unsub('form_dialog', handleDialogClick);
   }
