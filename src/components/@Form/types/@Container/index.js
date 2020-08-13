@@ -160,13 +160,13 @@ class Container extends PureComponent {
     } else {
       const propertyType = this.props.data.propertyType || 'main';
       const item = this.props.data.elements[this.props.data.selectOne];
-      if (item.type === 'template' && (propertyType === 'link' || propertyType === 'actions')) {
-        const name = propertyType === 'link' ? 'links' : 'actions'
+      if (item.type === 'template' && propertyType === 'link') {
+        const name = value.result !== undefined ? 'links' : 'actions'
         core.actions.container
           .changeTemplate(
             this.props.id, this.props.options.prop,
-            this.props.data.selectOne, name, { [key]: value.result }
-          );
+            this.props.data.selectOne, name, name === 'links' ? { [key]: value.result } : { [key]: value },
+          )
       } else {
         if (key === 'w2' || key === 'h2') {
           const item = this.props.data.elements[this.props.data.selectOne];
