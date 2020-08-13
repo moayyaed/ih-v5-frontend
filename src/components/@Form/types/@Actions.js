@@ -221,7 +221,7 @@ function Actions(props) {
   const handleClickAdd = (id) => {
     handleClose();
     props.onChange(props.id, props.options, null, { 
-      ...props.data, [state.type]: props.data[state.type].concat({ action: id, value: null }), 
+      ...props.data, [state.type]: props.data[state.type].concat({ action: id, value: {} }), 
     })
   }
 
@@ -295,6 +295,7 @@ function Actions(props) {
         itemType: type,
         itemIndex: key,
         itemCommand: command,
+        // data: this.props.data,
       },
     });
   }
@@ -303,18 +304,21 @@ function Actions(props) {
     if (data !== null && data !== ':exit:') {
       core.transfer.unsub('form_dialog', handleDialogClick);
       core.actions.appdialog.close();
-      console.log(data)
-      /*
-      props.onChange(props.id, props.options, null, { 
-        ...props.data, 
-        [context.template.itemType]: props.data[context.template.itemType].map((i, key) => {
-          if (context.template.itemIndex === key) {
-            return { ...i, ...data.result.value, title: data.result.title, command: context.template.itemCommand };
-          }
-          return i;
-        }), 
-      })
-      */
+ 
+      if (context.template.itemCommand === 'device') {
+        props.onChange(props.id, props.options, null, { 
+          ...props.data, 
+          [context.template.itemType]: props.data[context.template.itemType].map((i, key) => {
+            if (context.template.itemIndex === key) {
+              return { ...i, ...data.result.value, title: data.result.title, command: context.template.itemCommand };
+            }
+            return i;
+          }), 
+        })
+      } else {
+        core.transfer.unsub('form_dialog', handleDialogClick);
+        core.actions.appdialog.close();
+      }
     }
     core.transfer.unsub('form_dialog', handleDialogClick);
   }

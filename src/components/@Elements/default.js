@@ -229,11 +229,11 @@ const BUTTON = {
   colorHover: { value: 'rgba(0,0,0,0.2)' },
   actions: {
     left: [
-      { action: 'singleClickLeft', value: null },
-      { action: 'doubleClickLeft', value: null },
-      { action: 'longClickLeft', value: null },
-      { action: 'mouseDownLeft', value: null },
-      { action: 'mouseUpLeft', value: null },
+      { action: 'singleClickLeft', value: {} },
+      { action: 'doubleClickLeft', value: {} },
+      { action: 'longClickLeft', value: {} },
+      { action: 'mouseDownLeft', value: {} },
+      { action: 'mouseUpLeft', value: {} },
     ],
     right: [
       { action: 'singleClickRight', value: null },

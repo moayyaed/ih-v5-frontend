@@ -44,6 +44,7 @@ function DialogAppBar(props) {
   const save = () => {
     if (!props.disabledSave) {
       const store = core.store.getState().appdialog;
+      console.log(store)
       if (props.type === 'form') {
         const store = core.store.getState().appdialog;
         const data = {};
