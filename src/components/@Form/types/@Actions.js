@@ -131,6 +131,11 @@ const styles = {
   },
 }
 
+const COMMANDS = {
+  device: 'devcmd',
+  layout: 'layoutx'
+}
+
 const TITLES = {
   singleClickLeft: 'Single Click',
   doubleClickLeft: 'Double Click',
@@ -281,7 +286,7 @@ function Actions(props) {
         disabledSave: true,
         title: 'Device Command',
         type: 'tree',
-        id: 'devcmd',
+        id: COMMANDS[command] || 'devcmd',
         dialog: 'channellink',
         selectnodeid: did,
         select: prop,

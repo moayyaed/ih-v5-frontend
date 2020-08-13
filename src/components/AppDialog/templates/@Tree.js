@@ -53,7 +53,7 @@ const styles = {
   }
 }
 
-function handleClickNode(item, component, nodeid) {
+function handleClickNode(item, component, nodeid, context) {
   core.actions.appdialog.component({ title: item.node.title, type: component, id: nodeid });
 }
 
