@@ -24,7 +24,8 @@ import {
   removeNodes, 
   findNode, 
   getPrevNode,
-  structToMap 
+  structToMap,
+  getFirstChild,
 } from 'components/AppNav/utils';
 
 import theme from 'components/AppNav/theme';

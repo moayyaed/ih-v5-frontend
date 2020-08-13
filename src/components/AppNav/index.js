@@ -19,7 +19,7 @@ import Panel from 'components/Panel';
 
 
 import theme from './theme';
-import { getNodesRange, insertNodes, editNodes, removeNodes, findNode, getPrevNode, structToMap } from './utils';
+import { getNodesRange, insertNodes, editNodes, removeNodes, findNode, getPrevNode, structToMap, getFirstChild } from './utils';
 
 const styles = {
   panel: {
@@ -71,8 +71,9 @@ class AppNav extends Component {
     .ok((res) => {
       let selectid = this.props.disabledRoute ? this.props.defaultSelectNodeId : this.props.route.nodeid;
       if (this.props.defaultSelectChildren && !selectid) {
-        if (res.list[0] && res.list[0].children && res.list[0].children[0]) {
-          selectid = res.list[0].children[0].id
+        const childid = getFirstChild(res.list)
+        if (childid) {
+          selectid = childid.id
         }
       }
       if (selectid) {

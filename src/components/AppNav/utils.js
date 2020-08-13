@@ -1,3 +1,28 @@
+export function getFirstChild(data) {
+
+  let temp = null;
+
+  function check(item) {
+    if (temp === null) {
+      temp = item;
+    }
+  }
+
+  function nodes(list) {
+    list.forEach(i => {
+      if (i.children !== undefined) {
+        nodes(i.children)
+      } else {
+        check(i);
+      }
+    });
+  }
+
+  nodes(data);
+
+  return temp;
+}
+
 export function getNodesRange(data, a, b) {
   const temp = {}
 

@@ -45,31 +45,36 @@ const styles = {
   },
 }
 
-function handleClickNode(item, component, nodeid, context) {
-  core.actions.appdialog.component({ title: item.node.title, type: component, id: nodeid });
-}
-
 
 class TemplateOptions extends Component {
 
   componentDidMount() {
     const id = 'formDeviceCommon'
-    const nodeid = 'd0024'
-    core
-    .request({ method: 'components_tabs_form', params: { type: 'form', id, nodeid } })
-    .ok(res => {
-      core.actions.appdialog.form({
-        save: false,
-        id: `${id}_${nodeid}`,
-        options: res.options,
-        data: res.data,
-        cache: res.cache,
-      });
-    });
+    
+ 
   }
 
   componentWillUnmount() {
     this.save = null;
+  }
+
+  handleClickNode = (item, component, nodeid, context) => {
+    core.actions.appdialog.component({ title: item.node.title, type: component, id: nodeid });
+    this.request(component, nodeid)
+  }
+
+  request = (id, nodeid) => {
+    core
+      .request({ method: 'components_tabs_form', params: { type: 'form', id, nodeid } })
+      .ok(res => {
+        core.actions.appdialog.form({
+          save: false,
+          id: `${id}_${nodeid}`,
+          options: res.options,
+          data: res.data,
+          cache: res.cache,
+        });
+      });
   }
 
   handleChange = (id, component, target, value) => {
@@ -148,7 +153,7 @@ class TemplateOptions extends Component {
           stateid="msgboxtree"
           positionPanel="right2"
           requestId={state.template.id}
-          onClickNode={handleClickNode}
+          onClickNode={this.handleClickNode}
           defaultSelectNodeId={state.template.selectnodeid}
           defaultSelectChildren
         />
