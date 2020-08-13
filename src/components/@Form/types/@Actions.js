@@ -405,7 +405,7 @@ function Actions(props) {
       </Menu>
       <div style={styles.divider} >
         <div style={styles.dividerTitle} >
-          Mouse Left
+          {props.options.title ? `Mouse Left (${props.options.title})` : 'Mouse Left'}
         </div>
         <IconButton className="nb2" style={styles.button} onClick={handleClickLeft} size="small" >
           <AddIcon fontSize="small" />
@@ -419,7 +419,7 @@ function Actions(props) {
       )}
       <div style={styles.divider} >
         <div style={styles.dividerTitle} >
-          Mouse Right
+          {props.options.title ? `Mouse Right (${props.options.title})` : 'Mouse Right'}
         </div>
         <IconButton className="nb2" style={styles.button} onClick={handleClickRight} size="small" >
           <AddIcon fontSize="small" />

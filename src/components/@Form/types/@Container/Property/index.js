@@ -5,9 +5,17 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 import CompactForm from 'components/@Form/Compact';
 import scheme from 'components/@Form/types/@Layout/Property/scheme';
+import actions from 'components/@Form/actions';
 
 const route = {}
 const cache = {}
+
+const LEFT = [
+  'singleClickLeft', 'doubleClickLeft', 'longClickLeft',
+  'mouseDownLeft', 'mouseUpLeft'
+];
+
+const RIGHT = [ 'singleClickRight' ];
 
 
 const styles = {
@@ -61,19 +69,31 @@ class Property extends PureComponent {
             }
             return { ...p, [c]: { title: '' } }
           }, {});
-        const data2 = list
-          .reduce((p, c) => {
-            const actions = scheme.listActions
-              .filter(key => this.props.templateData.elements[c][key] !== '')
-              .reduce((p2, c2) => {
-                const key = `${c}_${c2}`
-                if (this.props.elementData.actions && this.props.elementData.actions[key]) {
-                  return { ...p2, [key]: this.props.elementData.actions[key] }
+          const data2 = list
+            .reduce((p, c) => {
+              if (this.props.elementData.actions[c]) {
+                return { ...p, [c]: this.props.elementData.actions[c] };
+              }
+              return { 
+                ...p, 
+                [c]: { 
+                  left: LEFT
+                    .reduce((p2, c2) => {
+                      if (this.props.templateData.elements[c][c2].value !== '') {
+                        return p2.concat({ action: c2, value: {} })
+                      }
+                      return p2.concat()
+                    }, []), 
+                  right: RIGHT
+                    .reduce((p2, c2) => {
+                      if (this.props.templateData.elements[c][c2].value !== '') {
+                        return p2.concat({ action: c2, value: {} })
+                      }
+                      return p2.concat()
+                    }, []), 
                 }
-                return { ...p2, [key]: { title: '' } }
-              }, {});
-            return { ...p, ...actions }
-          }, {});
+              };
+            }, {});
         data = { ...data, ...data2 }
 
         map = this.props.templateData.listState
@@ -91,23 +111,9 @@ class Property extends PureComponent {
         const map2 = list
           .reduce((p, c) => {
             return p
-              .concat([{ title: c, prop: c, type: 'divider' }],scheme.listActions
-                .filter(key => this.props.templateData.elements[c][key] !== '')
-                .map(key =>
-                  ({
-                    prop: `${c}_${key}`,
-                    title: `${key}`,
-                    type: 'smartbutton',
-                    command: 'dialog',
-                    params: {
-                      title: 'Привязка к каналу',
-                      type: 'tree',
-                      id: 'devices',
-                    }
-                  })
-                ))
+              .concat([{ type: 'actions', prop: c, title: c }])
           }, [])
-        map = [{ title: 'Bind', prop: 'bind', type: 'divider' }]
+        map = [{ title: 'Variables', prop: 'bind', type: 'divider' }]
           .concat(map, map2)
       }
       return (

@@ -38,6 +38,12 @@ const styles = {
   },
 }
 
+const LEFT = [
+  'singleClickLeft', 'doubleClickLeft', 'longClickLeft',
+  'mouseDownLeft', 'mouseUpLeft'
+];
+
+const RIGHT = [ 'singleClickRight' ];
 
 function getRandomColor() {
   var letters = '0123456789ABCDEF';
@@ -252,13 +258,6 @@ class Sheet extends Component {
     }
 
     if (type === 'template') {
-      const LEFT = [
-        'singleClickLeft', 'doubleClickLeft', 'longClickLeft',
-        'mouseDownLeft', 'mouseUpLeft'
-      ];
-      
-      const RIGHT = [ 'singleClickRight' ];
-
       core
         .request({ method: 'get_template', params: templateId })
         .ok(res => {
