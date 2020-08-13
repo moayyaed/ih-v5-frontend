@@ -252,6 +252,13 @@ class Sheet extends Component {
     }
 
     if (type === 'template') {
+      const LEFT = [
+        'singleClickLeft', 'doubleClickLeft', 'longClickLeft',
+        'mouseDownLeft', 'mouseUpLeft'
+      ];
+      
+      const RIGHT = [ 'singleClickRight' ];
+
       core
         .request({ method: 'get_template', params: templateId })
         .ok(res => {
@@ -262,6 +269,26 @@ class Sheet extends Component {
           data.h = { value: res.settings.h.value };
           data.w2 = { value: res.settings.w.value }; 
           data.h2 = { value: res.settings.h.value };
+          data.actions = { type: 'multi' };
+
+          Object
+            .keys(res.elements)
+            .forEach(key => {
+              if (res.elements[key].type === 'action') {
+                data.actions[key] = { left: [], right: [] }
+                LEFT.forEach(i => {
+                  if (res.elements[key][i] && res.elements[key][i].value !== '') {
+                    data.actions[key].left.push({ action: i, value: {} })
+                  }
+                });
+                RIGHT.forEach(i => {
+                  if (res.elements[key][i] && res.elements[key][i].value !== '') {
+                    data.actions[key].right.push({ action: i, value: {} })
+                  }
+                });
+              }
+            });
+            console.log(data.actions)
           core.actions.container
             .addTemplate(
               this.props.id, this.props.prop,

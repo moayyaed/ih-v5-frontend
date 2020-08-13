@@ -269,10 +269,6 @@ const TEMPLATE = {
   zIndex: { value: 100 },
   opacity: { value: 100 },
   overflow: { value: true },
-  actions: {
-    left: [],
-    right: []
-  },
 }
 
 
