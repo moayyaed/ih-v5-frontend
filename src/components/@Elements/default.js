@@ -264,6 +264,17 @@ const GROUP = {
   overflow: { value: true },
 }
 
+const TEMPLATE = {
+  animation: {},
+  zIndex: { value: 100 },
+  opacity: { value: 100 },
+  overflow: { value: true },
+  actions: {
+    left: [],
+    right: []
+  },
+}
+
 
 function getDefaultParams(type) {
   switch (type) {
@@ -283,6 +294,8 @@ function getDefaultParams(type) {
     case 'container':
     case 'group':
       return GROUP;
+    case 'template':
+      return TEMPLATE
     case 'action':
       return ACTION;
     default:
