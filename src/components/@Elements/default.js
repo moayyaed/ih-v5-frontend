@@ -236,7 +236,7 @@ const BUTTON = {
       { action: 'mouseUpLeft', value: {} },
     ],
     right: [
-      { action: 'singleClickRight', value: null },
+      { action: 'singleClickRight', value: {} },
     ]
   },
 }
