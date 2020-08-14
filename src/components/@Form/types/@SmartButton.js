@@ -23,6 +23,16 @@ const styles = {
     width: '100%',
     overflow: 'hidden',
   },
+  rootMini2: {
+  fontSize: 12,
+    fontFamily: 'Roboto,Helvetica,Arial,sans-serif',
+    fontWeight: 400,
+    color: '#3f51b5',
+    width: '100%',
+    border: 'unset', 
+    height: 21,
+    background: 'unset',
+  },
 }
 
 const classes = theme => ({
@@ -103,12 +113,12 @@ class SmartButton extends PureComponent {
       return (
         <>
           <div style={styles.rootMini}>
-            <Link 
-                href={`/admin/${this.props.data.path}`}
-                onClick={(e) => this.handleClickForward(e, this.props.data.path)}
-              >
-              {this.props.data.title}
-            </Link>
+            <input
+              className="core"
+              style={styles.rootMini2} 
+              disabled={true}
+              value={this.props.data.title}
+            />
           </div>
           <IconButton onClick={(e) => this.handleClick(e,  'icon')} size="small">
             {this.props.data.title !== '' ? <LinkOffIcon fontSize="small" /> : <LinkIcon fontSize="small" />}

@@ -23,15 +23,15 @@ const styles = {
     display: 'flex',
   },
   input: {
-    fontSize: 13,
+  fontSize: 12,
     fontFamily: 'Roboto,Helvetica,Arial,sans-serif',
     fontWeight: 400,
-    color: 'rgb(48, 84, 150)',
+    color: '#3f51b5',
     width: '100%',
     border: 'unset', 
     height: 21,
     background: 'unset',
-    fontWeight: 'bold',
+
   },
   divider: {
     position: 'relative',
