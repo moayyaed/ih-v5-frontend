@@ -282,7 +282,7 @@ class DroplistLink extends PureComponent {
         } else { 
           try {
             const v = obj.body.call(null, 0, {})
-            const params = { ...this.props.data, enabled: true, did, prop, title, func };
+            const params = { ...this.props.data, enabled: true, did, prop, title, func, droplist: this.props.data.value };
 
             core.transfer.unsub('form_dialog', this.handleDialogClick3);
             core.actions.appdialog.close();
@@ -293,7 +293,7 @@ class DroplistLink extends PureComponent {
           }
         }
       } else {
-        const params = { ...this.props.data, enabled: null, prop: null, title: null, func };
+        const params = { ...this.props.data, enabled: null, prop: null, title: null, func, droplist: null };
 
         core.transfer.unsub('form_dialog', this.handleDialogClick3);
         core.actions.appdialog.close();
@@ -330,7 +330,7 @@ class DroplistLink extends PureComponent {
             core.cache.functions[uuid] = obj.body;
             core.transfer.unsub('form_dialog', this.handleDialogClick);
             core.actions.appdialog.close();
-            
+  
             this.props.onChange(this.props.id, this.props.options, null, { enabled: true, uuid, _bind: id, title, value: v, func, droplist: this.props.data.value })
           } catch (e) {
             core.actions.app.alertOpen('warning', 'Function error: ' + e.message);
