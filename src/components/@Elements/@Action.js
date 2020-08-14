@@ -61,7 +61,7 @@ class Action extends PureComponent {
           .forEach(key2 => {
             actions[key][key2]
               .forEach(item => {
-                if (item.action === event) {
+                if (item.action === event && item.command) {
                   core.tunnel.command({
                     uuid: shortid.generate(),
                     method: 'action',
