@@ -3,6 +3,7 @@ import elements from 'components/@Elements';
 
 
 const defaultState = {
+  layoutId: null,
   layout: { list: [] },
   containers: {},
   templates: {},

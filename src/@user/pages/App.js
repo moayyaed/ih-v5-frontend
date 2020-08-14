@@ -21,9 +21,8 @@ const styles = {
   }
 };
 
-
 function App(props) {
-  return <AppLayout key={props.route.layout} />;
+  return <AppLayout />
 }
 
 

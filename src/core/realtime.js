@@ -43,6 +43,11 @@ function openTunnel() {
 function messageTunnel(e) {
   try {
     const json = JSON.parse(e.data);
+    if (json.method) {
+      if (json.command === 'gotolayout') {
+        core.route(json.id);
+      }
+    }
     if (json.data !== undefined) {
       realtime.events.emit(json.uuid, json.data);
     }

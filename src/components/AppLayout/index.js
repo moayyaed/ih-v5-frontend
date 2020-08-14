@@ -27,13 +27,38 @@ const classes = theme => ({
 class AppLayout extends Component {
 
   componentDidMount() {
+    this.request();
+  }
+
+  request = () => {
     const params = {
       layoutId: this.props.route.layout || this.props.app.auth.layout,
     };
 
+    if (this.props.state.layoutId !== null) {
+     core.tunnel.unsub({ 
+        method: 'unsub',
+        type: 'layout',
+        uuid: this.props.state.layoutId,
+        id: this.props.state.layoutId,
+      }, this.realtimeLayout);
+
+      this.props.state.layout.list.forEach(id => {
+        if (this.props.state.layout.elements[id].type === 'container') {
+          core.tunnel.unsub({ 
+            method: 'unsub',
+            type: 'container',
+            uuid: id,
+            id: this.props.state.layout.elements[id].containerId.id,
+          }, (realtime) => this.realtimeContainer(this.props.state.layout.elements[id].containerId.id, realtime));
+        }
+      });
+    }
+
     core
       .request({ method: 'applayout', params })
       .ok(data => {
+        data.layoutId = params.layoutId;
         core.actions.layout.data(data);
         core.tunnel.sub({ 
           method: 'sub',
@@ -141,7 +166,15 @@ class AppLayout extends Component {
     )
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.route.layout !== this.props.route.layout) {
+      this.request();
+    }
+  }
   render({ id, route, state, auth, classes } = this.props) {
+    if (state.layoutId === null) {
+      return null;
+    }
     return (
         <ReactResizeDetector handleWidth handleHeight>
           {({ width, height }) => {

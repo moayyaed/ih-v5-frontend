@@ -38,7 +38,7 @@ const options = {
     default: null,
   },
   
-  routePrefix: '/',
+  routePrefix: '',
   routeParse: routeParse,
 }
 

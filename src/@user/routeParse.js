@@ -16,7 +16,7 @@ function getComponentParams(componentid, params) {
 function routeParse(pathname) {
   const params = pathname.split('/');
   const base = {
-    layout: checkValue(params[2]),
+    layout: checkValue(params[1]),
   }
   const componentParams = getComponentParams(base.componentid, params);
   return {

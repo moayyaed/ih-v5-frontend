@@ -14,11 +14,11 @@ import { createBrowserHistory } from 'history';
 const history = createBrowserHistory();
 
 
-function getPage(state) {
+function getPage(state, layoutId) {
   if (state.auth === false) {
-    return React.createElement(core.options.pages.login, { route: state.route })
+    return React.createElement(core.options.pages.login, { route: state.route, layoutId })
   }
-  return React.createElement(core.options.pages.main, { route: state.route })
+  return React.createElement(core.options.pages.main, { route: state.route, layoutId })
 }
 
 class App extends Component {
@@ -49,7 +49,7 @@ class App extends Component {
           message={alert.message} 
           onClose={this.handleCloseAlert}
         />
-        {getPage(this.props.state)}
+        {getPage(this.props.state, this.props.layoutId)}
       </>
     )
   }
@@ -58,7 +58,8 @@ class App extends Component {
 
 const mapStateToProps = createSelector(
   state => state.app,
-  (state) => ({ state })
+  state => state.layout.layoutId,
+  (state, layoutId) => ({ state, layoutId })
 )
 
 export default connect(mapStateToProps)(App);
