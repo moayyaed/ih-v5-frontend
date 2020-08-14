@@ -26,6 +26,14 @@ const styles = {
 }
 
 
+function getParams(item) {
+  if (item.command === 'device') {
+    return { did: item.did, prop: item.prop }
+  }
+  return item.value;
+}
+
+
 class Action extends PureComponent {
 
   state = { type: '' }
@@ -67,8 +75,7 @@ class Action extends PureComponent {
                     method: 'action',
                     type:'command',
                     command: item.command,
-                    did: item.did,
-                    prop: item.prop,
+                    ...getParams(item)
                   });
                 }
               });

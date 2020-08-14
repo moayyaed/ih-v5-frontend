@@ -149,6 +149,13 @@ function ButtonEgine(props) {
   );
 }
 
+function getParams(item) {
+  if (item.command === 'device') {
+    return { did: item.did, prop: item.prop }
+  }
+  return item.value;
+}
+
 
 class Button extends PureComponent {
 
@@ -174,56 +181,47 @@ class Button extends PureComponent {
   }
 
   handleAction = (id, event, actions) => {
-    /*
     Object
-      .keys(actions)
-      .forEach(key => {
-        if (typeof actions[key] === 'object') {
-          Object
-          .keys(actions[key])
-          .forEach(key2 => {
-            actions[key][key2]
-              .forEach(item => {
-                if (item.action === event && item.command) {
-                  core.tunnel.command({
-                    uuid: shortid.generate(),
-                    method: 'action',
-                    type:'command',
-                    command: item.command,
-                    did: item.did,
-                    prop: item.prop,
-                  });
-                }
-              });
-          })
-        }
-      });
-      */
+    .keys(actions)
+    .forEach(key => {
+      actions[key]
+        .forEach(item => {
+          if (item.action === event && item.command) {
+            core.tunnel.command({
+              uuid: shortid.generate(),
+              method: 'action',
+              type:'command',
+              command: item.command,
+              ...getParams(item)
+            });
+          }
+        });
+    })
   }
 
   handleSingleTap = () => {
     const name = 'singleClickLeft';
-    this.handleAction(this.props.id, name, this.props.actions);
+    this.handleAction(this.props.id, name, this.props.item.actions);
   }
 
   handleDoubleTap = () => {
     const name = 'doubleClickLeft';
-    this.handleAction(this.props.id, name, this.props.actions);
+    this.handleAction(this.props.id, name, this.props.item.actions);
   }
 
   handleLongTap = () => {
     const name = 'longClickLeft';
-    this.handleAction(this.props.id, name, this.props.actions);
+    this.handleAction(this.props.id, name, this.props.item.actions);
   }
 
   handlePressDown = () => {
     const name = 'mouseDownLeft';
-    this.handleAction(this.props.id, name, this.props.actions);
+    this.handleAction(this.props.id, name, this.props.item.actions);
   }
 
   handlePressUp = () => {
     const name = 'mouseUpLeft';
-    this.handleAction(this.props.id, name, this.props.actions);
+    this.handleAction(this.props.id, name, this.props.item.actions);
   }
 
   handlePress = (e) => {
