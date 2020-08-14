@@ -30,13 +30,11 @@ function getParams(item) {
   if (item.command === 'device') {
     return { did: item.did, prop: item.prop }
   }
-  return item.value;
+  return { ...item.value, id: item.id };
 }
 
 
 class Action extends PureComponent {
-
-  state = { type: '' }
 
   componentDidMount() {
     if (this.link) {
@@ -70,13 +68,18 @@ class Action extends PureComponent {
             actions[key][key2]
               .forEach(item => {
                 if (item.action === event && item.command) {
-                  core.tunnel.command({
-                    uuid: shortid.generate(),
-                    method: 'action',
-                    type:'command',
-                    command: item.command,
-                    ...getParams(item)
-                  });
+                  const command = item.command;
+                  if (command === 'fullscreen' || command === 'refresh' || command === 'exit' ) {
+
+                  } else {
+                    core.tunnel.command({
+                      uuid: shortid.generate(),
+                      method: 'action',
+                      type:'command',
+                      command: item.command,
+                      ...getParams(item)
+                    });
+                  }
                 }
               });
           })
@@ -119,6 +122,9 @@ class Action extends PureComponent {
 
   handleContextMenu = (e) => {
     e.preventDefault();
+    
+    const name = 'singleClickRight';
+    this.handleAction(this.props.id, name, this.props.actions);
   }
 
   linked = (e) => {
