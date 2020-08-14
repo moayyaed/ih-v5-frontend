@@ -534,6 +534,10 @@ function Color2(props) {
     }
   }
 
+  const handleClear = (e) => {
+    props.onChange(props.id, props.options, null, { ...props.data, ...props.data.color, enabled: false, _bind: null, did: null, title: null, color: null, func: props.data.func })
+  }
+
   const open = Boolean(anchorEl);
   const s = {};
 
@@ -561,10 +565,11 @@ function Color2(props) {
           disabled={true}
           value={props.data.title}
         />
-        <ButtonMenu 
+        <ButtonMenu
           enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
           icon={props.data.enabled} 
-          onChange={handleClickButton} 
+          onChange={handleClickButton}
+          onClear={handleClear}
         />
       </>
     )
@@ -602,10 +607,11 @@ function Color2(props) {
           </>
         </Popover>
       </div>
-      <ButtonMenu 
+      <ButtonMenu
         enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
         icon={props.data.enabled} 
-        onChange={handleClickButton} 
+        onChange={handleClickButton}
+        onClear={handleClear}
       />
     </>
   );

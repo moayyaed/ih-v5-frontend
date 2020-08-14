@@ -229,11 +229,15 @@ function Shadow(props) {
       }  else {
         core.transfer.unsub('form_dialog', handleDialogClick);
         core.actions.appdialog.close();
-        props.onChange(props.id, props.options, null, { ...props.data, ...props.data.shadow, enabled: false, _bind: null, title: null, shadow: null, func })
+        props.onChange(props.id, props.options, null, { ...props.data, ...props.data.shadow, enabled: false, _bind: null, did: null, title: null, shadow: null, func: props.data.func })
       }
     } else {
       core.transfer.unsub('form_dialog', handleDialogClick);
     }
+  }
+
+  const handleClear = (e) => {
+
   }
 
   const open = Boolean(anchorEl);
@@ -262,10 +266,11 @@ function Shadow(props) {
           disabled={true}
           value={props.data.title}
         />
-        <ButtonMenu 
+        <ButtonMenu
           enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
           icon={props.data.enabled} 
-          onChange={handleClickButton} 
+          onChange={handleClickButton}
+          onClear={handleClear} 
         />
       </>
     )
@@ -300,10 +305,11 @@ function Shadow(props) {
           />
         </Popover>
       </div>
-      <ButtonMenu 
+      <ButtonMenu
         enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
         icon={props.data.enabled} 
-        onChange={handleClickButton} 
+        onChange={handleClickButton}
+        onClear={handleClear}
       />
     </>
   );

@@ -346,6 +346,10 @@ class DroplistLink extends PureComponent {
     }
   }
 
+  handleClear = (e) => {
+    this.props.onChange(this.props.id, this.props.options, null, { enabled: false, _bind: null, did: null, title: null, droplist: null, func: this.props.data.func, value: this.props.data.droplist || {} })
+  }
+
   render({ id, options, global, mini } = this.props) {
     const list = this.state.list.filter(i => i.hide ? !i.hide(global) : true);
     if (this.props.data.enabled ) {
@@ -357,10 +361,11 @@ class DroplistLink extends PureComponent {
             disabled={true}
             value={this.props.data.title}
           />
-          <ButtonMenu 
+          <ButtonMenu
             enabled={this.props.options.bind !== undefined ? this.props.options.bind : this.props.route.type} 
             icon={this.props.data.enabled} 
-            onChange={this.handleClickButton} 
+            onChange={this.handleClickButton}
+            onClear={this.handleClear}
           />
         </>
       )
@@ -385,10 +390,11 @@ class DroplistLink extends PureComponent {
           loading={this.state.loading}
           onOpen={this.handleGetData}
         />
-        <ButtonMenu 
+        <ButtonMenu
           enabled={this.props.options.bind !== undefined ? this.props.options.bind : this.props.route.type} 
           icon={this.props.data.enabled} 
-          onChange={this.handleClickButton} 
+          onChange={this.handleClickButton}
+          onClear={this.handleClear}
         />
       </>
     );

@@ -173,6 +173,10 @@ function Checkbox(props) {
     }
   }
 
+  const handleClear = (e) => {
+    props.onChange(props.id, props.options, null, { enabled: false, _bind: null, did: null, title: null, cb: null, func: props.data.func, value: props.data.cb || 0 })
+  }
+
   if (props.mini) {
     return (
       <>
@@ -191,10 +195,11 @@ function Checkbox(props) {
           checked={Boolean(props.data.value)}
           onChange={(e) => props.onChange(props.id, props.options, null, { ...props.data, value: Number(e.target.checked)})} 
         />}
-        <ButtonMenu 
+        <ButtonMenu
           enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
           icon={props.data.enabled} 
-          onChange={handleClickButton} 
+          onChange={handleClickButton}
+          onClear={handleClear}
         />
       </>
     )

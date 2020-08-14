@@ -171,6 +171,10 @@ class InputLink extends PureComponent {
     }
   }
 
+  handleClear = (e) => {
+    this.props.onChange(this.props.id, this.props.options, null, { enabled: false, _bind: null, did: null, title: null, text: null, func: this.props.data.func, value: this.props.data.text || '' })
+  }
+
   render() {
     if (this.props.mini) {
       return (
@@ -182,10 +186,11 @@ class InputLink extends PureComponent {
             value={this.props.data.enabled ? this.props.data.title : this.props.data.value}
             onChange={this.handleChangeText}
           />
-            <ButtonMenu 
+            <ButtonMenu
               enabled={this.props.route.type} 
               icon={this.props.data.enabled} 
-              onChange={this.handleClickButton} 
+              onChange={this.handleClickButton}
+              onClear={this.handleClear} 
             />
         </>
       )
@@ -199,10 +204,11 @@ class InputLink extends PureComponent {
         disabled={Boolean(this.props.data.enabled)}
         InputProps={{
           endAdornment: (
-            <ButtonMenu 
+            <ButtonMenu
               enabled={this.props.route.type} 
               icon={this.props.data.enabled} 
-              onChange={this.handleClickButton} 
+              onChange={this.handleClickButton}
+              onClear={this.handleClear}
             />
           )
         }}

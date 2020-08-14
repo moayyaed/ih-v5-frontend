@@ -24,6 +24,13 @@ const styles = {
 
 function ButtonMenu(props) {
 
+  const handleClick2 = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    props.onClear(e);
+  }
+
   const handleClick = (event, icon) => {
     if (icon) {
       props.onChange();
@@ -36,7 +43,7 @@ function ButtonMenu(props) {
     return (
       <div style={styles.root}>
         <div style={styles.divider} />
-        <IconButton className="nb" style={styles.buttonMini2} onClick={(e) => handleClick(e, props.icon)} size="small" >
+        <IconButton className="nb" style={styles.buttonMini2} onContextMenu={handleClick2} onClick={(e) => handleClick(e, props.icon)} size="small" >
           {props.icon ? <LinkOffIcon fontSize="small" /> : <LinkIcon fontSize="small" />}
         </IconButton>
       </div>

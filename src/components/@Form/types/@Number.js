@@ -331,6 +331,10 @@ function TouchNumber(props) {
     }
   }
 
+  const handleClear = (e) => {
+    props.onChange(props.id, props.options, null, { enabled: false, _bind: null, title: null, did: null, number: null, func: props.data.func, value: props.data.number || 0 })
+  }
+
   const step = props.options.step || 1;
   if (props.mini) {
     const data = props.data !== undefined ? props.data : { value: 0 };
@@ -343,10 +347,11 @@ function TouchNumber(props) {
             disabled={true}
             value={data.title}
           />
-          <ButtonMenu 
+          <ButtonMenu
             enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
             icon={data.enabled} 
-            onChange={handleClickButton} 
+            onChange={handleClickButton}
+            onClear={handleClear}
           />
         </div>
       )
@@ -369,10 +374,11 @@ function TouchNumber(props) {
           step={step}
           onClick={v => props.onChange(props.id, props.options, null, { ...data, value: checkValue(data.value + v, props) })} 
         />
-        <ButtonMenu 
+        <ButtonMenu
           enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
           icon={data.enabled} 
-          onChange={handleClickButton} 
+          onChange={handleClickButton}
+          onClear={handleClear}
         />
       </div>
     )

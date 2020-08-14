@@ -321,8 +321,11 @@ function Animation(props) {
       core.transfer.unsub('form_dialog', handleDialogClick);
     }
   }
-  
 
+  const handleClear = (e) => {
+    props.onChange(props.id, props.options, null, { ...props.data, ...props.data.animation, did: null, enabled: false, _bind: null, title: null, animation: null, func: props.data.func })
+  }
+  
   const open = Boolean(anchorEl);
   const s = {};
 
@@ -354,10 +357,11 @@ function Animation(props) {
             <TuneIcon fontSize="inherit" />
           </IconButton>
         </div>
-        <ButtonMenu 
+        <ButtonMenu
           enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
           icon={props.data.enabled} 
-          onChange={handleClickButton} 
+          onChange={handleClickButton}
+          onClear={handleClear}
         />
       </>
     )
@@ -379,10 +383,11 @@ function Animation(props) {
           <TuneIcon fontSize="inherit" />
         </IconButton>
       </div>
-      <ButtonMenu 
+      <ButtonMenu
         enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
         icon={props.data.enabled} 
-        onChange={handleClickButton} 
+        onChange={handleClickButton}
+        onClear={handleClear}
       />
     </>
   );
