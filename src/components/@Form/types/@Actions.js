@@ -14,6 +14,7 @@ import Divider from '@material-ui/core/Divider';
 import AddIcon from '@material-ui/icons/PostAdd';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import TuneIcon from '@material-ui/icons/Tune';
+import LinkIcon from '@material-ui/icons/Link';
 
 
 const styles = {
@@ -173,13 +174,13 @@ function ValueItem(props) {
        value={props.data.title || ''}
      />
      {props.data.command ? null : <div style={styles.stub} />}
-      <IconButton size="small" onClick={props.onClick} >
+      <IconButton size="small" onClick={props.onClick2} >
         <TuneIcon fontSize="inherit" />
       </IconButton>
       <div style={styles.root2}>
         <div style={styles.stub2} />
-          <IconButton className="nb" size="small" style={styles.button2} onClick={props.onClick2} >
-            <MoreVertIcon fontSize="small" />
+          <IconButton className="nb" size="small" style={styles.button2} onClick={props.onClick} >
+            <LinkIcon fontSize="small" />
           </IconButton>
       </div>
     </>
