@@ -52,16 +52,29 @@ class Action extends PureComponent {
   }
 
   handleAction = (id, event, actions) => {
-    const key = `${id}_${event}`
-    if (actions !== undefined && actions[key] && actions[key].value) {
-      core.tunnel.command({
-        method: 'action',
-        type:'command',
-        id: actions[key].value.did,
-        command: actions[key].value.prop,
-        uuid: shortid.generate(),
+    Object
+      .keys(actions)
+      .forEach(key => {
+        if (typeof actions[key] === 'object') {
+          Object
+          .keys(actions[key])
+          .forEach(key2 => {
+            actions[key][key2]
+              .forEach(item => {
+                if (item.action === event) {
+                  core.tunnel.command({
+                    uuid: shortid.generate(),
+                    method: 'action',
+                    type:'command',
+                    command: item.command,
+                    did: item.did,
+                    prop: item.prop,
+                  });
+                }
+              });
+          })
+        }
       });
-    }
   }
 
   handleSingleTap = () => {
