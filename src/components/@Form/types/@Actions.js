@@ -179,7 +179,7 @@ function ValueItem(props) {
       </IconButton>
       <div style={styles.root2}>
         <div style={styles.stub2} />
-          <IconButton className="nb" size="small" style={styles.button2} onContextMenu={props.onClick3} onClick={props.onClick} >
+          <IconButton className="nb" size="small" style={styles.button2} onClick={props.onClick} >
             <LinkIcon fontSize="small" />
           </IconButton>
       </div>
