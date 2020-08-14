@@ -58,7 +58,7 @@ class App extends Component {
 
 const mapStateToProps = createSelector(
   state => state.app,
-  state => state.layout.layoutId,
+  state => state.layout ? state.layout.layoutId : null,
   (state, layoutId) => ({ state, layoutId })
 )
 
