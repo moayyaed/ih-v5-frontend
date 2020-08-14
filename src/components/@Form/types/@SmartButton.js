@@ -63,6 +63,29 @@ class SmartButton extends PureComponent {
     }
   }
 
+  
+  handleClick2 = (e, type) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const params = {
+      ...this.props.options.params,
+      anchor: this.props.data.anchor,
+      nodeid: this.props.route.channel,
+      selectnodeid: this.props.data.dialognodeid,
+      disabledSave: true,
+      selectnodeid: this.props.data.did,
+      select: this.props.data.prop,
+      }
+  
+      core.transfer.sub('form_dialog', this.handleDialogClick);
+      core.actions.appdialog.data({ 
+        open: true, 
+        transferid: 'form_dialog',
+        template: params,
+      });
+  }
+
   handleClick = (e, type) => {
     e.preventDefault();
     e.stopPropagation();
@@ -120,7 +143,7 @@ class SmartButton extends PureComponent {
               value={this.props.data.title}
             />
           </div>
-          <IconButton onClick={(e) => this.handleClick(e,  'icon')} size="small">
+          <IconButton onClick={(e) => this.handleClick2(e,  'icon')} size="small">
             <LinkIcon fontSize="small" />
           </IconButton>
         </>
