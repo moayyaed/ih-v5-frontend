@@ -132,6 +132,7 @@ function ButtonEgine(props) {
           height: '100%', 
           overflow: 'hidden',
           pointerEvents: 'none',
+          left: 0,
         }}
       >
         <text
