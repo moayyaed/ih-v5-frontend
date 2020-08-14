@@ -1,4 +1,10 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
+import core from 'core';
+
+import ButtonBase from '@material-ui/core/ButtonBase';
+import Hammer from 'hammerjs';
+import shortid from 'shortid';
+
 import { transform } from './tools';
 
 
@@ -15,6 +21,10 @@ const styles = {
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center center',
   },
+  user: {
+    width: '100%', 
+    height: '100%',
+  }
 }
 
 function getTextStyle(params) {
@@ -90,7 +100,7 @@ function scale(value) {
   }
 }
 
-function Button(props) {
+function ButtonEgine(props) {
   return (
     <div
       style={{
@@ -138,6 +148,120 @@ function Button(props) {
     </div>
   );
 }
+
+
+class Button extends PureComponent {
+
+  componentDidMount() {
+    if (this.link) {
+      
+      this.mc = new Hammer.Manager(this.link);
+
+      this.mc.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
+      this.mc.add(new Hammer.Tap({ event: 'singletap', interval: this.props.item.doubleClickLeft === '' ? 100 : 200 }));
+      this.mc.add(new Hammer.Press({ event: 'press', time: 400 }));
+      this.mc.add(new Hammer.Press({ event: 'pressup' }));
+
+      this.mc.get('doubletap').recognizeWith('singletap');
+      this.mc.get('singletap').requireFailure('doubletap');
+    
+      this.mc.on('singletap', this.handleSingleTap);
+      this.mc.on('doubletap', this.handleDoubleTap);
+      this.mc.on('press', this.handleLongTap);
+      this.mc.on('pressup', this.handlePress);
+      
+    }
+  }
+
+  handleAction = (id, event, actions) => {
+    /*
+    Object
+      .keys(actions)
+      .forEach(key => {
+        if (typeof actions[key] === 'object') {
+          Object
+          .keys(actions[key])
+          .forEach(key2 => {
+            actions[key][key2]
+              .forEach(item => {
+                if (item.action === event && item.command) {
+                  core.tunnel.command({
+                    uuid: shortid.generate(),
+                    method: 'action',
+                    type:'command',
+                    command: item.command,
+                    did: item.did,
+                    prop: item.prop,
+                  });
+                }
+              });
+          })
+        }
+      });
+      */
+  }
+
+  handleSingleTap = () => {
+    const name = 'singleClickLeft';
+    this.handleAction(this.props.id, name, this.props.actions);
+  }
+
+  handleDoubleTap = () => {
+    const name = 'doubleClickLeft';
+    this.handleAction(this.props.id, name, this.props.actions);
+  }
+
+  handleLongTap = () => {
+    const name = 'longClickLeft';
+    this.handleAction(this.props.id, name, this.props.actions);
+  }
+
+  handlePressDown = () => {
+    const name = 'mouseDownLeft';
+    this.handleAction(this.props.id, name, this.props.actions);
+  }
+
+  handlePressUp = () => {
+    const name = 'mouseUpLeft';
+    this.handleAction(this.props.id, name, this.props.actions);
+  }
+
+  handlePress = (e) => {
+    if (e.isFinal) {
+      this.handlePressUp(e);
+    } else {
+      this.handlePressDown(e);
+    }
+  }
+
+  handleContextMenu = (e) => {
+    e.preventDefault();
+  }
+
+  linked = (e) => {
+    this.link = e;
+  } 
+
+  render() {
+    if (this.props.mode === 'user') {
+      return (
+        <ButtonBase 
+          ref={this.linked} 
+          centerRipple 
+          style={{ ...styles.user, color: this.props.item.colorRipple.value }}
+          onContextMenu={this.handleContextMenu}
+        >
+          {React.createElement(ButtonEgine, this.props)}
+        </ButtonBase>
+      )
+    }
+    if (this.props.mode === 'admin') {
+      return React.createElement(ButtonEgine, this.props);
+    }
+    return React.createElement(ButtonEgine, this.props);
+  }
+}
+
 
 
 export default Button;
