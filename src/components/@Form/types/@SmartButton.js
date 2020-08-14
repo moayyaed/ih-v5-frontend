@@ -121,7 +121,7 @@ class SmartButton extends PureComponent {
             />
           </div>
           <IconButton onClick={(e) => this.handleClick(e,  'icon')} size="small">
-            {this.props.data.title !== '' ? <LinkOffIcon fontSize="small" /> : <LinkIcon fontSize="small" />}
+            <LinkIcon fontSize="small" />
           </IconButton>
         </>
       )
