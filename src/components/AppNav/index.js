@@ -156,14 +156,14 @@ class AppNav extends Component {
         // style.backgroundColor = 'rgba(158, 158, 158, 0.2)';
         style.fontWeight = 'bold';
         // style.color = '#505050';
-        style.color = '#0277BD';
+        style.color = '#01579B';
       }
     } else {
       if (this.props.route.nodeid === id) {
         // style.backgroundColor = 'rgba(158, 158, 158, 0.2)';
         style.fontWeight = 'bold';
         // style.color = '#505050';
-        style.color = '#0277BD';
+        style.color = '#01579B';
       }
     }
 
