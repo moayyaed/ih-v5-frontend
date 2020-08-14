@@ -131,6 +131,20 @@ class SmartButton extends PureComponent {
     }
   }
 
+  handleClickClear = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.props.onChange(this.props.id, this.props.options, null, {
+      result: {
+        title: '',
+        value: {},
+        did: null,
+        prop: null,
+      }
+    })
+  } 
+
   render() {
     if (this.props.mini) {
       return (
@@ -143,7 +157,7 @@ class SmartButton extends PureComponent {
               value={this.props.data.title}
             />
           </div>
-          <IconButton onClick={(e) => this.handleClick2(e,  'icon')} size="small">
+          <IconButton onContextMenu={this.handleClickClear} onClick={(e) => this.handleClick2(e,  'icon')} size="small">
             <LinkIcon fontSize="small" />
           </IconButton>
         </>

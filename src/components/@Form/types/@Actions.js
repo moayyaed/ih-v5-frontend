@@ -179,7 +179,7 @@ function ValueItem(props) {
       </IconButton>
       <div style={styles.root2}>
         <div style={styles.stub2} />
-          <IconButton className="nb" size="small" style={styles.button2} onClick={props.onClick} >
+          <IconButton className="nb" size="small" style={styles.button2} onContextMenu={props.onClick3} onClick={props.onClick} >
             <LinkIcon fontSize="small" />
           </IconButton>
       </div>
@@ -230,6 +230,21 @@ function Actions(props) {
     handleClose();
     props.onChange(props.id, props.options, null, { 
       ...props.data, [state.type]: props.data[state.type].concat({ action: id, value: {} }), 
+    })
+  }
+
+  const handleClickClear = (e, type, k) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    props.onChange(props.id, props.options, null, { 
+      ...props.data, 
+      [type]: props.data[type].map((i, key) => {
+        if (k === key) {
+          return { action: i.action, value: {} };
+        }
+        return i;
+      }), 
     })
   }
 
@@ -415,7 +430,7 @@ function Actions(props) {
       {props.data.left.map((i, key) =>
         <div key={'l_'+ key} style={styles.item} >
           <div style={key & 1 ? styles.label2 : styles.label}>{TITLES[i.action]}</div>
-          <div style={key & 1 ? styles.value2 : styles.value}><ValueItem data={i} onClick={(e) => handleClickOptionLeft(e, key, i)} onClick2={(e) => handleClickMenuLeft(e, key)} /></div>
+          <div style={key & 1 ? styles.value2 : styles.value}><ValueItem data={i} onClick={(e) => handleClickOptionLeft(e, key, i)} onClick2={(e) => handleClickMenuLeft(e, key)} onClick3={(e) => handleClickClear(e, 'left', key, i)} /></div>
         </div>
       )}
       <div style={styles.divider} >
@@ -429,7 +444,7 @@ function Actions(props) {
       {props.data.right.map((i, key) =>
         <div key={'r_'+ key} style={styles.item} >
           <div style={key & 1 ? styles.label2 : styles.label}>{TITLES[i.action]}</div>
-          <div style={key & 1 ? styles.value2 : styles.value}><ValueItem data={i} onClick={(e) => handleClickOptionRight(e, key, i)} onClick2={(e) => handleClickMenuRight(e, key)} /></div>
+          <div style={key & 1 ? styles.value2 : styles.value}><ValueItem data={i} onClick={(e) => handleClickOptionRight(e, key, i)} onClick2={(e) => handleClickMenuRight(e, key)} onClick3={(e) => handleClickClear(e, 'right', key, i)} /></div>
         </div>
       )}
     </>
