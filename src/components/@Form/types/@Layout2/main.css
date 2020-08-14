@@ -14,6 +14,7 @@
 .Mui-selected> .MuiTreeItem-content .MuiTreeItem-label {
   background-color: unset!important;
   font-weight: 600;
+  color: #0277BD;
 }
 
 

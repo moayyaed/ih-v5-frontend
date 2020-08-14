@@ -38,7 +38,7 @@ const styles = {
     width: '100%',
     height: '100%',
     backgroundColor: 'rgba(250, 250, 250, 0.2)',
-    borderLeft: '2px solid #fafafa',
+    borderLeft: '3px solid #fafafa',
     zIndex: -1,
     opacity: 1,
     transition: 'opacity 1s',

@@ -155,13 +155,15 @@ class AppNav extends Component {
       if (this.props.state.click.id === id) {
         // style.backgroundColor = 'rgba(158, 158, 158, 0.2)';
         style.fontWeight = 'bold';
-        style.color = '#505050';
+        // style.color = '#505050';
+        style.color = '#0277BD';
       }
     } else {
       if (this.props.route.nodeid === id) {
         // style.backgroundColor = 'rgba(158, 158, 158, 0.2)';
         style.fontWeight = 'bold';
-        style.color = '#505050';
+        // style.color = '#505050';
+        style.color = '#0277BD';
       }
     }
 
