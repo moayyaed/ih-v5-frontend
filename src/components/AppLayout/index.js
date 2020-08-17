@@ -27,6 +27,7 @@ const classes = theme => ({
 class AppLayout extends Component {
 
   componentDidMount() {
+    this.subs = {}
     this.request();
   }
 
@@ -50,7 +51,8 @@ class AppLayout extends Component {
             type: 'container',
             uuid: id,
             id: this.props.state.layout.elements[id].containerId.id,
-          }, (realtime) => this.realtimeContainer(this.props.state.layout.elements[id].containerId.id, realtime));
+          }, this.subs[this.props.state.layout.elements[id].containerId.id]);
+          delete this.subs[this.props.state.layout.elements[id].containerId.id]
         }
       });
     }
@@ -66,14 +68,16 @@ class AppLayout extends Component {
           uuid: params.layoutId,
           id: params.layoutId,
         }, this.realtimeLayout);
+
         data.layout.list.forEach(id => {
           if (data.layout.elements[id].type === 'container') {
+            this.subs[data.layout.elements[id].containerId.id] = (realtime) => this.realtimeContainer(data.layout.elements[id].containerId.id, realtime)
             core.tunnel.sub({ 
               method: 'sub',
               type: 'container',
               uuid: id,
               id: data.layout.elements[id].containerId.id,
-            }, (realtime) => this.realtimeContainer(data.layout.elements[id].containerId.id, realtime));
+            }, this.subs[data.layout.elements[id].containerId.id]);
           }
         });
     });

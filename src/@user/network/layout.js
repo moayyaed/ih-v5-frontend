@@ -4,6 +4,25 @@ import css from 'css';
 import { createValueFunc, options } from 'components/tools';
 
 function preparationData(data) {
+  // clear animation
+  const temp = []
+
+  Object
+    .keys(document.styleSheets[0].rules)
+    .forEach(id => {
+      if (document.styleSheets[0].rules[id].type === CSSRule.KEYFRAMES_RULE) {
+        temp.push(id)
+      }
+    })
+  temp
+    .reverse()
+    .forEach(id => {
+      document.styleSheets[0].deleteRule(id);
+   })
+  
+  // clear animation
+
+
   // layout start
   Object
     .keys(data.layout.elements)
