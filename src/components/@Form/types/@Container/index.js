@@ -89,6 +89,12 @@ class Container extends PureComponent {
               extent: 'closest-side',
               palette: [{ offset: '0.00', color: '#4A90E2', opacity: 1 }, { offset: '1.00', color: '#9013FE', opacity: 1 }]
             },
+            fitW: { value: true },
+            fitH: { value: true },
+            alignW: { value: { id: 'center', title: 'Center' } },
+            alignH: { value: { id: 'center', title: 'Center' } },
+            scrollX: { value: false },
+            scrollY: { value: false }
           },
           list: [],
           elements: {},

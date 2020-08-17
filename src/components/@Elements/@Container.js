@@ -63,7 +63,6 @@ class Container extends PureComponent {
 
   render() {
     const scale = Math.min((this.props.item.w.value * this.props.scaleW) / this.props.container.settings.w.value, (this.props.item.h.value * this.props.scaleH) / this.props.container.settings.h.value);
-
     return (
       <div
         style={{
@@ -81,9 +80,9 @@ class Container extends PureComponent {
             width: '100%', 
             height: '100%', 
             display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
             position: 'absolute',  
+            justifyContent: this.props.container.settings.alignW.value.id,
+            alignItems: this.props.container.settings.alignH.value.id,
             backgroundColor: this.props.container.settings.overlayColor.value 
           }}
         >
