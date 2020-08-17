@@ -7,12 +7,19 @@ import elemets from 'components/@Elements';
 class CustomScrollbars extends Component {
 
   renderViewDefault = (props) => {
-    return <div {...props} style={{ ...props.style }} />;
+    return <div 
+      {...props} 
+      style={{ 
+        ...props.style, 
+        overflowX: this.props.scrollX ? 'scroll': 'hidden', 
+        overflowY: this.props.scrollY ? 'scroll': 'hidden', 
+      }} 
+    />;
   }
 
-  renderThumbHorizontalDefault = (props) => {
+  renderThumbHorizontalDefault = ({ style, ...props }) => {
     const finalStyle = {
-        ...props.style,
+        ...style,
         display: this.props.scrollX ? 'block': 'none',
         cursor: 'pointer',
         borderRadius: 'inherit',
