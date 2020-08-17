@@ -147,13 +147,13 @@ class Container extends PureComponent {
         }}
       >
         <CustomScrollbars
-          scrollX={this.props.container.settings.scrollX.value}
-          scrollY={this.props.container.settings.scrollY.value}
+          scrollX={this.props.mode === 'user' ? this.props.container.settings.scrollX.value : 0}
+          scrollY={this.props.mode === 'user' ? this.props.container.settings.scrollY.value : 0}
         > 
           <div 
             style={{
-              width: '100%', 
-              height: '100%', 
+              width: 'calc(100% - 15px)', 
+              height: 'calc(100% - 15px)', 
               display: 'flex',
               position: 'absolute',  
               justifyContent: this.props.container.settings.alignW.value.id,
