@@ -55,10 +55,10 @@ class Template extends PureComponent {
           opacity: this.props.item.opacity.value / 100,
           // animation: this.props.item.animation && this.props.item.animation.active ? this.props.item.animation.value : 'unset',
           overflow: this.props.item.overflow && this.props.item.overflow.value ? 'hidden' : 'unset',
+          background: this.props.template.settings.backgroundColor.value,
+          backgroundImage: this.props.template.settings.backgroundImage.value === 'unset' ? 'unset' : `url(${this.props.template.settings.backgroundImage.value})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
-          backgroundColor: this.props.template.settings.backgroundColor.value,
-          backgroundImage: this.props.template.settings.backgroundImage.value === 'unset' ? 'unset' : `url(${this.props.template.settings.backgroundImage.value})`,
         }}
       >
         <div style={{ width: '100%', height: '100%', backgroundColor: this.props.template.settings.overlayColor.value }}>

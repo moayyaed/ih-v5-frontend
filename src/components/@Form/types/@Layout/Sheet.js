@@ -755,10 +755,10 @@ class Sheet extends Component {
               <div style={{ 
                 width: '100%', 
                 height: '100%', 
-                backgroundSize: 'cover',
-                backgroundPosition: 'center center',
                 background: settings.backgroundColor.value,
                 backgroundImage: settings.backgroundImage.value === 'unset' ? 'unset' : `url(${settings.backgroundImage.value})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center center',
               }}>
                 <div className="parent" style={{ width: '100%', height: '100%', background: settings.overlayColor.value }}>
                   {list.map(id => 

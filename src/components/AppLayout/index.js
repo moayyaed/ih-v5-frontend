@@ -183,10 +183,10 @@ class AppLayout extends Component {
                 <div 
                   style={{
                     ...styles.root,
+                    background: state.layout.settings.backgroundColor.value,
+                    backgroundImage: state.layout.settings.backgroundImage.value === 'unset' ? 'unset' : `url(${state.layout.settings.backgroundImage.value})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center center',
-                    backgroundColor: state.layout.settings.backgroundColor.value,
-                    backgroundImage: state.layout.settings.backgroundImage.value === 'unset' ? 'unset' : `url(${state.layout.settings.backgroundImage.value})`,
                   }}
                 >
                   <div style={{ width: '100%', height: '100%', backgroundColor: state.layout.settings.overlayColor.value }}>
