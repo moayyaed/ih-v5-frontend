@@ -2,6 +2,25 @@ import React, { PureComponent } from 'react';
 
 import elemets from 'components/@Elements';
 
+
+function getScale(item, settings, scaleW, scaleH) {
+  console.log(item, settings)
+  if (item.fitW.value && item.fitH.value) {
+    return Math.min((item.w.value * scaleW) / settings.w.value, (item.h.value * scaleH) / settings.h.value);
+  }
+
+  if (settings.fitW.value) {
+    return Math.min((item.w.value * scaleW) / settings.w.value, (item.h.value * scaleH) / settings.h.value);
+  }
+
+  if (settings.fitH.value) {
+    return Math.min((item.w.value * scaleW) / settings.w.value, (item.h.value * scaleH) / settings.h.value);
+  }
+
+  return 1;
+}
+
+
 class Container extends PureComponent {
 
   handleRender = (id, item) => {
@@ -62,7 +81,7 @@ class Container extends PureComponent {
   }
 
   render() {
-    const scale = Math.min((this.props.item.w.value * this.props.scaleW) / this.props.container.settings.w.value, (this.props.item.h.value * this.props.scaleH) / this.props.container.settings.h.value);
+    const scale = getScale(this.props.item, this.props.container.settings, this.props.scaleW, this.props.scaleH)
     return (
       <div
         style={{
