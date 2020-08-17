@@ -61,7 +61,7 @@ class Action extends PureComponent {
     Object
       .keys(actions)
       .forEach(key => {
-        if (typeof actions[key] === 'object') {
+        if (typeof actions[key] === 'object' && id === key) {
           Object
           .keys(actions[key])
           .forEach(key2 => {
