@@ -762,7 +762,7 @@ const scheme = {
       },
       {
         prop: 'alignW',
-        title: 'Width',
+        title: 'Vertical',
         type: 'droplistlink',
         bind: false,
         data: [
@@ -782,7 +782,7 @@ const scheme = {
       },
       {
         prop: 'alignH',
-        title: 'Height',
+        title: 'Horizontal',
         type: 'droplistlink',
         bind: false,
         data: [
@@ -823,14 +823,14 @@ const scheme = {
         type: 'divider',
       },
       { 
-        title: 'Width', 
+        title: 'Vertical', 
         prop: 'scrollX', 
         type: 'cb',
         bind: false,
       },
       { 
         title: 'Height', 
-        prop: 'scrollY', 
+        prop: 'Horizontal', 
         type: 'cb',
         bind: false,
       },
