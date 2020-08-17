@@ -830,13 +830,13 @@ const scheme = {
         type: 'divider',
       },
       { 
-        title: 'Vertical', 
+        title: 'Horizontal', 
         prop: 'scrollX', 
         type: 'cb',
         bind: false,
       },
       { 
-        title: 'Horizontal', 
+        title: 'Vertical', 
         prop: 'scrollY', 
         type: 'cb',
         bind: false,

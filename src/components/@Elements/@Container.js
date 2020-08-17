@@ -10,9 +10,10 @@ class CustomScrollbars extends Component {
     return <div {...props} style={{ ...props.style }} />;
   }
 
-  renderThumbHorizontalDefault = ({ style, ...props }) => {
+  renderThumbHorizontalDefault = (props) => {
     const finalStyle = {
-        ...style,
+        ...props.style,
+        display: this.props.scrollX ? 'block': 'none',
         cursor: 'pointer',
         borderRadius: 'inherit',
         backgroundColor: 'rgba(0,0,0,.2)',
@@ -24,6 +25,7 @@ class CustomScrollbars extends Component {
   renderThumbVerticalDefault = ({ style, ...props }) => {
     const finalStyle = {
         ...style,
+        display: this.props.scrollY ? 'block': 'none',
         cursor: 'pointer',
         borderRadius: 'inherit',
         backgroundColor: 'rgba(0,0,0,.2)',
@@ -35,6 +37,7 @@ class CustomScrollbars extends Component {
   render() {
     return (
       <Scrollbars
+        
         renderThumbHorizontal={this.renderThumbHorizontalDefault}
         renderThumbVertical={this.renderThumbVerticalDefault}
         renderView={this.renderViewDefault}
