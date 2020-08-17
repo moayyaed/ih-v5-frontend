@@ -201,14 +201,14 @@ function Actions(props) {
 
   const handleClickOptionLeft = (event, key, item) => {
     if (item.command && !(item.command === 'fullscreen' || item.command === 'refresh' || item.command === 'exit' )) {
-      hanndleDialog(item.command, 'left', key, item.did, item.prop);
+      hanndleDialog(item.command, 'left', key, item.did || item.id, item.prop);
     } else {
       setState({ key, type: 'option-left', anchorEl: event.currentTarget });
     }
   }
   const handleClickOptionRight = (event, key, item) => {
     if (item.command && !(item.command === 'fullscreen' || item.command === 'refresh' || item.command === 'exit' )) {
-      hanndleDialog(item.command, 'right', key, item.did, item.prop);
+      hanndleDialog(item.command, 'right', key, item.did || item.id, item.prop);
     } else {
       setState({ key, type: 'option-right', anchorEl: event.currentTarget });
     }
@@ -308,7 +308,7 @@ function Actions(props) {
         }), 
       })
     } else {
-      hanndleDialog(command, type, state.key, props.data[type][state.key].did, props.data[type][state.key].prop);
+      hanndleDialog(command, type, state.key, props.data[type][state.key].did || props.data[type][state.key].id, props.data[type][state.key].prop);
     }
     handleClose();
   }
