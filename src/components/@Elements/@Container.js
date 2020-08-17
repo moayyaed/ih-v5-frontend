@@ -4,22 +4,20 @@ import elemets from 'components/@Elements';
 
 
 function getScale(item, settings, scaleW, scaleH) {
-  /*
-  console.log(item, settings)
+  console.log(settings)
   if (item.fitW.value && item.fitH.value) {
     return Math.min((item.w.value * scaleW) / settings.w.value, (item.h.value * scaleH) / settings.h.value);
   }
 
-  if (settings.fitW.value) {
+  if (item.fitW.value) {
     return Math.min((item.w.value * scaleW) / settings.w.value, (item.h.value * scaleH) / settings.h.value);
   }
-  */
 
-  // if (settings.fitH.value) {
+  if (item.fitH.value) {
     return Math.min((item.w.value * scaleW) / settings.w.value, (item.h.value * scaleH) / settings.h.value);
-  // }
+  }
 
-  // return 1;
+  return 1;
 }
 
 

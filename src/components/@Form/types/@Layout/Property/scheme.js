@@ -807,13 +807,13 @@ const scheme = {
       },
       { 
         title: 'Width', 
-        prop: 'flipW', 
+        prop: 'fitW', 
         type: 'cb',
         bind: false,
       },
       { 
         title: 'Height', 
-        prop: 'flipH', 
+        prop: 'fitH', 
         type: 'cb',
         bind: false,
       },
