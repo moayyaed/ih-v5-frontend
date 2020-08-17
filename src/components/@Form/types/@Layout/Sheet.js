@@ -432,7 +432,7 @@ class Sheet extends Component {
         { id: '9', type: 'divider' },
         { id: '10', check: 'isSelect', title: 'Delete', click: () => this.handleDeleteElement(elementId) },
         { id: '11', type: 'divider' },
-        { id: '12', check: 'isContainer', title: 'Edit Template', click: this.handleClickEditContainer },
+        { id: '12', check: 'isContainer', title: 'Edit Container', click: this.handleClickEditContainer },
       ]
     }
 
