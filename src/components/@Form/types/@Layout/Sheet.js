@@ -398,7 +398,7 @@ class Sheet extends Component {
     const disabled = {
       'isSelect': this.props.selectOne === 'content' || Object.keys(this.props.selects).length === 0,
       'isPaste': !(core.buffer.class === 'layout'),
-      // 'isTemplate': this.props.selectOne ? !(this.props.selectOne && this.props.elements[this.props.selectOne].type === 'template') : false,
+      'isContainer': this.props.selectOne ? !(this.props.selectOne && this.props.elements[this.props.selectOne].type === 'container') : false,
     }
 
     const commands = {
@@ -431,8 +431,8 @@ class Sheet extends Component {
         { id: '8', check: 'isPaste', title: 'Paste', click: () => this.handleClickPasteElements(e) },
         { id: '9', type: 'divider' },
         { id: '10', check: 'isSelect', title: 'Delete', click: () => this.handleDeleteElement(elementId) },
-        // { id: '11', type: 'divider' },
-        // { id: '12', check: 'isTemplate', title: 'Edit Template', click: this.handleClickEditTemplate },
+        { id: '11', type: 'divider' },
+        { id: '12', check: 'isContainer', title: 'Edit Template', click: this.handleClickEditContainer },
       ]
     }
 
@@ -561,9 +561,9 @@ class Sheet extends Component {
     this.props.save();
   }
 
-  handleClickEditTemplate = () => {
-    const templateId = this.props.elements[this.props.selectOne].templateId;
-    core.route(`vis/vistemplate/vistemplateview/${templateId}/tabVistemplateEditor`);
+  handleClickEditContainer = () => {
+    const containerId = this.props.elements[this.props.selectOne].containerId.id;
+    core.route(`vis/viscont/viscontview/${containerId}/tabViscontEditor`);
   }
 
   handleRenderElement = (elementId, item) => {
