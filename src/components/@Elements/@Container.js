@@ -6,8 +6,8 @@ import elemets from 'components/@Elements';
 
 class CustomScrollbars extends Component {
 
-  handleRenderThumb = ({ style, ...props }) => {
-    return <div style={style} {...props} className="thumb-vertical"/>
+  renderViewDefault = (props) => {
+    return <div {...props} style={{ ...props.style }} />;
   }
 
   renderThumbHorizontalDefault = ({ style, ...props }) => {
@@ -37,6 +37,7 @@ class CustomScrollbars extends Component {
       <Scrollbars
         renderThumbHorizontal={this.renderThumbHorizontalDefault}
         renderThumbVertical={this.renderThumbVerticalDefault}
+        renderView={this.renderViewDefault}
        >
         {this.props.children}
       </Scrollbars>
@@ -136,7 +137,8 @@ class Container extends PureComponent {
         }}
       >
         <CustomScrollbars
-
+          scrollX={this.props.container.settings.scrollX.value}
+          scrollY={this.props.container.settings.scrollY.value}
         > 
           <div 
             style={{

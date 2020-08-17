@@ -836,8 +836,8 @@ const scheme = {
         bind: false,
       },
       { 
-        title: 'Height', 
-        prop: 'Horizontal', 
+        title: 'Horizontal', 
+        prop: 'scrollY', 
         type: 'cb',
         bind: false,
       },
