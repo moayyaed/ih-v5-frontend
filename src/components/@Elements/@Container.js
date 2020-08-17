@@ -1,7 +1,48 @@
-import React, { PureComponent } from 'react';
+import React, { Component, PureComponent } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import elemets from 'components/@Elements';
+
+
+class CustomScrollbars extends Component {
+
+  handleRenderThumb = ({ style, ...props }) => {
+    return <div style={style} {...props} className="thumb-vertical"/>
+  }
+
+  renderThumbHorizontalDefault = ({ style, ...props }) => {
+    const finalStyle = {
+        ...style,
+        cursor: 'pointer',
+        borderRadius: 'inherit',
+        backgroundColor: 'rgba(0,0,0,.2)',
+        zIndex: 10001
+    };
+    return <div style={finalStyle} {...props} />;
+  }
+
+  renderThumbVerticalDefault = ({ style, ...props }) => {
+    const finalStyle = {
+        ...style,
+        cursor: 'pointer',
+        borderRadius: 'inherit',
+        backgroundColor: 'rgba(0,0,0,.2)',
+        zIndex: 10001
+    };
+    return <div style={finalStyle} {...props} />;
+  }
+
+  render() {
+    return (
+      <Scrollbars
+        renderThumbHorizontal={this.renderThumbHorizontalDefault}
+        renderThumbVertical={this.renderThumbVerticalDefault}
+       >
+        {this.props.children}
+      </Scrollbars>
+    );
+  }
+}
 
 
 function getScale(item, settings, scaleW, scaleH) {
@@ -94,7 +135,9 @@ class Container extends PureComponent {
           backgroundPosition: 'center center',
         }}
       >
-        <Scrollbars> 
+        <CustomScrollbars
+
+        > 
           <div 
             style={{
               width: '100%', 
@@ -118,7 +161,7 @@ class Container extends PureComponent {
               {this.props.container.list.map(id => this.handleRender(id, this.props.container.elements[id]))}
             </div>
           </div>
-        </Scrollbars>
+        </CustomScrollbars>
       </div>
     )
   }
