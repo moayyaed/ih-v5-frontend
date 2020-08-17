@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 import elemets from 'components/@Elements';
 
@@ -93,29 +94,31 @@ class Container extends PureComponent {
           backgroundPosition: 'center center',
         }}
       >
-        <div 
-          style={{
-            width: '100%', 
-            height: '100%', 
-            display: 'flex',
-            position: 'absolute',  
-            justifyContent: this.props.container.settings.alignW.value.id,
-            alignItems: this.props.container.settings.alignH.value.id,
-            backgroundColor: this.props.container.settings.overlayColor.value,
-            overflow: this.props.item.overflow && this.props.item.overflow.value ? 'hidden' : 'unset',
-          }}
-        >
-          <div
+        <Scrollbars> 
+          <div 
             style={{
-              position: 'relative', 
-              width: this.props.container.settings.w.value, 
-              height: this.props.container.settings.h.value,
-              zoom: scale,
+              width: '100%', 
+              height: '100%', 
+              display: 'flex',
+              position: 'absolute',  
+              justifyContent: this.props.container.settings.alignW.value.id,
+              alignItems: this.props.container.settings.alignH.value.id,
+              backgroundColor: this.props.container.settings.overlayColor.value,
+              // overflow: this.props.item.overflow && this.props.item.overflow.value ? 'hidden' : 'unset',
             }}
           >
-            {this.props.container.list.map(id => this.handleRender(id, this.props.container.elements[id]))}
+            <div
+              style={{
+                position: 'relative', 
+                width: this.props.container.settings.w.value, 
+                height: this.props.container.settings.h.value,
+                zoom: scale,
+              }}
+            >
+              {this.props.container.list.map(id => this.handleRender(id, this.props.container.elements[id]))}
+            </div>
           </div>
-        </div>
+        </Scrollbars>
       </div>
     )
   }
