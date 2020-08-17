@@ -87,7 +87,6 @@ class Container extends PureComponent {
           width: '100%', 
           height: '100%',
           opacity: this.props.item.opacity.value / 100,
-          overflow: this.props.item.overflow && this.props.item.overflow.value ? 'hidden' : 'unset',
           background: this.props.container.settings.backgroundColor.value,
           backgroundImage: this.props.container.settings.backgroundImage.value === 'unset' ? 'unset' : `url(${this.props.container.settings.backgroundImage.value})`,
           backgroundSize: 'cover',
@@ -102,7 +101,8 @@ class Container extends PureComponent {
             position: 'absolute',  
             justifyContent: this.props.container.settings.alignW.value.id,
             alignItems: this.props.container.settings.alignH.value.id,
-            backgroundColor: this.props.container.settings.overlayColor.value 
+            backgroundColor: this.props.container.settings.overlayColor.value,
+            overflow: this.props.item.overflow && this.props.item.overflow.value ? 'hidden' : 'unset',
           }}
         >
           <div
