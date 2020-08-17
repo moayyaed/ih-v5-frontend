@@ -767,7 +767,7 @@ const scheme = {
         bind: false,
         data: [
           {
-            id: 'left',
+            id: 'flex-start',
             title: 'Left'
           },
           {
@@ -775,7 +775,7 @@ const scheme = {
             title: 'Center'
           },
           {
-            id: 'right',
+            id: 'flex-end',
             title: 'Right'
           }
         ]
@@ -787,7 +787,7 @@ const scheme = {
         bind: false,
         data: [
           {
-            id: 'top',
+            id: 'flex-start',
             title: 'Top'
           },
           {
@@ -795,7 +795,7 @@ const scheme = {
             title: 'Center'
           },
           {
-            id: 'bottom',
+            id: 'flex-end',
             title: 'Bottom'
           }
         ]
