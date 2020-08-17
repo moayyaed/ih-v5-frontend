@@ -683,6 +683,159 @@ const scheme = {
       },
     ],
   },
+  content2: {
+    main: [
+      { 
+        title: 'Background', 
+        prop: 'background', 
+        type: 'divider',
+      },
+      { 
+        title: 'Color', 
+        prop: 'backgroundColor', 
+        type: 'color2',
+        bind: false,
+      },
+      { 
+        title: 'Image', 
+        prop: 'backgroundImage', 
+        type: 'input',
+        bind: false,
+      },
+      { 
+        title: 'Decoration', 
+        prop: 'decoration2', 
+        type: 'divider',
+      },
+      { 
+        title: 'Overlay Color', 
+        prop: 'overlayColor', 
+        type: 'color2',
+        bind: false,
+      },
+    ],
+    move: [
+      { 
+        title: 'Position', 
+        prop: 'position', 
+        type: 'divider',
+      },
+      { 
+        title: 'Width', 
+        prop: 'w', 
+        type: 'number',
+        bind: false,
+      },
+      { 
+        title: 'Height', 
+        prop: 'h', 
+        type: 'number',
+        bind: false,
+      },
+      { 
+        title: 'Settings', 
+        prop: 'settings', 
+        type: 'divider',
+      },
+      { 
+        title: 'Scale', 
+        prop: 'scale', 
+        type: 'number',
+        step: 0.1,
+        min: 0.1,
+        max: 8,
+        bind: false,
+      },
+      { 
+        title: 'Grid', 
+        prop: 'grid', 
+        type: 'number',
+        step: 1,
+        min: 1,
+        max: 100,
+        bind: false,
+      },
+      { 
+        title: 'Align', 
+        prop: 'align', 
+        type: 'divider',
+      },
+      {
+        prop: 'alignW',
+        title: 'Width',
+        type: 'droplistlink',
+        bind: false,
+        data: [
+          {
+            id: 'left',
+            title: 'Left'
+          },
+          {
+            id: 'center',
+            title: 'Center'
+          },
+          {
+            id: 'right',
+            title: 'Right'
+          }
+        ]
+      },
+      {
+        prop: 'alignH',
+        title: 'Height',
+        type: 'droplistlink',
+        bind: false,
+        data: [
+          {
+            id: 'top',
+            title: 'Top'
+          },
+          {
+            id: 'center',
+            title: 'Center'
+          },
+          {
+            id: 'bottom',
+            title: 'Bottom'
+          }
+        ]
+      },
+      { 
+        title: 'Fit', 
+        prop: 'fit', 
+        type: 'divider',
+      },
+      { 
+        title: 'Width', 
+        prop: 'flipW', 
+        type: 'cb',
+        bind: false,
+      },
+      { 
+        title: 'Height', 
+        prop: 'flipH', 
+        type: 'cb',
+        bind: false,
+      },
+      { 
+        title: 'Scroll', 
+        prop: 'scroll', 
+        type: 'divider',
+      },
+      { 
+        title: 'Width', 
+        prop: 'scrollX', 
+        type: 'cb',
+        bind: false,
+      },
+      { 
+        title: 'Height', 
+        prop: 'scrollY', 
+        type: 'cb',
+        bind: false,
+      },
+    ],
+  },
   group: groupSettings,
   container: containerSettings,
   listActions: [

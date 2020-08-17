@@ -264,6 +264,19 @@ const GROUP = {
   overflow: { value: true },
 }
 
+const CONTAINER = {
+  animation: {},
+  zIndex: { value: 100 },
+  opacity: { value: 100 },
+  overflow: { value: true },
+  fitW: { value: true },
+  fitH: { value: true },
+  alignW: { value: { id: 'center', title: 'Center' } },
+  alignH: { value: { id: 'center', title: 'Center' } },
+  scrollX: { value: false },
+  scrollY: { value: false }
+}
+
 const TEMPLATE = {
   animation: {},
   zIndex: { value: 100 },
@@ -287,9 +300,10 @@ function getDefaultParams(type) {
     case 'text_image':
       return TEXT_IMAGE;
     case 'template':
-    case 'container':
     case 'group':
       return GROUP;
+    case 'container':
+      return CONTAINER;
     case 'template':
       return TEMPLATE
     case 'action':
