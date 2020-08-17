@@ -7,6 +7,7 @@ import Image from './@Image';
 import Button from './@Button';
 import TextImage from './@TextImage';
 import Action from './@Action';
+import Action2 from './@Action2';
 
 import Container from './@Container';
 import Template from './@Template';
@@ -29,6 +30,8 @@ function getElementByType(type) {
       return TextImage;
     case 'action':
       return Action;
+    case 'action2':
+      return Action2;
     case 'cctv':
       return CCTV;
     default:

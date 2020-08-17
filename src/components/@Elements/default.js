@@ -257,6 +257,24 @@ const ACTION = {
   zIndex: { value: 10000 },
 }
 
+const ACTION2 = {
+  colorRipple: { value: 'rgba(255,255,255,1)' },
+  colorHover: { value: 'rgba(0,0,0,0.2)' },
+  zIndex: { value: 10000 },
+  actions: {
+    left: [
+      { action: 'singleClickLeft', value: {} },
+      { action: 'doubleClickLeft', value: {} },
+      { action: 'longClickLeft', value: {} },
+      { action: 'mouseDownLeft', value: {} },
+      { action: 'mouseUpLeft', value: {} },
+    ],
+    right: [
+      { action: 'singleClickRight', value: {} },
+    ]
+  },
+}
+
 const GROUP = {
   animation: {},
   zIndex: { value: 100 },
@@ -294,6 +312,8 @@ function getDefaultParams(type) {
       return TEMPLATE
     case 'action':
       return ACTION;
+    case 'action2':
+      return ACTION2;
     default:
       return BLOCK;
   }

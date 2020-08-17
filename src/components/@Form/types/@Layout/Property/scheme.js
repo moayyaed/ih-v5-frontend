@@ -571,6 +571,13 @@ const scheme = {
     link: actionsSection2,
     move: moveSection,
   },
+  action2: {
+    main: [
+      ...effectSection,
+    ],
+    link: actionsSection2,
+    move: moveSection,
+  },
   template: {
     link: [],
     ...groupSettings,
