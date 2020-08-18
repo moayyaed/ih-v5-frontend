@@ -414,7 +414,7 @@ class Sheet extends Component {
     const disabled = {
       'isSelect': Object.keys(this.props.selects).length === 0,
       'isPaste': !(core.buffer.class === 'container'),
-      'isTemplate': this.props.selectOne ? !(this.props.selectOne && this.props.elements[this.props.selectOne] && this.props.elements[this.props.selectOne].type === 'template') : false,
+      'isTemplate': this.props.selectOne ? !(this.props.selectOne && this.props.elements[this.props.selectOne] && this.props.elements[this.props.selectOne] && this.props.elements[this.props.selectOne].type === 'template') : false,
     }
 
     const commands = {
