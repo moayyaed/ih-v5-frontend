@@ -156,7 +156,6 @@ class Container extends PureComponent {
               height: 'calc(100% - 15px)', 
               display: 'flex',
               position: 'absolute',
-              flexShrink: 0,
               justifyContent: this.props.container.settings.alignW.value.id,
               alignItems: this.props.container.settings.alignH.value.id,
               backgroundColor: this.props.container.settings.overlayColor.value,
@@ -169,6 +168,7 @@ class Container extends PureComponent {
                 width: this.props.container.settings.w.value, 
                 height: this.props.container.settings.h.value,
                 zoom: scale,
+                flexShrink: 0,
               }}
             >
               {this.props.container.list.map(id => this.handleRender(id, this.props.container.elements[id]))}
