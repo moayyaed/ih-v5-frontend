@@ -174,13 +174,10 @@ function ValueItem(props) {
        value={props.data.title || ''}
      />
      {props.data.command ? null : <div style={styles.stub} />}
-      <IconButton size="small" onClick={props.onClick2} >
-        <TuneIcon fontSize="inherit" />
-      </IconButton>
       <div style={styles.root2}>
         <div style={styles.stub2} />
           <IconButton className="nb" size="small" style={styles.button2} onClick={props.onClick} >
-            <LinkIcon fontSize="small" />
+            <MoreVertIcon fontSize="small" />
           </IconButton>
       </div>
     </>
@@ -248,8 +245,21 @@ function Actions(props) {
     })
   }
 
-  const handleClickMenu = (command) => {
+  const handleClickMenu = (command, event) => {
     const type = state.type === 'menu-left' ? 'left' : 'right';
+    
+    if (command === 'link') {
+      const anchorEl = state.anchorEl;
+      setState({  anchorEl: null, type: state.type, key: state.key });
+      setState({ type: 'option-left', anchorEl, key: state.key });
+    }
+
+    if (command === 'unlink') {
+      handleClose();
+      props.onChange(props.id, props.options, null, { 
+        ...props.data, [type]: props.data[type].map((i, key) => key === state.key ? ({ action: i.action, value: {} }) : i), 
+      })
+    }
     
     if (command === 'delete') {
       handleClose();
@@ -373,6 +383,14 @@ function Actions(props) {
     core.transfer.unsub('form_dialog', handleDialogClick);
   }
 
+  const handleClickToolbar = (e, key, i, type) => {
+    if (type === 'left') {
+      handleClickMenuLeft(e, key)
+    } else {
+      handleClickMenuRight(e, key)
+    }
+  }
+
 
   const getMenu = () => {
     if (state.type === 'left') {
@@ -387,10 +405,13 @@ function Actions(props) {
 
     if (state.type === 'menu-left' || state.type === 'menu-right') {
       return [
-        <MenuItem key="1" onClick={() => handleClickMenu('up')}>Up</MenuItem>,
-        <MenuItem key="2" onClick={() => handleClickMenu('down')}>Down</MenuItem>,
+        <MenuItem key="-2" onClick={(e) => handleClickMenu('link', e)}>Link</MenuItem>,
+        <MenuItem key="-1" onClick={(e) => handleClickMenu('unlink', e)}>Unlink</MenuItem>,
+        <Divider key="0" />,
+        <MenuItem key="1" onClick={(e) => handleClickMenu('up', e)}>Up</MenuItem>,
+        <MenuItem key="2" onClick={(e) => handleClickMenu('down', e)}>Down</MenuItem>,
         <Divider key="3" />,
-        <MenuItem key="4" onClick={() => handleClickMenu('delete')}>Delete</MenuItem>,
+        <MenuItem key="4" onClick={(e) => handleClickMenu('delete', e)}>Delete</MenuItem>,
       ]
     }
 
@@ -430,7 +451,7 @@ function Actions(props) {
       {props.data.left.map((i, key) =>
         <div key={'l_'+ key} style={styles.item} >
           <div style={key & 1 ? styles.label2 : styles.label}>{TITLES[i.action]}</div>
-          <div style={key & 1 ? styles.value2 : styles.value}><ValueItem data={i} onClick={(e) => handleClickOptionLeft(e, key, i)} onClick2={(e) => handleClickMenuLeft(e, key)} onClick3={(e) => handleClickClear(e, 'left', key, i)} /></div>
+          <div style={key & 1 ? styles.value2 : styles.value}><ValueItem data={i} onClick={(e) => handleClickToolbar(e, key, i, 'left')} onClick2={(e) => handleClickMenuLeft(e, key)} onClick3={(e) => handleClickClear(e, 'left', key, i)} /></div>
         </div>
       )}
       <div style={styles.divider} >
@@ -444,7 +465,7 @@ function Actions(props) {
       {props.data.right.map((i, key) =>
         <div key={'r_'+ key} style={styles.item} >
           <div style={key & 1 ? styles.label2 : styles.label}>{TITLES[i.action]}</div>
-          <div style={key & 1 ? styles.value2 : styles.value}><ValueItem data={i} onClick={(e) => handleClickOptionRight(e, key, i)} onClick2={(e) => handleClickMenuRight(e, key)} onClick3={(e) => handleClickClear(e, 'right', key, i)} /></div>
+          <div style={key & 1 ? styles.value2 : styles.value}><ValueItem data={i} onClick={(e) => handleClickToolbar(e, key, i, 'right')} onClick2={(e) => handleClickMenuRight(e, key)} onClick3={(e) => handleClickClear(e, 'right', key, i)} /></div>
         </div>
       )}
     </>
