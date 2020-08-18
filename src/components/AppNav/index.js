@@ -69,7 +69,8 @@ class AppNav extends Component {
     this.props.route.menuid && core
     .request({ method: 'appnav', props: this.props })
     .ok((res) => {
-      let selectid = this.props.disabledRoute ? this.props.defaultSelectNodeId : this.props.route.nodeid;
+      const checknode = findNode(res.list, this.props.defaultSelectNodeId);
+      let selectid = this.props.disabledRoute ? checknode ? this.props.defaultSelectNodeId : null : this.props.route.nodeid;
       if (this.props.defaultSelectChildren && !selectid) {
         const childid = getFirstChild(res.list)
         if (childid) {
@@ -89,7 +90,7 @@ class AppNav extends Component {
             return item;
           }); 
         }
-        if (this.props.disabledRoute) {
+        if (this.props.disabledRoute && node) {
           const rootkey = Object
             .keys(node.paths)
             .find(key => node.paths[key].root !== undefined);
