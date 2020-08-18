@@ -7,6 +7,8 @@ import request from './request';
 import tunnel from './tunnel';
 import transfer from './transfer';
 import network from './network';
+import tools from './tools';
+
 
 function settings(options) {
   core.options = options;
@@ -37,6 +39,8 @@ function route(path) {
   }
 }
 
+
+
 /*
 window.onerror = function(message, source, lineno, colno, error) {
 }
@@ -48,6 +52,7 @@ const core = {
   tunnel,
   transfer,
   network,
+  tools,
   route,
   buffer: {},
   progress: {
