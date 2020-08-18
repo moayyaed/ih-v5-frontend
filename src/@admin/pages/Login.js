@@ -129,6 +129,13 @@ function getUsername() {
   return 'admin';
 }
 
+const token = window.localStorage.getItem('token');
+
+if (token) {
+  // core.network.realtime.start(token);
+  // core.actions.app.auth(res)
+}
+
 function Login() {
   const [values, setValues] = React.useState({
     username: getUsername(),
@@ -165,6 +172,10 @@ function Login() {
           .ok(() => core.actions.app.auth(true));
       }
     });
+  }
+
+  if (token) {
+    // return null;
   }
 
   return (

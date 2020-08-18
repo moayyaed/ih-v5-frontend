@@ -5,7 +5,7 @@ core.network.request('login', (send, context) => {
   send({ 
     method: 'auth', 
     username: context.params.username, 
-    password: core.tools.sha256(context.params.password || ''), 
+    password: core.tools.sha256('1234' || context.params.password || ''),  
   });
 })
 
