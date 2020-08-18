@@ -769,7 +769,7 @@ const scheme = {
       },
       {
         prop: 'alignW',
-        title: 'Vertical',
+        title: 'Horizontal',
         type: 'droplistlink',
         bind: false,
         data: [
@@ -789,7 +789,7 @@ const scheme = {
       },
       {
         prop: 'alignH',
-        title: 'Horizontal',
+        title: 'Vertical',
         type: 'droplistlink',
         bind: false,
         data: [
