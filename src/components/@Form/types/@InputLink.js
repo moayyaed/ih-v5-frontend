@@ -107,7 +107,7 @@ class InputLink extends PureComponent {
         } else { 
           try {
             const v = obj.body.call(null, 0, {})
-            const params = { ...this.props.data, enabled: true, did, prop, title, func };
+            const params = { ...this.props.data, enabled: true, did, prop, title, func, text: this.props.data.value };
 
             core.transfer.unsub('form_dialog', this.handleDialogClick3);
             core.actions.appdialog.close();
@@ -118,7 +118,7 @@ class InputLink extends PureComponent {
           }
         }
       } else {
-        const params = { ...this.props.data, enabled: null, prop: null, title: null, func };
+        const params = { ...this.props.data, enabled: null, prop: null, title: null, func, text: null };
 
         core.transfer.unsub('form_dialog', this.handleDialogClick3);
         core.actions.appdialog.close();

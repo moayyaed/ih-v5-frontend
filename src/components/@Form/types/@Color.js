@@ -186,7 +186,7 @@ function Color(props) {
         } else { 
           try {
             const v = obj.body.call(null, 0, {})
-            const params = { ...props.data, enabled: true, did, prop, title, func };
+            const params = { ...props.data, enabled: true, did, prop, title, func, color: props.data.value };
 
             core.transfer.unsub('form_dialog', handleDialogClick3);
             core.actions.appdialog.close();
@@ -197,7 +197,7 @@ function Color(props) {
           }
         }
       } else {
-        const params = { ...props.data, enabled: null, prop: null, title: null, func };
+        const params = { ...props.data, enabled: null, prop: null, title: null, func, color: {} };
 
         core.transfer.unsub('form_dialog', handleDialogClick3);
         core.actions.appdialog.close();
@@ -251,7 +251,7 @@ function Color(props) {
   }
 
   const handleClear = (e) => {
-    props.onChange(props.id, props.options, null, { enabled: false, _bind: null, title: null, did: null, color: null, func: props.data.func, value: props.data.color || '' })
+    props.onChange(props.id, props.options, null, { enabled: false, _bind: null, title: null, did: null, color: {}, func: props.data.func, value: props.data.color || {} })
   }
 
   const open = Boolean(anchorEl);

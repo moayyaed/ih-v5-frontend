@@ -237,7 +237,7 @@ function Shadow(props) {
   }
 
   const handleClear = (e) => {
-
+    props.onChange(props.id, props.options, null, { ...props.data, ...props.data.shadow, enabled: false, _bind: null, did: null, title: null, shadow: null, func: props.data.func })
   }
 
   const open = Boolean(anchorEl);

@@ -266,7 +266,7 @@ function TouchNumber(props) {
         } else { 
           try {
             const v = obj.body.call(null, 0, {})
-            const params = { ...props.data, enabled: true, did, prop, title, func };
+            const params = { ...props.data, enabled: true, did, prop, title, func, number: props.data.value };
 
             core.transfer.unsub('form_dialog', handleDialogClick3);
             core.actions.appdialog.close();
@@ -277,7 +277,7 @@ function TouchNumber(props) {
           }
         }
       } else {
-        const params = { ...props.data, enabled: null, prop: null, title: null, func };
+        const params = { ...props.data, enabled: null, prop: null, title: null, func, number: null };
 
         core.transfer.unsub('form_dialog', handleDialogClick3);
         core.actions.appdialog.close();

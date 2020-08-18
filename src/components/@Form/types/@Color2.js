@@ -527,7 +527,7 @@ function Color2(props) {
       }  else {
         core.transfer.unsub('form_dialog', handleDialogClick);
         core.actions.appdialog.close();
-        props.onChange(props.id, props.options, null, { ...props.data, ...props.data.color, enabled: false, _bind: null, title: null, color: null, func })
+        props.onChange(props.id, props.options, null, { ...props.data, ...props.data.color, enabled: false, _bind: null, title: null, color: {}, func })
       }
     } else {
       core.transfer.unsub('form_dialog', handleDialogClick);
@@ -535,7 +535,7 @@ function Color2(props) {
   }
 
   const handleClear = (e) => {
-    props.onChange(props.id, props.options, null, { ...props.data, ...props.data.color, enabled: false, _bind: null, did: null, title: null, color: null, func: props.data.func })
+    props.onChange(props.id, props.options, null, { ...props.data, ...props.data.color, enabled: false, _bind: null, did: null, title: null, func: props.data.func, color: {} })
   }
 
   const open = Boolean(anchorEl);
