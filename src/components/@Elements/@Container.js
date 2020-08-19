@@ -142,8 +142,7 @@ class Container extends PureComponent {
           width: '100%', 
           height: '100%',
           opacity: this.props.item.opacity.value / 100,
-          background: this.props.container.settings.backgroundColor.value,
-          backgroundImage: this.props.container.settings.backgroundImage.value === 'unset' ? 'unset' : `url(${this.props.container.settings.backgroundImage.value})`,
+          backgroundImage: this.props.container.settings.backgroundImage.value === 'unset' ? this.props.container.settings.backgroundColor.value : `url(${this.props.container.settings.backgroundImage.value}), ${this.props.container.settings.backgroundColor.value}`,
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
         }}

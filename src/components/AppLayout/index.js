@@ -14,7 +14,6 @@ const styles = {
   root: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#fff',
   },
 };
 
@@ -179,6 +178,7 @@ class AppLayout extends Component {
     if (state.layoutId === null) {
       return null;
     }
+    console.log(state.layout.settings.backgroundColor.value)
     return (
         <ReactResizeDetector handleWidth handleHeight>
           {({ width, height }) => {
@@ -187,8 +187,7 @@ class AppLayout extends Component {
                 <div 
                   style={{
                     ...styles.root,
-                    background: state.layout.settings.backgroundColor.value,
-                    backgroundImage: state.layout.settings.backgroundImage.value === 'unset' ? 'unset' : `url(${state.layout.settings.backgroundImage.value})`,
+                    backgroundImage: state.layout.settings.backgroundImage.value === 'unset' ? state.layout.settings.backgroundColor.value : `url(${state.layout.settings.backgroundImage.value}), ${state.layout.settings.backgroundColor.value}`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center center',
                   }}
