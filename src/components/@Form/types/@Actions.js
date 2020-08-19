@@ -196,20 +196,6 @@ function Actions(props) {
     setState({ key, type: 'menu-right', anchorEl: event.currentTarget });
   }
 
-  const handleClickOptionLeft = (event, key, item) => {
-    if (item.command && !(item.command === 'fullscreen' || item.command === 'refresh' || item.command === 'exit' )) {
-      hanndleDialog(item.command, 'left', key, item.did || item.id, item.prop);
-    } else {
-      setState({ key, type: 'option-left', anchorEl: event.currentTarget });
-    }
-  }
-  const handleClickOptionRight = (event, key, item) => {
-    if (item.command && !(item.command === 'fullscreen' || item.command === 'refresh' || item.command === 'exit' )) {
-      hanndleDialog(item.command, 'right', key, item.did || item.id, item.prop);
-    } else {
-      setState({ key, type: 'option-right', anchorEl: event.currentTarget });
-    }
-  }
 
   const handleClickLeft = (event) => {
     setState({ type: 'left', anchorEl: event.currentTarget });
@@ -250,8 +236,15 @@ function Actions(props) {
     
     if (command === 'link') {
       const anchorEl = state.anchorEl;
+      const item =  props.data[type].find((_, key) => key === state.key);
+
       setState({  anchorEl: null, type: state.type, key: state.key });
-      setState({ type: 'option-left', anchorEl, key: state.key });
+
+      if (item.command && !(item.command === 'fullscreen' || item.command === 'refresh' || item.command === 'exit' )) {
+        hanndleDialog(item.command, type, state.key, item.did || item.id, item.prop);
+      } else {
+        setState({ type: 'option-' + type, anchorEl, key: state.key });
+      }
     }
 
     if (command === 'unlink') {
