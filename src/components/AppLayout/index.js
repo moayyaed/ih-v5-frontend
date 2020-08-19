@@ -178,7 +178,6 @@ class AppLayout extends Component {
     if (state.layoutId === null) {
       return null;
     }
-    console.log(state.layout.settings.backgroundColor.value)
     return (
         <ReactResizeDetector handleWidth handleHeight>
           {({ width, height }) => {
