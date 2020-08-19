@@ -44,6 +44,8 @@ class Template extends PureComponent {
   }
 
   render() {
+    const type = this.props.template.settings.backgroundColor.type;
+    const color = type === 'fill' ? '' : ', ' + this.props.template.settings.backgroundColor.value;
     return (
       <div
         className="parent2"
@@ -55,7 +57,8 @@ class Template extends PureComponent {
           opacity: this.props.item.opacity.value / 100,
           // animation: this.props.item.animation && this.props.item.animation.active ? this.props.item.animation.value : 'unset',
           overflow: this.props.item.overflow && this.props.item.overflow.value ? 'hidden' : 'unset',
-          backgroundImage: this.props.template.settings.backgroundImage.value === 'unset' ? this.props.template.settings.backgroundColor.value : `url(${this.props.template.settings.backgroundImage.value}), ${this.props.template.settings.backgroundColor.value}`,
+          backgroundColor: this.props.template.settings.backgroundColor.value,
+          backgroundImage: this.props.template.settings.backgroundImage.value === 'unset' ? this.props.template.settings.backgroundColor.value : `url(${this.props.template.settings.backgroundImage.value})${color}`,
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
         }}

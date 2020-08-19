@@ -136,13 +136,16 @@ class Container extends PureComponent {
 
   render() {
     const scale = getScale(this.props.item, this.props.container.settings, this.props.scaleW, this.props.scaleH)
+    const type = this.props.container.settings.backgroundColor.type;
+    const color = type === 'fill' ? '' : ', ' + this.props.container.settings.backgroundColor.value;
     return (
       <div
         style={{
           width: '100%', 
           height: '100%',
           opacity: this.props.item.opacity.value / 100,
-          backgroundImage: this.props.container.settings.backgroundImage.value === 'unset' ? this.props.container.settings.backgroundColor.value : `url(${this.props.container.settings.backgroundImage.value}), ${this.props.container.settings.backgroundColor.value}`,
+          backgroundColor: this.props.container.settings.backgroundColor.value,
+          backgroundImage: this.props.container.settings.backgroundImage.value === 'unset' ? this.props.container.settings.backgroundColor.value : `url(${this.props.container.settings.backgroundImage.value})${color}`,
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
         }}

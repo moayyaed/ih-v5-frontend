@@ -178,6 +178,9 @@ class AppLayout extends Component {
     if (state.layoutId === null) {
       return null;
     }
+
+    const type = state.layout.settings.backgroundColor.type;
+    const color = type === 'fill' ? '' : ', ' + state.layout.settings.backgroundColor.value;
     return (
         <ReactResizeDetector handleWidth handleHeight>
           {({ width, height }) => {
@@ -186,7 +189,8 @@ class AppLayout extends Component {
                 <div 
                   style={{
                     ...styles.root,
-                    backgroundImage: state.layout.settings.backgroundImage.value === 'unset' ? state.layout.settings.backgroundColor.value : `url(${state.layout.settings.backgroundImage.value}), ${state.layout.settings.backgroundColor.value}`,
+                    backgroundColor: state.layout.settings.backgroundColor.value,
+                    backgroundImage: state.layout.settings.backgroundImage.value === 'unset' ? state.layout.settings.backgroundColor.value : `url(${state.layout.settings.backgroundImage.value})${color}`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center center',
                   }}
