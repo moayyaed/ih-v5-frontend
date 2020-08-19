@@ -10,7 +10,9 @@ class CustomScrollbars extends Component {
     return <div 
       {...props} 
       style={{ 
-        ...props.style, 
+        ...props.style,
+        marginBottom: this.props.scrollX ? props.style.marginBottom : 'unset',
+        marginRight: this.props.scrollX ? props.style.marginRight : 'unset',
         overflowX: this.props.scrollX ? 'scroll': 'hidden', 
         overflowY: this.props.scrollY ? 'scroll': 'hidden', 
       }} 
@@ -152,8 +154,8 @@ class Container extends PureComponent {
         > 
           <div 
             style={{
-              width: 'calc(100% - 15px)', 
-              height: 'calc(100% - 15px)', 
+              width: '100%', 
+              height: '100%', 
               display: 'flex',
               position: 'absolute',
               justifyContent: this.props.container.settings.alignW.value.id,
