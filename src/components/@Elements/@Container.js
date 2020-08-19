@@ -12,7 +12,7 @@ class CustomScrollbars extends Component {
       style={{ 
         ...props.style,
         marginBottom: this.props.scrollX ? props.style.marginBottom : 'unset',
-        marginRight: this.props.scrollX ? props.style.marginRight : 'unset',
+        marginRight: this.props.scrollY ? props.style.marginRight : 'unset',
         overflowX: this.props.scrollX ? 'scroll': 'hidden', 
         overflowY: this.props.scrollY ? 'scroll': 'hidden', 
       }} 
