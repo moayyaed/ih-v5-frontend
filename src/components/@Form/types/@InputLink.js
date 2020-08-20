@@ -84,7 +84,7 @@ class InputLink extends PureComponent {
             id: 'elements',
             selectnodeid: this.props.data.did,
             selectId: this.props.data.prop,
-            title: this.props.data.title,
+            selectTitle: this.props.data.title,
             func: this.props.data.func || defaultFunction,
           },
         });

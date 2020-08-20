@@ -5,7 +5,7 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import Hammer from 'hammerjs';
 import shortid from 'shortid';
 
-import { transform } from './tools';
+import { transform, getElementsLocalVars } from './tools';
 
 
 const styles = {
@@ -192,16 +192,23 @@ class Button extends PureComponent {
             if (command === 'fullscreen' || command === 'refresh' || command === 'exit' ) {
 
             } else {
-              console.log(item)
-              /*
-              core.tunnel.command({
-                uuid: shortid.generate(),
-                method: 'action',
-                type:'command',
-                command: item.command,
-                ...getParams(item)
-              });
-              */
+              if (item.local) {
+                const store = core.store.getState().layout;
+                const temp = getElementsLocalVars(store, item)
+
+                core.actions.layout.updateElementsLayout(temp);
+                Object
+                  .keys(store.containers)
+                  .forEach(containerId => core.actions.layout.updateElementsContainer(containerId, temp))
+              } else {
+                core.tunnel.command({
+                  uuid: shortid.generate(),
+                  method: 'action',
+                  type:'command',
+                  command: item.command,
+                  ...getParams(item)
+                });
+              }
             }
           }
         });

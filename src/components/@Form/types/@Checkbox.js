@@ -86,7 +86,7 @@ function Checkbox(props) {
             id: 'elements',
             selectnodeid: props.data.did,
             selectId: props.data.prop,
-            title: props.data.title,
+            selectTitle: props.data.title,
             func: props.data.func || defaultFunction,
           },
         });
