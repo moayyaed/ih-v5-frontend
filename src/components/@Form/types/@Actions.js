@@ -243,7 +243,7 @@ function Actions(props) {
       setState({  anchorEl: null, type: state.type, key: state.key });
 
       if (item.command && !(item.command === 'fullsreecn' || item.command === 'refresh' || item.command === 'exit' )) {
-        hanndleDialog(item.command, type, state.key, item.did || item.id, item.prop);
+        hanndleDialog(item.command, type, state.key, item.did || item.id, item.prop, item.setvalue);
       } else {
         setState({ type: 'option-' + type, anchorEl, key: state.key });
       }
@@ -313,12 +313,12 @@ function Actions(props) {
         }), 
       })
     } else {
-      hanndleDialog(command, type, state.key, props.data[type][state.key].did || props.data[type][state.key].id, props.data[type][state.key].prop);
+      hanndleDialog(command, type, state.key, props.data[type][state.key].did || props.data[type][state.key].id, props.data[type][state.key].prop, props.data[type][state.key].setvalue);
     }
     handleClose();
   }
 
-  const hanndleDialog = (command, type, key, did, prop) => {
+  const hanndleDialog = (command, type, key, did, prop, setvalue) => {
     core.transfer.sub('form_dialog', handleDialogClick);
     core.actions.appdialog.data({
       id: 'action_dialog', 
@@ -332,11 +332,13 @@ function Actions(props) {
         id: COMMANDS[command] || 'devcmd',
         dialog: 'channellink',
         selectnodeid: did,
+        selectId: prop,
         select: prop,
         itemType: type,
         itemIndex: key,
         itemCommand: command,
         data: props.data[type][key],
+        func: setvalue || '0',
       },
     });
   }
@@ -345,6 +347,7 @@ function Actions(props) {
     if (data !== null && data !== ':exit:') {
       core.transfer.unsub('form_dialog', handleDialogClick);
       core.actions.appdialog.close();
+  
       if (context.template.itemCommand === 'device') {
         props.onChange(props.id, props.options, null, { 
           ...props.data, 
@@ -355,10 +358,32 @@ function Actions(props) {
             return i;
           }), 
         })
+      } else if (context.template.itemCommand === 'setval') {
+        props.onChange(props.id, props.options, null, { 
+          ...props.data, 
+          [context.template.itemType]: props.data[context.template.itemType].map((i, key) => {
+            if (context.template.itemIndex === key) {
+              const params = {}
+              if (data.prop) {
+                params.did = data.did;
+                params.prop = data.prop;
+                params.title = data.title;
+                params.setvalue = data.func;
+                params.command = context.template.itemCommand;
+                params.action = i.action;
+              } else {
+                params.action = i.action;
+                params.value = {};
+              }
+              return params;
+            }
+            return i;
+          }), 
+        })
       } else {
         core.transfer.unsub('form_dialog', handleDialogClick);
         core.actions.appdialog.close();
-       
+        
         props.onChange(props.id, props.options, null, { 
           ...props.data, 
           [context.template.itemType]: props.data[context.template.itemType].map((i, key) => {
@@ -375,6 +400,7 @@ function Actions(props) {
           }), 
         }) 
       }
+      
     }
     core.transfer.unsub('form_dialog', handleDialogClick);
   }

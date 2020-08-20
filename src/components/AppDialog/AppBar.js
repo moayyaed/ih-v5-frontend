@@ -60,7 +60,7 @@ function DialogAppBar(props) {
         data.active = true;
         core.transfer.send(store.transferid, data, store);
       } else {
-        core.transfer.send(store.transferid, store.component.select);
+        core.transfer.send(store.transferid, store.component.select, store);
       }
     }
 

@@ -122,7 +122,6 @@ function Row(props) {
 
 class Setvalue extends Component {
   componentDidMount() {
-    console.log('!', this.props.state.template)
     this.request();
   }
 
@@ -199,8 +198,8 @@ class Setvalue extends Component {
               label="Value"
               style={styles.root}
               InputLabelProps={{ shrink: true }} 
-              value={0}
-              onChange={(e) => {}}
+              value={state.component.select.func || ''}
+              onChange={(e) => core.actions.appdialog.select({  func: e.target.value })}
             />
           </Paper>
         </div>
