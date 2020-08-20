@@ -196,10 +196,10 @@ class Button extends PureComponent {
                 const store = core.store.getState().layout;
                 const temp = getElementsLocalVars(store, item)
 
-                core.actions.layout.updateElementsLayout(temp);
+                core.actions.layout.updateElementsLayout(temp.layout);
                 Object
                   .keys(store.containers)
-                  .forEach(containerId => core.actions.layout.updateElementsContainer(containerId, temp))
+                  .forEach(containerId => core.actions.layout.updateElementsContainer(containerId, temp.containers[containerId]))
               } else {
                 core.tunnel.command({
                   uuid: shortid.generate(),

@@ -341,6 +341,7 @@ core.network.request('applayout', (send, context) => {
     { api: 'templates', layoutid: context.params.layoutId },
     { api: 'containers', layoutid: context.params.layoutId, rt: 1 },
     { api: 'layout', id: context.params.layoutId, rt: 1 },
+    // { api: 'layout', id: context.params.layoutId, rt: 1 },
   ]);
 })
 

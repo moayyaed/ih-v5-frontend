@@ -11,7 +11,9 @@ export function transform({ flipH, flipV, rotate }) {
 export function getElementsLocalVars(data, item) {
   const checkValue = Number(item.setvalue)
   const value = checkValue !== NaN ? checkValue : item.setvalue;
-  const temp = {}
+  const layout = {}
+  const containers = {}
+
   Object
     .keys(data.layout.elements)
     .forEach(elementId => {
@@ -21,16 +23,56 @@ export function getElementsLocalVars(data, item) {
           if (data.layout.elements[elementId][propId].enabled) {
             const values = data.layout.elements[elementId][propId];
             if (values.did === item.did && item.prop === values.prop) {
-              if (temp[elementId] === undefined) {
-                temp[elementId] = {}
+              if (layout[elementId] === undefined) {
+                layout[elementId] = {}
               }
-              if (temp[elementId][item.did] === undefined) {
-                temp[elementId][item.did] = {}
+              if (layout[elementId][item.did] === undefined) {
+                layout[elementId][item.did] = {}
               }
-              temp[elementId][item.did][item.prop] = value
+              layout[elementId][item.did][item.prop] = value
             }
           }
         }); 
     })
-  return temp;
+    Object
+    .keys(data.containers)
+    .forEach(containerId => {
+      containers[containerId] = {}
+      Object
+        .keys(data.containers[containerId].elements)
+        .forEach(elementId => {
+          if (data.containers[containerId].elements[elementId].type === 'template') {
+            Object
+            .keys(data.containers[containerId].elements[elementId].links)
+            .forEach(stateId => {
+              const link = data.containers[containerId].elements[elementId].links[stateId];
+
+              if (link && link.value && link.value.did === item.did && item.prop === link.value.prop) {
+                if (containers[containerId][elementId] === undefined) {
+                  containers[containerId][elementId] = {}
+                }
+                containers[containerId][elementId][stateId] = value
+              }
+            })
+          } else {
+            Object
+            .keys(data.containers[containerId].elements[elementId])
+            .forEach(propId => {
+              if (data.containers[containerId].elements[elementId][propId].enabled) {
+                const values = data.containers[containerId].elements[elementId][propId]
+                if (values.did === item.did && item.prop === values.prop) {
+                  if (containers[containerId][elementId] === undefined) {
+                    containers[containerId][elementId] = {}
+                  }
+                  if (containers[containerId][elementId][item.did] === undefined) {
+                    containers[containerId][elementId][item.did] = {}
+                  }
+                  containers[containerId][elementId][item.did][item.prop] = value
+                }
+              }
+            }); 
+          }
+        }); 
+    })
+  return { layout, containers };
 }
