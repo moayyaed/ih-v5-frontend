@@ -369,6 +369,7 @@ function Actions(props) {
                 params.prop = data.prop;
                 params.title = data.title;
                 params.setvalue = data.func;
+                params.local = data.local;
                 params.command = context.template.itemCommand;
                 params.action = i.action;
               } else {

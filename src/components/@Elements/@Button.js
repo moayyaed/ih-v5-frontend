@@ -192,6 +192,8 @@ class Button extends PureComponent {
             if (command === 'fullscreen' || command === 'refresh' || command === 'exit' ) {
 
             } else {
+              console.log(item)
+              /*
               core.tunnel.command({
                 uuid: shortid.generate(),
                 method: 'action',
@@ -199,6 +201,7 @@ class Button extends PureComponent {
                 command: item.command,
                 ...getParams(item)
               });
+              */
             }
           }
         });

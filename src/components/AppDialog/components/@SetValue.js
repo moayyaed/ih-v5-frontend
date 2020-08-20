@@ -88,11 +88,11 @@ const styles = {
 }
 
 
-function handleClickCheckBox(item, select) {
+function handleClickCheckBox(item, select, params) {
   if (item.did === select.did && item.prop === select.prop) {
     core.actions.appdialog.select({ did: null, prop: null, title: null } );
   } else {
-    core.actions.appdialog.select({ did: item.value.did, prop: item.value.prop, title: item.title });
+    core.actions.appdialog.select({ did: item.value.did, prop: item.value.prop, title: item.title, local: params.local || null });
   }
 }
 
@@ -112,7 +112,7 @@ function Row(props) {
           edge="start"
           tabIndex={-1}
           disableRipple
-          onClick={() => handleClickCheckBox(props.params.result, props.select)}
+          onClick={() => handleClickCheckBox(props.params.result, props.select, props.params)}
         />
         </div>
       </div>
@@ -199,7 +199,7 @@ class Setvalue extends Component {
               style={styles.root}
               InputLabelProps={{ shrink: true }} 
               value={state.component.select.func || ''}
-              onChange={(e) => core.actions.appdialog.select({  func: e.target.value })}
+              onChange={(e) => core.actions.appdialog.select({ func: e.target.value })}
             />
           </Paper>
         </div>
