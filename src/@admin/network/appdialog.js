@@ -23,6 +23,7 @@ core.network.request('appdialog_channellink', (send, context) => {
   send({ 
     method: 'get', 
     type: 'link',
+    dialogid: context.params.dialogid,
     id: 'channellink',
     nodeid: context.params.id,
     anchor: context.props.anchor,
@@ -37,6 +38,7 @@ core.network.request('appdialog_elementlink', (send, context) => {
   send({ 
     method: 'get', 
     type: 'link',
+    dialogid: context.params.dialogid,
     id: 'elementlink',
     nodeid: context.params.id,
     anchor: context.props.anchor,
@@ -44,6 +46,21 @@ core.network.request('appdialog_elementlink', (send, context) => {
 })
 
 core.network.response('appdialog_elementlink', (answer, res, context) => {
+  answer(res);
+})
+
+core.network.request('appdialog_setvalue', (send, context) => {
+  send({ 
+    method: 'get', 
+    type: 'link',
+    dialogid: context.params.dialogid,
+    id: 'setvalue',
+    nodeid: context.params.id,
+    anchor: context.props.anchor,
+  });
+})
+
+core.network.response('appdialog_setvalue', (answer, res, context) => {
   answer(res);
 })
 

@@ -137,6 +137,7 @@ const COMMANDS = {
   layout: 'layoutx',
   plugin: 'pluginx',
   script: 'scriptx',
+  setval: 'setitems',
 }
 
 const COMMANDS_TITLES = {
@@ -144,6 +145,7 @@ const COMMANDS_TITLES = {
   plugin: 'Plugin Command',
   layout: 'Go To Layout',
   script: 'Run Script',
+  setval: 'Set Value',
 }
 
 const TITLES = {
@@ -240,7 +242,7 @@ function Actions(props) {
 
       setState({  anchorEl: null, type: state.type, key: state.key });
 
-      if (item.command && !(item.command === 'fullscreen' || item.command === 'refresh' || item.command === 'exit' )) {
+      if (item.command && !(item.command === 'fullsreecn' || item.command === 'refresh' || item.command === 'exit' )) {
         hanndleDialog(item.command, type, state.key, item.did || item.id, item.prop);
       } else {
         setState({ type: 'option-' + type, anchorEl, key: state.key });
@@ -323,9 +325,10 @@ function Actions(props) {
       open: true, 
       transferid: 'form_dialog',
       template: {
-        disabledSave: command === 'device' ? true : false,
+        noscroll: command === 'setval',
+        disabledSave: (command === 'device') ? true : false,
         title: COMMANDS_TITLES[command],
-        type: command === 'device' ? 'tree' : 'options',
+        type: (command === 'device' || command === 'setval') ? 'tree' : 'options',
         id: COMMANDS[command] || 'devcmd',
         dialog: 'channellink',
         selectnodeid: did,
@@ -414,6 +417,7 @@ function Actions(props) {
         <MenuItem key="3" onClick={() => handleClickOption('plugin')}>Plugin Command</MenuItem>,
         <MenuItem key="4" onClick={() => handleClickOption('script')}>Run Script</MenuItem>,
         <MenuItem key="5" onClick={() => handleClickOption('layout')}>Go To Layout</MenuItem>,
+        <MenuItem key="6" onClick={() => handleClickOption('setval')}>Set Value</MenuItem>,
         <Divider key="-" />,
         <MenuItem key="7" onClick={() => handleClickOption('fullscreen')}>Full Screen</MenuItem>,
         <MenuItem key="8" onClick={() => handleClickOption('refresh')}>Refresh</MenuItem>,
