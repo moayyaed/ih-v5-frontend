@@ -364,6 +364,7 @@ function Actions(props) {
           [context.template.itemType]: props.data[context.template.itemType].map((i, key) => {
             if (context.template.itemIndex === key) {
               const params = {}
+
               if (data.prop) {
                 params.did = data.did;
                 params.prop = data.prop;
