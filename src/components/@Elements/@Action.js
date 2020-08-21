@@ -5,6 +5,8 @@ import shortid from 'shortid';
 
 import core from 'core';
 
+import { transform, getElementsLocalVars } from './tools';
+
 
 const styles = {
   active: {
@@ -69,16 +71,28 @@ class Action extends PureComponent {
               .forEach(item => {
                 if (item.action === event && item.command) {
                   const command = item.command;
+               
                   if (command === 'fullscreen' || command === 'refresh' || command === 'exit' ) {
 
                   } else {
-                    core.tunnel.command({
-                      uuid: shortid.generate(),
-                      method: 'action',
-                      type:'command',
-                      command: item.command,
-                      ...getParams(item)
-                    });
+                    if (command === 'setval') {
+                      console.log(item)
+                      const store = core.store.getState().layout;
+                      const data = getElementsLocalVars(store, item)
+      
+                      core.actions.layout.updateElementsLayout(data);
+                      Object
+                        .keys(store.containers)
+                        .forEach(containerId => core.actions.layout.updateElementsContainer(containerId, data))
+                    } else {
+                      core.tunnel.command({
+                        uuid: shortid.generate(),
+                        method: 'action',
+                        type:'command',
+                        command: item.command,
+                        ...getParams(item)
+                      });
+                    }
                   }
                 }
               });

@@ -85,7 +85,7 @@ function handleClickCheckBox(item, select) {
   if (item.did === select.did && item.prop === select.prop) {
     core.actions.appdialog.select({ did: null, prop: null, title: null } );
   } else {
-    core.actions.appdialog.select({ did: item.value.did, prop: item.value.prop, title: item.title });
+    core.actions.appdialog.select({ did: item.value.did, prop: item.value.prop, title: item.title, local: params.local || null });
   }
 }
 

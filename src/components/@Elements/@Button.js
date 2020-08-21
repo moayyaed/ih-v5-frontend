@@ -193,6 +193,7 @@ class Button extends PureComponent {
 
             } else {
               if (item.command === 'setval') {
+                console.log(item)
                 const store = core.store.getState().layout;
                 const data = getElementsLocalVars(store, item)
 
