@@ -81,7 +81,7 @@ const styles = {
 }
 
 
-function handleClickCheckBox(item, select) {
+function handleClickCheckBox(item, select, params) {
   if (item.did === select.did && item.prop === select.prop) {
     core.actions.appdialog.select({ did: null, prop: null, title: null } );
   } else {
