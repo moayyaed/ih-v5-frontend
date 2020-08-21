@@ -2,11 +2,8 @@ import core from 'core';
 import css from 'css';
 
 import { createValueFunc, options } from 'components/tools';
-import { setElementsLocalVars } from 'components/@Elements/tools';
 
 function preparationData(data) {
-
-  setElementsLocalVars(data)
 
   // clear animation
   const temp = []
@@ -349,7 +346,6 @@ core.network.request('applayout', (send, context) => {
     { api: 'templates', layoutid: context.params.layoutId },
     { api: 'containers', layoutid: context.params.layoutId, rt: 1 },
     { api: 'layout', id: context.params.layoutId, rt: 1 },
-    { api: 'get', type: 'dict', id: 'locals' },
   ]);
 })
 
@@ -359,6 +355,6 @@ core.network.response('applayout', (answer, res, context) => {
     layout: res[0].data,
     containers: res[1].data,
     templates: res[2].data,
-    states: { ...res[3].data, ...res[4].data, ...res[5].data },
+    states: { ...res[3].data, ...res[4].data },
   }));
 })
