@@ -192,7 +192,7 @@ class Button extends PureComponent {
             if (command === 'fullscreen' || command === 'refresh' || command === 'exit' ) {
 
             } else {
-              if (item.local) {
+              if (item.command === 'setval') {
                 const store = core.store.getState().layout;
                 const temp = getElementsLocalVars(store, item)
 

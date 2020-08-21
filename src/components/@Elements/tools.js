@@ -1,3 +1,4 @@
+import { createValueFunc } from 'components/tools';
 
 
 export function transform({ flipH, flipV, rotate }) {
@@ -77,8 +78,18 @@ export function setElementsLocalVars(data) {
 
 
 export function getElementsLocalVars(data, item) {
-  const checkValue = Number(item.setvalue)
-  const value = checkValue !== NaN ? checkValue : item.setvalue;
+
+  const checkValue = Number(data.states[item.prop])
+  let value = checkValue !== NaN ? checkValue : data.states[item.prop];
+
+  try {
+    const func = createValueFunc(item.func).body;
+    value = func.call(null, value)
+    data.states[item.prop] = value;
+  } catch {
+    console.warn('Error: Action function wrong!')
+  }
+ 
   const layout = {}
   const containers = {}
 
