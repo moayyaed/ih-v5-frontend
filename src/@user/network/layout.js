@@ -199,7 +199,7 @@ function preparationData(data) {
           if (data.templates[templateId]) {
             data.templates[templateId].listState.forEach(stateId => {
               const item = data.containers[key].elements[id].links[stateId];
-              if (item && data.states[item.did] && data.states[item.did][item.prop]) {
+              if (item && data.states[item.did] && data.states[item.did][item.prop] !== undefined) {
                 data.containers[key].elements[id].states[stateId] = data.states[item.did][item.prop] || 0;
               } else {
                 data.containers[key].elements[id].states[stateId] = 0;
@@ -232,7 +232,7 @@ function preparationData(data) {
                     const bind = data.containers[key].elements[id].elements[elemId][propId]._bind;
                     const item = data.containers[key].elements[id].links[bind];
  
-                    const value = data.states[item.did] && data.states[item.did][item.prop] ? data.states[item.did][item.prop] : 0;
+                    const value = data.states[item.did] && data.states[item.did][item.prop] !== undefined ? data.states[item.did][item.prop] : 0;
                     try {
                       if (propId === 'w2' || propId === 'h2') {
                         const prop1 = propId === 'w2' ? 'x': 'y';
