@@ -80,15 +80,14 @@ function preparationData(data) {
           try {
             data.layout.elements[id][propId].func = createValueFunc(item.func).body;
             if (
-              data.states[id] && 
-              data.states[id][item.did] && 
-              data.states[id][item.did][item.prop] !== undefined
+              data.states[item.did] && 
+              data.states[item.did][item.prop] !== undefined
             ) {
               if (propId === 'w2' || propId === 'h2') {
                 const prop1 = propId === 'w2' ? 'x': 'y';
                 const prop2 = propId === 'w2' ? 'w': 'h';
 
-                const v = data.layout.elements[id][propId].func(data.states[id][item.did][item.prop], {});
+                const v = data.layout.elements[id][propId].func(data.states[item.did][item.prop], {});
                 const curentValue = v;
                 const delta = curentValue - data.layout.elements[id][prop2].value;
               
@@ -97,7 +96,7 @@ function preparationData(data) {
                 data.layout.elements[id][prop2].value = v;
                 data.layout.elements[id][propId].value = v;
               } else {
-                data.layout.elements[id][propId].value = data.layout.elements[id][propId].func(data.states[id][item.did][item.prop], {})
+                data.layout.elements[id][propId].value = data.layout.elements[id][propId].func(data.states[item.did][item.prop], {})
               }
             }
           } catch {
@@ -199,10 +198,12 @@ function preparationData(data) {
           
           if (data.templates[templateId]) {
             data.templates[templateId].listState.forEach(stateId => {
-              if (data.states[key][id] === undefined) {
-                data.states[key][id] = {};
+              const item = data.containers[key].elements[id].links[stateId];
+              if (item && data.states[item.did] && data.states[item.did][item.prop]) {
+                data.containers[key].elements[id].states[stateId] = data.states[item.did][item.prop] || 0;
+              } else {
+                data.containers[key].elements[id].states[stateId] = 0;
               }
-              data.containers[key].elements[id].states[stateId] = data.states[key][id][stateId] || 0;
             })
 
             const masterState = data.templates[templateId].state.master.values[0];
@@ -228,7 +229,10 @@ function preparationData(data) {
                 .keys(data.containers[key].elements[id].elements[elemId])
                 .forEach(propId => {
                   if (data.containers[key].elements[id].elements[elemId][propId].enabled) {
-                    const value = data.states[key][id][data.containers[key].elements[id].elements[elemId][propId]._bind] || 0;
+                    const bind = data.containers[key].elements[id].elements[elemId][propId]._bind;
+                    const item = data.containers[key].elements[id].links[bind];
+ 
+                    const value = data.states[item.did] && data.states[item.did][item.prop] ? data.states[item.did][item.prop] : 0;
                     try {
                       if (propId === 'w2' || propId === 'h2') {
                         const prop1 = propId === 'w2' ? 'x': 'y';
@@ -302,12 +306,12 @@ function preparationData(data) {
           if (item.enabled) {
             try {
               data.containers[key].elements[id][propId].func = createValueFunc(item.func).body;
-              if (data.states[key][id][item.did] && data.states[key][id][item.did][item.prop] !== undefined) {
+              if (data.states[item.did] && data.states[item.did][item.prop] !== undefined) {
                 if (propId === 'w2' || propId === 'h2') {
                   const prop1 = propId === 'w2' ? 'x': 'y';
                   const prop2 = propId === 'w2' ? 'w': 'h';
 
-                  const v = data.containers[key].elements[id][propId].func(data.states[key][id][item.did][item.prop], {})
+                  const v = data.containers[key].elements[id][propId].func(data.states[item.did][item.prop], {})
                   const curentValue = v;
                   const delta = curentValue - data.containers[key].elements[id][prop2].value;
     
@@ -316,7 +320,7 @@ function preparationData(data) {
                   data.containers[key].elements[id][prop2].value =  v;
                   data.containers[key].elements[id][propId].value = v;
                 } else {
-                  data.containers[key].elements[id][propId].value = data.containers[key].elements[id][propId].func(data.states[key][id][item.did][item.prop], {})
+                  data.containers[key].elements[id][propId].value = data.containers[key].elements[id][propId].func(data.states[item.did][item.prop], {})
                 }
               }
             } catch {

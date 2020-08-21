@@ -83,11 +83,11 @@ class AppLayout extends Component {
   }
 
   realtimeLayout = (data) => {
-    core.actions.layout.updateElementsLayout(data);
+    // core.actions.layout.updateElementsLayout(data);
   }
 
   realtimeContainer = (containerId, data) => {
-    core.actions.layout.updateElementsContainer(containerId, data);
+    // core.actions.layout.updateElementsContainer(containerId, data);
   }
 
   handleClick = (id) => {
