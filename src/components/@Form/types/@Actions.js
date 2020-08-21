@@ -243,7 +243,7 @@ function Actions(props) {
       setState({  anchorEl: null, type: state.type, key: state.key });
 
       if (item.command && !(item.command === 'fullsreecn' || item.command === 'refresh' || item.command === 'exit' )) {
-        hanndleDialog(item.command, type, state.key, item.did || item.id, item.prop, item.func);
+        hanndleDialog(item.command, type, state.key, item.did || item.id, item.prop, item.func, item.title);
       } else {
         setState({ type: 'option-' + type, anchorEl, key: state.key });
       }
@@ -313,12 +313,12 @@ function Actions(props) {
         }), 
       })
     } else {
-      hanndleDialog(command, type, state.key, props.data[type][state.key].did || props.data[type][state.key].id, props.data[type][state.key].prop, props.data[type][state.key].func);
+      hanndleDialog(command, type, state.key, props.data[type][state.key].did || props.data[type][state.key].id, props.data[type][state.key].prop, props.data[type][state.key].func, props.data[type][state.key].title);
     }
     handleClose();
   }
 
-  const hanndleDialog = (command, type, key, did, prop, func) => {
+  const hanndleDialog = (command, type, key, did, prop, func, title) => {
     core.transfer.sub('form_dialog', handleDialogClick);
     core.actions.appdialog.data({
       id: 'action_dialog', 
@@ -333,6 +333,7 @@ function Actions(props) {
         dialog: 'channellink',
         selectnodeid: did,
         selectId: prop,
+        selectTitle: title,
         select: prop,
         itemType: type,
         itemIndex: key,
