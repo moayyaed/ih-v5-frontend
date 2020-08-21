@@ -227,28 +227,29 @@ function preparationData(data) {
                 .forEach(propId => {
                   if (data.containers[key].elements[id].elements[elemId][propId].enabled) {
                     const bind = data.containers[key].elements[id].elements[elemId][propId]._bind;
-                    const item = data.containers[key].elements[id].links[bind];
- 
-                    const value = data.states[item.did] && data.states[item.did][item.prop] !== undefined ? data.states[item.did][item.prop] : 0;
-                    try {
-                      if (propId === 'w2' || propId === 'h2') {
-                        const prop1 = propId === 'w2' ? 'x': 'y';
-                        const prop2 = propId === 'w2' ? 'w': 'h';
-
-                        const v = data.containers[key].elements[id].elements[elemId][propId].func.call(null, value, data.containers[key].elements[id].states);
-                        const curentValue = v;
-                        const delta = curentValue - data.containers[key].elements[id].elements[elemId][prop2].value;
-                     
+                    if (data.containers[key].elements[id].links[bind]) {
+                      const item = data.containers[key].elements[id].links[bind];
+                      const value = data.states[item.did] && data.states[item.did][item.prop] !== undefined ? data.states[item.did][item.prop] : 0;
+                      try {
+                        if (propId === 'w2' || propId === 'h2') {
+                          const prop1 = propId === 'w2' ? 'x': 'y';
+                          const prop2 = propId === 'w2' ? 'w': 'h';
+  
+                          const v = data.containers[key].elements[id].elements[elemId][propId].func.call(null, value, data.containers[key].elements[id].states);
+                          const curentValue = v;
+                          const delta = curentValue - data.containers[key].elements[id].elements[elemId][prop2].value;
+                       
+                          
+                          data.containers[key].elements[id].elements[elemId][prop1].value = data.containers[key].elements[id].elements[elemId][prop1].value - delta;
+                          data.containers[key].elements[id].elements[elemId][prop2].value = v;
+                          data.containers[key].elements[id].elements[elemId][propId].value = v;
+                        } else {
+                          data.containers[key].elements[id].elements[elemId][propId].value = data.containers[key].elements[id].elements[elemId][propId].func.call(null, value, data.containers[key].elements[id].states);
+                        }
                         
-                        data.containers[key].elements[id].elements[elemId][prop1].value = data.containers[key].elements[id].elements[elemId][prop1].value - delta;
-                        data.containers[key].elements[id].elements[elemId][prop2].value = v;
-                        data.containers[key].elements[id].elements[elemId][propId].value = v;
-                      } else {
-                        data.containers[key].elements[id].elements[elemId][propId].value = data.containers[key].elements[id].elements[elemId][propId].func.call(null, value, data.containers[key].elements[id].states);
+                      } catch {
+                        data.containers[key].elements[id].elements[elemId][propId].value = value;
                       }
-                      
-                    } catch {
-                      data.containers[key].elements[id].elements[elemId][propId].value = value;
                     }
                   }
                 })

@@ -1,5 +1,4 @@
 import { createValueFunc } from 'components/tools';
-import { combineReducers } from 'redux';
 
 
 export function transform({ flipH, flipV, rotate }) {
@@ -11,20 +10,23 @@ export function transform({ flipH, flipV, rotate }) {
 
 
 export function getElementsLocalVars(store, item) {
-  const checkValue = Number(store.states[item.did][item.prop])
-  let value = checkValue !== NaN ? checkValue : store.states[item.prop];
-
-  try {
-    const func = createValueFunc(item.func).body;
-    value = func.call(null, value)
-    store.states[item.did][item.prop] = value;
-  } catch {
-    console.warn('Error: Action function wrong!')
+  if (store.states[item.did] && store.states[item.did][item.prop] !== undefined) {
+    const checkValue = Number(store.states[item.did][item.prop])
+    let value = checkValue !== NaN ? checkValue : store.states[item.prop];
+  
+    try {
+      const func = createValueFunc(item.func).body;
+      value = func.call(null, value)
+      store.states[item.did][item.prop] = value;
+    } catch {
+      console.warn('Error: Action function wrong!')
+    }
+  
+   return {
+     [item.did]: {
+       [item.prop]: value,
+     }
+   };
   }
-
- return {
-   [item.did]: {
-     [item.prop]: value,
-   }
- };
+  return {}
 }
