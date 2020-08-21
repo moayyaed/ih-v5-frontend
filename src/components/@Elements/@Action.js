@@ -76,7 +76,6 @@ class Action extends PureComponent {
 
                   } else {
                     if (command === 'setval') {
-                      console.log(item)
                       const store = core.store.getState().layout;
                       const data = getElementsLocalVars(store, item)
       
