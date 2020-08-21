@@ -105,7 +105,7 @@ function Row(props) {
           edge="start"
           tabIndex={-1}
           disableRipple
-          onClick={() => handleClickCheckBox(props.params.result, props.select)}
+          onClick={() => handleClickCheckBox(props.params.result, props.select,  props.params)}
         />
         </div>
       </div>
