@@ -1,5 +1,6 @@
 import { APP_LAYOUT_SET_DATA, APP_LAYOUT_UPDATE_TEMPLATES, APP_LAYOUT_UPDATE_ELEMENTS } from './constants';
 import elements from 'components/@Elements';
+import { act } from 'react-dom/test-utils';
 
 
 const defaultState = {
@@ -31,6 +32,21 @@ function reducer(state = defaultState, action) {
     case APP_LAYOUT_UPDATE_ELEMENTS:
       return { 
         ...state,
+        states: Object
+          .keys(state.states)
+          .reduce((p, c) => {
+            return { 
+              ...p, 
+              [c]: Object
+                .keys(state.states[c])
+                .reduce((p2, c2) => {
+                  if (action.data[c] && action.data[c][c2] !== undefined) {
+                    return { ...p2, [c2]: action.data[c][c2] }
+                  }
+                  return { ...p2, [c2]: state.states[c][c2] }
+                }, {})
+            }
+          }, {}),
         layout: {
           ...state.layout,
           elements: Object
@@ -67,6 +83,21 @@ function reducer(state = defaultState, action) {
     case APP_LAYOUT_UPDATE_TEMPLATES:
       return {
         ...state,
+        states: Object
+          .keys(state.states)
+          .reduce((p, c) => {
+            return { 
+              ...p, 
+              [c]: Object
+                .keys(state.states[c])
+                .reduce((p2, c2) => {
+                  if (action.data[c] && action.data[c][c2] !== undefined) {
+                    return { ...p2, [c2]: action.data[c][c2] }
+                  }
+                  return { ...p2, [c2]: state.states[c][c2] }
+                }, {})
+            }
+          }, {}),
         containers: Object
           .keys(state.containers)
           .reduce((p, c) => {

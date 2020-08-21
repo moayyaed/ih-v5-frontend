@@ -5,7 +5,7 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import Hammer from 'hammerjs';
 import shortid from 'shortid';
 
-import { transform, getElementsLocalVars } from './tools';
+import { transform, getElementsLocalVars, getElementsOtherVar } from './tools';
 
 
 const styles = {
@@ -193,14 +193,25 @@ class Button extends PureComponent {
 
             } else {
               if (item.command === 'setval') {
-                console.log(item)
                 const store = core.store.getState().layout;
-                const data = getElementsLocalVars(store, item)
-
-                core.actions.layout.updateElementsLayout(data);
-                Object
-                  .keys(store.containers)
-                  .forEach(containerId => core.actions.layout.updateElementsContainer(containerId, data))
+                if (item.local) {
+                  const data = getElementsLocalVars(store, item)
+  
+                  core.actions.layout.updateElementsLayout(data);
+                  Object
+                    .keys(store.containers)
+                    .forEach(containerId => core.actions.layout.updateElementsContainer(containerId, data))
+                } else {
+                  core.tunnel.command({
+                    uuid: shortid.generate(),
+                    method: 'action',
+                    type:'command',
+                    command: item.command,
+                    did: item.did,
+                    prop: item.prop,
+                    value: getElementsOtherVar(store, item)
+                  });
+                }
               } else {
                 core.tunnel.command({
                   uuid: shortid.generate(),
