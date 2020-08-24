@@ -108,7 +108,7 @@ function OptionItem(props) {
     <div style={styles.masterItem}>
       <div style={styles.itemLabel}>{props.type === 'property' ? <PropertyItem nodeId={props.p} label={props.p} value={props.label} /> : props.label}</div>
       <div style={styles.itemButtonsMaster}>
-        <IconButton size="small" style={styles.itemButton} onClick={(e) => props.onClickMenu(e, props)} >
+        <IconButton size="small" style={styles.itemButton} onClick={(e) => props.onClickMenuToolbar(e, props)} >
           <MoreVertOutlinedIcon fontSize="inherit" />
         </IconButton>
       </div>
@@ -137,18 +137,18 @@ export function AnimationItems(props) {
             {Object
               .keys(props.state[id].values)
               .map(v => 
-                <BasicItem key={v} nodeId={v} label={<OptionItem {...props} type="state" label={`${props.state[id].title}: ${v}`} />} >
+                <BasicItem key={v} nodeId={v} label={<OptionItem {...props} type="state" v={v} label={`${props.state[id].title}: ${v}`} />} >
                   {Object
                     .keys(props.state[id].values[v])
                     .map(i => 
-                      <BasicItem key={i} nodeId={i} label={<OptionItem {...props} type="element" label={i} />} >
+                      <BasicItem key={i} nodeId={i} label={<OptionItem {...props} v={v} i={i} type="element" label={i} />} >
                         {Object
                           .keys(props.state[id].values[v][i])
                           .map(p => 
                             <BasicItem 
                               key={p} 
                               nodeId={p} 
-                              label={<OptionItem {...props} type="property" p={p} label={props.state[id].values[v][i][p]} />}
+                              label={<OptionItem {...props} type="property" v={v} i={i} p={p}  label={props.state[id].values[v][i][p]} />}
                               endIcon={<TypeIcon type="property" />} 
                             />
                           )}

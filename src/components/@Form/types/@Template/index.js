@@ -270,6 +270,7 @@ class Template extends PureComponent {
         this.props.id, this.props.options.prop,
         list,
       );
+    this.save();
   }
 
   handleChangeState = (stateId) => {
@@ -302,6 +303,10 @@ class Template extends PureComponent {
         this.props.id, this.props.options.prop,
         stateId, value
       );
+  }
+
+  handleClickOptionToolbarMenu = (command, type, props) => {
+    console.log(command, type, props)
   }
   
   handleChangeProperty = (propertyId) => {
@@ -444,6 +449,7 @@ class Template extends PureComponent {
         this.props.id, this.props.options.prop,
         stateId,
       );
+    this.save();
   }
 
   handleClickDeleteState = (stateId) => {
@@ -452,6 +458,7 @@ class Template extends PureComponent {
         this.props.id, this.props.options.prop,
         stateId,
       );
+    this.save();
   }
 
   handleClickEditIdState = (stateId, value) => {
@@ -460,6 +467,7 @@ class Template extends PureComponent {
         this.props.id, this.props.options.prop,
         stateId, value,
       );
+    this.save();
   }
 
   renderComponent = (id) => {
@@ -523,6 +531,7 @@ class Template extends PureComponent {
           onChangeValueState={this.handleChangeValueState}
           onChangeVisibilityState={this.handleChangeVisibilityState}
           onChangeTitleState={this.handleChangeTitleState}
+          onClickMenu={this.handleClickOptionToolbarMenu}
           onClickAddState={this.handleClickAddState}
           onClickDeleteState={this.handleClickDeleteState}
           onClickEditIdState={this.handleClickEditIdState}

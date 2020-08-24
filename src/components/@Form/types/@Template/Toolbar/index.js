@@ -68,16 +68,17 @@ class Toolbar extends PureComponent {
   }
 
   handleClickMenu = (e, props) => {
+
     e.preventDefault();
     e.stopPropagation();
 
-    console.log(props)
+
     const pos = { left: e.clientX, top: e.clientY };
     const scheme = {
       main: [
         { id: '6', 
           title: 'Delete', 
-          click: () => {},
+          click: () => this.props.onClickMenu('delete', props.type, props),
         },        
       ]
     }
@@ -212,7 +213,7 @@ class Toolbar extends PureComponent {
               onClickAdd={this.handleClickAdd}
               onClickDelete={this.handleClickDelete}
               onClickOptions={this.handleClickOptions}
-              onClickMenu={this.handleClickMenu}
+              onClickMenuToolbar={this.handleClickMenu}
               onChangeTitle={this.handleChangeTitle}
               onChangeCompliteTitle={this.handleChangeComplitetitle}
             />
