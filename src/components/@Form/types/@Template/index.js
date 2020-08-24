@@ -306,7 +306,15 @@ class Template extends PureComponent {
   }
 
   handleClickOptionToolbarMenu = (command, type, props) => {
-    console.log(command, type, props)
+    if (type === 'element') {
+      core.actions.template
+        .select(
+          this.props.id, this.props.options.prop,
+          props.label
+        );
+      core.actions.template
+        .deleteElement(this.props.id, this.props.options.prop);
+    }
   }
   
   handleChangeProperty = (propertyId) => {
