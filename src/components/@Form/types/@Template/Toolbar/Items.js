@@ -144,14 +144,17 @@ export function AnimationItems(props) {
                       <BasicItem key={i} nodeId={i} label={<OptionItem {...props} v={v} i={i} type="id" label={i} />} >
                         {Object
                           .keys(props.state[id].values[v][i])
-                          .map(p => 
-                            <BasicItem 
-                              key={p} 
-                              nodeId={p} 
-                              label={<OptionItem {...props} type="property" v={v} i={i} p={p}  label={props.state[id].values[v][i][p]} />}
-                              endIcon={<TypeIcon type="property" />} 
-                            />
-                          )}
+                          .map(p => {
+                            const data = props.state[id].values[v][i][p];
+                            return (
+                              <BasicItem 
+                                key={p} 
+                                nodeId={p} 
+                                label={<OptionItem {...props} type="property" v={v} i={i} p={p}  label={data} />}
+                                endIcon={<TypeIcon type="property" />} 
+                              />
+                            )
+                          })}
                       </BasicItem>
                     )}
                 </BasicItem>

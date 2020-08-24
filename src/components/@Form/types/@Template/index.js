@@ -306,11 +306,19 @@ class Template extends PureComponent {
   }
 
   handleClickOptionToolbarMenu = (command, type, props) => {
+    const selectState = this.props.data.selectState;
+    const valueState = this.props.data.state[selectState].curent;
+    
     if (type === 'value') {
       core.actions.template
         .deleteStateByValue(
           this.props.id, this.props.options.prop,
           props.select, props.v, props.i, props.p
+        );
+      core.actions.template
+        .changeValueState(
+          this.props.id, this.props.options.prop,
+          selectState, valueState
         );
     }
     if (type === 'id') {
@@ -319,12 +327,22 @@ class Template extends PureComponent {
           this.props.id, this.props.options.prop,
           props.select, props.v, props.i, props.p
         );
+      core.actions.template
+        .changeValueState(
+          this.props.id, this.props.options.prop,
+          selectState, valueState
+        );
     }
     if (type === 'property') {
       core.actions.template
         .deleteStateByProperty(
           this.props.id, this.props.options.prop,
           props.select, props.v, props.i, props.p
+        );
+      core.actions.template
+        .changeValueState(
+          this.props.id, this.props.options.prop,
+          selectState, valueState
         );
     }
     if (type === 'element') {
