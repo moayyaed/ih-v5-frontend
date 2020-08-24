@@ -5,6 +5,9 @@ import Scrollbars from 'react-custom-scrollbars';
 
 import TreeView from '@material-ui/lab/TreeView';
 
+import { ContextMenu } from '@blueprintjs/core';
+import Menu from 'components/Menu';
+
 import { ElementsItems } from './Items';
 import { CollapseIcon, ExpandIcon } from './Icons';
 
@@ -24,6 +27,25 @@ class Toolbar extends PureComponent {
 
   handleClickIcon = (e, id) => {
   
+  }
+
+  handleClickMenu = (e, props) => {
+
+    e.preventDefault();
+    e.stopPropagation();
+
+
+    const pos = { left: e.clientX, top: e.clientY };
+    const scheme = {
+      main: [
+        { id: '6', 
+          title: 'Delete', 
+          click: () => this.props.onClickMenu('delete', props.type, props),
+        },        
+      ]
+    }
+
+    ContextMenu.show(<Menu scheme={scheme} />, pos);
   }
 
   handleClickElement = (e, id) => {
@@ -47,6 +69,7 @@ class Toolbar extends PureComponent {
             elements={elements}
             onClickIcon={this.handleClickIcon}
             onClickLabel={this.handleClickElement}
+            onClickMenuToolbar={this.handleClickMenu}
           />
         </TreeView>
       </Scrollbars>

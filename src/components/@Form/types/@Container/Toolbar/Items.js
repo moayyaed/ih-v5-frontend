@@ -7,12 +7,37 @@ import { useSpring, animated } from 'react-spring/web.cjs';
 import { fade, withStyles } from '@material-ui/core/styles';
 import Collapse from '@material-ui/core/Collapse';
 
+import IconButton from '@material-ui/core/IconButton';
+import MoreVertOutlinedIcon from '@material-ui/icons/MoreVertOutlined';
 
 import { TypeIcon } from './Icons';
 
 
 const styles = {
-
+  masterItem: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  itemLabel: {
+    width: '100%',
+  },
+  itemButtonsMaster: {
+    display: 'flex',
+    alignItems: 'center',
+    flexShrink: 0,
+    paddingRight: 6,
+    paddingLeft: 12,
+  },
+  itemButtons: {
+    display: 'flex',
+    alignItems: 'center',
+    flexShrink: 0,
+    paddingRight: 6,
+    paddingLeft: 12,
+  },
+  itemButton: {
+    marginRight: 6,
+  },
 };
 
 const classes = theme => ({
@@ -27,6 +52,19 @@ const classes = theme => ({
     borderLeft: `1px dashed ${fade(theme.palette.text.primary, 0.4)}`,
   },
 });
+
+function OptionItem(props) {
+  return (
+    <div style={styles.masterItem}>
+      <div style={styles.itemLabel}>{props.label}</div>
+      <div style={styles.itemButtonsMaster}>
+        <IconButton size="small" style={styles.itemButton} onClick={(e) => props.onClickMenuToolbar(e, props)} >
+          <MoreVertOutlinedIcon fontSize="inherit" />
+        </IconButton>
+      </div>
+    </div>
+  )
+}
 
 
 export function ElementsItems(props) {
@@ -62,7 +100,7 @@ function ElementItemGroup(props) {
       <BasicItem
         key={id}
         nodeId={id}
-        label={props.elements[id].title ? `${id} (${props.elements[id].title})`: id}
+        label={<OptionItem {...props} type="element" nodeId={id} label={props.elements[id].title ? `${id} (${props.elements[id].title})`: id} />}
         endIcon={<TypeIcon type={props.elements[id].type}/>}
         onIconClick={(e) => props.onClickIcon(e, id)} 
         onLabelClick={(e) => props.onClickLabel(e, id)} 

@@ -273,6 +273,19 @@ class Layout extends PureComponent {
       );
   }
 
+  handleClickOptionToolbarMenu = (command, type, props) => {
+    if (type === 'element') {
+      core.actions.layout
+        .select(
+          this.props.id, this.props.options.prop,
+          props.nodeId
+        );
+      core.actions.layout
+        .deleteElement(this.props.id, this.props.options.prop);
+    }
+    this.save();
+  }
+
   renderComponent = (id) => {
     if (id === 'sheet' && this.props.data.settings) {
       return (
@@ -300,6 +313,7 @@ class Layout extends PureComponent {
           listElements={this.props.data.list || []}
           elements={this.props.data.elements || {}}
           onClickElement={this.handleClickTreeElement}
+          onClickMenu={this.handleClickOptionToolbarMenu}
         />
       )
     }

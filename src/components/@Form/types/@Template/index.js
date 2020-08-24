@@ -354,6 +354,7 @@ class Template extends PureComponent {
       core.actions.template
         .deleteElement(this.props.id, this.props.options.prop);
     }
+    this.save();
   }
   
   handleChangeProperty = (propertyId) => {
