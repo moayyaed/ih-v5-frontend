@@ -294,41 +294,16 @@ function DefaultItem(props) {
   );
 }
 
-function MasterItem(props) {
-  if (props.state.master === undefined) {
-    return null;
-  }
-  return (
-    <BasicItem 
-      nodeId="master" 
-      label={<DefaultItem {...props} label="default" />}
-      endIcon={<TypeIcon type="animation" />}
-      onIconClick={(e) => props.onClickIcon(e, 'master')} 
-      onLabelClick={(e) => props.onClickLabel(e, 'master')} 
-    >
-      {Object
-        .keys(props.state.master.values[0])
-        .map(i => 
-          <BasicItem key={i} nodeId={i} label={i} >
-            {Object
-              .keys(props.state.master.values[0][i])
-              .map(p => 
-                <BasicItem 
-                  key={p} 
-                  nodeId={p} 
-                  label={<PropertyItem nodeId={p} label={p} value={props.state.master.values[0][i][p]} />}
-                  endIcon={<TypeIcon type="property" />} 
-                />
-              )}
-          </BasicItem>
-        )
-      }
-    </BasicItem>
-  );
-}
 
 function PropertyItem(props) {
   switch(props.label) {
+    case 'boxShadow':
+      return (
+        <div style={styles.propertyItem}>
+          {props.label} : 
+          <div style={{ width: 12, height: 12, marginLeft: 5, boxShadow: props.value.value }} />
+        </div>
+      );
     case 'backgroundColor':
       return (
         <div style={styles.propertyItem}>
@@ -388,7 +363,12 @@ function PropertyItem(props) {
         </div>
       );
     default:
-      return null;
+      return (
+        <div style={styles.propertyItem}>
+          {props.label} 
+          <div style={{ width: 12, height: 12, marginLeft: 5 }} />
+        </div>
+      );
   }
 }
 
