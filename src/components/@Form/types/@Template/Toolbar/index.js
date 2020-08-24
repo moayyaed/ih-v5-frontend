@@ -183,6 +183,7 @@ class Toolbar extends PureComponent {
               elements={elements}
               onClickIcon={this.handleClickIcon}
               onClickLabel={this.handleClickElement}
+              onClickMenuToolbar={this.handleClickMenu}
             />
           </TreeView>
         </Scrollbars>
@@ -239,6 +240,7 @@ class Toolbar extends PureComponent {
               elements={elements}
               onClickIcon={this.handleClickIcon}
               onClickLabel={this.handleClickElement}
+              onClickMenuToolbar={this.handleClickMenu}
             />
           </TreeView>
         </Scrollbars>

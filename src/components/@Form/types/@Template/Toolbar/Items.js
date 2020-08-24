@@ -207,7 +207,7 @@ function EventsItemGroup(props) {
         <BasicItem
           key={id}
           nodeId={id}
-          label={id}
+          label={<OptionItem {...props} type="element" label={id} />}
           endIcon={<TypeIcon type={props.elements[id].type}/>}
           onIconClick={(e) => props.onClickIcon(e, id)} 
           onLabelClick={(e) => props.onClickLabel(e, id)} 
@@ -242,7 +242,7 @@ function ElementItemGroup(props) {
       <BasicItem
         key={id}
         nodeId={id}
-        label={id}
+        label={<OptionItem {...props} type="element" label={id} />}
         endIcon={<TypeIcon type={props.elements[id].type}/>}
         onIconClick={(e) => props.onClickIcon(e, id)} 
         onLabelClick={(e) => props.onClickLabel(e, id)} 
