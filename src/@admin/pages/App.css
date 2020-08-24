@@ -165,4 +165,8 @@ input.core:focus {
   pointer-events: none;
 }
 
+.MuiTreeItem-group {
+  padding-left: 12px!important;
+}
+
 
