@@ -5,6 +5,22 @@ import { createValueFunc, options } from 'components/tools';
 
 function preparationData(data) {
 
+  // set local vars 
+    Object
+      .keys(core.cache.vars)
+      .forEach(key => {
+        Object
+          .keys(core.cache.vars[key])
+          .forEach(prop => {
+            if (data.states[key] === undefined) {
+              data.states[key] = {}
+            }
+            data.states[key][prop] = core.cache.vars[key][prop]
+          });
+      });
+
+ // set local vars 
+
   // clear animation
   const temp = []
 

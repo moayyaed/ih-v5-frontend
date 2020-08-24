@@ -1,3 +1,4 @@
+import core from 'core';
 import { createValueFunc } from 'components/tools';
 
 
@@ -32,6 +33,10 @@ export function getElementsLocalVars(store, item) {
     try {
       const func = createValueFunc(item.func).body;
       value = func.call(null, value)
+      if (core.cache.vars[item.did] === undefined) {
+        core.cache.vars[item.did] = {}
+      }
+      core.cache.vars[item.did][item.prop] = value;
       store.states[item.did][item.prop] = value;
     } catch {
       console.warn('Error: Action function wrong!')
