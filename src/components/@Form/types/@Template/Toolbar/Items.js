@@ -137,11 +137,11 @@ export function AnimationItems(props) {
             {Object
               .keys(props.state[id].values)
               .map(v => 
-                <BasicItem key={v} nodeId={v} label={<OptionItem {...props} type="state" v={v} label={`${props.state[id].title}: ${v}`} />} >
+                <BasicItem key={v} nodeId={v} label={<OptionItem {...props} type="value" v={v} label={`${props.state[id].title}: ${v}`} />} >
                   {Object
                     .keys(props.state[id].values[v])
                     .map(i => 
-                      <BasicItem key={i} nodeId={i} label={<OptionItem {...props} v={v} i={i} type="element" label={i} />} >
+                      <BasicItem key={i} nodeId={i} label={<OptionItem {...props} v={v} i={i} type="id" label={i} />} >
                         {Object
                           .keys(props.state[id].values[v][i])
                           .map(p => 

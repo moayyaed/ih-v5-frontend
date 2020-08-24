@@ -36,6 +36,10 @@ import {
   TEMPLATE_EDIT_STATE_MASTER,
   TEMPLATE_DELETE_STATE,
 
+  TEMPLATE_DELETE_STATE_BY_VALUE,
+  TEMPLATE_DELETE_STATE_BY_ELEMENT,
+  TEMPLATE_DELETE_STATE_BY_PROPERTY,
+
   TEMPLATE_EDIT_ID_STATE,
   TEMPLATE_CHANGE_TITLE_STATE,
 
@@ -1015,6 +1019,69 @@ function reducerTemplate(state, action) {
           selectOne: null,
           selects: {},
         }
+      case TEMPLATE_DELETE_STATE_BY_VALUE:
+        return {
+          ...state,
+          state: {
+            ...state.state,
+            [action.stateId]: {
+              ...state.state[action.stateId],
+              values: Object
+                .keys(state.state[action.stateId].values)
+                .reduce((p, c) => {
+                  if (c === action.valueId) {
+                    return p;
+                  }
+                  return { ...p, [c]: state.state[action.stateId].values[c] }
+                }, {})
+            }
+          },
+        }
+      case TEMPLATE_DELETE_STATE_BY_ELEMENT:
+        return {
+          ...state,
+          state: {
+            ...state.state,
+            [action.stateId]: {
+              ...state.state[action.stateId],
+              values: {
+                ...state.state[action.stateId].values,
+                [action.valueId]: Object
+                  .keys(state.state[action.stateId].values[action.valueId])
+                  .reduce((p, c) => {
+                    if (c === action.elementId) {
+                      return p;
+                    }
+                    return { ...p, [c]: state.state[action.stateId].values[action.valueId][c] }
+                  }, {})
+              }
+            }
+          },
+        }
+      case TEMPLATE_DELETE_STATE_BY_PROPERTY:
+        return {
+          ...state,
+          state: {
+            ...state.state,
+            [action.stateId]: {
+              ...state.state[action.stateId],
+              values: {
+                ...state.state[action.stateId].values,
+                [action.valueId]: {
+                  ...state.state[action.stateId].values[action.valueId],
+                  [action.elementId]: Object
+                    .keys(state.state[action.stateId].values[action.valueId][action.elementId])
+                    .reduce((p, c) => {
+                      if (c === action.propertyId) {
+                        return p;
+                      }
+                      return { ...p, [c]: state.state[action.stateId].values[action.valueId][action.elementId][c] }
+                    }, {})
+                } 
+              }
+            }
+          },
+        }
     default:
       return state;
   }
@@ -1054,6 +1121,10 @@ function reducer(state, action) {
     case TEMPLATE_SET_MODE_MASTER:
     case TEMPLATE_SET_MODE_VARS:
     case TEMPLATE_SET_MODE_EVENTS:
+
+    case TEMPLATE_DELETE_STATE_BY_VALUE:
+    case TEMPLATE_DELETE_STATE_BY_ELEMENT:
+    case TEMPLATE_DELETE_STATE_BY_PROPERTY:
       return { 
         ...state, 
         data: {

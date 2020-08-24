@@ -32,6 +32,10 @@ import {
   TEMPLATE_EDIT_STATE_MASTER,
   TEMPLATE_DELETE_STATE,
 
+  TEMPLATE_DELETE_STATE_BY_VALUE,
+  TEMPLATE_DELETE_STATE_BY_ELEMENT,
+  TEMPLATE_DELETE_STATE_BY_PROPERTY,
+
   TEMPLATE_EDIT_ID_STATE,
   TEMPLATE_CHANGE_TITLE_STATE,
 
@@ -330,6 +334,38 @@ export function moveElementState(id, prop, elementId, data) {
   }
 }
 
+export function deleteStateByValue(id, prop, stateId, valueId) {
+  return {
+    type: TEMPLATE_DELETE_STATE_BY_VALUE,
+    id,
+    prop,
+    stateId,
+    valueId,
+  }
+}
+
+export function deleteStateByElement(id, prop, stateId, valueId, elementId) {
+  return {
+    type: TEMPLATE_DELETE_STATE_BY_ELEMENT,
+    id,
+    prop,
+    stateId,
+    valueId,
+    elementId,
+  }
+}
+
+export function deleteStateByProperty(id, prop, stateId, valueId, elementId, propertyId) {
+  return {
+    type: TEMPLATE_DELETE_STATE_BY_PROPERTY,
+    id,
+    prop,
+    stateId,
+    valueId,
+    elementId,
+    propertyId
+  }
+}
 
 export default {
   data,
@@ -362,6 +398,10 @@ export default {
   editState,
   editStateMaster,
   deleteState,
+
+  deleteStateByValue,
+  deleteStateByElement,
+  deleteStateByProperty,
 
   editIdState,
   changeTitleState,
