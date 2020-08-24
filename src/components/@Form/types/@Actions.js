@@ -243,7 +243,7 @@ function Actions(props) {
       setState({  anchorEl: null, type: state.type, key: state.key });
 
       if (item.command && !(item.command === 'fullsreecn' || item.command === 'refresh' || item.command === 'exit' )) {
-        hanndleDialog(item.command, type, state.key, item.did || item.id, item.prop, item.func, item.title);
+        hanndleDialog(item.command, type, state.key, item.did || item.id, item.prop, item.func, item.title, item.local);
       } else {
         setState({ type: 'option-' + type, anchorEl, key: state.key });
       }
@@ -313,12 +313,12 @@ function Actions(props) {
         }), 
       })
     } else {
-      hanndleDialog(command, type, state.key, props.data[type][state.key].did || props.data[type][state.key].id, props.data[type][state.key].prop, props.data[type][state.key].func, props.data[type][state.key].title);
+      hanndleDialog(command, type, state.key, props.data[type][state.key].did || props.data[type][state.key].id, props.data[type][state.key].prop, props.data[type][state.key].func, props.data[type][state.key].title, props.data[type][state.key].local);
     }
     handleClose();
   }
 
-  const hanndleDialog = (command, type, key, did, prop, func, title) => {
+  const hanndleDialog = (command, type, key, did, prop, func, title, local) => {
     core.transfer.sub('form_dialog', handleDialogClick);
     core.actions.appdialog.data({
       id: 'action_dialog', 
@@ -340,6 +340,7 @@ function Actions(props) {
         itemCommand: command,
         data: props.data[type][key],
         func: func || 'return inData + 1;',
+        local: local,
       },
     });
   }

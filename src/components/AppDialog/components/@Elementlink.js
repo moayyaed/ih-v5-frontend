@@ -132,6 +132,7 @@ class Elementlink extends Component {
           prop: state.template.selectId, 
           func: state.component.select.func ? state.component.select.func : state.template.func,
           title: state.template.selectTitle || '',
+          local: state.template.local || null,
         }
 
         const index = res.data.properties.findIndex(i => i.result.value.did === select.did && i.result.value.prop === select.prop)
