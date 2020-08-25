@@ -380,8 +380,47 @@ class AppNav extends Component {
     });
   }
 
+
   handleUpload = (a) => {
-    console.log(a)
+    const input = document.createElement('input');
+    const xhr = new XMLHttpRequest();
+
+    input.type = 'file';
+    input.multiple = true;
+    input.accept="image/*, .zip, .rar"
+
+    input.onchange = (e) => {
+      const data = new FormData();
+      const list = [];
+      Array
+        .from(input.files)
+        .forEach(i => {
+          data.append('files', i);
+          list.push({ name: i.name, size: (i.size / 1024 / 1024).toFixed(2)  })
+        })
+
+      xhr.upload.onloadstart = function(e) {
+        core.actions.appprogress.data({ open: true, list })
+      }
+      
+      xhr.upload.onprogress = function(e) {
+        const progress = Math.round((e.loaded / e.total) * 100);
+        core.actions.appprogress.data({ progress })
+      }
+      xhr.upload.onload = function() {
+        core.actions.appprogress.data({ compleate: true })
+      }
+      
+      xhr.upload.onerror = function() {
+        // core.actions.appprogress.data({ open: false })
+        console.log('Произошла ошибка при загрузке данных на сервер!' );
+      }
+
+      xhr.open('POST', '/upload');
+      xhr.send(data);
+    }
+
+    input.click();
   }
 
   handleMoveNode = (item) => {

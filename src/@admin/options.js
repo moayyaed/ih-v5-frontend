@@ -16,6 +16,9 @@ import reducerAppPage from 'components/AppPage/reducer';
 import actionsAppDialog from 'components/AppDialog/actions';
 import reducerAppDialog from 'components/AppDialog/reducer';
 
+import actionsAppProgress from 'components/AppProgress/actions';
+import reducerAppProgress from 'components/AppProgress/reducer';
+
 import actionsForm from 'components/@Form/actions';
 import reducerForm from 'components/@Form/reducer';
 
@@ -50,6 +53,7 @@ const options = {
     apptabs: actionsAppTabs,
     apppage: actionsAppPage,
     appdialog: actionsAppDialog,
+    appprogress: actionsAppProgress,
     form: actionsForm,
     layout: actionsLayout,
     container: actionsContainer,
@@ -62,6 +66,7 @@ const options = {
     apptabs: reducerAppTabs,
     apppage: [{}, reducerAppPage, reducerForm, reducerLayout, reducerContainer, reducerTemplate],
     appdialog: reducerAppDialog,
+    appprogress: reducerAppProgress,
 
     msgboxtree: reducerAppNav,
   },

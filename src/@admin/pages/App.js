@@ -9,6 +9,7 @@ import AppNav from 'components/AppNav';
 import AppTabs from 'components/AppTabs';
 import AppPage from 'components/AppPage';
 import AppDialog from 'components/AppDialog';
+import AppProgress from 'components/AppProgress';
 
 
 const styles = {
@@ -32,6 +33,7 @@ function App(props) {
   return (
     <>
       <AppDialog />
+      <AppProgress />
       <AppBar />
       <div className="container">
         <AppMenu />
