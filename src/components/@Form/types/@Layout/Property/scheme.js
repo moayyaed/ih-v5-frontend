@@ -426,12 +426,12 @@ const groupSettings = {
     { 
       title: 'Width', 
       prop: 'w', 
-      type: 'text',
+      type: 'number',
     },
     { 
       title: 'Height', 
       prop: 'h', 
-      type: 'text',
+      type: 'number',
     },
     { 
       title: 'Crop', 

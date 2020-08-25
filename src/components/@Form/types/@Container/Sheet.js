@@ -287,7 +287,6 @@ class Sheet extends Component {
                 });
               }
             });
-            console.log(data.actions)
           core.actions.container
             .addTemplate(
               this.props.id, this.props.prop,
