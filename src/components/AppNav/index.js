@@ -264,7 +264,8 @@ class AppNav extends Component {
       addFolder: () => this.handleAddNode(true, item),
       copy: () => this.handleCopyNode(item),
       paste: () => this.handlePasteNode(item),
-      delete: () => this.handleRemoveNodes(item), 
+      delete: () => this.handleRemoveNodes(item),
+      upload: (menuItem) => this.handleUpload(menuItem),
     };
 
     let scheme = { main: [] };
@@ -377,6 +378,10 @@ class AppNav extends Component {
       .request({ method: 'appnav', props: this.props })
       .ok((res) => core.actions.appnav.data(this.props.stateid, res));
     });
+  }
+
+  handleUpload = (a) => {
+    console.log(a)
   }
 
   handleMoveNode = (item) => {
