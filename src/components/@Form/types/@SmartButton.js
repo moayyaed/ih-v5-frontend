@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
 
 import TextField from '@material-ui/core/TextField';
+import ButtonMenu from 'components/@Form/types/@ButtonMenu';
 
 import LinkIcon from '@material-ui/icons/Link';
 import LinkOffIcon from '@material-ui/icons/LinkOff';
@@ -63,28 +64,6 @@ class SmartButton extends PureComponent {
     }
   }
 
-  
-  handleClick2 = (e, type) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const params = {
-      ...this.props.options.params,
-      anchor: this.props.data.anchor,
-      nodeid: this.props.route.channel,
-      selectnodeid: this.props.data.dialognodeid,
-      disabledSave: true,
-      selectnodeid: this.props.data.did,
-      select: this.props.data.prop,
-      }
-  
-      core.transfer.sub('form_dialog', this.handleDialogClick);
-      core.actions.appdialog.data({ 
-        open: true, 
-        transferid: 'form_dialog',
-        template: params,
-      });
-  }
 
   handleClick = (e, type) => {
     e.preventDefault();
@@ -131,10 +110,38 @@ class SmartButton extends PureComponent {
     }
   }
 
-  handleClickClear = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+  handleClickButton = (value) => {
 
+    if (value === null) {
+      this.props.onChange(this.props.id, this.props.options, null, {
+        result: {
+          title: '',
+          value: {},
+          did: null,
+          prop: null,
+        }
+      })
+    } else {
+      const params = {
+        ...this.props.options.params,
+        anchor: this.props.data.anchor,
+        nodeid: this.props.route.channel,
+        selectnodeid: this.props.data.dialognodeid,
+        disabledSave: true,
+        selectnodeid: this.props.data.did,
+        select: this.props.data.prop,
+        }
+    
+        core.transfer.sub('form_dialog', this.handleDialogClick);
+        core.actions.appdialog.data({ 
+          open: true, 
+          transferid: 'form_dialog',
+          template: params,
+        });
+    }
+  }
+
+  handleClickClear = (e) => {
     this.props.onChange(this.props.id, this.props.options, null, {
       result: {
         title: '',
@@ -157,9 +164,12 @@ class SmartButton extends PureComponent {
               value={this.props.data.title}
             />
           </div>
-          <IconButton onContextMenu={this.handleClickClear} onClick={(e) => this.handleClick2(e,  'icon')} size="small">
-            <LinkIcon fontSize="small" />
-          </IconButton>
+          <ButtonMenu
+              enabled={this.props.route.type} 
+              icon={this.props.data.enabled} 
+              onChange={this.handleClickButton}
+              onClear={this.handleClickClear} 
+            />
         </>
       )
     }
