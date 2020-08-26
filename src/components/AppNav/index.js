@@ -388,6 +388,7 @@ class AppNav extends Component {
 
 
   handleUpload = (item, params) => {
+    const data = new FormData();
     const input = document.createElement('input');
     const xhr = new XMLHttpRequest();
     const parent = item.node.children !== undefined ? item.node : item.parentNode;
@@ -398,7 +399,6 @@ class AppNav extends Component {
     input.accept="image/*, .zip, .rar"
 
     input.onchange = (e) => {
-      const data = new FormData();
       const list = [];  
 
       data.append('param', params.param);
@@ -412,11 +412,12 @@ class AppNav extends Component {
           list.push({ name: i.name, size: (i.size / 1024 / 1024).toFixed(2), src: URL.createObjectURL(i) })
         })
 
-      function handleDialogClick(value, status) {
-        if (status === 'submit') {
+      function handleDialogClick({ complete, message, replace}) {
+        if (message === 'submit') {
+          data.append('replace', replace);
           xhr.send(data);
         } else {
-          if (!value) {
+          if (!complete) {
             xhr.abort();
           }
 

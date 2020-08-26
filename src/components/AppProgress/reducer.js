@@ -9,6 +9,7 @@ const defaultState = {
   list: [],
   complete: false,
   message: 'submit',
+  replace: false,
 };
 
 

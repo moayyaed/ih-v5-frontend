@@ -16,6 +16,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Fab from '@material-ui/core/Fab';
+import Checkbox from '@material-ui/core/Checkbox';
 
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 
@@ -60,7 +61,7 @@ const styles = {
     width: 180,
     flexShrink: 0,
     flexDirection: 'column',
-    paddingBottom: 12.5,
+    paddingBottom: 8.5,
   },
   list: {
     width: '100%',
@@ -93,6 +94,10 @@ const styles = {
     width: 100,
     height: 100,
     backgroundColor: 'rgb(220, 0, 78)',
+  },
+  checkbox: {
+    paddingLeft: 8,
+    marginBottom: 4,
   }
 }
 
@@ -157,8 +162,8 @@ function FacebookCircularProgress(props) {
   );
 }
 
-function handleCancel(value, status) {
-  core.transfer.send('form_progress', value, status);
+function handleCancel(state) {
+  core.transfer.send('form_progress', state);
 }
 
 function AppProgress(props) {
@@ -172,7 +177,7 @@ function AppProgress(props) {
                   <Typography variant="h6" className={props.classes.title}>
                     File Upload
                   </Typography>
-                  <Button color="inherit" onClick={() => handleCancel(props.state.complete, props.state.message)}>
+                  <Button color="inherit" onClick={() => handleCancel(props.state)}>
                     {props.state.complete ? 'ok' : props.state.message === 'submit' ? 'submit' : 'abort'}
                   </Button>
                 </Toolbar>
@@ -215,6 +220,16 @@ function AppProgress(props) {
                   )}
                 </Scrollbars>
               </div>
+            </div>
+            
+            <div style={styles.checkbox}>
+              <Checkbox
+                size="small"
+                color="primary"
+                checked={props.state.replace}
+                onChange={(e) => core.actions.appprogress.data({ replace: e.target.checked})} 
+              />
+              Replace duplicate files
             </div>
          </Paper>
       </Backdrop>
