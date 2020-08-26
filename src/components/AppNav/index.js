@@ -384,15 +384,19 @@ class AppNav extends Component {
   handleUpload = (item, params) => {
     const input = document.createElement('input');
     const xhr = new XMLHttpRequest();
-
+    const parent = item.node.children !== undefined ? item.node : item.parentNode;
+    
     input.type = 'file';
     input.multiple = true;
     input.accept="image/*, .zip, .rar"
 
     input.onchange = (e) => {
       const data = new FormData();
-      const list = [];
-      const list2 = []
+      const list = [];  
+
+      data.append('param', params.param);
+      data.append('parentid', parent);
+
       Array
         .from(input.files)
         .forEach(i => {
@@ -420,10 +424,15 @@ class AppNav extends Component {
 
       xhr.onreadystatechange = (e) => {
         if (xhr.readyState == 4 && xhr.status == 200) {
-          const list = insertNodes(this.props.state.list, item.node, []);
-          core.actions.appnav.data(this.props.stateid, { list });
-          core.actions.appprogress.data({ compleate: true, message: 'complete' })
-          console.log(xhr.responseText);
+          try {
+            const data = JSON.parse(xhr.responseText);
+            console.log(data);
+            const list = insertNodes(this.props.state.list, item.node, []);
+            core.actions.appnav.data(this.props.stateid, { list });
+            core.actions.appprogress.data({ compleate: true, message: 'complete' })
+          } catch {
+
+          }
         }
       };
       
