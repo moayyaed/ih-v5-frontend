@@ -423,16 +423,20 @@ class AppNav extends Component {
       }
 
       xhr.onreadystatechange = (e) => {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-          try {
-            const data = JSON.parse(xhr.responseText);
-            console.log(data);
-            const list = insertNodes(this.props.state.list, item.node, []);
-            core.actions.appnav.data(this.props.stateid, { list });
-            core.actions.appprogress.data({ compleate: true, message: 'complete' })
-          } catch (e) {
-            core.actions.appprogress.data({ compleate: true, message: 'error' })
-            core.actions.app.alertOpen('warning', 'Error: ' + e.message);
+        if (xhr.readyState == 4) {
+          if (xhr.status == 200) {
+            try {
+              const res = JSON.parse(xhr.responseText);
+              const list = insertNodes(this.props.state.list, item.node, res.data);
+              core.actions.appnav.data(this.props.stateid, { list });
+              core.actions.appprogress.data({ message: 'complete' })
+            } catch (e) {
+              core.actions.appprogress.data({ message: 'error' })
+              core.actions.app.alertOpen('warning', 'Error: ' + e.message);
+            }
+          } else {
+            core.actions.appprogress.data({ message: 'error' })
+            core.actions.app.alertOpen('warning', xhr.responseText);
           }
         }
       };
@@ -442,7 +446,7 @@ class AppNav extends Component {
       }
       
       xhr.upload.onerror = (e) => {
-        core.actions.appprogress.data({ compleate: true, message: 'error' })
+        core.actions.appprogress.data({ message: 'error' })
         core.actions.app.alertOpen('warning', 'Error: ' + e.message);
       }
 

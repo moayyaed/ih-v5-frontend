@@ -15,6 +15,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import Fab from '@material-ui/core/Fab';
+
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 
 import { Scrollbars } from 'react-custom-scrollbars';
 
@@ -89,6 +92,7 @@ const styles = {
   fab: {
     width: 100,
     height: 100,
+    backgroundColor: 'rgb(220, 0, 78)',
   }
 }
 
@@ -177,7 +181,8 @@ function AppProgress(props) {
             <div style={styles.container2}>
               <div style={styles.progress}>
                 <Box position="relative" display="inline-flex">
-                <FacebookCircularProgress value={props.state.progress}  />
+                {props.state.message === 'error' ? <Fab style={styles.fab} ><ErrorOutlineIcon style={{ fontSize: 42, color: '#fff' }} /></Fab> :
+                <FacebookCircularProgress value={props.state.progress}  />}
                   <Box
                     top={0}
                     left={0}
@@ -188,10 +193,10 @@ function AppProgress(props) {
                     alignItems="center"
                     justifyContent="center"
                   >
-                    <Typography variant="caption" component="div" color="textSecondary">{`${props.state.progress}%`}</Typography>
+                    <Typography variant="caption" component="div" color="textSecondary">{props.state.message === 'error' ? '' : `${props.state.progress}%`}</Typography>
                   </Box>
                 </Box>
-                <div>
+                <div style={{ marginTop: 20 }}>
                   {props.state.message}
                 </div>
               </div>
