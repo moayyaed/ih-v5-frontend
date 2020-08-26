@@ -90,12 +90,18 @@ class AppNav extends Component {
             return item;
           }); 
         }
+
         if (this.props.disabledRoute && node) {
-          const rootkey = Object
-            .keys(node.paths)
-            .find(key => node.paths[key].root !== undefined);
+          let rootkey = null;
+            rootkey = Object
+              .keys(node.paths)
+              .find(key => node.paths[key].root !== undefined);
+
+          if (rootkey === undefined && node.root) {
+            rootkey = node.root;
+          }
           if (rootkey) {
-            const rootid = node.paths[rootkey].root;
+            const rootid = node.root ? node.root : node.paths[rootkey].root;
             const type = node.children !== undefined ? 'parent' : 'child';
             const componentid = node.component || res.options[rootid][type].defaultComponent;
             res.click = { id: selectid, component: componentid };
