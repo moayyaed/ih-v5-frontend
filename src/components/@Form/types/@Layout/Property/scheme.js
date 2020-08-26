@@ -224,7 +224,7 @@ const imageSection = [
     type: 'divider',
   },
   { 
-    title: 'URL', 
+    title: 'Source', 
     prop: 'img', 
     type: 'img',
   },
