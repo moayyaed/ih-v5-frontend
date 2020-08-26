@@ -64,6 +64,20 @@ core.network.response('appdialog_setvalue', (answer, res, context) => {
   answer(res);
 })
 
+core.network.request('appdialog_imagegrid', (send, context) => {
+  send({ 
+    method: 'get', 
+    type: 'link',
+    dialogid: context.params.dialogid,
+    id: 'imagegrid',
+    nodeid: context.params.id,
+  });
+})
+
+core.network.response('appdialog_imagegrid', (answer, res, context) => {
+  answer(res);
+})
+
 
 
 

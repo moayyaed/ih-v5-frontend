@@ -5,6 +5,7 @@ import Devicelink from './@Devicelink';
 import Channellink from './@Channellink';
 import Elementlink from './@Elementlink';
 import SetValue from './@SetValue';
+import Imagegrid from './@Imagegrid';
 
 
 function getComponentByType(type) {
@@ -19,6 +20,8 @@ function getComponentByType(type) {
       return Elementlink;
     case 'setvalue':
       return SetValue;
+    case 'imagegrid':
+      return Imagegrid;
     default:
       return null;
   }

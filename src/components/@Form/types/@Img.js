@@ -195,7 +195,6 @@ class Img extends PureComponent {
         id: 'imagegroup',
         selectnodeid: this.props.data.folder || 'imagegroup',
         selectId: this.props.data.value,
-        selectTitle: this.props.data.value,
       },
     });
   }
