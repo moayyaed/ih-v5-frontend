@@ -431,7 +431,7 @@ class AppNav extends Component {
               const res = JSON.parse(xhr.responseText);
               const list = insertNodes(this.props.state.list, item.node, res.data);
               core.actions.appnav.data(this.props.stateid, { list });
-              core.actions.appprogress.data({ message: 'complete' })
+              core.actions.appprogress.data({ compleate: true, message: 'compleate' })
             } catch (e) {
               core.actions.appprogress.data({ message: 'error' })
               core.actions.app.alertOpen('warning', 'Error: ' + e.message);
