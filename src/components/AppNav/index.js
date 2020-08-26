@@ -412,17 +412,23 @@ class AppNav extends Component {
           list.push({ name: i.name, size: (i.size / 1024 / 1024).toFixed(2), src: URL.createObjectURL(i) })
         })
 
-      function handleDialogClick(value) {
-        if (!value) {
-          xhr.abort();
+      function handleDialogClick(value, status) {
+        if (status === 'submit') {
+          xhr.send(data);
+        } else {
+          if (!value) {
+            xhr.abort();
+          }
+
+          list.forEach(i => URL.revokeObjectURL(i.src));
+
+          core.transfer.unsub('form_progress', handleDialogClick);
+          core.actions.appprogress.data({ open: false, list: [], progress: 0, complete: false, message: 'submit' })
         }
-        core.transfer.unsub('form_progress', handleDialogClick);
-        core.actions.appprogress.data({ open: false, list: [], progress: 0, compleate: false, message: 'uploding' })
       }
 
       xhr.upload.onloadstart = function(e) {
-        core.transfer.sub('form_progress', handleDialogClick);
-        core.actions.appprogress.data({ open: true, list })
+        core.actions.appprogress.data({ message: 'uploding' })
       }
       
       xhr.upload.onprogress = (e) => {
@@ -435,9 +441,9 @@ class AppNav extends Component {
           if (xhr.status == 200) {
             try {
               const res = JSON.parse(xhr.responseText);
-              const list = insertNodes(this.props.state.list, item.node, res.data);
+              const list = insertNodes(this.props.state.list, item.node, res.data || [] );
               core.actions.appnav.data(this.props.stateid, { list });
-              core.actions.appprogress.data({ compleate: true, message: 'compleate' })
+              core.actions.appprogress.data({ complete: true, message: 'complete' })
             } catch (e) {
               core.actions.appprogress.data({ message: 'error' })
               core.actions.app.alertOpen('warning', 'Error: ' + e.message);
@@ -459,7 +465,9 @@ class AppNav extends Component {
       }
 
       xhr.open('POST', '/upload');
-      xhr.send(data);
+
+      core.transfer.sub('form_progress', handleDialogClick);
+      core.actions.appprogress.data({ open: true, list })
     }
 
     input.click();

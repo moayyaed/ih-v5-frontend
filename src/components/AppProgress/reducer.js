@@ -7,8 +7,8 @@ const defaultState = {
   open: false,
   progress: 0,
   list: [],
-  compleate: false,
-  message: 'uploding',
+  complete: false,
+  message: 'submit',
 };
 
 

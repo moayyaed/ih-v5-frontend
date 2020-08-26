@@ -59,8 +59,6 @@ class Imagegrid extends Component {
     core
       .request({ method: 'appdialog_imagegrid', props, params })
       .ok((res) => {
-        console.log(res)
-
         const select = { 
           folder: state.template.selectnodeid, 
           value: state.template.selectId, 
@@ -101,7 +99,10 @@ class Imagegrid extends Component {
           <Paper style={styles.paper}>
             <Scrollbars ref={this.linked} >
               <div style={styles.body1}>
-                GRID_IMAGE
+                {state.component.list
+                  .map((i, key)=> 
+                    <div key={key} >{i}</div>
+                )}
               </div>
             </Scrollbars>
           </Paper>

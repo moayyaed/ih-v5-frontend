@@ -157,8 +157,8 @@ function FacebookCircularProgress(props) {
   );
 }
 
-function handleCancel(value) {
-  core.transfer.send('form_progress', value);
+function handleCancel(value, status) {
+  core.transfer.send('form_progress', value, status);
 }
 
 function AppProgress(props) {
@@ -172,8 +172,8 @@ function AppProgress(props) {
                   <Typography variant="h6" className={props.classes.title}>
                     File Upload
                   </Typography>
-                  <Button color="inherit" onClick={() => handleCancel(props.state.compleate)}>
-                    {props.state.compleate ? 'ok' : 'abort'}
+                  <Button color="inherit" onClick={() => handleCancel(props.state.complete, props.state.message)}>
+                    {props.state.complete ? 'ok' : props.state.message === 'submit' ? 'submit' : 'abort'}
                   </Button>
                 </Toolbar>
               </AppBar>
@@ -197,7 +197,7 @@ function AppProgress(props) {
                   </Box>
                 </Box>
                 <div style={{ marginTop: 20 }}>
-                  {props.state.message}
+                  {props.state.message === 'submit' ? '' : props.state.message}
                 </div>
               </div>
               <div style={styles.list}>

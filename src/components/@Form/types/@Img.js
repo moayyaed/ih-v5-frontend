@@ -177,8 +177,8 @@ class Img extends PureComponent {
     }
   }
 
-  handleDialogClick4 = () => {
-
+  handleDialogClick4 = (value) => {
+    console.log(value)
   }
 
   handleClick = (e) => {
