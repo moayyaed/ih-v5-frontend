@@ -182,28 +182,28 @@ class AppLayout extends Component {
     const type = state.layout.settings.backgroundColor.type;
     const color = type === 'fill' ? '' : ', ' + state.layout.settings.backgroundColor.value;
     return (
-        <ReactResizeDetector handleWidth handleHeight>
-          {({ width, height }) => {
-            if (width && state.layout.settings) {
-              return (
-                <div 
-                  style={{
-                    ...styles.root,
-                    backgroundColor: state.layout.settings.backgroundColor.value,
-                    backgroundImage: state.layout.settings.backgroundImage.value === 'unset' ? state.layout.settings.backgroundColor.value : `url(${state.layout.settings.backgroundImage.value})${color}`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center center',
-                  }}
-                >
-                  <div style={{ width: '100%', height: '100%', backgroundColor: state.layout.settings.overlayColor.value }}>
-                    {state.layout.list.map(id => this.handleRender(id, state.layout.elements[id], width / state.layout.settings.w.value, height / state.layout.settings.h.value))}
-                  </div>
+      <ReactResizeDetector handleWidth handleHeight>
+        {({ width, height }) => {
+          if (width && state.layout.settings) {
+            return (
+              <div 
+                style={{
+                  ...styles.root,
+                  backgroundColor: state.layout.settings.backgroundColor.value,
+                  backgroundImage: state.layout.settings.backgroundImage.value === 'unset' ? state.layout.settings.backgroundColor.value : `url(${state.layout.settings.backgroundImage.value})${color}`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center center',
+                }}
+              >
+                <div style={{ width: '100%', height: '100%', backgroundColor: state.layout.settings.overlayColor.value }}>
+                  {state.layout.list.map(id => this.handleRender(id, state.layout.elements[id], width / state.layout.settings.w.value, height / state.layout.settings.h.value))}
                 </div>
-              )
-            }
-            return <div />;
-          }}
-        </ReactResizeDetector>
+              </div>
+            )
+          }
+          return <div />;
+        }}
+      </ReactResizeDetector>
     );
   }
 }
