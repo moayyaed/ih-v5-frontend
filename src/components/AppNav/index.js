@@ -385,6 +385,7 @@ class AppNav extends Component {
     const input = document.createElement('input');
     const xhr = new XMLHttpRequest();
     const parent = item.node.children !== undefined ? item.node : item.parentNode;
+    const previd = parent.id === item.node.id ? '_bottom': item.node.id;
     
     input.type = 'file';
     input.multiple = true;
@@ -396,6 +397,7 @@ class AppNav extends Component {
 
       data.append('param', params.param);
       data.append('parentid', parent.id);
+      data.append('previd', previd);
 
       Array
         .from(input.files)
