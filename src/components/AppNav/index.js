@@ -265,7 +265,7 @@ class AppNav extends Component {
       copy: () => this.handleCopyNode(item),
       paste: () => this.handlePasteNode(item),
       delete: () => this.handleRemoveNodes(item),
-      upload: (menuItem) => this.handleUpload(menuItem),
+      upload: (menuItem) => this.handleUpload(item, menuItem),
     };
 
     let scheme = { main: [] };
@@ -381,7 +381,7 @@ class AppNav extends Component {
   }
 
 
-  handleUpload = (a) => {
+  handleUpload = (item, params) => {
     const input = document.createElement('input');
     const xhr = new XMLHttpRequest();
 
@@ -392,28 +392,48 @@ class AppNav extends Component {
     input.onchange = (e) => {
       const data = new FormData();
       const list = [];
+      const list2 = []
       Array
         .from(input.files)
         .forEach(i => {
           data.append('files', i);
-          list.push({ name: i.name, size: (i.size / 1024 / 1024).toFixed(2)  })
+          list.push({ name: i.name, size: (i.size / 1024 / 1024).toFixed(2) })
         })
 
+      function handleDialogClick(value) {
+        if (!value) {
+          xhr.abort();
+        }
+        core.transfer.unsub('form_progress', handleDialogClick);
+        core.actions.appprogress.data({ open: false, list: [], progress: 0, compleate: false, message: 'uploding' })
+      }
+
       xhr.upload.onloadstart = function(e) {
+        core.transfer.sub('form_progress', handleDialogClick);
         core.actions.appprogress.data({ open: true, list })
       }
       
-      xhr.upload.onprogress = function(e) {
+      xhr.upload.onprogress = (e) => {
         const progress = Math.round((e.loaded / e.total) * 100);
         core.actions.appprogress.data({ progress })
       }
-      xhr.upload.onload = function() {
-        core.actions.appprogress.data({ compleate: true })
+
+      xhr.onreadystatechange = (e) => {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          const list = insertNodes(this.props.state.list, item.node, []);
+          core.actions.appnav.data(this.props.stateid, { list });
+          core.actions.appprogress.data({ compleate: true, message: 'complete' })
+          console.log(xhr.responseText);
+        }
+      };
+      
+      xhr.upload.onload = () => {
+     
       }
       
-      xhr.upload.onerror = function() {
-        // core.actions.appprogress.data({ open: false })
-        console.log('Произошла ошибка при загрузке данных на сервер!' );
+      xhr.upload.onerror = (e) => {
+        core.actions.appprogress.data({ compleate: true, message: 'error' })
+        core.actions.app.alertOpen('warning', 'Error: ' + e.message);
       }
 
       xhr.open('POST', '/upload');

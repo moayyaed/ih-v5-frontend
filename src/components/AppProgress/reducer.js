@@ -8,6 +8,7 @@ const defaultState = {
   progress: 0,
   list: [],
   compleate: false,
+  message: 'uploding',
 };
 
 

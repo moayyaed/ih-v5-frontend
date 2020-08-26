@@ -58,6 +58,8 @@ const styles = {
     alignItems: 'center',
     width: 180,
     flexShrink: 0,
+    flexDirection: 'column',
+    paddingBottom: 12.5,
   },
   list: {
     width: '100%',
@@ -149,8 +151,8 @@ function FacebookCircularProgress(props) {
   );
 }
 
-function handleCancel() {
-  core.actions.appprogress.data({ open: false, list: [], progress: 0, compleate: false })
+function handleCancel(value) {
+  core.transfer.send('form_progress', value);
 }
 
 function AppProgress(props) {
@@ -164,7 +166,7 @@ function AppProgress(props) {
                   <Typography variant="h6" className={props.classes.title}>
                     File Upload
                   </Typography>
-                  <Button color="inherit" onClick={handleCancel}>
+                  <Button color="inherit" onClick={() => handleCancel(props.state.compleate)}>
                     {props.state.compleate ? 'ok' : 'abort'}
                   </Button>
                 </Toolbar>
@@ -187,6 +189,9 @@ function AppProgress(props) {
                     <Typography variant="caption" component="div" color="textSecondary">{`${props.state.progress}%`}</Typography>
                   </Box>
                 </Box>
+                <div>
+                  {props.state.message}
+                </div>
               </div>
               <div style={styles.list}>
                 <Scrollbars >
