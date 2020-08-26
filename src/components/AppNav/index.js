@@ -401,7 +401,7 @@ class AppNav extends Component {
         .from(input.files)
         .forEach(i => {
           data.append('files', i);
-          list.push({ name: i.name, size: (i.size / 1024 / 1024).toFixed(2) })
+          list.push({ name: i.name, size: (i.size / 1024 / 1024).toFixed(2), src: URL.createObjectURL(i) })
         })
 
       function handleDialogClick(value) {
@@ -430,8 +430,9 @@ class AppNav extends Component {
             const list = insertNodes(this.props.state.list, item.node, []);
             core.actions.appnav.data(this.props.stateid, { list });
             core.actions.appprogress.data({ compleate: true, message: 'complete' })
-          } catch {
-
+          } catch (e) {
+            core.actions.appprogress.data({ compleate: true, message: 'error' })
+            core.actions.app.alertOpen('warning', 'Error: ' + e.message);
           }
         }
       };

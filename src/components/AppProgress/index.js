@@ -20,10 +20,8 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 import Paper from '@material-ui/core/Paper';
 
-import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 
-import PanoramaOutlinedIcon from '@material-ui/icons/PanoramaOutlined';
 
 
 const styles = {
@@ -74,7 +72,11 @@ const styles = {
     borderBottom: '1px solid #EEEEEE',
   },
   icon: {
+    width: 50,
+    height: 50,
     flexShrink: 0,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center center',
   },
   title: {
     marginLeft: 18,
@@ -197,9 +199,7 @@ function AppProgress(props) {
                 <Scrollbars >
                   {props.state.list.map((i, key) =>
                     <div key={key} style={styles.row}>
-                      <IconButton style={styles.icon}>
-                        <PanoramaOutlinedIcon style={{ fontSize: 42 }} />
-                      </IconButton>
+                      <div style={{ backgroundImage: `url(${i.src})`,  ...styles.icon }} />
                       <div style={styles.title}>
                         {i.name}
                       </div>
