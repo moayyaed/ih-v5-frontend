@@ -22,9 +22,6 @@ import Paper from '@material-ui/core/Paper';
 
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
-import Fab from '@material-ui/core/Fab';
-
-import CheckIcon from '@material-ui/icons/Check';
 
 import PanoramaOutlinedIcon from '@material-ui/icons/PanoramaOutlined';
 
@@ -88,7 +85,6 @@ const styles = {
   fab: {
     width: 100,
     height: 100,
-    // backgroundColor: '#4caf50',
   }
 }
 
@@ -177,12 +173,7 @@ function AppProgress(props) {
             <div style={styles.container2}>
               <div style={styles.progress}>
                 <Box position="relative" display="inline-flex">
-                {props.state.compleate ?
-                <Fab color="primary" style={styles.fab}>
-                  <CheckIcon />
-                </Fab> :
                 <FacebookCircularProgress value={props.state.progress}  />
-                }
                   <Box
                     top={0}
                     left={0}
@@ -193,7 +184,7 @@ function AppProgress(props) {
                     alignItems="center"
                     justifyContent="center"
                   >
-                    <Typography variant="caption" component="div" color="textSecondary">{props.state.compleate ? '' : `${props.state.progress}%`}</Typography>
+                    <Typography variant="caption" component="div" color="textSecondary">{`${props.state.progress}%`}</Typography>
                   </Box>
                 </Box>
               </div>
