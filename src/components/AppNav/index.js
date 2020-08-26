@@ -395,7 +395,7 @@ class AppNav extends Component {
       const list = [];  
 
       data.append('param', params.param);
-      data.append('parentid', parent);
+      data.append('parentid', parent.id);
 
       Array
         .from(input.files)
