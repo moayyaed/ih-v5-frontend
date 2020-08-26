@@ -112,7 +112,7 @@ const TEXT = {
 }
 
 const IMAGE = {
-  img: { value: 'https://ih-systems.com/wp-content/uploads/2018/08/lamp210.svg' },
+  img: { value: 'lamp210.svg' },
   imgColor: { value: 'transparent' },
   imgSize: { value: 0 },
   imgRotate: { value: 0 },
@@ -151,7 +151,7 @@ const TEXT_IMAGE = {
   textAlignV: { value: { id: 'center', title: 'Center' } },
   textRotate: { value: 0 },
   textColor: { value: 'rgba(0,0,0,1)' },
-  img: { value: 'https://ih-systems.com/wp-content/uploads/2018/08/lamp210.svg' },
+  img: { value: 'lamp210.svg' },
   imgColor: { value: 'transparent' },
   imgSize: { value: 0 },
   imgRotate: { value: 0 },
@@ -198,7 +198,7 @@ const BUTTON = {
   textAlignV: { value: { id: 'center', title: 'Center' } },
   textRotate: { value: 0 },
   textColor: { value: 'rgba(0,0,0,1)' },
-  img: { value: 'https://ih-systems.com/wp-content/uploads/2018/08/lamp210.svg' },
+  img: { value: 'lamp210.svg' },
   imgColor: { value: 'transparent' },
   imgSize: { value: 0 },
   imgRotate: { value: 0 },

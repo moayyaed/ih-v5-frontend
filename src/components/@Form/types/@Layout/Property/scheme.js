@@ -226,7 +226,7 @@ const imageSection = [
   { 
     title: 'URL', 
     prop: 'img', 
-    type: 'inputlink',
+    type: 'img',
   },
   { 
     title: 'Color', 
