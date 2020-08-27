@@ -276,7 +276,6 @@ const ACTION2 = {
 }
 
 const GROUP = {
-  animation: {},
   zIndex: { value: 100 },
   opacity: { value: 100 },
   overflow: { value: true },
@@ -304,10 +303,9 @@ function getDefaultParams(type) {
       return BUTTON;
     case 'text_image':
       return TEXT_IMAGE;
-    case 'template':
     case 'group':
-    case 'container':
       return GROUP;
+    case 'container':
     case 'template':
       return TEMPLATE
     case 'action':
