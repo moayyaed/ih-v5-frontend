@@ -25,7 +25,8 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import Paper from '@material-ui/core/Paper';
 
 import Button from '@material-ui/core/Button';
-
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 
 const styles = {
@@ -174,6 +175,9 @@ function AppProgress(props) {
             <div style={styles.container1}>
               <AppBar className={props.classes.appBar}>
                 <Toolbar>
+                  <IconButton disabled={props.state.message === 'uploding'} edge="start" color="inherit" onClick={() => handleCancel({ complete: true, message: null })} >
+                    <CloseIcon />
+                  </IconButton>
                   <Typography variant="h6" className={props.classes.title}>
                     File Upload
                   </Typography>

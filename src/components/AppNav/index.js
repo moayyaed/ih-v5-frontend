@@ -450,8 +450,10 @@ class AppNav extends Component {
               core.actions.app.alertOpen('warning', 'Error: ' + e.message);
             }
           } else {
-            core.actions.appprogress.data({ message: 'error' })
-            core.actions.app.alertOpen('warning', xhr.responseText);
+            if (xhr.status !== 0) {
+              core.actions.appprogress.data({ message: 'error' })
+              core.actions.app.alertOpen('warning', xhr.responseText);
+            }
           }
         }
       };
