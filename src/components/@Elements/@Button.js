@@ -120,7 +120,7 @@ function ButtonEgine(props) {
       <div
         style={{
           ...styles.img,
-          backgroundImage: `url(${props.item.img.value})`,
+          backgroundImage: `url(/images/${encodeURI(props.item.img.value)})`,
           transform: `scale(${scale(props.item.imgSize.value)}) rotate(${props.item.imgRotate.value}deg)`,
         }}
       />
