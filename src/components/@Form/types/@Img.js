@@ -37,6 +37,9 @@ const styles = {
     height: 21,
     background: 'unset',
   },
+  container: {
+    width: '100%',
+  },
   stub: {
     width: '100%',
   },
@@ -113,7 +116,7 @@ class Img extends PureComponent {
         } else { 
           try {
             const v = obj.body.call(null, 0, {})
-            const params = { ...this.props.data, enabled: true, did, prop, title, func, text: this.props.data.value };
+            const params = { ...this.props.data, enabled: true, did, prop, title, func, text: this.props.data.value, img: this.props.data };
 
             core.transfer.unsub('form_dialog', this.handleDialogClick3);
             core.actions.appdialog.close();
@@ -124,7 +127,7 @@ class Img extends PureComponent {
           }
         }
       } else {
-        const params = { ...this.props.data, enabled: null, prop: null, title: null, func, text: null };
+        const params = { ...this.props.data, ...this.props.data.img, enabled: false, prop: null, title: null, func, img: null };
 
         core.transfer.unsub('form_dialog', this.handleDialogClick3);
         core.actions.appdialog.close();
@@ -162,7 +165,7 @@ class Img extends PureComponent {
             core.transfer.unsub('form_dialog', this.handleDialogClick);
             core.actions.appdialog.close();
             
-            this.props.onChange(this.props.id, this.props.options, null, { enabled: true, uuid, _bind: id, title, value: v, func, text: this.props.data.value })
+            this.props.onChange(this.props.id, this.props.options, null, { enabled: true, uuid, _bind: id, title, value: v, func, img: this.props.data })
           } catch (e) {
             core.actions.app.alertOpen('warning', 'Function error: ' + e.message);
           }
@@ -170,15 +173,21 @@ class Img extends PureComponent {
       }  else {
         core.transfer.unsub('form_dialog', this.handleDialogClick);
         core.actions.appdialog.close();
-        this.props.onChange(this.props.id, this.props.options, null, { enabled: false, _bind: null, title: null, text: null, func, value: this.props.data.text || '' })
+        this.props.onChange(this.props.id, this.props.options, null, { ...this.props.data, ...this.props.data.img, did: null, enabled: false, _bind: null, title: null, text: null, func, img: null})
       }
     } else {
       core.transfer.unsub('form_dialog', this.handleDialogClick);
     }
   }
 
-  handleDialogClick4 = (value) => {
-    console.log(value)
+  handleDialogClick4 = (data) => {
+    if (data !== null && data !== ':exit:') {
+      core.transfer.unsub('form_dialog', this.handleDialogClick4);
+      core.actions.appdialog.close();
+      this.props.onChange(this.props.id, this.props.options, null, { ...this.props.data, ...data} )
+    } else {
+      core.transfer.unsub('form_dialog', this.handleDialogClick4);
+    }
   }
 
   handleClick = (e) => {
@@ -200,20 +209,22 @@ class Img extends PureComponent {
   }
 
   handleClear = (e) => {
-    this.props.onChange(this.props.id, this.props.options, null, { enabled: false, _bind: null, did: null, title: null, text: null, func: this.props.data.func, value: this.props.data.text || '' })
+    this.props.onChange(this.props.id, this.props.options, null, { ...this.props.data, ...this.props.data.img, enabled: false, _bind: null, did: null, title: null, func: this.props.data.func, img: null })
   }
 
   render() {
     if (this.props.mini) {
       return (
         <>
-          <input
-            className="core"
-            style={this.props.data.enabled ? styles.rootMini2 : styles.rootMini} 
-            disabled={true}
-            value={this.props.data.enabled ? this.props.data.title : this.props.data.value}
-            onChange={this.handleChangeText}
-          />
+          <div style={styles.container}>
+            <input
+              className="core"
+              style={this.props.data.enabled ? styles.rootMini2 : styles.rootMini} 
+              disabled={true}
+              value={this.props.data.enabled ? this.props.data.title : this.props.data.value}
+              onChange={this.handleChangeText}
+            />
+          </div>
           <div>
             <IconButton size="small" onClick={this.handleClick}>
               <InsertPhotoOutlinedIcon fontSize="inherit" />

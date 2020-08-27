@@ -2,16 +2,12 @@ import React, { Component } from 'react';
 import core from 'core';
 
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-
-import SelectIcon from '@material-ui/icons/CheckCircleOutline';
-import InboxOutlinedIcon from '@material-ui/icons/InboxOutlined';
 import Checkbox from '@material-ui/core/Checkbox';
+import InboxOutlinedIcon from '@material-ui/icons/InboxOutlined';
 
 import Paper from '@material-ui/core/Paper';
-import { Scrollbars } from 'react-custom-scrollbars';
 
-import Script from 'components/@Form/types/@Script';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 
 const styles = {
@@ -27,21 +23,63 @@ const styles = {
     height: '100%',
     padding: 20,
   },
-  body1: {
-    padding: 20,
+  container2: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
+    gridGap: '2vw',
+    padding: 24,
   },
   paper: {
     height: '100%',
+  },
+  imgContainer: {
+    height: 170,
+  },
+  imgBody: {
+    height: 136,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  img: {
+    width: 120,
+    height: 120,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center center',
+  },
+  imgBody2: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    height: 34,
+  },
+  imgTitle: {
+    paddingLeft: 14,
+    height: 34,
+    fontSize: 12,
+    display: 'grid',
+    alignItems: 'center',
+    lineHeight: '16px',
+    overflow: 'hidden',
   }
 }
 
 
-function handleClickCheckBox(item, select, params) {
-  if (item.did === select.did && item.prop === select.prop) {
-    core.actions.appdialog.select({ did: null, prop: null, title: null } );
-  } else {
-    core.actions.appdialog.select({ did: item.value.did, prop: item.value.prop, title: item.title, local: params.local || null });
-  }
+function Image(props) {
+  return (
+    <Paper style={styles.imgContainer} >
+      <div style={styles.imgBody} >
+        <div style={{ backgroundImage: `url(/images/${encodeURI(props.path)})`, ...styles.img }} />
+      </div>
+      <div style={styles.imgBody2}>
+        <div style={styles.imgTitle}>{props.path}</div>
+        <Checkbox
+          size="small"
+          color="primary"
+          onChange={(e) => props.onClick(e.target.checked, props.path)}
+        />
+      </div>
+    </Paper>
+  )
 }
 
 
@@ -60,10 +98,9 @@ class Imagegrid extends Component {
       .request({ method: 'appdialog_imagegrid', props, params })
       .ok((res) => {
         const select = { 
-          folder: state.template.selectnodeid, 
-          value: state.template.selectId, 
+          folder: state.component.select.folder !== undefined ? state.component.select.folder : state.template.selectnodeid, 
+          value: state.component.select.value !== undefined ? state.component.select.value : state.template.selectId, 
         }
-
         // const index = res.data.properties.findIndex(i => i.result.value.did === select.did && i.result.value.prop === select.prop)
 
         core.actions.appdialog.component({ res:1, list: res.data, select });
@@ -78,6 +115,15 @@ class Imagegrid extends Component {
 
   handleClickOk = (item) => {
     core.transfer.send(this.props.state.transferid, item);
+  }
+
+  handleClickCheckBox = (cb, value) => {
+    const { state } = this.props;
+    if (cb) {
+      core.actions.appdialog.select({ folder: state.component.id, value } );
+    } else {
+      core.actions.appdialog.select({ folder: null, value: '' } );
+    }
   }
 
   linked = (e) => {
@@ -98,10 +144,10 @@ class Imagegrid extends Component {
         <div style={styles.container1}>
           <Paper style={styles.paper}>
             <Scrollbars ref={this.linked} >
-              <div style={styles.body1}>
+              <div style={styles.container2}>
                 {state.component.list
                   .map((i, key)=> 
-                    <div key={key} >{i}</div>
+                    <Image key={key} path={i} onClick={this.handleClickCheckBox} />
                 )}
               </div>
             </Scrollbars>
