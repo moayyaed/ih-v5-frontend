@@ -75,6 +75,7 @@ function Image(props) {
         <Checkbox
           size="small"
           color="primary"
+          checked={props.path === props.select}
           onChange={(e) => props.onClick(e.target.checked, props.path)}
         />
       </div>
@@ -101,14 +102,26 @@ class Imagegrid extends Component {
           folder: state.component.select.folder !== undefined ? state.component.select.folder : state.template.selectnodeid, 
           value: state.component.select.value !== undefined ? state.component.select.value : state.template.selectId, 
         }
-        // const index = res.data.properties.findIndex(i => i.result.value.did === select.did && i.result.value.prop === select.prop)
+        const index = res.data.findIndex(i => i === select.value)
 
         core.actions.appdialog.component({ res:1, list: res.data, select });
-        /*
-        if (this.link && index !== -1) {
-          this.link.scrollTop(index * 50)
+
+        const p = document.body.clientWidth / 100 * 2;
+        const w = this.link.container.offsetWidth - 24 - 24;
+        let e = Math.floor(w / 150)
+        const p2 = (e - 1) * p;
+        const s = (w - p2) / e;
+        
+        if (s >= 140) {
+
+        } else {
+          e = e - 1;
         }
-        */
+      
+        if (this.link && index !== -1) {
+          const r = Math.ceil((index + 1) / e) - 1;
+          this.link.scrollTop(r * 170);
+        }
 
       });
   }
@@ -147,7 +160,7 @@ class Imagegrid extends Component {
               <div style={styles.container2}>
                 {state.component.list
                   .map((i, key)=> 
-                    <Image key={key} path={i} onClick={this.handleClickCheckBox} />
+                    <Image key={key} path={i} select={state.component.select.value} onClick={this.handleClickCheckBox} />
                 )}
               </div>
             </Scrollbars>
