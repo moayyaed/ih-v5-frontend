@@ -34,6 +34,7 @@ const styles = {
   },
   imgContainer: {
     height: 170,
+    cursor: 'pointer',
   },
   imgBody: {
     height: 136,
@@ -66,7 +67,7 @@ const styles = {
 
 function Image(props) {
   return (
-    <Paper style={styles.imgContainer} >
+    <Paper style={styles.imgContainer} onClick={() => props.onClick(!(props.select === props.path), props.path)} >
       <div style={styles.imgBody} >
         <div style={{ backgroundImage: `url(/images/${encodeURI(props.path)})`, ...styles.img }} />
       </div>
@@ -155,7 +156,7 @@ class Imagegrid extends Component {
     return (
       <>
         <div style={styles.container1}>
-          <Paper style={styles.paper}>
+          <Paper style={styles.paper} >
             <Scrollbars ref={this.linked} >
               <div style={styles.container2}>
                 {state.component.list
