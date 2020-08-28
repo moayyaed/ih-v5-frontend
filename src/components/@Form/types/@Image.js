@@ -1,6 +1,7 @@
 import React, { Component }from 'react';
 import core from 'core';
 
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { UncontrolledReactSVGPanZoom } from 'react-svg-pan-zoom';
 
 
@@ -69,7 +70,7 @@ class _Image extends Component {
 
   renderImg = () => {
     if (this.state.enabled === false) {
-      return null;
+      return <CircularProgress style={{ color: '#fff' }} />;
     }
     return (
       <UncontrolledReactSVGPanZoom
