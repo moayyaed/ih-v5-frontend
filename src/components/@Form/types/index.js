@@ -17,6 +17,7 @@ import Color2 from './@Color2';
 import Slider from './@Slider';
 import Url from './@Url';
 import Img from './@Img';
+import Images from './@Images';
 import Shadow from './@Shadow';
 import Animation from './@Animation';
 import Actions from './@Actions';
@@ -70,6 +71,8 @@ function getComponentByType(type) {
       return Url;
     case 'img':
       return Img;
+    case 'images':
+      return Images;
     case 'shadow':
       return Shadow;
     case 'animation':
