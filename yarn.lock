@@ -9332,6 +9332,14 @@ react-spring@^8.0.27:
     "@babel/runtime" "^7.3.1"
     prop-types "^15.5.8"
 
+react-svg-pan-zoom@^3.8.0:
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/react-svg-pan-zoom/-/react-svg-pan-zoom-3.8.0.tgz#5724c71d257a07233c9cc511a5c6498d80bb397a"
+  integrity sha512-s92QDFJuRrp784aQZKX8qxukMY/85IpOXO5Bjbn1G/CoNapdHCRVAHynPP6Ea9cyMmycSmu6paPqUIAW3i5s9Q==
+  dependencies:
+    prop-types "^15.7.2"
+    transformation-matrix "^2.2.0"
+
 react-transition-group@^2.9.0:
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.9.0.tgz#df9cdb025796211151a436c69a8f3b97b5b07c8d"
@@ -10905,6 +10913,11 @@ tr46@^1.0.1:
   integrity sha1-qLE/1r/SSJUZZ0zN5VujaTtwbQk=
   dependencies:
     punycode "^2.1.0"
+
+transformation-matrix@^2.2.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/transformation-matrix/-/transformation-matrix-2.4.0.tgz#9a63865c6f939c4abc4924d260242611101a5ee2"
+  integrity sha512-cZyijcvmC+ms5M5dw5IzU7A27lKLR7SrRKtopdMK4KZ+cfTzOOKS2iT3vqFPOiKMM9cb81MyAQMxF/cihTbThA==
 
 ts-pnp@1.1.5, ts-pnp@^1.1.2:
   version "1.1.5"

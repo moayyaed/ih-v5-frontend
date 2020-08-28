@@ -38,6 +38,7 @@
     "react-shadow-picker": "^1.0.5",
     "react-sortable-tree": "https://github.com/ih-systems/react-sortable-tree#a783407d4c365c88b3c5bef5dd73889de6ec8fd7",
     "react-spring": "^8.0.27",
+    "react-svg-pan-zoom": "^3.8.0",
     "react-virtualized": "^9.21.2",
     "react-window": "^1.8.5",
     "reduce-reducers": "^1.0.4",
