@@ -45,8 +45,9 @@ const styles = {
   img: {
     width: 120,
     height: 120,
-    backgroundSize: 'cover',
+    backgroundSize: 'contain',
     backgroundPosition: 'center center',
+    backgroundRepeat: 'no-repeat',
   },
   imgBody2: {
     display: 'flex',
