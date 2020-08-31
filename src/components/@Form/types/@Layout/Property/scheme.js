@@ -699,7 +699,7 @@ const scheme = {
       { 
         title: 'Image', 
         prop: 'backgroundImage', 
-        type: 'input',
+        type: 'img',
         bind: false,
       },
       { 
@@ -773,7 +773,7 @@ const scheme = {
       { 
         title: 'Image', 
         prop: 'backgroundImage', 
-        type: 'input',
+        type: 'img',
         bind: false,
       },
       { 

@@ -757,7 +757,7 @@ class Sheet extends Component {
                 width: '100%', 
                 height: '100%', 
                 background: settings.backgroundColor.value,
-                backgroundImage: settings.backgroundImage.value === 'unset' ? 'unset' : `url(${settings.backgroundImage.value})`,
+                backgroundImage: settings.backgroundImage.value === 'unset' ? 'unset' : `url(/images/${encodeURI(settings.backgroundImage.value)})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center center',
               }}>

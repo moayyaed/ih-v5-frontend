@@ -190,7 +190,7 @@ class AppLayout extends Component {
                 style={{
                   ...styles.root,
                   backgroundColor: state.layout.settings.backgroundColor.value,
-                  backgroundImage: state.layout.settings.backgroundImage.value === 'unset' ? state.layout.settings.backgroundColor.value : `url(${state.layout.settings.backgroundImage.value})${color}`,
+                  backgroundImage: state.layout.settings.backgroundImage.value === 'unset' ? state.layout.settings.backgroundColor.value : `url(/images/${encodeURI(state.layout.settings.backgroundImage.value)})${color}`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center center',
                 }}

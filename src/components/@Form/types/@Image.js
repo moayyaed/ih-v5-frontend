@@ -77,7 +77,8 @@ class _Image extends Component {
         width={this.state.w} height={this.state.h}
         detectAutoPan={false}
         defaultTool='pan'
-        toolbarProps={{ activeToolColor: '#5f7c8a' }}
+        toolbarProps={{ activeToolColor: '#5f7c8a', position: 'none' }}
+        miniatureProps={{ position: 'right' }}
         ref={this.linked2}
       >
         <svg width={this.state.iw} height={this.state.ih}>
