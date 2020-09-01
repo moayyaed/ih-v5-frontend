@@ -138,6 +138,7 @@ class Container extends PureComponent {
     const scale = getScale(this.props.item, this.props.container.settings, this.props.scaleW, this.props.scaleH)
     const type = this.props.container.settings.backgroundColor.type;
     const color = type === 'fill' ? '' : ', ' + this.props.container.settings.backgroundColor.value;
+    const src =  this.props.container.settings.backgroundImage.value.indexOf('://') !== -1 ? this.props.container.settings.backgroundImage.value : '/images/' + this.props.container.settings.backgroundImage.value
     return (
       <div
         style={{
@@ -145,7 +146,7 @@ class Container extends PureComponent {
           height: '100%',
           opacity: this.props.item.opacity.value / 100,
           backgroundColor: this.props.container.settings.backgroundColor.value,
-          backgroundImage: `url(/images/${encodeURI(this.props.container.settings.backgroundImage.value)})${color}`,
+          backgroundImage:  `url(${encodeURI(src)})${color}`,
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
         }}
