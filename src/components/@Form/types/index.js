@@ -26,6 +26,7 @@ import Actions from './@Actions';
 import Layout from './@Layout';
 import Container from './@Container';
 import Template from './@Template';
+import Dialog from './@Dialog';
 import Button from './@Button';
 import SmartButton from './@SmartButton';
 import Table from './@Table';
@@ -89,6 +90,8 @@ function getComponentByType(type) {
       return Container;
     case 'template':
       return Template;
+    case 'dialog':
+      return Dialog;
     case 'smartbutton':
       return SmartButton;
     case 'button':
