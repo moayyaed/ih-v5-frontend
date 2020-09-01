@@ -100,6 +100,36 @@ function scale(value) {
   }
 }
 
+function getImageStyle(props) {
+  const img = props.img.value || '';
+  const svg = img.slice(-4) === '.svg';
+  const src = img.indexOf('://') !== -1 ? `url(${encodeURI(img)})` : `url(/images/${encodeURI(img)})`
+
+  if (svg && (props.imgColor.value !== 'transparent' && props.imgColor.value !== 'rgba(0,0,0,0)')) {
+    return {
+      width: '100%',
+      height: '100%',
+      backgroundColor: props.imgColor.value,
+      WebkitMaskSize: 'contain',
+      WebkitMaskRepeat: 'no-repeat',
+      WebkitMaskPosition: 'center center',
+      WebkitMaskImage: src,
+      maskImage: src,
+      transform: `scale(${scale(props.imgSize.value)}) rotate(${props.imgRotate.value}deg)`,
+    }
+  }
+
+  return {
+    width: '100%',
+    height: '100%',
+    backgroundSize: 'contain',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center center',
+    backgroundImage: src,
+    transform: `scale(${scale(props.imgSize.value)}) rotate(${props.imgRotate.value}deg)`,
+  }
+}
+
 function ButtonEgine(props) {
   return (
     <div
@@ -118,11 +148,7 @@ function ButtonEgine(props) {
       }}
     >
       <div
-        style={{
-          ...styles.img,
-          backgroundImage: props.item.img.value.indexOf('://') !== -1 ? `url(${encodeURI(props.item.img.value)})` :`url(/images/${encodeURI(props.item.img.value)})`,
-          transform: `scale(${scale(props.item.imgSize.value)}) rotate(${props.item.imgRotate.value}deg)`,
-        }}
+        style={getImageStyle(props.item)}
       />
       <svg 
         style={{

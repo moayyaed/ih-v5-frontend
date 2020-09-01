@@ -113,7 +113,17 @@ const TEXT = {
 
 const IMAGE = {
   img: { value: 'lamp210.svg' },
-  imgColor: { value: 'transparent' },
+  imgColor: { 
+    type: 'fill', 
+    value: 'transparent', 
+    fill: 'transparent',
+    angle: 90,
+    shape: 'circle',
+    positionX: 50,
+    positionY: 50,
+    extent: 'closest-side',
+    palette: [{ offset: '0.00', color: '#4A90E2', opacity: 1 }, { offset: '1.00', color: '#9013FE', opacity: 1 }]
+  },
   imgSize: { value: 0 },
   imgRotate: { value: 0 },
   borderSize: { value: 1 },
