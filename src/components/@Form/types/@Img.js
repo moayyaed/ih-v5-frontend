@@ -220,7 +220,7 @@ class Img extends PureComponent {
             <input
               className="core"
               style={this.props.data.enabled ? styles.rootMini2 : styles.rootMini} 
-              disabled={true}
+              disabled={Boolean(this.props.data.enabled)}
               value={this.props.data.enabled ? this.props.data.title : this.props.data.value}
               onChange={this.handleChangeText}
             />
