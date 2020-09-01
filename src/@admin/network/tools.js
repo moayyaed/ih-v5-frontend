@@ -12,8 +12,18 @@ function getOption(data) {
             ...i, 
             hide: createHideFunction(i.hide),
             columns: i.columns.map(column => {
+              if (column.hide && typeof column.disabled === 'string') {
+                return { 
+                  ...column, 
+                  hide: createHideFunction(column.hide),
+                  disabled: createHideFunction(column.disabled),
+                }
+              }
               if (column.hide) {
                 return { ...column, hide: createHideFunction(column.hide) }
+              }
+              if (typeof column.disabled === 'string') {
+                return { ...column, disabled: createHideFunction(column.disabled) }
               }
               return column;
             }),

@@ -29,6 +29,11 @@ const styles = {
   }
 }
 
+function createHideFunction(string) {
+  return new Function('data', 'return ' + string);
+}
+
+
 
 class Script extends PureComponent { 
 
@@ -38,6 +43,7 @@ class Script extends PureComponent {
 
   renderComponent = (id) => {
     const { props, state } = this;
+    const disabled = typeof props.options.disabled === 'function' ? props.options.disabled(props.global) : props.options.disabled;
     if (id === 'script') {
       return (
         <ReactResizeDetector key={id} handleWidth handleHeight>
@@ -51,7 +57,7 @@ class Script extends PureComponent {
               fontSize={14}
               value={props.data}
               setOptions={{ useWorker: false }}
-              readOnly={props.options.disabled}
+              readOnly={disabled}
               onChange={(value) => props.onChange(props.id, props.options, null, value)}
             />}
         </ReactResizeDetector>

@@ -111,7 +111,7 @@ function components(id, item, data, cache, global, route, onChange, getStyle, mi
   if (item.type === 'droplist') {
     return React.createElement(component, { key: item.prop, id, options: item, data, cache, global, route, onChange, getStyle, mini });
   }
-  return React.createElement(component, { key: item.prop, id, options: item, data, cache, route, onChange, getStyle, mini });
+  return React.createElement(component, { key: item.prop, id, options: item, data, cache, global, route, onChange, getStyle, mini });
 }
 
 
