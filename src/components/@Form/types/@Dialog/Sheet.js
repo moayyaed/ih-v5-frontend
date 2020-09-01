@@ -165,7 +165,7 @@ class Sheet extends Component {
     x = Math.round((-tx * s + px) / s)
     y = Math.round((-ty * s + py) / s)
 
-    core.actions.container
+    core.actions.dialog
       .settings(
         this.props.id, this.props.prop,
         { x: { value: x }, y: { value: y }, scale: { value: s } }
@@ -210,7 +210,7 @@ class Sheet extends Component {
     x = -tx * s + px
     y = -ty * s + py
 
-    core.actions.container
+    core.actions.dialog
       .settings(
         this.props.id, this.props.prop,
         { x: { value: x }, y: { value: y }, scale: { value: s } }
@@ -226,7 +226,7 @@ class Sheet extends Component {
       data.x !== this.props.settings.x.value || 
       data.y !== this.props.settings.y.value
     ) {
-      core.actions.container
+      core.actions.dialog
         .settings(
           this.props.id, this.props.prop,
           { x: { value: data.x }, y: { value: data.y } }
@@ -287,7 +287,7 @@ class Sheet extends Component {
                 });
               }
             });
-          core.actions.container
+          core.actions.dialog
             .addTemplate(
               this.props.id, this.props.prop,
               elementId, { ...params, ...data }, templateId, res,
@@ -295,7 +295,7 @@ class Sheet extends Component {
           this.props.save();
         });
     } else {
-      core.actions.container
+      core.actions.dialog
         .addElement(
           this.props.id, this.props.prop,
           elementId, { ...params, ...data },
@@ -305,7 +305,7 @@ class Sheet extends Component {
   }
 
   handleDeleteElement = () => {
-    core.actions.container
+    core.actions.dialog
       .deleteElement(this.props.id, this.props.prop);
     this.props.save();
   }
@@ -322,7 +322,7 @@ class Sheet extends Component {
       data.x !== this.props.elements[elementId].x.value || 
       data.y !== this.props.elements[elementId].y.value
     ) {
-      core.actions.container
+      core.actions.dialog
         .editElement(
           this.props.id, this.props.prop,
           elementId, { 
@@ -342,13 +342,13 @@ class Sheet extends Component {
 
     if (element.type === 'group') {
       const childs = getAllElementsByGroup(element.elements, this.props.elements);
-      core.actions.container
+      core.actions.dialog
         .resizeGroupElement(
           this.props.id, this.props.prop,
           elementId, position, childs,
         );
     } else {
-      core.actions.container
+      core.actions.dialog
         .editElement(
           this.props.id, this.props.prop,
           elementId, position
@@ -358,7 +358,7 @@ class Sheet extends Component {
   }
 
   handleClickBody = (e) => {
-    core.actions.container
+    core.actions.dialog
       .clearSelects(
         this.props.id, this.props.prop,
       );
@@ -389,14 +389,14 @@ class Sheet extends Component {
           });
         data.w.value = data.w.value - data.x.value;
         data.h.value = data.h.value - data.y.value;
-        core.actions.container
+        core.actions.dialog
           .selectSome(
             this.props.id, this.props.prop,
             elementId, data
           );
       }
     } else {
-      core.actions.container
+      core.actions.dialog
         .select(
           this.props.id, this.props.prop,
           elementId
@@ -445,7 +445,7 @@ class Sheet extends Component {
         { id: '8', check: 'isPaste', title: 'Paste', click: () => this.handleClickPasteElements(e) },
         { id: '9', type: 'divider' },
         { id: '10', check: 'isSelect', title: 'Delete', click: () => this.handleDeleteElement(elementId) },
-        { id: '11', type: 'divider' },
+        // { id: '11', type: 'divider' },
         // { id: '12', check: 'isTemplate', title: 'Edit Template', click: this.handleClickEditTemplate },
       ]
     }
@@ -561,7 +561,7 @@ class Sheet extends Component {
         return { ...p, [c]: clone.elements[c] }
       }, {})
  
-    core.actions.container
+    core.actions.dialog
       .data(
         this.props.id, this.props.prop,
         { 
@@ -635,7 +635,7 @@ class Sheet extends Component {
     const x = Math.round(data.x / this.props.settings.grid.value) * this.props.settings.grid.value;
     const y = Math.round(data.y / this.props.settings.grid.value) * this.props.settings.grid.value;
 
-    core.actions.container
+    core.actions.dialog
       .moveSelectContainer(
         this.props.id, this.props.prop,
         { value: x }, { value: y }
@@ -643,7 +643,7 @@ class Sheet extends Component {
   }
 
   handleStopMoveSelectContainer = (e, elementId, data) => {
-    core.actions.container
+    core.actions.dialog
       .moveSelectContainer(
         this.props.id, this.props.prop,
         { value: data.x }, { value: data.y }
@@ -690,7 +690,7 @@ class Sheet extends Component {
     }
 
     const childs = getAllElementsByGroup(Object.keys(this.props.selects), this.props.elements)
-    core.actions.container
+    core.actions.dialog
       .resizeSelectContainer(
         this.props.id, this.props.prop,
         position, childs,

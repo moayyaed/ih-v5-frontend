@@ -107,6 +107,7 @@ function getImageStyle(props) {
 
   if (svg && (props.imgColor.value !== 'transparent' && props.imgColor.value !== 'rgba(0,0,0,0)')) {
     return {
+      position: 'absolute', 
       width: '100%',
       height: '100%',
       backgroundColor: props.imgColor.value,
@@ -120,6 +121,7 @@ function getImageStyle(props) {
   }
 
   return {
+    position: 'absolute', 
     width: '100%',
     height: '100%',
     backgroundSize: 'contain',

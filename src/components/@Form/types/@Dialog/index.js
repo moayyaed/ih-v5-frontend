@@ -53,7 +53,7 @@ class Dialog extends PureComponent {
 
   componentDidMount() {
     if (this.props.data.settings === undefined) {
-      core.actions.container
+      core.actions.dialog
       .data(
         this.props.id, this.props.options.prop, {
           selectType: null,
@@ -148,7 +148,7 @@ class Dialog extends PureComponent {
   }
 
   handleChangeToolbar = (toolbarId) => {
-    core.actions.container
+    core.actions.dialog
       .data(
         this.props.id, this.props.options.prop,
         { toolbarType: toolbarId }
@@ -158,7 +158,7 @@ class Dialog extends PureComponent {
   handleChangeValueProperty = (key, value) => {
   
     if (this.props.data.selectOne === 'content') {
-      core.actions.container
+      core.actions.dialog
         .settings(
           this.props.id, this.props.options.prop,
           { [key]: value }
@@ -169,13 +169,13 @@ class Dialog extends PureComponent {
       if (item.type === 'template' && propertyType === 'link') {
         const name = value.result !== undefined ? 'links' : 'actions';
        
-        core.actions.container
+        core.actions.dialog
           .changeTemplate(
             this.props.id, this.props.options.prop,
             this.props.data.selectOne, name, name === 'links' ? { [key]: value.result } : { [key]: value },
           )
       }  else if (item.type === 'template' && (key === 'w' || key === 'h')) {
-        core.actions.container
+        core.actions.dialog
           .editElement(
             this.props.id, this.props.options.prop,
             this.props.data.selectOne, { w: { ...item.w, value: value.value }, h: { ...item.h, value: value.value } }
@@ -197,7 +197,7 @@ class Dialog extends PureComponent {
             [key]: value 
           };
 
-          core.actions.container
+          core.actions.dialog
             .editElement(
               this.props.id, this.props.options.prop,
               this.props.data.selectOne, data
@@ -211,13 +211,13 @@ class Dialog extends PureComponent {
             [key]: value 
           };
 
-          core.actions.container
+          core.actions.dialog
             .editElement(
               this.props.id, this.props.options.prop,
               this.props.data.selectOne, data
             );
         } else {
-          core.actions.container
+          core.actions.dialog
             .editElement(
               this.props.id, this.props.options.prop,
               this.props.data.selectOne, { [key]: value }
@@ -233,7 +233,7 @@ class Dialog extends PureComponent {
   }
 
   handleChangeProperty = (propertyId) => {
-    core.actions.container
+    core.actions.dialog
       .data(
         this.props.id, this.props.options.prop,
         { propertyType: propertyId }
@@ -290,7 +290,7 @@ class Dialog extends PureComponent {
   }
 
   handleClickTreeElement = (elementId) => {
-    core.actions.container
+    core.actions.dialog
       .select(
         this.props.id, this.props.options.prop,
         elementId
@@ -299,12 +299,12 @@ class Dialog extends PureComponent {
 
   handleClickOptionToolbarMenu = (command, type, props) => {
     if (type === 'element') {
-      core.actions.container
+      core.actions.dialog
         .select(
           this.props.id, this.props.options.prop,
           props.nodeId
         );
-      core.actions.container
+      core.actions.dialog
         .deleteElement(this.props.id, this.props.options.prop);
     }
     this.save();

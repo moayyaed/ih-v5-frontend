@@ -1,30 +1,30 @@
 import { 
-  CONTAINER_SET_DATA,
-  CONTAINER_CLEAR_DATA,
+  DIALOG_SET_DATA,
+  DIALOG_CLEAR_DATA,
 
-  CONTAINER_SET_SETTINGS,
+  DIALOG_SET_SETTINGS,
 
-  CONTAINER_SET_SELECT,
-  CONTAINER_SET_SELECT_SOME,
-  CONTAINER_CLEAR_SELECTS,
+  DIALOG_SET_SELECT,
+  DIALOG_SET_SELECT_SOME,
+  DIALOG_CLEAR_SELECTS,
 
-  CONTAINER_GROUP_ELEMENTS,
-  CONTAINER_UNGROUP_ELEMENTS,
+  DIALOG_GROUP_ELEMENTS,
+  DIALOG_UNGROUP_ELEMENTS,
 
-  CONTAINER_RESIZE_GROUP_ELEMENT,
-  CONTAINER_MOVE_SELECT_CONTAINER,
-  CONTAINER_RESIZE_SELECT_CONTAINER,
+  DIALOG_RESIZE_GROUP_ELEMENT,
+  DIALOG_MOVE_SELECT_CONTAINER,
+  DIALOG_RESIZE_SELECT_CONTAINER,
 
-  CONTAINER_ADD_ELEMENT,
-  CONTAINER_ADD_TEMPLATE,
-  CONTAINER_EDIT_ELEMENT,
-  CONTAINER_DELETE_ELEMENT,
+  DIALOG_ADD_ELEMENT,
+  DIALOG_ADD_TEMPLATE,
+  DIALOG_EDIT_ELEMENT,
+  DIALOG_DELETE_ELEMENT,
 
-  CONTAINER_CHANGE_TEMPLATE,
+  DIALOG_CHANGE_TEMPLATE,
 } from './constants';
 
 
-function deleteElements(elements, templates, selects) {
+function deleteElements(elements, templates = {}, selects) {
   const e = Object
     .keys(elements)
     .reduce((p, c) => {
@@ -73,9 +73,9 @@ function getParentGroupId(id, elements) {
 
 function reducerContainer(state, action) {
   switch (action.type) {
-    case CONTAINER_SET_DATA:
+    case DIALOG_SET_DATA:
       return { ...state, ...action.data };
-    case CONTAINER_SET_SELECT:
+    case DIALOG_SET_SELECT:
       return { 
         ...state,
         selectType: 'one',
@@ -85,7 +85,7 @@ function reducerContainer(state, action) {
         },
         propertyType: (state.selectOne === 'content' && typeof state.selects.content === 'string') ? state.selects.content : state.propertyType,
       };
-    case CONTAINER_SET_SETTINGS:
+    case DIALOG_SET_SETTINGS:
       return { 
         ...state,
         settings: {
@@ -93,7 +93,7 @@ function reducerContainer(state, action) {
           ...action.data 
         }
       };
-    case CONTAINER_SET_SELECT_SOME:
+    case DIALOG_SET_SELECT_SOME:
       return { 
         ...state,
         selectType: 'some',
@@ -104,7 +104,7 @@ function reducerContainer(state, action) {
           [action.elementId]: true,
         },
       };
-    case CONTAINER_CLEAR_SELECTS:
+    case DIALOG_CLEAR_SELECTS:
       return { 
         ...state,
         selectType: 'one',
@@ -112,7 +112,7 @@ function reducerContainer(state, action) {
         selects: { content: true },
         // propertyType: 'move',
       };
-    case CONTAINER_GROUP_ELEMENTS:
+    case DIALOG_GROUP_ELEMENTS:
       return { 
         ...state,
         selectType: 'one',
@@ -139,7 +139,7 @@ function reducerContainer(state, action) {
             return { ...p, [c]: state.elements[c] }
           }, { [action.groupId]: action.groupData })
       };
-    case CONTAINER_UNGROUP_ELEMENTS:
+    case DIALOG_UNGROUP_ELEMENTS:
       return {
         ...state,
         selectType: 'some',
@@ -181,7 +181,7 @@ function reducerContainer(state, action) {
             return { ...p, [c]: state.elements[c] }
           }, {}),
       }
-    case CONTAINER_RESIZE_GROUP_ELEMENT:
+    case DIALOG_RESIZE_GROUP_ELEMENT:
       return { 
         ...state,
         elements: Object
@@ -214,7 +214,7 @@ function reducerContainer(state, action) {
             return { ...p, [c]: state.elements[c] }
           }, {}),
       };
-    case CONTAINER_MOVE_SELECT_CONTAINER:
+    case DIALOG_MOVE_SELECT_CONTAINER:
       return { 
         ...state,
         selectContainer: {
@@ -240,7 +240,7 @@ function reducerContainer(state, action) {
             return { ...p, [c]: state.elements[c] }
           }, {}),
       };
-    case CONTAINER_RESIZE_SELECT_CONTAINER:
+    case DIALOG_RESIZE_SELECT_CONTAINER:
       return {
         ...state,
         selectContainer: {
@@ -283,7 +283,7 @@ function reducerContainer(state, action) {
             return { ...p, [c]: state.elements[c] }
           }, {}),
       }
-    case CONTAINER_ADD_ELEMENT:
+    case DIALOG_ADD_ELEMENT:
       return { 
         ...state,
         list: state.list.concat(action.elementId),
@@ -298,7 +298,7 @@ function reducerContainer(state, action) {
           [action.elementId]: action.data,
         },
       };
-    case CONTAINER_ADD_TEMPLATE:
+    case DIALOG_ADD_TEMPLATE:
       return { 
         ...state,
         list: state.list.concat(action.elementId),
@@ -317,7 +317,7 @@ function reducerContainer(state, action) {
           [action.templateId]: action.templateData,
         },
       };
-    case CONTAINER_CHANGE_TEMPLATE:
+    case DIALOG_CHANGE_TEMPLATE:
       return { 
         ...state,
         elements: {
@@ -331,7 +331,7 @@ function reducerContainer(state, action) {
           },
         }
       };
-    case CONTAINER_EDIT_ELEMENT:
+    case DIALOG_EDIT_ELEMENT:
       return { 
         ...state,
         elements: {
@@ -342,7 +342,7 @@ function reducerContainer(state, action) {
           },
         }
       };
-    case CONTAINER_DELETE_ELEMENT:
+    case DIALOG_DELETE_ELEMENT:
       return { 
         ...state,
         selectType: null,
@@ -360,23 +360,23 @@ function reducerContainer(state, action) {
 
 function reducer(state, action) {
   switch (action.type) {
-    case CONTAINER_CLEAR_DATA:
+    case DIALOG_CLEAR_DATA:
       return { };
-    case CONTAINER_SET_DATA:
-    case CONTAINER_SET_SETTINGS:
-    case CONTAINER_SET_SELECT:
-    case CONTAINER_SET_SELECT_SOME:
-    case CONTAINER_CLEAR_SELECTS:
-    case CONTAINER_GROUP_ELEMENTS:
-    case CONTAINER_UNGROUP_ELEMENTS:
-    case CONTAINER_RESIZE_GROUP_ELEMENT:
-    case CONTAINER_MOVE_SELECT_CONTAINER:
-    case CONTAINER_RESIZE_SELECT_CONTAINER:
-    case CONTAINER_ADD_ELEMENT:
-    case CONTAINER_ADD_TEMPLATE:
-    case CONTAINER_CHANGE_TEMPLATE:
-    case CONTAINER_EDIT_ELEMENT:
-    case CONTAINER_DELETE_ELEMENT:
+    case DIALOG_SET_DATA:
+    case DIALOG_SET_SETTINGS:
+    case DIALOG_SET_SELECT:
+    case DIALOG_SET_SELECT_SOME:
+    case DIALOG_CLEAR_SELECTS:
+    case DIALOG_GROUP_ELEMENTS:
+    case DIALOG_UNGROUP_ELEMENTS:
+    case DIALOG_RESIZE_GROUP_ELEMENT:
+    case DIALOG_MOVE_SELECT_CONTAINER:
+    case DIALOG_RESIZE_SELECT_CONTAINER:
+    case DIALOG_ADD_ELEMENT:
+    case DIALOG_ADD_TEMPLATE:
+    case DIALOG_CHANGE_TEMPLATE:
+    case DIALOG_EDIT_ELEMENT:
+    case DIALOG_DELETE_ELEMENT:
       return { 
         ...state, 
         data: {

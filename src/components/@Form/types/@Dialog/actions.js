@@ -1,32 +1,32 @@
 import { 
-  CONTAINER_SET_DATA,
-  CONTAINER_CLEAR_DATA,
+  DIALOG_SET_DATA,
+  DIALOG_CLEAR_DATA,
 
-  CONTAINER_SET_SETTINGS,
+  DIALOG_SET_SETTINGS,
 
-  CONTAINER_SET_SELECT,
-  CONTAINER_SET_SELECT_SOME,
-  CONTAINER_CLEAR_SELECTS,
+  DIALOG_SET_SELECT,
+  DIALOG_SET_SELECT_SOME,
+  DIALOG_CLEAR_SELECTS,
 
-  CONTAINER_GROUP_ELEMENTS,
-  CONTAINER_UNGROUP_ELEMENTS,
+  DIALOG_GROUP_ELEMENTS,
+  DIALOG_UNGROUP_ELEMENTS,
 
-  CONTAINER_RESIZE_GROUP_ELEMENT,
-  CONTAINER_MOVE_SELECT_CONTAINER,
-  CONTAINER_RESIZE_SELECT_CONTAINER,
+  DIALOG_RESIZE_GROUP_ELEMENT,
+  DIALOG_MOVE_SELECT_CONTAINER,
+  DIALOG_RESIZE_SELECT_CONTAINER,
 
-  CONTAINER_ADD_ELEMENT,
-  CONTAINER_ADD_TEMPLATE,
-  CONTAINER_EDIT_ELEMENT,
-  CONTAINER_DELETE_ELEMENT,
+  DIALOG_ADD_ELEMENT,
+  DIALOG_ADD_TEMPLATE,
+  DIALOG_EDIT_ELEMENT,
+  DIALOG_DELETE_ELEMENT,
   
-  CONTAINER_CHANGE_TEMPLATE,
+  DIALOG_CHANGE_TEMPLATE,
 } from './constants';
 
 
 export function data(id, prop, data) {
   return {
-    type: CONTAINER_SET_DATA,
+    type: DIALOG_SET_DATA,
     id,
     prop,
     data,
@@ -35,13 +35,13 @@ export function data(id, prop, data) {
 
 export function clear() {
   return {
-    type: CONTAINER_CLEAR_DATA,
+    type: DIALOG_CLEAR_DATA,
   };
 }
 
 export function settings(id, prop, data) {
   return {
-    type: CONTAINER_SET_SETTINGS,
+    type: DIALOG_SET_SETTINGS,
     id,
     prop,
     data,
@@ -50,7 +50,7 @@ export function settings(id, prop, data) {
 
 export function select(id, prop, elementId) {
   return {
-    type: CONTAINER_SET_SELECT,
+    type: DIALOG_SET_SELECT,
     id,
     prop,
     elementId,
@@ -59,7 +59,7 @@ export function select(id, prop, elementId) {
 
 export function selectSome(id, prop, elementId, data) {
   return {
-    type: CONTAINER_SET_SELECT_SOME,
+    type: DIALOG_SET_SELECT_SOME,
     id,
     prop,
     elementId,
@@ -69,7 +69,7 @@ export function selectSome(id, prop, elementId, data) {
 
 export function clearSelects(id, prop) {
   return {
-    type: CONTAINER_CLEAR_SELECTS,
+    type: DIALOG_CLEAR_SELECTS,
     id,
     prop,
   };
@@ -77,7 +77,7 @@ export function clearSelects(id, prop) {
 
 export function groupElements(id, prop, groupId, groupData) {
   return {
-    type: CONTAINER_GROUP_ELEMENTS,
+    type: DIALOG_GROUP_ELEMENTS,
     id,
     prop,
     groupId,
@@ -87,7 +87,7 @@ export function groupElements(id, prop, groupId, groupData) {
 
 export function unGroupElements(id, prop, list, data) {
   return {
-    type: CONTAINER_UNGROUP_ELEMENTS,
+    type: DIALOG_UNGROUP_ELEMENTS,
     id,
     prop,
     list,
@@ -97,7 +97,7 @@ export function unGroupElements(id, prop, list, data) {
 
 export function resizeGroupElement(id, prop, groupId, groupPosition, groupChilds) {
   return {
-    type: CONTAINER_RESIZE_GROUP_ELEMENT,
+    type: DIALOG_RESIZE_GROUP_ELEMENT,
     id,
     prop,
     groupId,
@@ -108,7 +108,7 @@ export function resizeGroupElement(id, prop, groupId, groupPosition, groupChilds
 
 export function moveSelectContainer(id, prop, x, y) {
   return {
-    type: CONTAINER_MOVE_SELECT_CONTAINER,
+    type: DIALOG_MOVE_SELECT_CONTAINER,
     id,
     prop,
     x,
@@ -118,7 +118,7 @@ export function moveSelectContainer(id, prop, x, y) {
 
 export function resizeSelectContainer(id, prop, position, childs) {
   return {
-    type: CONTAINER_RESIZE_SELECT_CONTAINER,
+    type: DIALOG_RESIZE_SELECT_CONTAINER,
     id,
     prop,
     position,
@@ -128,7 +128,7 @@ export function resizeSelectContainer(id, prop, position, childs) {
 
 export function addElement(id, prop, elementId, data) {
   return {
-    type: CONTAINER_ADD_ELEMENT,
+    type: DIALOG_ADD_ELEMENT,
     id,
     prop,
     elementId,
@@ -138,7 +138,7 @@ export function addElement(id, prop, elementId, data) {
 
 export function addTemplate(id, prop, elementId, elementData, templateId, templateData) {
   return {
-    type: CONTAINER_ADD_TEMPLATE,
+    type: DIALOG_ADD_TEMPLATE,
     id,
     prop,
     elementId,
@@ -150,7 +150,7 @@ export function addTemplate(id, prop, elementId, elementData, templateId, templa
 
 export function changeTemplate(id, prop, elementId, name, data) {
   return {
-    type: CONTAINER_CHANGE_TEMPLATE,
+    type: DIALOG_CHANGE_TEMPLATE,
     id,
     prop,
     elementId,
@@ -161,7 +161,7 @@ export function changeTemplate(id, prop, elementId, name, data) {
 
 export function editElement(id, prop, elementId, data) {
   return {
-    type: CONTAINER_EDIT_ELEMENT,
+    type: DIALOG_EDIT_ELEMENT,
     id,
     prop,
     elementId,
@@ -171,7 +171,7 @@ export function editElement(id, prop, elementId, data) {
 
 export function deleteElement(id, prop) {
   return {
-    type: CONTAINER_DELETE_ELEMENT,
+    type: DIALOG_DELETE_ELEMENT,
     id,
     prop,
   };
