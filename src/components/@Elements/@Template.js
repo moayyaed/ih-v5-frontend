@@ -58,7 +58,7 @@ class Template extends PureComponent {
           // animation: this.props.item.animation && this.props.item.animation.active ? this.props.item.animation.value : 'unset',
           overflow: this.props.item.overflow && this.props.item.overflow.value ? 'hidden' : 'unset',
           backgroundColor: this.props.template.settings.backgroundColor.value,
-          backgroundImage: this.props.template.settings.backgroundImage.value === 'unset' ? this.props.template.settings.backgroundColor.value : `url(/images/${encodeURI(this.props.template.settings.backgroundImage.value)})${color}`,
+          backgroundImage: `url(/images/${encodeURI(this.props.template.settings.backgroundImage.value)})${color}`,
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
         }}

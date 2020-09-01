@@ -110,7 +110,7 @@ function Text(props) {
       <div
         style={{
           ...styles.img,
-          backgroundImage: `url(/images/${encodeURI(props.item.img.value)})`,
+          backgroundImage: props.item.img.value.indexOf('://') !== -1 ? `url(${encodeURI(props.item.img.value)})` : `url(/images/${encodeURI(props.item.img.value)})`,
           transform: `scale(${scale(props.item.imgSize.value)}) rotate(${props.item.imgRotate.value}deg)`,
         }}
       />

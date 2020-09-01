@@ -727,6 +727,9 @@ class Sheet extends Component {
   } 
 
   render({ selects, settings, list, elements } = this.props) {
+    const type = settings.backgroundColor.type;
+    const color = type === 'fill' ? '' : ', ' + settings.backgroundColor.value;
+    const src =  settings.backgroundImage.value.indexOf('://') !== -1 ? settings.backgroundImage.value : '/images/' + settings.backgroundImage.value
     return (
       <div style={styles.root} onClick={this.handleClickBody}>
         <div 
@@ -756,8 +759,8 @@ class Sheet extends Component {
               <div style={{ 
                 width: '100%', 
                 height: '100%', 
-                background: settings.backgroundColor.value,
-                backgroundImage: settings.backgroundImage.value === 'unset' ? 'unset' : `url(/images/${encodeURI(settings.backgroundImage.value)})`,
+                backgroundColor: settings.backgroundColor.value,
+                backgroundImage:  `url(${encodeURI(src)})${color}`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center center',
               }}>
