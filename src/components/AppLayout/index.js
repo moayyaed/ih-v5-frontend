@@ -26,10 +26,24 @@ const classes = theme => ({
 class AppLayout extends Component {
 
   componentDidMount() {
+    core.transfer.sub('server_command', this.handleServerCommand);
+
     this.subs = {}
     this.request();
   }
 
+  handleServerCommand = (data) => {
+
+  }
+
+  realtimeLayout = (data) => {
+    core.actions.layout.updateElementsLayout(data);
+  }
+
+  realtimeContainer = (containerId, data) => {
+    core.actions.layout.updateElementsContainer(containerId, data);
+  }
+  
   request = () => {
     const params = {
       layoutId: this.props.route.layout || this.props.app.auth.layout,
@@ -80,18 +94,6 @@ class AppLayout extends Component {
           }
         });
     });
-  }
-
-  realtimeLayout = (data) => {
-    core.actions.layout.updateElementsLayout(data);
-  }
-
-  realtimeContainer = (containerId, data) => {
-    core.actions.layout.updateElementsContainer(containerId, data);
-  }
-
-  handleClick = (id) => {
-
   }
 
   handleRender = (id, item, scaleW, scaleH) => {

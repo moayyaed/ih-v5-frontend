@@ -3,6 +3,7 @@ import React from 'react';
 import './App.css';
 
 import AppLayout from 'components/AppLayout';
+import AppLayoutDialog from 'components/AppLayoutDialog';
 
 
 const styles = {
@@ -22,7 +23,12 @@ const styles = {
 };
 
 function App(props) {
-  return <AppLayout />
+  return (
+    <>
+      <AppLayout />
+      <AppLayoutDialog />
+    </>
+  ) 
 }
 
 

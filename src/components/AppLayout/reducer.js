@@ -1,6 +1,4 @@
 import { APP_LAYOUT_SET_DATA, APP_LAYOUT_UPDATE_TEMPLATES, APP_LAYOUT_UPDATE_ELEMENTS } from './constants';
-import elements from 'components/@Elements';
-import { act } from 'react-dom/test-utils';
 
 
 const defaultState = {
