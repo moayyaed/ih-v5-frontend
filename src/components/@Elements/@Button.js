@@ -217,8 +217,10 @@ class Button extends PureComponent {
         .forEach(item => {
           if (item.action === event && item.command) {
             const command = item.command;
-            if (command === 'fullscreen' || command === 'refresh' || command === 'exit' ) {
-
+            if (command === 'fullscreen' || command === 'refresh' || command === 'exit' || command === 'close') {
+              if (command === 'close') {
+                core.actions.layoutDialog.data({ open: false });
+              }
             } else {
               if (item.command === 'setval') {
                 const store = core.store.getState().layout;
