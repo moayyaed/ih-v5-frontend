@@ -31,7 +31,7 @@ class AppLayout extends Component {
   }
 
   render({ id, route, state, auth, classes } = this.props) {
-    return <div>DIALOG</div>;
+    return null;
   }
 }
 
