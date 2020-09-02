@@ -93,8 +93,7 @@ class Dialog extends PureComponent {
             fitH: { value: true },
             alignW: { value: { id: 'center', title: 'Center' } },
             alignH: { value: { id: 'center', title: 'Center' } },
-            scrollX: { value: false },
-            scrollY: { value: false }
+            position: { value: { id: 'right', title: 'Right' } }
           },
           list: [],
           elements: {},
@@ -342,7 +341,7 @@ class Dialog extends PureComponent {
     }
     if (id === 'property' && this.props.data.elements) {
       const elementData = this.props.data.selectOne === 'content' ? 
-      { ...this.props.data.settings , type: 'content2' } : 
+      { ...this.props.data.settings , type: 'content3' } : 
       this.props.data.elements[this.props.data.selectOne];
       const templateData = elementData && elementData.type === 'template' ? this.props.data.templates[elementData.templateId] : null;
       return (
