@@ -50,7 +50,7 @@ function messageTunnel(e) {
     }
     if (json.data !== undefined) {
       console.log(json.data)
-      // core.transfer.send('server_command', json.data);
+      // core.transfer.send('show_dialog_command', json.data);
       realtime.events.emit(json.uuid, json.data);
     }
     if (json.error) {

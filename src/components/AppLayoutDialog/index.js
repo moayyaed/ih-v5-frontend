@@ -21,6 +21,15 @@ const classes = theme => ({
 
 
 class AppLayout extends Component {
+
+  componentDidMount() {
+    core.transfer.sub('show_dialog_command', this.handleShowDialogCommand);
+  }
+
+  handleShowDialogCommand = () => {
+
+  }
+
   render({ id, route, state, auth, classes } = this.props) {
     return <div>DIALOG</div>;
   }
