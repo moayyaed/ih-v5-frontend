@@ -27,7 +27,7 @@ const options = {
   reducers: {
     app: reducerApp,
     layout: reducerAppLayout,
-    layoutDialog: actionsAppLayoutDialog,
+    layoutDialog: reducerAppLayoutDialog,
   },
 
   pages: {
