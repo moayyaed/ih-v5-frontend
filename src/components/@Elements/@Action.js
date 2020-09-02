@@ -73,7 +73,9 @@ class Action extends PureComponent {
                   const command = item.command;
                
                   if (command === 'fullscreen' || command === 'refresh' || command === 'exit' || command === 'close') {
-                    console.log('!');
+                    if (command === 'close') {
+                      core.actions.layoutDialog.data({ open: false });
+                    }
                   } else {
                     if (command === 'setval') {
                       const store = core.store.getState().layout;
