@@ -138,6 +138,7 @@ const COMMANDS = {
   plugin: 'pluginx',
   script: 'scriptx',
   setval: 'setitems',
+  dialog: 'dialog',
 }
 
 const COMMANDS_TITLES = {
@@ -146,6 +147,7 @@ const COMMANDS_TITLES = {
   layout: 'Go To Layout',
   script: 'Run Script',
   setval: 'Set Value',
+  dialog: 'Show Dialog',
 }
 
 const TITLES = {
@@ -447,10 +449,11 @@ function Actions(props) {
         <MenuItem key="4" onClick={() => handleClickOption('script')}>Run Script</MenuItem>,
         <MenuItem key="5" onClick={() => handleClickOption('layout')}>Go To Layout</MenuItem>,
         <MenuItem key="6" onClick={() => handleClickOption('setval')}>Set Value</MenuItem>,
+        <MenuItem key="7" onClick={() => handleClickOption('dialog')}>Show Dialog</MenuItem>,
         <Divider key="-" />,
-        <MenuItem key="7" onClick={() => handleClickOption('fullscreen')}>Full Screen</MenuItem>,
-        <MenuItem key="8" onClick={() => handleClickOption('refresh')}>Refresh</MenuItem>,
-        <MenuItem key="9" onClick={() => handleClickOption('exit')}>Exit</MenuItem>,
+        <MenuItem key="8" onClick={() => handleClickOption('fullscreen')}>Full Screen</MenuItem>,
+        <MenuItem key="9" onClick={() => handleClickOption('refresh')}>Refresh</MenuItem>,
+        <MenuItem key="10" onClick={() => handleClickOption('exit')}>Exit</MenuItem>,
       ]
     }
     return null;
