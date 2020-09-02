@@ -30,7 +30,11 @@ const DEFAULT = {
 
 function Dialog(props) {
   return (
-    <div style={{ width: props.settings.w.value, height: '100%' }}>
+    <div 
+      style={{ 
+        width: props.settings.fitW.value ? '100%' : props.settings.w.value, 
+        height: props.settings.fitH.value ? '100%' : props.settings.h.value,
+      }}>
       {elemets('container', { mode: 'user', item: { ...DEFAULT, ...props.settings}, container: props, templates: {}, scaleW: 1, scaleH: 1 })}
     </div>
   )
@@ -59,7 +63,7 @@ class AppLayout extends Component {
         ...data,
         open: true, 
         type: 'drawer', 
-        position: 'right', 
+        position: data.settings.position.value.id, 
         id,
       });
     })
