@@ -3,6 +3,10 @@ import { APP_LAYOUT_DIALOG_SET_DATA } from './constants';
 
 const defaultState = {
   open: false,
+  list: [],
+  containers: {},
+  templates: {},
+  elements: {},
 };
 
 
