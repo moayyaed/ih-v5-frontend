@@ -26,8 +26,8 @@ class AppLayout extends Component {
     core.transfer.sub('show_dialog_command', this.handleShowDialogCommand);
   }
 
-  handleShowDialogCommand = () => {
-
+  handleShowDialogCommand = (data) => {
+    console.log(data)
   }
 
   render({ id, route, state, auth, classes } = this.props) {

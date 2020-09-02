@@ -49,9 +49,11 @@ function messageTunnel(e) {
       }
     }
     if (json.data !== undefined) {
-      console.log(json.data)
-      // core.transfer.send('show_dialog_command', json.data);
       realtime.events.emit(json.uuid, json.data);
+    } else {
+      if (json.command !== undefined && json.command === 'showdialog') {
+        core.transfer.send('show_dialog_command', json);
+      }
     }
     if (json.error) {
       core.actions.app.alertOpen('warning', 'Real-time: ' + json.error);
