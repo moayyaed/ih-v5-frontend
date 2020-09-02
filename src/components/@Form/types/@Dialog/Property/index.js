@@ -7,7 +7,9 @@ import CompactForm from 'components/@Form/Compact';
 import scheme from 'components/@Form/types/@Layout/Property/scheme';
 import actions from 'components/@Form/actions';
 
-const route = {}
+const route = {
+  dialog: true,
+}
 const cache = {}
 
 const LEFT = [

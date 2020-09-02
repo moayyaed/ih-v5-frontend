@@ -65,8 +65,8 @@ class Action2 extends PureComponent {
         .forEach(item => {
           if (item.action === event && item.command) {
             const command = item.command;
-            if (command === 'fullscreen' || command === 'refresh' || command === 'exit' ) {
-
+            if (command === 'fullscreen' || command === 'refresh' || command === 'exit' || command === 'close' ) {
+              console.log('!')
             } else {
               core.tunnel.command({
                 uuid: shortid.generate(),

@@ -304,7 +304,7 @@ function Actions(props) {
   const handleClickOption = (command) => {
     const type = state.type === 'option-left' ? 'left' : 'right';
     
-    if (command === 'fullscreen' || command === 'refresh' || command === 'exit' ) {
+    if (command === 'fullscreen' || command === 'refresh' || command === 'exit' || command === 'close' ) {
       props.onChange(props.id, props.options, null, { 
         ...props.data, 
         [type]: props.data[type].map((i, key) => {
@@ -419,7 +419,7 @@ function Actions(props) {
   }
 
 
-  const getMenu = () => {
+  const getMenu = (route) => {
     if (state.type === 'left') {
       return LEFT
         .map((i, key) => <MenuItem key={key} onClick={() => handleClickAdd(i)}>{TITLES[i]}</MenuItem>);
@@ -443,6 +443,11 @@ function Actions(props) {
     }
 
     if (state.type === 'option-left' || state.type === 'option-right') {
+      if (route.dialog) {
+        return [
+          <MenuItem key="1" onClick={() => handleClickOption('close')}>Close Dialog</MenuItem>,
+        ]
+      }
       return [
         <MenuItem key="2" onClick={() => handleClickOption('device')}>Device Command</MenuItem>,
         <MenuItem key="3" onClick={() => handleClickOption('plugin')}>Plugin Command</MenuItem>,
@@ -467,7 +472,7 @@ function Actions(props) {
         open={Boolean(state.anchorEl)}
         onClose={handleClose}
       >
-        {getMenu()}
+        {getMenu(props.route)}
       </Menu>
       <div style={styles.divider} >
         <div style={styles.dividerTitle} >
