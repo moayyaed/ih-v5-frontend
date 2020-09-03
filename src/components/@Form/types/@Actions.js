@@ -244,7 +244,7 @@ function Actions(props) {
 
       setState({  anchorEl: null, type: state.type, key: state.key });
 
-      if (item.command && !(item.command === 'fullsreecn' || item.command === 'refresh' || item.command === 'exit' )) {
+      if (item.command && !(item.command === 'fullscreen' || item.command === 'refresh' || item.command === 'exit' || item.command === 'close' )) {
         hanndleDialog(item.command, type, state.key, item.did || item.id, item.prop, item.func, item.title, item.local);
       } else {
         setState({ type: 'option-' + type, anchorEl, key: state.key });

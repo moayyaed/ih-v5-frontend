@@ -973,7 +973,7 @@ const scheme = {
       },
       { 
         title: 'Position', 
-        prop: 'position', 
+        prop: 'dposition', 
         type: 'divider',
       },
       { 
