@@ -1076,6 +1076,40 @@ const scheme = {
     ],
   },
   group: groupSettings,
+  expand: {
+    main: [],
+    move: [
+      { 
+        title: 'Position', 
+        prop: 'position', 
+        type: 'divider',
+      },
+      { 
+        title: 'X', 
+        prop: 'x', 
+        type: 'number',
+        bind: false,
+      },
+      { 
+        title: 'Y', 
+        prop: 'y', 
+        type: 'number',
+        bind: false,
+      },
+      { 
+        title: 'Width', 
+        prop: 'w', 
+        type: 'number',
+        bind: false,
+      },
+      { 
+        title: 'Height', 
+        prop: 'h', 
+        type: 'number',
+        bind: false,
+      },
+    ],
+  },
   container: containerSettings,
   listActions: [
     'singleClickLeft', 'doubleClickLeft', 'longClickLeft', 

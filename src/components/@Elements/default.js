@@ -298,6 +298,10 @@ const TEMPLATE = {
   overflow: { value: true },
 }
 
+const EXPAND = {
+  zIndex: { value: 10000 },
+}
+
 
 function getDefaultParams(type) {
   switch (type) {
@@ -322,6 +326,8 @@ function getDefaultParams(type) {
       return ACTION;
     case 'action2':
       return ACTION2;
+    case 'expand':
+      return EXPAND;
     default:
       return BLOCK;
   }
