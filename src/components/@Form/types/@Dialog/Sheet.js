@@ -257,6 +257,14 @@ class Sheet extends Component {
       w2: { value: 60 }, h2: { value: 60 },
     }
 
+    if (type === 'expand') {
+      data.x.value = 0;
+      data.w.value = '100%';
+      data.h.value = 4;
+      data.w2.value = '100%';
+      data.h2.value = 4;
+    }
+
     if (type === 'template') {
       core
         .request({ method: 'get_template', params: templateId })
@@ -318,6 +326,8 @@ class Sheet extends Component {
     e.preventDefault();
     e.stopPropagation();
 
+    this.lastDragEventTime = Date.now()
+
     if (
       data.x !== this.props.elements[elementId].x.value || 
       data.y !== this.props.elements[elementId].y.value
@@ -358,18 +368,20 @@ class Sheet extends Component {
   }
 
   handleClickBody = (e) => {
-    core.actions.dialog
+    const delta = Date.now() - this.lastDragEventTime;
+    if (delta > 300) {
+      core.actions.dialog
       .clearSelects(
         this.props.id, this.props.prop,
       );
+    }
   }
 
   handleClickElement = (e, elementId) => {
     e.preventDefault();
     e.stopPropagation();
-
     if (e.shiftKey && this.props.selectType !== null) {
-      if (this.props.selects[elementId] === undefined) {
+      if (this.props.elements[elementId].type !== 'expand' && this.props.selects[elementId] === undefined) {
         const data = { 
           x: { value: Infinity }, 
           y: { value: Infinity }, 
@@ -396,11 +408,13 @@ class Sheet extends Component {
           );
       }
     } else {
-      core.actions.dialog
+      if (this.props.elements[elementId].type !== 'expand') {
+        core.actions.dialog
         .select(
           this.props.id, this.props.prop,
           elementId
         );
+      }
     }
   }
 
@@ -428,7 +442,7 @@ class Sheet extends Component {
       { id: '3', title: 'Image', click: () => this.handleAddElement(e, 'image') },
       { id: '4', title: 'Text & Image', click: () => this.handleAddElement(e, 'text_image') },
       { id: '5', title: 'Button', click: () => this.handleAddElement(e, 'button') },
-      { id: '6', title: 'Expand Zone', click: () => this.handleAddElement(e, 'expand') },
+      { id: '6', title: 'Expand Border', click: () => this.handleAddElement(e, 'expand') },
       // { id: '5', title: 'Action Zone', click: () => this.handleAddElement(e, 'action2') },
       // { id: '6', type: 'divider' },
      // { id: '7', title: 'CCTV', click: () => this.handleAddElement(e, 'cctv') },

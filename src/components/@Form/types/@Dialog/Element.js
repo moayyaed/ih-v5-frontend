@@ -38,7 +38,7 @@ function Element(props) {
         {props.onRenderElement(props.id, props.item)}
         <ResizeControls
           id={props.id}
-          disabled={props.isGroup || !props.select || props.selectType === 'some'}
+          disabled={props.isGroup || !props.select || props.selectType === 'some' || props.item.type === 'expand'}
           position={props.item}
           grid={props.grid} 
           scale={props.scale} 

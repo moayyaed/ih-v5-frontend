@@ -364,6 +364,8 @@ class Sheet extends Component {
     e.preventDefault();
     e.stopPropagation();
 
+    this.lastDragEventTime = Date.now()
+    
     if (
       data.x !== this.props.elements[elementId].x.value || 
       data.y !== this.props.elements[elementId].y.value
@@ -642,8 +644,11 @@ class Sheet extends Component {
   }
 
   handleClickBody = (e) => {
-    core.actions.template
+    const delta = Date.now() - this.lastDragEventTime;
+    if (delta > 300) {
+      core.actions.template
       .clearSelects(this.props.id, this.props.prop);
+    }
   }
 
   handleClickSelectContainer = (e) => {
