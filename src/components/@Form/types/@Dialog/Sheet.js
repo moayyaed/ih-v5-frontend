@@ -312,7 +312,7 @@ class Sheet extends Component {
     }
   }
 
-  handleDeleteElement = () => {
+  handleDeleteElement = (elementId) => {
     core.actions.dialog
       .deleteElement(this.props.id, this.props.prop);
     this.props.save();
@@ -424,6 +424,15 @@ class Sheet extends Component {
 
     e.persist();
 
+    const close = () => {
+      if (this.props.elements[elementId] && this.props.elements[elementId].type === 'expand') {
+        core.actions.dialog
+          .clearSelects(
+            this.props.id, this.props.prop,
+          );
+      }
+    }
+
     const disabled = {
       'isSelect': Object.keys(this.props.selects).length === 0,
       'isPaste': !(core.buffer.class === 'dialog'),
@@ -465,7 +474,15 @@ class Sheet extends Component {
       ]
     }
 
-    ContextMenu.show(<Menu disabled={disabled} commands={commands} scheme={scheme} />, pos);
+    if (this.props.elements[elementId] && this.props.elements[elementId].type === 'expand') {
+      core.actions.dialog
+        .select(
+          this.props.id, this.props.prop,
+          elementId
+        );
+    }
+    
+    ContextMenu.show(<Menu disabled={disabled} commands={commands} scheme={scheme} />, pos, close);
   }
 
   handleClickGroupElements = () => {
