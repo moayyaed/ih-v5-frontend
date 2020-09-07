@@ -416,7 +416,7 @@ class Sheet extends Component {
     e.persist();
 
     const disabled = {
-      'isSelect': Object.keys(this.props.selects).length === 0,
+      'isSelect': Object.keys(this.props.selects).length === 0 || this.props.selectOne === 'content',
       'isPaste': !(core.buffer.class === 'container'),
       'isTemplate': this.props.selectOne ? !(this.props.selectOne && this.props.elements[this.props.selectOne] && this.props.elements[this.props.selectOne] && this.props.elements[this.props.selectOne].type === 'template') : false,
     }

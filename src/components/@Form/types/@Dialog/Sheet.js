@@ -434,7 +434,8 @@ class Sheet extends Component {
     }
 
     const disabled = {
-      'isSelect': Object.keys(this.props.selects).length === 0,
+      'isDelete': (this.props.elements[elementId] && this.props.elements[elementId].type === 'expand') ? false : Object.keys(this.props.selects).length === 0 || this.props.selectOne === 'content',
+      'isSelect': Object.keys(this.props.selects).length === 0 || this.props.selectOne === 'content',
       'isPaste': !(core.buffer.class === 'dialog'),
       'isTemplate': this.props.selectOne ? !(this.props.selectOne && this.props.elements[this.props.selectOne] && this.props.elements[this.props.selectOne] && this.props.elements[this.props.selectOne].type === 'template') : false,
     }
@@ -468,7 +469,7 @@ class Sheet extends Component {
         { id: '7', check: 'isSelect', title: 'Copy', click: this.handleClickCopyElements },
         { id: '8', check: 'isPaste', title: 'Paste', click: () => this.handleClickPasteElements(e) },
         { id: '9', type: 'divider' },
-        { id: '10', check: 'isSelect', title: 'Delete', click: () => this.handleDeleteElement(elementId) },
+        { id: '10', check: 'isDelete', title: 'Delete', click: () => this.handleDeleteElement(elementId) },
         // { id: '11', type: 'divider' },
         // { id: '12', check: 'isTemplate', title: 'Edit Template', click: this.handleClickEditTemplate },
       ]
@@ -481,7 +482,7 @@ class Sheet extends Component {
           elementId
         );
     }
-    
+
     ContextMenu.show(<Menu disabled={disabled} commands={commands} scheme={scheme} />, pos, close);
   }
 
