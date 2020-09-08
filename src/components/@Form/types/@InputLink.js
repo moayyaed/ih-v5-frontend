@@ -81,7 +81,7 @@ class InputLink extends PureComponent {
             noscroll: true,
             title: 'Binding Settings',
             type: 'tree',
-            id: 'elements',
+            id: this.props.route.dialog ? 'elementsAndVistemplates': 'elements',
             selectnodeid: this.props.data.did,
             selectId: this.props.data.prop,
             selectTitle: this.props.data.title,
