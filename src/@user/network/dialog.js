@@ -1,6 +1,9 @@
 import core from 'core';
 
 function preparationData(data) {
+
+  const dialogPosition = data.settings.position.value.id;
+
   let count = 0;
   let step = 0;
 
@@ -8,7 +11,8 @@ function preparationData(data) {
   const itemsY = {};
   const delta = document.body.clientHeight - data.settings.h.value;
 
-  Object
+  if (dialogPosition !== 'center') {
+    Object
     .keys(data.elements)
     .forEach(id => {
       const item = data.elements[id];
@@ -38,8 +42,7 @@ function preparationData(data) {
         })
       }
     })
-
-  const dialogPosition = data.settings.position.value.id;
+  }
 
   if (dialogPosition === 'right' || dialogPosition === 'left') {
     data.settings.fitH.value = true;

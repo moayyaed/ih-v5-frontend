@@ -7,6 +7,8 @@ import { createSelector } from 'reselect';
 import { withStyles } from '@material-ui/core/styles';
 
 import Drawer from '@material-ui/core/Drawer';
+import Dialog from '@material-ui/core/Dialog';
+
 import elemets from 'components/@Elements';
 
 
@@ -42,7 +44,7 @@ function getPosition(settings) {
   }
 }
 
-function Dialog(props) {
+function RenderCore(props) {
   const pos = getPosition(props.settings);
   return (
     <div 
@@ -56,7 +58,7 @@ function Dialog(props) {
 }
 
 
-class AppLayout extends Component {
+class AppLayoutDialog extends Component {
 
   componentDidMount() {
     core.transfer.sub('show_dialog_command', this.handleShowDialogCommand);
@@ -66,8 +68,8 @@ class AppLayout extends Component {
     this.request(data);
   }
 
-  handleCloseDrawer = () => {
-    core.actions.layoutDialog.data({ open: false });
+  handleClose = () => {
+    core.actions.layoutDialog.data({ open: false, position: null });
   }
 
   request = ({ id }) => {
@@ -77,7 +79,6 @@ class AppLayout extends Component {
       core.actions.layoutDialog.data({
         ...data,
         open: true, 
-        type: 'drawer', 
         position: data.settings.position.value.id, 
         id,
       });
@@ -85,10 +86,19 @@ class AppLayout extends Component {
   }
 
   render({ id, route, state, auth, classes } = this.props) {
+    const openDialog = state.position === 'center' && state.open;
+    const openDrawer = state.position && state.position !== 'center' && state.open;
     return (
-      <Drawer anchor={state.position} open={state.open} onClose={this.handleCloseDrawer}>
-        {state.open ? React.createElement(Dialog, state): null}
-      </Drawer>
+      <>
+        <Drawer anchor={state.position === 'center' ? 'right' : state.position} open={openDrawer} >
+          {openDrawer ? React.createElement(RenderCore, state): null}
+        </Drawer>
+        <Dialog 
+          open={openDialog}
+        >
+          {openDialog ? React.createElement(RenderCore, state): null}
+        </Dialog>
+      </>
     );
   }
 }
@@ -100,4 +110,4 @@ const mapStateToProps = createSelector(
   (state, app) => ({ state, app })
 )
 
-export default connect(mapStateToProps)(withStyles(classes)(AppLayout));
+export default connect(mapStateToProps)(withStyles(classes)(AppLayoutDialog));
