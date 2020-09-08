@@ -93,7 +93,8 @@ class Dialog extends PureComponent {
             fitH: { value: true },
             alignW: { value: { id: 'center', title: 'Center' } },
             alignH: { value: { id: 'center', title: 'Center' } },
-            position: { value: { id: 'right', title: 'Right' } }
+            position: { value: { id: 'right', title: 'Right' } },
+            outsideClose: { value: false },
           },
           list: [],
           elements: {},

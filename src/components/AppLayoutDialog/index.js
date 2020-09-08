@@ -69,6 +69,7 @@ class AppLayoutDialog extends Component {
   }
 
   handleClose = () => {
+    if (this.props.state.settings.outsideClose && this.props.state.settings.outsideClose.value)
     core.actions.layoutDialog.data({ open: false, position: null });
   }
 
@@ -90,11 +91,12 @@ class AppLayoutDialog extends Component {
     const openDrawer = state.position && state.position !== 'center' && state.open;
     return (
       <>
-        <Drawer anchor={state.position === 'center' ? 'right' : state.position} open={openDrawer} >
+        <Drawer anchor={state.position === 'center' ? 'right' : state.position} open={openDrawer} onClose={this.handleClose} >
           {openDrawer ? React.createElement(RenderCore, state): null}
         </Drawer>
         <Dialog 
           open={openDialog}
+          onClose={this.handleClose}
         >
           {openDialog ? React.createElement(RenderCore, state): null}
         </Dialog>

@@ -976,6 +976,12 @@ const scheme = {
         ]
       },
       { 
+        title: 'Close on click outside', 
+        prop: 'outsideClose', 
+        type: 'cb',
+        bind: false,
+      },
+      { 
         title: 'Position', 
         prop: 'dposition', 
         type: 'divider',
