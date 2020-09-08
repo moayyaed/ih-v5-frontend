@@ -69,8 +69,9 @@ class AppLayoutDialog extends Component {
   }
 
   handleClose = () => {
-    if (this.props.state.settings.outsideClose && this.props.state.settings.outsideClose.value)
-    core.actions.layoutDialog.data({ open: false, position: null });
+    if (this.props.state.settings.outsideClose && this.props.state.settings.outsideClose.value) {
+      core.actions.layoutDialog.data({ open: false, position: undefined });
+    }
   }
 
   request = ({ id }) => {

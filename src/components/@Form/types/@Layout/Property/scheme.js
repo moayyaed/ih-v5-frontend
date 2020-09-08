@@ -976,7 +976,7 @@ const scheme = {
         ]
       },
       { 
-        title: 'Close on click outside', 
+        title: 'Outside Close', 
         prop: 'outsideClose', 
         type: 'cb',
         bind: false,

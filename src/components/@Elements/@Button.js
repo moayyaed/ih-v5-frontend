@@ -219,7 +219,7 @@ class Button extends PureComponent {
             const command = item.command;
             if (command === 'fullscreen' || command === 'refresh' || command === 'exit' || command === 'close') {
               if (command === 'close') {
-                core.actions.layoutDialog.data({ open: false });
+                core.actions.layoutDialog.data({ open: false, position: undefined });
               }
             } else {
               if (item.command === 'setval') {
