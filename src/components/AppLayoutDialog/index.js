@@ -65,10 +65,15 @@ class AppLayoutDialog extends Component {
 
   componentDidMount() {
     core.transfer.sub('show_dialog_command', this.handleShowDialogCommand);
+    core.transfer.sub('close_dialog_command', this.handleCloseDialogCommand);
   }
 
   handleShowDialogCommand = (data) => {
     this.request(data);
+  }
+
+  handleCloseDialogCommand = () => {
+    this.handleClose();
   }
 
   handleClose = () => {

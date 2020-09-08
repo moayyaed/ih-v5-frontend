@@ -67,7 +67,7 @@ class Action2 extends PureComponent {
             const command = item.command;
             if (command === 'fullscreen' || command === 'refresh' || command === 'exit' || command === 'close' ) {
               if (command === 'close') {
-                core.actions.layoutDialog.data({ open: false, position: undefined  });
+                core.transfer.send('close_dialog_command');
               }
             } else {
               core.tunnel.command({
