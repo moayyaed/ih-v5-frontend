@@ -954,6 +954,10 @@ const scheme = {
         bind: false,
         data: [
           {
+            id: 'center',
+            title: 'Center'
+          },
+          {
             id: 'left',
             title: 'Left'
           },
@@ -1010,69 +1014,7 @@ const scheme = {
         min: 1,
         max: 100,
         bind: false,
-      },
-      { 
-        title: 'Align', 
-        prop: 'align', 
-        type: 'divider',
-      },
-      {
-        prop: 'alignW',
-        title: 'Horizontal',
-        type: 'droplistlink',
-        bind: false,
-        data: [
-          {
-            id: 'flex-start',
-            title: 'Left'
-          },
-          {
-            id: 'center',
-            title: 'Center'
-          },
-          {
-            id: 'flex-end',
-            title: 'Right'
-          }
-        ]
-      },
-      {
-        prop: 'alignH',
-        title: 'Vertical',
-        type: 'droplistlink',
-        bind: false,
-        data: [
-          {
-            id: 'flex-start',
-            title: 'Top'
-          },
-          {
-            id: 'center',
-            title: 'Center'
-          },
-          {
-            id: 'flex-end',
-            title: 'Bottom'
-          }
-        ]
-      },
-      { 
-        title: 'Fit', 
-        prop: 'fit', 
-        type: 'divider',
-      },
-      { 
-        title: 'Width', 
-        prop: 'fitW', 
-        type: 'cb',
-        bind: false,
-      },
-      { 
-        title: 'Height', 
-        prop: 'fitH', 
-        type: 'cb',
-        bind: false,
-      },
+      }
     ],
   },
   group: groupSettings,
