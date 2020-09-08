@@ -105,7 +105,7 @@ class AppNav extends Component {
             const type = node.children !== undefined ? 'parent' : 'child';
             const componentid = node.component || res.options[rootid][type].defaultComponent;
             res.click = { id: selectid, component: componentid };
-            this.props.onClickNode({ node }, componentid, selectid);
+            this.props.onClickNode({ node }, componentid, selectid, res);
           }
         }
       }
@@ -197,7 +197,7 @@ class AppNav extends Component {
     if (this.props.disabledRoute) {
       core.actions.appnav.clickNode(this.props.stateid, componentid, item.node.id);
       if (this.props.onClickNode) {
-        this.props.onClickNode(item, componentid, item.node.id);
+        this.props.onClickNode(item, componentid, item.node.id, state);
       }
     } else {
       const params = core.cache.componentsParams[componentid] ?  

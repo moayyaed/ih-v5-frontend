@@ -41,6 +41,7 @@ core.network.request('appdialog_elementlink', (send, context) => {
     dialogid: context.params.dialogid,
     id: 'elementlink',
     nodeid: context.params.id,
+    rootid: context.params.rootid,
     anchor: context.props.anchor,
   });
 })

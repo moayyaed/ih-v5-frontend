@@ -54,7 +54,22 @@ const styles = {
 }
 
 function handleClickNode(item, component, nodeid, context) {
-  core.actions.appdialog.component({ title: item.node.title, type: component, id: nodeid });
+  let rootid = null;
+
+  if (item.node && item.node.paths) {
+    Object
+      .keys(item.node.paths)
+      .forEach(key => {
+        if (item.node.paths[key].root) {
+          rootid = item.node.paths[key].root;
+        }
+      }) 
+  } else {
+    if (item.path && item.path[0] && context.options.roots[item.path[0]] !== undefined) {
+      rootid = context.options.roots[item.path[0]];
+    }
+  }
+  core.actions.appdialog.component({ title: item.node.title, type: component, id: nodeid, rootid });
 }
 
 function TemplateTree({ state }) {
