@@ -160,7 +160,7 @@ function Color(props) {
             noscroll: true,
             title: 'Binding Settings',
             type: 'tree',
-            id: this.props.route.dialog ? 'elementsAndVistemplates': 'elements',
+            id: props.route.dialog ? 'elementsAndVistemplates': 'elements',
             selectnodeid: props.data.did,
             selectId: props.data.prop,
             selectTitle: props.data.title,
