@@ -38,7 +38,7 @@ class Template extends PureComponent {
           animation: item.animation && item.animation.active ? item.animation.value : 'unset',
         }}
       >
-        {elemets(this.props.template.elements[id].type, { id: id, mode: this.props.mode, item: this.props.item.elements ? this.props.item.elements[id] : this.props.template.elements[id], actions: this.props.item.actions })}
+        {elemets(this.props.template.elements[id].type, { id, layoutId: this.props.layoutId, containerId: this.props.containerId, mode: this.props.mode, item: this.props.item.elements ? this.props.item.elements[id] : this.props.template.elements[id], actions: this.props.item.actions })}
       </div>
     )
   }

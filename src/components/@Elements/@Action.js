@@ -28,11 +28,11 @@ const styles = {
 }
 
 
-function getParams(item) {
+function getParams(item, props) {
   if (item.command === 'device') {
-    return { did: item.did, prop: item.prop }
+    return { did: item.did, prop: item.prop, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id }
   }
-  return { ...item.value, id: item.id };
+  return { ...item.value, id: item.id, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id };
 }
 
 
@@ -59,11 +59,11 @@ class Action extends PureComponent {
     }
   }
 
-  handleAction = (id, event, actions) => {
+  handleAction = (props, event, actions) => {
     Object
       .keys(actions)
       .forEach(key => {
-        if (typeof actions[key] === 'object' && id === key) {
+        if (typeof actions[key] === 'object' && props.id === key) {
           Object
           .keys(actions[key])
           .forEach(key2 => {
@@ -90,7 +90,7 @@ class Action extends PureComponent {
                         method: 'action',
                         type:'command',
                         command: item.command,
-                        ...getParams(item)
+                        ...getParams(item, props)
                       });
                     }
                   }
@@ -103,27 +103,27 @@ class Action extends PureComponent {
 
   handleSingleTap = () => {
     const name = 'singleClickLeft';
-    this.handleAction(this.props.id, name, this.props.actions);
+    this.handleAction(this.props, name, this.props.actions);
   }
 
   handleDoubleTap = () => {
     const name = 'doubleClickLeft';
-    this.handleAction(this.props.id, name, this.props.actions);
+    this.handleAction(this.props, name, this.props.actions);
   }
 
   handleLongTap = () => {
     const name = 'longClickLeft';
-    this.handleAction(this.props.id, name, this.props.actions);
+    this.handleAction(this.props, name, this.props.actions);
   }
 
   handlePressDown = () => {
     const name = 'mouseDownLeft';
-    this.handleAction(this.props.id, name, this.props.actions);
+    this.handleAction(this.props, name, this.props.actions);
   }
 
   handlePressUp = () => {
     const name = 'mouseUpLeft';
-    this.handleAction(this.props.id, name, this.props.actions);
+    this.handleAction(this.props, name, this.props.actions);
   }
 
   handlePress = (e) => {
@@ -138,7 +138,7 @@ class Action extends PureComponent {
     e.preventDefault();
     
     const name = 'singleClickRight';
-    this.handleAction(this.props.id, name, this.props.actions);
+    this.handleAction(this.props, name, this.props.actions);
   }
 
   linked = (e) => {

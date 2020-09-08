@@ -178,11 +178,11 @@ function ButtonEgine(props) {
   );
 }
 
-function getParams(item) {
+function getParams(item, props) {
   if (item.command === 'device') {
-    return { did: item.did, prop: item.prop }
+    return { did: item.did, prop: item.prop, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id }
   }
-  return { ...item.value, id: item.id };
+  return { ...item.value, id: item.id, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id };
 }
 
 
@@ -209,7 +209,7 @@ class Button extends PureComponent {
     }
   }
 
-  handleAction = (id, event, actions) => {
+  handleAction = (props, event, actions) => {
     Object
     .keys(actions)
     .forEach(key => {
@@ -248,7 +248,7 @@ class Button extends PureComponent {
                   method: 'action',
                   type:'command',
                   command: item.command,
-                  ...getParams(item)
+                  ...getParams(item, props)
                 });
               }
             }
@@ -259,27 +259,27 @@ class Button extends PureComponent {
 
   handleSingleTap = () => {
     const name = 'singleClickLeft';
-    this.handleAction(this.props.id, name, this.props.item.actions);
+    this.handleAction(this.props, name, this.props.item.actions);
   }
 
   handleDoubleTap = () => {
     const name = 'doubleClickLeft';
-    this.handleAction(this.props.id, name, this.props.item.actions);
+    this.handleAction(this.props, name, this.props.item.actions);
   }
 
   handleLongTap = () => {
     const name = 'longClickLeft';
-    this.handleAction(this.props.id, name, this.props.item.actions);
+    this.handleAction(this.props, name, this.props.item.actions);
   }
 
   handlePressDown = () => {
     const name = 'mouseDownLeft';
-    this.handleAction(this.props.id, name, this.props.item.actions);
+    this.handleAction(this.props, name, this.props.item.actions);
   }
 
   handlePressUp = () => {
     const name = 'mouseUpLeft';
-    this.handleAction(this.props.id, name, this.props.item.actions);
+    this.handleAction(this.props, name, this.props.item.actions);
   }
 
   handlePress = (e) => {
@@ -294,7 +294,7 @@ class Button extends PureComponent {
     e.preventDefault();
 
     const name = 'singleClickRight';
-    this.handleAction(this.props.id, name, this.props.item.actions);
+    this.handleAction(this.props, name, this.props.item.actions);
   }
 
   linked = (e) => {

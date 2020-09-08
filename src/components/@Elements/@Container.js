@@ -112,7 +112,7 @@ class Container extends PureComponent {
             animation: item.animation && item.animation.active ? item.animation.value : 'unset',
           }}
         >
-          {elemets(this.props.container.elements[id].type, { mode: this.props.mode, item: this.props.container.elements[id], template: this.props.templates[item.templateId] })}
+          {elemets(this.props.container.elements[id].type, { id, containerId: this.props.id, layoutId: this.props.layoutId, mode: this.props.mode, item: this.props.container.elements[id], template: this.props.templates[item.templateId] })}
         </div>
       )
     }
@@ -129,7 +129,7 @@ class Container extends PureComponent {
           animation: item.animation && item.animation.active ? item.animation.value : 'unset',
         }}
       >
-        {elemets(this.props.container.elements[id].type, { mode: this.props.mode, item: this.props.container.elements[id] })}
+        {elemets(this.props.container.elements[id].type, { id, containerId: this.props.id, layoutId: this.props.layoutId, mode: this.props.mode, item: this.props.container.elements[id] })}
       </div>
     )
   }
