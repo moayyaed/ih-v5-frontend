@@ -77,9 +77,31 @@ class AppLayoutDialog extends Component {
   }
 
   handleClose = () => {
+    this.clearAnimation();
     if (this.props.state.settings.outsideClose && this.props.state.settings.outsideClose.value) {
       core.actions.layoutDialog.data({ open: false, position: undefined });
     }
+  }
+
+  clearAnimation = () => {
+    const temp = []
+
+    Object
+      .keys(document.styleSheets[0].rules)
+      .forEach(id => {
+        if (document.styleSheets[0].rules[id].type === CSSRule.KEYFRAMES_RULE) {
+          const keys = document.styleSheets[0].rules[id].name.split('_');
+          if (keys[0] === 'dialog') {
+            temp.push(id)
+          }
+        }
+      })
+
+      temp
+        .reverse()
+        .forEach(id => {
+          document.styleSheets[0].deleteRule(id);
+      })
   }
 
   request = ({ id }) => {

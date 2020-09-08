@@ -86,7 +86,7 @@ function preparationData(data) {
         ) {
           const values = item.value.split(' ');
           const old_id = values[0];
-          const _id = `${values[0]}_${key}_${id}`;
+          const _id = `${key}_${values[0]}_${id}`;
 
           values[0] = _id;
           data.elements[id][propId].value = values.join(' ');
@@ -99,7 +99,7 @@ function preparationData(data) {
           try {
             styles.stylesheet.rules
               .forEach(item => {
-                item.name = `${item.name}_${key}_${id}`
+                item.name = `${key}_${item.name}_${id}`
                 if (item.type === 'keyframes') {
                   const style = css.stringify({
                     stylesheet: {
