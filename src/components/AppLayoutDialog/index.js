@@ -20,7 +20,10 @@ const styles = {
 };
 
 const classes = theme => ({
-
+  paper: {
+    margin: 0,
+    maxWidth: 'unset',
+  }
 });
 
 const DEFAULT = {
@@ -98,6 +101,7 @@ class AppLayoutDialog extends Component {
         <Dialog 
           open={openDialog}
           onClose={this.handleClose}
+          classes={classes}
         >
           {openDialog ? React.createElement(RenderCore, state): null}
         </Dialog>
