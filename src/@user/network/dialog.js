@@ -39,6 +39,28 @@ function preparationData(data) {
       }
     })
 
+  const dialogPosition = data.settings.position.value.id;
+
+  if (dialogPosition === 'right' || dialogPosition === 'left') {
+    data.settings.fitH.value = true;
+    data.settings.fitW.value = false;
+
+    data.settings.alignW.value.id = 'center';
+    data.settings.alignH.value.id = 'flex-start'
+
+    data.settings.scrollY.value = true;
+  }
+
+  if (dialogPosition === 'top' || dialogPosition === 'bottom') {
+    data.settings.fitH.value = false;
+    data.settings.fitW.value = true;
+
+    data.settings.alignW.value.id = 'flex-start';
+    data.settings.alignH.value.id = 'center'
+
+    data.settings.scrollX.value = true;
+  }
+
   return data;
 }
 

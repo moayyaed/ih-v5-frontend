@@ -28,12 +28,27 @@ const DEFAULT = {
   overflow: { value: true },
 }
 
+function getPosition(settings) {
+
+  switch(settings.position.value.id) {
+    case 'right':
+    case 'left':
+      return { w: settings.w.value, h: '100%' }
+    case 'top':
+    case 'bottom':
+      return { w: '100%', h: settings.h.value }
+    default:
+      return { w: settings.w.value, h: settings.h.value }
+  }
+}
+
 function Dialog(props) {
+  const pos = getPosition(props.settings);
   return (
     <div 
       style={{ 
-        width: props.settings.fitW.value ? '100%' : props.settings.w.value, 
-        height: props.settings.fitH.value ? '100%' : props.settings.h.value,
+        width: pos.w, 
+        height: pos.h,
       }}>
       {elemets('container', { mode: 'user', item: { ...DEFAULT, ...props.settings}, container: props, templates: {}, scaleW: 1, scaleH: 1 })}
     </div>
