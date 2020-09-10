@@ -122,7 +122,7 @@ function preparationData(data) {
           try {
             data.elements[id][propId].func = createValueFunc(item.func).body;
             if (data.states[item.did] && data.states[item.did][item.prop] !== undefined) {
-              const context = { parent: data.states[item.did] || {} };
+              const context = { parent: data.static[item.did] || {} };
 
               if (propId === 'w2' || propId === 'h2') {
                 const prop1 = propId === 'w2' ? 'x': 'y';
@@ -137,7 +137,7 @@ function preparationData(data) {
                 data.elements[id][prop2].value =  v;
                 data.elements[id][propId].value = v;
               } else {
-                data.elements[id][propId].value = data.elements[id][propId].func(data.states[item.did][item.prop], {})
+                data.elements[id][propId].value = data.elements[id][propId].func(data.states[item.did][item.prop], {}, context)
               }
             }
           } catch {
