@@ -122,11 +122,13 @@ function preparationData(data) {
           try {
             data.elements[id][propId].func = createValueFunc(item.func).body;
             if (data.states[item.did] && data.states[item.did][item.prop] !== undefined) {
+              const context = { parent: data.states[item.did] || {} };
+
               if (propId === 'w2' || propId === 'h2') {
                 const prop1 = propId === 'w2' ? 'x': 'y';
                 const prop2 = propId === 'w2' ? 'w': 'h';
 
-                const v = data.elements[id][propId].func(data.states[item.did][item.prop], {})
+                const v = data.elements[id][propId].func(data.states[item.did][item.prop], {}, context)
                 const curentValue = v;
                 const delta = curentValue - data.elements[id][prop2].value;
   
@@ -153,10 +155,18 @@ function preparationData(data) {
 }
 
 core.network.request('applayout_dialog', (send, context) => {
-  send({ api: 'dialog', id: context.params.id },);
+  send([
+    { api: 'dialog', id: context.params.id },
+    { api: 'dialog', id: context.params.id, rt: 1 },
+    { api: 'dialog', id: context.params.id, static: 1 }
+  ]);
 })
 
 
 core.network.response('applayout_dialog', (answer, res, context) => {
-  answer(preparationData(res.data));
+  answer(preparationData({
+    ...res[0].data,
+    states: res[1].data,
+    static: res[2].data,
+  }));
 })

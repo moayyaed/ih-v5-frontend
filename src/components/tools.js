@@ -1,7 +1,7 @@
 export function createValueFunc(text) {
   
   try {
-    return { error: null,  body: new Function('inData', 'vars', 'core', text + ';return inData;') }
+    return { error: null,  body: new Function('inData', 'vars', 'context = { parent: {} }', text + ';return inData;') }
   } catch (e) {
     return { error: e, body: null }
   }
