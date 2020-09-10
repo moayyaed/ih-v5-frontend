@@ -82,7 +82,7 @@ const styles = {
 
 
 function handleClickCheckBox(item, select, params) {
-  if (item.did === select.did && item.prop === select.prop) {
+  if (item.value && item.value.did === select.did && item.value.prop === select.prop) {
     core.actions.appdialog.select({ did: null, prop: null, title: null } );
   } else {
     core.actions.appdialog.select({ did: item.value.did, prop: item.value.prop, title: item.title, local: params.local || null });
@@ -100,7 +100,7 @@ function Row(props) {
         <div style={styles.text}>{props.params.link}</div>
         <div style={styles.buttons}>
         <Checkbox
-          checked={(props.params.result.did === props.select.did && props.params.result.prop === props.select.prop)}
+          checked={(props.params.result.value && props.params.result.value.did === props.select.did && props.params.result.value.prop === props.select.prop)}
           color="primary"
           edge="start"
           tabIndex={-1}
