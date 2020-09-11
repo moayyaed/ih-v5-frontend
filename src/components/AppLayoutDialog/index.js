@@ -104,9 +104,9 @@ class AppLayoutDialog extends Component {
       })
   }
 
-  request = ({ id }) => {
+  request = ({ id, contextId }) => {
     core
-    .request({ method: 'applayout_dialog', params: { id } })
+    .request({ method: 'applayout_dialog', params: { id, contextId } })
     .ok(data => {
       core.actions.layoutDialog.data({
         ...data,

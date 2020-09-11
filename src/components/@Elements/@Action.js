@@ -60,7 +60,6 @@ class Action extends PureComponent {
   }
 
   handleAction = (props, event, actions) => {
-    console.log(props)
     Object
       .keys(actions)
       .forEach(key => {
