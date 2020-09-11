@@ -247,7 +247,8 @@ function Animation(props) {
       const did = data.did;
       const prop  = data.prop;
       const title = data.title;
-      const func = data.func;
+            const func = data.func;
+      const template = data.template;
 
       if (prop) {
         const obj = createValueFunc(func);

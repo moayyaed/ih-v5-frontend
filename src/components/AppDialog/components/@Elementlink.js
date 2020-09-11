@@ -85,7 +85,7 @@ function handleClickCheckBox(item, select, params) {
   if (item.value && item.value.did === select.did && item.value.prop === select.prop) {
     core.actions.appdialog.select({ did: null, prop: null, title: null } );
   } else {
-    core.actions.appdialog.select({ did: item.value.did, prop: item.value.prop, title: item.title, local: params.local || null });
+    core.actions.appdialog.select({ did: item.value.did, prop: item.value.prop, title: item.title, template: item.value.template, local: params.local || null });
   }
 }
 
@@ -129,7 +129,8 @@ class Elementlink extends Component {
       .ok((res) => {
         const select = { 
           did: state.template.selectnodeid, 
-          prop: state.template.selectId, 
+          prop: state.template.selectId,
+          template: state.template.template, 
           func: state.component.select.func ? state.component.select.func : state.template.func,
           title: state.template.selectTitle || '',
           local: state.template.local || null,

@@ -161,6 +161,7 @@ function Shadow(props) {
       const prop  = data.prop;
       const title = data.title;
       const func = data.func;
+      const template = data.template;
 
       if (prop) {
         const obj = createValueFunc(func);
