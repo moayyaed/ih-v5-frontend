@@ -273,7 +273,7 @@ class DroplistLink extends PureComponent {
       const did = data.did;
       const prop  = data.prop;
       const title = data.title;
-            const func = data.func;
+      const func = data.func;
       const template = data.template;
 
       if (prop) {
@@ -284,7 +284,7 @@ class DroplistLink extends PureComponent {
         } else { 
           try {
             const v = obj.body.call(null, 0, {})
-            const params = { ...this.props.data, enabled: true, did, prop, title, func, droplist: this.props.data.value };
+            const params = { ...this.props.data, enabled: true, did, prop, title, template, func, droplist: this.props.data.value };
 
             core.transfer.unsub('form_dialog', this.handleDialogClick3);
             core.actions.appdialog.close();

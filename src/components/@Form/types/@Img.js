@@ -107,7 +107,7 @@ class Img extends PureComponent {
       const did = data.did;
       const prop  = data.prop;
       const title = data.title;
-            const func = data.func;
+      const func = data.func;
       const template = data.template;
 
       if (prop) {
@@ -118,7 +118,7 @@ class Img extends PureComponent {
         } else { 
           try {
             const v = obj.body.call(null, 0, {})
-            const params = { ...this.props.data, enabled: true, did, prop, title, func, text: this.props.data.value, img: this.props.data };
+            const params = { ...this.props.data, enabled: true, did, prop, title, template, func, text: this.props.data.value, img: this.props.data };
 
             core.transfer.unsub('form_dialog', this.handleDialogClick3);
             core.actions.appdialog.close();

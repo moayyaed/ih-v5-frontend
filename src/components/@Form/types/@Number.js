@@ -240,7 +240,7 @@ function TouchNumber(props) {
             noscroll: true,
             title: 'Binding Settings',
             type: 'tree',
-                        id: props.route.dialog ? 'elementsAndVistemplates': 'elements',
+            id: props.route.dialog ? 'elementsAndVistemplates': 'elements',
             template: props.data.template,
             selectnodeid: props.data.did,
             selectId: props.data.prop,
@@ -257,7 +257,7 @@ function TouchNumber(props) {
       const did = data.did;
       const prop  = data.prop;
       const title = data.title;
-            const func = data.func;
+      const func = data.func;
       const template = data.template;
 
       if (prop) {
@@ -268,7 +268,7 @@ function TouchNumber(props) {
         } else { 
           try {
             const v = obj.body.call(null, 0, {})
-            const params = { ...props.data, enabled: true, did, prop, title, func, number: props.data.value };
+            const params = { ...props.data, enabled: true, did, prop, title, template, func, number: props.data.value };
 
             core.transfer.unsub('form_dialog', handleDialogClick3);
             core.actions.appdialog.close();

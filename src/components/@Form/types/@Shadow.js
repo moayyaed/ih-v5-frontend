@@ -171,7 +171,7 @@ function Shadow(props) {
         } else { 
           try {
             const v = obj.body.call(null, 0, {})
-            const params = { ...props.data, enabled: true, did, prop, title, func };
+            const params = { ...props.data, enabled: true, did, prop, title, template, func };
 
             core.transfer.unsub('form_dialog', handleDialogClick3);
             core.actions.appdialog.close();
