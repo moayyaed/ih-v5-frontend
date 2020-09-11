@@ -30,9 +30,9 @@ const styles = {
 
 function getParams(item, props) {
   if (item.command === 'device') {
-    return { did: item.did, prop: item.prop, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id }
+    return { did: item.did, prop: item.prop, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.templateId }
   }
-  return { ...item.value, id: item.id, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id };
+  return { ...item.value, id: item.id, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.templateId };
 }
 
 
@@ -60,6 +60,7 @@ class Action extends PureComponent {
   }
 
   handleAction = (props, event, actions) => {
+    console.log(props)
     Object
       .keys(actions)
       .forEach(key => {

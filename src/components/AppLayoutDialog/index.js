@@ -55,7 +55,7 @@ function RenderCore(props) {
         width: pos.w, 
         height: pos.h,
       }}>
-      {elemets('container', { mode: 'user', item: { ...DEFAULT, ...props.settings}, container: props, templates: {}, scaleW: 1, scaleH: 1 })}
+      {elemets('container', { mode: 'user', item: { ...DEFAULT, ...props.settings, containerId: { id: null } }, container: props, templates: {}, scaleW: 1, scaleH: 1 })}
     </div>
   )
 }
