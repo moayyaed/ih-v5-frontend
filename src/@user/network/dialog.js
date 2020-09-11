@@ -119,6 +119,7 @@ function preparationData(data) {
         }
         // bind
         if (item.enabled) {
+          console.log(item)
           try {
             data.elements[id][propId].func = createValueFunc(item.func).body;
             if (data.states[item.did] && data.states[item.did][item.prop] !== undefined) {
