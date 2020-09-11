@@ -258,6 +258,7 @@ class DroplistLink extends PureComponent {
             type: 'tree',
             id: this.props.route.dialog ? 'elementsAndVistemplates': 'elements',
             selectnodeid: this.props.data.did,
+            tempalte: this.props.data.template,
             selectId: this.props.data.prop,
             selectTitle: this.props.data.title,
             func: this.props.data.func || defaultFunction,

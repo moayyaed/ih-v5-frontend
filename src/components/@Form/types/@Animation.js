@@ -231,6 +231,7 @@ function Animation(props) {
             title: 'Binding Settings',
             type: 'tree',
             id: props.route.dialog ? 'elementsAndVistemplates': 'elements',
+            template: props.data.template,
             selectnodeid: props.data.did,
             selectId: props.data.prop,
             selectTitle: props.data.title,

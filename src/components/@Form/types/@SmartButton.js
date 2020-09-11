@@ -129,6 +129,7 @@ class SmartButton extends PureComponent {
         selectnodeid: this.props.data.dialognodeid,
         disabledSave: true,
         selectnodeid: this.props.data.did,
+        tempalte: this.props.data.template,
         select: this.props.data.prop,
         }
     
