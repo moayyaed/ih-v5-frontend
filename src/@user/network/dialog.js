@@ -121,7 +121,7 @@ function preparationData(data) {
         if (item.enabled) {
           try {
             data.elements[id][propId].func = createValueFunc(item.func).body;
-            if (data.states[item.did] && data.states[item.did][item.prop] !== undefined) {
+            if (!item.template && data.states[item.did] && data.states[item.did][item.prop] !== undefined) {
               const context = { parent: data.static[item.did] || {} };
 
               if (propId === 'w2' || propId === 'h2') {
@@ -140,23 +140,19 @@ function preparationData(data) {
                 data.elements[id][propId].value = data.elements[id][propId].func(data.states[item.did][item.prop], {}, context)
               }
             } else {
-              if (item.template) {
-                const context = { parent: data.static[item.prop] || {} };
+              const context = { parent: data.static[item.prop] || {} };
+              if (propId === 'w2' || propId === 'h2') {
+                const prop1 = propId === 'w2' ? 'x': 'y';
+                const prop2 = propId === 'w2' ? 'w': 'h';
+                const v = data.elements[id][propId].func(data.states[item.prop][item.prop], {}, context)
+                const curentValue = v;
+                const delta = curentValue - data.elements[id][prop2].value;
 
-                if (propId === 'w2' || propId === 'h2') {
-                  const prop1 = propId === 'w2' ? 'x': 'y';
-                  const prop2 = propId === 'w2' ? 'w': 'h';
-                  const v = data.elements[id][propId].func(data.states[item.prop][item.prop], {}, context)
-                  const curentValue = v;
-                  const delta = curentValue - data.elements[id][prop2].value;
-    
-  
-                  data.elements[id][prop1].value = data.elements[id][prop1].value - delta;
-                  data.elements[id][prop2].value =  v;
-                  data.elements[id][propId].value = v;
-                } else {
-                  data.elements[id][propId].value = data.elements[id][propId].func(data.states[item.prop][item.prop], {}, context)
-                }
+                data.elements[id][prop1].value = data.elements[id][prop1].value - delta;
+                data.elements[id][prop2].value = v;
+                data.elements[id][propId].value = v;
+              } else {
+                data.elements[id][propId].value = data.elements[id][propId].func(data.states[item.prop][item.prop], {}, context)
               }
             }
           } catch {
