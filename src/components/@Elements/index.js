@@ -13,6 +13,7 @@ import Expand from './@Expand';
 import Container from './@Container';
 import Template from './@Template';
 import CCTV from './@CCTV';
+import DeviceLog from './@DeviceLog';
 
 
 function getElementByType(type) {
@@ -37,6 +38,8 @@ function getElementByType(type) {
       return Expand;
     case 'cctv':
       return CCTV;
+    case 'devicelog':
+      return DeviceLog;
     default:
       return Block;
   }

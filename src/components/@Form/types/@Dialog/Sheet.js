@@ -453,8 +453,9 @@ class Sheet extends Component {
       { id: '4', title: 'Text & Image', click: () => this.handleAddElement(e, 'text_image') },
       { id: '5', title: 'Button', click: () => this.handleAddElement(e, 'button') },
       { id: '6', title: 'Expand Border', click: () => this.handleAddElement(e, 'expand') },
+      { id: '-', type: 'divider' },
+      { id: '7', title: 'Divice Log', click: () => this.handleAddElement(e, 'devicelog') },
       // { id: '5', title: 'Action Zone', click: () => this.handleAddElement(e, 'action2') },
-      // { id: '6', type: 'divider' },
      // { id: '7', title: 'CCTV', click: () => this.handleAddElement(e, 'cctv') },
     ]
   

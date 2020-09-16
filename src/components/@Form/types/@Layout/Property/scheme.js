@@ -649,6 +649,14 @@ const scheme = {
     link: [],
     ...templateSettings,
   },
+  devicelog: {
+    main: [
+      ...backgroundSection,
+      ...borderSection,
+      ...decorationSection,
+    ],
+    move: moveSection,
+  },
   action: {
     move: [
       { 
