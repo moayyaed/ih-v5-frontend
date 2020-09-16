@@ -146,8 +146,7 @@ function preparationData(data) {
                 if (propId === 'w2' || propId === 'h2') {
                   const prop1 = propId === 'w2' ? 'x': 'y';
                   const prop2 = propId === 'w2' ? 'w': 'h';
-  
-                  const v = data.elements[id][propId].func(data.states[item.prop], {}, context)
+                  const v = data.elements[id][propId].func(data.states[item.prop][item.prop], {}, context)
                   const curentValue = v;
                   const delta = curentValue - data.elements[id][prop2].value;
     
@@ -156,7 +155,7 @@ function preparationData(data) {
                   data.elements[id][prop2].value =  v;
                   data.elements[id][propId].value = v;
                 } else {
-                  data.elements[id][propId].value = data.elements[id][propId].func(data.states[item.prop], {}, context)
+                  data.elements[id][propId].value = data.elements[id][propId].func(data.states[item.prop][item.prop], {}, context)
                 }
               }
             }
