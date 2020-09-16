@@ -1,61 +1,7 @@
 import React, { Component, PureComponent } from 'react';
-import { Scrollbars } from 'react-custom-scrollbars';
 
+import Scrollbars2 from 'libs/Scrllbars2';
 import elemets from 'components/@Elements';
-
-
-class CustomScrollbars extends Component {
-
-  renderViewDefault = (props) => {
-    return <div 
-      {...props} 
-      style={{ 
-        ...props.style,
-        marginBottom: this.props.scrollX ? props.style.marginBottom : 'unset',
-        marginRight: this.props.scrollY ? props.style.marginRight : 'unset',
-        overflowX: this.props.scrollX ? 'scroll': 'hidden', 
-        overflowY: this.props.scrollY ? 'scroll': 'hidden', 
-      }} 
-    />;
-  }
-
-  renderThumbHorizontalDefault = ({ style, ...props }) => {
-    const finalStyle = {
-        ...style,
-        display: this.props.scrollX ? 'block': 'none',
-        cursor: 'pointer',
-        borderRadius: 'inherit',
-        backgroundColor: 'rgba(0,0,0,.2)',
-        zIndex: 10001
-    };
-    return <div style={finalStyle} {...props} />;
-  }
-
-  renderThumbVerticalDefault = ({ style, ...props }) => {
-    const finalStyle = {
-        ...style,
-        display: this.props.scrollY ? 'block': 'none',
-        cursor: 'pointer',
-        borderRadius: 'inherit',
-        backgroundColor: 'rgba(0,0,0,.2)',
-        zIndex: 10001
-    };
-    return <div style={finalStyle} {...props} />;
-  }
-
-  render() {
-    return (
-      <Scrollbars
-        
-        renderThumbHorizontal={this.renderThumbHorizontalDefault}
-        renderThumbVertical={this.renderThumbVerticalDefault}
-        renderView={this.renderViewDefault}
-       >
-        {this.props.children}
-      </Scrollbars>
-    );
-  }
-}
 
 
 function getScale(item, settings, scaleW, scaleH) {
@@ -151,7 +97,7 @@ class Container extends PureComponent {
           backgroundPosition: 'center center',
         }}
       >
-        <CustomScrollbars
+        <Scrollbars2
           scrollX={this.props.mode === 'user' ? this.props.container.settings.scrollX.value : 0}
           scrollY={this.props.mode === 'user' ? this.props.container.settings.scrollY.value : 0}
         > 
@@ -179,7 +125,7 @@ class Container extends PureComponent {
               {this.props.container.list.map(id => this.handleRender(id, this.props.container.elements[id]))}
             </div>
           </div>
-        </CustomScrollbars>
+        </Scrollbars2>
       </div>
     )
   }
