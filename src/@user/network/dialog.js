@@ -173,6 +173,7 @@ core.network.request('applayout_dialog', (send, context) => {
   send([
     { api: 'dialog', ...context.params },
     { api: 'dialog', ...context.params, static: 1 }
+    { api: 'dialog', ...context.params, widgetdata: 1 }
   ]);
 })
 
@@ -181,5 +182,6 @@ core.network.response('applayout_dialog', (answer, res, context) => {
   answer(preparationData({
     ...res[0].data,
     static: res[1].data,
+    widgets: res[2].data,
   }));
 })
