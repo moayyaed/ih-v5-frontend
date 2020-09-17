@@ -656,6 +656,7 @@ const scheme = {
       ...decorationSection,
     ],
     move: moveSection,
+    link: [],
   },
   action: {
     move: [

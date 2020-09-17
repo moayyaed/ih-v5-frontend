@@ -302,6 +302,14 @@ const EXPAND = {
   zIndex: { value: 10000 },
 }
 
+const DEVICELOG = {
+  ...BLOCK,
+  widget: true,
+  widgetlinks: {
+    link: { }
+  },
+}
+
 
 function getDefaultParams(type) {
   switch (type) {
@@ -328,6 +336,8 @@ function getDefaultParams(type) {
       return ACTION2;
     case 'expand':
       return EXPAND;
+    case 'devicelog':
+      return DEVICELOG;
     default:
       return BLOCK;
   }

@@ -180,6 +180,12 @@ class Dialog extends PureComponent {
             this.props.id, this.props.options.prop,
             this.props.data.selectOne, { w: { ...item.w, value: value.value }, h: { ...item.h, value: value.value } }
           );
+      } else if (item.widget && propertyType === 'link') {
+        core.actions.dialog
+          .changeTemplate(
+            this.props.id, this.props.options.prop,
+            this.props.data.selectOne, 'widgetlinks', { [key]: value.result },
+          )
       } else {
         if (key === 'w2' || key === 'h2') {
           const item = this.props.data.elements[this.props.data.selectOne];
