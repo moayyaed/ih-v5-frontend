@@ -9,6 +9,7 @@ core.network.request('appdialog_devlink', (send, context) => {
     dialogid: context.params.dialogid,
     id: 'devicelink',
     nodeid: context.params.id,
+    root: context.params.rootid,
     anchor: context.props.anchor,
   });
 })
