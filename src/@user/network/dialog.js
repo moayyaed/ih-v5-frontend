@@ -172,7 +172,7 @@ function preparationData(data) {
 core.network.request('applayout_dialog', (send, context) => {
   send([
     { api: 'dialog', ...context.params },
-    { api: 'dialog', ...context.params, static: 1 }
+    { api: 'dialog', ...context.params, static: 1 },
     { api: 'dialog', ...context.params, widgetdata: 1 }
   ]);
 })
