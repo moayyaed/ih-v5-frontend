@@ -107,7 +107,7 @@ class Property extends PureComponent {
             params: {
               title: 'Привязка к каналу',
               type: 'tree',
-              id: 'visitemsAndVistemplates',
+              id: 'visitems',
             }
           }));
         const map2 = list
@@ -137,7 +137,7 @@ class Property extends PureComponent {
             params: {
               title: 'Привязка к каналу',
               type: 'tree',
-              id: 'visitems',
+              id: 'visitemsAndVistemplates',
             }
           }));
         map = [{ title: 'Data', prop: 'bind', type: 'divider' }]
