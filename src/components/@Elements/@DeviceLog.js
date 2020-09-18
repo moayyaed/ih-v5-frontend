@@ -34,35 +34,15 @@ const styles = {
   },
 };
 
-
 const temp = [
-  {time: '16.09 12:09:34', text: ' Value: 12Value: 12Value: 12Value: 12Value: 12Value: 12Value: 12\r\nValue: 12Value: 12Value: 12Value: 12Value: 12Value: 12Value: 12Value: 12Value: 12'},
-  {time: '16.09 12:09:34', text: ' Value: 12'},
-  {time: '16.09 12:09:34', text: ' Value: 12'},
-  {time: '16.09 12:09:34', text: ' Value: 12'},
-  {time: '16.09 12:09:34', text: ' Value: 12'},
-  {time: '16.09 12:09:34', text: ' Value: 12'},
-  {time: '16.09 12:09:34', text: ' Value: 12'},
-  {time: '16.09 12:09:34', text: ' Value: 12'},
-  {time: '16.09 12:09:34', text: ' Value: 12'},
-  {time: '16.09 12:09:34', text: ' Value: 12'},
-  {time: '16.09 12:09:34', text: ' Value: 12'},
-  {time: '16.09 12:09:34', text: ' Value: 12'},
-  {time: '16.09 12:09:34', text: ' Value: 12'},
-  {time: '16.09 12:09:34', text: ' Value: 12'},
-  {time: '16.09 12:09:34', text: ' Value: 12'},
-  {time: '16.09 12:09:34', text: ' Value: 12'},
-  {time: '16.09 12:09:34', text: ' Value: 12'},
-  {time: '16.09 12:09:34', text: ' Value: 12'},
-  {time: '16.09 12:09:34', text: ' Value: 12'},
-  {time: '16.09 12:09:34', text: ' Value: 12'},
-  {time: '16.09 12:09:34', text: ' Value: 12'},
-  {time: '16.09 12:09:34', text: ' Value: 12'},
-  {time: '16.09 12:09:34', text: ' Value: 12'},
-  {time: '16.09 12:09:34', text: ' Value: 12'},
-]
+  { title: '31.12.2020 23:59:59.002', message: 'Значение: 2'},
+  { title: '31.12.2020 23:59:58.001', message: 'Значение: 1'},
+  { title: '31.12.2020 23:59:57.000', message: 'Значение: 0'},
+];
+
 
 function DeviceLog(props) {
+  const data = props.mode === 'user' ? props.item.data : temp;
   return (
     <div 
       style={{
@@ -84,10 +64,10 @@ function DeviceLog(props) {
         scrollY={props.mode === 'user'}
       >
         <Stepper style={styles.stepper} activeStep={-1} orientation="vertical">
-          {temp.map((item, key) =>
+          {data.map((item, key) =>
             <Step key={key} style={styles.step} active>
-              <StepLabel icon={<StepIcon icon=" "/>}  style={{ ...styles.steplabel }}>{item.time}</StepLabel>
-              <StepContent style={styles.stepcontent}><p>{item.text}</p></StepContent>
+              <StepLabel icon={<StepIcon icon=" "/>}  style={{ ...styles.steplabel }}>{item.title}</StepLabel>
+              <StepContent style={styles.stepcontent}><p>{item.message}</p></StepContent>
             </Step>
           )}
         </Stepper>

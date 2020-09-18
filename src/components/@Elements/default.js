@@ -308,6 +308,7 @@ const DEVICELOG = {
   widgetlinks: {
     link: { }
   },
+  data: [],
 }
 
 

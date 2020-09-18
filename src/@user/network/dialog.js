@@ -77,7 +77,7 @@ function preparationData(data) {
       .keys(data.elements[id])
       .forEach(propId => {
         const item = data.elements[id][propId];
-
+        // animation
         if (
           propId === 'animation' &&
           item.active &&
@@ -116,7 +116,8 @@ function preparationData(data) {
           } catch {
             console.warn('Animation not work, wrong css styles!')
           }
-        }
+        } // animation
+
         // bind
         if (item.enabled) {
           try {
@@ -158,10 +159,12 @@ function preparationData(data) {
           } catch {
 
           }
-        }
-        // bind
+        }  // bind
       })
-
+      // widget data
+      if (data.elements[id].widget && data.widgets[id] !== undefined) {
+        data.elements[id].data = data.widgets[id];
+      } // widget data
     });
 
   // ----------------
