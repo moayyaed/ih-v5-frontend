@@ -72,7 +72,7 @@ function closeTunnel() {
 }
 
 function sendTunnel(data) {
-  if (realtime.connections.main.readyState === 1) {
+  if (realtime.connections.main && realtime.connections.main.readyState === 1) {
     realtime.connections.main.send(JSON.stringify(data));
   }
 }

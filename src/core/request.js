@@ -187,15 +187,25 @@ function request(data) {
   return req;
 }
 
-function fetch(data, options) {
+function fetch(data, options, headers) {
   return new Promise((resolve, reject) => {
     http(data, options, resolve, reject);
   }); 
 }
 
 function http(data, options, resolve, reject) {
+  const headers = {};
+
   let _uri = '';
   let _options = {}
+
+  if (data.method === 'auth') {
+    headers.username = data.username;
+    headers.password = data.password;
+
+    delete data.username;
+    delete data.password;
+  }
 
   if (data.payload) {
     _uri = '/api/admin';
@@ -205,7 +215,7 @@ function http(data, options, resolve, reject) {
       body: JSON.stringify(data, null, 2),
       headers: {
         'Content-Type': 'application/json',
-        'token': 'admin_12345',
+        ...headers,
       },
     }
   } else {
@@ -217,7 +227,7 @@ function http(data, options, resolve, reject) {
       ...options,
       method: 'GET',
       headers: {
-        'token': 'admin_12345',
+        ...headers,
       },
     }
   }
