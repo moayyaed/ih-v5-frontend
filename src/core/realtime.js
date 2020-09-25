@@ -23,7 +23,6 @@ function tunnel(type, agent) {
 
 
 function start(token) {
-  realtime.params.token = token;
 
   startWebSocketTunnel();
 }
@@ -93,7 +92,7 @@ const realtime = {
   tasks: {},
   events: new EventEmitter(),
   connections: { },
-  params: { token: '' },
+  params: { },
   start,
   registerEvent,
   unregisterEvent,

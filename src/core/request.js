@@ -207,6 +207,10 @@ function http(data, options, resolve, reject) {
     delete data.password;
   }
 
+  if (core.cache.token) {
+    headers.token = core.cache.token;
+  }
+
   if (data.payload) {
     _uri = '/api/admin';
     _options = {
@@ -214,8 +218,8 @@ function http(data, options, resolve, reject) {
       method: 'POST',
       body: JSON.stringify(data, null, 2),
       headers: {
-        'Content-Type': 'application/json',
         ...headers,
+        'Content-Type': 'application/json',
       },
     }
   } else {

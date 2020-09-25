@@ -61,6 +61,7 @@ const core = {
     stop: progressStop,
   },
   cache: {
+    token: null,
     vars: {},
     requests: {},
     componentsParams: {},
