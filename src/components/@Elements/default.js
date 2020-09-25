@@ -304,6 +304,7 @@ const EXPAND = {
 
 const DEVICELOG = {
   ...BLOCK,
+  widget: true,
   expand: { value: true },
   widgetlinks: {
     link: { }

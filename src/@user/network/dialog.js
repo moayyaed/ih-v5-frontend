@@ -9,9 +9,12 @@ function preparationData(data) {
 
   let count = 0;
   let step = 0;
+  let last = 0;
 
   const itemsX = {};
   const itemsY = {};
+  const expands = {};
+
   const delta = document.body.clientHeight - data.settings.h.value;
 
   if (dialogPosition !== 'center') {
@@ -25,6 +28,7 @@ function preparationData(data) {
       if (item.type === 'expand') {
         itemsY[item.y.value].push(item.type);
         count++;
+        expands[count] = id;
       } else {
         itemsY[item.y.value].push(id);
       }
@@ -41,6 +45,11 @@ function preparationData(data) {
           if (id !== 'expand') {
             const offset = delta * (step / count)
             data.elements[id].y.value = data.elements[id].y.value + offset;
+          } else {
+            if (expands[step] !== undefined) {
+              const offset = delta * (step / count);
+              data.elements[expands[step]].y.value = data.elements[expands[step]].y.value + offset;
+            }
           }
         })
       }
