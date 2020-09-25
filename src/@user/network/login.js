@@ -2,7 +2,8 @@ import core from 'core';
 
 
 core.network.request('login', (send, context) => {
-  send({ 
+  send({
+    payload: true,
     method: 'auth', 
     username: context.params.username, 
     password: core.tools.sha256('intrahouse' + context.params.password || ''),  

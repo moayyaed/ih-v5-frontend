@@ -199,13 +199,6 @@ function http(data, options, resolve, reject) {
   let _uri = '';
   let _options = {}
 
-  if (data.method === 'auth') {
-    headers.username = data.username;
-    headers.password = data.password;
-
-    delete data.username;
-    delete data.password;
-  }
 
   if (core.cache.token) {
     headers.token = core.cache.token;
