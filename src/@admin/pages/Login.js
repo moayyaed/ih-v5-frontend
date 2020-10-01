@@ -151,18 +151,31 @@ function getRememberme() {
 }
 
 
-if (core.cache.token) {
+function requestAuth(params) {
   core
-    .request({ method: 'login', params: { rememberme: true } })
-    .ok((res) => {
-      if (res) {
-        core.actions.app.auth(res)
-      } else {
-        core
-          .request({ method: 'init' })
-          .ok(() => core.actions.app.auth(true));
-      }
-    });
+  .request({ method: 'login', params })
+  .ok((res) => {
+    if (res) {
+      core.actions.app.auth(res)
+    } else {
+      core
+        .request({ method: 'init' })
+        .ok(() => core.actions.app.auth(true));
+    }
+  });
+}
+
+const urlParams = new URLSearchParams(window.location.search)
+
+const username = urlParams.get('username');
+const password = urlParams.get('password');
+
+if (username) {
+  requestAuth({ username, password, memberme: getRememberme() })
+} else {
+  if (core.cache.token) {
+    requestAuth({ rememberme: true, token: true })
+  }
 }
 
 
@@ -194,17 +207,8 @@ function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    core
-    .request({ method: 'login', params: values })
-    .ok((res) => {
-      if (res) {
-        core.actions.app.auth(res)
-      } else {
-        core
-          .request({ method: 'init' })
-          .ok(() => core.actions.app.auth(true));
-      }
-    });
+    requestAuth(values);
+
     setUsername(values.username);
     setRememberme(values.rememberme)
   }

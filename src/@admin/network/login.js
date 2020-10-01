@@ -2,7 +2,7 @@ import core from 'core';
 
 
 core.network.request('login', (send, context) => {
-  if (core.cache.token) {
+  if (context.params.token) {
     send({
       payload: true,
       method: 'auth', 
