@@ -122,7 +122,11 @@ function setUsername(username) {
 
 function setRememberme(rememberme) {
   if (window.localStorage !== undefined) {
-    window.localStorage.setItem('rememberme', rememberme);
+    if (rememberme) {
+      window.localStorage.setItem('rememberme', 'true');
+    } else {
+      window.localStorage.removeItem('rememberme');
+    }
   }
 }
 
@@ -140,7 +144,7 @@ function getRememberme() {
   if (window.localStorage !== undefined) {
     const rememberme = window.localStorage.getItem('rememberme');
     if (rememberme !== null) {
-      return rememberme;
+      return true;
     }
   }
   return false;
