@@ -113,6 +113,7 @@ const styles = {
   }
 }
 
+
 function setUsername(username) {
   if (window.localStorage !== undefined && username !== '') {
     window.localStorage.setItem('username', username);
@@ -155,9 +156,13 @@ function Login() {
   });
 
   const handleChange = prop => event => {
-    const value = event.target.checked !== undefined ? event.target.checked : event.target.value;
-    setValues({ ...values, [prop]: value });
+    setValues({ ...values, [prop]: event.target.value });
   };
+
+  const handleChange2 = prop => event => {
+    setValues({ ...values, [prop]: event.target.checked });
+  };
+
 
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword });
@@ -233,7 +238,7 @@ function Login() {
               </FormControl>
               <FormControlLabel
                 value="end"
-                control={<Checkbox checked={values.rememberme} color="primary" onChange={handleChange('rememberme')} />}
+                control={<Checkbox checked={values.rememberme} color="primary" onChange={handleChange2('rememberme')} />}
                 label="Remember Me"
               />
               <Button 
