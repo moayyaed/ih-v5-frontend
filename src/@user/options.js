@@ -7,14 +7,11 @@ import reducerAppLayout from 'components/AppLayout/reducer';
 import actionsAppLayoutDialog from 'components/AppLayoutDialog/actions';
 import reducerAppLayoutDialog from 'components/AppLayoutDialog/reducer';
 
-import App from './pages/App';
-import Login from '../@admin/pages/Login';
-
-
+import './network';
 import routeParse from './routeParse';
 
-import './network';
-
+import App from './pages/App';
+import Login from '../@admin/pages/Login';
 
 
 const options = {

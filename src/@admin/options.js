@@ -36,15 +36,12 @@ import reducerDialog from 'components/@Form/types/@Dialog/reducer';
 
 import Tabs from 'components/@Tabs';
 
+import './network';
+import routeParse from './routeParse';
+
 import App from './pages/App';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
-
-
-import routeParse from './routeParse';
-
-import './network';
-
 
 
 const options = {

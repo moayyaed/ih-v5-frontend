@@ -151,6 +151,21 @@ function getRememberme() {
 }
 
 
+if (core.cache.token) {
+  core
+    .request({ method: 'login', params: { rememberme: true } })
+    .ok((res) => {
+      if (res) {
+        core.actions.app.auth(res)
+      } else {
+        core
+          .request({ method: 'init' })
+          .ok(() => core.actions.app.auth(true));
+      }
+    });
+}
+
+
 function Login() {
   const [values, setValues] = React.useState({
     username: getUsername(),
@@ -194,6 +209,10 @@ function Login() {
     setRememberme(values.rememberme)
   }
 
+  if (core.cache.token) {
+    return null;
+  }
+  
   return (
     <div style={styles.root}>
       <div style={styles.page}>

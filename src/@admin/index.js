@@ -5,8 +5,8 @@ import core from 'core';
 
 import { Provider } from 'react-redux';
 
-import Dependences from './Dependences';
 import options from './options';
+import Dependences from './Dependences';
 
 
 core.settings(options);

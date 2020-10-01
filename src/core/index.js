@@ -61,7 +61,7 @@ const core = {
     stop: progressStop,
   },
   cache: {
-    token: null,
+    token: window.localStorage.getItem('token'),
     vars: {},
     requests: {},
     componentsParams: {},

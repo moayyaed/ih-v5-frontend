@@ -63,6 +63,14 @@ class Request {
   responseError(e) {
     clearTimeout(this.timerDelay);
     clearTimeout(this.timerTimeout);
+  
+    if (e.error && e.error === 'INVALIDTOKEN') {
+      core.cache.token = null;
+      window.localStorage.removeItem('token');
+      window.localStorage.removeItem('rememberme');
+      core.actions.app.auth(false);
+    }
+
     console.warn(e)
     core.actions.app.alertOpen('error', e.message);
     if (this.handleError) {
