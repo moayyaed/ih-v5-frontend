@@ -23,7 +23,7 @@ function tunnel(type, agent) {
 
 
 function start(token) {
-
+  realtime.clear = false;
   startWebSocketTunnel();
 }
 
@@ -67,7 +67,9 @@ function errorTunnel() {
 }
 
 function closeTunnel() {
-  setTimeout(startWebSocketTunnel, 2000);
+  if (!realtime.clear) {
+    realtime.timer = setTimeout(startWebSocketTunnel, 2000);
+  }
 }
 
 function sendTunnel(data) {
@@ -88,7 +90,18 @@ function unregisterEvent(params, handler) {
   sendTunnel(params);
 }
 
+function destroy() {
+  realtime.clear = true;
+  clearTimeout(realtime.timer);
+
+  if (realtime.connections.main) {
+    realtime.connections.main.close(1000);
+  }
+}
+
 const realtime = {
+  clear: false,
+  timer: null,
   tasks: {},
   events: new EventEmitter(),
   connections: { },
@@ -97,6 +110,7 @@ const realtime = {
   registerEvent,
   unregisterEvent,
   sendTunnel,
+  destroy,
 };
 
 

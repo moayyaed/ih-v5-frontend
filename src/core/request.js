@@ -68,6 +68,8 @@ class Request {
       core.cache.token = null;
       window.localStorage.removeItem('token');
       window.localStorage.removeItem('rememberme');
+      
+      core.network.realtime.destroy();
       core.actions.app.auth(false);
     }
 
