@@ -119,6 +119,12 @@ function setUsername(username) {
   }
 }
 
+function setRememberme(rememberme) {
+  if (window.localStorage !== undefined) {
+    window.localStorage.setItem('rememberme', rememberme);
+  }
+}
+
 function getUsername() {
   if (window.localStorage !== undefined) {
     const username = window.localStorage.getItem('username');
@@ -129,23 +135,28 @@ function getUsername() {
   return 'admin';
 }
 
-const token = window.localStorage.getItem('token');
-
-if (token) {
-  // core.network.realtime.start(token);
-  // core.actions.app.auth(res)
+function getRememberme() {
+  if (window.localStorage !== undefined) {
+    const rememberme = window.localStorage.getItem('rememberme');
+    if (rememberme !== null) {
+      return rememberme;
+    }
+  }
+  return false;
 }
+
 
 function Login() {
   const [values, setValues] = React.useState({
     username: getUsername(),
     password: '',
-    rememberme: false,
+    rememberme: getRememberme(),
     showPassword: false,
   });
 
   const handleChange = prop => event => {
-    setValues({ ...values, [prop]: event.target.value });
+    const value = event.target.checked !== undefined ? event.target.checked : event.target.value;
+    setValues({ ...values, [prop]: value });
   };
 
   const handleClickShowPassword = () => {
@@ -159,8 +170,6 @@ function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    setUsername(values.username);
-
     core
     .request({ method: 'login', params: values })
     .ok((res) => {
@@ -172,10 +181,8 @@ function Login() {
           .ok(() => core.actions.app.auth(true));
       }
     });
-  }
-
-  if (token) {
-    // return null;
+    setUsername(values.username);
+    setRememberme(values.rememberme)
   }
 
   return (
@@ -226,7 +233,7 @@ function Login() {
               </FormControl>
               <FormControlLabel
                 value="end"
-                control={<Checkbox value={values.rememberme} color="primary" onChange={handleChange('rememberme')} />}
+                control={<Checkbox checked={values.rememberme} color="primary" onChange={handleChange('rememberme')} />}
                 label="Remember Me"
               />
               <Button 

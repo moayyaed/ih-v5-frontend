@@ -13,7 +13,7 @@ core.network.request('login', (send, context) => {
 
 core.network.response('login', (answer, res, context) => {
   // window.localStorage.setItem('token', res.token);
-  
+
   core.cache.token = res.token;
   core.network.realtime.start();
 
