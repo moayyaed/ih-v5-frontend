@@ -6,7 +6,7 @@ core.network.request('login', (send, context) => {
     payload: true,
     method: 'auth', 
     username: context.params.username, 
-    password: core.tools.sha256('intrahouse' + context.params.password || ''),  
+    password: core.tools.sha256(`intrahouse${context.params.password === '' ? Date.now() : context.params.password}`),  
   });
 })
 
