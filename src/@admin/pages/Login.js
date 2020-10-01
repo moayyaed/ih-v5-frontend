@@ -164,7 +164,6 @@ function Login() {
     core
     .request({ method: 'login', params: values })
     .ok((res) => {
-      console.log(res)
       if (res) {
         core.actions.app.auth(res)
       } else {
