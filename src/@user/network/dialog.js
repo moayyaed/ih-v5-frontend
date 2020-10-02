@@ -9,11 +9,17 @@ function preparationData(data) {
 
   let count = 0;
   let step = 0;
-  let last = 0;
 
-  const itemsX = {};
+  let count2 = 0;
+  let step2 = 0;
+
+  let lastOffset2 = 0;
+
   const itemsY = {};
+  const itemsY2 = {};
+
   const expands = {};
+  const expands2 = {};
 
   const delta = document.body.clientHeight - data.settings.h.value;
 
@@ -32,6 +38,21 @@ function preparationData(data) {
       } else {
         itemsY[item.y.value].push(id);
       }
+
+      // expand2
+      if (item.expand && item.expand.value) {
+        if (itemsY2[item.y.value + item.h.value] === undefined) {
+          itemsY2[item.y.value + item.h.value] = [];
+        }
+        itemsY2[item.y.value + item.h.value].push('expand');
+        count2++;
+        expands2[count2] = id;
+      } else {
+        if (itemsY2[item.y.value] === undefined) {
+          itemsY2[item.y.value] = [];
+        }
+        itemsY2[item.y.value].push(id);
+      }
     });
 
     Object
@@ -49,6 +70,33 @@ function preparationData(data) {
             if (expands[step] !== undefined) {
               const offset = delta * (step / count);
               data.elements[expands[step]].y.value = data.elements[expands[step]].y.value + offset;
+            }
+          }
+        })
+      }
+    })
+
+    // expand2
+
+    Object
+    .keys(itemsY2)
+    .forEach(id => {
+      if (itemsY2[id].includes('expand')) {
+        step2++;
+      }
+      if (step2) {
+        itemsY2[id].forEach(id => {
+          if (id !== 'expand') {
+            const offset = delta * (step2 / count2)
+            data.elements[id].y.value = data.elements[id].y.value + offset;
+          } else {
+            if (expands2[step2] !== undefined) {
+      
+              const offset = delta  / count2;
+              const offset2 = delta * (step2 / count2)
+              data.elements[expands2[step2]].h.value = data.elements[expands2[step2]].h.value + offset;
+              data.elements[expands2[step2]].y.value = data.elements[expands2[step2]].y.value + lastOffset2;
+              lastOffset2 = offset2;
             }
           }
         })
