@@ -1,12 +1,6 @@
 import React from 'react';
 import Scrollbars2 from 'libs/Scrllbars2';
 
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import StepContent from '@material-ui/core/StepContent';
-import StepIcon from '@material-ui/core/StepIcon';
-
 import { transform } from './tools';
 
 
@@ -60,14 +54,7 @@ function Devicesettings(props) {
         scrollX={props.mode === 'user'}
         scrollY={props.mode === 'user'}
       >
-        <Stepper style={styles.stepper} activeStep={-1} orientation="vertical">
-          {data.map((item, key) =>
-            <Step key={key} style={styles.step} active>
-              <StepLabel icon={<StepIcon icon=" "/>}  style={{ ...styles.steplabel }}>{item.title}</StepLabel>
-              <StepContent style={styles.stepcontent}><p>{item.message}</p></StepContent>
-            </Step>
-          )}
-        </Stepper>
+        <div>DEVICE_SETTINGS</div>
       </Scrollbars2>
     </div>
   );
