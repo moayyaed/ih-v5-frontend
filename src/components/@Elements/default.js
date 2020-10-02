@@ -339,6 +339,7 @@ function getDefaultParams(type) {
     case 'expand':
       return EXPAND;
     case 'devicelog':
+    case 'devicesettings':
       return DEVICELOG;
     default:
       return BLOCK;

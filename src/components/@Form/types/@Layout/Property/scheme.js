@@ -665,6 +665,22 @@ const scheme = {
     ]),
     link: [],
   },
+  devicesettings: {
+    main: [
+      ...backgroundSection,
+      ...borderSection,
+      ...decorationSection,
+    ],
+    move: moveSection.concat([
+      { 
+        title: 'Expand', 
+        prop: 'expand', 
+        type: 'cb',
+        bind: false,
+      },
+    ]),
+    link: [],
+  },
   action: {
     move: [
       { 

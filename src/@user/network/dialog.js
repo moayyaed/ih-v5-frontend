@@ -94,6 +94,7 @@ function preparationData(data) {
       
               const offset = delta  / count2;
               const offset2 = delta * (step2 / count2)
+
               data.elements[expands2[step2]].h.value = data.elements[expands2[step2]].h.value + offset;
               data.elements[expands2[step2]].y.value = data.elements[expands2[step2]].y.value + lastOffset2;
               lastOffset2 = offset2;

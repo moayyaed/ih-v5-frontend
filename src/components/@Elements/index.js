@@ -14,6 +14,7 @@ import Container from './@Container';
 import Template from './@Template';
 import CCTV from './@CCTV';
 import DeviceLog from './@DeviceLog';
+import Devicesettings from './@Devicesettings';
 
 
 function getElementByType(type) {
@@ -40,6 +41,8 @@ function getElementByType(type) {
       return CCTV;
     case 'devicelog':
       return DeviceLog;
+    case 'devicesettings':
+      return Devicesettings;
     default:
       return Block;
   }
