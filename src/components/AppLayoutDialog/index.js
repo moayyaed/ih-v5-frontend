@@ -110,7 +110,8 @@ class AppLayoutDialog extends Component {
     .ok(data => {
       core.actions.layoutDialog.data({
         ...data,
-        open: true, 
+        open: true,
+        contextId,
         position: data.settings.position.value.id, 
         id,
       });

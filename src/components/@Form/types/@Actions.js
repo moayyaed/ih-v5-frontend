@@ -445,7 +445,9 @@ function Actions(props) {
     if (state.type === 'option-left' || state.type === 'option-right') {
       if (route.dialog) {
         return [
-          <MenuItem key="1" onClick={() => handleClickOption('close')}>Close Dialog</MenuItem>,
+          <MenuItem key="0" onClick={() => handleClickOption('dialog')}>Show Dialog</MenuItem>,
+          <Divider key="-" />,
+          <MenuItem key="2" onClick={() => handleClickOption('close')}>Close Dialog</MenuItem>,
         ]
       }
       return [

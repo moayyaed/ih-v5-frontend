@@ -179,8 +179,17 @@ function ButtonEgine(props) {
 }
 
 function getParams(item, props) {
+  const store = core.store.getState().layoutDialog
   if (item.command === 'device') {
     return { did: item.did, prop: item.prop, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id }
+  }
+  if (store.open && store.contextId) {
+    const temp = store.contextId.split('__');
+    const layoutId = temp[0].split(':')[1];
+    const containerId = temp[1].split(':')[1];
+    const elementId = temp[2].split(':')[1];
+
+    return { ...item.value, id: item.id, layoutId, containerId, elementId };
   }
   return { ...item.value, id: item.id, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id };
 }
