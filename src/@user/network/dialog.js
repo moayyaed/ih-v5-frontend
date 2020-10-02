@@ -18,8 +18,6 @@ function preparationData(data) {
   const itemsY = {};
   const itemsY2 = {};
 
-  const expands = {};
-  const expands2 = {};
 
   const delta = document.body.clientHeight - data.settings.h.value;
 
@@ -32,21 +30,19 @@ function preparationData(data) {
         itemsY[item.y.value] = [];
       }
       if (item.type === 'expand') {
-        itemsY[item.y.value].push(item.type);
+        itemsY[item.y.value].push({id});
         count++;
-        expands[count] = id;
       } else {
         itemsY[item.y.value].push(id);
       }
 
       // expand2
       if (item.expand && item.expand.value) {
-        if (itemsY2[item.y.value + item.h.value] === undefined) {
-          itemsY2[item.y.value + item.h.value] = [];
+        if (itemsY2[item.y.value] === undefined) {
+          itemsY2[item.y.value] = [];
         }
-        itemsY2[item.y.value + item.h.value].push('expand');
+        itemsY2[item.y.value].push({id});
         count2++;
-        expands2[count2] = id;
       } else {
         if (itemsY2[item.y.value] === undefined) {
           itemsY2[item.y.value] = [];
@@ -54,23 +50,21 @@ function preparationData(data) {
         itemsY2[item.y.value].push(id);
       }
     });
-
+    
     Object
     .keys(itemsY)
     .forEach(id => {
-      if (itemsY[id].includes('expand')) {
+      if (itemsY[id].find(i => typeof i === 'object')) {
         step++;
       }
       if (step) {
         itemsY[id].forEach(id => {
-          if (id !== 'expand') {
+          if (typeof id === 'string') {
             const offset = delta * (step / count)
             data.elements[id].y.value = data.elements[id].y.value + offset;
           } else {
-            if (expands[step] !== undefined) {
               const offset = delta * (step / count);
-              data.elements[expands[step]].y.value = data.elements[expands[step]].y.value + offset;
-            }
+              data.elements[id.id].y.value = data.elements[id.id].y.value + offset;
           }
         })
       }
@@ -81,24 +75,20 @@ function preparationData(data) {
     Object
     .keys(itemsY2)
     .forEach(id => {
-      if (itemsY2[id].includes('expand')) {
+      if (itemsY2[id].find(i => typeof i === 'object')) {
         step2++;
       }
       if (step2) {
         itemsY2[id].forEach(id => {
-          if (id !== 'expand') {
+          if (typeof id === 'string') {
             const offset = delta * (step2 / count2)
             data.elements[id].y.value = data.elements[id].y.value + offset;
           } else {
-            if (expands2[step2] !== undefined) {
-      
               const offset = delta  / count2;
               const offset2 = delta * (step2 / count2)
-
-              data.elements[expands2[step2]].h.value = data.elements[expands2[step2]].h.value + offset;
-              data.elements[expands2[step2]].y.value = data.elements[expands2[step2]].y.value + lastOffset2;
+              data.elements[id.id].h.value = data.elements[id.id].h.value + offset;
+              data.elements[id.id].y.value = data.elements[id.id].y.value + lastOffset2;
               lastOffset2 = offset2;
-            }
           }
         })
       }
