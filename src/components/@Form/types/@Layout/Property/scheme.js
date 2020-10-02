@@ -655,7 +655,14 @@ const scheme = {
       ...borderSection,
       ...decorationSection,
     ],
-    move: moveSection,
+    move: moveSection.concat([
+      { 
+        title: 'Expand', 
+        prop: 'expand', 
+        type: 'cb',
+        bind: false,
+      },
+    ]),
     link: [],
   },
   action: {
