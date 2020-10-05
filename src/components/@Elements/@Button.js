@@ -226,9 +226,21 @@ class Button extends PureComponent {
         .forEach(item => {
           if (item.action === event && item.command) {
             const command = item.command;
-            if (command === 'fullscreen' || command === 'refresh' || command === 'exit' || command === 'close') {
+            if (command === 'fullscreen' || command === 'refresh' || command === 'exit' || command === 'close' || command === 'initdialog') {
               if (command === 'close') {
                 core.transfer.send('close_dialog_command');
+              }
+              if (command === 'initdialog') {
+                const store = core.store.getState().layoutDialog
+                if (store.parentId) {
+                  core.tunnel.command({
+                    uuid: shortid.generate(),
+                    method: 'action',
+                    type:'command',
+                    command: 'dialog',
+                    ...getParams({ id: store.parentId, value: {} }, props)
+                  });
+                }
               }
             } else {
               if (item.command === 'setval') {

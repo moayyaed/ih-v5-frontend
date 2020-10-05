@@ -244,7 +244,7 @@ function Actions(props) {
 
       setState({  anchorEl: null, type: state.type, key: state.key });
 
-      if (item.command && !(item.command === 'fullscreen' || item.command === 'refresh' || item.command === 'exit' || item.command === 'close' )) {
+      if (item.command && !(item.command === 'fullscreen' || item.command === 'refresh' || item.command === 'exit' || item.command === 'close' || item.command === 'initdialog' )) {
         hanndleDialog(item.command, type, state.key, item.did || item.id, item.prop, item.func, item.title, item.local);
       } else {
         setState({ type: 'option-' + type, anchorEl, key: state.key });
@@ -304,7 +304,7 @@ function Actions(props) {
   const handleClickOption = (command) => {
     const type = state.type === 'option-left' ? 'left' : 'right';
     
-    if (command === 'fullscreen' || command === 'refresh' || command === 'exit' || command === 'close' ) {
+    if (command === 'fullscreen' || command === 'refresh' || command === 'exit' || command === 'close' || command === 'initdialog' ) {
       props.onChange(props.id, props.options, null, { 
         ...props.data, 
         [type]: props.data[type].map((i, key) => {
@@ -445,7 +445,8 @@ function Actions(props) {
     if (state.type === 'option-left' || state.type === 'option-right') {
       if (route.dialog) {
         return [
-          <MenuItem key="0" onClick={() => handleClickOption('dialog')}>Show Dialog</MenuItem>,
+          <MenuItem key="0" onClick={() => handleClickOption('initdialog')}>Init Dialog</MenuItem>,
+          <MenuItem key="1" onClick={() => handleClickOption('dialog')}>Show Dialog</MenuItem>,
           <Divider key="-" />,
           <MenuItem key="2" onClick={() => handleClickOption('close')}>Close Dialog</MenuItem>,
         ]

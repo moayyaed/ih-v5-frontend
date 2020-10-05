@@ -112,6 +112,7 @@ class AppLayoutDialog extends Component {
         ...data,
         open: true,
         contextId,
+        parentId: this.props.state.open ? this.props.state.parentId : id,
         position: data.settings.position.value.id, 
         id,
       });
