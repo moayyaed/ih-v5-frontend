@@ -22,15 +22,20 @@ const temp = {
     { prop: '_text', type: 'text', size: 14, color: 'red' },
     { prop: '_number', type: 'number', step: 10, min: 0, max: 100, size: 18, color: 'blue' },
     { prop: '_cb', type: 'cb', color: 'orange' },
+    { prop: '_slider', type: 'slider', step: 10, min: 0, max: 100, },
     { prop: '_divider', type: 'divider', size: 1, color: 'grey', offsetTop: 16, offsetBottom: 16, },
     { prop: '_number2', type: 'number', title: 'Number:', step: 10, min: 0, max: 100, proportion: '55%' },
-    { prop: '_cb', type: 'cb', title: 'Checkbox:', proportion: '55%' },
+    { prop: '_cb2', type: 'cb', title: 'Checkbox:', proportion: '55%' },
+    { prop: '_slider2', type: 'slider', title: 'Slider:', proportion: '25%', step: 10, min: 0, max: 100, },
   ],
   data: {
     _text: 'Hello world!',
     _number: 20,
+    _cb: false,
+    _slider: 20,
     _number2: 50,
-    _cb: true,
+    _cb2: true,
+    _slider2: 50,
   },
 };
 
