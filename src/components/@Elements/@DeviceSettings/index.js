@@ -1,6 +1,7 @@
 import React from 'react';
 import Scrollbars2 from 'libs/Scrllbars2';
 
+import Form from './Form';
 import { transform } from '../tools';
 
 
@@ -10,26 +11,12 @@ const styles = {
     top: 30,
     left: 10,
   },
-  stepper: {
-    background: 'unset',
-  },
-  step: {
-    // marginTop: -34,
-  },
-  steplabel: {
-    color: 'rgba(0, 0, 0, 0.87)',
-    fontWeight: 600,
-  },
-  stepcontent: {
-    whiteSpace: 'pre-line',
-  },
-  stepicon: {
-    color: 'rgb(158, 158, 158)',
-  },
 };
 
-const temp = [
-];
+const temp = {
+  style: {},
+  schema: [],
+};
 
 
 function Devicesettings(props) {
@@ -54,7 +41,7 @@ function Devicesettings(props) {
         scrollX={props.mode === 'user'}
         scrollY={props.mode === 'user'}
       >
-        <div>DEVICE_SETTINGS</div>
+        <Form settings={temp} />
       </Scrollbars2>
     </div>
   );
