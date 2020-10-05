@@ -101,8 +101,7 @@ function preparationData(data) {
 
     data.settings.alignW.value.id = 'center';
     data.settings.alignH.value.id = 'flex-start'
-
-    data.settings.scrollY.value = true;
+    data.settings.scrollY = { value: true }
   }
 
   if (dialogPosition === 'top' || dialogPosition === 'bottom') {
@@ -112,7 +111,7 @@ function preparationData(data) {
     data.settings.alignW.value.id = 'flex-start';
     data.settings.alignH.value.id = 'center'
 
-    data.settings.scrollX.value = true;
+    data.settings.scrollX = { value: true }
   }
 
   // --------------------------
