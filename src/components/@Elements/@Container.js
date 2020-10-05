@@ -98,8 +98,8 @@ class Container extends PureComponent {
         }}
       >
         <Scrollbars2
-          scrollX={this.props.mode === 'user' ? this.props.container.settings.scrollX.value : 0}
-          scrollY={this.props.mode === 'user' ? this.props.container.settings.scrollY.value : 0}
+          scrollX={this.props.mode === 'user' && this.props.container.settings.scrollX ? this.props.container.settings.scrollX.value : 0}
+          scrollY={this.props.mode === 'user' && this.props.container.settings.scrollX ? this.props.container.settings.scrollY.value : 0}
         > 
           <div 
             style={{
