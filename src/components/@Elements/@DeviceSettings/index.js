@@ -35,7 +35,7 @@ const temp = {
     _slider: 20,
     _number2: 50,
     _cb2: true,
-    _slider2: 50,
+    _slider2: 75,
   },
 };
 

@@ -6,6 +6,7 @@ import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
 import Slider from '@material-ui/core/Slider';
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 const styles = {
@@ -104,6 +105,16 @@ class Button extends Component {
   }
 }
 
+function ValueLabelComponent(props) {
+  const { children, open, value } = props;
+
+  return (
+    <Tooltip open={open} enterTouchDelay={0} placement="top" title={value}>
+      {children}
+    </Tooltip>
+  );
+}
+
 
 function _Slider(props) {
   return (
@@ -114,7 +125,7 @@ function _Slider(props) {
         step={props.item.step}
         onClick={(v) => checkValue(props.data - v, props.data, props.item)}
       />
-      <Slider value={props.data} />
+      <Slider value={props.data} ValueLabelComponent={ValueLabelComponent} />
       <Button
         type="right" 
         step={props.item.step}
