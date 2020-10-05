@@ -1,7 +1,7 @@
 import React from 'react';
 import Scrollbars2 from 'libs/Scrllbars2';
 
-import { transform } from './tools';
+import { transform } from '../tools';
 
 
 const styles = {
