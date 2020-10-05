@@ -77,3 +77,7 @@ button:focus {
 .bp3-popover-backdrop {
   z-index: 1400;
 }
+
+input.core:focus {
+  outline: none;
+}

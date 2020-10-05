@@ -14,8 +14,24 @@ const styles = {
 };
 
 const temp = {
-  style: {},
-  schema: [],
+  style: {
+    margin: 8,
+    padding: 16,
+  },
+  schema: [
+    { prop: '_text', type: 'text', size: 14, color: 'red' },
+    { prop: '_number', type: 'number', step: 10, min: 0, max: 100, size: 18, color: 'blue' },
+    { prop: '_cb', type: 'cb', color: 'orange' },
+    { prop: '_divider', type: 'divider', size: 1, color: 'grey', offsetTop: 16, offsetBottom: 16, },
+    { prop: '_number2', type: 'number', title: 'Number:', step: 10, min: 0, max: 100, proportion: '55%' },
+    { prop: '_cb', type: 'cb', title: 'Checkbox:', proportion: '55%' },
+  ],
+  data: {
+    _text: 'Hello world!',
+    _number: 20,
+    _number2: 50,
+    _cb: true,
+  },
 };
 
 
