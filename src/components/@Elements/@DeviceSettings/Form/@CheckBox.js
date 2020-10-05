@@ -20,7 +20,7 @@ const styles = {
 function CheckBox(props) {
   return (
     <div style={styles.container}>
-      <div style={{ flexShrink: 0, width: props.item.proportion, ...props.item.style2 }}>{props.item.title}</div>
+      <div style={{ flexShrink: 0, fontSize: props.item.sizeTitle, color: props.item.colorTitle, width: props.item.proportion, ...props.item.style2 }}>{props.item.title}</div>
       <CheckboxMui
         size="small"
         color="primary"
