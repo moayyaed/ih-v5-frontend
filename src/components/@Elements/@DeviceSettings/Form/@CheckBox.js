@@ -14,6 +14,13 @@ const styles = {
     width: '100%',
     alignItems: 'center',
   },
+  container2: {
+    display: 'flex',
+    height: 22,
+    width: '100%',
+    alignItems: 'center',
+    ustifyContent: 'center',
+  },
 }
 
 
@@ -21,12 +28,14 @@ function CheckBox(props) {
   return (
     <div style={styles.container}>
       <div style={{ flexShrink: 0, fontSize: props.item.sizeTitle, color: props.item.colorTitle, width: props.item.proportion, ...props.item.style2 }}>{props.item.title}</div>
-      <CheckboxMui
-        size="small"
-        color="primary"
-        style={styles.root}
-        checked={Boolean(props.data)}
-      />
+      <div style={styles.container2}>
+        <CheckboxMui
+          size="small"
+          color="primary"
+          style={styles.root}
+          checked={Boolean(props.data)}
+        />
+      </div>
     </div>
   );
 }
