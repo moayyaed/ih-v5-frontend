@@ -42,6 +42,7 @@ function CheckBox(props) {
     <div style={styles.container}>
       <div style={{ 
         flexShrink: 0, 
+        marginRight: 8,
         color: props.item.titleColor, 
         fontSize: props.item.titleSize,
         textAlign: props.item.titleAlign,

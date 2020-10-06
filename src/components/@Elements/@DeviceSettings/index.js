@@ -56,6 +56,7 @@ const temp = {
     { prop: 'checkbox1', type: 'cb', align: 'center'  },
     { prop: 'checkbox1', type: 'cb', align: 'right'  },
 
+    { prop: 'checkbox2', type: 'cb', title: 'Checkbox title:' },
     { prop: 'checkbox2', type: 'cb', title: 'Checkbox title: 55%', proportion: '55%', align: 'left' },
     { prop: 'checkbox2', type: 'cb', title: 'Checkbox title: 55%', proportion: '55%', align: 'center' },
     { prop: 'checkbox2', type: 'cb', title: 'Checkbox title: 55%', proportion: '55%', align: 'right' },
@@ -91,10 +92,11 @@ const temp = {
     { type: 'divider', size: 1, color: 'grey', offsetTop: 8, offsetBottom: 12 },
 
     { prop: 'time1', type: 'time' },
-    { prop: 'time2', type: 'time', title: 'Time 55%', proportion: '55%' },
-    { prop: 'time3', type: 'time', title: 'Time 55%', proportion: '55%' },
-    { prop: 'time3', type: 'time', title: 'Time 55%', proportion: '55%' },
-    { prop: 'time3', type: 'time', title: 'Time 55%', proportion: '55%' },
+    { prop: 'time1', type: 'time', title: 'Time 0%' },
+    { prop: 'time2', type: 'time', title: 'Time 45%', proportion: '45%'},
+    { prop: 'time3', type: 'time', title: 'Time', proportion: '45%', align: 'left' },
+    { prop: 'time3', type: 'time', title: 'Time', proportion: '45%', align: 'center' },
+    { prop: 'time3', type: 'time', title: 'Time', proportion: '45%', align: 'right' },
   ],
   data: {
     number1: 0,

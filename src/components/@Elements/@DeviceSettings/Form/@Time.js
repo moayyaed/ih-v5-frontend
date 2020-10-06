@@ -41,7 +41,8 @@ function Time(props) {
   return (
     <div style={styles.container}>
       <div style={{ 
-        flexShrink: 0, 
+        flexShrink: 0,
+        marginRight: 8, 
         color: props.item.titleColor, 
         fontSize: props.item.titleSize,
         textAlign: props.item.titleAlign,
@@ -54,7 +55,7 @@ function Time(props) {
       }}>
         {props.item.title}
       </div>
-      <div style={{ ...styles.container2, ...props.item.style2 }}>
+      <div style={{ ...styles.container2, justifyContent: getAlign(props.item.align), ...props.item.style2 }}>
         <TimePicker
           allowEmpty={false}
           format={'HH:mm:ss'}
