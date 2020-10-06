@@ -119,7 +119,20 @@ function ValueLabelComponent(props) {
 function _Slider(props) {
   return (
     <div style={styles.container}>
-      <div style={{ flexShrink: 0, fontSize: props.item.sizeTitle, color: props.item.colorTitle, width: props.item.proportion, ...props.item.style2 }}>{props.item.title}</div>
+      <div style={{ 
+        flexShrink: 0, 
+        color: props.item.titleColor, 
+        fontSize: props.item.titleSize,
+        textAlign: props.item.titleAlign,
+        fontWeight: props.item.titleBold ? 600 : 'unset',
+        fontStyle: props.item.titleItalic ? 'italic' : 'unset',
+        marginTop: props.item.offsetTop,
+        marginBottom: props.item.offsetBottom, 
+        width: props.item.proportion, 
+        ...props.item.style 
+      }}>
+        {props.item.title}
+      </div>
       <Button
         type="left" 
         step={props.item.step}

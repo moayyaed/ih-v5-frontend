@@ -73,6 +73,22 @@ const temp = {
 
     { type: 'text', title: 'Slider', titleSize: 14, titleColor: 'black', titleBold: true, titleItalic: true,  offsetTop: 18 },
     { type: 'divider', size: 1, color: 'grey', offsetTop: 8, offsetBottom: 12 },
+
+    { prop: 'slider1', type: 'slider' },
+
+    { prop: 'slider2', type: 'slider', title: 'Slider 35%', proportion: '35%' },
+    { prop: 'slider2', type: 'slider', title: 'Range: 0-100', proportion: '35%', min: 0, max: 100 },
+    { prop: 'slider2', type: 'slider', title: 'Step: 10', proportion: '35%', step: 10 },
+
+    { prop: 'slider3', type: 'slider', title: 'Slider', proportion: '60%', titleAlign: 'left' },
+    { prop: 'slider4', type: 'slider', title: 'Slider', proportion: '60%', titleAlign: 'center' },
+    { prop: 'slider5', type: 'slider', title: 'Slider', proportion: '60%', titleAlign: 'right' },
+
+    { prop: 'slider6', type: 'slider', title: 'Slider', proportion: '60%', titleColor: 'red' },
+    { prop: 'slider6', type: 'slider', title: 'Slider', proportion: '60%', titleSize: 24 },
+
+    { type: 'text', title: 'Time', titleSize: 14, titleColor: 'black', titleBold: true, titleItalic: true,  offsetTop: 18 },
+    { type: 'divider', size: 1, color: 'grey', offsetTop: 8, offsetBottom: 12 },
   ],
   data: {
     number1: 0,
@@ -85,6 +101,12 @@ const temp = {
     checkbox2: true,
     checkbox3: false,
     checkbox4: false,
+    slider1: 25,
+    slider2: 50,
+    slider3: 25,
+    slider4: 50,
+    slider5: 75,
+    slider6: 45,
   },
 };
 
