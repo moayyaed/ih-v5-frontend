@@ -11,13 +11,13 @@ const styles = {
   },
   container: {
     display: 'flex',
-    height: 22,
+    height: 38,
     width: '100%',
     alignItems: 'center',
   },
   container2: {
     display: 'flex',
-    height: 22,
+    height: 38,
     width: '100%',
     alignItems: 'center',
   },
@@ -29,12 +29,12 @@ function getAlign(v) {
       return 'flex-start';
     case 'right':
       return 'flex-end';
-    default:
+    case 'center':
       return 'center';
+    default:
+      return 'flex-start';
   }
 }
-
-console.log(moment())
 
 
 function Time(props) {
@@ -54,12 +54,12 @@ function Time(props) {
       }}>
         {props.item.title}
       </div>
-      <div style={{ ...styles.container2, justifyContent: getAlign(props.item.align), ...props.item.style2 }}>
+      <div style={{ ...styles.container2, ...props.item.style2 }}>
         <TimePicker
           allowEmpty={false}
           format={'HH:mm:ss'}
           style={styles.root}
-          defaultValue={moment()}
+          defaultValue={moment.utc((props.data || 0) * 1000)}
           onChange={() => {}}
         />
       </div>

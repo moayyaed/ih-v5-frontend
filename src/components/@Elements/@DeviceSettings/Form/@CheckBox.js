@@ -29,8 +29,10 @@ function getAlign(v) {
       return 'flex-start';
     case 'right':
       return 'flex-end';
-    default:
+    case 'center':
       return 'center';
+    default:
+      return 'flex-start';
   }
 }
 

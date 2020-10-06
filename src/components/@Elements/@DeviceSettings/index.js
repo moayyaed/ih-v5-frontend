@@ -91,6 +91,10 @@ const temp = {
     { type: 'divider', size: 1, color: 'grey', offsetTop: 8, offsetBottom: 12 },
 
     { prop: 'time1', type: 'time' },
+    { prop: 'time2', type: 'time', title: 'Time 55%', proportion: '55%' },
+    { prop: 'time3', type: 'time', title: 'Time 55%', proportion: '55%' },
+    { prop: 'time3', type: 'time', title: 'Time 55%', proportion: '55%' },
+    { prop: 'time3', type: 'time', title: 'Time 55%', proportion: '55%' },
   ],
   data: {
     number1: 0,
@@ -109,6 +113,9 @@ const temp = {
     slider4: 50,
     slider5: 75,
     slider6: 45,
+    time1: 0,
+    time2: 10,
+    time3: 30,
   },
 };
 

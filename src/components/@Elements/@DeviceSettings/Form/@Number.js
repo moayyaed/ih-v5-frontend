@@ -108,8 +108,10 @@ function getAlign(v) {
       return 'left';
     case 'right':
       return 'right';
-    default:
+    case 'center':
       return 'center';
+    default:
+      return 'left';
   }
 }
 
