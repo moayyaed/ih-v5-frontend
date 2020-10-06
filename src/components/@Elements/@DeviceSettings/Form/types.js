@@ -26,9 +26,9 @@ function getComponentByType(type) {
   }
 }
 
-function components(item, data) {
+function components(key, item, data) {
   const component = getComponentByType(item.type);
-  return React.createElement(component, { key: item.prop, item, data });
+  return React.createElement(component, { key, item, data });
 }
 
 

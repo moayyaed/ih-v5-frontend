@@ -184,12 +184,14 @@ function getParams(item, props) {
     return { did: item.did, prop: item.prop, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id }
   }
   if (store.open && store.contextId) {
+    const data = {};
     const temp = store.contextId.split('__');
-    const layoutId = temp[0].split(':')[1];
-    const containerId = temp[1].split(':')[1];
-    const elementId = temp[2].split(':')[1];
 
-    return { ...item.value, id: item.id, layoutId, containerId, elementId };
+    temp.forEach(i => {
+      const [key, value] = i.split(':');
+      data[key] = value;
+    });
+    return { ...item.value, id: item.id, layoutId: data['layout'], containerId: data['container'], elementId: data['element'] };
   }
   return { ...item.value, id: item.id, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id };
 }

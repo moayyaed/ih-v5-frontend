@@ -106,7 +106,20 @@ class Button extends Component {
 function _Number(props) {
   return (
     <div style={styles.container}>
-      <div style={{ flexShrink: 0, fontSize: props.item.sizeTitle, color: props.item.colorTitle, width: props.item.proportion, ...props.item.style2 }}>{props.item.title}</div>
+      <div style={{ 
+        flexShrink: 0, 
+        color: props.item.titleColor, 
+        fontSize: props.item.titleSize,
+        textAlign: props.item.titleAlign,
+        fontWeight: props.item.titleBold ? 600 : 'unset',
+        fontStyle: props.item.titleItalic ? 'italic' : 'unset',
+        marginTop: props.item.offsetTop,
+        marginBottom: props.item.offsetBottom, 
+        width: props.item.proportion, 
+        ...props.item.style 
+      }}>
+        {props.item.title}
+      </div>
       <Button
         type="left" 
         step={props.item.step}
@@ -114,7 +127,7 @@ function _Number(props) {
       />
       <input
         className="core"
-        style={{...styles.root, color: props.item.color, fontSize: props.item.size, ...props.item.style }} 
+        style={{...styles.root, ...props.item.style2 }} 
         value={props.data}
         onChange={(e) => checkValue(e.target.value, props.data, props.item)}
       />

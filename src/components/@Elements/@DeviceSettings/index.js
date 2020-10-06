@@ -19,8 +19,35 @@ const temp = {
     padding: 16,
   },
   schema: [
-    { prop: '_text', type: 'text', size: 14, color: 'red' },
-    { prop: '_number', type: 'number', step: 10, min: 0, max: 100, size: 18, color: 'blue' },
+    { type: 'text', title: 'Text', titleSize: 14, titleColor: 'black', titleBold: true, titleItalic: true },
+    { type: 'divider', size: 1, color: 'grey', offsetTop: 8, offsetBottom: 12 },
+
+    { type: 'text', title: 'Text Align: left', titleAlign: 'left' },
+    { type: 'text', title: 'Text Align: center', titleAlign: 'center' },
+    { type: 'text', title: 'Text Align: right', titleAlign: 'right' },
+
+    { type: 'text', title: 'Text Color: red', titleColor: 'red' },
+    { type: 'text', title: 'Text Size: 24', titleSize: 24 },
+
+    { type: 'text', title: 'Number', titleSize: 14, titleColor: 'black', titleBold: true, titleItalic: true, offsetTop: 18 },
+    { type: 'divider', size: 1, color: 'grey', offsetTop: 8, offsetBottom: 12 },
+
+    { prop: '_number1', type: 'number'},
+    { prop: '_number2', type: 'number', title: 'Number title:' },
+    { prop: '_number3', type: 'number', title: 'Number title: 55%', proportion: '55%' },
+    { prop: '_number4', type: 'number', title: 'Number range: 0-100', proportion: '55%', min: 0, max: 100 },
+    { prop: '_number5', type: 'number', title: 'Number step: 10', proportion: '55%', step: 10 },
+
+    { prop: '_number6', type: 'number', title: 'Number', proportion: '75%', titleAlign: 'left' },
+    { prop: '_number6', type: 'number', title: 'Number', proportion: '75%', titleAlign: 'center' },
+    { prop: '_number6', type: 'number', title: 'Number', proportion: '75%', titleAlign: 'right' },
+
+    { prop: '_number6', type: 'number', title: 'Number', proportion: '75%', titleColor: 'red' },
+    { prop: '_number6', type: 'number', title: 'Number', proportion: '75%', titleSize: 24 },
+  
+    { type: 'text', title: 'Checkbox', titleSize: 14, titleColor: 'black', titleBold: true, titleItalic: true,  offsetTop: 18 },
+    { type: 'divider', size: 1, color: 'grey', offsetTop: 8, offsetBottom: 12 },
+    
     { prop: '_cb', type: 'cb', color: 'orange' },
     { prop: '_slider', type: 'slider', step: 10, min: 0, max: 100, },
     { prop: '_divider', type: 'divider', size: 1, color: 'grey', offsetTop: 16, offsetBottom: 16, },
@@ -29,8 +56,12 @@ const temp = {
     { prop: '_slider2', type: 'slider', title: 'Slider:', proportion: '25%', step: 10, min: 0, max: 100, },
   ],
   data: {
-    _text: 'Hello world!',
-    _number: 20,
+    _number1: 0,
+    _number2: 10,
+    _number3: 30,
+    _number4: 50,
+    _number5: 50,
+    _number6: 0,
     _cb: false,
     _slider: 20,
     _number2: 50,
