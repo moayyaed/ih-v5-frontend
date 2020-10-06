@@ -5,6 +5,7 @@ import Text from './@Text';
 import _Number from './@Number';
 import CheckBox from './@CheckBox';
 import Slider from './@Slider';
+import Time from './@Time';
 
 import Divider from './@Divider';
 
@@ -19,10 +20,12 @@ function getComponentByType(type) {
         return CheckBox;
       case 'slider':
         return Slider;
+      case 'time':
+        return Time;
       case 'divider':
         return Divider;
     default:
-      return null;
+      return Text;
   }
 }
 

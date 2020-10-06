@@ -81,3 +81,11 @@ button:focus {
 input.core:focus {
   outline: none;
 }
+
+.rc-time-picker-panel {
+  z-index: 10000!important;
+}
+
+.rc-time-picker-input {
+  outline: none;
+}

@@ -89,6 +89,8 @@ const temp = {
 
     { type: 'text', title: 'Time', titleSize: 14, titleColor: 'black', titleBold: true, titleItalic: true,  offsetTop: 18 },
     { type: 'divider', size: 1, color: 'grey', offsetTop: 8, offsetBottom: 12 },
+
+    { prop: 'time1', type: 'time' },
   ],
   data: {
     number1: 0,
