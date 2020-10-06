@@ -102,6 +102,17 @@ class Button extends Component {
   }
 }
 
+function getAlign(v) {
+  switch(v) {
+    case 'left':
+      return 'left';
+    case 'right':
+      return 'right';
+    default:
+      return 'center';
+  }
+}
+
 
 function _Number(props) {
   return (
@@ -127,7 +138,7 @@ function _Number(props) {
       />
       <input
         className="core"
-        style={{...styles.root, ...props.item.style2 }} 
+        style={{...styles.root, fontSize: props.item.size, textAlign: getAlign(props.item.align), ...props.item.style2 }} 
         value={props.data}
         onChange={(e) => checkValue(e.target.value, props.data, props.item)}
       />
