@@ -129,7 +129,7 @@ function onChange(type, prop, value) {
 }
 
 function Devicesettings(props) {
-  const settings = temp;// props.mode === 'user' ? props.item.data : temp
+  const settings = props.mode === 'user' ? props.item.data : temp
 
   return (
     <div 

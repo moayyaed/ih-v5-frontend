@@ -6,7 +6,7 @@ function Text(props) {
     <div style={{ 
       color: props.item.titleColor, 
       fontSize: props.item.titleSize,
-      textAlign: props.item.titleAlign,
+      textAlign: props.item.titleAlign || 'left',
       fontWeight: props.item.titleBold ? 600 : 'unset',
       fontStyle: props.item.titleItalic ? 'italic' : 'unset',
       marginTop: props.item.offsetTop,
