@@ -62,7 +62,8 @@ function CheckBox(props) {
           icon={<CheckBoxOutlineBlankIcon style={{ fontSize: props.item.size || '1.25rem' }} />}
           checkedIcon={<CheckBoxIcon style={{ fontSize: props.item.size || '1.25rem' }} />}
           style={{ ...styles.root, ...props.item.style2 }}
-          checked={Boolean(props.data)}
+          defaultChecked={Boolean(props.data)}
+          onChange={e => props.onChange('cb', props.item.prop, e.target.checked)}
         />
       </div>
     </div>

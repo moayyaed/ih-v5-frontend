@@ -66,7 +66,7 @@ class Button extends Component {
 
   handleMouseUp = () => {
     if (this.long === false) {
-      this.props.onClick(this.props.step);
+      this.props.onClick(this.props.step || 1);
     }
     
     this.clear();
@@ -74,7 +74,7 @@ class Button extends Component {
 
   handleLong = () => {
     this.long = true;
-    this.timer2 = setInterval(() => this.props.onClick(this.props.step), 100)
+    this.timer2 = setInterval(() => this.props.onClick(this.props.step || 1), 100)
   }
 
   clear = () => {
@@ -111,12 +111,18 @@ function getAlign(v) {
     case 'center':
       return 'center';
     default:
-      return 'left';
+      return 'center';
   }
 }
 
 
 function _Number(props) {
+  const [value, setValue] = React.useState(props.data);
+  const onChange = (type, prop, value) => {
+    setValue(value)
+    props.onChange(type, prop, value);
+  };
+
   return (
     <div style={styles.container}>
       <div style={{ 
@@ -136,18 +142,18 @@ function _Number(props) {
       <Button
         type="left" 
         step={props.item.step}
-        onClick={(v) => checkValue(props.data - v, props.data, props.item)}
+        onClick={(v) => onChange('number', props.item.prop, checkValue(value - v, value, props.item))}
       />
       <input
         className="core"
         style={{...styles.root, fontSize: props.item.size, textAlign: getAlign(props.item.align), ...props.item.style2 }} 
-        value={props.data}
-        onChange={(e) => checkValue(e.target.value, props.data, props.item)}
+        value={value}
+        onChange={(e) => onChange('number', props.item.prop, checkValue(e.target.value, value, props.item))}
       />
       <Button
         type="right" 
         step={props.item.step}
-        onClick={(v) => checkValue(props.data + v, props.data, props.item)}
+        onClick={(v) => onChange('number', props.item.prop, checkValue(value + v, value, props.item))}
       />
     </div>
   )

@@ -61,7 +61,7 @@ function Time(props) {
           format={'HH:mm:ss'}
           style={styles.root}
           defaultValue={moment.utc((props.data || 0) * 1000)}
-          onChange={() => {}}
+          onChange={(v) => props.onChange('time', props.item.prop, v.unix())}
         />
       </div>
     </div>

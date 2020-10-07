@@ -5,8 +5,8 @@ import components from './types';
 
 function Form(props) {
   return (
-    <div style={props.settings.style}>
-      {props.settings.schema.map((item, key) => components(key, item, props.settings.data[item.prop]))}
+    <div style={props.style}>
+      {props.schema.map((item, key) => components(key, item, props.data[item.prop], props.onChange))}
     </div>
   )
 }

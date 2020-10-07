@@ -1,4 +1,6 @@
 import React from 'react';
+import core from 'core';
+
 import Scrollbars2 from 'libs/Scrllbars2';
 
 import Form from './Form';
@@ -79,8 +81,8 @@ const temp = {
 
     { prop: 'slider2', type: 'slider', title: 'Slider 35%', proportion: '35%' },
     { prop: 'slider2', type: 'slider', title: 'Range: 0-100', proportion: '35%', min: 0, max: 100 },
-    { prop: 'slider2', type: 'slider', title: 'Step: 10', proportion: '35%', step: 10 },
-    { prop: 'slider2', type: 'slider', title: 'Marks: 10', proportion: '35%', step: 10, marks: true },
+    { prop: 'slider2', type: 'slider', title: 'Step: 10', proportion: '35%', step: 10, min: 0, max: 100 },
+    { prop: 'slider2', type: 'slider', title: 'Marks: 10', proportion: '35%', step: 10, marks: true, min: 0, max: 100},
 
     { prop: 'slider3', type: 'slider', title: 'Slider', proportion: '60%', titleAlign: 'left' },
     { prop: 'slider4', type: 'slider', title: 'Slider', proportion: '60%', titleAlign: 'center' },
@@ -122,9 +124,13 @@ const temp = {
   },
 };
 
+function onChange(type, prop, value) {
+  console.log(type, prop, value)
+}
 
 function Devicesettings(props) {
-  const data = props.mode === 'user' ? props.item.data : temp;
+  const settings = temp;// props.mode === 'user' ? props.item.data : temp
+
   return (
     <div 
       style={{
@@ -145,7 +151,12 @@ function Devicesettings(props) {
         scrollX={props.mode === 'user'}
         scrollY={props.mode === 'user'}
       >
-        <Form settings={temp} />
+        <Form 
+          style={settings.style} 
+          schema={settings.schema} 
+          data={settings.data} 
+          onChange={onChange} 
+        />
       </Scrollbars2>
     </div>
   );

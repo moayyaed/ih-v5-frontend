@@ -69,7 +69,7 @@ class Button extends Component {
 
   handleMouseUp = () => {
     if (this.long === false) {
-      this.props.onClick(this.props.step);
+      this.props.onClick(this.props.step || 1);
     }
     
     this.clear();
@@ -77,7 +77,7 @@ class Button extends Component {
 
   handleLong = () => {
     this.long = true;
-    this.timer2 = setInterval(() => this.props.onClick(this.props.step), 100)
+    this.timer2 = setInterval(() => this.props.onClick(this.props.step || 1), 100)
   }
 
   clear = () => {
@@ -117,6 +117,16 @@ function ValueLabelComponent(props) {
 
 
 function _Slider(props) {
+  const [value, setValue] = React.useState(props.data);
+
+  const onChange = (type, prop, value) => {
+    setValue(value)
+  };
+  const onChangeCommitted = (type, prop, value) => {
+    setValue(value)
+    props.onChange(type, prop, value);
+  };
+
   return (
     <div style={styles.container}>
       <div style={{ 
@@ -136,13 +146,20 @@ function _Slider(props) {
       <Button
         type="left" 
         step={props.item.step}
-        onClick={(v) => checkValue(props.data - v, props.data, props.item)}
+        onClick={(v) => onChangeCommitted('slider', props.item.prop, checkValue(value - v, value, props.item))}
       />
-      <Slider defaultValue={props.data} marks={props.item.marks} step={props.item.step} ValueLabelComponent={ValueLabelComponent} />
+      <Slider 
+        value={value} 
+        marks={props.item.marks} 
+        step={props.item.step} 
+        ValueLabelComponent={ValueLabelComponent}
+        onChange={(e, v) => onChange('slider', props.item.prop, checkValue(v, value, props.item))}
+        onChangeCommitted={(e, v) => onChangeCommitted('slider', props.item.prop, checkValue(v, value, props.item))}
+      />
       <Button
         type="right" 
         step={props.item.step}
-        onClick={(v) => checkValue(props.data + v, props.data, props.item)}
+        onClick={(v) => onChangeCommitted('slider', props.item.prop, checkValue(value + v, value, props.item))}
       />
     </div>
   )
