@@ -59,8 +59,12 @@ function handleClickUserInterface() {
   window.open('/', '_blank');
 }
 
-function handleClickSettings() {
-  
+function handleClickSettings(menuid) {
+  if (menuid === 'settings') {
+    core.route('');
+  } else {
+    core.route('settings');
+  }
 }
 
 function handleClickExit() {
@@ -73,7 +77,7 @@ function handleClickExit() {
   window.location.href = "/admin";
 }
 
-function AppBar() {
+function AppBar(props) {
   return (
     <div style={styles.box}>
       <div style={styles.stub}/>
@@ -86,8 +90,8 @@ function AppBar() {
         <IconButton style={styles.button} size="small" onClick={handleClickUserInterface}>
           <WebIcon fontSize="small" />
         </IconButton>
-        <IconButton style={styles.button} size="small" onClick={handleClickSettings}>
-          <SettingsIcon fontSize="small" />
+        <IconButton style={styles.button} size="small" onClick={() => handleClickSettings(props.menuid)}>
+          <SettingsIcon style={{ color: props.menuid === 'settings' ? '#03A9F4' : 'unset' }} fontSize="small" />
         </IconButton>
         <IconButton style={styles.button} size="small" onClick={handleClickExit}>
           <ExitToAppIcon fontSize="small" />

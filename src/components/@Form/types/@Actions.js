@@ -445,10 +445,11 @@ function Actions(props) {
     if (state.type === 'option-left' || state.type === 'option-right') {
       if (route.dialog) {
         return [
-          <MenuItem key="0" onClick={() => handleClickOption('initdialog')}>Init Dialog</MenuItem>,
-          <MenuItem key="1" onClick={() => handleClickOption('dialog')}>Show Dialog</MenuItem>,
+          <MenuItem key="0" onClick={() => handleClickOption('device')}>Device Command</MenuItem>,
+          <MenuItem key="1" onClick={() => handleClickOption('initdialog')}>Init Dialog</MenuItem>,
+          <MenuItem key="2" onClick={() => handleClickOption('dialog')}>Show Dialog</MenuItem>,
           <Divider key="-" />,
-          <MenuItem key="2" onClick={() => handleClickOption('close')}>Close Dialog</MenuItem>,
+          <MenuItem key="3" onClick={() => handleClickOption('close')}>Close Dialog</MenuItem>,
         ]
       }
       return [

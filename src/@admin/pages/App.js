@@ -34,7 +34,7 @@ function App(props) {
     <>
       <AppDialog />
       <AppProgress />
-      <AppBar />
+      <AppBar menuid={props.route.menuid} />
       <div className="container">
         <AppMenu />
         <div style={styles.box}>
