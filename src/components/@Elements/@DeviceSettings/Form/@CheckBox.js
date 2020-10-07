@@ -50,7 +50,7 @@ function CheckBox(props) {
         fontStyle: props.item.titleItalic ? 'italic' : 'unset',
         marginTop: props.item.offsetTop,
         marginBottom: props.item.offsetBottom, 
-        width: props.item.proportion, 
+        width: props.itemortion, 
         ...props.item.style 
       }}>
         {props.item.title}
@@ -63,7 +63,7 @@ function CheckBox(props) {
           checkedIcon={<CheckBoxIcon style={{ fontSize: props.item.size || '1.25rem' }} />}
           style={{ ...styles.root, ...props.item.style2 }}
           defaultChecked={Boolean(props.data)}
-          onChange={e => props.onChange('cb', props.item.prop, e.target.checked)}
+          onChange={e => props.onChange('cb', props.item, e.target.checked)}
         />
       </div>
     </div>

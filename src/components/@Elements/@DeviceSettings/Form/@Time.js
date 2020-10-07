@@ -50,7 +50,7 @@ function Time(props) {
         fontStyle: props.item.titleItalic ? 'italic' : 'unset',
         marginTop: props.item.offsetTop,
         marginBottom: props.item.offsetBottom, 
-        width: props.item.proportion, 
+        width: props.itemortion, 
         ...props.item.style 
       }}>
         {props.item.title}
@@ -61,7 +61,7 @@ function Time(props) {
           format={'HH:mm:ss'}
           style={styles.root}
           defaultValue={moment.utc((props.data || 0) * 1000)}
-          onChange={(v) => props.onChange('time', props.item.prop, v.unix())}
+          onChange={(v) => props.onChange('time', props.item, v.unix())}
         />
       </div>
     </div>

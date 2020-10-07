@@ -1,6 +1,8 @@
 import React from 'react';
 import core from 'core';
 
+import shortid from 'shortid';
+
 import Scrollbars2 from 'libs/Scrllbars2';
 
 import Form from './Form';
@@ -124,12 +126,23 @@ const temp = {
   },
 };
 
-function onChange(type, prop, value) {
-  console.log(type, prop, value)
-}
 
 function Devicesettings(props) {
   const settings = props.mode === 'user' ? props.item.data : temp
+
+  const onChange = (type, item, value) => {
+    if (item.dn !== undefined && item.prop !== undefined) {
+      core.tunnel.command({
+        uuid: shortid.generate(),
+        method: 'action',
+        type:'command',
+        command: 'setval',
+        did: item.did,
+        prop: item.prop,
+        value,
+      });
+    }
+  }
 
   return (
     <div 

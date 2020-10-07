@@ -138,7 +138,7 @@ function _Slider(props) {
         fontStyle: props.item.titleItalic ? 'italic' : 'unset',
         marginTop: props.item.offsetTop,
         marginBottom: props.item.offsetBottom, 
-        width: props.item.proportion, 
+        width: props.itemortion, 
         ...props.item.style 
       }}>
         {props.item.title}
@@ -146,20 +146,20 @@ function _Slider(props) {
       <Button
         type="left" 
         step={props.item.step}
-        onClick={(v) => onChangeCommitted('slider', props.item.prop, checkValue(value - v, value, props.item))}
+        onClick={(v) => onChangeCommitted('slider', props.item, checkValue(value - v, value, props.item))}
       />
       <Slider 
         value={value} 
         marks={props.item.marks} 
         step={props.item.step} 
         ValueLabelComponent={ValueLabelComponent}
-        onChange={(e, v) => onChange('slider', props.item.prop, checkValue(v, value, props.item))}
-        onChangeCommitted={(e, v) => onChangeCommitted('slider', props.item.prop, checkValue(v, value, props.item))}
+        onChange={(e, v) => onChange('slider', props.item, checkValue(v, value, props.item))}
+        onChangeCommitted={(e, v) => onChangeCommitted('slider', props.item, checkValue(v, value, props.item))}
       />
       <Button
         type="right" 
         step={props.item.step}
-        onClick={(v) => onChangeCommitted('slider', props.item.prop, checkValue(value + v, value, props.item))}
+        onClick={(v) => onChangeCommitted('slider', props.item, checkValue(value + v, value, props.item))}
       />
     </div>
   )

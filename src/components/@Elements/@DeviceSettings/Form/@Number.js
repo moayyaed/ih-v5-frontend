@@ -134,7 +134,7 @@ function _Number(props) {
         fontStyle: props.item.titleItalic ? 'italic' : 'unset',
         marginTop: props.item.offsetTop,
         marginBottom: props.item.offsetBottom, 
-        width: props.item.proportion, 
+        width: props.itemortion, 
         ...props.item.style 
       }}>
         {props.item.title}
@@ -142,18 +142,18 @@ function _Number(props) {
       <Button
         type="left" 
         step={props.item.step}
-        onClick={(v) => onChange('number', props.item.prop, checkValue(value - v, value, props.item))}
+        onClick={(v) => onChange('number', props.item, checkValue(value - v, value, props.item))}
       />
       <input
         className="core"
         style={{...styles.root, fontSize: props.item.size, textAlign: getAlign(props.item.align), ...props.item.style2 }} 
         value={value}
-        onChange={(e) => onChange('number', props.item.prop, checkValue(e.target.value, value, props.item))}
+        onChange={(e) => onChange('number', props.item, checkValue(e.target.value, value, props.item))}
       />
       <Button
         type="right" 
         step={props.item.step}
-        onClick={(v) => onChange('number', props.item.prop, checkValue(value + v, value, props.item))}
+        onClick={(v) => onChange('number', props.item, checkValue(value + v, value, props.item))}
       />
     </div>
   )
