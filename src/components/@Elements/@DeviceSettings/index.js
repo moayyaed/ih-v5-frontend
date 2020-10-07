@@ -80,6 +80,7 @@ const temp = {
     { prop: 'slider2', type: 'slider', title: 'Slider 35%', proportion: '35%' },
     { prop: 'slider2', type: 'slider', title: 'Range: 0-100', proportion: '35%', min: 0, max: 100 },
     { prop: 'slider2', type: 'slider', title: 'Step: 10', proportion: '35%', step: 10 },
+    { prop: 'slider2', type: 'slider', title: 'Marks: 10', proportion: '35%', step: 10, marks: true },
 
     { prop: 'slider3', type: 'slider', title: 'Slider', proportion: '60%', titleAlign: 'left' },
     { prop: 'slider4', type: 'slider', title: 'Slider', proportion: '60%', titleAlign: 'center' },

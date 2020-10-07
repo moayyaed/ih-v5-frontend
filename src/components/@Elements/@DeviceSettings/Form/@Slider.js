@@ -138,7 +138,7 @@ function _Slider(props) {
         step={props.item.step}
         onClick={(v) => checkValue(props.data - v, props.data, props.item)}
       />
-      <Slider value={props.data} ValueLabelComponent={ValueLabelComponent} />
+      <Slider defaultValue={props.data} marks={props.item.marks} step={props.item.step} ValueLabelComponent={ValueLabelComponent} />
       <Button
         type="right" 
         step={props.item.step}
