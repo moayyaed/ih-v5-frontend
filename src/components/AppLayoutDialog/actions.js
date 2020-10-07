@@ -1,4 +1,4 @@
-import { APP_LAYOUT_DIALOG_SET_DATA } from './constants';
+import { APP_LAYOUT_DIALOG_SET_DATA, APP_LAYOUT_DIALOG_UPDATE_ELEMENTS } from './constants';
 
 
 export function data(data) {
@@ -8,6 +8,14 @@ export function data(data) {
   };
 }
 
+export function updateElements(data) {
+  return {
+    type: APP_LAYOUT_DIALOG_UPDATE_ELEMENTS,
+    data,
+  };
+}
+
 export default {
   data,
+  updateElements,
 }

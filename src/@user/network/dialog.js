@@ -169,7 +169,7 @@ function preparationData(data) {
         if (item.enabled) {
           try {
             data.elements[id][propId].func = createValueFunc(item.func).body;
-            if (!item.template && data.static[item.did] && data.static[item.did][item.prop] !== undefined) {
+            if (!item.template && data.static[item.did] && data.static[item.did].prop && data.static[item.did][data.static[item.did].prop] !== undefined) {
               const context = { parent: data.static[item.did] || {} };
 
               if (propId === 'w2' || propId === 'h2') {

@@ -81,6 +81,15 @@ class AppLayoutDialog extends Component {
     if (this.props.state.settings.outsideClose && this.props.state.settings.outsideClose.value) {
       core.actions.layoutDialog.data({ open: false, position: undefined });
     }
+    if (this.lastId) {
+      core.tunnel.unsub({ 
+        method: 'unsub',
+        type: 'dialog',
+        uuid: this.lastId,
+        id: this.lastId,
+      }, this.realtimeDialog);
+    }
+    this.lastId = null;
   }
 
   clearAnimation = () => {
@@ -104,10 +113,30 @@ class AppLayoutDialog extends Component {
       })
   }
 
+  realtimeDialog = (data) => {
+    core.actions.layoutDialog.updateElements(data);
+  }
+
   request = ({ id, contextId }) => {
+    if (this.lastId) {
+      core.tunnel.unsub({ 
+        method: 'unsub',
+        type: 'dialog',
+        uuid: id,
+        id: id,
+      }, this.realtimeDialog);
+    }
     core
     .request({ method: 'applayout_dialog', params: { id, contextId } })
     .ok(data => {
+      this.lastId = id;
+      core.tunnel.sub({ 
+        method: 'sub',
+        type: 'dialog',
+        uuid: id,
+        id: id,
+        contextId,
+      }, this.realtimeDialog);
       core.actions.layoutDialog.data({
         ...data,
         open: true,
