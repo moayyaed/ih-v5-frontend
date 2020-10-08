@@ -170,7 +170,8 @@ function preparationData(data) {
           try {
             data.elements[id][propId].func = createValueFunc(item.func).body;
             const _static = item.did === '__device' || item.did === '__devstat';
-            if (!_static && data.static[item.did] && data.static[item.did].prop && data.static[item.did][data.static[item.did].prop] !== undefined) {
+
+            if (!_static && data.static[item.did] && data.static[item.did][item.prop] !== undefined) {
               const context = { parent: data.static[item.did] || {} };
 
               if (propId === 'w2' || propId === 'h2') {
