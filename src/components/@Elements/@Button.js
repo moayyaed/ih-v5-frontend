@@ -179,8 +179,10 @@ function ButtonEgine(props) {
 }
 
 function getParams(item, props) {
-  const store = core.store.getState().layoutDialog
-  if (item.command === 'device') {
+  let contextId = null;
+  const store = core.store.getState().layoutDialog;
+  
+  if (item.command === 'device' || item.command === 'device_any') {
     return { did: item.did, prop: item.prop, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id }
   }
   if (store.open && store.contextId) {
@@ -192,6 +194,12 @@ function getParams(item, props) {
       data[key] = value;
     });
     return { ...item.value, id: item.id, layoutId: data['layout'], containerId: data['container'], elementId: data['element'] };
+  }
+  if (item.command === 'dialog') {
+    if (item.value && item.value.device && item.value.device.id) {
+      contextId = item.value.device.id;
+    }
+    return { id: item.id, contextId, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id };
   }
   return { ...item.value, id: item.id, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id };
 }
@@ -270,7 +278,7 @@ class Button extends PureComponent {
                   uuid: shortid.generate(),
                   method: 'action',
                   type:'command',
-                  command: item.command,
+                  command: item.command === 'device_any' ? 'device' : item.command,
                   ...getParams(item, props)
                 });
               }

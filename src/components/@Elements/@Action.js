@@ -29,10 +29,18 @@ const styles = {
 
 
 function getParams(item, props) {
+  let contextId = null;
+
   if (item.command === 'device') {
-    return { did: item.did, prop: item.prop, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.templateId }
+    return { did: item.did, prop: item.prop, contextId, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.templateId }
   }
-  return { ...item.value, id: item.id, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.templateId };
+  if (item.command === 'dialog') {
+    if (item.value && item.value.device && item.value.device.id) {
+      contextId = item.value.device.id;
+    }
+    return { id: item.id, contextId, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.templateId };
+  }
+  return { ...item.value, id: item.id, contextId, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.templateId };
 }
 
 
