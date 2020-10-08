@@ -134,6 +134,7 @@ const styles = {
 
 const COMMANDS = {
   device: 'devcmd',
+  device_any: 'devcmdAndAny',
   layout: 'layoutx',
   plugin: 'pluginx',
   script: 'scriptx',
@@ -143,6 +144,7 @@ const COMMANDS = {
 
 const COMMANDS_TITLES = {
   device: 'Device Command',
+  device_any: 'Device Command',
   plugin: 'Plugin Command',
   layout: 'Go To Layout',
   script: 'Run Script',
@@ -322,16 +324,17 @@ function Actions(props) {
 
   const hanndleDialog = (command, type, key, did, prop, func, title, local) => {
     core.transfer.sub('form_dialog', handleDialogClick);
+    console.log(COMMANDS[command])
     core.actions.appdialog.data({
       id: 'action_dialog', 
       open: true, 
       transferid: 'form_dialog',
       template: {
         noscroll: command === 'setval',
-        disabledSave: (command === 'device') ? true : false,
+        disabledSave: (command === 'device' || command === 'device_any') ? true : false,
         title: COMMANDS_TITLES[command],
-        type: (command === 'device' || command === 'setval') ? 'tree' : 'options',
-        id: COMMANDS[command] || 'devcmd',
+        type: (command === 'device' || command === 'device_any' ||  command === 'setval') ? 'tree' : 'options',
+        id: COMMANDS[command] || 'null',
         dialog: 'channellink',
         selectnodeid: did,
         selectId: prop,
@@ -352,7 +355,7 @@ function Actions(props) {
       core.transfer.unsub('form_dialog', handleDialogClick);
       core.actions.appdialog.close();
   
-      if (context.template.itemCommand === 'device') {
+      if (context.template.itemCommand === 'device' || context.template.itemCommand === 'device_any') {
         props.onChange(props.id, props.options, null, { 
           ...props.data, 
           [context.template.itemType]: props.data[context.template.itemType].map((i, key) => {
@@ -445,7 +448,7 @@ function Actions(props) {
     if (state.type === 'option-left' || state.type === 'option-right') {
       if (route.dialog) {
         return [
-          <MenuItem key="0" onClick={() => handleClickOption('device')}>Device Command</MenuItem>,
+          <MenuItem key="0" onClick={() => handleClickOption('device_any')}>Device Command</MenuItem>,
           <MenuItem key="1" onClick={() => handleClickOption('initdialog')}>Init Dialog</MenuItem>,
           <MenuItem key="2" onClick={() => handleClickOption('dialog')}>Show Dialog</MenuItem>,
           <Divider key="-" />,

@@ -230,7 +230,7 @@ function Animation(props) {
             noscroll: true,
             title: 'Binding Settings',
             type: 'tree',
-            id: props.route.dialog ? 'elementsAndVistemplates': 'elements',
+            id: props.route.dialog ? 'elementsAndVistemplate': 'elements',
             template: props.data.template,
             selectnodeid: props.data.did,
             selectId: props.data.prop,
