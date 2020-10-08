@@ -181,19 +181,15 @@ function ButtonEgine(props) {
 function getParams(item, props) {
   let contextId = null;
   const store = core.store.getState().layoutDialog;
-  
+
   if (item.command === 'device' || item.command === 'device_any') {
+    if (item.did === '__device') {
+      return { did: store.contextId, prop: item.prop, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id }
+    }
     return { did: item.did, prop: item.prop, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id }
   }
   if (store.open && store.contextId) {
-    const data = {};
-    const temp = store.contextId.split('__');
-
-    temp.forEach(i => {
-      const [key, value] = i.split(':');
-      data[key] = value;
-    });
-    return { ...item.value, id: item.id, layoutId: data['layout'], containerId: data['container'], elementId: data['element'] };
+    return { ...item.value, id: item.id, contextId: store.contextId };
   }
   if (item.command === 'dialog') {
     if (item.value && item.value.device && item.value.device.id) {

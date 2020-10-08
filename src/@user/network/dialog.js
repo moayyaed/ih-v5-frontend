@@ -169,9 +169,12 @@ function preparationData(data) {
         if (item.enabled) {
           try {
             data.elements[id][propId].func = createValueFunc(item.func).body;
-            const _static = item.did === '__device' || item.did === '__devstat';
 
-            if (!_static && data.static[item.did] && data.static[item.did][item.prop] !== undefined) {
+            if (item.did === '__device' || item.did === '__devstat') {
+              item.did = data.contextId;
+            }
+
+            if (data.static[item.did] && data.static[item.did][item.prop] !== undefined) {
               const context = { parent: data.static[item.did] || {} };
 
               if (propId === 'w2' || propId === 'h2') {
@@ -188,21 +191,6 @@ function preparationData(data) {
                 data.elements[id][propId].value = v;
               } else {
                 data.elements[id][propId].value = data.elements[id][propId].func(data.static[item.did][item.prop], {}, context)
-              }
-            } else {
-              const context = { parent: data.static[item.prop] || {} };
-              if (propId === 'w2' || propId === 'h2') {
-                const prop1 = propId === 'w2' ? 'x': 'y';
-                const prop2 = propId === 'w2' ? 'w': 'h';
-                const v = data.elements[id][propId].func(data.static[item.prop][item.prop], {}, context)
-                const curentValue = v;
-                const delta = curentValue - data.elements[id][prop2].value;
-
-                data.elements[id][prop1].value = data.elements[id][prop1].value - delta;
-                data.elements[id][prop2].value = v;
-                data.elements[id][propId].value = v;
-              } else {
-                data.elements[id][propId].value = data.elements[id][propId].func(data.static[item.prop][item.prop], {}, context)
               }
             }
           } catch {
@@ -235,5 +223,6 @@ core.network.response('applayout_dialog', (answer, res, context) => {
     ...res[0].data,
     static: res[1].data,
     widgets: res[2].data,
+    contextId: context.params.contextId,
   }));
 })
