@@ -189,6 +189,9 @@ function getParams(item, props) {
     return { did: item.did, prop: item.prop, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id }
   }
   if (store.open && store.contextId) {
+    if (item.value && item.value.device && item.value.device.id && item.value.device.id !== '-') {
+      return { ...item.value, id: item.id, contextId: item.value.device.id };
+    }
     return { ...item.value, id: item.id, contextId: store.contextId };
   }
   if (item.command === 'dialog') {
@@ -239,12 +242,14 @@ class Button extends PureComponent {
               if (command === 'initdialog') {
                 const store = core.store.getState().layoutDialog
                 if (store.parentId) {
+                  const params = getParams({ id: store.parentId, value: {} }, props);
+                  params.contextId = store.initContextId;
                   core.tunnel.command({
                     uuid: shortid.generate(),
                     method: 'action',
                     type:'command',
                     command: 'dialog',
-                    ...getParams({ id: store.parentId, value: {} }, props)
+                    ...params,
                   });
                 }
               }
