@@ -155,6 +155,7 @@ class SmartButton extends PureComponent {
 
   render() {
     if (this.props.mini) {
+      console.log(this.props)
       return (
         <>
           <div style={styles.rootMini}>
@@ -162,7 +163,7 @@ class SmartButton extends PureComponent {
               className="core"
               style={styles.rootMini2} 
               disabled={true}
-              value={this.props.data.title}
+              value={this.props.data.title || ''}
             />
           </div>
           <ButtonMenu

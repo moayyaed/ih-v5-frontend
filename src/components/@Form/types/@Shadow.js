@@ -265,7 +265,7 @@ function Shadow(props) {
           className="core"
           style={styles.rootMini2} 
           disabled={true}
-          value={props.data.title}
+          value={props.data.title || ''}
         />
         <ButtonMenu
           enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 

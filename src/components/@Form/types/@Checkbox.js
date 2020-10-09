@@ -187,7 +187,7 @@ function Checkbox(props) {
           className="core"
           style={styles.rootMini2} 
           disabled={true}
-          value={props.data.title}
+          value={props.data.title || ''}
         />
         :
         <CheckboxMui

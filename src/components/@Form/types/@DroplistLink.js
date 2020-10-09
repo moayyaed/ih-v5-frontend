@@ -361,7 +361,7 @@ class DroplistLink extends PureComponent {
             className="core"
             style={styles.rootMini2} 
             disabled={true}
-            value={this.props.data.title}
+            value={this.props.data.title || ''}
           />
           <ButtonMenu
             enabled={this.props.options.bind !== undefined ? this.props.options.bind : this.props.route.type} 

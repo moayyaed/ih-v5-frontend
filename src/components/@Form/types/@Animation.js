@@ -352,7 +352,7 @@ function Animation(props) {
           className="core"
           style={styles.rootMini2} 
           disabled={true}
-          value={props.data.title}
+          value={props.data.title || ''}
         />
         <div style={s.root}>
           <IconButton size="small" onClick={handleClick}>
