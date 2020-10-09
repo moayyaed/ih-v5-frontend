@@ -131,7 +131,7 @@ function Devicesettings(props) {
   const settings = props.mode === 'user' ? props.item.data : temp
 
   const onChange = (type, item, value) => {
-    if (item.dn !== undefined && item.prop !== undefined) {
+    if (item.did !== undefined && item.prop !== undefined) {
       core.tunnel.command({
         uuid: shortid.generate(),
         method: 'action',
