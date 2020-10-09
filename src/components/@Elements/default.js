@@ -311,6 +311,16 @@ const DEVICELOG = {
   },
   data: [],
 }
+const SLIDER = {
+  ...BLOCK,
+  variant: { value: { id: 'material', title: 'Material' }},
+  widget: true,
+  control: true,
+  widgetlinks: {
+    link: { }
+  },
+  data: {},
+}
 
 
 function getDefaultParams(type) {
@@ -341,6 +351,8 @@ function getDefaultParams(type) {
     case 'devicelog':
     case 'devicesettings':
       return DEVICELOG;
+    case 'slider':
+      return SLIDER;
     default:
       return BLOCK;
   }

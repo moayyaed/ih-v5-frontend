@@ -16,6 +16,8 @@ import CCTV from './@CCTV';
 import DeviceLog from './@DeviceLog';
 import DeviceSettings from './@DeviceSettings';
 
+import Slider from './@Slider';
+
 
 function getElementByType(type) {
   switch (type) {
@@ -43,6 +45,8 @@ function getElementByType(type) {
       return DeviceLog;
     case 'devicesettings':
       return DeviceSettings;
+    case 'slider':
+      return Slider;
     default:
       return Block;
   }
