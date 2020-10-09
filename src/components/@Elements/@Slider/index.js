@@ -1,4 +1,7 @@
 import React from 'react';
+import core from 'core';
+
+import shortid from 'shortid';
 import Slider from '@material-ui/core/Slider';
 
 
@@ -26,24 +29,38 @@ const styles = {
 
 const temp = { value: 50 };
 
+const onChange = (item, value) => {
+  if (item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.value) {
+    core.tunnel.command({
+      uuid: shortid.generate(),
+      method: 'action',
+      type:'command',
+      command: 'setval',
+      did: item.widgetlinks.link.value.did,
+      prop: item.widgetlinks.link.value.prop,
+      value,
+    });
+  }
+}
+
 
 function getSlider(props) {
+  const data = props.mode === 'user' && props.item.data.value !== undefined ? props.item.data : temp;
+
   switch(props.item.variant.value.id) {
     case 'ios':
-      return <IOSSlider defaultValue={50} valueLabelDisplay="on" />;
+      return <IOSSlider onChangeCommitted={(e, v) => onChange(props.item, v)} defaultValue={data.value} valueLabelDisplay="on" />;
     case 'pretto':
-      return <PrettoSlider valueLabelDisplay="auto" defaultValue={50} />
+      return <PrettoSlider onChangeCommitted={(e, v) => onChange(props.item, v)} valueLabelDisplay="auto" defaultValue={data.value} />
     case 'airbnb':
-      return <AirbnbSlider ThumbComponent={AirbnbThumbComponent} defaultValue={50} />
+      return <AirbnbSlider onChangeCommitted={(e, v) => onChange(props.item, v)} ThumbComponent={AirbnbThumbComponent} defaultValue={data.value} />
     default: 
-      return <Slider ValueLabelComponent={ValueLabelComponent} defaultValue={50} />;
+      return <Slider onChangeCommitted={(e, v) => onChange(props.item, v)} ValueLabelComponent={ValueLabelComponent} defaultValue={data.value} />;
   }
 }
 
 
 function _Slider(props) {
-  const data = props.mode === 'user' ? props.item.data : temp;
-  console.log(data)
   return (
     <div 
       style={{
