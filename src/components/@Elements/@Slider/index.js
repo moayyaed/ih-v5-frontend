@@ -1,7 +1,6 @@
 import React from 'react';
 import Slider from '@material-ui/core/Slider';
 
-import { makeStyles } from '@material-ui/core/styles';
 
 import { 
   ValueLabelComponent, 
@@ -24,20 +23,9 @@ const styles = {
   },
 };
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: 300 + theme.spacing(3) * 2,
-  },
-  margin: {
-    height: theme.spacing(3),
-  },
-}));
 
+const temp = { value: 50 };
 
-
-const temp = [
-
-];
 
 function getSlider(props) {
   switch(props.item.variant.value.id) {
@@ -55,6 +43,7 @@ function getSlider(props) {
 
 function _Slider(props) {
   const data = props.mode === 'user' ? props.item.data : temp;
+  console.log(data)
   return (
     <div 
       style={{
