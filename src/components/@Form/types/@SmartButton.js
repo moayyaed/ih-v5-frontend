@@ -155,7 +155,6 @@ class SmartButton extends PureComponent {
 
   render() {
     if (this.props.mini) {
-      console.log(this.props)
       return (
         <>
           <div style={styles.rootMini}>
