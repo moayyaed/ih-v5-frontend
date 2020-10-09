@@ -143,7 +143,6 @@ function Devicesettings(props) {
       });
     }
   }
-
   return (
     <div 
       style={{
@@ -164,7 +163,8 @@ function Devicesettings(props) {
         scrollX={props.mode === 'user'}
         scrollY={props.mode === 'user'}
       >
-        <Form 
+        <Form
+          key={props.dialogId}
           style={settings.style} 
           schema={settings.schema} 
           data={settings.data} 
