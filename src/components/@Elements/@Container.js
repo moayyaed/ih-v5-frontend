@@ -35,7 +35,7 @@ class Container extends PureComponent {
             width: item.w.value,
             height: item.h.value,
             zIndex: item.zIndex.value,
-            opacity: item.opacity.value / 100 ,
+            opacity: item.opacity.value / 100,
             animation: item.animation && item.animation.active ? item.animation.value : 'unset',
             overflow: item.overflow && item.overflow.value ? 'hidden' : 'unset',
           }}

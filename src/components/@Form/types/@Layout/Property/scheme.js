@@ -98,6 +98,11 @@ const decorationSection = [
     min: 0,
     max: 100,
   },
+  {
+    title: 'Visable',
+    prop: 'visable',
+    type: 'cb',
+  }
 ];
 
 const effectSection = [
@@ -406,6 +411,11 @@ const templateSettings = {
       min: 0,
       max: 100,
     },
+    {
+      title: 'Visable',
+      props: 'visable',
+      type: 'cb',
+    }
   ],
   move: [
     { 
@@ -468,6 +478,11 @@ const groupSettings = {
       min: 0,
       max: 100,
     },
+    {
+      title: 'Visable',
+      props: 'visable',
+      type: 'cb',
+    }
   ],
   move: [
     { 
@@ -530,6 +545,11 @@ const containerSettings = {
       min: 0,
       max: 100,
     },
+    {
+      title: 'Visable',
+      props: 'visable',
+      type: 'cb',
+    }
   ],
   move: [
     { 
