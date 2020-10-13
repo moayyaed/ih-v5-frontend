@@ -115,6 +115,16 @@ const classes = theme => ({
     marginLeft: theme.spacing(2),
     flex: 1,
   },
+  title2: {
+    marginLeft: theme.spacing(2),
+    flex: 1,
+    color: '#757575',
+  },
+  title3: {
+    marginLeft: theme.spacing(2),
+    flex: 1,
+    color: '#F44336',
+  },
 });
 
 const useStylesFacebook = makeStyles((theme) => ({
@@ -169,6 +179,60 @@ function handleCancel(state) {
 
 function AppProgress(props) {
   if (props.state.open) {
+    if (props.state.type === 'download') {
+      return (
+        <Backdrop className={props.classes.backdrop} open={props.state.open} >
+          <Paper style={styles.root}>
+            <div style={styles.container1}>
+              <AppBar className={props.classes.appBar}>
+                <Toolbar>
+                  <IconButton edge="start" color="inherit" onClick={() => handleCancel()} >
+                    <CloseIcon />
+                  </IconButton>
+                  <Typography variant="h6" className={props.classes.title}>
+                    File Download
+                  </Typography>
+                </Toolbar>
+              </AppBar>
+            </div>
+            <div style={styles.container2}>
+              <div style={styles.progress}>
+                <Box position="relative" display="inline-flex">
+                {props.state.message === 'error' ? <Fab style={styles.fab} ><ErrorOutlineIcon style={{ fontSize: 42, color: '#fff' }} /></Fab> :
+                <FacebookCircularProgress value={props.state.progress}  />}
+                  <Box
+                    top={0}
+                    left={0}
+                    bottom={0}
+                    right={0}
+                    position="absolute"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    <Typography variant="caption" component="div" color="textSecondary">{props.state.message === 'error' ? '' : `${props.state.progress}%`}</Typography>
+                  </Box>
+                </Box>
+                <div style={{ marginTop: 20 }}>
+                  {props.state.message === 'submit' ? '' : props.state.message}
+                </div>
+              </div>
+              <div style={{ }}>
+                <Typography variant="h6" className={props.classes.title}>
+                  {props.state.title}
+                </Typography>
+                <Typography variant="subtitle1" className={props.classes.title2}>
+                  {props.state.title2}
+                </Typography>
+                <Typography variant="subtitle1" className={props.classes.title3}>
+                  {props.state.error ? `error: ${props.state.error}` : ''}
+                </Typography>
+              </div>
+            </div>
+          </Paper>
+        </Backdrop>
+      )
+    }
     return (
       <Backdrop className={props.classes.backdrop} open={props.state.open} >
          <Paper style={styles.root}>

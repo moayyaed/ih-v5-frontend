@@ -426,7 +426,7 @@ class AppNav extends Component {
           list.forEach(i => URL.revokeObjectURL(i.src));
 
           core.transfer.unsub('form_progress', handleDialogClick);
-          core.actions.appprogress.data({ open: false, list: [], progress: 0, complete: false, message: 'submit' })
+          core.actions.appprogress.data({ open: false, type: 'upload', list: [], progress: 0, complete: false, message: 'submit' })
         }
       }
 
@@ -472,22 +472,53 @@ class AppNav extends Component {
       xhr.open('POST', '/upload');
 
       core.transfer.sub('form_progress', handleDialogClick);
-      core.actions.appprogress.data({ open: true, list })
+      core.actions.appprogress.data({ open: true, type: 'upload', list })
     }
 
     input.click();
   }
 
   handleExport = (item, params) => {
+    const xhr = new XMLHttpRequest();
+
     const nodeid = item.node.id;
     const param = params.param;
 
     core
       .request({ method: 'download_files', params: { nodeid, param } })
       .ok((res) => {
-        fetch(res.url)
-        .then(res => res.blob())
-        .then((blob) => fileDownload(blob, res.filename || item.node.title + '.zip'))
+        let timer = null;
+
+        function handleDialogClick() {
+          core.transfer.unsub('form_progress', handleDialogClick);
+          clearTimeout(timer);
+          core.actions.appprogress.data({ open: false, progress: 0, error: null, title: null })
+        }
+
+        core.transfer.sub('form_progress', handleDialogClick);
+        core.actions.appprogress.data({ open: true, title: res.title, title2: `file: ${res.filename || item.node.title + '.zip'}`, type: 'download', progress: 0 })
+
+        xhr.responseType = 'blob';
+        xhr.open('GET', res.url);
+        xhr.send();
+
+        xhr.onerror = (e) => {
+          core.actions.appprogress.data({ error: e.message })
+        }
+
+        xhr.onprogress = (e) => {
+          const progress = Math.round((e.loaded / e.total) * 100);
+          core.actions.appprogress.data({ progress })
+        }
+
+        xhr.onload = () => {
+          if (xhr.status === 200) {
+            fileDownload(xhr.response, res.filename || item.node.title + '.zip');
+            timer = setTimeout(handleDialogClick, 2000);
+          } else {
+            core.actions.appprogress.data({ error: `Response return status: ${xhr.status}` })
+          }
+        }
       });
   }
 
