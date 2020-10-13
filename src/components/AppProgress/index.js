@@ -233,6 +233,67 @@ function AppProgress(props) {
         </Backdrop>
       )
     }
+    if (props.state.type === 'import') {
+      return (
+        <Backdrop className={props.classes.backdrop} open={props.state.open} >
+           <Paper style={styles.root}>
+              <div style={styles.container1}>
+                <AppBar className={props.classes.appBar}>
+                  <Toolbar>
+                    <IconButton disabled={props.state.message === 'uploding'} edge="start" color="inherit" onClick={() => handleCancel({ complete: true, message: null })} >
+                      <CloseIcon />
+                    </IconButton>
+                    <Typography variant="h6" className={props.classes.title}>
+                      Import Package
+                    </Typography>
+                    <Button color="inherit" onClick={() => handleCancel(props.state)}>
+                      {props.state.complete ? 'ok' : props.state.message === 'submit' ? 'submit' : 'abort'}
+                    </Button>
+                  </Toolbar>
+                </AppBar>
+              </div>
+              <div style={styles.container2}>
+                <div style={styles.progress}>
+                  <Box position="relative" display="inline-flex">
+                  {props.state.message === 'error' ? <Fab style={styles.fab} ><ErrorOutlineIcon style={{ fontSize: 42, color: '#fff' }} /></Fab> :
+                  <FacebookCircularProgress value={props.state.progress}  />}
+                    <Box
+                      top={0}
+                      left={0}
+                      bottom={0}
+                      right={0}
+                      position="absolute"
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                    >
+                      <Typography variant="caption" component="div" color="textSecondary">{props.state.message === 'error' ? '' : `${props.state.progress}%`}</Typography>
+                    </Box>
+                  </Box>
+                  <div style={{ marginTop: 20 }}>
+                    {props.state.message === 'submit' ? '' : props.state.message}
+                  </div>
+                </div>
+                <div style={styles.list}>
+                  <Scrollbars >
+                    {props.state.list.map((i, key) =>
+                      <div key={key} style={styles.row}>
+                        <div style={{  ...styles.icon }} />
+                        <div style={styles.title}>
+                          {i.name}
+                        </div>
+                        <div style={styles.size}>
+                          {`${i.size} mb`}
+                        </div>
+                      </div>
+                    )}
+                  </Scrollbars>
+                </div>
+              </div>
+           </Paper>
+        </Backdrop>
+      );
+    }
     return (
       <Backdrop className={props.classes.backdrop} open={props.state.open} >
          <Paper style={styles.root}>

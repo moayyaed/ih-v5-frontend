@@ -496,7 +496,7 @@ class AppNav extends Component {
         }
 
         core.transfer.sub('form_progress', handleDialogClick);
-        core.actions.appprogress.data({ open: true, title: res.title, title2: `file: ${res.filename || item.node.title + '.zip'}`, type: 'download', progress: 0 })
+        core.actions.appprogress.data({ open: true, title: res.title, title2: `file: ${res.filename || item.node.title + '.ihpack'}`, type: 'download', progress: 0 })
 
         xhr.responseType = 'blob';
         xhr.open('GET', res.url);
@@ -513,8 +513,8 @@ class AppNav extends Component {
 
         xhr.onload = () => {
           if (xhr.status === 200) {
-            fileDownload(xhr.response, res.filename || item.node.title + '.zip');
-            timer = setTimeout(handleDialogClick, 2000);
+            fileDownload(xhr.response, res.filename || item.node.title + '.ihpack');
+            // timer = setTimeout(handleDialogClick, 2000);
           } else {
             core.actions.appprogress.data({ error: `Response return status: ${xhr.status}` })
           }
