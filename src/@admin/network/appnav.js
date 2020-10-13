@@ -103,5 +103,18 @@ core.network.response('contextmenu', (answer, res, context) => {
   answer(res.data);
 })
 
+core.network.request('download_files', (send, context) => {
+  send({ 
+    method: 'export', 
+    id: 'resources',
+    ...context.params,
+  });
+})
+
+
+core.network.response('download_files', (answer, res, context) => {
+  answer(res.data);
+})
+
 
 
