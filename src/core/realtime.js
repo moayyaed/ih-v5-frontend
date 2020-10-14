@@ -49,6 +49,8 @@ function messageTunnel(e) {
     }
     if (json.data !== undefined) {
       realtime.events.emit(json.uuid, json.data);
+    } else if (json.uuid !== undefined) {
+      realtime.events.emit(json.uuid, json);
     } else {
       if (json.command !== undefined && json.command === 'showdialog') {
         core.transfer.send('show_dialog_command', json);

@@ -31,6 +31,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
+import SwipeableViews from 'react-swipeable-views';
 
 import Script from 'components/@Form/types/@Script';
 
@@ -224,18 +225,18 @@ function Upload({ state }) {
   )
 }
 
-function DownToolbar({ classes }) {
+function DownToolbar({ classes, step, complete }) {
   return (
     <div>
-      <Stepper style={styles.stepper} activeStep={0} alternativeLabel>
-        <Step key="0">
+      <Stepper style={styles.stepper} activeStep={step} alternativeLabel>
+        <Step key="0" >
           <StepLabel classes={{ alternativeLabel: classes.label}}>Upload</StepLabel>
         </Step>
-        <Step key="1">
+        <Step key="1" >
           <StepLabel>Install</StepLabel>
         </Step>
-        <Step key="2">
-          <StepLabel>Compleate</StepLabel>
+        <Step key="2" completed={complete}>
+          <StepLabel>Complete</StepLabel>
         </Step>
       </Stepper>
     </div>
@@ -351,10 +352,25 @@ function AppProgress(props) {
               </AppBar>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-              <div style={{flexShink:0, height: '100%', padding: 24 }} >
-                <Upload state={props.state} />
+              <div style={{ flexShink: 0, height: '100%' }}>
+                <SwipeableViews
+                  index={props.state.step}
+                  containerStyle={{ height: '100%'}}
+                  style={{ height: '100%'}}
+                >
+                  <div index={0} style={{ padding: 24, height: '100%' }} >
+                    <Upload state={props.state} />
+                  </div>
+                  <div index={1} style={{ padding: 12, height: '100%' }} >
+                    <Script options={{ title: 'Installation process...' }} data={props.state.log} />
+                  </div>
+                </SwipeableViews>
               </div>
-              <DownToolbar classes={props.classes} />
+              <DownToolbar
+                classes={props.classes} 
+                step={props.state.step} 
+                complete={props.state.stepComplete} 
+              />
             </div>
           </Paper>
         </Backdrop>
