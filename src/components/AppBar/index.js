@@ -83,6 +83,7 @@ function handleUpload (props) {
         }
         if (data.status === 'error') {
           core.actions.appprogress.log('\r\nError: ' + data.message);
+          core.actions.appprogress.data({ stepError: true })
         }
       } else {
         core.actions.appprogress.log(data.message);
@@ -114,7 +115,7 @@ function handleUpload (props) {
           uuid: uuid,
         }, handleLog);
         core.transfer.unsub('form_progress', handleDialogClick);
-        core.actions.appprogress.data({ open: false, type: 'upload', list: [], progress: 0, complete: null, message: 'submit', step: 0, log: '', stepComplete: null })
+        core.actions.appprogress.data({ open: false, type: 'upload', list: [], progress: 0, complete: null, message: 'submit', step: 0, log: '', stepError: null, stepComplete: null })
       }
     }
 
@@ -162,7 +163,7 @@ function handleUpload (props) {
     xhr.open('POST', '/import');
 
     core.transfer.sub('form_progress', handleDialogClick);
-    core.actions.appprogress.data({ open: true, type: 'import', list, step: 0, log: '' })
+    core.actions.appprogress.data({ open: true, type: 'import', list, step: 0, log: '', stepError: false, stepComplete: false })
   }
 
   input.click();

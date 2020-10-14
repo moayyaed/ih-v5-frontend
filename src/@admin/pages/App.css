@@ -173,3 +173,7 @@ input.core:focus {
   margin-top: 8px!important;
   font-size: 0.75rem;
 }
+
+.MuiStepIcon-root.MuiStepIcon-completed {
+  color: #4CAF50!important;
+}

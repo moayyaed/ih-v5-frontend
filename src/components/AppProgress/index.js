@@ -225,18 +225,18 @@ function Upload({ state }) {
   )
 }
 
-function DownToolbar({ classes, step, complete }) {
+function DownToolbar({ classes, step, complete, error }) {
   return (
     <div>
       <Stepper style={styles.stepper} activeStep={step} alternativeLabel>
-        <Step key="0" >
-          <StepLabel classes={{ alternativeLabel: classes.label}}>Upload</StepLabel>
+        <Step key="0" completed={false}>
+          <StepLabel active classes={{ alternativeLabel: classes.label}}>Upload</StepLabel>
         </Step>
-        <Step key="1" >
-          <StepLabel>Install</StepLabel>
+        <Step key="1">
+          <StepLabel error={error} optional={error ? <div></div> : null}>Install</StepLabel>
         </Step>
         <Step key="2" completed={complete}>
-          <StepLabel>Complete</StepLabel>
+          <StepLabel style={{ color: 'red'}}>Complete</StepLabel>
         </Step>
       </Stepper>
     </div>
@@ -369,7 +369,8 @@ function AppProgress(props) {
               <DownToolbar
                 classes={props.classes} 
                 step={props.state.step} 
-                complete={props.state.stepComplete} 
+                complete={props.state.stepComplete}
+                error={props.state.stepError}
               />
             </div>
           </Paper>
