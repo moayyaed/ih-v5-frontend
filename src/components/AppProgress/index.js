@@ -190,7 +190,7 @@ function AppProgress(props) {
                     <CloseIcon />
                   </IconButton>
                   <Typography variant="h6" className={props.classes.title}>
-                    File Download
+                    Export
                   </Typography>
                 </Toolbar>
               </AppBar>
