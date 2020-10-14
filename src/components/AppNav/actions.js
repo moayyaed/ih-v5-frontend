@@ -11,6 +11,8 @@ import {
   APP_NAV_UPDATE_NODES, 
   APP_NAV_SET_PANEL_WIDTH, 
   APP_NAV_SET_SCROLL, 
+
+  APP_NAV_MERGE_DATA, 
 } from './constants';
 
 
@@ -100,6 +102,14 @@ export function updateNodes(stateid, data) {
   };
 }
 
+export function merge(stateid, data) {
+  return {
+    type: APP_NAV_MERGE_DATA,
+    stateid, 
+    data,
+  };
+}
+
 
 
 export default {
@@ -113,4 +123,5 @@ export default {
   updateNodes,
   panelWidth,
   scroll,
+  merge,
 }

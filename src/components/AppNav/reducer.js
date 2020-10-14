@@ -10,7 +10,9 @@ import {
 
   APP_NAV_UPDATE_NODES,
   APP_NAV_SET_SCROLL,
-  APP_NAV_SET_PANEL_WIDTH 
+  APP_NAV_SET_PANEL_WIDTH,
+  
+  APP_NAV_MERGE_DATA,
 } from './constants';
 
 
@@ -43,6 +45,48 @@ function editList(list, nodes) {
     }
     return p.concat(c);
   }, [])
+}
+
+function editList2(list, nodes) {
+  return list.reduce((p, c) => {
+    if (c.children !== undefined) {
+      if (nodes[c.id]) {
+        return p.concat({ ...nodes[c.id], ...c, children: editList(c.children, nodes) });
+      }
+      return p.concat({ ...c, children: editList(c.children, nodes) });
+    }
+    if (nodes[c.id]) {
+      return p.concat({ ...nodes[c.id], ...c, });
+    }
+    return p.concat(c);
+  }, [])
+}
+
+function listToObject(list) {
+  return list.reduce((p, c) => {
+    if (c.children !== undefined) {
+      return { ...p, [c.id]: c, ...listToObject(c.children) };
+    }
+    return { ...p, [c.id]: c };
+  }, {})
+}
+
+function merge(state, data) {
+  const temp = {};
+
+  const old = listToObject(state.list);
+  const next = listToObject(data.list);
+
+  Object
+    .keys(next)
+    .forEach(key => {
+      if (old[key] === undefined) {
+        temp[key] = next[key];
+      }
+    });
+  
+  const list = editList2(data.list, old)
+  return { ...state, ...data, list, selects: { ...data.selects, data: temp } };
 }
 
 function reducer(state = defaultState, action) {
@@ -106,6 +150,8 @@ function reducer(state = defaultState, action) {
       return { ...state, scrollTop: action.scrollTop };
     case APP_NAV_SET_PANEL_WIDTH:
       return { ...state, width: action.value };
+    case APP_NAV_MERGE_DATA:
+      return merge(state, action.data);
     default:
       return state;
   }

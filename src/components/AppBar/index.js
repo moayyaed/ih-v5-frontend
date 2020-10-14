@@ -53,7 +53,7 @@ const styles = {
 };
 
 
-function handleUpload () {
+function handleUpload (props) {
   const data = new FormData();
   const input = document.createElement('input');
   const xhr = new XMLHttpRequest();
@@ -100,9 +100,12 @@ function handleUpload () {
       if (xhr.readyState == 4) {
         if (xhr.status == 200) {
           try {
-            const res = JSON.parse(xhr.responseText);
-            core.actions.appnav.data(this.props.stateid, { list });
-            core.actions.appprogress.data({ complete: true, message: 'complete' })
+            core.actions.appprogress.data({ complete: true, message: 'install' })
+            if (props.menuid) {
+              core
+                .request({ method: 'appnav', props: { requestId: props.menuid } })
+                .ok((res) => core.actions.appnav.merge('appnav', res));
+            }
           } catch (e) {
             core.actions.appprogress.data({ message: 'error' })
             core.actions.app.alertOpen('warning', 'Error: ' + e.message);
@@ -170,7 +173,7 @@ function AppBar(props) {
         </IconButton>
       </div>
       <div style={styles.container}>
-        <IconButton style={styles.button} size="small" onClick={handleUpload}>
+        <IconButton style={styles.button} size="small" onClick={() => handleUpload(props)}>
           <PublishIcon fontSize="small" />
         </IconButton>
         <IconButton style={styles.button} size="small" onClick={handleClickUserInterface}>
