@@ -77,6 +77,11 @@ function handleUpload (props) {
 
     function handleLog(data) {
       if (data.status) {
+        core.tunnel.unsub({ 
+          method: 'unsub',
+          type: 'watch',
+          uuid: uuid,
+        }, handleLog);
         if (data.status === 'complete') {
           core.actions.appprogress.log('\r\nComplete!')
           core.actions.appprogress.data({ stepComplete: true })
@@ -109,11 +114,6 @@ function handleUpload (props) {
 
         list.forEach(i => URL.revokeObjectURL(i.src));
 
-        core.tunnel.sub({ 
-          method: 'unsub',
-          type: 'watch',
-          uuid: uuid,
-        }, handleLog);
         core.transfer.unsub('form_progress', handleDialogClick);
         core.actions.appprogress.data({ open: false, type: 'upload', list: [], progress: 0, complete: null, message: 'submit', step: 0, log: '', stepError: null, stepComplete: null })
       }
