@@ -10,6 +10,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import PublishIcon from '@material-ui/icons/Publish';
 
+
 const styles = {
   box: {
     display: 'flex',
@@ -83,7 +84,7 @@ function handleUpload (props) {
         list.forEach(i => URL.revokeObjectURL(i.src));
 
         core.transfer.unsub('form_progress', handleDialogClick);
-        core.actions.appprogress.data({ open: false, type: 'upload', list: [], progress: 0, complete: false, message: 'submit' })
+        core.actions.appprogress.data({ open: false, type: 'upload', list: [], progress: 0, complete: false, message: 'submit', console: false })
       }
     }
 
@@ -100,7 +101,7 @@ function handleUpload (props) {
       if (xhr.readyState == 4) {
         if (xhr.status == 200) {
           try {
-            core.actions.appprogress.data({ complete: true, message: 'install' })
+            core.actions.appprogress.data({ complete: true, message: 'install', console: true });
             if (props.menuid) {
               core
                 .request({ method: 'appnav', props: { requestId: props.menuid } })
