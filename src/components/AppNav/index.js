@@ -417,6 +417,7 @@ class AppNav extends Component {
       function handleDialogClick({ complete, message, replace}) {
         if (message === 'submit') {
           data.append('replace', replace);
+          xhr.setRequestHeader('token', core.cache.token);
           xhr.send(data);
         } else {
           if (!complete) {
@@ -500,6 +501,7 @@ class AppNav extends Component {
 
         xhr.responseType = 'blob';
         xhr.open('GET', res.url);
+        xhr.setRequestHeader('token', core.cache.token);
         xhr.send();
 
         xhr.onerror = (e) => {

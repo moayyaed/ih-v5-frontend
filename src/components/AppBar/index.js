@@ -105,7 +105,8 @@ function handleUpload (props) {
 
         data.append('watch', true);
         data.append('uuid', uuid)
-
+        
+        xhr.setRequestHeader('token', core.cache.token);
         xhr.send(data);
       } else {
         if (!complete) {

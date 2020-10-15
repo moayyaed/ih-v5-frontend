@@ -236,7 +236,7 @@ function DownToolbar({ classes, step, complete, error }) {
           <StepLabel error={error} optional={error ? <div></div> : null}>Install</StepLabel>
         </Step>
         <Step key="2" completed={complete}>
-          <StepLabel style={{ color: 'red'}}>Complete</StepLabel>
+          <StepLabel>Complete</StepLabel>
         </Step>
       </Stepper>
     </div>
