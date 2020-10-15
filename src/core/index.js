@@ -67,6 +67,7 @@ const core = {
     componentsParams: {},
     functions: {},
     navs: {},
+    tabs: {},
   },
 }
 
