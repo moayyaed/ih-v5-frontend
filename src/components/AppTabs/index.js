@@ -116,7 +116,7 @@ function Tab(props) {
       onClick={(e) => props.onClick(e, 'click', props.item)}
       onContextMenu={(e) => props.onClick(e, 'contextmenu', props.item)}
     >
-      {props.item.label}
+      {props.item.title}
       <IconButton
         size="small"
         className={css.button} 
@@ -162,7 +162,7 @@ class AppTabs extends Component {
     this.fake.style.transform = `translateX(${curentColumnWidth -1}px)`;
     this.fake.style.height = '35px';
     this.fake.style.display = 'flex';
-    this.fakeText.innerText = item.label;
+    this.fakeText.innerText = item.title;
   }
 
   handleDragStop = (e, item, data, index) => {
@@ -219,7 +219,7 @@ class AppTabs extends Component {
       
   
       
-      core.components.apptabs.setData({
+      core.actions.apptabs.data({
         ...this.props.state,
         list: temp2,
       });
@@ -230,12 +230,10 @@ class AppTabs extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    const { menuid, navcomponent } = core.nav.state;
-
     if (type === 'drag') {
       if (this.drag === undefined) {
         this.drag = true;
-        core.nav.push(`${core._options.route}/${menuid}/${item.component}/${item.id}`);
+        core.route(item.path);
         this.handleDragStart(e, item, data, index);
       }
     }
@@ -246,24 +244,24 @@ class AppTabs extends Component {
     }
     
     if (type === 'click') {
-      core.nav.push(`${core._options.route}/${menuid}/${item.component}/${item.id}`);
+      core.route(item.path);
     }
 
     if (type === 'contextmenu') {
-      core.event('contextmenu', 'tab', e, item);
+      // core.event('contextmenu', 'tab', e, item);
     }
 
     if (type === 'close') {
-      core.components.apptabs.removeItem(item);
-      if (this.props.state.selectid === item.id) {
+      core.actions.apptabs.remove(item);
+      if (this.props.route.nodeid === item.id) {
         const store = core.store.getState()
         const index = store.apptabs.list.length;
     
         if (index !== 0) {
           const item = store.apptabs.list[index - 1];
-          core.nav.push(`${core._options.route}/${menuid}/${item.component}/${item.id}`);
+          core.route(item.path);
         } else {
-          core.nav.push(`${core._options.route}/${menuid}`);
+          core.route(this.props.route.menuid);
         }
       }
     }
@@ -286,7 +284,7 @@ class AppTabs extends Component {
               key={i.id}
               index={k}
               item={i} 
-              select={state.selectid}
+              select={route.nodeid}
               onClick={this.handleClick}
             />)}
         </div>

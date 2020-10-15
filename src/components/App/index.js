@@ -29,8 +29,10 @@ class App extends Component {
     this.handleChageRoute(history.location);
   }
 
-  handleChageRoute = (location) => {
-    const params = core.options.routeParse(location.pathname)
+  handleChageRoute = (location, action) => {
+    const params = core.options.routeParse(location.pathname);
+    params.user = action === 'PUSH';
+    
     core.lastPath = location.pathname;
     core.actions.app.route(params);
   }

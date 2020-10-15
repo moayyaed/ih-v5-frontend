@@ -81,6 +81,10 @@ class AppNav extends Component {
       if (selectid) {
         const node = findNode(res.list, selectid);
         if (node) {
+          if (!this.props.disabledRoute) {
+            const path = core.history.location.pathname.replace(`${core.options.routePrefix}/`, '');
+            core.actions.apptabs.oneTab(null, { ...node, path });
+          }
           if (node.windowHeight - this.panel.clientHeight > 0) {
             res.scrollTop = node.scrollPoint - ((this.panel.clientHeight - 5) / 2) - 9;
           }
@@ -119,6 +123,23 @@ class AppNav extends Component {
       core.actions.apppage.clear();
     } else {
       core.actions.appnav.clear(this.props.stateid)
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.route.nodeid !== this.props.route.nodeid && this.props.route.nodeid && this.props.route.user === false) {
+      const nodeid = this.props.route.nodeid;
+      const path = core.history.location.pathname.replace(`${core.options.routePrefix}/`, '');
+      const node = findNode(this.props.state.list, nodeid);
+      if (node) {
+        core.actions.apptabs.oneTab(prevProps.route.nodeid, { ...node, path });
+      } else {
+        core.actions.apptabs.oneTab(prevProps.route.nodeid, { id: nodeid, title: nodeid, path });
+      }
+    } else {
+      if (prevProps.route.nodeid !== this.props.route.nodeid && !this.props.route.nodeid){
+        core.actions.apptabs.data({ list: [] });
+      }
     }
   }
 
@@ -191,7 +212,7 @@ class AppNav extends Component {
     };
   }
 
-  handleChangeRoute = (type, rootid, item) => {
+  handleChangeRoute = (type, rootid, item, tab) => {
     const { state, route } = this.props;
     const componentid = item.node.component || state.options[rootid][type].defaultComponent;
   
@@ -204,21 +225,32 @@ class AppNav extends Component {
       const params = core.cache.componentsParams[componentid] ?  
       '/' + core.cache.componentsParams[componentid] :
       '/' + core.options.componentsScheme[componentid].defaultTab;
-      core.route(`${route.menuid}/${rootid}/${componentid}/${item.node.id}${params}`);
+      const path = `${route.menuid}/${rootid}/${componentid}/${item.node.id}${params}`;
+
+      if (tab) {
+        core.actions.apptabs.add({ ...item.node, path });
+        core.route(path);
+      } else {
+        core.actions.apptabs.oneTab(route.nodeid, { ...item.node, path });
+        core.route(path);
+      }
     }
   }
 
   handleClickNode = (e, item) => {
-    e.preventDefault();
-    e.stopPropagation();
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
 
-    if (e.shiftKey) {
+
+    if (e && e.shiftKey) {
       const curent = item.node;
       const last = this.props.state.selects.lastItem || curent;
       const lastSelects = this.props.state.selects.data;
       const selects = getNodesRange(this.props.state.list, last.id, curent.id);
       core.actions.appnav.selectNodes(this.props.stateid, curent, selects);
-    } else if (e.ctrlKey || e.metaKey) {
+    } else if (e && (e.ctrlKey || e.metaKey)) {
       core.actions.appnav.selectNode(this.props.stateid, item.node);
     } else {
       if (this.props.state.selects.lastItem) {
@@ -228,7 +260,7 @@ class AppNav extends Component {
       const rootid = this.props.state.options.roots[item.path[0]];
       const type = item.node.children !== undefined ? 'parent' : 'child';
   
-      this.handleChangeRoute(type, rootid, item);
+      this.handleChangeRoute(type, rootid, item, e === null);
     }
   }
 
@@ -274,6 +306,7 @@ class AppNav extends Component {
       delete: () => this.handleRemoveNodes(item),
       upload: (menuItem) => this.handleUpload(item, menuItem),
       export: (menuItem) => this.handleExport(item, menuItem),
+      newTab: (menuItem) => this.handleClickNode(null, item),
     };
 
     let scheme = { main: [] };
@@ -281,6 +314,15 @@ class AppNav extends Component {
     const params = this.props.state.options[rootid][type]; 
     if (params !== undefined && params.popup) {
       scheme = params.popup;
+
+      if (!this.props.disabledRoute) {
+        scheme = { ...scheme, main: [
+            {id: '---', type: 'item', title: 'New Tab', command: 'newTab'},
+            {id: '--', type: 'divider'}
+          ].concat(scheme.main)
+        }
+      }
+      
       core.actions.appnav.selectNodeContextMenu(this.props.stateid, item.node);
       ContextMenu.show(
         <Menu 

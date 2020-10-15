@@ -104,6 +104,7 @@ class AppMenu extends Component {
     if (id !== lastid) {
       const curentPath = core.history.location.pathname.replace(`${core.options.routePrefix}/`, '');
       core.cache.navs[lastid] = curentPath;
+      core.actions.apptabs.data({ list: [] });
       core.actions.appnav.clear('appnav');
       if (core.cache.navs[id] === undefined) {
         core.route(id)

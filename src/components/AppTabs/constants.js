@@ -1,1 +1,7 @@
 export const APP_TABS_SET_DATA = 'APP_TABS_SET_DATA';
+
+export const APP_TABS_ADD_ITEM = 'APP_TABS_ADD_ITEM';
+export const APP_TABS_ADD_ONE = 'APP_TABS_ADD_ONE';
+
+export const APP_TABS_REMOVE_ITEM = 'APP_TABS_REMOVE_ITEM';
+
