@@ -180,9 +180,29 @@ function handleClickUserInterface() {
 
 function handleClickSettings(menuid) {
   if (menuid === 'settings') {
+    core.actions.apptabs.data({ list: [] });
     core.route('');
   } else {
-    core.route('settings');
+    const lastid = menuid;
+    const id = 'settings';
+
+    const store = core.store.getState().apptabs;
+    const curentPath = core.history.location.pathname.replace(`${core.options.routePrefix}/`, '');
+
+    core.cache.tabs[lastid] = store.list;
+    core.cache.navs[lastid] = curentPath;
+    core.actions.apptabs.data({ list: [] });
+    core.actions.appnav.clear('appnav');
+    
+    if (core.cache.tabs[id] !== undefined) {
+      core.actions.apptabs.data({ list: core.cache.tabs[id] });
+    }
+
+    if (core.cache.navs[id] === undefined) {
+      core.route(id)
+    } else {
+      core.route(core.cache.navs[id])
+    }
   }
 }
 
