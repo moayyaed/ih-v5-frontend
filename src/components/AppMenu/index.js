@@ -100,9 +100,17 @@ class AppMenu extends Component {
     .ok(core.actions.appmenu.data);
   }
 
-  handleClick = (id) => {
-    core.actions.appnav.clear('appnav');
-    core.route(id)
+  handleClick = (id, lastid) => {
+    if (id !== lastid) {
+      const curentPath = core.history.location.pathname.replace(`${core.options.routePrefix}/`, '');
+      core.cache.navs[lastid] = curentPath;
+      core.actions.appnav.clear('appnav');
+      if (core.cache.navs[id] === undefined) {
+        core.route(id)
+      } else {
+        core.route(core.cache.navs[id])
+      }
+    }
   }
 
   render({ id, route, state, classes } = this.props) {
@@ -116,7 +124,7 @@ class AppMenu extends Component {
               title={item.title}
               icon={item.icon} 
               value={item.route}
-              onClick={this.handleClick}
+              onClick={id => this.handleClick(id, route.menuid)}
             />
           )}
       </div>

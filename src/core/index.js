@@ -66,6 +66,7 @@ const core = {
     requests: {},
     componentsParams: {},
     functions: {},
+    navs: {},
   },
 }
 
