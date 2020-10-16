@@ -109,7 +109,7 @@ class Container extends PureComponent {
               position: 'absolute',
               justifyContent: this.props.container.settings.alignW.value.id,
               alignItems: this.props.container.settings.alignH.value.id,
-              backgroundColor: this.props.container.settings.overlayColor.value,
+              background: this.props.container.settings.overlayColor.value,
               // overflow: this.props.item.overflow && this.props.item.overflow.value ? 'hidden' : 'unset',
             }}
           >

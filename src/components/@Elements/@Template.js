@@ -64,7 +64,7 @@ class Template extends PureComponent {
           backgroundPosition: 'center center',
         }}
       >
-        <div style={{ width: '100%', height: '100%', backgroundColor: this.props.template.settings.overlayColor.value }}>
+        <div style={{ width: '100%', height: '100%', background: this.props.template.settings.overlayColor.value }}>
           {this.props.template.list.map(id => this.handleRender(id, this.props.item.elements ? this.props.item.elements[id] : this.props.template.elements[id]))}
         </div>
       </div>

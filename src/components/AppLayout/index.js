@@ -192,7 +192,7 @@ class AppLayout extends Component {
                   backgroundPosition: 'center center',
                 }}
               >
-                <div style={{ width: '100%', height: '100%', backgroundColor: state.layout.settings.overlayColor.value }}>
+                <div style={{ width: '100%', height: '100%', background: state.layout.settings.overlayColor.value }}>
                   {state.layout.list.map(id => this.handleRender(id, state.layout.elements[id], width / state.layout.settings.w.value, height / state.layout.settings.h.value))}
                 </div>
               </div>
