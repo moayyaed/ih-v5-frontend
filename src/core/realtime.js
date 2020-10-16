@@ -46,18 +46,17 @@ function messageTunnel(e) {
       if (json.command === 'gotolayout') {
         core.route(json.id);
       }
-    }
-    if (json.data !== undefined) {
+      if (json.command === 'showdialog') {
+        core.transfer.send('show_dialog_command', json);
+      }
+    } else if (json.data !== undefined) {
       realtime.events.emit(json.uuid, json.data);
     } else if (json.uuid !== undefined) {
       realtime.events.emit(json.uuid, json);
     } else {
-      if (json.command !== undefined && json.command === 'showdialog') {
-        core.transfer.send('show_dialog_command', json);
+      if (json.error) {
+        core.actions.app.alertOpen('warning', 'Real-time: ' + json.error);
       }
-    }
-    if (json.error) {
-      core.actions.app.alertOpen('warning', 'Real-time: ' + json.error);
     }
    } catch (e) {
     core.actions.app.alertOpen('error', 'Real-time: incorrect data!');
