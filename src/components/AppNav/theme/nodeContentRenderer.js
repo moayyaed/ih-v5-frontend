@@ -33,7 +33,7 @@ function PlusSquare(props) {
 function ChildSquare(props) {
   return (
     <SvgIcon className="close" style={{ fontSize: 16 }}  fontSize="inherit" viewBox="0 0 16 16" {...props}>
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M4 1L3 2V14L4 15H13L14 14V5L13.7071 4.29289L10.7071 1.29289L10 1H4ZM4 14V2L9 2V6H13V14H4ZM13 5L10 2V5L13 5Z" fill="#424242"/>
+      <path fillRule="evenodd" clipRule="evenodd" d="M4 1L3 2V14L4 15H13L14 14V5L13.7071 4.29289L10.7071 1.29289L10 1H4ZM4 14V2L9 2V6H13V14H4ZM13 5L10 2V5L13 5Z" fill="#424242"/>
     </SvgIcon>
   );
 }

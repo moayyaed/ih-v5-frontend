@@ -8,10 +8,13 @@ import {
 
 import { Button } from '@blueprintjs/core';
 
+
 import Sheet from './Sheet';
 
 import Property from './Property/index.js';
 import Toolbar from './Toolbar/index.js';
+
+import { IconMove, IconState, IconAction } from 'components/@Form/types/@Layout/icons';
 
 
 import './main.css';
@@ -29,6 +32,7 @@ const styles = {
     borderTop: '1px solid rgba(16, 22, 26, 0.15)',
   },
 }
+
 
 function getIdState(index, prefix, state) {
   if (state[`${prefix}${index + 1}`] === undefined) {
@@ -194,7 +198,7 @@ class Template extends PureComponent {
           key="13"
           minimal 
           active={select === 'move'} 
-          icon="move"  
+          icon={IconMove}  
           onClick={() => this.handleChangeProperty('move')}
         />,
       ];
@@ -213,7 +217,7 @@ class Template extends PureComponent {
         <Button 
           key="5"
           minimal
-          icon="changes" 
+          icon={IconState}
           active={select === 'vars'}
           onClick={() => this.handleChangeToolbar('vars')} 
         />,
@@ -221,7 +225,7 @@ class Template extends PureComponent {
         <Button 
           key="7"
           minimal
-          icon="widget-button" 
+          icon={IconAction}
           active={select === 'events'}
           onClick={() => this.handleChangeToolbar('events')} 
         />,

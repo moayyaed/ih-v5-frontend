@@ -13,6 +13,8 @@ import Sheet from './Sheet';
 import Property from './Property/index.js';
 import Toolbar from './Toolbar/index.js';
 
+import { IconMove } from './icons';
+
 import './main.css';
 
 
@@ -232,7 +234,7 @@ class Layout extends PureComponent {
           key="9"
           minimal 
           active={select === 'move'} 
-          icon="move"  
+          icon={IconMove} 
           onClick={() => this.handleChangeProperty('move')}
         />,
         <Separator key="10" />,

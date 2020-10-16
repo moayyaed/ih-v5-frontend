@@ -13,6 +13,8 @@ import Sheet from './Sheet';
 import Property from './Property/index.js';
 import Toolbar from './Toolbar/index.js';
 
+import { IconMove } from 'components/@Form/types/@Layout/icons';
+
 import './main.css';
 
 
@@ -256,7 +258,7 @@ class Container extends PureComponent {
           key="11"
           minimal 
           active={select === 'move'} 
-          icon="move"  
+          icon={IconMove}  
           onClick={() => this.handleChangeProperty('move')}
         />,
         <Separator key="12" />,
