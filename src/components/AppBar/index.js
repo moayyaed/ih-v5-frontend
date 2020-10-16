@@ -3,9 +3,9 @@ import core from 'core';
 
 import icon from 'components/icons';
 
+import SvgIcon from '@material-ui/core/SvgIcon';
 import IconButton from '@material-ui/core/IconButton';
 
-import WebIcon from '@material-ui/icons/Web';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import PublishIcon from '@material-ui/icons/Publish';
@@ -55,6 +55,15 @@ const styles = {
   },
 };
 
+
+function WebIcon(props) {
+  return (
+    <SvgIcon style={{ fontSize: 16 }}  viewBox="0 0 24 24"  {...props}>
+      <path d="M12.281,0 C13.599,0.166 13.079,-0.037 13.908,0.408 L23.32,7.242 C23.756,7.554 24,8.007 24,8.489 C24,8.959 23.756,9.413 23.32,9.729 L13.908,16.564 C13.307,17 12.446,17.108 11.714,16.842 C10.983,16.57 10.507,15.975 10.507,15.323 L10.507,1.649 C10.507,0.997 10.983,0.402 11.714,0.13 L12.281,0 z"></path><path d="M9.028,2.958 L9.028,4.695 L1.393,4.695 L1.393,18.432 L22.402,18.432 L22.402,11.985 L24,10.875 L24,20.17 L-0,20.17 L-0,2.958 L9.028,2.958 z"></path>
+      <path d="M8.13,24 L15.665,24 L14.716,22.129 L14.716,21.013 L9.023,21.013 L9.023,22.129 L8.13,24"></path>
+    </SvgIcon>
+  )
+}
 
 function handleUpload (props) {
   const data = new FormData();
