@@ -50,6 +50,9 @@ class ComponentTabs extends Component {
       core
       .request({ method: 'components_tabs_form', params })
       .ok(res => {
+        const nodeid = params.nodeid;
+        const path = core.history.location.pathname.replace(`${core.options.routePrefix}/`, '');
+        core.cache.tab[nodeid] = path;
         this.saveData[tab.id] = {};
         core.actions.apppage.data({
           save: false,

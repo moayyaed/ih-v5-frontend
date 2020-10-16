@@ -233,7 +233,11 @@ class AppTabs extends Component {
     if (type === 'drag') {
       if (this.drag === undefined) {
         this.drag = true;
-        core.route(item.path);
+        if (core.cache.tab[item.id] !== undefined) {
+          core.route(core.cache.tab[item.id]);
+        } else {
+          core.route(item.path);
+        }
         this.handleDragStart(e, item, data, index);
       }
     }
@@ -244,7 +248,11 @@ class AppTabs extends Component {
     }
     
     if (type === 'click') {
-      core.route(item.path);
+      if (core.cache.tab[item.id] !== undefined) {
+        core.route(core.cache.tab[item.id]);
+      } else {
+        core.route(item.path);
+      }
     }
 
     if (type === 'contextmenu') {
@@ -252,6 +260,9 @@ class AppTabs extends Component {
     }
 
     if (type === 'close') {
+      if (core.cache.tab[item.id] !== undefined) {
+        delete core.cache.tab[item.id];
+      }
       core.actions.apptabs.remove(item);
       if (this.props.route.nodeid === item.id) {
         const store = core.store.getState()
@@ -259,7 +270,11 @@ class AppTabs extends Component {
     
         if (index !== 0) {
           const item = store.apptabs.list[index - 1];
-          core.route(item.path);
+          if (core.cache.tab[item.id] !== undefined) {
+            core.route(core.cache.tab[item.id]);
+          } else {
+            core.route(item.path);
+          }
         } else {
           core.route(this.props.route.menuid);
         }

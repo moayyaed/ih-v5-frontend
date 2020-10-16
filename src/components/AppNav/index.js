@@ -222,15 +222,16 @@ class AppNav extends Component {
         this.props.onClickNode(item, componentid, item.node.id, state);
       }
     } else {
-      const params = core.cache.componentsParams[componentid] ?  
-      '/' + core.cache.componentsParams[componentid] :
-      '/' + core.options.componentsScheme[componentid].defaultTab;
-      const path = `${route.menuid}/${rootid}/${componentid}/${item.node.id}${params}`;
-
       if (tab) {
+        const params = '/' + core.options.componentsScheme[componentid].defaultTab;
+        const path = `${route.menuid}/${rootid}/${componentid}/${item.node.id}${params}`;
         core.actions.apptabs.add({ ...item.node, path });
         core.route(path);
       } else {
+        const params = core.cache.componentsParams[componentid] ?  
+        '/' + core.cache.componentsParams[componentid] :
+        '/' + core.options.componentsScheme[componentid].defaultTab;
+        const path = `${route.menuid}/${rootid}/${componentid}/${item.node.id}${params}`;
         core.actions.apptabs.oneTab(route.nodeid, { ...item.node, path });
         core.route(path);
       }

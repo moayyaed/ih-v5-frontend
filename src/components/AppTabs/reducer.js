@@ -1,3 +1,4 @@
+import core from 'core';
 import { APP_TABS_SET_DATA, APP_TABS_ADD_ITEM, APP_TABS_ADD_ONE, APP_TABS_REMOVE_ITEM } from './constants';
 
 
@@ -16,6 +17,9 @@ function checkTabs(state, action) {
     if (found) {
       return { ...state, list: state.list.map(i => {
         if (i.id === action.select) {
+          if (core.cache.tab[i.id] !== undefined) {
+            delete core.cache.tab[i.id];
+          }
           return action.item;
         } else {
           return i;

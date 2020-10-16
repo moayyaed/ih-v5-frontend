@@ -68,6 +68,7 @@ const core = {
     functions: {},
     navs: {},
     tabs: {},
+    tab: {},
   },
 }
 
