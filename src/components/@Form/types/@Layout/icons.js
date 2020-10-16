@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import SvgIcon from '@material-ui/core/SvgIcon';
 
 export const IconMove = (
