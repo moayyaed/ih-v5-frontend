@@ -93,6 +93,11 @@ const styles = {
     position: 'absolute',
     right: 5,
     display: 'inline-flex',
+  },
+  text: {
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   }
 };
 
@@ -116,7 +121,7 @@ function Tab(props) {
       onClick={(e) => props.onClick(e, 'click', props.item)}
       onContextMenu={(e) => props.onClick(e, 'contextmenu', props.item)}
     >
-      {props.item.title}
+      <div style={styles.text}>{props.item.title}</div>
       <IconButton
         size="small"
         className={css.button} 
