@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import core from 'core';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -15,6 +15,7 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Painterro from 'painterro'
 
 
 const styles = {
@@ -59,6 +60,11 @@ const styles = {
     backgroundSize: 'contain',
     backgroundPosition: 'center center',
     backgroundRepeat: 'no-repeat',
+  },
+  img2: {
+    width: '100%',
+    height: '100%',
+    position: 'relative',
   },
   loading: {
     width: '100%',
@@ -107,6 +113,20 @@ const classes = theme => ({
   },
 });
 
+class Test extends PureComponent {
+
+  componentDidMount() {
+    Painterro({ 
+      id: 'canvas-report',
+      hiddenTools: ['close', 'open', 'settings', 'resize'],
+    }).show(this.props.img)
+  }
+
+  render() {
+    return null;
+  }
+}
+
 
 function handleSubmit(props) {
   core.actions.app.alertOpen('info', 'Thanks for your feedback!');
@@ -136,7 +156,12 @@ function SnapForm(props) {
         <div style={styles.container1} >
           <Paper style={styles.paper} >
             {props.state.data ? 
-              (<div style={{ ...styles.img, backgroundImage: `url(${props.state.data})` }} />) 
+              (
+                <>
+                  <div id="canvas-report" style={styles.img2} />
+                  <Test img={props.state.data} />
+                </>
+              ) 
                 :
               (
                 <div style={styles.loading}>

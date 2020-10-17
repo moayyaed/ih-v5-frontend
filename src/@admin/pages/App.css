@@ -177,3 +177,12 @@ input.core:focus {
 .MuiStepIcon-root.MuiStepIcon-completed {
   color: #4CAF50!important;
 }
+
+.ptro-info {
+  display: none;
+}
+
+
+.tool-controls {
+  margin-left: 8px;
+}
