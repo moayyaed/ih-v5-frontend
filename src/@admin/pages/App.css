@@ -179,7 +179,7 @@ input.core:focus {
 }
 
 .ptro-info {
-  display: none;
+  opacity: 0;
 }
 
 
