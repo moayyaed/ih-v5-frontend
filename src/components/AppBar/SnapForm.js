@@ -107,6 +107,12 @@ const classes = theme => ({
   },
 });
 
+
+function handleSubmit(props) {
+  core.actions.app.alertOpen('info', 'Thanks for your feedback!');
+  props.onClose();
+}
+
 function SnapForm(props) {
   return (
     <Dialog 
@@ -123,7 +129,7 @@ function SnapForm(props) {
           <Typography variant="h6" className={props.classes.title}>
             Bug Report
           </Typography>
-          <Button autoFocus color="inherit" onClick={() => {}} >submit</Button>
+          <Button autoFocus color="inherit" onClick={() => handleSubmit(props)} >submit</Button>
         </Toolbar>
       </AppBar>
       <div style={styles.container} >

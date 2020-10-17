@@ -230,7 +230,7 @@ function handleClickExit() {
 }
 
 function AppBar(props) {
-  const [state, setState] = useState({ open: true, data: null });
+  const [state, setState] = useState({ open: false, data: null });
 
   const handleClose = () => {
     setState({ open: false, data: null });
