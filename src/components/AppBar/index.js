@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import core from 'core';
 
 import icon from 'components/icons';
@@ -9,8 +9,12 @@ import IconButton from '@material-ui/core/IconButton';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import PublishIcon from '@material-ui/icons/Publish';
+import AdbIcon from '@material-ui/icons/Adb';
+
+import SnapForm from './SnapForm';
 
 import shortid from 'shortid';
+import html2canvas from 'html2canvas';
 
 
 const styles = {
@@ -226,31 +230,54 @@ function handleClickExit() {
 }
 
 function AppBar(props) {
+  const [state, setState] = useState({ open: true, data: null });
+
+  const handleClose = () => {
+    setState({ open: false, data: null });
+  }
+
+  const handleSnap = () => {
+    setState({ open: true, data: null });
+    html2canvas(document.body, { 
+      foreignObjectRendering: true, 
+      allowTaint: true,
+    })
+      .then(canvas => {
+        setState({ open: true, data: canvas.toDataURL() });
+      });
+  }
+
   return (
-    <div style={styles.box}>
-      <div style={styles.stub}/>
-      <div style={styles.logo}>
-        <IconButton onClick={handleClick}>
-          {icon('logo2', styles.icon)}
-        </IconButton>
+    <>
+      <SnapForm state={state} onClose={handleClose} />
+      <div style={styles.box}>
+        <div style={styles.stub}/>
+        <div style={styles.logo}>
+          <IconButton onClick={handleClick}>
+            {icon('logo2', styles.icon)}
+          </IconButton>
+        </div>
+        <div style={styles.container}>
+          <IconButton style={styles.button} size="small" onClick={() => handleUpload(props)}>
+            <PublishIcon fontSize="small" />
+          </IconButton>
+          <IconButton style={styles.button} size="small" onClick={handleSnap}>
+            <AdbIcon fontSize="small" />
+          </IconButton>
+          <IconButton style={styles.button} size="small" onClick={handleClickUserInterface}>
+            <WebIcon fontSize="small" />
+          </IconButton>
+          <IconButton style={styles.button} size="small" onClick={() => handleClickSettings(props.menuid)}>
+            <SettingsIcon style={{ color: props.menuid === 'settings' ? '#03A9F4' : 'unset' }} fontSize="small" />
+          </IconButton>
+          <IconButton style={styles.button} size="small" onClick={handleClickExit}>
+            <ExitToAppIcon fontSize="small" />
+          </IconButton>
+        </div>
       </div>
-      <div style={styles.container}>
-        <IconButton style={styles.button} size="small" onClick={() => handleUpload(props)}>
-          <PublishIcon fontSize="small" />
-        </IconButton>
-        <IconButton style={styles.button} size="small" onClick={handleClickUserInterface}>
-          <WebIcon fontSize="small" />
-        </IconButton>
-        <IconButton style={styles.button} size="small" onClick={() => handleClickSettings(props.menuid)}>
-          <SettingsIcon style={{ color: props.menuid === 'settings' ? '#03A9F4' : 'unset' }} fontSize="small" />
-        </IconButton>
-        <IconButton style={styles.button} size="small" onClick={handleClickExit}>
-          <ExitToAppIcon fontSize="small" />
-        </IconButton>
-      </div>
-    </div>
+    </>
   );
 }
 
 
-export default AppBar;
+export default React.memo(AppBar);
