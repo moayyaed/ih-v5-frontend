@@ -839,7 +839,7 @@
               node.style.backgroundImage = node.style.WebkitMaskImage;
               node.style.backgroundColor = 'rgba(0, 0, 0, 0)';
               node.style.WebkitMaskImage = 'none';
-              node.style.backgroundSize = 'contain';
+              node.style.backgroundSize = 'contain!important';
               node.style.backgroundRepeat = 'no-repeat';
               node.style.backgroundPosition = 'center center';
             }
