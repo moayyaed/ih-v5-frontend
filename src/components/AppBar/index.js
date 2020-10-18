@@ -14,7 +14,8 @@ import AdbIcon from '@material-ui/icons/Adb';
 import SnapForm from './SnapForm';
 
 import shortid from 'shortid';
-import html2canvas from 'html2canvas';
+// import html2canvas from 'html2canvas';
+import domtoimage from 'libs/dom-to-image'; 
 
 
 const styles = {
@@ -238,12 +239,21 @@ function AppBar(props) {
 
   const handleSnap = () => {
     setState({ open: true, data: null });
+    /*
     html2canvas(document.body, { 
-      foreignObjectRendering: true, 
+      foreignObjectRendering: false, 
       allowTaint: true,
     })
       .then(canvas => {
         setState({ open: true, data: canvas.toDataURL() });
+      });
+      */
+     domtoimage.toPng(document.body)
+      .then(function (dataUrl) {
+        setState({ open: true, data: dataUrl });
+      })
+      .catch(function (error) {
+          console.error('oops, something went wrong!', error);
       });
   }
 
