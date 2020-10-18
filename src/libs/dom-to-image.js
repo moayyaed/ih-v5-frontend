@@ -834,9 +834,9 @@
 
           function inlineBackground(node) {
             var check = false;
-            if (node.style && node.style.WebkitMaskImage === 'url("http://localhost:3001/images/lamp1050.svg")') {
+            if (node.style && node.style.WebkitMaskImage !== 'none') {
               check = node.style.backgroundColor;
-              node.style.backgroundImage = 'url("http://localhost:3001/images/lamp1050.svg")';
+              node.style.backgroundImage = node.style.WebkitMaskImage;
               node.style.backgroundColor = 'rgba(0, 0, 0, 0)';
               node.style.WebkitMaskImage = 'none';
               node.style.backgroundSize = 'contain';
@@ -850,7 +850,6 @@
               return inliner.inlineAll(background)
                   .then(function(inlined) {
                       if (check) {
-                          console.log(inlined)
                         if (inlined.indexOf('url("data:image/svg+xml;base64,') === 0) {
                           const end = inlined.indexOf('") ');
                           if (end !== -1) {
