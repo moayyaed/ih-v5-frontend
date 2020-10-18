@@ -16,6 +16,7 @@ const styles = {
   input: {
     width: '100%',
     height: '100%',
+    minWidth: 0,
     border: 'unset',
     backgroundColor: 'unset',
     textAlign: 'center',
@@ -50,20 +51,37 @@ const styles = {
   },
 }
 
-class Number extends Component {
+function parseValue(value, oldValue) {
+  if (value === '') {
+    return 0;
+  }
+  const v = Number(value);
+  if (isNaN(v)) {
+    return oldValue || 0;
+  }
+  return Number(value);
+}
+
+function checkValue(value, props) {
+  let v = parseValue(value, props.value);
+
+  return v;
+}
+
+class _Number extends Component {
 
   handleClickLeftArrow = (e) => {
     e.preventDefault();
     e.stopPropagation();
 
-    this.props.onChange(this.props.value - 1);
+    this.props.onChange(checkValue(this.props.value - 1, this.props));
   }
 
   handleClickRightArrow = (e) => {
     e.preventDefault();
     e.stopPropagation();
 
-    this.props.onChange(this.props.value + 1);
+    this.props.onChange(checkValue(this.props.value + 1, this.props));
   }
 
   handleClickStub = (e) => {
@@ -72,7 +90,7 @@ class Number extends Component {
   }
 
   handleChangeValue = (e) => {
-    this.props.onChange(e.target.value === '' ? 0 : parseInt(e.target.value));
+    this.props.onChange(checkValue(e.target.value, this.props));
   }
 
 
@@ -91,7 +109,7 @@ class Number extends Component {
             <path d="M7.41 8l3.29-3.29c.19-.18.3-.43.3-.71a1.003 1.003 0 00-1.71-.71l-4 4C5.11 7.47 5 7.72 5 8c0 .28.11.53.29.71l4 4a1.003 1.003 0 001.42-1.42L7.41 8z" fill="#5c7080"/>
           </svg>
         </div>
-        <input value={this.props.value} className="number" style={styles.input} type="number" onClick={this.handleClickStub} onChange={this.handleChangeValue} />
+        <input value={this.props.value} className="number" style={styles.input} onClick={this.handleClickStub} onChange={this.handleChangeValue} />
         <div style={styles.buttonRight} className="numberButtonUp" onMouseDown={this.handleClickStub} onDoubleClick={this.handleClickStub} onClick={this.handleClickRightArrow}>
           <svg width="14" height="14" viewBox="0 0 16 16">
             <path d="M10.71 7.29l-4-4a1.003 1.003 0 00-1.42 1.42L8.59 8 5.3 11.29c-.19.18-.3.43-.3.71a1.003 1.003 0 001.71.71l4-4c.18-.18.29-.43.29-.71 0-.28-.11-.53-.29-.71z" fill="#5c7080"/>
@@ -103,4 +121,4 @@ class Number extends Component {
   }
 }
 
-export default Number;
+export default _Number;

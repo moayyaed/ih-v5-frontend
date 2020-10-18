@@ -839,9 +839,16 @@
               node.style.backgroundImage = node.style.WebkitMaskImage;
               node.style.backgroundColor = 'rgba(0, 0, 0, 0)';
               node.style.WebkitMaskImage = 'none';
-              node.style.backgroundSize = 'contain!important';
+              node.style.WebkitMaskSize = 'unset';
+              node.style.WebkitMaskRepeat = 'unset';
+              node.style.WebkitMaskPosition = 'unset';
+        
+              node.style.removeProperty('-webkit-background-size');
+              
+              node.style.backgroundSize = 'contain';
               node.style.backgroundRepeat = 'no-repeat';
               node.style.backgroundPosition = 'center center';
+              // document.body.appendChild(node);
             }
         
               var background = node.style.getPropertyValue('background');
@@ -850,10 +857,11 @@
               return inliner.inlineAll(background)
                   .then(function(inlined) {
                       if (check) {
-                        if (inlined.indexOf('url("data:image/svg+xml;base64,') === 0) {
+                        const i = inlined.indexOf('url("data:image/svg+xml;base64,');
+                        if (i !== -1) {
                           const end = inlined.indexOf('") ');
                           if (end !== -1) {
-                            const data = b64DecodeUnicode(inlined.slice(31, end))
+                            const data = b64DecodeUnicode(inlined.slice(i + 31, end))
                              .replace(/fill="[^]*?"/g, '')
                              .replace(/stroke="[^]*?"/g, `stroke="${check}"`)
                              .replace('<svg', `<svg fill="${check}"`)

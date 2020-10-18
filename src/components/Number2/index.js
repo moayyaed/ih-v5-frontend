@@ -16,6 +16,7 @@ const styles = {
   input: {
     width: '100%',
     height: '100%',
+    minWidth: 0,
     border: 'unset',
     backgroundColor: 'unset',
     textAlign: 'center',
