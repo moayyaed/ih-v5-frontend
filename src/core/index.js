@@ -1,3 +1,4 @@
+import ym from 'react-yandex-metrika';
 import NProgress from 'nprogress';
 
 import reducers from './reducers';
@@ -36,6 +37,7 @@ function route(path) {
   if (core.lastPath !== nextPath) {
     core.lastPath = nextPath;
     core.history.push(nextPath);
+    ym('hit', nextPath);
   }
 }
 
