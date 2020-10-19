@@ -12,6 +12,8 @@ import Menu from 'components/Menu';
 import elemets from 'components/@Elements';
 import getDefaultParamsElement from 'components/@Elements/default';
 
+const method2 = !(core.whois.browser.name === 'Chrome' || core.whois.browser.name === 'Safari')
+
 const styles = {
   root: {
     display: 'flex',
@@ -256,8 +258,8 @@ class Sheet extends Component {
 
     const rect = this.sheet.getBoundingClientRect();
     
-    const x = (e.pageX - (rect.left * this.props.settings.scale.value)) / this.props.settings.scale.value // (e.clientX - rect.left) / this.props.settings.scale.value;
-    const y = (e.pageY - (rect.top * this.props.settings.scale.value)) / this.props.settings.scale.value  // (e.clientY - rect.top) / this.props.settings.scale.value;
+    const x = method2 ? (e.clientX - rect.left) / this.props.settings.scale.value :  (e.pageX - (rect.left * this.props.settings.scale.value)) / this.props.settings.scale.value;
+    const y = method2 ? (e.clientY - rect.top) / this.props.settings.scale.value : (e.pageY - (rect.top * this.props.settings.scale.value)) / this.props.settings.scale.value;
     
     const defaultData = getDefaultParamsElement(type);
 
@@ -759,11 +761,12 @@ class Sheet extends Component {
           style={styles.container}
           onMouseUp={this.handleMouseUpContainer}
           onMouseDown={this.handleMouseDownContainer}
-          onWheel={this.handleMouseWhellContainer}
+          onWheel={method2 ? this.handleMouseWhellContainer2 : this.handleMouseWhellContainer}
         >
           <Draggable
             grid={[1, 1]}
-            scale={settings.scale.value} 
+            transform={method2}
+            scale={method2 ? 1 : settings.scale.value} 
             position={{ x: settings.x.value, y: settings.y.value, scale: settings.scale.value }}
             onDrag={this.handleMoveSheet}
             onStop={this.handleStopMoveSheet}

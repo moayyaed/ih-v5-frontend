@@ -113,9 +113,9 @@ export function offsetXYFromParent(evt: {clientX: number, clientY: number}, offs
 export function createCSSTransform(controlPos: ControlPosition, positionOffset: PositionOffsetControlPosition, flag): Object {
   if (flag) {
     if (controlPos.scale) {
-      return { transform: `translate(${controlPos.x}px, ${controlPos.y}px) scale(${controlPos.scale})` };
+      return { transform: `translate(${controlPos.x}px, ${controlPos.y}px) translateZ(0) scale(${controlPos.scale})` };
     }
-    return { transform: `translate(${controlPos.x}px, ${controlPos.y}px)` };
+    return { transform: `translate(${controlPos.x}px, ${controlPos.y}px) translateZ(0)` };
   }
   if (controlPos.scale) {
     return { 
