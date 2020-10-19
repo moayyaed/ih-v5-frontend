@@ -259,7 +259,7 @@ function AppBar(props) {
 
   return (
     <>
-      <SnapForm state={state} onClose={handleClose} />
+      { state.open ? <SnapForm state={state} onClose={handleClose} /> : null}
       <div style={styles.box}>
         <div style={styles.stub}/>
         <div style={styles.logo}>

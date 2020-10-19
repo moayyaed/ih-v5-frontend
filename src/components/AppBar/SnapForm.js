@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, useState } from 'react';
 import core from 'core';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -113,13 +113,58 @@ const classes = theme => ({
   },
 });
 
+let painterro = null
+
+
 class Test extends PureComponent {
 
   componentDidMount() {
-    Painterro({ 
+    painterro = Painterro({ 
       id: 'canvas-report',
       hiddenTools: ['close', 'open', 'settings', 'resize'],
+      saveHandler: (image, done) => this.handleSave(this.props.state, image, done),
     }).show(this.props.img)
+  }
+
+  componentWillUnmount() {
+    painterro = null;
+  }
+
+  handleSave = (state, image, done) => {
+    if (painterro) {
+      if (state.title !== '' && state.comment !== '') {
+        window
+          .fetch('http://docs.ih-systems.com:40000/bug-report', {
+            headers: {
+              'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify({ 
+              ...state,
+              userAgent: window.navigator.userAgent,
+              img: image.asDataURL() 
+            }),
+            method: 'POST',
+          })
+          .then(res => res.json())
+          .then(data => {
+            done(false);
+            if (data.res) {
+              this.props.onClose();
+              core.actions.app.alertOpen('info', 'Thanks for your feedback!');
+            } else {
+              core.actions.app.alertOpen('warning', data.message);
+            }
+          })
+          .catch(e => {
+            done(false);
+            core.actions.app.alertOpen('error', e.message);
+          })
+    
+      } else {
+        core.actions.app.alertOpen('warning', 'Please fill in all fields!');
+        done(false);
+      }
+    }
   }
 
   render() {
@@ -128,12 +173,21 @@ class Test extends PureComponent {
 }
 
 
-function handleSubmit(props) {
-  core.actions.app.alertOpen('info', 'Thanks for your feedback!');
-  props.onClose();
+function handleSubmit(props, state) {
+  if (painterro) {
+    painterro.save();
+  }
 }
 
 function SnapForm(props) {
+  const [state, setState] = useState({ title: '', comment: '' });
+
+  const handleChangeValueTitle = (e) => {
+    setState({ ...state, title: e.target.value }) 
+  }
+  const handleChangeValueComment = (e) => {
+    setState({ ...state, comment: e.target.value }) 
+  }
   return (
     <Dialog 
       fullWidth 
@@ -149,7 +203,7 @@ function SnapForm(props) {
           <Typography variant="h6" className={props.classes.title}>
             Bug Report
           </Typography>
-          <Button autoFocus color="inherit" onClick={() => handleSubmit(props)} >submit</Button>
+          <Button autoFocus color="inherit" onClick={() => handleSubmit(props, state)} >submit</Button>
         </Toolbar>
       </AppBar>
       <div style={styles.container} >
@@ -159,7 +213,7 @@ function SnapForm(props) {
               (
                 <>
                   <div id="canvas-report" style={styles.img2} />
-                  <Test img={props.state.data} />
+                  <Test img={props.state.data} state={state} onClose={props.onClose} />
                 </>
               ) 
                 :
@@ -182,6 +236,7 @@ function SnapForm(props) {
               label="Title" 
               variant="outlined"
               placeholder="What happened?"
+              onChange={handleChangeValueTitle}
             />
             <TextField 
               InputLabelProps={{ shrink: true }}
@@ -191,6 +246,7 @@ function SnapForm(props) {
               label="Comment" 
               variant="outlined"
               placeholder="Leave a comment..." 
+              onChange={handleChangeValueComment}
             />
           </Paper>
         </div>
