@@ -1,4 +1,6 @@
 import ym from 'react-yandex-metrika';
+import Bowser from "bowser";
+
 import NProgress from 'nprogress';
 
 import reducers from './reducers';
@@ -72,6 +74,7 @@ const core = {
     tabs: {},
     tab: {},
   },
+  whois: Bowser.parse(window.navigator.userAgent),
 }
 
 

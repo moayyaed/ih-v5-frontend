@@ -115,6 +115,21 @@ const classes = theme => ({
 
 let painterro = null
 
+function getInfo(data) {
+  let text = ''
+  Object
+    .keys(data)
+    .forEach(key => {
+      text = text + '- ' + key + '\n';
+      Object
+        .keys(data[key])
+          .forEach(key2 => {
+            text = text + '  - ' + key2 + ': ' + data[key][key2] + '\n';
+          });
+    });
+  return text;
+}
+
 
 class Test extends PureComponent {
 
@@ -140,7 +155,7 @@ class Test extends PureComponent {
             },
             body: JSON.stringify({ 
               ...state,
-              userAgent: window.navigator.userAgent,
+              userAgent: getInfo(core.whois),
               img: image.asDataURL() 
             }),
             method: 'POST',
