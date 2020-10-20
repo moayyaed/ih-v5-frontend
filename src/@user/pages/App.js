@@ -26,7 +26,7 @@ const styles = {
 function App(props) {
   return (
     <>
-      <YMInitializer accounts={[68453362]} options={{webvisor: true}} version="2"/>
+      <YMInitializer accounts={[68453362]} options={{webvisor: true, clickmap:true }} version="2"/>
       <AppLayout />
       <AppLayoutDialog />
     </>
