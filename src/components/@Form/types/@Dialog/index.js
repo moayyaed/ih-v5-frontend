@@ -234,6 +234,15 @@ class Dialog extends PureComponent {
     this.save();
   }
 
+  handleChangeValueProperty2 = (key, value) => {
+    core.actions.dialog
+      .settings(
+        this.props.id, this.props.options.prop,
+        { [key]: value }
+      );
+    this.save();
+  }
+
   handleGetStyleProperty = (params) => {
     return EMPTY_STYLE;
   }
@@ -285,6 +294,14 @@ class Dialog extends PureComponent {
           icon="diagram-tree" 
           active={select === 'tree'}
           onClick={() => this.handleChangeToolbar('tree')} 
+        />,
+        <Separator key="4" />,
+        <Button 
+          key="5"
+          minimal
+          icon="settings" 
+          active={select === 'settings'}
+          onClick={() => this.handleChangeToolbar('settings')} 
         />,
       ];
     }
@@ -343,6 +360,9 @@ class Dialog extends PureComponent {
           elements={this.props.data.elements || {}}
           onClickElement={this.handleClickTreeElement}
           onClickMenu={this.handleClickOptionToolbarMenu}
+          onChange={this.handleChangeValueProperty2}
+          data={this.props.data.settings}
+          getStyle={this.handleGetStyleProperty}
         />
       )
     }
