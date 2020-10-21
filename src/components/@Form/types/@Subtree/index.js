@@ -609,6 +609,9 @@ class Subtree extends PureComponent {
     const type = item.node.children !== undefined ? 'parent' : 'child';
     const pos = { left: e.clientX, top: e.clientY };
 
+    const title = `Delete ${item.node.children ? 'Folder' : 'File'}`;
+    const message = `Are you sure you want to delete this item ?\r\n\r\n❌   ${item.node.title}`;
+
     const disabled = { disablePaste: this.props.route.nodeid !== core.buffer.type };
     const commands = {
       addNodeByContext: (menuItem) => this.handleAddNode(false, item, menuItem), 
@@ -616,7 +619,7 @@ class Subtree extends PureComponent {
       addFolder: () => this.handleAddNode(true, item),
       copy: () => this.handleCopyNode(item),
       paste: () => this.handlePasteNode(item),
-      delete: () => this.handleRemoveNodes(item), 
+      delete: () =>   core.actions.alert.show(title, message, () => this.handleRemoveNodes(item)),
     };
     let scheme = { main: [] };
 

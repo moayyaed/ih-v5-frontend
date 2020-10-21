@@ -9,6 +9,7 @@ import AppNav from 'components/AppNav';
 import AppTabs from 'components/AppTabs';
 import AppPage from 'components/AppPage';
 import AppDialog from 'components/AppDialog';
+import AppAlert from 'components/AppAlert';
 import AppProgress from 'components/AppProgress';
 
 import { YMInitializer } from 'react-yandex-metrika';
@@ -34,8 +35,10 @@ const styles = {
 function App(props) {
   return (
     <>
+      
       <YMInitializer accounts={[68453362]} options={{ webvisor: true, clickmap:true }} version="2"/>
       <AppDialog />
+      <AppAlert />
       <AppProgress />
       <AppBar menuid={props.route.menuid} />
       <div className="container">

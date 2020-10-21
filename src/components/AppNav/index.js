@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import core from 'core';
 
 import 'react-sortable-tree/style.css'; 
@@ -296,6 +297,8 @@ class AppNav extends Component {
     const pos = { left: e.clientX, top: e.clientY };
 
     const type = this.props.state.options[rootid] !== undefined ? 'parent' : 'child';
+    const title = `Delete ${item.node.children ? 'Folder' : 'File'}`;
+    const message = `Are you sure you want to delete this item ?\r\n\r\n❌   ${item.node.title}`;
 
     const disabled = { disablePaste: root !== core.buffer.type };
     const commands = {
@@ -304,7 +307,7 @@ class AppNav extends Component {
       addFolder: () => this.handleAddNode(true, item),
       copy: () => this.handleCopyNode(item),
       paste: () => this.handlePasteNode(item),
-      delete: () => this.handleRemoveNodes(item),
+      delete: () =>   core.actions.alert.show(title, message, () => this.handleRemoveNodes(item)),
       upload: (menuItem) => this.handleUpload(item, menuItem),
       export: (menuItem) => this.handleExport(item, menuItem),
       newTab: (menuItem) => this.handleClickNode(null, item),

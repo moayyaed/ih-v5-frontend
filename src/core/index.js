@@ -17,7 +17,7 @@ function settings(options) {
   core.options = options;
 
   core.store = reducers(options.reducers);
-  core.actions = actions(options.actions, core.store.dispatch);
+  core.actions = { ...actions(options.actions, core.store.dispatch), ...options.mergeActions };
 }
 
 function progressStart() {

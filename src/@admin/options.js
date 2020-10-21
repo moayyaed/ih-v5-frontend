@@ -19,6 +19,8 @@ import reducerAppDialog from 'components/AppDialog/reducer';
 import actionsAppProgress from 'components/AppProgress/actions';
 import reducerAppProgress from 'components/AppProgress/reducer';
 
+import actionsAppAlert from 'components/AppAlert/actions';
+
 import actionsForm from 'components/@Form/actions';
 import reducerForm from 'components/@Form/reducer';
 
@@ -70,6 +72,10 @@ const options = {
     appprogress: reducerAppProgress,
 
     msgboxtree: reducerAppNav,
+  },
+
+  mergeActions: {
+    alert: actionsAppAlert,
   },
 
   pages: {
