@@ -8,4 +8,6 @@ import './appdialog';
 import './components';
 import './subtree';
 
+import './button';
+
 import './widgets';
