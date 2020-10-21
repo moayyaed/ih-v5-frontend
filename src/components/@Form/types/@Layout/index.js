@@ -206,6 +206,14 @@ class Layout extends PureComponent {
     this.save();
   }
 
+  handleChangeValueProperty2 = (key, value) => {
+    core.actions.layout
+      .settings(
+        this.props.id, this.props.options.prop,
+        { [key]: value }
+      );
+  }
+
   handleGetStyleProperty = (params) => {
     return EMPTY_STYLE;
   }
@@ -323,6 +331,7 @@ class Layout extends PureComponent {
           elements={this.props.data.elements || {}}
           onClickElement={this.handleClickTreeElement}
           onClickMenu={this.handleClickOptionToolbarMenu}
+          onChange={this.handleChangeValueProperty2}
           getStyle={this.handleGetStyleProperty}
           data={this.props.data.settings}
         />

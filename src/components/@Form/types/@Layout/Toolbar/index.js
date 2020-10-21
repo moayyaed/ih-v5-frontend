@@ -16,6 +16,9 @@ import { CollapseIcon, ExpandIcon } from './Icons';
 import scheme from '../Property/scheme2';
 import './main.css';
 
+const route = {}
+const cache = {}
+
 const styles = {
   container: {
     height: '100%',
@@ -83,6 +86,10 @@ class Toolbar extends PureComponent {
     ContextMenu.show(<Menu scheme={scheme} />, pos);
   }
 
+  handleChange = (id, options, target, value) => {
+    this.props.onChange(id, value);
+  }
+
   render({ selectElements, listElements, elements } = this.props) {
     if (this.props.type === 'tree') {
       return (
@@ -108,7 +115,6 @@ class Toolbar extends PureComponent {
     }
 
     if (this.props.type === 'settings') {
-      console.log(this.props.data)
       return (
         <Scrollbars style={styles.scroll}>
           <div style={styles.container2}>
@@ -116,10 +122,10 @@ class Toolbar extends PureComponent {
               key="property2"
               debug={false} 
               scheme={scheme[this.props.type]}
-              route={{}}
-              data={{}}
-              cache={{}}
-              onChange={() => {}}
+              route={route}
+              data={this.props.data}
+              cache={cache}
+              onChange={this.handleChange}
               getStyle={this.props.getStyle}
             />
           </div>
