@@ -358,6 +358,7 @@ class Container extends PureComponent {
           onClickMenu={this.handleClickOptionToolbarMenu}
           onChange={this.handleChangeValueProperty2}
           data={this.props.data.settings}
+          getStyle={this.handleGetStyleProperty}
         />
       )
     }

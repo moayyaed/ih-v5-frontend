@@ -90,6 +90,8 @@ class Template extends PureComponent {
               h: { value: 250 }, 
               scale: { value: 1 }, 
               grid: { value: 10 },
+              devBackgroundColor: { value: 'rgba(0,0,0,0.25)' },
+              devBackgroundColor2: { value: 'rgba(255,255,255,0.8)' },
               backgroundColor: { 
                 type: 'fill', 
                 value: 'transparent', 
@@ -621,6 +623,7 @@ class Template extends PureComponent {
           onClickEditIdState={this.handleClickEditIdState}
           onClickElement={this.handleClickTreeElement}
           onChange={this.handleChangeValueProperty2}
+          getStyle={this.handleGetStyleProperty}
         />
       )
     }

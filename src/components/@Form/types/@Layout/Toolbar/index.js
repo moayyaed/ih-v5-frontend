@@ -115,6 +115,7 @@ class Toolbar extends PureComponent {
     }
 
     if (this.props.type === 'settings') {
+      const data = { devBackgroundColor: { value: 'rgba(0,0,0,0.25)' }, ...this.props.data }    
       return (
         <Scrollbars style={styles.scroll}>
           <div style={styles.container2}>
@@ -123,7 +124,7 @@ class Toolbar extends PureComponent {
               debug={false} 
               scheme={scheme[this.props.type]}
               route={route}
-              data={this.props.data}
+              data={data}
               cache={cache}
               onChange={this.handleChange}
               getStyle={this.props.getStyle}

@@ -1,7 +1,7 @@
 const scheme = {
   settings: [
     { 
-      title: 'Settings', 
+      title: 'Development Settings', 
       prop: 'settings', 
       type: 'divider',
     },
@@ -23,7 +23,18 @@ const scheme = {
       max: 8,
       bind: false,
     },
-
+    {
+      title: 'Color',
+      prop: 'devBackgroundColor',
+      type: 'color',
+      bind: false,
+    },
+    {
+      title: 'Color2',
+      prop: 'devBackgroundColor2',
+      type: 'color',
+      bind: false,
+    }
   ]
 }
 

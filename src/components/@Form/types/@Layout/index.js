@@ -68,6 +68,7 @@ class Layout extends PureComponent {
             h: { value: 400 }, 
             scale: { value: 1 }, 
             grid: { value: 10 },
+            devBackgroundColor: { value: 'rgba(0,0,0,0.25)' },
             backgroundColor: { 
               type: 'fill', 
               value: 'rgba(255,255,255,1)', 
