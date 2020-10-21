@@ -258,6 +258,13 @@ class Layout extends PureComponent {
           active={select === 'tree'}
           onClick={() => this.handleChangeToolbar('tree')} 
         />,
+        <Button 
+          key="4"
+          minimal
+          icon="settings" 
+          active={select === 'settings'}
+          onClick={() => this.handleChangeToolbar('settings')} 
+        />,
       ];
     }
     return [];
@@ -316,6 +323,8 @@ class Layout extends PureComponent {
           elements={this.props.data.elements || {}}
           onClickElement={this.handleClickTreeElement}
           onClickMenu={this.handleClickOptionToolbarMenu}
+          getStyle={this.handleGetStyleProperty}
+          data={this.props.data.settings}
         />
       )
     }

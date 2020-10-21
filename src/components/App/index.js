@@ -65,18 +65,14 @@ class App extends Component {
 
   handleChageRoute = (location, action) => {
     if (core.lastPath !== location.pathname) {
+      // const store = core.store.getState();
       // const prevParams = core.options.routeParse(core.lastPath || location.pathname);
       const params = core.options.routeParse(location.pathname);
-      const store = core.store.getState();
 
       params.user = action === 'PUSH';
       core.lastPath = location.pathname;
 
-      if (store.apppage.save) {
-        this.handleSave(store);
-      } else {
-        core.actions.app.route(params);
-      }
+      core.actions.app.route(params);
     }
   }
 
