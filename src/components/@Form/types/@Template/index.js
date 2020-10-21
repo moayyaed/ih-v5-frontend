@@ -229,6 +229,13 @@ class Template extends PureComponent {
           active={select === 'events'}
           onClick={() => this.handleChangeToolbar('events')} 
         />,
+        <Button 
+          key="8"
+          minimal
+          icon="settings" 
+          active={select === 'settings'}
+          onClick={() => this.handleChangeToolbar('settings')} 
+        />,
       ];
     }
     return [];
@@ -475,6 +482,15 @@ class Template extends PureComponent {
           );
       }
     }
+    this.save();
+  }
+
+  handleChangeValueProperty2 = (key, value) => {
+    core.actions.layout
+      .template(
+        this.props.id, this.props.options.prop,
+        { [key]: value }
+      );
     this.save();
   }
 

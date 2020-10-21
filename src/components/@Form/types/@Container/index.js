@@ -231,8 +231,8 @@ class Container extends PureComponent {
   }
 
   handleChangeValueProperty2 = (key, value) => {
-    core.actions.layout
-      .container(
+    core.actions.container
+      .settings(
         this.props.id, this.props.options.prop,
         { [key]: value }
       );
@@ -356,6 +356,7 @@ class Container extends PureComponent {
           onClickElement={this.handleClickTreeElement}
           onClickMenu={this.handleClickOptionToolbarMenu}
           onChange={this.handleChangeValueProperty2}
+          data={this.props.data.settings}
         />
       )
     }

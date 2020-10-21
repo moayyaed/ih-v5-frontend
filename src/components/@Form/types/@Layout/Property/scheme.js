@@ -823,11 +823,6 @@ const scheme = {
         type: 'number',
         bind: false,
       },
-      { 
-        title: 'Settings', 
-        prop: 'settings', 
-        type: 'divider',
-      },
     ],
   },
   content2: {
@@ -878,11 +873,6 @@ const scheme = {
         prop: 'h', 
         type: 'number',
         bind: false,
-      },
-      { 
-        title: 'Settings', 
-        prop: 'settings', 
-        type: 'divider',
       },
       { 
         title: 'Align', 
@@ -1052,11 +1042,6 @@ const scheme = {
         prop: 'h', 
         type: 'number',
         bind: false,
-      },
-      { 
-        title: 'Settings', 
-        prop: 'settings', 
-        type: 'divider',
       },
     ],
   },
