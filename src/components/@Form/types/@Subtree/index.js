@@ -734,6 +734,7 @@ class Subtree extends PureComponent {
   }
 
   handleTransferData = (button) => {
+    console.log(button)
     const { channelview, channel } = this.props.route;
     const params = { component: channelview, curent: channel, rowid: this.rowid };
     if (this.id) {

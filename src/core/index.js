@@ -37,7 +37,7 @@ function progressStop() {
 function route(path) {
   const nextPath = core.options.routePrefix + '/' + path;
   if (core.lastPath !== nextPath) {
-    core.lastPath = nextPath;
+    // core.lastPath = nextPath;
     core.history.push(nextPath);
     ym('hit', nextPath);
   }

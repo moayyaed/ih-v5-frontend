@@ -29,12 +29,55 @@ class App extends Component {
     this.handleChageRoute(history.location);
   }
 
+  handleRequestSave = (route, scheme, forcePayload) => {
+    /*
+    const tab = scheme.tabs.find(i => i.id === route.tab);
+      
+    if (tab && (forcePayload || this.saveData[route.tab] !== undefined)) {
+      const params = { formid: tab.component[0].id, ...route };
+      const payload = forcePayload || this.saveData[route.tab];
+
+      core
+      .request({ method: 'components_tabs_form_save', params, payload })
+      .ok(res => {})
+    }
+    */
+  }
+
+  handleSave = (store) => {
+    /*
+    const route = store.app.route;
+    const scheme = core.options.componentsScheme[route.componentid];
+    const state = store.apppage;
+
+    if (typeof state.save === 'string') {
+      core.transfer.send(
+        state.save, 
+        'save', 
+        payload => this.handleRequestSave(route, scheme, payload), 
+        () => {},
+      );
+    } else {
+      this.handleRequestSave(route, scheme);
+    } 
+    */
+  }
+
   handleChageRoute = (location, action) => {
-    const params = core.options.routeParse(location.pathname);
-    params.user = action === 'PUSH';
-    
-    core.lastPath = location.pathname;
-    core.actions.app.route(params);
+    if (core.lastPath !== location.pathname) {
+      // const prevParams = core.options.routeParse(core.lastPath || location.pathname);
+      const params = core.options.routeParse(location.pathname);
+      const store = core.store.getState();
+
+      params.user = action === 'PUSH';
+      core.lastPath = location.pathname;
+
+      if (store.apppage.save) {
+        this.handleSave(store);
+      } else {
+        core.actions.app.route(params);
+      }
+    }
   }
 
   handleCloseAlert = () => {
