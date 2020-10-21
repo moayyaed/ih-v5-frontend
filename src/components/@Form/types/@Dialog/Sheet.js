@@ -773,6 +773,7 @@ class Sheet extends Component {
     const type = settings.backgroundColor.type;
     const color = type === 'fill' ? '' : ', ' + settings.backgroundColor.value;
     const src =  settings.backgroundImage.value.indexOf('://') !== -1 ? settings.backgroundImage.value : '/images/' + settings.backgroundImage.value
+    const devcolor = settings.devBackgroundColor ? settings.devBackgroundColor.value : 'rgba(0,0,0,0.25)';
     return (
       <div style={styles.root} onClick={this.handleClickBody}>
         <div 
@@ -796,6 +797,7 @@ class Sheet extends Component {
                 ...styles.sheet, 
                 width: settings.w.value, 
                 height: settings.h.value,
+                backgroundColor: devcolor,
               }}
               onContextMenu={(e) => this.handleContextMenuElement(e, null)}
             >
