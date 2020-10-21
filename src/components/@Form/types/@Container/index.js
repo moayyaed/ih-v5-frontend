@@ -230,6 +230,15 @@ class Container extends PureComponent {
     this.save();
   }
 
+  handleChangeValueProperty2 = (key, value) => {
+    core.actions.layout
+      .container(
+        this.props.id, this.props.options.prop,
+        { [key]: value }
+      );
+    this.save();
+  }
+
   handleGetStyleProperty = (params) => {
     return EMPTY_STYLE;
   }
@@ -281,6 +290,13 @@ class Container extends PureComponent {
           icon="diagram-tree" 
           active={select === 'tree'}
           onClick={() => this.handleChangeToolbar('tree')} 
+        />,
+        <Button 
+          key="4"
+          minimal
+          icon="settings" 
+          active={select === 'settings'}
+          onClick={() => this.handleChangeToolbar('settings')} 
         />,
       ];
     }
@@ -339,6 +355,7 @@ class Container extends PureComponent {
           elements={this.props.data.elements || {}}
           onClickElement={this.handleClickTreeElement}
           onClickMenu={this.handleClickOptionToolbarMenu}
+          onChange={this.handleChangeValueProperty2}
         />
       )
     }

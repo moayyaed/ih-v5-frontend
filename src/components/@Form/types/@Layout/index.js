@@ -212,6 +212,7 @@ class Layout extends PureComponent {
         this.props.id, this.props.options.prop,
         { [key]: value }
       );
+    this.save();
   }
 
   handleGetStyleProperty = (params) => {
