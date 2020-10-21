@@ -186,3 +186,29 @@ input.core:focus {
 .tool-controls {
   margin-left: 8px;
 }
+.bp3-icon {
+  margin: 0!important;
+}
+
+.bp3-icon-style {
+  margin: 0!important;
+}
+
+.bp3-icon-symbol-circle {
+  position: absolute;
+  top: -1px;
+  right: 0px;
+  height: 8px;
+  width: 8px;
+}
+
+.bp3-icon-symbol-circle svg {
+  height: 8px!important;
+  width: 8px!important;
+  color: #2196F3;
+}
+
+
+.bp3-button {
+  width: 30px!important;
+}

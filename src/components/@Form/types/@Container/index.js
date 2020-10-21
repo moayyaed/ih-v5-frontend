@@ -291,8 +291,9 @@ class Container extends PureComponent {
           active={select === 'tree'}
           onClick={() => this.handleChangeToolbar('tree')} 
         />,
+        <Separator key="4" />,
         <Button 
-          key="4"
+          key="5"
           minimal
           icon="settings" 
           active={select === 'settings'}

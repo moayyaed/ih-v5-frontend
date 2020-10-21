@@ -76,6 +76,7 @@ class Template extends PureComponent {
         .data(
           this.props.id, this.props.options.prop, {
             toolbarType: 'tree',
+            mode: 'tree',
             propertyType: 'main',
             selectState: 'master',
             selectType: null,
@@ -163,8 +164,9 @@ class Template extends PureComponent {
   renderButtons = (id) => {
     if (id === 'property') {
       const toolbar = this.props.data.toolbarType || 'tree';
+      const mode = this.props.data.mode || 'tree';
 
-      if (toolbar === 'events') {
+      if (mode === 'events') {
         const select = this.props.data.propertyType || 'actions';
         return [
           <Button 
@@ -205,6 +207,7 @@ class Template extends PureComponent {
     }
     if (id === 'toolbar') {
       const select = this.props.data.toolbarType || 'tree';
+      const mode = this.props.data.mode || 'tree';
       return [
         <Button 
           key="3"
@@ -212,6 +215,7 @@ class Template extends PureComponent {
           icon="diagram-tree" 
           active={select === 'tree'}
           onClick={() => this.handleChangeToolbar('tree')} 
+          rightIcon={mode === 'tree' ? 'symbol-circle' : null}
         />,
         <Separator key="4" />,
         <Button 
@@ -220,6 +224,7 @@ class Template extends PureComponent {
           icon={IconState}
           active={select === 'vars'}
           onClick={() => this.handleChangeToolbar('vars')} 
+          rightIcon={mode === 'vars' ? 'symbol-circle' : null}
         />,
         <Separator key="6" />,
         <Button 
@@ -228,13 +233,15 @@ class Template extends PureComponent {
           icon={IconAction}
           active={select === 'events'}
           onClick={() => this.handleChangeToolbar('events')} 
+          rightIcon={mode === 'events' ? 'symbol-circle' : null}
         />,
+        <Separator key="8" />,
         <Button 
-          key="8"
+          key="9"
           minimal
           icon="settings" 
           active={select === 'settings'}
-          onClick={() => this.handleChangeToolbar('settings')} 
+          onClick={() => this.handleChangeToolbar('settings')}
         />,
       ];
     }
@@ -386,7 +393,7 @@ class Template extends PureComponent {
 
   handleChangeValueProperty = (key, value) => {
     const stateId = this.props.data.selectState || 'master';
-    const toolbar = this.props.data.toolbarType || 'tree';
+    const toolbar = this.props.data.mode || 'tree';
 
     if (toolbar === 'tree' || toolbar === 'events') {
       if (this.props.data.selectOne === 'content') {
@@ -559,7 +566,7 @@ class Template extends PureComponent {
           list={this.props.data.list} 
           settings={this.props.data.settings} 
           elements={this.props.data.elements}
-          selectToolbar={this.props.data.toolbarType}
+          selectToolbar={this.props.data.mode}
           selectState={this.props.data.selectState}
           save={this.save}
         />
@@ -572,7 +579,7 @@ class Template extends PureComponent {
       const masterData = this.props.data.state.master.values[0][this.props.data.selectOne];
       const stateData = state.values[state.curent] ? state.values[state.curent][this.props.data.selectOne] : {};
       const curentData = this.props.data.elements[this.props.data.selectOne];
-      const toolbar = this.props.data.toolbarType || 'tree';
+      const toolbar = this.props.data.mode || 'tree';
 
       const elementData = this.props.data.selectOne === 'content' ? 
       { ...this.props.data.settings , type: 'content' } : 

@@ -123,7 +123,7 @@ function getStateMoveContainer(selects, elements, selectContainer, action, data)
 }
 
 function getPositionSelectContainer(state, elements) {
-  if (state.toolbarType === 'events' || state.selectOne === 'content') {
+  if (state.mode === 'events' || state.selectOne === 'content') {
     return null;
   }
   if (state.selectType === 'some') {
@@ -339,11 +339,11 @@ function reducerTemplate(state, action) {
     case TEMPLATE_CLEAR_SELECTS:
       return { 
         ...state,
-        selectType: state.toolbarType  === 'tree' ? 'one' : null,
-        selectOne: state.toolbarType  === 'tree' ? 'content': null,
+        selectType: state.mode  === 'tree' ? 'one' : null,
+        selectOne: state.mode  === 'tree' ? 'content': null,
         selectContainer: null,
-        selects: state.toolbarType  === 'tree' ? { content: true } : {},
-        // propertyType: state.toolbarType  === 'tree' ? 'move' : state.propertyType,
+        selects: state.mode  === 'tree' ? { content: true } : {},
+        // propertyType: state.mode  === 'tree' ? 'move' : state.propertyType,
       };
     case TEMPLATE_GROUP_ELEMENTS:
       return { 
@@ -987,31 +987,34 @@ function reducerTemplate(state, action) {
         return {
           ...state,
           toolbarType: 'tree',
-          // propertyType: state.toolbarType === 'events' ? 'main' : state.propertyType,
+          mode: 'tree',
+          // propertyType: state.mode === 'events' ? 'main' : state.propertyType,
           selectState: 'master',
           selectContainer: getPositionSelectContainer(state, elementsMaster),
           elements: elementsMaster,
-          selectType: state.toolbarType === 'events' ? null : state.selectType,
-          selectOne: state.toolbarType === 'events' ? null : state.selectOne,
-          selects: state.toolbarType === 'events' ? {} : state.selects,
+          selectType: state.mode === 'events' ? null : state.selectType,
+          selectOne: state.mode === 'events' ? null : state.selectOne,
+          selects: state.mode === 'events' ? {} : state.selects,
         }
       case TEMPLATE_SET_MODE_VARS:
         const elementsState = getElemntsState(state);
         return {
           ...state,
           toolbarType: 'vars',
-          // propertyType: state.toolbarType === 'events' ? 'main' : state.propertyType,
+          mode: 'vars',
+          // propertyType: state.mode === 'events' ? 'main' : state.propertyType,
           selectState: (!state.selectState  || state.selectState === 'master') ? state.listState[0] : state.selectState,
           selectContainer: getPositionSelectContainer(state, elementsState),
           elements: elementsState,
-          selectType: (state.toolbarType === 'events' || state.selectOne === 'content') ? null : state.selectType,
-          selectOne: (state.toolbarType === 'events' || state.selectOne === 'content') ? null : state.selectOne,
-          selects: (state.toolbarType === 'events' || state.selectOne === 'content') ? {} : state.selects,
+          selectType: (state.mode === 'events' || state.selectOne === 'content') ? null : state.selectType,
+          selectOne: (state.mode === 'events' || state.selectOne === 'content') ? null : state.selectOne,
+          selects: (state.mode === 'events' || state.selectOne === 'content') ? {} : state.selects,
         }
       case TEMPLATE_SET_MODE_EVENTS:
         return {
           ...state,
           toolbarType: 'events',
+          mode: 'events',
           // propertyType: 'actions',
           selectState: 'master',
           selectType: null,
