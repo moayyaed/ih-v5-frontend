@@ -273,6 +273,14 @@ class Template extends PureComponent {
       core.actions.template
         .setModeEvents(this.props.id, this.props.options.prop);
     }
+
+    if (toolbarId === 'settings') {
+      core.actions.container
+        .data(
+          this.props.id, this.props.options.prop,
+          { toolbarType: toolbarId }
+        );
+    }
   }
 
   handleSortState = (list) => {
@@ -486,8 +494,8 @@ class Template extends PureComponent {
   }
 
   handleChangeValueProperty2 = (key, value) => {
-    core.actions.layout
-      .template(
+    core.actions.template
+      .settings(
         this.props.id, this.props.options.prop,
         { [key]: value }
       );
@@ -593,6 +601,7 @@ class Template extends PureComponent {
           listElements={this.props.data.list || []}
           listState={this.props.data.listState || []}
           state={this.props.data.state || {}}
+          data={this.props.data.settings}
           elements={this.props.data.elements || {}}
           onSortState={this.handleSortState}
           onChangeState={this.handleChangeState}
@@ -604,6 +613,7 @@ class Template extends PureComponent {
           onClickDeleteState={this.handleClickDeleteState}
           onClickEditIdState={this.handleClickEditIdState}
           onClickElement={this.handleClickTreeElement}
+          onChange={this.handleChangeValueProperty2}
         />
       )
     }

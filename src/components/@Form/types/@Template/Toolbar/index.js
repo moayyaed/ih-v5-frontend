@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import core from 'core';
 
+import CompactForm from 'components/@Form/Compact';
 import Scrollbars from 'react-custom-scrollbars';
 
 import TreeView from '@material-ui/lab/TreeView';
@@ -11,6 +12,7 @@ import Menu from 'components/Menu';
 import { ElementsItems, EventsItems, AnimationItems } from './Items';
 import { CollapseIcon, ExpandIcon } from './Icons';
 
+import scheme from 'components/@Form/types/@Layout/Property/scheme2';
 import './main.css';
 
 const styles = {
@@ -24,6 +26,9 @@ const styles = {
     // width: '100%',
   },
 }
+
+const route = {}
+const cache = {}
 
 
 class Toolbar extends PureComponent {
@@ -165,6 +170,10 @@ class Toolbar extends PureComponent {
     this.props.onClickEditIdState(stateId, false);
   }
 
+  handleChange = (id, options, target, value) => {
+    this.props.onChange(id, value);
+  }
+
   render({ selectElements, selectState, listElements, listState, elements, state } = this.props) {
     if (this.props.type === 'tree') {
       return (
@@ -245,6 +254,25 @@ class Toolbar extends PureComponent {
           </TreeView>
         </Scrollbars>
       );
+    }
+
+    if (this.props.type === 'settings') {
+      return (
+        <Scrollbars style={styles.scroll}>
+          <div style={styles.container2}>
+            <CompactForm 
+              key="property2"
+              debug={false} 
+              scheme={scheme[this.props.type]}
+              route={route}
+              data={this.props.data}
+              cache={cache}
+              onChange={this.handleChange}
+              getStyle={this.props.getStyle}
+            />
+          </div>
+        </Scrollbars>
+      )
     }
   }
 
