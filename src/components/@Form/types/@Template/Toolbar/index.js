@@ -268,7 +268,7 @@ class Toolbar extends PureComponent {
             <CompactForm 
               key="property2"
               debug={false} 
-              scheme={scheme.settings2}
+              scheme={scheme.settings}
               route={route}
               data={data}
               cache={cache}
