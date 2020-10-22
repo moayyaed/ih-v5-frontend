@@ -29,7 +29,9 @@ function handleClick(props) {
   };
   core
   .request({ method: 'button_command', params, payload: {} })
-  .ok(res => {});
+  .ok(res => {
+    core.actions.app.alertOpen('info', res.message || 'Server will be restarted!');
+  });
 }
 
 function Button(props) {
