@@ -72,11 +72,18 @@ const styles = {
     marginRight: 12,
   }
 };
-
-const LightTooltip = withStyles((theme) => ({
+//     color: 'rgba(0, 0, 0, 0.87)',
+const TooltipGood = withStyles((theme) => ({
   tooltip: {
-    backgroundColor: theme.palette.common.white,
-    color: 'rgba(0, 0, 0, 0.87)',
+    backgroundColor: '#66BB6A',
+    boxShadow: theme.shadows[1],
+    fontSize: 11,
+  },
+}))(Tooltip);
+
+const TooltipBad = withStyles((theme) => ({
+  tooltip: {
+    backgroundColor: '#EF5350',
     boxShadow: theme.shadows[1],
     fontSize: 11,
   },
@@ -304,13 +311,13 @@ function AppBar(props) {
           <Divider orientation="vertical" flexItem style={styles.divider} />
           <IconButton style={styles.button} size="small">
             {props.network ? 
-              <LightTooltip title="connection established">
+              <TooltipGood title="connection established">
                 <WifiIcon fontSize="small" />
-              </LightTooltip> 
+              </TooltipGood> 
               :
-              <LightTooltip title="connection disconnected">
+              <TooltipBad title="connection disconnected">
                 <WifiOffIcon fontSize="small" style={styles.icon2} />
-              </LightTooltip> 
+              </TooltipBad> 
             }
           </IconButton>
           <IconButton style={styles.button} size="small" onClick={handleClickExit}>
