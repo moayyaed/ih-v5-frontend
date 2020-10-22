@@ -148,8 +148,10 @@ class Test extends PureComponent {
   handleSave = (state, image, done) => {
     if (painterro) {
       if (state.title !== '' && state.comment !== '') {
+        const url = window.location.protocol === 'https:' ?
+        'https://docs.ih-systems.com:40001/bug-report' : 'https://docs.ih-systems.com:40000/bug-report'
         window
-          .fetch('http://docs.ih-systems.com:40000/bug-report', {
+          .fetch(url, {
             headers: {
               'Content-Type': 'application/json;charset=utf-8'
             },
