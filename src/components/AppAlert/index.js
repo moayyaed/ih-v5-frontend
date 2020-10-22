@@ -76,6 +76,8 @@ class AppAlert extends Component {
   render() {
     return (
       <Dialog
+        fullWidth
+        maxWidth="sm"
         open={this.state.open}
         onClose={this.handleClose}
       >
