@@ -35,12 +35,11 @@ const styles = {
 function App(props) {
   return (
     <>
-      
       <YMInitializer accounts={[68453362]} options={{ webvisor: true, clickmap:true }} version="2"/>
       <AppDialog />
       <AppAlert />
       <AppProgress />
-      <AppBar menuid={props.route.menuid} />
+      <AppBar menuid={props.route.menuid} network={props.network} />
       <div className="container">
         <AppMenu />
         <div style={styles.box}>

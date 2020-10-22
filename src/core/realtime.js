@@ -32,6 +32,7 @@ function startWebSocketTunnel() {
 }
 
 function openTunnel() {
+  core.actions.app.network(true);
   if (core.restart) {
     core.actions.app.restart(false);
     core.actions.app.alertClose(false)
@@ -73,6 +74,7 @@ function errorTunnel() {
 
 function closeTunnel() {
   if (!realtime.clear) {
+    core.actions.app.network(false);
     realtime.timer = setTimeout(startWebSocketTunnel, 2000);
   }
 }

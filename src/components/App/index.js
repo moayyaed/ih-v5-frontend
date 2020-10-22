@@ -18,9 +18,9 @@ const history = createBrowserHistory();
 
 function getPage(state, layoutId) {
   if (state.auth === false) {
-    return React.createElement(core.options.pages.login, { route: state.route, layoutId })
+    return React.createElement(core.options.pages.login, { route: state.route, network: state.network, layoutId })
   }
-  return React.createElement(core.options.pages.main, { route: state.route, layoutId })
+  return React.createElement(core.options.pages.main, { route: state.route, network: state.network, layoutId })
 }
 
 
@@ -95,8 +95,7 @@ class App extends Component {
 
   }
 
-  render({ alert, route, restart } = this.props.state) {
-    console.log(restart)
+  render({ alert, route, restart, network } = this.props.state) {
     return (
       <>
         <NProgressBar />

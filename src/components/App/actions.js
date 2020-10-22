@@ -1,5 +1,5 @@
 import core from 'core';
-import { APP_SET_DATA, APP_SET_ROUTE, APP_SET_AUTH, APP_ALERT_OPEN, APP_ALERT_CLOSE, APP_DIALOG_RESTART  } from './constants';
+import { APP_SET_DATA, APP_SET_ROUTE, APP_SET_AUTH, APP_ALERT_OPEN, APP_ALERT_CLOSE, APP_DIALOG_RESTART, APP_STATUS_NETWORK } from './constants';
 
 
 export function data(data) {
@@ -50,6 +50,13 @@ export function restart(mode) {
   };
 }
 
+export function network(status) {
+  return {
+    type: APP_STATUS_NETWORK,
+    status,
+  };
+}
+
 
 export default {
   data,
@@ -58,4 +65,5 @@ export default {
   restart,
   alertOpen,
   alertClose,
+  network,
 }

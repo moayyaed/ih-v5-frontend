@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
 import core from 'core';
 
+import { withStyles } from '@material-ui/core/styles';
+
 import icon from 'components/icons';
 
 import SvgIcon from '@material-ui/core/SvgIcon';
 import IconButton from '@material-ui/core/IconButton';
 
+import Divider from '@material-ui/core/Divider';
+import Tooltip from '@material-ui/core/Tooltip';
+
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import PublishIcon from '@material-ui/icons/Publish';
 import AdbIcon from '@material-ui/icons/Adb';
+import WifiIcon from '@material-ui/icons/Wifi';
+import WifiOffIcon from '@material-ui/icons/WifiOff';
 
 import SnapForm from './SnapForm';
 
@@ -54,11 +61,26 @@ const styles = {
     color: '#64b4d7',
     fontSize: 40,
   },
+  icon2: { 
+    color: '#F44336'
+  },
   button: {
     marginRight: 12,
     color: '#fafafa',
   },
+  divider: {
+    marginRight: 12,
+  }
 };
+
+const LightTooltip = withStyles((theme) => ({
+  tooltip: {
+    backgroundColor: theme.palette.common.white,
+    color: 'rgba(0, 0, 0, 0.87)',
+    boxShadow: theme.shadows[1],
+    fontSize: 11,
+  },
+}))(Tooltip);
 
 
 function WebIcon(props) {
@@ -256,7 +278,6 @@ function AppBar(props) {
           console.error('oops, something went wrong!', error);
       });
   }
-
   return (
     <>
       { state.open ? <SnapForm state={state} onClose={handleClose} /> : null}
@@ -279,6 +300,18 @@ function AppBar(props) {
           </IconButton>
           <IconButton style={styles.button} size="small" onClick={() => handleClickSettings(props.menuid)}>
             <SettingsIcon style={{ color: props.menuid === 'settings' ? '#03A9F4' : 'unset' }} fontSize="small" />
+          </IconButton>
+          <Divider orientation="vertical" flexItem style={styles.divider} />
+          <IconButton style={styles.button} size="small">
+            {props.network ? 
+              <LightTooltip title="connection established">
+                <WifiIcon fontSize="small" />
+              </LightTooltip> 
+              :
+              <LightTooltip title="connection disconnected">
+                <WifiOffIcon fontSize="small" style={styles.icon2} />
+              </LightTooltip> 
+            }
           </IconButton>
           <IconButton style={styles.button} size="small" onClick={handleClickExit}>
             <ExitToAppIcon fontSize="small" />

@@ -1,4 +1,5 @@
-import { APP_SET_DATA, APP_SET_ROUTE, APP_SET_AUTH, APP_ALERT_OPEN, APP_ALERT_CLOSE, APP_DIALOG_RESTART } from './constants';
+import { render } from 'nprogress';
+import { APP_SET_DATA, APP_SET_ROUTE, APP_SET_AUTH, APP_ALERT_OPEN, APP_ALERT_CLOSE, APP_DIALOG_RESTART, APP_STATUS_NETWORK } from './constants';
 
 
 const defaultState = {
@@ -10,6 +11,7 @@ const defaultState = {
   route: {},
   auth: false,
   restart: false,
+  network: true,
 };
 
 
@@ -35,6 +37,8 @@ function reducer(state = defaultState, action) {
       return { ...state, alert: { ...state.alert, open: false } };
     case APP_DIALOG_RESTART:
       return { ...state, restart: action.mode };
+    case APP_STATUS_NETWORK:
+      return { ...state, network: action.status };
     default:
       return state;
   }
