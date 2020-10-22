@@ -75,6 +75,7 @@ const core = {
     tab: {},
   },
   whois: Bowser.parse(window.navigator.userAgent),
+  restart: false,
 }
 
 

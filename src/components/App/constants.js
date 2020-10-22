@@ -1,7 +1,7 @@
 export const APP_SET_DATA = 'APP_SET_DATA';
 export const APP_SET_ROUTE = 'APP_SET_ROUTE';
 export const APP_SET_AUTH = 'APP_SET_AUTH';
-
+export const APP_DIALOG_RESTART = 'APP_DIALOG_RESTART';
 
 export const APP_ALERT_OPEN = 'APP_ALERT_OPEN';
 export const APP_ALERT_CLOSE = 'APP_ALERT_CLOSE';

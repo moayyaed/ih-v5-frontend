@@ -4,7 +4,9 @@ import core from 'core';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
+import CircularProgress from '@material-ui/core/CircularProgress';
 import NProgressBar from 'components/NProgressBar/NProgressBar';
+import Backdrop from '@material-ui/core/Backdrop';
 
 import Alert from 'components/Alert';
 
@@ -20,6 +22,15 @@ function getPage(state, layoutId) {
   }
   return React.createElement(core.options.pages.main, { route: state.route, layoutId })
 }
+
+
+const styles = {
+  backdrop: {
+    zIndex: 1399,
+    color: '#fff',
+  },
+}
+
 
 class App extends Component {
   componentDidMount() {
@@ -80,10 +91,18 @@ class App extends Component {
     core.actions.app.alertClose();
   }
 
-  render({ alert, route } = this.props.state) {
+  handleCloseBackdrop = () => {
+
+  }
+
+  render({ alert, route, restart } = this.props.state) {
+    console.log(restart)
     return (
       <>
         <NProgressBar />
+        <Backdrop style={styles.backdrop} open={restart} onClick={this.handleCloseBackdrop}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
         <Alert 
           open={alert.open} 
           severity={alert.severity} 

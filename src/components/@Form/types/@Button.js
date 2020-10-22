@@ -30,7 +30,12 @@ function handleClick(props) {
   core
   .request({ method: 'button_command', params, payload: {} })
   .ok(res => {
-    core.actions.app.alertOpen('info', res.message || 'Server will be restarted!');
+    if (props.options.command === 'restart' || res.message !== undefined) {
+      core.actions.app.alertOpen('info', res.message || 'Server will be restarted!');
+    }
+    if (props.options.command === 'restart') {
+      core.actions.app.restart(true);
+    }
   });
 }
 

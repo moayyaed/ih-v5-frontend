@@ -1,4 +1,5 @@
-import { APP_SET_DATA, APP_SET_ROUTE, APP_SET_AUTH, APP_ALERT_OPEN, APP_ALERT_CLOSE  } from './constants';
+import core from 'core';
+import { APP_SET_DATA, APP_SET_ROUTE, APP_SET_AUTH, APP_ALERT_OPEN, APP_ALERT_CLOSE, APP_DIALOG_RESTART  } from './constants';
 
 
 export function data(data) {
@@ -37,11 +38,24 @@ export function alertClose() {
   };
 }
 
+export function restart(mode) {
+  if (mode) {
+    core.restart = true;
+  } else {
+    core.restart = false;
+  }
+  return {
+    type: APP_DIALOG_RESTART,
+    mode,
+  };
+}
+
 
 export default {
   data,
   route,
   auth,
+  restart,
   alertOpen,
   alertClose,
 }

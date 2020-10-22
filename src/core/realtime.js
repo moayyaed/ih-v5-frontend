@@ -32,6 +32,10 @@ function startWebSocketTunnel() {
 }
 
 function openTunnel() {
+  if (core.restart) {
+    core.actions.app.restart(false);
+    core.actions.app.alertClose(false)
+  }
   Object
     .keys(realtime.tasks)
     .forEach(key => {
