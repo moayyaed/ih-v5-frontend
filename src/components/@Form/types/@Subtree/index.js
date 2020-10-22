@@ -609,8 +609,27 @@ class Subtree extends PureComponent {
     const type = item.node.children !== undefined ? 'parent' : 'child';
     const pos = { left: e.clientX, top: e.clientY };
 
-    const title = `Delete ${item.node.children ? 'Folder' : 'File'}`;
-    const message = `Are you sure you want to delete this item ?\r\n\r\n❌   ${item.node.title}`;
+    const selects = this.state.selects;
+    let files = ''
+    if (selects.data[item.node.id]) {
+      const temp = Object.keys(selects.data);
+      if (temp.length > 5) {
+        files = temp
+        .slice(0, 5)
+        .map(key => ` ❌   ${selects.data[key].title}`)
+        .join('\r\n') + `\r\n ... и ещё ${temp.length - 5}`;
+      } else {
+        files = temp
+          .map(key => ` ❌   ${selects.data[key].title}`)
+          .join('\r\n');
+      }
+    } else {
+      files = ` ❌   ${item.node.title}`;
+    }
+  
+    const title = 'Подтверждение удаления';
+    const message = `Вы действительно хотите удалить?\r\n\r\n${files}`;
+
 
     const disabled = { disablePaste: this.props.route.nodeid !== core.buffer.type };
     const commands = {
