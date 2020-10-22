@@ -35,7 +35,8 @@ function openTunnel() {
   core.actions.app.network(true);
   if (core.restart) {
     core.actions.app.restart(false);
-    core.actions.app.alertClose(false)
+    core.actions.app.alertClose(false);
+    document.location.reload();
   }
   Object
     .keys(realtime.tasks)
