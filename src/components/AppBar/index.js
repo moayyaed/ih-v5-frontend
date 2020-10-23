@@ -72,6 +72,17 @@ const styles = {
     marginRight: 12,
   }
 };
+
+
+const LightTooltip = withStyles((theme) => ({
+  tooltip: {
+    backgroundColor: theme.palette.common.white,
+    color: 'rgba(0, 0, 0, 0.87)',
+    boxShadow: theme.shadows[1],
+    fontSize: 11,
+  },
+}))(Tooltip);
+
 //     color: 'rgba(0, 0, 0, 0.87)',
 const TooltipGood = withStyles((theme) => ({
   tooltip: {
@@ -296,18 +307,27 @@ function AppBar(props) {
           </IconButton>
         </div>
         <div style={styles.container}>
-          <IconButton style={styles.button} size="small" onClick={() => handleUpload(props)}>
-            <PublishIcon fontSize="small" />
-          </IconButton>
-          <IconButton style={styles.button} size="small" onClick={handleSnap}>
-            <AdbIcon fontSize="small" />
-          </IconButton>
-          <IconButton style={styles.button} size="small" onClick={handleClickUserInterface}>
-            <WebIcon fontSize="small" />
-          </IconButton>
-          <IconButton style={styles.button} size="small" onClick={() => handleClickSettings(props.menuid)}>
-            <SettingsIcon style={{ color: props.menuid === 'settings' ? '#03A9F4' : 'unset' }} fontSize="small" />
-          </IconButton>
+
+          <LightTooltip title="upload packet">
+            <IconButton style={styles.button} size="small" onClick={() => handleUpload(props)}>
+              <PublishIcon fontSize="small" />
+            </IconButton>
+          </LightTooltip>
+          <LightTooltip title="bug report">
+            <IconButton style={styles.button} size="small" onClick={handleSnap}>
+              <AdbIcon fontSize="small" />
+            </IconButton>
+          </LightTooltip>
+          <LightTooltip title="user interface">
+            <IconButton style={styles.button} size="small" onClick={handleClickUserInterface}>
+              <WebIcon fontSize="small" />
+            </IconButton>
+          </LightTooltip>
+          <LightTooltip title="server settings">
+            <IconButton style={styles.button} size="small" onClick={() => handleClickSettings(props.menuid)}>
+              <SettingsIcon style={{ color: props.menuid === 'settings' ? '#03A9F4' : 'unset' }} fontSize="small" />
+            </IconButton>
+          </LightTooltip>
           <Divider orientation="vertical" flexItem style={styles.divider} />
           <IconButton style={styles.button} size="small">
             {props.network ? 
@@ -320,9 +340,11 @@ function AppBar(props) {
               </TooltipBad> 
             }
           </IconButton>
-          <IconButton style={styles.button} size="small" onClick={handleClickExit}>
-            <ExitToAppIcon fontSize="small" />
-          </IconButton>
+          <LightTooltip title="exit">
+            <IconButton style={styles.button} size="small" onClick={handleClickExit}>
+              <ExitToAppIcon fontSize="small" />
+            </IconButton>
+          </LightTooltip>
         </div>
       </div>
     </>
