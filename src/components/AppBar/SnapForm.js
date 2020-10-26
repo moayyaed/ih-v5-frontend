@@ -137,7 +137,7 @@ class Test extends PureComponent {
     painterro = Painterro({ 
       id: 'canvas-report',
       hiddenTools: ['close', 'open', 'settings', 'resize'],
-      saveHandler: (image, done) => this.handleSave(this.props.state, image, done),
+      saveHandler: (image, done) => this.handleSave(this.props.state, image, this.props.info, done),
     }).show(this.props.img)
   }
 
@@ -145,7 +145,7 @@ class Test extends PureComponent {
     painterro = null;
   }
 
-  handleSave = (state, image, done) => {
+  handleSave = (state, image, info, done) => {
     if (painterro) {
       if (state.title !== '' && state.comment !== '') {
         const url = window.location.protocol === 'https:' ?
@@ -156,8 +156,9 @@ class Test extends PureComponent {
               'Content-Type': 'application/json;charset=utf-8'
             },
             body: JSON.stringify({ 
-              ...state,
-              userAgent: getInfo(core.whois),
+              title: state.title,
+              comment: state.comment,
+              userAgent: getInfo({ ...core.whois, ...info }),
               img: image.asDataURL() 
             }),
             method: 'POST',
@@ -230,7 +231,7 @@ function SnapForm(props) {
               (
                 <>
                   <div id="canvas-report" style={styles.img2} />
-                  <Test img={props.state.data} state={state} onClose={props.onClose} />
+                  <Test img={props.state.data} info={props.state.info} state={state} onClose={props.onClose} />
                 </>
               ) 
                 :

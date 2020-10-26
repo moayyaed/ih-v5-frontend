@@ -270,15 +270,19 @@ function handleClickExit() {
   window.location.href = "/admin";
 }
 
+function filter(node) {
+  return node.className !== 'MuiDialog-root';
+}
+
 function AppBar(props) {
-  const [state, setState] = useState({ open: false, data: null });
+  const [state, setState] = useState({ open: false, data: null, info: {} });
 
   const handleClose = () => {
-    setState({ open: false, data: null });
+    setState({ open: false, data: null, info: {} });
   }
 
   const handleSnap = () => {
-    setState({ open: true, data: null });
+    setState({ open: true, data: null, info: {} });
     /*
     html2canvas(document.body, { 
       foreignObjectRendering: false, 
@@ -288,9 +292,14 @@ function AppBar(props) {
         setState({ open: true, data: canvas.toDataURL() });
       });
       */
-     domtoimage.toPng(document.body)
+     domtoimage.toPng(document.body, { filter })
       .then(function (dataUrl) {
-        setState({ open: true, data: dataUrl });
+        window
+          .fetch('/api/info', { headers: { token: core.cache.token } })
+          .then(res => res.json())
+          .then(info => {
+            setState({ open: true, data: dataUrl, info: info.response ? info.data : {} });
+          })
       })
       .catch(function (error) {
           console.error('oops, something went wrong!', error);
