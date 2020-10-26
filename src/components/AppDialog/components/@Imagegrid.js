@@ -104,27 +104,30 @@ class Imagegrid extends Component {
           folder: state.component.select.folder !== undefined ? state.component.select.folder : state.template.selectnodeid, 
           value: state.component.select.value !== undefined ? state.component.select.value : state.template.selectId, 
         }
-        const index = res.data.findIndex(i => i === select.value)
+        if (res.data.length) {
+          const index = res.data.findIndex(i => i === select.value)
 
-        core.actions.appdialog.component({ res:1, list: res.data, select });
-
-        const p = document.body.clientWidth / 100 * 2;
-        const w = this.link.container.offsetWidth - 24 - 24;
-        let e = Math.floor(w / 150)
-        const p2 = (e - 1) * p;
-        const s = (w - p2) / e;
+          core.actions.appdialog.component({ res:1, list: res.data, select });
+  
+          const p = document.body.clientWidth / 100 * 2;
+          const w = this.link.container.offsetWidth - 24 - 24;
+          let e = Math.floor(w / 150)
+          const p2 = (e - 1) * p;
+          const s = (w - p2) / e;
+          
+          if (s >= 140) {
+  
+          } else {
+            e = e - 1;
+          }
         
-        if (s >= 140) {
-
+          if (this.link && index !== -1) {
+            const r = Math.ceil((index + 1) / e) - 1;
+            this.link.scrollTop(r * 170);
+          }
         } else {
-          e = e - 1;
+          core.actions.appdialog.component({ res:1, list: res.data });
         }
-      
-        if (this.link && index !== -1) {
-          const r = Math.ceil((index + 1) / e) - 1;
-          this.link.scrollTop(r * 170);
-        }
-
       });
   }
 
