@@ -116,7 +116,7 @@ const TEXT = {
 }
 
 const IMAGE = {
-  img: { folder: 'imgsystem', value: 'noimg.svg' },
+  img: { folder: 'imgsystem', value: 'noimage.svg' },
   imgColor: { 
     type: 'fill', 
     value: 'transparent', 
@@ -166,7 +166,7 @@ const TEXT_IMAGE = {
   textAlignV: { value: { id: 'center', title: 'Center' } },
   textRotate: { value: 0 },
   textColor: { value: 'rgba(0,0,0,1)' },
-  img: { folder: 'imgsystem', value: 'noimg.svg' },
+  img: { folder: 'imgsystem', value: 'noimage.svg' },
   imgColor: { value: 'transparent' },
   imgSize: { value: 0 },
   imgRotate: { value: 0 },
@@ -214,7 +214,7 @@ const BUTTON = {
   textAlignV: { value: { id: 'center', title: 'Center' } },
   textRotate: { value: 0 },
   textColor: { value: 'rgba(0,0,0,1)' },
-  img: { folder: 'imgsystem', value: 'noimg.svg' },
+  img: { folder: 'imgsystem', value: 'noimage.svg' },
   imgColor: { value: 'transparent' },
   imgSize: { value: 0 },
   imgRotate: { value: 0 },
