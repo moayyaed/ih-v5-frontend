@@ -4,6 +4,8 @@ import core from 'core';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
+import AppHelp from 'components/AppHelp';
+
 
 const styles = {
   root: {
@@ -67,7 +69,7 @@ function AppPage(props) {
       </div>
     );
   }
-  return null;
+  return <AppHelp />;
 }
 
 
