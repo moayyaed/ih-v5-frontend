@@ -69,7 +69,7 @@ function AppPage(props) {
       </div>
     );
   }
-  return <AppHelp />;
+  return <AppHelp id={props.route.menuid} />;
 }
 
 
