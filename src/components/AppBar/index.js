@@ -17,6 +17,7 @@ import PublishIcon from '@material-ui/icons/Publish';
 import AdbIcon from '@material-ui/icons/Adb';
 import WifiIcon from '@material-ui/icons/Wifi';
 import WifiOffIcon from '@material-ui/icons/WifiOff';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 
 import SnapForm from './SnapForm';
 
@@ -270,6 +271,19 @@ function handleClickExit() {
   window.location.href = "/admin";
 }
 
+function handleClickHelp() {
+  const store = core.store.getState().app;
+  const lang = core.session.lang || 'ru';
+  
+  if (store.route.tab) {
+    window.open(`https://docs.ih-systems.com/${lang}_${store.route.tab}`, '_blank');
+  } else if (store.route.menuid) {
+    window.open(`https://docs.ih-systems.com/${lang}_${store.route.menuid}`, '_blank');
+  } else {
+    window.open('https://docs.ih-systems.com', '_blank');
+  }
+}
+
 function filter(node) {
   return node.className !== 'MuiDialog-root';
 }
@@ -338,6 +352,11 @@ function AppBar(props) {
             </IconButton>
           </LightTooltip>
           <Divider orientation="vertical" flexItem style={styles.divider} />
+          <LightTooltip title="help">
+            <IconButton style={styles.button} size="small" onClick={handleClickHelp}>
+              <HelpOutlineIcon fontSize="small" />
+            </IconButton>
+          </LightTooltip>
           <IconButton style={styles.button} size="small">
             {props.network ? 
               <TooltipGood title="connection established">

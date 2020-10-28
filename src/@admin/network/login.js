@@ -19,6 +19,7 @@ core.network.request('login', (send, context) => {
 
 
 core.network.response('login', (answer, res, context) => {
+  core.session = res;
   if (res.token) {
     core.cache.token = res.token;
     
