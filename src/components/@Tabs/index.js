@@ -192,7 +192,7 @@ class ComponentTabs extends Component {
           breadcrumbs={state.data ? state.data.breadcrumbs : []}
           onClick={this.handleToolbarClick}
         />
-        <Scrollbars style={{ width: '100%', height: 'calc(100% - 71px)', backgroundColor: '#f5f5f5' }}>
+        <Scrollbars style={{ width: '100%', height: 'calc(100% - 69px)', backgroundColor: '#f5f5f5' }}>
           <div style={{ padding: 20, paddingTop: 0 }} >
             <Content 
               key={`content_${route.nodeid}_${route.tab}`}

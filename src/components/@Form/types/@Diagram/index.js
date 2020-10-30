@@ -168,7 +168,7 @@ class Diagram extends PureComponent {
   }
 
   renderComponent = (id) => {
-    if (id === 'sheet' && this.props.data.settings) {
+    if (id === 'sheet') {
       return (
         <Sheet
           id={this.props.id}
