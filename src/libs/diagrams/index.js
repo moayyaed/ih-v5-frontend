@@ -152,6 +152,10 @@ class Diagrams extends Component {
     }
   }
 
+  handleContextMenu = (e) => {
+    this.props.onContextMenuClick(e);
+  }
+
   handleStopDrag = (e) => {
     this.props.onStopDrag(e);
     return true;
@@ -163,7 +167,13 @@ class Diagrams extends Component {
 
   render() {
     return (
-      <div onClick={this.handleBodyClick} onDrop={this.props.onDrop} onDragOver={e => e.preventDefault()} style={{ width: '100%', height: '100%', position: 'relative' }}>
+      <div 
+        onClick={this.handleBodyClick}
+        onContextMenu={this.handleContextMenu} 
+        onDrop={this.props.onDrop} 
+        onDragOver={e => e.preventDefault()} 
+        style={{ width: '100%', height: '100%', position: 'relative' }}
+      >
         <$DiagramWidget
           ref={this.linked}
           actionStoppedFiring={this.handleStopDrag}
