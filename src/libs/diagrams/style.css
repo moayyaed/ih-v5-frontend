@@ -1,0 +1,125 @@
+.srd-ih-canvas{
+  background-color: #FFF !important;
+      background-size: 50px 50px;
+      height: 100%;
+}
+
+.srd-default-node__title {
+  flex-shrink: 0;
+  font-weight: bold;
+}
+
+.srd-default-node__ports {
+  position: relative;
+  background-image: none!important;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.srd-default-node  {
+  display: flex;
+  flex-direction: column;
+  border: solid 1px rgba(0, 0, 0, 0.5);
+}
+
+.srd-port {
+    width: 13px;
+    height: 13px;
+    background: #202020;
+    border-radius: 100%;
+    border: 3px solid #777777;
+    margin: 2px;
+}
+
+.srd-default-link path {
+  stroke: hsla(0, 0%, 0%, 0.5);
+}
+
+.port-link {
+  background: #9e9e9e;
+}
+
+.srd-default-link--path-selected {
+  animation-direction: reverse;
+}
+
+.srd-default-link__point {
+    fill: rgba(158, 158, 158, 0.7);
+}
+
+.srd-default-node__body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.2));
+}
+
+.srd-default-node__textcenter_0 {
+  font-size: 16px;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  font-weight: bold;
+}
+
+.srd-default-node__textcenter_1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.text_body {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.srd-default-node__name {
+  flex-grow: 1;
+  text-align: center;
+  height: 12px;
+  font-size: 14px;
+  padding: 0px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.srd-default-node__name2 {
+  flex-grow: 1;
+  text-align: center;
+  height: 12px;
+  font-size: 14px;
+  padding: 0px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.srd-node--selected>* {
+  border: solid 2px #1e1e1e !important;
+}
+
+.srd-default-link--point-selected {
+    fill: #00c0ff!important;
+}
+
+.srd-default-port {
+  margin-top: 0px;
+}
+
+.srd-default-node__in {
+  z-index: 2;
+}
+
+.srd-default-node__out {
+  z-index: 2;
+}

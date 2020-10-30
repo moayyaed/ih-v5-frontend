@@ -31,6 +31,7 @@ import Button from './@Button';
 import SmartButton from './@SmartButton';
 import Table from './@Table';
 import Code from './@Code';
+import Diagram from './@Diagram';
 import Script from './@Script';
 import Subtree from './@Subtree';
 
@@ -97,7 +98,7 @@ function getComponentByType(type) {
     case 'button':
       return Button;
     case 'code':
-      return Code;
+      return Diagram || Code;
     case 'script':
       return Script;
     case 'pluginform1':

@@ -1,0 +1,20 @@
+.property .mosaic-window-title {
+  display: none;
+}
+
+.toolbar .mosaic-window-title {
+  display: none;
+}
+
+
+.MuiTreeItem-root .MuiTreeItem-label {
+  background-color: unset!important;
+}
+
+.Mui-selected> .MuiTreeItem-content .MuiTreeItem-label {
+  background-color: unset!important;
+  font-weight: 600;
+  color: #01579B;
+}
+
+
