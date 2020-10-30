@@ -105,6 +105,7 @@ class AppLayout extends Component {
             zIndex: item.zIndex.value,
             overflow: item.overflow && item.overflow.value ? 'hidden' : 'unset',
             animation: item.animation && item.animation.active ? item.animation.value : 'unset',
+            visibility: item.visible && item.visible.value == false ? 'hidden' : 'unset',
           }}
         >
           {item.elements.map(cid => this.handleRender(cid, this.props.state.layout.elements[cid], scaleW, scaleH))}
