@@ -19,6 +19,7 @@ class Template extends PureComponent {
             opacity: item.opacity.value / 100,
             animation: item.animation && item.animation.active ? item.animation.value : 'unset',
             overflow: item.overflow && item.item.overflow.value ? 'hidden' : 'unset',
+            visibility: item.visible && item.visible.value == false ? 'hidden' : 'unset',
           }}
         >
           {item.elements.map(cid => this.handleRender(cid, this.props.item.elements ? this.props.item.elements[cid] : this.props.template.elements[cid]))}

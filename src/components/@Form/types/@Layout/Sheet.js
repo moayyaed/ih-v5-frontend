@@ -586,6 +586,7 @@ class Sheet extends Component {
             opacity: item.opacity.value / 100,
             animation: item.animation && item.animation.active ? item.animation.value : 'unset',
             overflow: item.overflow && item.overflow.value ? 'hidden' : 'unset',
+            visibility: item.visible && item.visible.value == false ? 'hidden' : 'unset',
           }}
         >
           {item.elements.map(id => 

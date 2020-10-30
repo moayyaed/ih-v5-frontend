@@ -413,7 +413,7 @@ const templateSettings = {
     },
     {
       title: 'Visible',
-      props: 'visible',
+      prop: 'visible',
       type: 'cb',
     }
   ],
@@ -480,7 +480,7 @@ const groupSettings = {
     },
     {
       title: 'Visible',
-      props: 'visible',
+      prop: 'visible',
       type: 'cb',
     }
   ],
@@ -547,7 +547,7 @@ const containerSettings = {
     },
     {
       title: 'Visible',
-      props: 'visible',
+      prop: 'visible',
       type: 'cb',
     }
   ],
