@@ -1,6 +1,10 @@
 import React, { PureComponent } from 'react';
+import core from 'core';
 
 import elemets from 'components/@Elements';
+
+const method = window.document.body.style.zoom === undefined;
+
 
 class Template extends PureComponent {
 
@@ -55,7 +59,9 @@ class Template extends PureComponent {
           position: 'absolute', 
           width: '100%', 
           height: '100%',
-          zoom: this.props.item.w.value / this.props.template.settings.w.value,
+          transform: method ? `scale(${this.props.item.w.value / this.props.template.settings.w.value})` : 'unset',
+          transformOrigin: method ? '0 0' : 'unset',
+          zoom: method ? 'unset' : this.props.item.w.value / this.props.template.settings.w.value,
           opacity: this.props.item.opacity.value / 100,
           // animation: this.props.item.animation && this.props.item.animation.active ? this.props.item.animation.value : 'unset',
           overflow: this.props.item.overflow && this.props.item.overflow.value ? 'hidden' : 'unset',

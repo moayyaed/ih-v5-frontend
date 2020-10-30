@@ -3,6 +3,8 @@ import React, { Component, PureComponent } from 'react';
 import Scrollbars2 from 'libs/Scrllbars2';
 import elemets from 'components/@Elements';
 
+const method = window.document.body.style.zoom === undefined;
+
 
 function getScale(item, settings, scaleW, scaleH) {
   if (settings.fitW.value && settings.fitH.value) {
@@ -120,7 +122,9 @@ class Container extends PureComponent {
                 position: 'relative', 
                 width: this.props.container.settings.w.value, 
                 height: this.props.container.settings.h.value,
-                zoom: scale,
+                transform: method ? `scale(${scale})` : 'unset',
+                // transformOrigin: method ? '0 0' : 'unset',
+                zoom:  scale,
                 flexShrink: 0,
               }}
             >

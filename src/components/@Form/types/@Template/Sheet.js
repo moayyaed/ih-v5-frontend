@@ -12,7 +12,7 @@ import Menu from 'components/Menu';
 import elemets from 'components/@Elements';
 import getDefaultParamsElement from 'components/@Elements/default';
 
-const method2 = !(core.whois.browser.name === 'Chrome' || core.whois.browser.name === 'Safari')
+const method2 = window.document.body.style.zoom === undefined;
 
 const styles = {
   root: {
