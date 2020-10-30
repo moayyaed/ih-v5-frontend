@@ -338,7 +338,7 @@ class Subtree extends PureComponent {
               data={state.data}
               cache={state.cache}
               onChange={this.handleChangeForm}
-              heightOffset={268}
+              heightOffset={230}
             />
           </div>
         </Scrollbars>
