@@ -212,3 +212,7 @@ input.core:focus {
 .bp3-button {
   width: 30px!important;
 }
+
+.MuiTabScrollButton-root.Mui-disabled {
+  display: none;
+}

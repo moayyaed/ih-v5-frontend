@@ -176,7 +176,13 @@ class ComponentTabs extends Component {
   render({ debug, route, scheme, state } = this.props) {
     return (
       <>
-        <Tabs value={route.tab} onChange={this.handleClickTab} >
+        <Tabs 
+          variant="scrollable" 
+          scrollButtons="auto" 
+          value={route.tab} 
+          onChange={this.handleClickTab}
+          style={{ paddingRight: 200 }}
+        >
           {scheme.tabs.map(i => <Tab key={i.id} value={i.id} label={i.title} />)}
         </Tabs>
         <Toolbar
