@@ -581,6 +581,55 @@ class Sheet extends Component {
           },
         }
       );
+      core.actions.dialog
+      .data(
+        this.props.id, this.props.prop,
+        { 
+          list: this.props.list.concat(clone.list),
+          elements: {
+            ...this.props.elements,
+            ...elements,
+          },
+        }
+      );
+    if (clone.list.length) {
+      if (clone.list.length > 1) {
+        const selects = clone.list.slice(1).reduce((p, c) => ({ ...p, [c]: true }), {});
+        const elementId = clone.list[0];
+        const data = { 
+          x: { value: Infinity }, 
+          y: { value: Infinity }, 
+          w: { value: 0 }, 
+          h: { value: 0 }, 
+          zIndex: { value: 0 } 
+        };
+        Object
+          .keys({ ...selects, [elementId]: true })
+          .forEach(key => {
+            const element = elements[key];
+            data.x.value = Math.min(data.x.value, element.x.value);
+            data.y.value = Math.min(data.y.value, element.y.value); 
+            data.w.value = Math.max(data.w.value, element.x.value + element.w.value); 
+            data.h.value = Math.max(data.h.value, element.y.value + element.h.value); 
+            data.zIndex.value = Math.max(data.zIndex.value, element.zIndex.value); 
+          });
+        data.w.value = data.w.value - data.x.value;
+        data.h.value = data.h.value - data.y.value;
+        core.actions.container
+          .data(this.props.id, this.props.prop, { selects });
+        core.actions.container
+          .selectSome(
+            this.props.id, this.props.prop,
+            elementId, data
+          );
+      } else {
+        core.actions.container
+          .select(
+            this.props.id, this.props.prop,
+            clone.list[0],
+          );
+      }
+    }
     this.props.save();
   }
 
