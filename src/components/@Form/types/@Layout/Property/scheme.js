@@ -99,8 +99,8 @@ const decorationSection = [
     max: 100,
   },
   {
-    title: 'Visable',
-    prop: 'visable',
+    title: 'Visible',
+    prop: 'visible',
     type: 'cb',
   }
 ];
@@ -412,8 +412,8 @@ const templateSettings = {
       max: 100,
     },
     {
-      title: 'Visable',
-      props: 'visable',
+      title: 'Visible',
+      props: 'visible',
       type: 'cb',
     }
   ],
@@ -479,8 +479,8 @@ const groupSettings = {
       max: 100,
     },
     {
-      title: 'Visable',
-      props: 'visable',
+      title: 'Visible',
+      props: 'visible',
       type: 'cb',
     }
   ],
@@ -546,8 +546,8 @@ const containerSettings = {
       max: 100,
     },
     {
-      title: 'Visable',
-      props: 'visable',
+      title: 'Visible',
+      props: 'visible',
       type: 'cb',
     }
   ],

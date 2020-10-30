@@ -339,7 +339,7 @@ class Button extends PureComponent {
         <ButtonBase 
           ref={this.linked} 
           centerRipple 
-          style={{ ...styles.user, color: this.props.item.colorRipple.value }}
+          style={{ ...styles.user, color: this.props.item.colorRipple.value, visibility: this.props.item.visible && this.props.item.visible.value == false ? 'hidden' : 'unset', }}
           onContextMenu={this.handleContextMenu}
         >
           {React.createElement(ButtonEgine, this.props)}

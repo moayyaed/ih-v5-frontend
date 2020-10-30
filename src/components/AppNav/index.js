@@ -269,6 +269,7 @@ class AppNav extends Component {
   handleContextMenuBody = (e) => {
     e.preventDefault();
     e.stopPropagation();
+    /*
 
     const pos = { left: e.clientX, top: e.clientY };
     const scheme = {
@@ -279,6 +280,7 @@ class AppNav extends Component {
     }
 
     ContextMenu.show(<Menu scheme={scheme} />, pos);
+    */
   }
 
   handleClickBody = (e) => {

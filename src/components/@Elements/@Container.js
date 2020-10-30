@@ -95,6 +95,7 @@ class Container extends PureComponent {
           backgroundImage:  `url(${encodeURI(src)})${color}`,
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
+          visibility: this.props.item.visible && this.props.item.visible.value == false ? 'hidden' : 'unset',
         }}
       >
         <Scrollbars2

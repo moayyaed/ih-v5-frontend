@@ -71,6 +71,7 @@ function Image(props) {
         transform: transform(props.item),
         // animation: props.item.animation.active ? props.item.animation.value : 'unset',
         overflow: props.item.overflow && props.item.overflow.value ? 'hidden' : 'unset',
+        visibility: props.item.visible && props.item.visible.value == false ? 'hidden' : 'unset',
       }}
     >
       <div

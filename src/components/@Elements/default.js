@@ -21,7 +21,7 @@ const BLOCK = {
   boxShadow: { active: false, value: '2px 2px 4px 0px #000000' },
   zIndex: { value: 100 },
   opacity: { value: 100 },
-  visable: { value: true },
+  visible: { value: true },
   overflow: { value: true },
 }
 
@@ -48,7 +48,7 @@ const RECTANGLE = {
   boxShadow: { active: false, value: '2px 2px 4px 0px #000000' },
   zIndex: { value: 100 },
   opacity: { value: 100 },
-  visable: { value: true },
+  visible: { value: true },
   overflow: { value: true },
 }
 
@@ -75,7 +75,7 @@ const CIRCLE = {
   boxShadow: { active: false, value: '2px 2px 4px 0px #000000' },
   zIndex: { value: 100 },
   opacity: { value: 100 },
-  visable: { value: true },
+  visible: { value: true },
   overflow: { value: true },
 }
 
@@ -111,7 +111,7 @@ const TEXT = {
   boxShadow: { active: false, value: '2px 2px 4px 0px #000000' },
   zIndex: { value: 100 },
   opacity: { value: 100 },
-  visable: { value: true },
+  visible: { value: true },
   overflow: { value: true },
 }
 
@@ -152,7 +152,7 @@ const IMAGE = {
   boxShadow: { active: false, value: '2px 2px 4px 0px #000000' },
   zIndex: { value: 100 },
   opacity: { value: 100 },
-  visable: { value: true },
+  visible: { value: true },
   overflow: { value: true },
 }
 
@@ -200,7 +200,7 @@ const TEXT_IMAGE = {
   boxShadow: { active: false, value: '2px 2px 4px 0px #000000' },
   zIndex: { value: 100 },
   opacity: { value: 100 },
-  visable: { value: true },
+  visible: { value: true },
   overflow: { value: true },
 }
 
@@ -240,7 +240,7 @@ const BUTTON = {
   boxShadow: { active: false, value: '2px 2px 4px 0px #000000' },
   zIndex: { value: 100 },
   opacity: { value: 100 },
-  visable: { value: true },
+  visible: { value: true },
   overflow: { value: true },
   colorRipple: { value: 'rgba(255,255,255,1)' },
   colorHover: { value: 'rgba(0,0,0,0.2)' },
@@ -295,7 +295,7 @@ const ACTION2 = {
 const GROUP = {
   zIndex: { value: 100 },
   opacity: { value: 100 },
-  visable: { value: true },
+  visible: { value: true },
   overflow: { value: true },
 }
 
@@ -303,7 +303,7 @@ const TEMPLATE = {
   animation: {},
   zIndex: { value: 100 },
   opacity: { value: 100 },
-  visable: { value: true },
+  visible: { value: true },
   overflow: { value: true },
 }
 

@@ -62,6 +62,7 @@ class Template extends PureComponent {
           backgroundImage:  `url(${encodeURI(src)})${color}`,
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
+          visibility: this.props.item.visible && this.props.item.visible.value == false ? 'hidden' : 'unset',
         }}
       >
         <div style={{ width: '100%', height: '100%', background: this.props.template.settings.overlayColor.value }}>
