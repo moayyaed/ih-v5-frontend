@@ -466,14 +466,16 @@ class Sheet extends Component {
       const groupId = getIdElement(0, 'group', this.props.elements);
       let x = { value: Infinity }, y = { value: Infinity }, w = { value: 0 }, h = { value: 0 };
       Object
-        .keys(this.props.selects)
+        .keys(this.props.elements)
         .forEach(key => {
-          const element = this.props.elements[key];
-          x.value = Math.min(x.value, element.x.value);
-          y.value = Math.min(y.value, element.y.value); 
-          w.value = Math.max(w.value, element.x.value + element.w.value); 
-          h.value = Math.max(h.value, element.y.value + element.h.value); 
-          list.push(key) 
+          if (this.props.selects[key]) {
+            const element = this.props.elements[key];
+            x.value = Math.min(x.value, element.x.value);
+            y.value = Math.min(y.value, element.y.value); 
+            w.value = Math.max(w.value, element.x.value + element.w.value); 
+            h.value = Math.max(h.value, element.y.value + element.h.value); 
+            list.push(key) 
+          }
         });
       const params = getDefaultParamsElement('group');
       const groupData = { 
