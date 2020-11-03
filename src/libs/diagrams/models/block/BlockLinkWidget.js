@@ -19,7 +19,6 @@ class $BlockLinkWidget extends DefaultLinkWidget {
 
   addPointToLink = (event, index): void => {
     if (event.ctrlKey === false) {
-      console.log(this.props.diagramEngine.diagramModel)
       this.props.diagramEngine.diagramModel.selectLinkEvent();
     }
 

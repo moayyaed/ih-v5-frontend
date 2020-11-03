@@ -153,7 +153,7 @@ class Diagrams extends Component {
   }
 
   handleContextMenu = (e) => {
-    this.props.onContextMenuClick(e);
+    this.props.onContextMenuBodyClick(e);
   }
 
   handleStopDrag = (e) => {
