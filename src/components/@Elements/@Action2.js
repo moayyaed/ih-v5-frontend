@@ -135,6 +135,7 @@ class Action2 extends PureComponent {
           centerRipple 
           style={{ ...styles.user, color: this.props.item.colorRipple.value }}
           onContextMenu={this.handleContextMenu}
+          onFocusVisible={() => {}}
         >
         </ButtonBase>
       )

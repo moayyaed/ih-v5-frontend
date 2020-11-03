@@ -17,12 +17,16 @@ const styles = {
     width: '100%',
     height: '100%',
   },
+  drawer: {
+    backgroundColor: 'transparent',
+  }
 };
 
 const classes = theme => ({
   paper: {
     margin: 0,
     maxWidth: 'unset',
+    backgroundColor: 'transparent',
   }
 });
 
@@ -154,7 +158,7 @@ class AppLayoutDialog extends Component {
     const openDrawer = state.position && state.position !== 'center' && state.open;
     return (
       <>
-        <Drawer anchor={state.position === 'center' ? 'right' : state.position} open={openDrawer} onClose={this.handleClose} >
+        <Drawer PaperProps={{ style: styles.drawer }} anchor={state.position === 'center' ? 'right' : state.position} open={openDrawer} onClose={this.handleClose} >
           {openDrawer ? React.createElement(RenderCore, state): null}
         </Drawer>
         <Dialog 
