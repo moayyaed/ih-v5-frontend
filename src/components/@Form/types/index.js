@@ -98,7 +98,9 @@ function getComponentByType(type) {
     case 'button':
       return Button;
     case 'code':
-      return Diagram || Code;
+      return Code;
+    case 'diagram':
+      return Diagram;
     case 'script':
       return Script;
     case 'pluginform1':
