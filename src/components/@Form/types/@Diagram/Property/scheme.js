@@ -549,20 +549,18 @@ const scheme = {
   ],
   group_command: [
     {
-      disabled: 'class',
       title: 'Класс',
       type: 'text',
       prop: 'class'
     },
     {
-      disabled: 'type',
       title: 'Тип',
       type: 'text',
       prop: 'type'
     },
     {
       title: 'Команда',
-      type: 'autocomplete',
+      type: 'droplist',
       data: [
         {
           id: 'on',
@@ -589,87 +587,71 @@ const scheme = {
     },
     {
       title: 'Подсистемы',
-      type: 'sdroplist',
-      data: {
-        tablename: 'subsystems'
-      },
+      type: 'input',
       prop: 'gr_subs'
     },
     {
       title: 'Уровни',
-      type: 'sdroplist',
-      data: {
-        tablename: 'places'
-      },
+      type: 'input',
       prop: 'gr_place'
     },
     {
       title: 'Зоны',
-      type: 'sdroplist',
-      data: {
-        tablename: 'rooms'
-      },
+      type: 'input',
       prop: 'gr_room'
     },
     {
       title: 'Тип устройства',
-      type: 'sdroplist',
-      data: {
-        tablename: 'types'
-      },
+      type: 'input',
       prop: 'gr_type'
     },
     {
       title: 'Комментарий',
-      type: 'STRING',
+      type: 'input',
       prop: 'comment'
     }
   ],
   os_command: [
     {
-      disabled: 'class',
       title: 'Класс',
       type: 'text',
       prop: 'class'
     },
     {
-      disabled: 'type',
       title: 'Тип',
       type: 'text',
       prop: 'type'
     },
     {
       title: 'Текст',
-      type: 'TEXTAREA',
+      type: 'input',
       prop: 'text'
     },
     {
       title: 'Комментарий',
-      type: 'STRING',
+      type: 'input',
       prop: 'comment'
     }
   ],
   http_command: [
     {
-      disabled: 'class',
       title: 'Класс',
       type: 'text',
       prop: 'class'
     },
     {
-      disabled: 'type',
       title: 'Тип',
       type: 'text',
       prop: 'type'
     },
     {
       title: 'Текст',
-      type: 'TEXTAREA',
+      type: 'input',
       prop: 'text'
     },
     {
       title: 'Комментарий',
-      type: 'STRING',
+      type: 'input',
       prop: 'comment'
     }
   ],
@@ -757,13 +739,11 @@ const scheme = {
   ],
   snap_command: [
     {
-      disabled: 'class',
       title: 'Класс',
       type: 'text',
       prop: 'class'
     },
     {
-      disabled: 'type',
       title: 'Тип',
       type: 'text',
       prop: 'type'
@@ -805,19 +785,17 @@ const scheme = {
     },
     {
       title: 'Комментарий',
-      type: 'STRING',
+      type: 'input',
       prop: 'comment'
     }
   ],
   plugin_command: [
     {
-      disabled: 'class',
       title: 'Класс',
       type: 'text',
       prop: 'class'
     },
     {
-      disabled: 'type',
       title: 'Тип',
       type: 'text',
       prop: 'type'
@@ -899,12 +877,12 @@ const scheme = {
     },
     {
       title: 'Текст',
-      type: 'TEXTAREA',
+      type: 'input',
       prop: 'text'
     },
     {
       title: 'Комментарий',
-      type: 'STRING',
+      type: 'input',
       prop: 'comment'
     }
   ],

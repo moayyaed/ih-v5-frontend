@@ -468,11 +468,11 @@ const components = {
     params: {
       class: 'command',
       type: 'group_command',
-      command: '',
-      gr_subs: '',
-      gr_place: '',
-      gr_room: '',
-      gr_type: '',
+      command: { id: '-', title: '-' },
+      gr_subs: { value: '' },
+      gr_place: { value: '' },
+      gr_room: { value: '' },
+      gr_type: { value: '' },
       style: {
         width: 336,
         height: 70
@@ -501,7 +501,7 @@ const components = {
     params: {
       class: 'command',
       type: 'os_command',
-      text: '',
+      text: { value: ''},
       style: {
         width: 336,
         height: 70
@@ -530,7 +530,7 @@ const components = {
     params: {
       class: 'command',
       type: 'http_command',
-      text: '',
+      text: { value: ''},
       style: {
         width: 336,
         height: 70
@@ -559,9 +559,9 @@ const components = {
     params: {
       class: 'command',
       type: 'info_command',
-      infotype: { id: '', title: ''},
-      usergroup: { id: '', title: ''},
-      user: { id: '', title: ''},
+      infotype: { id: '-', title: '-'},
+      usergroup: { id: '-', title: '-'},
+      user: { id: '-', title: '-'},
       text: { value: ''},
       style: {
         width: 336,
@@ -591,7 +591,7 @@ const components = {
     params: {
       class: 'command',
       type: 'snap_command',
-      camera: '',
+      camera: { id: '-', title: '-' },
       style: {
         width: 336,
         height: 70
@@ -620,8 +620,8 @@ const components = {
     params: {
       class: 'command',
       type: 'plugin_command',
-      unit: '',
-      text: '',
+      unit: { id: '-', title: '-' },
+      text: { value: '' },
       style: {
         width: 336,
         height: 70
