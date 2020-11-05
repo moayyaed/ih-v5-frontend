@@ -62,8 +62,16 @@ class Diagram extends PureComponent {
   state = state;
 
   componentDidMount() {
+    console.log(this.props.data)
     core.transfer.sub('diagram', this.handleTransferData);
-    this.diagrams.load(data);
+    this.diagrams.load({
+      gridSize: 0,
+      offsetX: 0,
+      offsetY: 0,
+      zoom: 100,
+      links: [],
+      nodes: [],
+    });
   }
 
   componentWillUnmount() {
@@ -74,10 +82,15 @@ class Diagram extends PureComponent {
 
   handleTransferData = (button, save, reset) => {
     if (button === 'save') {
-      this.isSave = null;
-      const store = core.store.getState().apppage.data[this.props.id][this.props.options.prop];
+      const data = this.diagrams.getEngine().getDiagramModel().serializeDiagram();
+      Object.keys(data.nodes)
+        .forEach((key) => {
+          delete data.nodes[key].name.render;
+          data.nodes[key].selected = false;
+        });
+      delete data.id;
+      save(data)
     } else {
-      this.isSave = null;
       reset();
     }
   }
@@ -114,7 +127,7 @@ class Diagram extends PureComponent {
       }
     })
     this.diagrams.updateSettings(this.state.select, key, value);
-    // this.save();
+    this.save();
   }
 
   handleChangeValueProperty2 = (key, value) => {
@@ -259,11 +272,19 @@ class Diagram extends PureComponent {
   }
 
   handleSave = () => {
-
+    this.save();
   }
 
-  handleRemoveBS = () => {
-    
+  handleRemoveBS = (e, items) => {
+    if (e.keyCode === 8 && items.length) {
+      this.setState(state => {
+        return {
+          ...state,
+          select: null,
+          property: {},
+        }
+      }, () => this.diagrams.removeBlock(this.props.select));
+    }
   }
 
   link = (e) => {
