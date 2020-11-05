@@ -66,7 +66,7 @@ class Diagram extends PureComponent {
       gridSize: 0,
       offsetX: 0,
       offsetY: 0,
-      zoom: 100,
+      zoom: 85,
       links: [],
       nodes: [],
     });
@@ -279,8 +279,38 @@ class Diagram extends PureComponent {
     ContextMenu.show(<Menu disabled={disabled} commands={commands} scheme={scheme} />, pos);
   }
 
+  handleContextMenuClickLink = (e, item) => {
+    const disabled = {}
+    const commands = {};
+
+    const pos = { left: e.clientX, top: e.clientY };
+    const listElemnts = (data) => {
+      return data.data.map((i, k) => {
+        return { id: k, title: i.name2, click: () => this.handleAddElement(e, i.transfer.type) }
+      })
+    }
+
+    const scheme = {
+      main: [
+        { id: '1', title: 'Add Device', children: listElemnts(menu.tabs.devices) },
+        { id: '2', title: 'Add Operation', children: listElemnts(menu.tabs.operations) },
+        { id: '3', title: 'Add Command', children: listElemnts(menu.tabs.commands) },
+        { id: '4', type: 'divider' },
+        { id: '5', title: 'Delete', click: () => this.handleDeleteLink(item) },
+      ]
+    }
+
+    ContextMenu.show(<Menu disabled={disabled} commands={commands} scheme={scheme} />, pos);
+  }
+
+  handleDeleteLink = (item) => {
+    this.diagrams.removeBlock(item.id);
+    this.save();
+  }
+
   handleDeleteBlock = (item) => {
     this.diagrams.removeBlock(item.id)
+    this.save();
   }
 
   handleDiagramSelect = (item) => {
@@ -325,6 +355,7 @@ class Diagram extends PureComponent {
           onContextMenuBodyClick={this.handleContextMenuBodyClick}
           onDoubleClick={this.handleDiagramDoubleClick}
           onContextMenu={this.handleContextMenuClick}
+          onContextMenuLink={this.handleContextMenuClickLink}
           onSelect={this.handleDiagramSelect}
           onSelectLink={this.handleDiagramSelectLink}
           onStopDrag={this.handleSave}

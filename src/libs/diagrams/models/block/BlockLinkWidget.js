@@ -35,6 +35,73 @@ class $BlockLinkWidget extends DefaultLinkWidget {
     }
   };
 
+	generateLink(path, extraProps, id) {
+		var props = this.props;
+
+		var Bottom = React.cloneElement(
+			(props.diagramEngine.getFactoryForLink(this.props.link)).generateLinkSegment(
+				this.props.link,
+				this,
+				this.state.selected || this.props.link.isSelected(),
+				path
+			),
+			{
+				ref: ref => ref && this.refPaths.push(ref)
+			}
+		);
+
+		var Top = React.cloneElement(Bottom, {
+			...extraProps,
+			strokeLinecap: "round",
+			onMouseLeave: () => {
+				this.setState({ selected: false });
+			},
+			onMouseEnter: () => {
+				this.setState({ selected: true });
+			},
+			ref: null,
+			"data-linkid": this.props.link.getID(),
+			strokeOpacity: this.state.selected ? 0.1 : 0,
+			strokeWidth: 20,
+			onContextMenu: (e) => {
+        let check = true;
+				if (!this.props.diagramEngine.isModelLocked(this.props.link)) {
+          Object
+            .keys(this.props.diagramEngine.diagramModel.nodes)
+            .forEach(key => {
+                Object
+                  .keys(this.props.diagramEngine.diagramModel.nodes[key].ports)
+                  .forEach(key2 => {
+                     Object
+                      .keys(this.props.diagramEngine.diagramModel.nodes[key].ports[key2].links)
+                      .forEach(key3 => {
+                        if (this.props.link.id === this.props.diagramEngine.diagramModel.nodes[key].ports[key2].links[key3].id) {
+                          if (check) {
+                            check = false;
+                            Object.keys(this.props.diagramEngine.diagramModel.nodes[key].listeners)
+                              .forEach(key4 => {
+                                if (this.props.diagramEngine.diagramModel.nodes[key].listeners[key4].contextMenu) {
+                                  this.props.diagramEngine.diagramModel.nodes[key].listeners[key4].contextMenuLink(e, this.props.link);
+                                };
+                              });
+                          }
+                        }
+                      })
+                  })
+              });
+					// this.props.link.remove();
+				}
+			}
+		});
+
+		return (
+			<g key={"link-" + id}>
+				{Bottom}
+				{Top}
+			</g>
+		);
+	}
+
   render() {
     const { diagramEngine } = this.props;
     if (!diagramEngine.nodesRendered) {

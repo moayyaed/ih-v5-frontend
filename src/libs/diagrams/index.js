@@ -36,7 +36,7 @@ engine.installDefaultFactories();
 
 engine.setDiagramModel(new DiagramModel());
 
-function createBlock(_engine, type, options, handleEvent, handleDoubleClick, handleContextMenu) {
+function createBlock(_engine, type, options, handleEvent, handleDoubleClick, handleContextMenu, handleContextMenuLink) {
   const settings = getBlockSettings(type, options);
   const block = new BlockNodeModel(settings.params, settings.color);
 
@@ -54,7 +54,13 @@ function createBlock(_engine, type, options, handleEvent, handleDoubleClick, han
     port.max = item.max;
   });
 
-  block.addListener({ selectionChanged: handleEvent, entityRemoved: handleEvent, doubleClick: handleDoubleClick, contextMenu: handleContextMenu });
+  block.addListener({ 
+    selectionChanged: handleEvent, 
+    entityRemoved: handleEvent, 
+    doubleClick: handleDoubleClick, 
+    contextMenu: handleContextMenu,
+    contextMenuLink: handleContextMenuLink,
+  });
 
   _engine.getDiagramModel().addNode(block);
 }
@@ -71,7 +77,7 @@ class Diagrams extends Component {
   }
 
   addBlock(type, options) {
-    createBlock(engine, type, options, this.handleEvent, this.handleDoubleClick, this.handleContextMenu);
+    createBlock(engine, type, options, this.handleEvent, this.handleDoubleClick, this.handleContextMenu, this.handleContextMenuLink);
     this.forceUpdate();
   }
 
@@ -127,7 +133,8 @@ class Diagrams extends Component {
           selectionChanged: this.handleEvent,
           entityRemoved: this.handleEvent,
           doubleClick: this.handleDoubleClick,
-          contextMenu: this.handleContextMenu ,
+          contextMenu: this.handleContextMenu,
+          contextMenuLink: this.handleContextMenuLink,
         });
       });
       engine.setDiagramModel(model);
@@ -144,6 +151,13 @@ class Diagrams extends Component {
     e.preventDefault();
     
     this.props.onContextMenu(e, node)
+  }
+
+  handleContextMenuLink = (e, node) => {
+    e.stopPropagation();
+    e.preventDefault();
+    
+    this.props.onContextMenuLink(e, node)
   }
 
   handleEvent = (e) => {
@@ -178,8 +192,6 @@ class Diagrams extends Component {
       <div 
         onClick={this.handleBodyClick}
         onContextMenu={this.handleContextBodyMenu} 
-        onDrop={this.props.onDrop} 
-        onDragOver={e => e.preventDefault()} 
         style={{ width: '100%', height: '100%', position: 'relative' }}
       >
         <$DiagramWidget
