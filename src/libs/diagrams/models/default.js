@@ -33,10 +33,11 @@ class $Default extends DefaultNodeWidget {
   }
 
   render() {
+    const L2  = typeof this.props.node.name.render.L2 === 'string' ? this.props.node.name.render.L2 : this.props.node.name.render.L2.title;
     return (
       <div {...this.getProps()} onDoubleClick={this.handleDoubleClick} style={{ background: this.props.node.color, ...this.props.node.name.style }}>
         <div className={this.bem('__title')}>
-          <div className={this.bem('__name')}>{this.props.node.name.render.L2}</div>
+          <div className={this.bem('__name')}>{L2}</div>
         </div>
         <div className="srd-default-node__body">
           <div className={this.bem('__ports')}>

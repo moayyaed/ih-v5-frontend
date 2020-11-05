@@ -15,138 +15,153 @@ string: true
 const scheme = {
   ActorA: [
     {
-      disabled: 'class',
       title: 'Класс',
-      type: 'string'
+      type: 'text',
+      prop: 'class'
     },
     {
-      disabled: 'type',
       title: 'Тип',
-      type: 'string'
+      type: 'text',
+      prop: 'type'
     },
     {
       title: 'Устройство',
-      type: 'rautocomplete',
-      data: {
-        tabletitle: 'devicesfordiagram'
-      }
+      type: 'droplist',
+      data: 'deviceList',
+      prop: 'dn',
     },
     {
       title: 'Комментарий',
-      type: 'string'
+      type: 'input',
+      prop: 'comment'
     }
   ],
   ActorD: [
     {
       disabled: 'class',
       title: 'Класс',
-      type: 'string'
+      type: 'text',
+      prop: 'class'
     },
     {
       disabled: 'type',
       title: 'Тип',
-      type: 'string'
+      type: 'text',
+      prop: 'type'
     },
     {
       title: 'Устройство',
-      type: 'rautocomplete',
-      data: {
-        tabletitle: 'devicesfordiagram'
-      }
+      type: 'droplist',
+      data: 'deviceList',
+      prop: 'dn',
     },
     {
       title: 'Комментарий',
-      type: 'string'
+      type: 'input',
+      prop: 'comment'
     }
   ],
   SensorA: [
     {
       disabled: 'class',
       title: 'Класс',
-      type: 'string'
+      type: 'text',
+      prop: 'class'
     },
     {
       disabled: 'type',
       title: 'Тип',
-      type: 'string'
+      type: 'text',
+      prop: 'type'
     },
     {
       title: 'Устройство',
-      type: 'rautocomplete',
-      data: {
-        tabletitle: 'devicesfordiagram'
-      }
+      type: 'droplist',
+      data: 'deviceList',
+      prop: 'dn',
     },
     {
       title: 'Комментарий',
-      type: 'string'
+      type: 'input',
+      prop: 'comment'
     }
   ],
   SensorD: [
     {
       disabled: 'class',
       title: 'Класс',
-      type: 'string'
+      type: 'text',
+      prop: 'class'
     },
     {
       disabled: 'type',
       title: 'Тип',
-      type: 'string'
+      type: 'text',
+      prop: 'type'
     },
     {
       title: 'Устройство',
-      type: 'rautocomplete',
-      data: {
-        tabletitle: 'devicesfordiagram'
-      }
+      type: 'droplist',
+      data: 'deviceList',
+      prop: 'dn',
     },
     {
       title: 'Комментарий',
-      type: 'string'
+      type: 'input',
+      prop: 'comment'
     }
   ],
+  
   and: [
     {
       disabled: 'class',
       title: 'Класс',
-      type: 'string'
+      type: 'text',
+      prop: 'class'
     },
     {
       disabled: 'type',
       title: 'Тип',
-      type: 'string'
+      type: 'text',
+      prop: 'type'
     },
     {
       title: 'Комментарий',
-      type: 'string'
+      type: 'STRING',
+      prop: 'comment'
     }
   ],
   or: [
     {
       disabled: 'class',
       title: 'Класс',
-      type: 'string'
+      type: 'text',
+      prop: 'class'
     },
     {
       disabled: 'type',
       title: 'Тип',
-      type: 'string'
+      type: 'text',
+      prop: 'type'
     },
     {
       title: 'Комментарий',
-      type: 'string'
+      type: 'STRING',
+      prop: 'comment'
     }
   ],
   'if': [
     {
       disabled: 'class',
       title: 'Класс',
-      type: 'string'
+      type: 'text',
+      prop: 'class'
     },
     {
       disabled: 'type',
       title: 'Тип',
-      type: 'string'
+      type: 'text',
+      prop: 'type'
     },
     {
       title: 'Оператор',
@@ -176,89 +191,104 @@ const scheme = {
           id: '!=',
           title: '!='
         }
-      ]
+      ],
+      prop: 'operator'
     },
     {
       title: 'Комментарий',
-      type: 'string'
+      type: 'STRING',
+      prop: 'comment'
     }
   ],
   between: [
     {
       disabled: 'class',
       title: 'Класс',
-      type: 'string'
+      type: 'text',
+      prop: 'class'
     },
     {
       disabled: 'type',
       title: 'Тип',
-      type: 'string'
+      type: 'text',
+      prop: 'type'
     },
     {
       title: 'Комментарий',
-      type: 'string'
+      type: 'STRING',
+      prop: 'comment'
     }
   ],
   not: [
     {
       disabled: 'class',
       title: 'Класс',
-      type: 'string'
+      type: 'text',
+      prop: 'class'
     },
     {
       disabled: 'type',
       title: 'Тип',
-      type: 'string'
+      type: 'text',
+      prop: 'type'
     },
     {
       title: 'Комментарий',
-      type: 'string'
+      type: 'STRING',
+      prop: 'comment'
     }
   ],
   device_property: [
     {
       disabled: 'class',
       title: 'Класс',
-      type: 'string'
+      type: 'text',
+      prop: 'class'
     },
     {
       disabled: 'type',
       title: 'Тип',
-      type: 'string'
+      type: 'text',
+      prop: 'type'
     },
     {
       title: 'Устройство',
       type: 'rautocomplete',
       data: {
-        tabletitle: 'devicesfordiagram'
-      }
+        tablename: 'devicesfordiagram'
+      },
+      prop: 'dn'
     },
     {
       title: 'Свойство',
       type: 'rautocomplete',
       data: {
-        tabletitle: 'deviceproperties',
+        tablename: 'deviceproperties',
         filter: {
           key: 'dn',
           value: 'data.dn'
         }
-      }
+      },
+      prop: 'property'
     },
     {
       title: 'Комментарий',
-      type: 'string'
+      type: 'STRING',
+      prop: 'comment'
     }
   ],
   now: [
     {
       disabled: 'class',
       title: 'Класс',
-      type: 'string'
+      type: 'text',
+      prop: 'class'
     },
     {
       disabled: 'type',
       title: 'Тип',
-      type: 'string'
+      type: 'text',
+      prop: 'type'
     },
     {
       title: 'Режим',
@@ -292,43 +322,51 @@ const scheme = {
           id: 'year',
           title: 'Год'
         }
-      ]
+      ],
+      prop: 'mode_now'
     },
     {
       title: 'Комментарий',
-      type: 'string'
+      type: 'STRING',
+      prop: 'comment'
     }
   ],
   timer: [
     {
       disabled: 'class',
       title: 'Класс',
-      type: 'string'
+      type: 'text',
+      prop: 'class'
     },
     {
       disabled: 'type',
       title: 'Тип',
-      type: 'string'
+      type: 'text',
+      prop: 'type'
     },
     {
       title: 'Время (сек)',
-      type: 'NUMBER'
+      type: 'NUMBER',
+      prop: 'time'
     },
     {
       title: 'Комментарий',
-      type: 'string'
+      type: 'STRING',
+      prop: 'comment'
     }
   ],
-  const: [
+  'const': [
     {
       disabled: 'class',
       title: 'Класс',
-      type: 'string'
+      type: 'text',
+      prop: 'class'
     },
     {
       disabled: 'type',
       title: 'Тип',
-      type: 'string'
+      type: 'text',
+      prop: 'type'
     },
     {
       title: 'Режим',
@@ -358,27 +396,32 @@ const scheme = {
           id: 'weekday',
           title: 'День недели'
         }
-      ]
+      ],
+      prop: 'mode_const'
     },
     {
       title: 'Значение',
       type: 'NUMBER',
-      visible: 'data.mode_const === \'number\''
+      visible: 'data.mode_const === \'number\'',
+      prop: 'value_number'
     },
     {
       title: 'Значение',
       type: 'TIME',
-      visible: 'data.mode_const === \'time\''
+      visible: 'data.mode_const === \'time\'',
+      prop: 'value_time'
     },
     {
       title: 'Значение',
       type: 'DATE',
-      visible: 'data.mode_const === \'date\''
+      visible: 'data.mode_const === \'date\'',
+      prop: 'value_date'
     },
     {
       title: 'Значение',
       type: 'DATETIME',
-      visible: 'data.mode_const === \'date_time\''
+      visible: 'data.mode_const === \'date_time\'',
+      prop: 'value_date_time'
     },
     {
       title: 'Значение',
@@ -417,35 +460,41 @@ const scheme = {
           title: '-'
         }
       ],
-      visible: 'data.mode_const === \'weekday\''
+      visible: 'data.mode_const === \'weekday\'',
+      prop: 'value_weekday'
     },
     {
       title: 'Значение',
-      type: 'string',
-      visible: 'data.mode_const === \'string\''
+      type: 'STRING',
+      visible: 'data.mode_const === \'string\'',
+      prop: 'value_string'
     },
     {
       title: 'Комментарий',
-      type: 'string'
+      type: 'STRING',
+      prop: 'comment'
     }
   ],
   device_command: [
     {
       disabled: 'class',
       title: 'Класс',
-      type: 'string'
+      type: 'text',
+      prop: 'class'
     },
     {
       disabled: 'type',
       title: 'Тип',
-      type: 'string'
+      type: 'text',
+      prop: 'type'
     },
     {
       title: 'Устройство',
       type: 'rautocomplete',
       data: {
-        tabletitle: 'devicesfordiagram'
-      }
+        tablename: 'devicesfordiagram'
+      },
+      prop: 'dn'
     },
     {
       title: 'Команда',
@@ -471,58 +520,69 @@ const scheme = {
           id: 'turnOffSaveAuto',
           title: 'OFF save Auto'
         }
-      ]
+      ],
+      prop: 'command'
     },
     {
       title: 'Комментарий',
-      type: 'string'
+      type: 'STRING',
+      prop: 'comment'
     }
   ],
   set_command: [
     {
       disabled: 'class',
       title: 'Класс',
-      type: 'string'
+      type: 'text',
+      prop: 'class'
     },
     {
       disabled: 'type',
       title: 'Тип',
-      type: 'string'
+      type: 'text',
+      prop: 'type'
     },
     {
       title: 'Устройство',
       type: 'rautocomplete',
       data: {
-        tabletitle: 'devicesfordiagram'
-      }
+        tablename: 'devicesfordiagram'
+      },
+      prop: 'dn'
     },
     {
       title: 'Свойство',
-      type: 'string'
+      type: 'STRING',
+      prop: 'prop'
     },
     {
       title: 'Значение',
-      type: 'NUMBER'
+      type: 'NUMBER',
+      prop: 'value'
     },
     {
       title: 'Присвоить виртуально без проверки (assign)',
-      type: 'cb'
+      type: 'cb',
+      prop: 'assign'
     },
     {
       title: 'Комментарий',
-      type: 'string'
+      type: 'STRING',
+      prop: 'comment'
     }
   ],
   group_command: [
     {
       disabled: 'class',
       title: 'Класс',
-      type: 'string'
+      type: 'text',
+      prop: 'class'
     },
     {
       disabled: 'type',
       title: 'Тип',
-      type: 'string'
+      type: 'text',
+      prop: 'type'
     },
     {
       title: 'Команда',
@@ -548,95 +608,107 @@ const scheme = {
           id: 'turnOffSaveAuto',
           title: 'OFF save Auto'
         }
-      ]
+      ],
+      prop: 'command'
     },
     {
       title: 'Подсистемы',
       type: 'sdroplist',
       data: {
-        tabletitle: 'subsystems'
-      }
+        tablename: 'subsystems'
+      },
+      prop: 'gr_subs'
     },
     {
       title: 'Уровни',
       type: 'sdroplist',
       data: {
-        tabletitle: 'places'
-      }
+        tablename: 'places'
+      },
+      prop: 'gr_place'
     },
     {
       title: 'Зоны',
       type: 'sdroplist',
       data: {
-        tabletitle: 'rooms'
-      }
+        tablename: 'rooms'
+      },
+      prop: 'gr_room'
     },
     {
       title: 'Тип устройства',
       type: 'sdroplist',
       data: {
-        tabletitle: 'types'
-      }
+        tablename: 'types'
+      },
+      prop: 'gr_type'
     },
     {
       title: 'Комментарий',
-      type: 'string'
+      type: 'STRING',
+      prop: 'comment'
     }
   ],
   os_command: [
     {
       disabled: 'class',
       title: 'Класс',
-      type: 'string'
+      type: 'text',
+      prop: 'class'
     },
     {
       disabled: 'type',
       title: 'Тип',
-      type: 'string'
+      type: 'text',
+      prop: 'type'
     },
     {
       title: 'Текст',
-      type: 'TEXTAREA'
+      type: 'TEXTAREA',
+      prop: 'text'
     },
     {
       title: 'Комментарий',
-      type: 'string'
+      type: 'STRING',
+      prop: 'comment'
     }
   ],
   http_command: [
     {
       disabled: 'class',
       title: 'Класс',
-      type: 'string'
+      type: 'text',
+      prop: 'class'
     },
     {
       disabled: 'type',
       title: 'Тип',
-      type: 'string'
+      type: 'text',
+      prop: 'type'
     },
     {
       title: 'Текст',
-      type: 'TEXTAREA'
+      type: 'TEXTAREA',
+      prop: 'text'
     },
     {
       title: 'Комментарий',
-      type: 'string'
+      type: 'STRING',
+      prop: 'comment'
     }
   ],
   info_command: [
     {
       disabled: 'class',
       title: 'Класс',
-      type: 'string'
+      type: 'text',
+      prop: 'class'
     },
     {
       disabled: 'type',
       title: 'Тип',
-      type: 'string'
-    },
-    {
-      title: 'Текст',
-      type: 'TEXTAREA'
+      type: 'text',
+      prop: 'type'
     },
     {
       title: 'Канал информирования',
@@ -658,7 +730,8 @@ const scheme = {
           id: '',
           title: '-'
         }
-      ]
+      ],
+      prop: 'infotype'
     },
     {
       title: 'Группа',
@@ -676,7 +749,8 @@ const scheme = {
           id: '',
           title: '-'
         }
-      ]
+      ],
+      prop: 'usergroup'
     },
     {
       title: 'Пользователь',
@@ -691,23 +765,32 @@ const scheme = {
           title: '-'
         }
       ],
-      visible: '!data.usergroup'
+      visible: '!data.usergroup',
+      prop: 'user'
+    },
+    {
+      title: 'Текст',
+      type: 'TEXTAREA',
+      prop: 'text'
     },
     {
       title: 'Комментарий',
-      type: 'string'
+      type: 'STRING',
+      prop: 'comment'
     }
   ],
   snap_command: [
     {
       disabled: 'class',
       title: 'Класс',
-      type: 'string'
+      type: 'text',
+      prop: 'class'
     },
     {
       disabled: 'type',
       title: 'Тип',
-      type: 'string'
+      type: 'text',
+      prop: 'type'
     },
     {
       title: 'Камера',
@@ -741,27 +824,27 @@ const scheme = {
           id: '',
           title: '-'
         }
-      ]
+      ],
+      prop: 'camera'
     },
     {
       title: 'Комментарий',
-      type: 'string'
+      type: 'STRING',
+      prop: 'comment'
     }
   ],
   plugin_command: [
     {
       disabled: 'class',
       title: 'Класс',
-      type: 'string'
+      type: 'text',
+      prop: 'class'
     },
     {
       disabled: 'type',
       title: 'Тип',
-      type: 'string'
-    },
-    {
-      title: 'Текст',
-      type: 'TEXTAREA'
+      type: 'text',
+      prop: 'type'
     },
     {
       title: 'Плагин',
@@ -835,31 +918,42 @@ const scheme = {
           id: '',
           title: '-'
         }
-      ]
+      ],
+      prop: 'unit'
+    },
+    {
+      title: 'Текст',
+      type: 'TEXTAREA',
+      prop: 'text'
     },
     {
       title: 'Комментарий',
-      type: 'string'
+      type: 'STRING',
+      prop: 'comment'
     }
   ],
   log_command: [
     {
       disabled: 'class',
       title: 'Класс',
-      type: 'string'
+      type: 'text',
+      prop: 'class'
     },
     {
       disabled: 'type',
       title: 'Тип',
-      type: 'string'
+      type: 'text',
+      prop: 'type'
     },
     {
       title: 'Текст',
-      type: 'TEXTAREA'
+      type: 'TEXTAREA',
+      prop: 'text'
     },
     {
       title: 'Комментарий',
-      type: 'string'
+      type: 'STRING',
+      prop: 'comment'
     }
   ]
 };
