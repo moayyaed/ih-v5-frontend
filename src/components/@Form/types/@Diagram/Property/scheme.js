@@ -111,61 +111,55 @@ const scheme = {
       prop: 'comment'
     }
   ],
-  
+
   and: [
     {
-      disabled: 'class',
       title: 'Класс',
       type: 'text',
       prop: 'class'
     },
     {
-      disabled: 'type',
       title: 'Тип',
       type: 'text',
       prop: 'type'
     },
     {
       title: 'Комментарий',
-      type: 'STRING',
+      type: 'input',
       prop: 'comment'
     }
   ],
   or: [
     {
-      disabled: 'class',
       title: 'Класс',
       type: 'text',
       prop: 'class'
     },
     {
-      disabled: 'type',
       title: 'Тип',
       type: 'text',
       prop: 'type'
     },
     {
       title: 'Комментарий',
-      type: 'STRING',
+      type: 'input',
       prop: 'comment'
     }
   ],
-  'if': [
+  if: [
     {
-      disabled: 'class',
       title: 'Класс',
       type: 'text',
       prop: 'class'
     },
     {
-      disabled: 'type',
       title: 'Тип',
       type: 'text',
       prop: 'type'
     },
     {
       title: 'Оператор',
-      type: 'autocomplete',
+      type: 'droplist',
       data: [
         {
           id: '>',
@@ -196,13 +190,12 @@ const scheme = {
     },
     {
       title: 'Комментарий',
-      type: 'STRING',
+      type: 'input',
       prop: 'comment'
     }
   ],
   between: [
     {
-      disabled: 'class',
       title: 'Класс',
       type: 'text',
       prop: 'class'
@@ -215,13 +208,12 @@ const scheme = {
     },
     {
       title: 'Комментарий',
-      type: 'STRING',
+      type: 'input',
       prop: 'comment'
     }
   ],
   not: [
     {
-      disabled: 'class',
       title: 'Класс',
       type: 'text',
       prop: 'class'
@@ -234,65 +226,53 @@ const scheme = {
     },
     {
       title: 'Комментарий',
-      type: 'STRING',
+      type: 'input',
       prop: 'comment'
     }
   ],
   device_property: [
     {
-      disabled: 'class',
       title: 'Класс',
       type: 'text',
       prop: 'class'
     },
     {
-      disabled: 'type',
       title: 'Тип',
       type: 'text',
       prop: 'type'
     },
     {
       title: 'Устройство',
-      type: 'rautocomplete',
-      data: {
-        tablename: 'devicesfordiagram'
-      },
-      prop: 'dn'
-    },
-    {
-      title: 'Свойство',
-      type: 'rautocomplete',
-      data: {
-        tablename: 'deviceproperties',
-        filter: {
-          key: 'dn',
-          value: 'data.dn'
-        }
-      },
-      prop: 'property'
+      type: 'text',
+      prop: 'dn',
+      type: 'smartbutton',
+      command: 'dialog',
+      params: {
+        title: 'Свойство устройства',
+        type: 'tree',
+        id: 'visitems',
+      }
     },
     {
       title: 'Комментарий',
-      type: 'STRING',
+      type: 'input',
       prop: 'comment'
     }
   ],
   now: [
     {
-      disabled: 'class',
       title: 'Класс',
       type: 'text',
       prop: 'class'
     },
     {
-      disabled: 'type',
       title: 'Тип',
       type: 'text',
       prop: 'type'
     },
     {
       title: 'Режим',
-      type: 'autocomplete',
+      type: 'droplist',
       data: [
         {
           id: 'time',
@@ -327,7 +307,7 @@ const scheme = {
     },
     {
       title: 'Комментарий',
-      type: 'STRING',
+      type: 'input',
       prop: 'comment'
     }
   ],
@@ -346,16 +326,17 @@ const scheme = {
     },
     {
       title: 'Время (сек)',
-      type: 'NUMBER',
-      prop: 'time'
+      type: 'number',
+      prop: 'time',
+      bind: false,
     },
     {
       title: 'Комментарий',
-      type: 'STRING',
+      type: 'input',
       prop: 'comment'
     }
   ],
-  'const': [
+  const: [
     {
       disabled: 'class',
       title: 'Класс',
@@ -370,7 +351,7 @@ const scheme = {
     },
     {
       title: 'Режим',
-      type: 'autocomplete',
+      type: 'droplist',
       data: [
         {
           id: 'number',
@@ -400,31 +381,38 @@ const scheme = {
       prop: 'mode_const'
     },
     {
-      title: 'Значение',
-      type: 'NUMBER',
+      title: 'Число',
+      type: 'number',
       visible: 'data.mode_const === \'number\'',
-      prop: 'value_number'
+      prop: 'value_number',
+      bind: false,
     },
     {
-      title: 'Значение',
-      type: 'TIME',
+      title: 'Строка',
+      type: 'input',
+      visible: 'data.mode_const === \'string\'',
+      prop: 'value_string'
+    },
+    {
+      title: 'Время',
+      type: 'input', // 'TIME',
       visible: 'data.mode_const === \'time\'',
       prop: 'value_time'
     },
     {
-      title: 'Значение',
-      type: 'DATE',
+      title: 'Дата',
+      type: 'input', // 'DATE',
       visible: 'data.mode_const === \'date\'',
       prop: 'value_date'
     },
     {
-      title: 'Значение',
-      type: 'DATETIME',
+      title: 'Дата и время',
+      type: 'input', // 'DATETIME',
       visible: 'data.mode_const === \'date_time\'',
       prop: 'value_date_time'
     },
     {
-      title: 'Значение',
+      title: 'День недели',
       type: 'droplist',
       data: [
         {
@@ -464,14 +452,8 @@ const scheme = {
       prop: 'value_weekday'
     },
     {
-      title: 'Значение',
-      type: 'STRING',
-      visible: 'data.mode_const === \'string\'',
-      prop: 'value_string'
-    },
-    {
       title: 'Комментарий',
-      type: 'STRING',
+      type: 'input',
       prop: 'comment'
     }
   ],

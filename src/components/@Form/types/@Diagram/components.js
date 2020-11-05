@@ -13,7 +13,7 @@ const components = {
       comment: '',
       component: 'ActorA'
     },
-    'in': [],
+    in: [],
     out: [
       {
         label: 'ON',
@@ -51,7 +51,7 @@ const components = {
       comment: '',
       component: 'ActorD'
     },
-    'in': [],
+    in: [],
     out: [
       {
         label: 'ON',
@@ -84,7 +84,7 @@ const components = {
       comment: '',
       component: 'SensorA'
     },
-    'in': [],
+    in: [],
     out: [
       {
         label: 'VALUE',
@@ -117,7 +117,7 @@ const components = {
       comment: '',
       component: 'SensorD'
     },
-    'in': [],
+    in: [],
     out: [
       {
         label: 'ON',
@@ -143,7 +143,7 @@ const components = {
   },
   and: {
     params: {
-      'class': 'operation',
+      class: 'operation',
       type: 'and',
       style: {
         width: 115,
@@ -154,7 +154,7 @@ const components = {
       comment: '',
       component: 'AND'
     },
-    'in': [
+    in: [
       {
         label: ' ',
         portname: 'in',
@@ -171,7 +171,7 @@ const components = {
   },
   or: {
     params: {
-      'class': 'operation',
+      class: 'operation',
       type: 'or',
       style: {
         width: 115,
@@ -182,7 +182,7 @@ const components = {
       comment: '',
       component: 'OR'
     },
-    'in': [
+    in: [
       {
         label: ' ',
         portname: 'in',
@@ -197,11 +197,11 @@ const components = {
       }
     ]
   },
-  'if': {
+  if: {
     params: {
-      'class': 'operation',
+      class: 'operation',
       type: 'if',
-      operator: '>',
+      operator: { id: '>', title: '>' },
       style: {
         width: 115,
         height: 73
@@ -211,7 +211,7 @@ const components = {
       comment: '',
       component: 'IF'
     },
-    'in': [
+    in: [
       {
         label: 'A',
         portname: 'a',
@@ -233,7 +233,7 @@ const components = {
   },
   between: {
     params: {
-      'class': 'operation',
+      class: 'operation',
       type: 'between',
       style: {
         width: 115,
@@ -244,7 +244,7 @@ const components = {
       comment: '',
       component: 'BETWEEN'
     },
-    'in': [
+    in: [
       {
         label: 'A',
         portname: 'a',
@@ -271,7 +271,7 @@ const components = {
   },
   not: {
     params: {
-      'class': 'operation',
+      class: 'operation',
       type: 'not',
       style: {
         width: 115,
@@ -282,7 +282,7 @@ const components = {
       comment: '',
       component: 'NOT'
     },
-    'in': [
+    in: [
       {
         label: ' ',
         portname: 'in',
@@ -299,7 +299,7 @@ const components = {
   },
   device_property: {
     params: {
-      'class': 'operation',
+      class: 'operation',
       type: 'device_property',
       dn: '',
       property: '',
@@ -312,7 +312,7 @@ const components = {
       comment: '',
       component: 'Device property'
     },
-    'in': [],
+    in: [],
     out: [
       {
         label: ' ',
@@ -323,9 +323,9 @@ const components = {
   },
   now: {
     params: {
-      'class': 'operation',
+      class: 'operation',
       type: 'now',
-      mode_now: 'time',
+      mode_now: { id: 'time', title: 'Время'},
       style: {
         width: 160,
         height: 48
@@ -335,7 +335,7 @@ const components = {
       comment: '',
       component: 'NOW'
     },
-    'in': [],
+    in: [],
     out: [
       {
         label: ' ',
@@ -346,19 +346,19 @@ const components = {
   },
   timer: {
     params: {
-      'class': 'operation',
+      class: 'operation',
       type: 'timer',
       style: {
         width: 115,
         height: 70
       },
-      time: 10,
+      time: { value: 10 },
       color: '#673AB780',
       text_size: 16,
       comment: '',
       component: 'TIMER'
     },
-    'in': [
+    in: [
       {
         label: ' ',
         portname: 'in',
@@ -373,27 +373,27 @@ const components = {
       }
     ]
   },
-  'const': {
+  const: {
     params: {
-      'class': 'operation',
+      class: 'operation',
       type: 'const',
       style: {
         width: 200,
         height: 48
       },
-      mode_const: 'number',
-      value_number: 5,
-      value_string: '',
-      value_time: '12:00',
-      value_date: '2019-01-01',
-      value_date_time: '2019-01-01 12:00',
-      value_weekday: '',
+      mode_const: { id: 'number', title: 'Число' },
+      value_number: { value: 5 },
+      value_string: { value: '' },
+      value_time: { value: '12:00' },
+      value_date: { value: '2019-01-01' },
+      value_date_time: { value: '2019-01-01 12:00' },
+      value_weekday: { id: '0', title: 'Воскресенье' },
       color: '#9E9E9E80',
       text_size: 16,
       comment: '',
       component: 'CONSTANT'
     },
-    'in': [],
+    in: [],
     out: [
       {
         label: ' ',
@@ -404,7 +404,7 @@ const components = {
   },
   device_command: {
     params: {
-      'class': 'command',
+      class: 'command',
       type: 'device_command',
       dn: '',
       command: '',
@@ -417,7 +417,7 @@ const components = {
       comment: '',
       component: 'Device command'
     },
-    'in': [
+    in: [
       {
         label: ' ',
         portname: 'in',
@@ -434,7 +434,7 @@ const components = {
   },
   set_command: {
     params: {
-      'class': 'command',
+      class: 'command',
       type: 'set_command',
       dn: '',
       value: '',
@@ -449,7 +449,7 @@ const components = {
       comment: '',
       component: 'Device command'
     },
-    'in': [
+    in: [
       {
         label: ' ',
         portname: 'in',
@@ -466,7 +466,7 @@ const components = {
   },
   group_command: {
     params: {
-      'class': 'command',
+      class: 'command',
       type: 'group_command',
       command: '',
       gr_subs: '',
@@ -482,7 +482,7 @@ const components = {
       comment: '',
       component: 'Device command'
     },
-    'in': [
+    in: [
       {
         label: ' ',
         portname: 'in',
@@ -499,7 +499,7 @@ const components = {
   },
   os_command: {
     params: {
-      'class': 'command',
+      class: 'command',
       type: 'os_command',
       text: '',
       style: {
@@ -511,7 +511,7 @@ const components = {
       comment: '',
       component: 'Device command'
     },
-    'in': [
+    in: [
       {
         label: ' ',
         portname: 'in',
@@ -528,7 +528,7 @@ const components = {
   },
   http_command: {
     params: {
-      'class': 'command',
+      class: 'command',
       type: 'http_command',
       text: '',
       style: {
@@ -540,7 +540,7 @@ const components = {
       comment: '',
       component: 'Device command'
     },
-    'in': [
+    in: [
       {
         label: ' ',
         portname: 'in',
@@ -557,7 +557,7 @@ const components = {
   },
   info_command: {
     params: {
-      'class': 'command',
+      class: 'command',
       type: 'info_command',
       infotype: '',
       usergroup: '',
@@ -572,7 +572,7 @@ const components = {
       comment: '',
       component: 'Device command'
     },
-    'in': [
+    in: [
       {
         label: ' ',
         portname: 'in',
@@ -589,7 +589,7 @@ const components = {
   },
   snap_command: {
     params: {
-      'class': 'command',
+      class: 'command',
       type: 'snap_command',
       camera: '',
       style: {
@@ -601,7 +601,7 @@ const components = {
       comment: '',
       component: 'Device command'
     },
-    'in': [
+    in: [
       {
         label: ' ',
         portname: 'in',
@@ -618,7 +618,7 @@ const components = {
   },
   plugin_command: {
     params: {
-      'class': 'command',
+      class: 'command',
       type: 'plugin_command',
       unit: '',
       text: '',
@@ -631,7 +631,7 @@ const components = {
       comment: '',
       component: 'Device command'
     },
-    'in': [
+    in: [
       {
         label: ' ',
         portname: 'in',
@@ -648,7 +648,7 @@ const components = {
   },
   log_command: {
     params: {
-      'class': 'command',
+      class: 'command',
       type: 'log_command',
       text: '',
       style: {
@@ -660,7 +660,7 @@ const components = {
       comment: '',
       component: 'Device command'
     },
-    'in': [
+    in: [
       {
         label: ' ',
         portname: 'in',

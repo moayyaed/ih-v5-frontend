@@ -104,6 +104,7 @@ class Diagram extends PureComponent {
   }
 
   handleChangeValueProperty = (key, value) => {
+    console.log(value)
     this.setState(state => {
       return {
         ...state,
