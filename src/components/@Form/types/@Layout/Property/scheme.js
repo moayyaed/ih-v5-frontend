@@ -701,6 +701,15 @@ const scheme = {
     ]),
     link: [],
   },
+  chart: {
+    main: [
+      ...backgroundSection,
+      ...borderSection,
+      ...decorationSection,
+    ],
+    move: moveSection,
+    link: [],
+  },
   slider: {
     main: [
       ...[

@@ -320,6 +320,16 @@ const DEVICELOG = {
   },
   data: [],
 }
+
+const CHART = {
+  ...BLOCK,
+  widget: true,
+  widgetlinks: {
+    link: { }
+  },
+  data: {},
+}
+
 const SLIDER = {
   ...BLOCK,
   variant: { value: { id: 'material', title: 'Material' }},
@@ -360,6 +370,8 @@ function getDefaultParams(type) {
     case 'devicelog':
     case 'devicesettings':
       return DEVICELOG;
+    case 'chart':
+      return CHART;
     case 'slider':
       return SLIDER;
     default:

@@ -12,6 +12,7 @@ import Expand from './@Expand';
 
 import Container from './@Container';
 import Template from './@Template';
+import Chart from './@Chart';
 import CCTV from './@CCTV';
 import DeviceLog from './@DeviceLog';
 import DeviceSettings from './@DeviceSettings';
@@ -39,6 +40,8 @@ function getElementByType(type) {
       return Action2;
     case 'expand':
       return Expand;
+    case 'chart':
+      return Chart;
     case 'cctv':
       return CCTV;
     case 'devicelog':
