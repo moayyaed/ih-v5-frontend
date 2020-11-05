@@ -459,28 +459,24 @@ const scheme = {
   ],
   device_command: [
     {
-      disabled: 'class',
       title: 'Класс',
       type: 'text',
       prop: 'class'
     },
     {
-      disabled: 'type',
       title: 'Тип',
       type: 'text',
       prop: 'type'
     },
     {
       title: 'Устройство',
-      type: 'rautocomplete',
-      data: {
-        tablename: 'devicesfordiagram'
-      },
+      type: 'droplist',
+      data: 'deviceList',
       prop: 'dn'
     },
     {
       title: 'Команда',
-      type: 'autocomplete',
+      type: 'droplist',
       data: [
         {
           id: 'on',
@@ -507,49 +503,47 @@ const scheme = {
     },
     {
       title: 'Комментарий',
-      type: 'STRING',
+      type: 'input',
       prop: 'comment'
     }
   ],
   set_command: [
     {
-      disabled: 'class',
       title: 'Класс',
       type: 'text',
       prop: 'class'
     },
     {
-      disabled: 'type',
       title: 'Тип',
       type: 'text',
       prop: 'type'
     },
     {
       title: 'Устройство',
-      type: 'rautocomplete',
-      data: {
-        tablename: 'devicesfordiagram'
+      type: 'smartbutton',
+      command: 'dialog',
+      params: {
+        title: 'Свойство устройства',
+        type: 'tree',
+        id: 'visitems',
       },
       prop: 'dn'
     },
     {
-      title: 'Свойство',
-      type: 'STRING',
-      prop: 'prop'
-    },
-    {
       title: 'Значение',
-      type: 'NUMBER',
-      prop: 'value'
+      type: 'number',
+      prop: 'value',
+      bind: false,
     },
     {
       title: 'Присвоить виртуально без проверки (assign)',
       type: 'cb',
-      prop: 'assign'
+      prop: 'assign',
+      bind: false,
     },
     {
       title: 'Комментарий',
-      type: 'STRING',
+      type: 'input',
       prop: 'comment'
     }
   ],
@@ -752,12 +746,12 @@ const scheme = {
     },
     {
       title: 'Текст',
-      type: 'TEXTAREA',
+      type: 'input',
       prop: 'text'
     },
     {
       title: 'Комментарий',
-      type: 'STRING',
+      type: 'input',
       prop: 'comment'
     }
   ],
@@ -916,25 +910,23 @@ const scheme = {
   ],
   log_command: [
     {
-      disabled: 'class',
       title: 'Класс',
       type: 'text',
       prop: 'class'
     },
     {
-      disabled: 'type',
       title: 'Тип',
       type: 'text',
       prop: 'type'
     },
     {
       title: 'Текст',
-      type: 'TEXTAREA',
+      type: 'input',
       prop: 'text'
     },
     {
       title: 'Комментарий',
-      type: 'STRING',
+      type: 'input',
       prop: 'comment'
     }
   ]

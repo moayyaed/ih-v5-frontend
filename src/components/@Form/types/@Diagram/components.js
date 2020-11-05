@@ -10,7 +10,7 @@ const components = {
         height: 116
       },
       text_size: 0,
-      comment: '',
+      comment: { value: ''},
       component: 'ActorA'
     },
     in: [],
@@ -48,7 +48,7 @@ const components = {
         height: 116
       },
       text_size: 0,
-      comment: '',
+      comment: { value: ''},
       component: 'ActorD'
     },
     in: [],
@@ -81,7 +81,7 @@ const components = {
         height: 116
       },
       text_size: 0,
-      comment: '',
+      comment: { value: ''},
       component: 'SensorA'
     },
     in: [],
@@ -114,7 +114,7 @@ const components = {
         height: 116
       },
       text_size: 0,
-      comment: '',
+      comment: { value: ''},
       component: 'SensorD'
     },
     in: [],
@@ -151,7 +151,7 @@ const components = {
       },
       color: '#2196F380',
       text_size: 0,
-      comment: '',
+      comment: { value: ''},
       component: 'AND'
     },
     in: [
@@ -179,7 +179,7 @@ const components = {
       },
       color: '#2196F380',
       text_size: 0,
-      comment: '',
+      comment: { value: ''},
       component: 'OR'
     },
     in: [
@@ -208,7 +208,7 @@ const components = {
       },
       color: '#2196F380',
       text_size: 0,
-      comment: '',
+      comment: { value: ''},
       component: 'IF'
     },
     in: [
@@ -241,7 +241,7 @@ const components = {
       },
       color: '#2196F380',
       text_size: 0,
-      comment: '',
+      comment: { value: ''},
       component: 'BETWEEN'
     },
     in: [
@@ -279,7 +279,7 @@ const components = {
       },
       color: '#2196F380',
       text_size: 0,
-      comment: '',
+      comment: { value: ''},
       component: 'NOT'
     },
     in: [
@@ -309,7 +309,7 @@ const components = {
       },
       color: '#ffc10780',
       text_size: 16,
-      comment: '',
+      comment: { value: ''},
       component: 'Device property'
     },
     in: [],
@@ -332,7 +332,7 @@ const components = {
       },
       color: '#9E9E9E80',
       text_size: 0,
-      comment: '',
+      comment: { value: ''},
       component: 'NOW'
     },
     in: [],
@@ -355,7 +355,7 @@ const components = {
       time: { value: 10 },
       color: '#673AB780',
       text_size: 16,
-      comment: '',
+      comment: { value: ''},
       component: 'TIMER'
     },
     in: [
@@ -390,7 +390,7 @@ const components = {
       value_weekday: { id: '0', title: 'Воскресенье' },
       color: '#9E9E9E80',
       text_size: 16,
-      comment: '',
+      comment: { value: ''},
       component: 'CONSTANT'
     },
     in: [],
@@ -406,15 +406,15 @@ const components = {
     params: {
       class: 'command',
       type: 'device_command',
-      dn: '',
-      command: '',
+      dn: { id: '-', title: '-' },
+      command: { id: 'on', title: 'ON' },
       style: {
         width: 336,
         height: 70
       },
       color: '#53EA5A80',
       text_size: 16,
-      comment: '',
+      comment: { value: ''},
       component: 'Device command'
     },
     in: [
@@ -436,9 +436,9 @@ const components = {
     params: {
       class: 'command',
       type: 'set_command',
-      dn: '',
-      value: '',
-      assign: '',
+      dn: {},
+      value: { value: 0 },
+      assign: { value: false },
       prop: 'value',
       style: {
         width: 336,
@@ -446,7 +446,7 @@ const components = {
       },
       color: '#53EA5A80',
       text_size: 16,
-      comment: '',
+      comment: { value: ''},
       component: 'Device command'
     },
     in: [
@@ -479,7 +479,7 @@ const components = {
       },
       color: '#53EA5A80',
       text_size: 16,
-      comment: '',
+      comment: { value: ''},
       component: 'Device command'
     },
     in: [
@@ -508,7 +508,7 @@ const components = {
       },
       color: '#53EA5A80',
       text_size: 16,
-      comment: '',
+      comment: { value: ''},
       component: 'Device command'
     },
     in: [
@@ -537,7 +537,7 @@ const components = {
       },
       color: '#53EA5A80',
       text_size: 16,
-      comment: '',
+      comment: { value: ''},
       component: 'Device command'
     },
     in: [
@@ -559,17 +559,17 @@ const components = {
     params: {
       class: 'command',
       type: 'info_command',
-      infotype: '',
-      usergroup: '',
-      user: '',
-      text: '',
+      infotype: { id: '', title: ''},
+      usergroup: { id: '', title: ''},
+      user: { id: '', title: ''},
+      text: { value: ''},
       style: {
         width: 336,
         height: 70
       },
       color: '#53EA5A80',
       text_size: 16,
-      comment: '',
+      comment: { value: ''},
       component: 'Device command'
     },
     in: [
@@ -598,7 +598,7 @@ const components = {
       },
       color: '#53EA5A80',
       text_size: 16,
-      comment: '',
+      comment: { value: ''},
       component: 'Device command'
     },
     in: [
@@ -628,7 +628,7 @@ const components = {
       },
       color: '#53EA5A80',
       text_size: 16,
-      comment: '',
+      comment: { value: ''},
       component: 'Device command'
     },
     in: [
@@ -650,14 +650,14 @@ const components = {
     params: {
       class: 'command',
       type: 'log_command',
-      text: '',
+      text: { value: ''},
       style: {
         width: 336,
         height: 70
       },
       color: '#53EA5A80',
       text_size: 16,
-      comment: '',
+      comment: { value: ''},
       component: 'Device command'
     },
     in: [
