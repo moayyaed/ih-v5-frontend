@@ -32,9 +32,18 @@ class $Default extends DefaultNodeWidget {
       });
   }
 
+  handleContextMenu = (e) => {
+    Object.keys(this.props.node.listeners)
+    .forEach(key => {
+      if (this.props.node.listeners[key].contextMenu) {
+        this.props.node.listeners[key].contextMenu(e, this.props.node);
+      };
+    });
+  }
+
   render() {
     return (
-      <div {...this.getProps()} onDoubleClick={this.handleDoubleClick} style={{ background: this.props.node.color, ...this.props.node.name.style }}>
+      <div {...this.getProps()} onDoubleClick={this.handleDoubleClick} onContextMenu={this.handleContextMenu} style={{ background: this.props.node.color, ...this.props.node.name.style }}>
         <div className={this.bem('__title')}>
           <div className={this.bem('__name')}>{this.props.node.name.render.L2}</div>
         </div>

@@ -36,7 +36,7 @@ engine.installDefaultFactories();
 
 engine.setDiagramModel(new DiagramModel());
 
-function createBlock(_engine, type, options, handleEvent, handleDoubleClick) {
+function createBlock(_engine, type, options, handleEvent, handleDoubleClick, handleContextMenu) {
   const settings = getBlockSettings(type, options);
   const block = new BlockNodeModel(settings.params, settings.color);
 
@@ -54,7 +54,7 @@ function createBlock(_engine, type, options, handleEvent, handleDoubleClick) {
     port.max = item.max;
   });
 
-  block.addListener({ selectionChanged: handleEvent, entityRemoved: handleEvent, doubleClick: handleDoubleClick });
+  block.addListener({ selectionChanged: handleEvent, entityRemoved: handleEvent, doubleClick: handleDoubleClick, contextMenu: handleContextMenu });
 
   _engine.getDiagramModel().addNode(block);
 }
@@ -71,7 +71,7 @@ class Diagrams extends Component {
   }
 
   addBlock(type, options) {
-    createBlock(engine, type, options, this.handleEvent, this.handleDoubleClick);
+    createBlock(engine, type, options, this.handleEvent, this.handleDoubleClick, this.handleContextMenu);
     this.forceUpdate();
   }
 
@@ -127,6 +127,7 @@ class Diagrams extends Component {
           selectionChanged: this.handleEvent,
           entityRemoved: this.handleEvent,
           doubleClick: this.handleDoubleClick,
+          contextMenu: this.handleContextMenu ,
         });
       });
       engine.setDiagramModel(model);
@@ -136,6 +137,13 @@ class Diagrams extends Component {
   handleDoubleClick = (e, node) => {
     e.stopPropagation();
     this.props.onDoubleClick(e, node)
+  }
+
+  handleContextMenu = (e, node) => {
+    e.stopPropagation();
+    e.preventDefault();
+    
+    this.props.onContextMenu(e, node)
   }
 
   handleEvent = (e) => {
@@ -152,7 +160,7 @@ class Diagrams extends Component {
     }
   }
 
-  handleContextMenu = (e) => {
+  handleContextBodyMenu = (e) => {
     this.props.onContextMenuBodyClick(e);
   }
 
@@ -169,7 +177,7 @@ class Diagrams extends Component {
     return (
       <div 
         onClick={this.handleBodyClick}
-        onContextMenu={this.handleContextMenu} 
+        onContextMenu={this.handleContextBodyMenu} 
         onDrop={this.props.onDrop} 
         onDragOver={e => e.preventDefault()} 
         style={{ width: '100%', height: '100%', position: 'relative' }}
