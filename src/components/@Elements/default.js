@@ -328,7 +328,7 @@ const CHART = {
     link: { }
   },
   data: {},
-  interval: { value: { id: 'hour', title: 'hour' } },
+  interval: { value: { id: 'hour', title: 'Hour' } },
   positionCurentTime: { value: 85 },
   legendHeight: { value: 60 },
   gridColor: { value: 'rgba(191, 191, 191, 1)' },
