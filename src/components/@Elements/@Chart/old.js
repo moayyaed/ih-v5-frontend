@@ -596,12 +596,10 @@ class Chart extends PureComponent {
       }, {});
   }
 
-  render = ({ item, mode } = this.props) => {
-    const height = (item.h.value - (item.borderSize.value * 2)) - item.legendHeight.value;
+  render = ({ item, mode, h } = this.props) => {
+    const height = (h - (item.borderSize.value * 2)) - item.legendHeight.value;
     const top = item.legendHeight.value;
     const buttonSize = item.buttonSize.value / 100;
-
-    console.log(this.props.item);
     return (
       <div style={{ ...styles.root, zIndex: mode === 'user' ? 1 : -1 }}>
         <div ref={this.linkedLegend} style={{ ...styles.legend, height: top }} />
