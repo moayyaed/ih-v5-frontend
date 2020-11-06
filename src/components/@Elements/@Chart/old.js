@@ -1,6 +1,18 @@
 import React, { PureComponent } from 'react';
 import Dygraph from 'dygraphs';
 
+import Fab from '@material-ui/core/Fab';
+
+// import DatePicker from 'material-ui/DatePicker';
+// import IconDiscrete from 'material-ui/svg-icons/action/assessment';
+import IconBefore from '@material-ui/icons/ArrowBackIos';
+import IconNext from '@material-ui/icons/ArrowForwardIos';
+
+import SyncIcon from '@material-ui/icons/Sync';
+import EventIcon from '@material-ui/icons/Event';
+import UpdateIcon from '@material-ui/icons/Update';
+
+
 import Intl from 'intl';
 
 
@@ -82,31 +94,37 @@ const styles = {
     position: 'absolute',
     bottom: 4,
     left: 6,
+    color: '#fff',
   },
   buttonHome: {
     position: 'absolute',
     bottom: 4,
     right: 6,
+    color: '#fff',
   },
   buttonNavNext: {
     position: 'absolute',
     bottom: 4,
     left: 'calc(50% + 30px)',
+    color: '#fff',
   },
   buttonNavBefore: {
     position: 'absolute',
     bottom: 4,
     left: 'calc(50% - 70px)',
+    color: '#fff',
   },
   buttonDate: {
     position: 'absolute',
     bottom: 4,
     left: 'calc(50% - 20px)',
+    color: '#fff',
   },
   buttonsDiscrete: {
     position: 'absolute',
     bottom: 4,
     left: 56,
+    color: '#fff',
   },
   datePicker: {
     display: 'none',
@@ -591,6 +609,55 @@ class Chart extends PureComponent {
         <div style={styles.toolbar} />
         <div ref={this.linkedSpiner} style={styles.spiner}>LOADING</div>
         <div ref={this.linkedPanel} style={styles.panel} />
+        {item.buttonDiscrete.value && this.state.enabledsd && <div style={{ ...styles.speeddial, transform: `scale(${buttonSize})` }}>
+          
+          </div>}
+          {item.buttonSync.value &&
+            <Fab
+              size="small"
+              style={{ ...styles.buttonSync, transform: `scale(${buttonSize})`, backgroundColor: item.buttonsColor.value }}
+              onTouchTap={this.handleSync}
+            >
+              <SyncIcon />
+            </Fab>
+          }
+          {item.buttonDate.value &&
+            <Fab
+              size="small"
+              style={{ ...styles.buttonDate, transform: `scale(${buttonSize})`, backgroundColor: item.buttonsColor.value }}
+              onTouchTap={this.handleDate}
+            >
+              <EventIcon />
+            </Fab>
+          }
+          {item.buttonNavigate.value &&
+            <Fab
+              size="small"
+              style={{ ...styles.buttonNavBefore, transform: `scale(${buttonSize})`, backgroundColor: item.buttonsColor.value }}
+              onTouchTap={this.handleNavBefore}
+            >
+              <IconBefore />
+            </Fab>
+          }
+          {item.buttonNavigate.value &&
+            <Fab
+              size="small"
+              style={{ ...styles.buttonNavNext, transform: `scale(${buttonSize})`, backgroundColor: item.buttonsColor.value }}
+              onTouchTap={this.handleNavNext}
+            >
+              <IconNext />
+            </Fab>
+          }
+          {item.buttonHome &&
+            <Fab
+              size="small"
+              style={{ ...styles.buttonHome, transform: `scale(${buttonSize})`, backgroundColor: item.buttonsColor.value }}
+              onTouchTap={this.handleHome}
+            >
+              <UpdateIcon />
+            </Fab>
+          }
+ 
       </div>
     );
   }

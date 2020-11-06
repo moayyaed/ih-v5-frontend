@@ -9827,6 +9827,11 @@ react-sortable-tree@^2.6.0, "react-sortable-tree@https://github.com/ih-systems/r
     react-sortable-tree "^2.6.0"
     react-virtualized "^9.19.1"
 
+react-speed-dial@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/react-speed-dial/-/react-speed-dial-0.5.2.tgz#bb0a7145337c1dcf80407dca1e5dfb7b861c5529"
+  integrity sha512-CoiXML7m4tSF3SYgFDUuiL3+zaZOu9bG4scYxHiEIOq5WPg6k0Nzv8FKRRoAG0yHJDGxAwFMBsXJGw0RHPvJdA==
+
 react-spring@^8.0.27:
   version "8.0.27"
   resolved "https://registry.yarnpkg.com/react-spring/-/react-spring-8.0.27.tgz#97d4dee677f41e0b2adcb696f3839680a3aa356a"
