@@ -124,8 +124,8 @@ const styles = {
 };
 
 
-function getHeight(h, elementStyle) {
-  if (!elementStyle.buttonSync && !elementStyle.buttonHome && !elementStyle.buttonDate && !elementStyle.buttonDiscrete && !elementStyle.buttonNavigate) {
+function getHeight(h, item) {
+  if (!item.buttonSync.value && !item.buttonHome.value && !item.buttonDate.value && !item.buttonDiscrete.value && !item.buttonNavigate.value) {
     return h;
   }
   return h - 44;
@@ -161,13 +161,16 @@ class Chart extends PureComponent {
     setTimeout(() => {
       const test = {
         ...this.props,
-        params: {
-          ...this.props.params,
-          forceRealtime: false,
-          range: [1604581705796, 1604581781231],
-          timerange: [1604581705796, 1604581781231],
-          triger: 1604581705796,
-        },
+        item: {
+          ...this.props.item,
+          data: {
+            ...this.props.item.data,
+            forceRealtime: false,
+            range: [1604581705796, 1604581781231],
+            timerange: [1604581705796, 1604581781231],
+            triger: 1604581705796,
+          },
+        }
       };
       this.componentWillReceiveProps(test);
     }, 500)
@@ -179,28 +182,28 @@ class Chart extends PureComponent {
       this.getData(nextProps);
     }
 
-    if (nextProps.params.chartid !== this.props.params.chartid) {
+    if (nextProps.item.widgetlinks.link.chartid !== this.props.item.widgetlinks.link.chartid) {
       this.subDisabled(nextProps);
       this.getData(nextProps);
     } else {
-      if (this.props.elementStyle !== nextProps.elementStyle) {
-        if (JSON.stringify(this.props.elementStyle) !== JSON.stringify(nextProps.elementStyle)) {
+      if (this.props.item !== nextProps.item) {
+        if (JSON.stringify(this.props.item) !== JSON.stringify(nextProps.item)) {
           this.updateOptions(nextProps);
         }
       }
-      if (nextProps.params.triger !== undefined && nextProps.params.triger !== this.props.params.triger) {
-        if (nextProps.params.timerange !== undefined) {
-          this.props.params.timerange = nextProps.params.timerange
+      if (nextProps.item.data.triger !== undefined && nextProps.item.data.triger !== this.props.item.data.triger) {
+        if (nextProps.item.data.timerange !== undefined) {
+          this.props.item.data.timerange = nextProps.item.data.timerange
           this.ctx.buffer.raw = {}
           this.ctx.init = true;
         }
-        this.setState({ realtime: nextProps.params.forceRealtime });
-        this.ctx.chart.updateOptions({ dateWindow: nextProps.params.range });
+        this.setState({ realtime: nextProps.item.data.forceRealtime });
+        this.ctx.chart.updateOptions({ dateWindow: nextProps.item.data.range });
       }
     }
     if (
-      this.props.settings.h !== nextProps.settings.h ||
-      this.props.settings.w !== nextProps.settings.w
+      this.props.item.h.value !== nextProps.item.h.value ||
+      this.props.item.w.value !== nextProps.item.w.value
     ) {
       this.ctx.chart.resize();
     }
@@ -213,10 +216,10 @@ class Chart extends PureComponent {
   getData = (props = this.props, _discrete = false) => {
     this.spiner.style.display = 'none';
     props.fetch('get', {
-      id: `WIDGET_CHARTS_${props.id}_${props.params.chartid}`,
+      id: `WIDGET_CHARTS_${props.id}_${props.item.widgetlinks.link.chartid}`,
       route: [
-        { propname: 'data', tablename: 'chartlist', filter: { id: props.params.chartid !== '' ? props.params.chartid : 'null' } },
-        { propname: 'items', tablename: 'charts', filter: { chartid: props.params.chartid !== '' ? props.params.chartid : 'null' } },
+        { propname: 'data', tablename: 'chartlist', filter: { id: props.item.widgetlinks.link.chartid !== '' ? props.item.widgetlinks.link.chartid : 'null' } },
+        { propname: 'items', tablename: 'charts', filter: { chartid: props.item.widgetlinks.link.chartid !== '' ? props.item.widgetlinks.link.chartid : 'null' } },
       ],
     })
     .then(response => response.set)
@@ -224,7 +227,7 @@ class Chart extends PureComponent {
       const dn = set.items.map(i => i.dn).join(',');
       const alias = [].reduce((l, n) => ({ ...l, [n.dn]: n.id }), {});
       const legend = set.data[0] || {};
-      const { start, end } = getZoomInterval(props.elementStyle.chartInterval);
+      const { start, end } = getZoomInterval(props.item.interval.value.id);
       this.ctx = createContext(
         this.chart,
         this.spiner,
@@ -241,15 +244,15 @@ class Chart extends PureComponent {
       }
       this.updateOptions(props, _discrete);
 
-      if (dn !== '' && legend.chart_type !== 'bar' && props.elementStyle.chartRealtime !== false) {
+      if (dn !== '' && legend.chart_type !== 'bar' && props.item.realtime.value !== false) {
         props.fetch('sub', {
-          id: `WIDGET_CHARTS_${props.id}_${props.params.chartid}`,
+          id: `WIDGET_CHARTS_${props.id}_${props.item.widgetlinks.link.chartid}`,
           route: { event: 'trend', filter: dn, alias },
         })
         .then(response => {
           this.sub = response.sub;
           this.subId = response.id;
-          this.sub.on(response.id, this.realtime);
+          // this.sub.on(response.id, this.realtime);
         });
       }
     });
@@ -280,7 +283,7 @@ class Chart extends PureComponent {
   subDisabled = (props = this.props) => {
     if (this.subId) {
       props.fetch('unsub', { id: this.subId, route: { event: 'devices' } });
-      this.sub.removeListener(this.subId, this.realtime);
+      // this.sub.removeListener(this.subId, this.realtime);
     }
   }
 
@@ -304,7 +307,7 @@ class Chart extends PureComponent {
       });
     if (this.state.realtime) {
       renderRealTime(this.ctx);
-      this.setWindow(x, this.props.elementStyle.chartPositionCurentTime);
+      this.setWindow(x, this.props.item.positionCurentTime.value);
     }
   }
 
@@ -354,7 +357,7 @@ class Chart extends PureComponent {
   updateOptions = (props = this.props, windowfreeze = false) => {
     this.ctx.init = true;
     const { legend, items } = this.ctx.params;
-    const { start, end } = getZoomInterval(props.elementStyle.chartInterval);
+    const { start, end } = getZoomInterval(props.item.interval.value.id);
     this.ctx.chart.updateOptions({
       stepPlot: legend.chart_type === 'step' ? true : false,
       visibility: items.map(() => true),
@@ -369,19 +372,19 @@ class Chart extends PureComponent {
       axes: {
         x: {
           axisLabelFormatter: this.getAxisValueX,
-          axisLineColor: props.elementStyle.chartGridColor,
+          axisLineColor: props.item.gridColor.value,
         },
         y: {
           axisLabelFormatter: this.getAxisValueY,
           axisLabelWidth: 50,
-          axisLineColor: props.elementStyle.chartGridColor,
+          axisLineColor: props.item.gridColor.value,
           valueRange: legend.chart_type === 'bar' ? null : [legend.leftaxis_min, legend.leftaxis_max],
         },
         y2: {
           axisLabelFormatter: this.getAxisValueY,
           drawAxis: legend.rightaxis,
           axisLabelWidth: 50,
-          axisLineColor: props.elementStyle.chartGridColor,
+          axisLineColor: props.item.gridColor.value,
           valueRange: [legend.rightaxis_min, legend.rightaxis_max],
         },
       },
@@ -389,15 +392,15 @@ class Chart extends PureComponent {
       colors: items.map(i => i.lineColor),
       ylabel: this.getLabelLeft(),
       y2label: this.getLabelRight(),
-      gridLineColor: props.elementStyle.chartGridColor,
+      gridLineColor: props.item.gridColor.value,
       legend: 'always',
       labelsSeparateLines: true,
       hideOverlayOnMouseOut: false,
       legendFormatter: this.setLegend,
-      drawPoints: props.elementStyle.chartPoints,
+      drawPoints: props.item.points.value,
     });
     if (windowfreeze === false) {
-      this.setWindow(Date.now(), this.props.elementStyle.chartPositionCurentTime);
+      this.setWindow(Date.now(), this.props.item.positionCurentTime.value);
     } else {
       const { start, end } = getZoomIntervalPlotter(this.ctx.chart.dateWindow_, windowfreeze);
       this.ctx.chart.updateOptions({ dateWindow: [start, end] });
@@ -419,7 +422,7 @@ class Chart extends PureComponent {
   }
 
   dblclick = (e, g, c) => {
-    const { start, end } = getZoomInterval(this.props.elementStyle.chartInterval);
+    const { start, end } = getZoomInterval(this.props.item.interval.value.id);
     const a = (end - start) / 2;
     const b = (this.ctx.render.e - this.ctx.render.s) / 2;
     const x = this.ctx.render.s + b;
@@ -438,7 +441,7 @@ class Chart extends PureComponent {
   }
 
   handleChanged = (_, __, chart) => {
-    render(this.ctx, chart, this.props.params.timerange);
+    render(this.ctx, chart, this.props.item.data.timerange);
   }
 
   linked = (e) => {
@@ -462,38 +465,38 @@ class Chart extends PureComponent {
   }
 
   getLabelLeft = () => {
-    const elementStyle = this.props.elementStyle;
+    const item = this.props.item;
     return `<span
-      style="font-size:14px;color:${elementStyle.chartTextColor}">
+      style="font-size:14px;color:${item.textColor.value}">
       ${this.ctx.params.legend.leftaxis_title
       }</span>`;
   }
 
   getLabelRight = () => {
-    const elementStyle = this.props.elementStyle;
+    const item = this.props.item;
     return `<span
-      style="position:relative;top:-5px;font-size:14px;color:${elementStyle.chartTextColor}">
+      style="position:relative;top:-5px;font-size:14px;color:${item.textColor.value}">
       ${this.ctx.params.legend.rightaxis_title
       }</span>`;
   }
 
   getAxisValueY = (v) => {
-    const elementStyle = this.props.elementStyle;
+    const item = this.props.item;
     if (Number.isInteger(v)) {
-      return `<span style="color:${elementStyle.chartTextColor}">${v}</span>`;
+      return `<span style="color:${item.textColor.value}">${v}</span>`;
     }
-    return `<span style="color:${elementStyle.chartTextColor}">${v.toFixed(2)}</span>`;
+    return `<span style="color:${item.textColor.value}">${v.toFixed(2)}</span>`;
   }
 
   getAxisValueX = (a, b, c, d) => {
     if (this.ctx.params.legend.chart_type === 'bar') {
-      const elementStyle = this.props.elementStyle;
+      const item = this.props.item;
       const v = getBarFormatDate(a, b, c, d, this.ctx.params.legend.discrete);
-      return `<span style="white-space:nowrap;color:${elementStyle.chartTextColor}">${v}</span>`;
+      return `<span style="white-space:nowrap;color:${item.textColor.value}">${v}</span>`;
     }
-    const elementStyle = this.props.elementStyle;
+    const item = this.props.item;
     const v = Dygraph.dateAxisLabelFormatter(a, b, c, d);
-    return `<span style="color:${elementStyle.chartTextColor}">${v}</span>`;
+    return `<span style="color:${item.textColor.value}">${v}</span>`;
   }
 
   setLegend = (data) => {
@@ -525,7 +528,7 @@ class Chart extends PureComponent {
   handleHome = () => {
     this.setState({ realtime: true });
     renderRealTime(this.ctx);
-    this.setWindow(Date.now(), this.props.elementStyle.chartPositionCurentTime);
+    this.setWindow(Date.now(), this.props.item.positionCurentTime.value);
   }
 
   handleChandeDate = (_, v) => {
@@ -566,7 +569,7 @@ class Chart extends PureComponent {
   }
 
   generateLegend = () => {
-    const color = this.props.elementStyle.chartTextColor;
+    const color = this.props.item.textColor.value;
     const st = `text-align:center;color:${color};width:150px;font-size:14px;display:flex;align-items:center;justify-content:center;`;
     const s0 = 'display:flex;flex-direction:row;flex-shrink:0;height: 100%;';
     const sl = 'font-size:14px;display:flex;width:100%;padding-left:5px;padding-right:10px;height:100%';
@@ -595,15 +598,14 @@ class Chart extends PureComponent {
       }, {});
   }
 
-  render = ({ settings, containerStyle, elementStyle, params, locale } = this.props) => {
-    console.log(this.props)
-    const height = (settings.h - (containerStyle.borderWidth * 2)) - elementStyle.chartLegendHeight;
-    const top = elementStyle.chartLegendHeight;
-    const buttonSize = elementStyle.buttonSize / 100;
+  render = ({ item, mode } = this.props) => {
+    const height = (item.h.value - (item.borderSize.value * 2)) - item.legendHeight.value;
+    const top = item.legendHeight.value;
+    const buttonSize = item.buttonSize.value / 100;
     return (
-      <div style={{ ...styles.root, ...containerStyle, zIndex: styles.root.zIndex }}>
+      <div style={{ ...styles.root, zIndex: mode === 'user' ? 1 : -1 }}>
         <div ref={this.linkedLegend} style={{ ...styles.legend, height: top }} />
-        <div ref={this.linked} style={{ ...styles.container, width: '100%', top, height: getHeight(height, elementStyle) }} />
+        <div ref={this.linked} style={{ ...styles.container, width: '100%', top, height: getHeight(height, item) }} />
         <div style={styles.toolbar} />
         <div ref={this.linkedSpiner} style={styles.spiner}>LOADING</div>
         <div ref={this.linkedPanel} style={styles.panel} />

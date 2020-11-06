@@ -328,6 +328,20 @@ const CHART = {
     link: { }
   },
   data: {},
+  interval: { value: { id: 'hour', title: 'hour' } },
+  positionCurentTime: { value: 85 },
+  legendHeight: { value: 60 },
+  gridColor: { value: 'rgba(191, 191, 191, 1)' },
+  textColor: { value: 'rgba(77, 77, 77, 1)' },
+  buttonsColor: { value: 'rgba(64, 81, 181, 1)' },
+  realtime: { value: true },
+  points: { value: false },
+  buttonSync: { value: true },
+  buttonHome: { value: true },
+  buttonDate: { value: true },
+  buttonDiscrete: { value: true },
+  buttonNavigate: { value: true },
+  buttonSize: { value: 100 },
 }
 
 const SLIDER = {
