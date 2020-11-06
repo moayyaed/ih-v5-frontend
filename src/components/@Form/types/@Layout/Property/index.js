@@ -5,7 +5,7 @@ import CompactForm from 'components/@Form/Compact';
 
 import { Scrollbars } from 'react-custom-scrollbars';
 
-import scheme from './scheme';
+import scheme from 'components/schemes';
 
 const route = {}
 const cache = {}

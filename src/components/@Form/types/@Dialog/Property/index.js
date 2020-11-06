@@ -4,8 +4,7 @@ import core from 'core';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import CompactForm from 'components/@Form/Compact';
-import scheme from 'components/@Form/types/@Layout/Property/scheme';
-import actions from 'components/@Form/actions';
+import scheme from 'components/schemes';
 
 const route = {
   dialog: true,

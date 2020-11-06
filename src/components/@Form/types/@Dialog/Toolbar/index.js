@@ -12,7 +12,7 @@ import Menu from 'components/Menu';
 import { ElementsItems } from './Items';
 import { CollapseIcon, ExpandIcon } from './Icons';
 
-import scheme from 'components/@Form/types/@Layout/Property/scheme2';
+import scheme from 'components/schemes/toolbar';
 import './main.css';
 
 const styles = {

@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import core from 'core';
 
-import CompactForm from 'components/@Form/Compact';
-
 import { Scrollbars } from 'react-custom-scrollbars';
-import scheme from 'components/@Form/types/@Layout/Property/scheme';
+
+import CompactForm from 'components/@Form/Compact';
+import scheme from 'components/schemes';
 
 const route = {
   type: 'template',
