@@ -609,10 +609,8 @@ class Chart extends PureComponent {
         <div style={styles.toolbar} />
         <div ref={this.linkedSpiner} style={styles.spiner}>LOADING</div>
         <div ref={this.linkedPanel} style={styles.panel} />
-        {item.buttonDiscrete.value && this.state.enabledsd && <div style={{ ...styles.speeddial, transform: `scale(${buttonSize})` }}>
-          
-          </div>}
-          {item.buttonSync.value &&
+        {item.buttonDiscrete.value && this.state.enabledsd ? <div style={{ ...styles.speeddial, transform: `scale(${buttonSize})` }}></div>: null}
+          {item.buttonSync.value ?
             <Fab
               size="small"
               style={{ ...styles.buttonSync, transform: `scale(${buttonSize})`, backgroundColor: item.buttonsColor.value }}
@@ -620,8 +618,8 @@ class Chart extends PureComponent {
             >
               <SyncIcon />
             </Fab>
-          }
-          {item.buttonDate.value &&
+          : null}
+          {item.buttonDate.value ?
             <Fab
               size="small"
               style={{ ...styles.buttonDate, transform: `scale(${buttonSize})`, backgroundColor: item.buttonsColor.value }}
@@ -629,8 +627,8 @@ class Chart extends PureComponent {
             >
               <EventIcon />
             </Fab>
-          }
-          {item.buttonNavigate.value &&
+          : null}
+          {item.buttonNavigate.value ?
             <Fab
               size="small"
               style={{ ...styles.buttonNavBefore, transform: `scale(${buttonSize})`, backgroundColor: item.buttonsColor.value }}
@@ -638,8 +636,8 @@ class Chart extends PureComponent {
             >
               <IconBefore />
             </Fab>
-          }
-          {item.buttonNavigate.value &&
+          : null}
+          {item.buttonNavigate.value ?
             <Fab
               size="small"
               style={{ ...styles.buttonNavNext, transform: `scale(${buttonSize})`, backgroundColor: item.buttonsColor.value }}
@@ -647,8 +645,8 @@ class Chart extends PureComponent {
             >
               <IconNext />
             </Fab>
-          }
-          {item.buttonHome &&
+          : null}
+          {item.buttonHome.value ?
             <Fab
               size="small"
               style={{ ...styles.buttonHome, transform: `scale(${buttonSize})`, backgroundColor: item.buttonsColor.value }}
@@ -656,8 +654,7 @@ class Chart extends PureComponent {
             >
               <UpdateIcon />
             </Fab>
-          }
- 
+          : null}
       </div>
     );
   }
