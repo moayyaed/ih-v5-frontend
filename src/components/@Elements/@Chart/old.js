@@ -155,23 +155,6 @@ class Chart extends PureComponent {
     this.chart = new Dygraph(this.link, [[new Date(), null]], options);
     this.getData();
 
-
-    setTimeout(() => {
-      const test = {
-        ...this.props,
-        item: {
-          ...this.props.item,
-          data: {
-            ...this.props.item.data,
-            forceRealtime: false,
-            range: [1604581705796, 1604581781231],
-            timerange: [1604581705796, 1604581781231],
-            triger: 1604581705796,
-          },
-        }
-      };
-      this.componentWillReceiveProps(test);
-    }, 500)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -204,6 +187,7 @@ class Chart extends PureComponent {
       this.props.item.w.value !== nextProps.item.w.value
     ) {
       this.ctx.chart.resize();
+      console.log(5)
     }
   }
 
