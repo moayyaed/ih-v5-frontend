@@ -33,7 +33,6 @@ class Chart extends PureComponent {
 
   render() {
     const props = this.props; 
-    const data = props.mode === 'user' ? props.item.data : temp;
     return (
       <ReactResizeDetector handleWidth handleHeight>
         {({ width, height }) => {
