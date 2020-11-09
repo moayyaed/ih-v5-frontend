@@ -187,7 +187,7 @@ class Chart extends PureComponent {
       this.getData(nextProps);
     }
 
-    if (nextProps.item.widgetlinks.link.chartid !== this.props.item.widgetlinks.link.chartid) {
+    if (nextProps.item.widgetlinks.link.id !== this.props.item.widgetlinks.link.id) {
       this.subDisabled(nextProps);
       this.getData(nextProps);
     } else {
@@ -219,11 +219,10 @@ class Chart extends PureComponent {
   }
 
   getData = (props = this.props, _discrete = false) => {
-    const items = this.props.item.data.lines.map((i, key) => {
+    const items = props.item.data.lines.map((i, key) => {
       return { id: key.toString(), ...i, linecolor: getColor(i.linecolor) };
     });
     const legend = this.props.item.data || {};
-
     const dn = items.map(i => i.dn_prop).join(',');
     const alias = [].reduce((l, n) => ({ ...l, [n.dn]: n.id }), {});
     const { start, end } = getZoomInterval(props.item.interval.value.id);
@@ -232,7 +231,7 @@ class Chart extends PureComponent {
       this.spiner,
       props.fetch,
       { start, end },
-      { id: props.id, dn, alias, items: items, legend },
+      { id: props.id, chartid: props.item.widgetlinks.link.id, dn, alias, items: items, legend },
       this.panel,
     );
     const genlegend = this.generateLegend();
@@ -245,7 +244,7 @@ class Chart extends PureComponent {
 
     if (dn !== '' && legend.chart_type !== 'bar' && props.item.realtime.value !== false) {
       props.fetch('sub', {
-        id: `WIDGET_CHARTS_${props.id}_${props.item.widgetlinks.link.chartid}`,
+        id: `WIDGET_CHARTS_${props.id}_${props.item.widgetlinks.link.id}`,
         route: { event: 'trend', filter: dn, alias },
       })
       .then(response => {

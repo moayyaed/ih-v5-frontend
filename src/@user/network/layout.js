@@ -373,7 +373,6 @@ core.network.request('applayout', (send, context) => {
 
 
 core.network.response('applayout', (answer, res, context) => {
-  console.log(res);
   answer(preparationData({
     layout: res[0].data,
     containers: res[1].data,

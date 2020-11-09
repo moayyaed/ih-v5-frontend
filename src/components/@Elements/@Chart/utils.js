@@ -1,9 +1,11 @@
 /* eslint-disable no-underscore-dangle  */
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-param-reassign */
-import uuidv4 from 'uuid/v4';
-import Dygraph from 'dygraphs';
 
+import core from 'core';
+
+import shortid from 'shortid';
+import Dygraph from 'dygraphs';
 
 const ONE_DAY = 1000 * 60 * 60 * 24;
 const BUFFERING_PERCENTAGE = 35;
@@ -190,7 +192,7 @@ function getTypeChart(type) {
 function requestHTTP(context, item) {
   context.worker.req = context.worker.req + 1;
   const alias = Object.keys(context.params.alias).map(i => `${i}:${context.params.alias[i]}`).join(',');
-  const url = `/${getTypeChart(context.params.legend.chart_type)}?uuid=${uuidv4()}&chartid=${context.params.legend.id}&dn=${context.params.dn}&start=${item.s}&end=${item.e}&alias=${alias}&discrete=${context.params.legend.discrete}`;
+  const url = `/${getTypeChart(context.params.legend.chart_type)}?uuid=${shortid.generate()}&id=${context.params.chartid}&dn_prop=${context.params.dn}&start=${item.s}&end=${item.e}&alias=${alias}&discrete=${context.params.legend.discrete}`;
   if (window.ihp2p) {
     return window.ihp2p.http(url)
     .then(res => JSON.parse(res))
@@ -200,7 +202,7 @@ function requestHTTP(context, item) {
     });;
   }
 
-  return fetch('http://89.151.134.234:46088' + url)
+  return fetch(url, { headers: { token: core.cache.token } })
   .then(res => res.json())
   .then(json => {
     context.worker.req = context.worker.req - 1;
