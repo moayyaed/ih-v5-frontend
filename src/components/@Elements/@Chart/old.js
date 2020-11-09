@@ -149,6 +149,13 @@ function getHeight(h, item) {
   return h - 44;
 }
 
+function getColor(color) {
+  if (!color && color === '') {
+    return 'rgba(0,0,0,1)';
+  }
+  return color;
+}
+
 
 class Chart extends PureComponent {
 
@@ -172,7 +179,6 @@ class Chart extends PureComponent {
     };
     this.chart = new Dygraph(this.link, [[new Date(), null]], options);
     this.getData();
-
   }
 
   componentWillReceiveProps(nextProps) {
@@ -205,7 +211,6 @@ class Chart extends PureComponent {
       this.props.item.w.value !== nextProps.item.w.value
     ) {
       this.ctx.chart.resize();
-      console.log(5)
     }
   }
 
@@ -214,48 +219,41 @@ class Chart extends PureComponent {
   }
 
   getData = (props = this.props, _discrete = false) => {
-    this.spiner.style.display = 'none';
-    props.fetch('get', {
-      id: `WIDGET_CHARTS_${props.id}_${props.item.widgetlinks.link.chartid}`,
-      route: [
-        { propname: 'data', tablename: 'chartlist', filter: { id: props.item.widgetlinks.link.chartid !== '' ? props.item.widgetlinks.link.chartid : 'null' } },
-        { propname: 'items', tablename: 'charts', filter: { chartid: props.item.widgetlinks.link.chartid !== '' ? props.item.widgetlinks.link.chartid : 'null' } },
-      ],
-    })
-    .then(response => response.set)
-    .then(set => {
-      const dn = set.items.map(i => i.dn).join(',');
-      const alias = [].reduce((l, n) => ({ ...l, [n.dn]: n.id }), {});
-      const legend = set.data[0] || {};
-      const { start, end } = getZoomInterval(props.item.interval.value.id);
-      this.ctx = createContext(
-        this.chart,
-        this.spiner,
-        props.fetch,
-        { start, end },
-        { id: props.id, dn, alias, items: set.items, legend },
-        this.panel,
-      );
-      const genlegend = this.generateLegend();
-      this.setClickLegend(genlegend);
-      this.ctx.litems = genlegend;
-      if (_discrete) {
-        this.ctx.params.legend.discrete = _discrete;
-      }
-      this.updateOptions(props, _discrete);
-
-      if (dn !== '' && legend.chart_type !== 'bar' && props.item.realtime.value !== false) {
-        props.fetch('sub', {
-          id: `WIDGET_CHARTS_${props.id}_${props.item.widgetlinks.link.chartid}`,
-          route: { event: 'trend', filter: dn, alias },
-        })
-        .then(response => {
-          this.sub = response.sub;
-          this.subId = response.id;
-          // this.sub.on(response.id, this.realtime);
-        });
-      }
+    const items = this.props.item.data.lines.map((i, key) => {
+      return { id: key.toString(), ...i, linecolor: getColor(i.linecolor) };
     });
+    const legend = this.props.item.data || {};
+
+    const dn = items.map(i => i.dn_prop).join(',');
+    const alias = [].reduce((l, n) => ({ ...l, [n.dn]: n.id }), {});
+    const { start, end } = getZoomInterval(props.item.interval.value.id);
+    this.ctx = createContext(
+      this.chart,
+      this.spiner,
+      props.fetch,
+      { start, end },
+      { id: props.id, dn, alias, items: items, legend },
+      this.panel,
+    );
+    const genlegend = this.generateLegend();
+    this.setClickLegend(genlegend);
+    this.ctx.litems = genlegend;
+    if (_discrete) {
+      this.ctx.params.legend.discrete = _discrete;
+    }
+    this.updateOptions(props, _discrete);
+
+    if (dn !== '' && legend.chart_type !== 'bar' && props.item.realtime.value !== false) {
+      props.fetch('sub', {
+        id: `WIDGET_CHARTS_${props.id}_${props.item.widgetlinks.link.chartid}`,
+        route: { event: 'trend', filter: dn, alias },
+      })
+      .then(response => {
+        this.sub = response.sub;
+        this.subId = response.id;
+        // this.sub.on(response.id, this.realtime);
+      });
+    }
   }
 
   setClickLegend = (legend) => {
@@ -358,7 +356,7 @@ class Chart extends PureComponent {
     this.ctx.init = true;
     const { legend, items } = this.ctx.params;
     const { start, end } = getZoomInterval(props.item.interval.value.id);
-    this.ctx.chart.updateOptions({
+    console.log(items, {
       stepPlot: legend.chart_type === 'step' ? true : false,
       visibility: items.map(() => true),
       includeZero: legend.chart_type === 'bar' ? true : false,
@@ -367,7 +365,7 @@ class Chart extends PureComponent {
       file: [[new Date()].concat(items.map(() => null))],
       dateWindow: windowfreeze ? [this.ctx.chart.dateWindow_[0], this.ctx.chart.dateWindow_[1]] : [start, end],
       series: items.reduce((l, n) => ({ ...l, [n.id]: {
-        axis: legend.rightaxis && n.rightaxis ? 'y2' : 'y' }
+        axis: legend.rightaxis && n.raxis ? 'y2' : 'y' }
       }), {}),
       axes: {
         x: {
@@ -389,7 +387,48 @@ class Chart extends PureComponent {
         },
       },
       labels: ['x'].concat(items.map(i => i.id)),
-      colors: items.map(i => i.lineColor),
+      colors: items.map(i => i.linecolor),
+      ylabel: this.getLabelLeft(),
+      y2label: this.getLabelRight(),
+      gridLineColor: props.item.gridColor.value,
+      legend: 'always',
+      labelsSeparateLines: true,
+      hideOverlayOnMouseOut: false,
+      legendFormatter: this.setLegend,
+      drawPoints: props.item.points.value,
+    });
+    this.ctx.chart.updateOptions({
+      stepPlot: legend.chart_type === 'step' ? true : false,
+      visibility: items.map(() => true),
+      includeZero: legend.chart_type === 'bar' ? true : false,
+      highlightCircleSize: legend.chart_type === 'bar' ? 0 : 3,
+      plotter: legend.chart_type === 'bar' ? this.multiColumnBarPlotter : null,
+      file: [[new Date()].concat(items.map(() => null))],
+      dateWindow: windowfreeze ? [this.ctx.chart.dateWindow_[0], this.ctx.chart.dateWindow_[1]] : [start, end],
+      series: items.reduce((l, n) => ({ ...l, [n.id]: {
+        axis: legend.rightaxis && n.raxis ? 'y2' : 'y' }
+      }), {}),
+      axes: {
+        x: {
+          axisLabelFormatter: this.getAxisValueX,
+          axisLineColor: props.item.gridColor.value,
+        },
+        y: {
+          axisLabelFormatter: this.getAxisValueY,
+          axisLabelWidth: 50,
+          axisLineColor: props.item.gridColor.value,
+          valueRange: legend.chart_type === 'bar' ? null : [legend.leftaxis_min, legend.leftaxis_max],
+        },
+        y2: {
+          axisLabelFormatter: this.getAxisValueY,
+          drawAxis: legend.rightaxis,
+          axisLabelWidth: 50,
+          axisLineColor: props.item.gridColor.value,
+          valueRange: [legend.rightaxis_min, legend.rightaxis_max],
+        },
+      },
+      labels: ['x'].concat(items.map(i => i.id)),
+      colors: items.map(i => i.linecolor),
       ylabel: this.getLabelLeft(),
       y2label: this.getLabelRight(),
       gridLineColor: props.item.gridColor.value,
@@ -485,7 +524,7 @@ class Chart extends PureComponent {
     if (Number.isInteger(v)) {
       return `<span style="color:${item.textColor.value}">${v}</span>`;
     }
-    return `<span style="color:${item.textColor.value}">${v.toFixed(2)}</span>`;
+    return `<span style="color:${item.textColor.value}">${parseFloat(v).toFixed(2)}</span>`;
   }
 
   getAxisValueX = (a, b, c, d) => {
@@ -579,12 +618,12 @@ class Chart extends PureComponent {
     const temp = this.ctx.params.items.map((i, k) => ({ ...i, id: `l_${this.props.id}_${k}` }));
 
     const lt = temp
-      .filter(v => v.rightaxis === false)
-      .map(i => `<span style="cursor:pointer;display:flex;margin-left:5px;margin-top:2px;"><span style="color:${i.lineColor}">${i.legend}</span><div id="${i.id}" style="text-align:left;margin-left:8px;margin-right:10px;width:50px;height: 20px;font-weight:bold;color:${i.lineColor}"></div></span>`)
+      .filter(v => !v.raxis)
+      .map(i => `<span style="cursor:pointer;display:flex;margin-left:5px;margin-top:2px;"><span style="color:${i.linecolor}">${i.legend}</span><div id="${i.id}" style="text-align:left;margin-left:8px;margin-right:10px;width:50px;height: 20px;font-weight:bold;color:${i.linecolor}"></div></span>`)
       .join('');
     const rt = temp
-      .filter(v => v.rightaxis === true)
-      .map(i => `<span style="cursor:pointer;display:flex;margin-right:5px;margin-top:2px;"><span style="color:${i.lineColor}">${i.legend}</span><div id="${i.id}" style="text-align:left;margin-right:10px;margin-left:8px;width:50px;height: 20px;font-weight:bold;color:${i.lineColor}"></div></span>`)
+      .filter(v => v.raxis)
+      .map(i => `<span style="cursor:pointer;display:flex;margin-right:5px;margin-top:2px;"><span style="color:${i.linecolor}">${i.legend}</span><div id="${i.id}" style="text-align:left;margin-right:10px;margin-left:8px;width:50px;height: 20px;font-weight:bold;color:${i.linecolor}"></div></span>`)
       .join('');
     const left = `<div style="${bl}">${lt}</div>`;
     const right = `<div style="${br}">${rt}</div>`;

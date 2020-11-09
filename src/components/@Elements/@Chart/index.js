@@ -15,7 +15,6 @@ const styles = {
 const data = JSON.parse('{"data":[{"id":"89","decdig":0,"leftaxis_title":"","rightaxis_max":1,"calc_type":"sum","pluginchart":"","name":"Датчики температуры Серверная (1площадка)","leftaxis_max":40,"order":0,"andfilter":"","data_type":"trend","dbtable":"","txt":"","rightaxis_min":0,"plugin":"","widget_type":"charts","rightaxis_title":"","discrete":"day","leftaxis_min":0,"chart_type":"step","rightaxis":false}],"items":[{"id":"201","hide":false,"rtperiod":0,"dn":"DT_ServerRoom","name":"Серверная (1 площадка)","legend":"Температура, ºC","order":0,"andfilter":"","lineColor":"rgba(255, 175, 74, 1)","chartid":"89","rightaxis":false,"txt":"","icon":""}]}');
 
 function fetch (type, options) {
-  console.log(type, options)
   return new Promise((resolve, reject) => {
     resolve({ set: data });
   });
@@ -33,7 +32,7 @@ class Chart extends PureComponent {
   }
 
   render() {
-    const props = this.props;
+    const props = this.props; 
     const data = props.mode === 'user' ? props.item.data : temp;
     return (
       <ReactResizeDetector handleWidth handleHeight>
@@ -55,7 +54,7 @@ class Chart extends PureComponent {
                   visibility: props.item.visible && props.item.visible.value == false ? 'hidden' : 'unset',
                 }}
               >
-                {React.createElement(ChartOld, { fetch, mode: props.mode, item: { ...props.item, data: this.state.data }, h: height })}
+                {React.createElement(ChartOld, { id: props.id, fetch, mode: props.mode, item: props.item, h: height })}
               </div>
             );
           }

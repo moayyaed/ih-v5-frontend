@@ -118,6 +118,10 @@ function preparationData(data) {
         }
         // bind
       })
+      // widget data
+      if (data.layout.elements[id].widget && data.widgets[id] !== undefined) {
+        data.layout.elements[id].data = data.widgets[id];
+      } // widget data
     });
 
   // layout
@@ -363,15 +367,18 @@ core.network.request('applayout', (send, context) => {
     { api: 'templates', layoutid: context.params.layoutId },
     { api: 'containers', layoutid: context.params.layoutId, rt: 1 },
     { api: 'layout', id: context.params.layoutId, rt: 1 },
+    { api: 'layout', id: context.params.layoutId, widgetdata: 1 },
   ]);
 })
 
 
 core.network.response('applayout', (answer, res, context) => {
+  console.log(res);
   answer(preparationData({
     layout: res[0].data,
     containers: res[1].data,
     templates: res[2].data,
     states: { ...res[3].data, ...res[4].data },
+    widgets: res[5].data,
   }));
 })
