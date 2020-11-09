@@ -356,47 +356,6 @@ class Chart extends PureComponent {
     this.ctx.init = true;
     const { legend, items } = this.ctx.params;
     const { start, end } = getZoomInterval(props.item.interval.value.id);
-    console.log(items, {
-      stepPlot: legend.chart_type === 'step' ? true : false,
-      visibility: items.map(() => true),
-      includeZero: legend.chart_type === 'bar' ? true : false,
-      highlightCircleSize: legend.chart_type === 'bar' ? 0 : 3,
-      plotter: legend.chart_type === 'bar' ? this.multiColumnBarPlotter : null,
-      file: [[new Date()].concat(items.map(() => null))],
-      dateWindow: windowfreeze ? [this.ctx.chart.dateWindow_[0], this.ctx.chart.dateWindow_[1]] : [start, end],
-      series: items.reduce((l, n) => ({ ...l, [n.id]: {
-        axis: legend.rightaxis && n.raxis ? 'y2' : 'y' }
-      }), {}),
-      axes: {
-        x: {
-          axisLabelFormatter: this.getAxisValueX,
-          axisLineColor: props.item.gridColor.value,
-        },
-        y: {
-          axisLabelFormatter: this.getAxisValueY,
-          axisLabelWidth: 50,
-          axisLineColor: props.item.gridColor.value,
-          valueRange: legend.chart_type === 'bar' ? null : [legend.leftaxis_min, legend.leftaxis_max],
-        },
-        y2: {
-          axisLabelFormatter: this.getAxisValueY,
-          drawAxis: legend.rightaxis,
-          axisLabelWidth: 50,
-          axisLineColor: props.item.gridColor.value,
-          valueRange: [legend.rightaxis_min, legend.rightaxis_max],
-        },
-      },
-      labels: ['x'].concat(items.map(i => i.id)),
-      colors: items.map(i => i.linecolor),
-      ylabel: this.getLabelLeft(),
-      y2label: this.getLabelRight(),
-      gridLineColor: props.item.gridColor.value,
-      legend: 'always',
-      labelsSeparateLines: true,
-      hideOverlayOnMouseOut: false,
-      legendFormatter: this.setLegend,
-      drawPoints: props.item.points.value,
-    });
     this.ctx.chart.updateOptions({
       stepPlot: legend.chart_type === 'step' ? true : false,
       visibility: items.map(() => true),
@@ -561,7 +520,7 @@ class Chart extends PureComponent {
   }
 
   handleDate = () => {
-    this.linkDatePicker.openDialog();
+    // this.linkDatePicker.openDialog();
   }
 
   handleHome = () => {
@@ -653,7 +612,7 @@ class Chart extends PureComponent {
             <Fab
               size="small"
               style={{ ...styles.buttonSync, transform: `scale(${buttonSize})`, backgroundColor: item.buttonsColor.value }}
-              onTouchTap={this.handleSync}
+              onClick={this.handleSync}
             >
               <SyncIcon />
             </Fab>
@@ -662,7 +621,7 @@ class Chart extends PureComponent {
             <Fab
               size="small"
               style={{ ...styles.buttonDate, transform: `scale(${buttonSize})`, backgroundColor: item.buttonsColor.value }}
-              onTouchTap={this.handleDate}
+              onClick={this.handleDate}
             >
               <EventIcon />
             </Fab>
@@ -671,7 +630,7 @@ class Chart extends PureComponent {
             <Fab
               size="small"
               style={{ ...styles.buttonNavBefore, transform: `scale(${buttonSize})`, backgroundColor: item.buttonsColor.value }}
-              onTouchTap={this.handleNavBefore}
+              onClick={this.handleNavBefore}
             >
               <IconBefore />
             </Fab>
@@ -680,7 +639,7 @@ class Chart extends PureComponent {
             <Fab
               size="small"
               style={{ ...styles.buttonNavNext, transform: `scale(${buttonSize})`, backgroundColor: item.buttonsColor.value }}
-              onTouchTap={this.handleNavNext}
+              onClick={this.handleNavNext}
             >
               <IconNext />
             </Fab>
@@ -689,7 +648,7 @@ class Chart extends PureComponent {
             <Fab
               size="small"
               style={{ ...styles.buttonHome, transform: `scale(${buttonSize})`, backgroundColor: item.buttonsColor.value }}
-              onTouchTap={this.handleHome}
+              onClick={this.handleHome}
             >
               <UpdateIcon />
             </Fab>
