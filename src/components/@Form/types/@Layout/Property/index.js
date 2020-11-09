@@ -82,20 +82,15 @@ class Property extends PureComponent {
             if (this.props.elementData.widgetlinks[c]) {
               return { ...p, [c]: this.props.elementData.widgetlinks[c] }
             }
-            return { ...p, [c]: { } }
+            return { ...p, [c]: { value: {} } }
           }, {});
         map = Object
           .keys(this.props.elementData.widgetlinks)
           .map(key => ({
             prop: key,
             title: key,
-            type: 'smartbutton',
-            command: 'dialog',
-            params: {
-              title: 'Привязка к каналу',
-              type: 'tree',
-              id: 'visitemsAndVistemplates',
-            }
+            type: 'smartbutton2',
+            params: { variant: 'options',title: 'Привязка к каналу', id: 'charts' },
           }));
         map = [{ title: 'Data', prop: 'bind', type: 'divider' }]
         .concat(map)

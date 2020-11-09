@@ -116,7 +116,16 @@ class Layout extends PureComponent {
           { [key]: value }
         );
     } else {
-      if (key === 'w2' || key === 'h2') {
+      const propertyType = this.props.data.propertyType || 'main';
+      const item = this.props.data.elements[this.props.data.selectOne];
+
+      if (item.widget && propertyType === 'link') {
+        core.actions.layout
+          .editElement(
+            this.props.id, this.props.options.prop,
+            this.props.data.selectOne, { widgetlinks: { [key]: value }},
+          )
+      } else if (key === 'w2' || key === 'h2') {
         const item = this.props.data.elements[this.props.data.selectOne];
 
         const prop1 = key === 'w2' ? 'x': 'y';

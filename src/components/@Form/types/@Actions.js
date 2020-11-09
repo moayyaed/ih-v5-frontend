@@ -324,7 +324,6 @@ function Actions(props) {
 
   const hanndleDialog = (command, type, key, did, prop, func, title, local) => {
     core.transfer.sub('form_dialog', handleDialogClick);
-    console.log(COMMANDS[command])
     core.actions.appdialog.data({
       id: 'action_dialog', 
       open: true, 
