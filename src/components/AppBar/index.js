@@ -176,7 +176,7 @@ function handleUpload (props) {
     }
 
     xhr.upload.onloadstart = function(e) {
-      core.actions.appprogress.data({ message: 'uploding' })
+      core.actions.appprogress.data({ message: 'uploading' })
     }
     
     xhr.upload.onprogress = (e) => {

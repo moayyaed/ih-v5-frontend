@@ -330,7 +330,7 @@ class AppNav extends Component {
       delete: () =>   core.actions.alert.show(title, message, () => this.handleRemoveNodes(item)),
       upload: (menuItem) => this.handleUpload(item, menuItem),
       export: (menuItem) => this.handleExport(item, menuItem),
-      newTab: (menuItem) => this.handleClickNode(null, item),
+      newtab: (menuItem) => this.handleClickNode(null, item),
     };
 
     let scheme = { main: [] };
@@ -341,8 +341,6 @@ class AppNav extends Component {
 
       if (!this.props.disabledRoute) {
         scheme = { ...scheme, main: [
-            {id: '---', type: 'item', title: 'New Tab', command: 'newTab'},
-            {id: '--', type: 'divider'}
           ].concat(scheme.main)
         }
       }
@@ -498,7 +496,7 @@ class AppNav extends Component {
       }
 
       xhr.upload.onloadstart = function(e) {
-        core.actions.appprogress.data({ message: 'uploding' })
+        core.actions.appprogress.data({ message: 'uploading' })
       }
       
       xhr.upload.onprogress = (e) => {

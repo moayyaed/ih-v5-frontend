@@ -339,7 +339,7 @@ function AppProgress(props) {
             <div style={styles.container4}>
               <AppBar className={props.classes.appBar}>
                 <Toolbar>
-                  <IconButton disabled={props.state.message === 'uploding'} edge="start" color="inherit" onClick={() => handleCancel({ complete: true, message: null })} >
+                  <IconButton disabled={props.state.message === 'uploading'} edge="start" color="inherit" onClick={() => handleCancel({ complete: true, message: null })} >
                     <CloseIcon />
                   </IconButton>
                   <Typography variant="h6" className={props.classes.title}>
@@ -383,7 +383,7 @@ function AppProgress(props) {
             <div style={styles.container1}>
               <AppBar className={props.classes.appBar}>
                 <Toolbar>
-                  <IconButton disabled={props.state.message === 'uploding'} edge="start" color="inherit" onClick={() => handleCancel({ complete: true, message: null })} >
+                  <IconButton disabled={props.state.message === 'uploading'} edge="start" color="inherit" onClick={() => handleCancel({ complete: true, message: null })} >
                     <CloseIcon />
                   </IconButton>
                   <Typography variant="h6" className={props.classes.title}>
