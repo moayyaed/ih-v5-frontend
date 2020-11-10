@@ -11,6 +11,9 @@ import MultiBackend from 'react-dnd-multi-backend';
 import HTML5ToTouch from 'react-dnd-multi-backend/dist/cjs/HTML5toTouch';
 import { DndProvider as DndProvider2 } from 'react-mosaic-component/node_modules/react-dnd';
 
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
+
 import 'typeface-roboto';
 import 'normalize.css/normalize.css';
 
@@ -25,11 +28,13 @@ function Dependences() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <DndProvider backend={HTML5Backend}>
-        <DndProvider2 backend={MultiBackend} options={HTML5ToTouch}>
-          <App />
-        </DndProvider2>
-      </DndProvider>
+      <MuiPickersUtilsProvider utils={MomentUtils}>
+        <DndProvider backend={HTML5Backend}>
+          <DndProvider2 backend={MultiBackend} options={HTML5ToTouch}>
+            <App />
+          </DndProvider2>
+        </DndProvider>
+      </MuiPickersUtilsProvider>
     </ThemeProvider>
   )
 }
