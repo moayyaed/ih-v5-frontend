@@ -5,6 +5,8 @@ import Fab from '@material-ui/core/Fab';
 
 // import DatePicker from 'material-ui/DatePicker';
 // import IconDiscrete from 'material-ui/svg-icons/action/assessment';
+import { KeyboardDatePicker } from '@material-ui/pickers';
+
 import IconBefore from '@material-ui/icons/ArrowBackIos';
 import IconNext from '@material-ui/icons/ArrowForwardIos';
 
@@ -176,7 +178,7 @@ function getColor(color) {
 
 class Chart extends PureComponent {
 
-  state = { enabledsd: null, speeddial: false, realtime: true }
+  state = { enabledsd: null, speeddial: false, realtime: true, calendar: false }
 
   componentDidMount() {
     const options = {
@@ -537,7 +539,7 @@ class Chart extends PureComponent {
   }
 
   handleDate = () => {
-    // this.linkDatePicker.openDialog();
+    this.setState({ calendar: true })
   }
 
   handleHome = () => {
@@ -546,9 +548,12 @@ class Chart extends PureComponent {
     this.setWindow(Date.now(), this.props.item.positionCurentTime.value);
   }
 
-  handleChandeDate = (_, v) => {
-    this.setState({ realtime: false });
-    this.setWindow(v.getTime(), 0);
+  handleChandeDate = (v) => {
+    const date = new Date(v.unix() * 1000);
+    date.setHours(0, 0, 0, 0);
+
+    this.setState({ realtime: false, calendar: false });
+    this.setWindow(date.getTime(), 0);
   }
 
   handleSync = () => {
@@ -669,6 +674,16 @@ class Chart extends PureComponent {
               <UpdateIcon />
             </Fab>
           : null}
+          <KeyboardDatePicker
+            open={this.state.calendar}
+            margin="normal"
+            label=""
+            minDate={MIN_DATE}
+            maxDate={MAX_DATE}
+            format="MM/dd/yyyy"
+            style={styles.datePicker}
+            onChange={this.handleChandeDate}
+          />
       </div>
     );
   }
