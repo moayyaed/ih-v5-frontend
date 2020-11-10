@@ -187,12 +187,17 @@ function requestHTTP(context, item) {
     });;
   }
 
-  return fetch(url, { headers: { token: core.cache.token } })
-  .then(res => res.json())
-  .then(json => {
+  if (context.params.mode === 'user') {
+    return fetch(url, { headers: { token: core.cache.token } })
+    .then(res => res.json())
+    .then(json => {
+      context.worker.req = context.worker.req - 1;
+      return { set: json.data };
+    });
+  } else {
     context.worker.req = context.worker.req - 1;
-    return { set: json.data };
-  });
+    return Promise.resolve({ set: [[item.s + 1000 * 60 * 60 * 6, 20], [item.e - 1000 * 60 * 60 * 6, 80]] })
+  }
 }
 
 function generateData(context, list) {

@@ -141,6 +141,23 @@ const styles = {
   },
 };
 
+const demo = {
+  data_type: 'trend',
+  chart_type: 'line',
+  leftaxis_title: '°C',
+  leftaxis_min: 0,
+  leftaxis_max: 100,
+  lines: [
+    {
+      name: 'Demo temp1',
+      legend: 'Demo temp1',
+      linecolor: 'rgba(74,144,226,1)',
+      dn_prop: '',
+      raxis: false
+    }
+  ]
+}
+
 
 function getHeight(h, item) {
   if (!item.buttonSync.value && !item.buttonHome.value && !item.buttonDate.value && !item.buttonDiscrete.value && !item.buttonNavigate.value) {
@@ -219,11 +236,11 @@ class Chart extends PureComponent {
   }
 
   getData = (props = this.props, _discrete = false) => {
-    const data = props.mode === 'user' ? props.item.data : { lines: [] };
+    const data = props.mode === 'user' ? props.item.data : demo;
     const items = data.lines.map((i, key) => {
       return { id: key.toString(), ...i, linecolor: getColor(i.linecolor) };
     });
-    const legend = this.props.item.data || {};
+    const legend = data || {};
     const dn = items.map(i => i.dn_prop).join(',');
     const alias = [].reduce((l, n) => ({ ...l, [n.dn]: n.id }), {});
     const { start, end } = getZoomInterval(props.item.interval.value.id);
@@ -232,7 +249,7 @@ class Chart extends PureComponent {
       this.spiner,
       props.fetch,
       { start, end },
-      { id: props.id, chartid: props.item.widgetlinks.link.id, dn, alias, items, legend },
+      { id: props.id, chartid: props.item.widgetlinks.link.id, dn, alias, items, legend, mode: props.mode },
       this.panel,
     );
     const genlegend = this.generateLegend();
@@ -535,8 +552,7 @@ class Chart extends PureComponent {
   }
 
   handleSync = () => {
-    this.props.actions
-      .updateOptionsChartsCanvas(this.ctx.chart.dateWindow_, this.state.realtime);
+    // this.props.actions.updateOptionsChartsCanvas(this.ctx.chart.dateWindow_, this.state.realtime);
   };
 
   handleChangeDiscrete = (v) => {
