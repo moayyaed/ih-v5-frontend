@@ -232,7 +232,7 @@ class Chart extends PureComponent {
       this.spiner,
       props.fetch,
       { start, end },
-      { id: props.id, chartid: props.item.widgetlinks.link.id, dn, alias, items: items, legend },
+      { id: props.id, chartid: props.item.widgetlinks.link.id, dn, alias, items, legend },
       this.panel,
     );
     const genlegend = this.generateLegend();

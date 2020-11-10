@@ -166,21 +166,6 @@ function loadingItem(context, item) {
   .catch(e => endWorker(context, item, false));
 }
 
-function requestWS(context, item) {
-  return context.fetch('get', {
-    id: `WIDGET_CHARTS_CANVAS_${context.params.id}`,
-    route: { tablename: 'trend',
-      filter: {
-        dn: context.params.dn,
-        start: item.s,
-        end: item.e,
-        raw: Number(1),
-      },
-      alias: context.params.alias,
-      format: 'dygraphs',
-    },
-  });
-}
 
 function getTypeChart(type) {
   if (type && type === 'bar') {
@@ -198,7 +183,7 @@ function requestHTTP(context, item) {
     .then(res => JSON.parse(res))
     .then(json => {
       context.worker.req = context.worker.req - 1;
-      return { set: json };
+      return { set: json.data };
     });;
   }
 
@@ -206,7 +191,7 @@ function requestHTTP(context, item) {
   .then(res => res.json())
   .then(json => {
     context.worker.req = context.worker.req - 1;
-    return { set: json };
+    return { set: json.data };
   });
 }
 
