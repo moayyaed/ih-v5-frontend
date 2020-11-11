@@ -119,7 +119,13 @@ class Container extends PureComponent {
     } else {
       const propertyType = this.props.data.propertyType || 'main';
       const item = this.props.data.elements[this.props.data.selectOne];
-      if (item.type === 'template' && propertyType === 'link') {
+      if (item.widget && propertyType === 'link') {
+        core.actions.container
+          .editElement(
+            this.props.id, this.props.options.prop,
+            this.props.data.selectOne, { widgetlinks: { [key]: value }},
+          )
+      } else if (item.type === 'template' && propertyType === 'link') {
         const name = value.result !== undefined ? 'links' : 'actions';
        
         core.actions.container

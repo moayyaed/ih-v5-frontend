@@ -116,6 +116,26 @@ class Property extends PureComponent {
         map = [{ title: 'Variables', prop: 'bind', type: 'divider' }]
           .concat(map, map2)
       }
+      if (this.props.elementData.widget && this.props.type === 'link') {
+        data = Object
+          .keys(this.props.elementData.widgetlinks)
+          .reduce((p, c) => {
+            if (this.props.elementData.widgetlinks[c]) {
+              return { ...p, [c]: this.props.elementData.widgetlinks[c] }
+            }
+            return { ...p, [c]: { value: {} } }
+          }, {});
+        map = Object
+          .keys(this.props.elementData.widgetlinks)
+          .map(key => ({
+            prop: key,
+            title: key,
+            type: 'smartbutton2',
+            params: { variant: 'options',title: 'Привязка к каналу', id: 'charts' },
+          }));
+        map = [{ title: 'Data', prop: 'bind', type: 'divider' }]
+        .concat(map)
+      }
       return (
         <Scrollbars style={styles.scroll}>
           <div style={styles.container}>

@@ -327,7 +327,7 @@ const CHART = {
   widgetlinks: {
     link: { }
   },
-  data: {},
+  data: { lines: [] },
   interval: { value: { id: 'hour', title: 'Hour' } },
   positionCurentTime: { value: 85 },
   legendHeight: { value: 60 },
