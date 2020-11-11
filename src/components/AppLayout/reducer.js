@@ -1,4 +1,11 @@
-import { APP_LAYOUT_SET_DATA, APP_LAYOUT_UPDATE_TEMPLATES, APP_LAYOUT_UPDATE_ELEMENTS } from './constants';
+import actions from 'core/actions';
+import { 
+  APP_LAYOUT_SET_DATA, 
+  APP_LAYOUT_UPDATE_TEMPLATES, 
+  APP_LAYOUT_UPDATE_ELEMENTS,
+  APP_LAYOUT_SYNC_CHARTS_LAYOUT,
+  APP_LAYOUT_SYNC_CHARTS_CONTAINER,
+} from './constants';
 
 
 const defaultState = {
@@ -26,6 +33,34 @@ function mergeStates(c3, p3, s, v) {
 function reducer(state = defaultState, action) {
   switch (action.type) {
     case APP_LAYOUT_SET_DATA:
+      return { ...state, ...action.data };
+    case APP_LAYOUT_SYNC_CHARTS_LAYOUT:
+      return { 
+        ...state,
+        layout: {
+          ...state.layout,
+          elements: Object
+          .keys(state.layout.elements)
+          .reduce((p, c) => {
+            if (state.layout.elements[c].type === 'chart') {
+              return { 
+                ...p, 
+                [c]: {
+                  ...state.layout.elements[c],
+                  data: {
+                    ...state.layout.elements[c].data,
+                    range: action.range,
+                    forceRealtime: action.realtime,
+                    triger: Date.now(),
+                  }
+                }
+              }
+            }
+            return { ...p, [c]: state.layout.elements[c] }
+          }, {}),
+        }
+      };
+    case APP_LAYOUT_SYNC_CHARTS_CONTAINER:
       return { ...state, ...action.data };
     case APP_LAYOUT_UPDATE_ELEMENTS:
       return { 

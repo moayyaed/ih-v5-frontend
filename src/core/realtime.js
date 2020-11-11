@@ -49,12 +49,7 @@ function messageTunnel(e) {
   try {
     const json = JSON.parse(e.data);
     if (json.method) {
-      if (json.command === 'gotolayout') {
-        core.route(json.id);
-      }
-      if (json.command === 'showdialog') {
-        core.transfer.send('show_dialog_command', json);
-      }
+      core.transfer.send(json)
     } else if (json.data !== undefined) {
       realtime.events.emit(json.uuid, json.data);
     } else if (json.uuid !== undefined) {

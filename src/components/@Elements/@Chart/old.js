@@ -1,10 +1,9 @@
 import React, { PureComponent } from 'react';
-import Dygraph from 'dygraphs';
+import core from 'core';
 
+import Dygraph from 'dygraphs';
 import Fab from '@material-ui/core/Fab';
 
-// import DatePicker from 'material-ui/DatePicker';
-// import IconDiscrete from 'material-ui/svg-icons/action/assessment';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 
 import IconBefore from '@material-ui/icons/ArrowBackIos';
@@ -557,7 +556,13 @@ class Chart extends PureComponent {
   }
 
   handleSync = () => {
-    // this.props.actions.updateOptionsChartsCanvas(this.ctx.chart.dateWindow_, this.state.realtime);
+    core.transfer.send('command_layout', { 
+      command: 'synccharts',
+      range: this.ctx.chart.dateWindow_,
+      realtime: this.state.realtime,
+      layoutId: this.props.layoutId, 
+      containerId: this.props.containerId, 
+    })
   };
 
   handleChangeDiscrete = (v) => {

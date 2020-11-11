@@ -26,6 +26,8 @@ const classes = theme => ({
 class AppLayout extends Component {
 
   componentDidMount() {
+    core.transfer.sub('command_layout', this.commandLayout);
+
     this.subs = {}
     this.request();
   }
@@ -36,6 +38,23 @@ class AppLayout extends Component {
 
   realtimeContainer = (containerId, data) => {
     core.actions.layout.updateElementsContainer(containerId, data);
+  }
+
+  commandLayout = (data) => {
+    if (data.command === 'gotolayout') {
+      core.route(data.id);
+    }
+    if (data.command === 'showdialog') {
+      core.transfer.send('show_dialog_command', data);
+    }
+
+    if (data.command === 'synccharts') {
+      if (data.containerId) {
+        core.actions.layout.syncChartsContainer(data.containerId, data.range, data.realtime);
+      } else {
+        core.actions.layout.syncChartsLayout(data.range, data.realtime);
+      }
+    }
   }
   
   request = () => {

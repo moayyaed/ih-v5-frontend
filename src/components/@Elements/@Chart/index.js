@@ -28,7 +28,6 @@ class Chart extends PureComponent {
   state = { data : {} }
 
   componentDidMount() {
-
   }
 
   render() {
@@ -53,7 +52,15 @@ class Chart extends PureComponent {
                   visibility: props.item.visible && props.item.visible.value == false ? 'hidden' : 'unset',
                 }}
               >
-                {React.createElement(ChartOld, { id: props.id, fetch, mode: props.mode, item: props.item, h: height })}
+                {React.createElement(ChartOld, { 
+                  id: props.id, 
+                  layoutId: props.layoutId, 
+                  containerId: props.containerId || null, 
+                  fetch, mode: 
+                  props.mode, 
+                  item: props.item, 
+                  h: height 
+                })}
               </div>
             );
           }
