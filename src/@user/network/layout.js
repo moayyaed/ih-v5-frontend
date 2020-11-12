@@ -368,11 +368,13 @@ core.network.request('applayout', (send, context) => {
     { api: 'containers', layoutid: context.params.layoutId, rt: 1 },
     { api: 'layout', id: context.params.layoutId, rt: 1 },
     { api: 'layout', id: context.params.layoutId, widgetdata: 1 },
+    { api: 'containers', layoutid: context.params.layoutId, widgetdata: 1 },
   ]);
 })
 
 
 core.network.response('applayout', (answer, res, context) => {
+  console.log(res[6].data)
   answer(preparationData({
     layout: res[0].data,
     containers: res[1].data,

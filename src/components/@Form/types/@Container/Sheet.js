@@ -634,7 +634,7 @@ class Sheet extends Component {
 
   handleClickEditTemplate = () => {
     const templateId = this.props.elements[this.props.selectOne].templateId;
-    core.route(`resources/vistemplate/vistemplateview/${templateId}/tabVistemplateEditor`);
+    core.route(`vis/vistemplate/vistemplateview/${templateId}/tabVistemplateEditor`);
   }
 
   handleRenderElement = (elementId, item) => {
