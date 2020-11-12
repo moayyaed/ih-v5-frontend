@@ -347,7 +347,12 @@ function preparationData(data) {
           }
           // bind
         })
-  
+
+        // widget data
+        if (data.widgets[key] && data.containers[key].elements[id].widget && data.widgets[key][id] !== undefined) {
+          data.containers[key].elements[id].data = data.widgets[key][id];
+        } // widget data
+
       });
     });
 
@@ -374,12 +379,11 @@ core.network.request('applayout', (send, context) => {
 
 
 core.network.response('applayout', (answer, res, context) => {
-  console.log(res[6].data)
   answer(preparationData({
     layout: res[0].data,
     containers: res[1].data,
     templates: res[2].data,
     states: { ...res[3].data, ...res[4].data },
-    widgets: res[5].data,
+    widgets: { ...res[5].data, ...res[6].data }, 
   }));
 })

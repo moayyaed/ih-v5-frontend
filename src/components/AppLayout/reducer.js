@@ -61,7 +61,34 @@ function reducer(state = defaultState, action) {
         }
       };
     case APP_LAYOUT_SYNC_CHARTS_CONTAINER:
-      return { ...state, ...action.data };
+      return { 
+        ...state,
+        containers: {
+          ...state.containers,
+          [action.containerId]: {
+            ...state.containers[action.containerId],
+            elements: Object
+              .keys(state.containers[action.containerId].elements)
+              .reduce((p, c) => {
+                if (state.containers[action.containerId].elements[c].type === 'chart') {
+                  return { 
+                    ...p, 
+                    [c]: {
+                      ...state.containers[action.containerId].elements[c],
+                      data: {
+                        ...state.containers[action.containerId].elements[c].data,
+                        range: action.range,
+                        forceRealtime: action.realtime,
+                        triger: Date.now(),
+                      }
+                    }
+                  }
+                }
+                return { ...p, [c]: state.layout.elements[c] }
+              }, {}),
+          }
+        }
+      };
     case APP_LAYOUT_UPDATE_ELEMENTS:
       return { 
         ...state,
