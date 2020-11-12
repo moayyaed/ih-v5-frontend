@@ -49,7 +49,7 @@ function messageTunnel(e) {
   try {
     const json = JSON.parse(e.data);
     if (json.method) {
-      core.transfer.send(json)
+      core.transfer.send('command_layout', json)
     } else if (json.data !== undefined) {
       realtime.events.emit(json.uuid, json.data);
     } else if (json.uuid !== undefined) {
