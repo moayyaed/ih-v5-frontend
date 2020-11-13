@@ -342,6 +342,14 @@ const CHART = {
   buttonDiscrete: { value: true },
   buttonNavigate: { value: true },
   buttonSize: { value: 100 },
+  legend: { value: true },
+  axisLeft: { value: true },
+  axisLeftLabel: { value: true },
+  axisLeftWidth: { value: 50 },
+  axisRight: { value: true },
+  axisRightLabel: { value: true },
+  axisRightWidth: { value: 50 },
+  axisBottom: { value: true },
 }
 
 const SLIDER = {

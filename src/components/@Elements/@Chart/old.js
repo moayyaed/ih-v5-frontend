@@ -148,13 +148,24 @@ const demo = {
   leftaxis_title: '°C',
   leftaxis_min: 0,
   leftaxis_max: 100,
+  rightaxis_title: '°F',
+  rightaxis_min: 0,
+  rightaxis_max: 270,
+  rightaxis: true,
   lines: [
     {
       name: 'Demo temp1',
-      legend: 'Demo temp1',
+      legend: 'Demo temp1 - Left',
       linecolor: 'rgba(74,144,226,1)',
       dn_prop: '',
       raxis: false
+    },
+    {
+      name: 'Demo temp2',
+      legend: 'Demo temp2 - Right',
+      linecolor: 'rgba(255,152,0,1)',
+      dn_prop: '',
+      raxis: true
     }
   ]
 }
@@ -377,27 +388,29 @@ class Chart extends PureComponent {
       }), {}),
       axes: {
         x: {
+          drawAxis: props.item.axisBottom !== undefined ? props.item.axisBottom.value : true,
           axisLabelFormatter: this.getAxisValueX,
           axisLineColor: props.item.gridColor.value,
         },
         y: {
+          drawAxis: props.item.axisLeft !== undefined ? props.item.axisLeft.value : true,
           axisLabelFormatter: this.getAxisValueY,
-          axisLabelWidth: 50,
+          axisLabelWidth: props.item.axisLeftWidth !== undefined ? props.item.axisLeftWidth.value : 50,
           axisLineColor: props.item.gridColor.value,
           valueRange: legend.chart_type === 'bar' ? null : [legend.leftaxis_min, legend.leftaxis_max],
         },
         y2: {
+          drawAxis: (props.item.axisRight !== undefined ? props.item.axisRight.value : true) && legend.rightaxis,
           axisLabelFormatter: this.getAxisValueY,
-          drawAxis: legend.rightaxis,
-          axisLabelWidth: 50,
+          axisLabelWidth: props.item.axisRightWidth !== undefined ? props.item.axisRightWidth.value : 50,
           axisLineColor: props.item.gridColor.value,
           valueRange: [legend.rightaxis_min, legend.rightaxis_max],
         },
       },
       labels: ['x'].concat(items.map(i => i.id)),
       colors: items.map(i => i.linecolor),
-      ylabel: this.getLabelLeft(),
-      y2label: this.getLabelRight(),
+      ylabel: this.getLabelLeft(props),
+      y2label: this.getLabelRight(props),
       gridLineColor: props.item.gridColor.value,
       legend: 'always',
       labelsSeparateLines: true,
@@ -405,6 +418,9 @@ class Chart extends PureComponent {
       legendFormatter: this.setLegend,
       drawPoints: props.item.points.value,
     });
+    const genlegend = this.generateLegend(props);
+    this.setClickLegend(genlegend);
+    this.ctx.litems = genlegend;
     if (windowfreeze === false) {
       this.setWindow(Date.now(), this.props.item.positionCurentTime.value);
     } else {
@@ -470,20 +486,26 @@ class Chart extends PureComponent {
     this.linkDatePicker = e;
   }
 
-  getLabelLeft = () => {
-    const item = this.props.item;
-    return `<span
+  getLabelLeft = (props = this.props) => {
+    const item = props.item;
+    if (item.axisLeftLabel !== undefined && item.axisLeftLabel.value) {
+      return `<span
       style="font-size:14px;color:${item.textColor.value}">
       ${this.ctx.params.legend.leftaxis_title
       }</span>`;
+    }
+    return `<span style="font-size:14px;color:${item.textColor.value}"></span>`;
   }
 
-  getLabelRight = () => {
-    const item = this.props.item;
-    return `<span
-      style="position:relative;top:-5px;font-size:14px;color:${item.textColor.value}">
+  getLabelRight = (props = this.props) => {
+    const item = props.item;
+    if (item.axisRightLabel !== undefined && item.axisRightLabel.value) {
+      return `<span
+      style="font-size:14px;color:${item.textColor.value}">
       ${this.ctx.params.legend.rightaxis_title
       }</span>`;
+    }
+    return `<span style="font-size:14px;color:${item.textColor.value}"></span>`;
   }
 
   getAxisValueY = (v) => {
@@ -582,15 +604,15 @@ class Chart extends PureComponent {
     this.ctx.chart.updateOptions({ dateWindow: [ns, ne] });
   }
 
-  generateLegend = () => {
-    const color = this.props.item.textColor.value;
+  generateLegend = (props = this.props) => {
+    const color = props.item.textColor.value;
     const st = `text-align:center;color:${color};width:150px;font-size:14px;display:flex;align-items:center;justify-content:center;`;
-    const s0 = 'display:flex;flex-direction:row;flex-shrink:0;height: 100%;';
+    const s0 = `display:${(props.item.legend !== undefined ? props.item.legend.value : true) ? 'flex' : 'none'};flex-direction:row;flex-shrink:0;height: 100%;`;
     const sl = 'font-size:14px;display:flex;width:100%;padding-left:5px;padding-right:10px;height:100%';
     const sr = 'font-size:14px;display:flex;width:100%;padding-right:5;padding-left:10px;height:100%;align-items:left;';
     const bl = 'flex-direction:row;display:flex;width:100%;height:100%;justify-content:end;flex-wrap: wrap;text-align:right;';
     const br = 'flex-direction:row;display:flex;width:100%;height:100%;justify-content:end;flex-wrap: wrap;';
-    const temp = this.ctx.params.items.map((i, k) => ({ ...i, id: `l_${this.props.id}_${k}` }));
+    const temp = this.ctx.params.items.map((i, k) => ({ ...i, id: `l_${props.id}_${k}` }));
 
     const lt = temp
       .filter(v => !v.raxis)
@@ -602,11 +624,11 @@ class Chart extends PureComponent {
       .join('');
     const left = `<div style="${bl}">${lt}</div>`;
     const right = `<div style="${br}">${rt}</div>`;
-    const string = `<div style="${s0}"><div style="${sl}">${left}</div><div id="l_${this.props.id}_t" style="${st}">&nbsp;</div><div style="${sr}">${right}</div></div>`;
+    const string = `<div style="${s0}"><div style="${sl}">${left}</div><div id="l_${props.id}_t" style="${st}">&nbsp;</div><div style="${sr}">${right}</div></div>`;
     this.legend.innerHTML = string;
     this.ctx.chart.resize();
     return temp
-      .concat([{ id: `l_${this.props.id}_t` }])
+      .concat([{ id: `l_${props.id}_t` }])
       .reduce((l, n) => {
         return { ...l, [n.id]: document.getElementById(n.id) };
       }, {});

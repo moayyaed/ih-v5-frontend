@@ -211,23 +211,31 @@ class Dialog extends PureComponent {
       const select = this.props.data.propertyType || 'main';
       return [
         <Button 
-          key="3"
+          key="1"
           minimal
           active={select === 'main'} 
           icon="style"  
           onClick={() => this.handleChangeProperty('main')} 
         />,
+        <Separator key="2" />,
+        <Button 
+          key="3"
+          minimal
+          active={select === 'element'} 
+          icon="highlight"  
+          onClick={() => this.handleChangeProperty('element')} 
+        />,
         <Separator key="4" />,
         <Button 
-          key="11"
+          key="5"
           minimal 
           active={select === 'move'} 
           icon="move"  
           onClick={() => this.handleChangeProperty('move')}
         />,
-        <Separator key="12" />,
+        <Separator key="6" />,
         <Button 
-          key="15"
+          key="7"
           minimal
           active={select === 'link'} 
           icon="link"  

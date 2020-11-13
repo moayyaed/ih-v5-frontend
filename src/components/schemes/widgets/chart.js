@@ -3,7 +3,7 @@ import move from '../elements/move';
 
 
 const chart = {
-  main: [
+  element: [
     { 
       title: 'Chart', 
       prop: 'chart', 
@@ -46,11 +46,6 @@ const chart = {
       type: 'number',
     },
     { 
-      title: 'Legend Height', 
-      prop: 'legendHeight', 
-      type: 'number',
-    },
-    { 
       title: 'Grid Color', 
       prop: 'gridColor', 
       type: 'color',
@@ -58,11 +53,6 @@ const chart = {
     { 
       title: 'Text Color', 
       prop: 'textColor', 
-      type: 'color',
-    },
-    { 
-      title: 'Buttons Color', 
-      prop: 'buttonsColor', 
       type: 'color',
     },
     { 
@@ -76,37 +66,112 @@ const chart = {
       type: 'cb',
     },
     { 
-      title: 'Button Sync', 
+      title: 'Legend', 
+      prop: 'legenddivider', 
+      type: 'divider',
+    },
+    { 
+      title: 'Active', 
+      prop: 'legend', 
+      type: 'cb',
+    },
+    { 
+      title: 'Height', 
+      prop: 'legendHeight', 
+      type: 'number',
+    },
+    { 
+      title: 'Axis Left', 
+      prop: 'axisleft', 
+      type: 'divider',
+    },
+    { 
+      title: 'Active', 
+      prop: 'axisLeft', 
+      type: 'cb',
+    },
+    { 
+      title: 'Label', 
+      prop: 'axisLeftLabel', 
+      type: 'cb',
+    },
+    { 
+      title: 'Width', 
+      prop: 'axisLeftWidth', 
+      type: 'number',
+    },
+    { 
+      title: 'Axis Right', 
+      prop: 'axisright', 
+      type: 'divider',
+    },
+    { 
+      title: 'Active', 
+      prop: 'axisRight', 
+      type: 'cb',
+    },
+    { 
+      title: 'Label', 
+      prop: 'axisRightLabel', 
+      type: 'cb',
+    },
+    { 
+      title: 'Width', 
+      prop: 'axisRightWidth', 
+      type: 'number',
+    },
+    { 
+      title: 'Axis Bottom', 
+      prop: 'axisbottom', 
+      type: 'divider',
+    },
+    { 
+      title: 'Active', 
+      prop: 'axisBottom', 
+      type: 'cb',
+    },
+    { 
+      title: 'Buttons', 
+      prop: 'buttons', 
+      type: 'divider',
+    },
+    { 
+      title: 'Sync', 
       prop: 'buttonSync', 
       type: 'cb',
     },
     { 
-      title: 'Button Home', 
+      title: 'Home', 
       prop: 'buttonHome', 
       type: 'cb',
     },
     { 
-      title: 'Button Date', 
+      title: 'Date', 
       prop: 'buttonDate', 
       type: 'cb',
     },
     { 
-      title: 'Button Discrete', 
+      title: 'Discrete', 
       prop: 'buttonDiscrete', 
       type: 'cb',
     },
     { 
-      title: 'Button Navigate', 
+      title: 'Navigate', 
       prop: 'buttonNavigate', 
       type: 'cb',
     },
     { 
-      title: 'Button Size', 
+      title: 'Size', 
       prop: 'buttonSize', 
       type: 'number',
     },
-    ...main
+    { 
+      title: 'Color', 
+      prop: 'buttonsColor', 
+      type: 'color',
+    },
   ],
+  main: main,
   move: move,
   link: [],
 };
