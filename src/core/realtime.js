@@ -50,16 +50,20 @@ function messageTunnel(e) {
     const json = JSON.parse(e.data);
     if (json.method) {
       core.transfer.send('command_layout', json)
-    } else if (json.data !== undefined) {
-      realtime.events.emit(json.uuid, json);
     } else if (json.uuid !== undefined) {
-      realtime.events.emit(json.uuid, json);
+      if (json.data) {
+        realtime.events.emit(json.uuid, json.data);
+      }
+      if (json.chartdata) {
+        core.transfer.send('chartdata', json.chartdata)
+      }
     } else {
       if (json.error) {
         core.actions.app.alertOpen('warning', 'Real-time: ' + json.error);
       }
     }
-   } catch (e) {
+   } catch (ev) {
+    console.log(e.data)
     core.actions.app.alertOpen('error', 'Real-time: incorrect data!');
   }
 }

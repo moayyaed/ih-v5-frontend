@@ -22,19 +22,23 @@ const elements = {
   rectangle: { main: main, move: move },
   circle: { main: main, move: move },
   text: {
-    main: [...text, ...main],
+    main: main,
+    element: text,
     move: move,
   },
   image: {
-    main: [...image, ...main],
+    main: main,
+    element: image,
     move: move,
   },
   text_image: {
-    main: [...text, ...image, ...main],
+    main: main,
+    element: [...text, ...image],
     move: move,
   },
   button: {
-    main: [...text, ...image, ...main, ...effects],
+    main: main,
+    elements: [...text, ...image, ...effects],
     link: [{ type: 'actions', prop: 'actions' }],
     move: move,
   },

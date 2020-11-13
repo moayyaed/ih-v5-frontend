@@ -27,6 +27,7 @@ class AppLayout extends Component {
 
   componentDidMount() {
     core.transfer.sub('command_layout', this.commandLayout);
+    core.transfer.sub('chartdata', this.realtimeCharts);
 
     this.cache = {};
     this.subs = {}
@@ -35,12 +36,10 @@ class AppLayout extends Component {
 
   realtimeLayout = (data) => {
     core.actions.layout.updateElementsLayout(data);
-    this.realtimeCharts(data.chartdata)
   }
 
   realtimeContainer = (containerId, data) => {
     core.actions.layout.updateElementsContainer(containerId, data);
-    this.realtimeCharts(data.chartdata)
   }
 
   realtimeCharts = (data) => {
