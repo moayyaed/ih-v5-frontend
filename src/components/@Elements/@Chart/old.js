@@ -180,6 +180,7 @@ class Chart extends PureComponent {
   state = { enabledsd: null, speeddial: false, realtime: true, calendar: false }
 
   componentDidMount() {
+    core.transfer.sub('realtime_charts', this.realtimeCharts);
     const options = {
       underlayCallback: this.handleChanged,
       interactionModel: {
@@ -201,12 +202,10 @@ class Chart extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.network !== this.props.network && nextProps.network) {
-      this.subDisabled(nextProps);
       this.getData(nextProps);
     }
 
     if (nextProps.item.widgetlinks.link.id !== this.props.item.widgetlinks.link.id) {
-      this.subDisabled(nextProps);
       this.getData(nextProps);
     } else {
       if (this.props.item !== nextProps.item) {
@@ -233,7 +232,13 @@ class Chart extends PureComponent {
   }
 
   componentWillUnmount() {
-    this.subDisabled();
+    core.transfer.unsub('realtime_charts', this.realtimeCharts);
+  }
+
+  realtimeCharts = (data) => {
+    if (this.props.item.realtime.value && data[this.props.item.widgetlinks.link.id] !== undefined) {
+      this.realtime(data[this.props.item.widgetlinks.link.id])
+    }
   }
 
   getData = (props = this.props, _discrete = false) => {
@@ -264,18 +269,6 @@ class Chart extends PureComponent {
       this.ctx.params.legend.discrete = _discrete;
     }
     this.updateOptions(props, _discrete);
-
-    if (dn !== '' && legend.chart_type !== 'bar' && props.item.realtime.value !== false) {
-      props.fetch('sub', {
-        id: `WIDGET_CHARTS_${props.id}_${props.item.widgetlinks.link.id}`,
-        route: { event: 'trend', filter: dn, alias },
-      })
-      .then(response => {
-        this.sub = response.sub;
-        this.subId = response.id;
-        // this.sub.on(response.id, this.realtime);
-      });
-    }
   }
 
   setClickLegend = (legend) => {
@@ -300,13 +293,6 @@ class Chart extends PureComponent {
     }
   }
 
-  subDisabled = (props = this.props) => {
-    if (this.subId) {
-      props.fetch('unsub', { id: this.subId, route: { event: 'devices' } });
-      // this.sub.removeListener(this.subId, this.realtime);
-    }
-  }
-
   realtime = (data) => {
     let x = 0;
     Object.keys(data)
@@ -315,7 +301,7 @@ class Chart extends PureComponent {
         x = x < item.x ? item.x : x;
         const d = this.ctx.params.items
           .map(v => {
-            if (v.dn === key) {
+            if (v.dn_prop === key) {
               return Number(item.y);
             }
             return null;

@@ -117,8 +117,8 @@ class AppLayoutDialog extends Component {
       })
   }
 
-  realtimeDialog = (data) => {
-    core.actions.layoutDialog.updateElements(data);
+  realtimeDialog = (res) => {
+    core.actions.layoutDialog.updateElements(res.data);
   }
 
   request = ({ id, contextId }) => {

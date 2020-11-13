@@ -28,16 +28,31 @@ class AppLayout extends Component {
   componentDidMount() {
     core.transfer.sub('command_layout', this.commandLayout);
 
+    this.cache = {};
     this.subs = {}
     this.request();
   }
 
   realtimeLayout = (data) => {
     core.actions.layout.updateElementsLayout(data);
+    this.realtimeCharts(data.chartdata)
   }
 
   realtimeContainer = (containerId, data) => {
     core.actions.layout.updateElementsContainer(containerId, data);
+    this.realtimeCharts(data.chartdata)
+  }
+
+  realtimeCharts = (data) => {
+    Object
+      .keys(data)
+      .forEach(key => {
+        const json = JSON.stringify(data[key]);
+        if (this.cache[key] !== json) {
+          this.cache[key] = json;
+          core.transfer.send('realtime_charts', { [key]: data[key]});
+        }
+      })
   }
 
   commandLayout = (data) => {
