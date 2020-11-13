@@ -133,9 +133,9 @@ class Dialog extends PureComponent {
           );
       } else if (item.widget && propertyType === 'link') {
         core.actions.dialog
-          .changeTemplate(
+          .editElement(
             this.props.id, this.props.options.prop,
-            this.props.data.selectOne, 'widgetlinks', { [key]: value.result },
+            this.props.data.selectOne, { widgetlinks: { [key]: value }},
           )
       } else {
         if (key === 'w2' || key === 'h2') {

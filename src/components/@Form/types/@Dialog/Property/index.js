@@ -131,13 +131,8 @@ class Property extends PureComponent {
           .map(key => ({
             prop: key,
             title: key,
-            type: 'smartbutton',
-            command: 'dialog',
-            params: {
-              title: 'Привязка к каналу',
-              type: 'tree',
-              id: 'visitemsAndVistemplates',
-            }
+            type: 'smartbutton2',
+            params: scheme.dynamic[this.props.elementData.type],
           }));
         map = [{ title: 'Data', prop: 'bind', type: 'divider' }]
         .concat(map)
@@ -166,37 +161,3 @@ class Property extends PureComponent {
 
 
 export default Property;
-
-
-
-
-/*
-
-    return (
-      <Scrollbars style={{ width: '100%', height: '100%' }}>
-        {scheme.map(item =>
-          <ExpansionPanel key={item.title} defaultExpanded>
-            <ExpansionPanelSummary 
-              style={styles.summary} 
-              IconButtonProps={{ size: 'small' }}
-              expandIcon={<ExpandMoreIcon fontSize="inherit" />} 
-            >
-              <Typography className={classes.heading}>{item.title}</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails style={styles.details} >
-              <SingleForm 
-                key="property"
-                debug={false} 
-                scheme={item.data}
-                route={route}
-                data={this.props.elementData}
-                cache={cache}
-                onChange={this.handleChange}
-              />
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-        )}
-      </Scrollbars>
-    )
-
-    */
