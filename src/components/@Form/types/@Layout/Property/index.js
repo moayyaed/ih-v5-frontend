@@ -90,7 +90,7 @@ class Property extends PureComponent {
             prop: key,
             title: key,
             type: 'smartbutton2',
-            params: { variant: 'options',title: 'Привязка к каналу', id: 'charts' },
+            params: scheme.dynamic[this.props.elementData.type],
           }));
         map = [{ title: 'Data', prop: 'bind', type: 'divider' }]
         .concat(map)
