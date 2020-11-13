@@ -457,6 +457,7 @@ class Sheet extends Component {
       { id: '5', title: 'Button', click: () => this.handleAddElement(e, 'button') },
       { id: '-', type: 'divider' },
       { id: '7', title: 'Slider', click: () => this.handleAddElement(e, 'slider') },
+      { id: '22', title: 'Chart', click: () => this.handleAddElement(e, 'chart') },
       { id: '20', title: 'Device Settings', click: () => this.handleAddElement(e, 'devicesettings') },
       { id: '21', title: 'Device Log', click: () => this.handleAddElement(e, 'devicelog') },
       { id: '22', title: 'Expand Border', click: () => this.handleAddElement(e, 'expand') },
