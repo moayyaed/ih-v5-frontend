@@ -336,6 +336,7 @@ const CHART = {
   buttonsColor: { value: 'rgba(64, 81, 181, 1)' },
   realtime: { value: true },
   points: { value: false },
+  smooth: { value: 0 },
   buttonSync: { value: true },
   buttonHome: { value: true },
   buttonDate: { value: true },

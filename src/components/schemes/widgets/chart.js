@@ -61,9 +61,22 @@ const chart = {
       type: 'cb',
     },
     { 
-      title: 'Points', 
+      title: 'Draw Points', 
       prop: 'points', 
       type: 'cb',
+    },
+    { 
+      title: 'Fill Graph', 
+      prop: 'fillGraph', 
+      type: 'cb',
+    },
+    { 
+      title: 'Smooth Line', 
+      prop: 'smooth', 
+      type: 'number',
+      min: 0,
+      max: 70,
+      step: 5
     },
     { 
       title: 'Legend', 
