@@ -259,9 +259,12 @@ class Chart extends PureComponent {
     if (data.lines === undefined) {
       data.lines = [];
     }
-    const items = data.lines.map((i, key) => {
+    const items = data.lines
+      .filter(i => i.type === 0)
+      .map((i, key) => {
       return { id: key.toString(), ...i, linecolor: getColor(i.linecolor) };
     });
+    const statics = data.lines.filter(i => i.type !== 0);
     const legend = data || {};
     const dn = items.map(i => i.dn_prop).join(',');
     const alias = [].reduce((l, n) => ({ ...l, [n.dn]: n.id }), {});
@@ -271,7 +274,7 @@ class Chart extends PureComponent {
       this.spiner,
       props.fetch,
       { start, end },
-      { id: props.id, chartid: props.item.widgetlinks.link.id, dn, alias, items, legend, mode: props.mode },
+      { id: props.id, chartid: props.item.widgetlinks.link.id, dn, alias, items, legend, statics, mode: props.mode },
       this.panel,
     );
     const genlegend = this.generateLegend();
@@ -456,18 +459,36 @@ class Chart extends PureComponent {
 
   underlayCallback = (canvas, area, g) => {
     if (g.dateWindow_) {
-      const left_bottom = g.toDomCoords(g.dateWindow_[0], 1);
-      const right_top = g.toDomCoords(g.dateWindow_[1], 0);
-
-      const left = left_bottom[0];
-      const right = right_top[0];
-      const top = left_bottom[1];
-      const bottom = right_top[1];
-
-      console.log(top, bottom)
-  
-      canvas.fillStyle = "rgba(255, 255, 102, 0.2)";
-      canvas.fillRect(left, top, right - left, bottom - top);
+      
+      this.ctx.params.statics.forEach(i => {
+        if (i.type === 1) {
+          const left_bottom = g.toDomCoords(g.dateWindow_[0], i.staticvalue);
+          const right_top = g.toDomCoords(g.dateWindow_[1], i.staticvalue);
+    
+          const left = left_bottom[0];
+          const right = right_top[0];
+          const top = left_bottom[1];
+          const bottom = right_top[1];
+     
+          canvas.beginPath();
+          canvas.strokeStyle = getColor(i.linecolor);
+          canvas.moveTo(left, top);
+          canvas.lineTo(right, bottom);
+          canvas.stroke();
+        } else {
+          const left_bottom = g.toDomCoords(g.dateWindow_[0], i.statichigh);
+          const right_top = g.toDomCoords(g.dateWindow_[1], i.staticlow);
+    
+          const left = left_bottom[0];
+          const right = right_top[0];
+          const top = left_bottom[1];
+          const bottom = right_top[1];
+          
+          canvas.fillStyle = getColor(i.linecolor);
+          canvas.fillRect(left, top, right - left, bottom - top);
+        }
+      });
+    
     }
 
   }
