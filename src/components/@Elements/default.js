@@ -328,7 +328,7 @@ const CHART = {
     link: { }
   },
   data: { lines: [] },
-  interval: { value: { id: 'hour', title: 'Hour' } },
+  interval: { value: { id: 'day', title: 'Day' } },
   positionCurentTime: { value: 85 },
   legendHeight: { value: 60 },
   gridColor: { value: 'rgba(191, 191, 191, 1)' },
@@ -336,7 +336,7 @@ const CHART = {
   buttonsColor: { value: 'rgba(64, 81, 181, 1)' },
   realtime: { value: true },
   points: { value: false },
-  lineType: { value: { id: 'step', title: 'Ступенчатый' } },
+  lineType: { value: { id: 'line', title: 'Line' } },
   lineColor: { value: 'rgba(74,144,226,1)' },
   lineSmooth: { value: 0 },
   buttonSync: { value: true },

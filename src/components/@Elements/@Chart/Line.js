@@ -498,12 +498,15 @@ class Chart extends PureComponent {
     this.ctx.init = true;
     const { legend, items } = this.ctx.params;
     const { start, end } = getZoomInterval(props.item.interval.value.id);
+    
+    const chart_type = props.item.lineType !== undefined ? props.item.lineType.value.id : 'step';
+
     this.ctx.chart.updateOptions({
-      stepPlot: legend.chart_type === 'step' ? true : false,
+      stepPlot: chart_type === 'step' ? true : false,
       visibility: items.map(() => true),
-      includeZero: legend.chart_type === 'bar' ? true : false,
-      highlightCircleSize: legend.chart_type === 'bar' ? 0 : 3,
-      plotter: legend.chart_type === 'bar' ? this.multiColumnBarPlotter : (props.item.lineSmooth && props.item.lineSmooth.value ? this.smoothPlotter : null),
+      includeZero: chart_type === 'bar' ? true : false,
+      highlightCircleSize: chart_type === 'bar' ? 0 : 3,
+      plotter: chart_type === 'bar' ? this.multiColumnBarPlotter : (props.item.lineSmooth && props.item.lineSmooth.value ? this.smoothPlotter : null),
       file: [[new Date()].concat(items.map(() => null))],
       dateWindow: windowfreeze ? [this.ctx.chart.dateWindow_[0], this.ctx.chart.dateWindow_[1]] : [start, end],
       series: items.reduce((l, n) => ({ ...l, [n.id]: {

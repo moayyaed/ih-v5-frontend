@@ -82,15 +82,15 @@ const chart = {
       data: [
         {
           id: 'line',
-          title: 'Линия'
+          title: 'Line'
         },
         {
           id: 'bar',
-          title: 'Столбец'
+          title: 'Bar'
         },
         {
           id: 'step',
-          title: 'Ступенчатый'
+          title: 'Step'
         },
       ],
     },
