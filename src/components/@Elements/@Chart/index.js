@@ -14,17 +14,6 @@ const styles = {
   },
 };
 
-const data = JSON.parse('{"data":[{"id":"89","decdig":0,"leftaxis_title":"","rightaxis_max":1,"calc_type":"sum","pluginchart":"","name":"Датчики температуры Серверная (1площадка)","leftaxis_max":40,"order":0,"andfilter":"","data_type":"trend","dbtable":"","txt":"","rightaxis_min":0,"plugin":"","widget_type":"charts","rightaxis_title":"","discrete":"day","leftaxis_min":0,"chart_type":"step","rightaxis":false}],"items":[{"id":"201","hide":false,"rtperiod":0,"dn":"DT_ServerRoom","name":"Серверная (1 площадка)","legend":"Температура, ºC","order":0,"andfilter":"","lineColor":"rgba(255, 175, 74, 1)","chartid":"89","rightaxis":false,"txt":"","icon":""}]}');
-
-function fetch (type, options) {
-  return new Promise((resolve, reject) => {
-    resolve({ set: data });
-  });
-}
-
-
-const temp = {}
-
 
 class Chart extends PureComponent {
   state = { data : {} }
@@ -58,8 +47,7 @@ class Chart extends PureComponent {
                   id: props.id, 
                   layoutId: props.layoutId, 
                   containerId: props.containerId || null, 
-                  fetch, mode: 
-                  props.mode, 
+                  mode: props.mode, 
                   item: props.item, 
                   h: height 
                 })}

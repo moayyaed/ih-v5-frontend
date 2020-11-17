@@ -71,6 +71,21 @@ const chart = {
       type: 'cb',
     },
     { 
+      title: 'Legend', 
+      prop: 'legenddivider', 
+      type: 'divider',
+    },
+    { 
+      title: 'Label', 
+      prop: 'legendLabel', 
+      type: 'inputlink',
+    },
+    { 
+      title: 'Height', 
+      prop: 'legendHeight', 
+      type: 'number',
+    },
+    { 
       title: 'Line', 
       prop: '_line', 
       type: 'divider',
@@ -108,21 +123,6 @@ const chart = {
       step: 5
     },
     { 
-      title: 'Legend', 
-      prop: 'legenddivider', 
-      type: 'divider',
-    },
-    { 
-      title: 'Active', 
-      prop: 'legend', 
-      type: 'cb',
-    },
-    { 
-      title: 'Height', 
-      prop: 'legendHeight', 
-      type: 'number',
-    },
-    { 
       title: 'Axis Left / Right', 
       prop: '_axis', 
       type: 'divider',
@@ -149,7 +149,7 @@ const chart = {
     { 
       title: 'Label', 
       prop: 'axisLabel', 
-      type: 'input',
+      type: 'inputlink',
     },
     { 
       title: 'Width', 
@@ -157,12 +157,12 @@ const chart = {
       type: 'number',
     },
     { 
-      title: 'Min', 
+      title: 'Low', 
       prop: 'axisMin', 
       type: 'number',
     },
     { 
-      title: 'Max', 
+      title: 'Hight', 
       prop: 'axisMax', 
       type: 'number',
     },

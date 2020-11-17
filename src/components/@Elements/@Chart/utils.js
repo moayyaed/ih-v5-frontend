@@ -197,6 +197,9 @@ function requestHTTP(context, item) {
     });
   } else {
     context.worker.req = context.worker.req - 1;
+    if (context.params.type === 'chart') {
+      return Promise.resolve({ set: [[item.s + 1000 * 60 * 60 * 6, 20], [item.e - 1000 * 60 * 60 * 6, 80]] })
+    }
     return Promise.resolve({ set: [[item.s + 1000 * 60 * 60 * 6, 20, 120], [item.e - 1000 * 60 * 60 * 6, 80, 170]] })
   }
 }

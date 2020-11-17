@@ -275,7 +275,7 @@ class Chart extends PureComponent {
       this.spiner,
       props.fetch,
       { start, end },
-      { id: props.id, chartid: props.item.widgetlinks.link.id, dn, alias, items, legend, statics, mode: props.mode },
+      { id: props.id, type: props.item.type, chartid: props.item.widgetlinks.link.id, dn, alias, items, legend, statics, mode: props.mode },
       this.panel,
     );
     const genlegend = this.generateLegend();
@@ -499,45 +499,47 @@ class Chart extends PureComponent {
     const { legend, items } = this.ctx.params;
     const { start, end } = getZoomInterval(props.item.interval.value.id);
     
-    const chart_type = props.item.lineType !== undefined ? props.item.lineType.value.id : 'step';
+    const lineType = props.item.lineType !== undefined ? props.item.lineType.value.id : 'line';
+    const lineColor = props.item.lineColor !== undefined ? props.item.lineColor.value : 'rgba(74,144,226,1)';
+    const axisPosision = props.item.axisPosision !== undefined ? props.item.axisPosision.value.id : 'left';
+    const axisWidth = props.item.axisWidth !== undefined ? props.item.axisWidth.value : 50;
+    const axisMin = props.item.axisMin !== undefined ? props.item.axisMin.value : 0;
+    const axisMax = props.item.axisMax !== undefined ? props.item.axisMax.value : 100;
+
+    legend.chart_type = lineType;
 
     this.ctx.chart.updateOptions({
-      stepPlot: chart_type === 'step' ? true : false,
-      visibility: items.map(() => true),
-      includeZero: chart_type === 'bar' ? true : false,
-      highlightCircleSize: chart_type === 'bar' ? 0 : 3,
-      plotter: chart_type === 'bar' ? this.multiColumnBarPlotter : (props.item.lineSmooth && props.item.lineSmooth.value ? this.smoothPlotter : null),
       file: [[new Date()].concat(items.map(() => null))],
+      visibility: items.map(() => true),
       dateWindow: windowfreeze ? [this.ctx.chart.dateWindow_[0], this.ctx.chart.dateWindow_[1]] : [start, end],
-      series: items.reduce((l, n) => ({ ...l, [n.id]: {
-        axis: legend.rightaxis && n.raxis ? 'y2' : 'y' },
-      }), {}),
+
+      stepPlot: legend.chart_type === 'step' ? true : false,
+      includeZero: legend.chart_type === 'bar' ? true : false,
+      highlightCircleSize: legend.chart_type === 'bar' ? 0 : 3,
+      plotter: legend.chart_type === 'bar' ? this.multiColumnBarPlotter : (props.item.lineSmooth && props.item.lineSmooth.value ? this.smoothPlotter : null),
+     
+      series: {
+        line: { axis: axisPosision === 'right' ? 'y2' : 'y' },
+      },
       axes: {
         x: {
           drawAxis: props.item.axisBottom !== undefined ? props.item.axisBottom.value : true,
           axisLabelFormatter: this.getAxisValueX,
           axisLineColor: props.item.gridColor.value,
         },
-        y: {
-          drawAxis: props.item.axisLeft !== undefined ? props.item.axisLeft.value : true,
+        [axisPosision === 'right' ? 'y2' : 'y']: {
+          drawAxis: axisPosision === 'none' ? false : true,
           axisLabelFormatter: this.getAxisValueY,
-          axisLabelWidth: props.item.axisLeftWidth !== undefined ? props.item.axisLeftWidth.value : 50,
+          axisLabelWidth: axisWidth,
           axisLineColor: props.item.gridColor.value,
-          valueRange: legend.chart_type === 'bar' ? null : [legend.leftaxis_min, legend.leftaxis_max],
-        },
-        y2: {
-          drawAxis: (props.item.axisRight !== undefined ? props.item.axisRight.value : true) && legend.rightaxis,
-          axisLabelFormatter: this.getAxisValueY,
-          axisLabelWidth: props.item.axisRightWidth !== undefined ? props.item.axisRightWidth.value : 50,
-          axisLineColor: props.item.gridColor.value,
-          valueRange: [legend.rightaxis_min, legend.rightaxis_max],
+          valueRange: legend.chart_type === 'bar' ? null : [axisMin, axisMax],
         },
       },
       
-      labels: ['x'].concat(items.map(i => i.id)),
-      colors: items.map(i => i.linecolor),
-      ylabel: this.getLabelLeft(props),
-      y2label: this.getLabelRight(props),
+      labels: ['x', 'line'],
+      colors: [ lineColor ],
+      ylabel: this.getLabel(props),
+      y2label: this.getLabel(props),
       gridLineColor: props.item.gridColor.value,
       legend: 'always',
       labelsSeparateLines: true,
@@ -615,12 +617,12 @@ class Chart extends PureComponent {
     this.linkDatePicker = e;
   }
 
-  getLabelLeft = (props = this.props) => {
+  getLabel = (props = this.props) => {
     const item = props.item;
-    if (item.axisLeftLabel !== undefined && item.axisLeftLabel.value) {
+    if (item.axisLabel !== undefined && item.axisLabel.value) {
       return `<span
       style="font-size:14px;color:${item.textColor.value}">
-      ${this.ctx.params.legend.leftaxis_title
+      ${item.axisLabel.value
       }</span>`;
     }
     return `<span style="font-size:14px;color:${item.textColor.value}"></span>`;
@@ -735,32 +737,36 @@ class Chart extends PureComponent {
 
   generateLegend = (props = this.props) => {
     const color = props.item.textColor.value;
+
+    const legendLabel = props.item.legendLabel !== undefined ? props.item.legendLabel.value : 'Demo temp1';
+    const lineColor = props.item.lineColor !== undefined ? props.item.lineColor.value : 'rgba(74,144,226,1)';
+    const axisPosision = props.item.axisPosision !== undefined ? props.item.axisPosision.value.id : 'left';
+
     const st = `text-align:center;color:${color};width:150px;font-size:14px;display:flex;align-items:center;justify-content:center;`;
-    const s0 = `display:${(props.item.legend !== undefined ? props.item.legend.value : true) ? 'flex' : 'none'};flex-direction:row;flex-shrink:0;height: 100%;`;
+    const s0 = `display:flex;flex-direction:row;flex-shrink:0;height: 100%;`;
     const sl = 'font-size:14px;display:flex;width:100%;padding-left:5px;padding-right:10px;height:100%';
     const sr = 'font-size:14px;display:flex;width:100%;padding-right:5;padding-left:10px;height:100%;align-items:left;';
     const bl = 'flex-direction:row;display:flex;width:100%;height:100%;justify-content:end;flex-wrap: wrap;text-align:right;';
     const br = 'flex-direction:row;display:flex;width:100%;height:100%;justify-content:end;flex-wrap: wrap;';
-    const temp = this.ctx.params.items.map((i, k) => ({ ...i, id: `l_${props.id}_${k}` }));
+    const temp = [{ id: `l_${props.id}_line`, linecolor: lineColor, raxis: axisPosision === 'right' }]
 
     const lt = temp
       .filter(v => !v.raxis)
-      .map(i => `<span style="cursor:pointer;display:flex;margin-left:5px;margin-top:2px;"><span style="color:${i.linecolor}">${i.legend}</span><div id="${i.id}" style="text-align:left;margin-left:8px;margin-right:10px;width:50px;height: 20px;font-weight:bold;color:${i.linecolor}"></div></span>`)
+      .map(i => `<span style="cursor:pointer;display:flex;margin-left:5px;margin-top:2px;"><span style="color:${i.linecolor}">${legendLabel}</span><div id="${i.id}" style="text-align:left;margin-left:8px;margin-right:10px;width:50px;height: 20px;font-weight:bold;color:${i.linecolor}"></div></span>`)
       .join('');
     const rt = temp
       .filter(v => v.raxis)
-      .map(i => `<span style="cursor:pointer;display:flex;margin-right:5px;margin-top:2px;"><span style="color:${i.linecolor}">${i.legend}</span><div id="${i.id}" style="text-align:left;margin-right:10px;margin-left:8px;width:50px;height: 20px;font-weight:bold;color:${i.linecolor}"></div></span>`)
+      .map(i => `<span style="cursor:pointer;display:flex;margin-right:5px;margin-top:2px;"><span style="color:${i.linecolor}">${legendLabel}</span><div id="${i.id}" style="text-align:left;margin-right:10px;margin-left:8px;width:50px;height: 20px;font-weight:bold;color:${i.linecolor}"></div></span>`)
       .join('');
     const left = `<div style="${bl}">${lt}</div>`;
     const right = `<div style="${br}">${rt}</div>`;
     const string = `<div style="${s0}"><div style="${sl}">${left}</div><div id="l_${props.id}_t" style="${st}">&nbsp;</div><div style="${sr}">${right}</div></div>`;
     this.legend.innerHTML = string;
     this.ctx.chart.resize();
-    return temp
-      .concat([{ id: `l_${props.id}_t` }])
-      .reduce((l, n) => {
-        return { ...l, [n.id]: document.getElementById(n.id) };
-      }, {});
+    return {
+      [`l_${props.id}_t`]: document.getElementById(`l_${props.id}_t`),
+      [`l_${props.id}_line`]: document.getElementById(`l_${props.id}_line`),
+    };
   }
 
   render = ({ item, mode, h } = this.props) => {

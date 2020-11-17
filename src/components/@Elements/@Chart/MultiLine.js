@@ -503,7 +503,7 @@ class Chart extends PureComponent {
       visibility: items.map(() => true),
       includeZero: legend.chart_type === 'bar' ? true : false,
       highlightCircleSize: legend.chart_type === 'bar' ? 0 : 3,
-      plotter: legend.chart_type === 'bar' ? this.multiColumnBarPlotter : (props.item.lineSmooth && props.item.lineSmooth.value ? this.smoothPlotter : null),
+      plotter: legend.chart_type === 'bar' ? this.multiColumnBarPlotter : null,
       file: [[new Date()].concat(items.map(() => null))],
       dateWindow: windowfreeze ? [this.ctx.chart.dateWindow_[0], this.ctx.chart.dateWindow_[1]] : [start, end],
       series: items.reduce((l, n) => ({ ...l, [n.id]: {
