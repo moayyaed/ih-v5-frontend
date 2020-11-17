@@ -423,7 +423,12 @@ class Sheet extends Component {
       { id: '5', title: 'Button', click: () => this.handleAddElement(e, 'button') },
       // { id: '5', title: 'Action Zone', click: () => this.handleAddElement(e, 'action2') },
       { id: '6', type: 'divider' },
-      { id: '7', title: 'Chart', click: () => this.handleAddElement(e, 'chart') },
+      { id: '7', title: 'Charts', 
+        children: [
+          { id: '1', title: 'Chart Line', click: () => this.handleAddElement(e, 'chart') },
+          { id: '2', title: 'Chart Multiline', click: () => this.handleAddElement(e, 'chart_multi') },
+        ]
+      },
     ]
   
     const scheme = {

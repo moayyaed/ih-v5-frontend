@@ -41,6 +41,7 @@ function getElementByType(type) {
     case 'expand':
       return Expand;
     case 'chart':
+    case 'chart_multi':
       return Chart;
     case 'cctv':
       return CCTV;

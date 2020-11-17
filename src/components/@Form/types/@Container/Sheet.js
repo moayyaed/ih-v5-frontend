@@ -436,7 +436,12 @@ class Sheet extends Component {
       { id: '4', title: 'Text & Image', click: () => this.handleAddElement(e, 'text_image') },
       { id: '5', title: 'Button', click: () => this.handleAddElement(e, 'button') },
       { id: '6', type: 'divider' },
-      { id: '7', title: 'Chart', click: () => this.handleAddElement(e, 'chart') },
+      { id: '7', title: 'Charts', 
+      children: [
+        { id: '1', title: 'Chart Line', click: () => this.handleAddElement(e, 'chart') },
+        { id: '2', title: 'Chart Multiline', click: () => this.handleAddElement(e, 'chart_multi') },
+      ]
+    },
     ]
   
     const scheme = {

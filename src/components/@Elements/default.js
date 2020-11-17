@@ -353,6 +353,38 @@ const CHART = {
   axisBottom: { value: true },
 }
 
+const CHART_MULTI = {
+  ...BLOCK,
+  widget: true,
+  widgetlinks: {
+    link: { }
+  },
+  data: { lines: [] },
+  interval: { value: { id: 'hour', title: 'Hour' } },
+  positionCurentTime: { value: 85 },
+  legendHeight: { value: 60 },
+  gridColor: { value: 'rgba(191, 191, 191, 1)' },
+  textColor: { value: 'rgba(77, 77, 77, 1)' },
+  buttonsColor: { value: 'rgba(64, 81, 181, 1)' },
+  realtime: { value: true },
+  points: { value: false },
+  smooth: { value: 0 },
+  buttonSync: { value: true },
+  buttonHome: { value: true },
+  buttonDate: { value: true },
+  buttonDiscrete: { value: true },
+  buttonNavigate: { value: true },
+  buttonSize: { value: 100 },
+  legend: { value: true },
+  axisLeft: { value: true },
+  axisLeftLabel: { value: true },
+  axisLeftWidth: { value: 50 },
+  axisRight: { value: true },
+  axisRightLabel: { value: true },
+  axisRightWidth: { value: 50 },
+  axisBottom: { value: true },
+}
+
 const SLIDER = {
   ...BLOCK,
   variant: { value: { id: 'material', title: 'Material' }},
@@ -395,6 +427,8 @@ function getDefaultParams(type) {
       return DEVICELOG;
     case 'chart':
       return CHART;
+    case 'chart_multi':
+      return CHART_MULTI;
     case 'slider':
       return SLIDER;
     default:

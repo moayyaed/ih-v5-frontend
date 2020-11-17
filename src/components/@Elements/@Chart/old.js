@@ -155,6 +155,7 @@ const demo = {
   rightaxis: true,
   lines: [
     {
+      type: 0,
       name: 'Demo temp1',
       legend: 'Demo temp1 - Left',
       linecolor: 'rgba(74,144,226,1)',
@@ -162,6 +163,7 @@ const demo = {
       raxis: false
     },
     {
+      type: 0,
       name: 'Demo temp2',
       legend: 'Demo temp2 - Right',
       linecolor: 'rgba(255,152,0,1)',
@@ -255,7 +257,6 @@ class Chart extends PureComponent {
 
   getData = (props = this.props, _discrete = false) => {
     const data = props.mode === 'user' ? props.item.data : demo;
-
     if (data.lines === undefined) {
       data.lines = [];
     }
