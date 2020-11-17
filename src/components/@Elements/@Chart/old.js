@@ -454,6 +454,24 @@ class Chart extends PureComponent {
     ctx.stroke();
   }
 
+  underlayCallback = (canvas, area, g) => {
+    if (g.dateWindow_) {
+      const left_bottom = g.toDomCoords(g.dateWindow_[0], 1);
+      const right_top = g.toDomCoords(g.dateWindow_[1], 0);
+
+      const left = left_bottom[0];
+      const right = right_top[0];
+      const top = left_bottom[1];
+      const bottom = right_top[1];
+
+      console.log(top, bottom)
+  
+      canvas.fillStyle = "rgba(255, 255, 102, 0.2)";
+      canvas.fillRect(left, top, right - left, bottom - top);
+    }
+
+  }
+
   updateOptions = (props = this.props, windowfreeze = false) => {
     this.ctx.init = true;
     const { legend, items } = this.ctx.params;
@@ -548,6 +566,7 @@ class Chart extends PureComponent {
   }
 
   handleChanged = (_, __, chart) => {
+    this.underlayCallback(_, __, chart);
     render(this.ctx, chart, this.props.item.data.timerange);
   }
 
