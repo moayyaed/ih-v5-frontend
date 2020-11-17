@@ -140,7 +140,7 @@ const defaultFunction = "return inData;";
 
 
 class DroplistLink extends PureComponent {
-  state = { list: [], loading: false }
+  state = { init: true, list: [], loading: false }
 
   componentDidMount() {
     if (typeof this.props.options.data !== 'string') {
@@ -154,6 +154,7 @@ class DroplistLink extends PureComponent {
     this.setState((state) => {
       return {
         ...state,
+        init: false,
         loading: false,
         list: generateList(list),
       }
@@ -210,7 +211,7 @@ class DroplistLink extends PureComponent {
   }
 
   componentDidUpdate() {
-    if (!this.props.data._bind && this.props.data.value && this.props.data.value.id !== '-') {
+    if (!this.props.data._bind && this.state.init === false && this.props.data.value && this.props.data.value.id !== '-') {
       const list = this.state.list.filter(i => i.hide ? !i.hide(this.props.global) : true);
       const find = list.find(i => i.id === this.props.data.value.id);
       if (find === undefined) {

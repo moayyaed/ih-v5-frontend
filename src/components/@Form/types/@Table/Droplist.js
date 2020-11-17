@@ -120,7 +120,7 @@ function generateList(data) {
 }
 
 class TableDroplistComponent extends Component {
-  state = { list: [], loading: false }
+  state = { init: true, list: [], loading: false }
 
   componentDidMount() {
     if (typeof this.props.column.data !== 'string') {
@@ -134,6 +134,7 @@ class TableDroplistComponent extends Component {
     this.setState((state) => {
       return {
         ...state,
+        init: false,
         loading: false,
         list: generateList(list),
       }
@@ -194,7 +195,7 @@ class TableDroplistComponent extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.cellData && this.props.cellData.id !== '-') {
+    if (this.state.init === false && this.props.cellData && this.props.cellData.id !== '-') {
       const list = this.state.list.filter(i => i.hide ? !i.hide(this.props.rowData) : true);
       const find = list.find(i => i.id === this.props.cellData.id);
       if (find === undefined) {
