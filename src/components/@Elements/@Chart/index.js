@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import ReactResizeDetector from 'react-resize-detector';
 
-import ChartOld from './old';
+import Line from './Line';
+import MultiLine from './MultiLine';
+
 
 import { transform } from './../tools';
 
@@ -52,7 +54,7 @@ class Chart extends PureComponent {
                   visibility: props.item.visible && props.item.visible.value == false ? 'hidden' : 'unset',
                 }}
               >
-                {React.createElement(ChartOld, { 
+                {React.createElement(props.item.type === 'chart' ? Line : MultiLine, { 
                   id: props.id, 
                   layoutId: props.layoutId, 
                   containerId: props.containerId || null, 

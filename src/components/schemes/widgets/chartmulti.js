@@ -71,14 +71,6 @@ const chart = {
       type: 'cb',
     },
     { 
-      title: 'Smooth Line', 
-      prop: 'smooth', 
-      type: 'number',
-      min: 0,
-      max: 70,
-      step: 5
-    },
-    { 
       title: 'Legend', 
       prop: 'legenddivider', 
       type: 'divider',

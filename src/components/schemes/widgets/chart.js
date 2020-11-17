@@ -71,8 +71,37 @@ const chart = {
       type: 'cb',
     },
     { 
-      title: 'Smooth Line', 
-      prop: 'smooth', 
+      title: 'Line', 
+      prop: '_line', 
+      type: 'divider',
+    },
+    {
+      title: 'Type', 
+      prop: 'lineType', 
+      type: 'droplistlink',
+      data: [
+        {
+          id: 'line',
+          title: 'Линия'
+        },
+        {
+          id: 'bar',
+          title: 'Столбец'
+        },
+        {
+          id: 'step',
+          title: 'Ступенчатый'
+        },
+      ],
+    },
+    { 
+      title: 'Color', 
+      prop: 'lineColor', 
+      type: 'color',
+    },
+    { 
+      title: 'Smooth', 
+      prop: 'lineSmooth', 
       type: 'number',
       min: 0,
       max: 70,
@@ -94,43 +123,47 @@ const chart = {
       type: 'number',
     },
     { 
-      title: 'Axis Left', 
-      prop: 'axisleft', 
+      title: 'Axis Left / Right', 
+      prop: '_axis', 
       type: 'divider',
     },
     { 
-      title: 'Active', 
-      prop: 'axisLeft', 
-      type: 'cb',
+      title: 'Position', 
+      prop: 'axisPosision', 
+      type: 'droplistlink',
+      data: [
+        {
+          id: 'none',
+          title: 'None'
+        },
+        {
+          id: 'left',
+          title: 'Left'
+        },
+        {
+          id: 'right',
+          title: 'Right'
+        },
+      ],
     },
     { 
       title: 'Label', 
-      prop: 'axisLeftLabel', 
-      type: 'cb',
+      prop: 'axisLabel', 
+      type: 'input',
     },
     { 
       title: 'Width', 
-      prop: 'axisLeftWidth', 
+      prop: 'axisWidth', 
       type: 'number',
     },
     { 
-      title: 'Axis Right', 
-      prop: 'axisright', 
-      type: 'divider',
+      title: 'Min', 
+      prop: 'axisMin', 
+      type: 'number',
     },
     { 
-      title: 'Active', 
-      prop: 'axisRight', 
-      type: 'cb',
-    },
-    { 
-      title: 'Label', 
-      prop: 'axisRightLabel', 
-      type: 'cb',
-    },
-    { 
-      title: 'Width', 
-      prop: 'axisRightWidth', 
+      title: 'Max', 
+      prop: 'axisMax', 
       type: 'number',
     },
     { 

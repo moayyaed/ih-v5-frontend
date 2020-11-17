@@ -377,7 +377,7 @@ class Chart extends PureComponent {
   }
 
   getControlPoints = (p0, p1, p2, opt_alpha, opt_allowFalseExtrema) => {
-    var alpha = (opt_alpha !== undefined) ? opt_alpha : this.props.item.smooth.value / 100;
+    var alpha = (opt_alpha !== undefined) ? opt_alpha : this.props.item.lineSmooth.value / 100;
     var allowFalseExtrema = opt_allowFalseExtrema || false;
   
     if (!p2) {
@@ -438,7 +438,7 @@ class Chart extends PureComponent {
         var controls = this.getControlPoints({x: p0.canvasx, y: p0.canvasy},
                                         {x: p1.canvasx, y: p1.canvasy},
                                         p2 && {x: p2.canvasx, y: p2.canvasy},
-                                        this.props.item.smooth.value / 100);
+                                        this.props.item.lineSmooth.value / 100);
         lastRightX = (lastRightX !== null) ? lastRightX : p0.canvasx;
         lastRightY = (lastRightY !== null) ? lastRightY : p0.canvasy;
         ctx.bezierCurveTo(lastRightX, lastRightY,
@@ -503,7 +503,7 @@ class Chart extends PureComponent {
       visibility: items.map(() => true),
       includeZero: legend.chart_type === 'bar' ? true : false,
       highlightCircleSize: legend.chart_type === 'bar' ? 0 : 3,
-      plotter: legend.chart_type === 'bar' ? this.multiColumnBarPlotter : (props.item.smooth && props.item.smooth.value ? this.smoothPlotter : null),
+      plotter: legend.chart_type === 'bar' ? this.multiColumnBarPlotter : (props.item.lineSmooth && props.item.lineSmooth.value ? this.smoothPlotter : null),
       file: [[new Date()].concat(items.map(() => null))],
       dateWindow: windowfreeze ? [this.ctx.chart.dateWindow_[0], this.ctx.chart.dateWindow_[1]] : [start, end],
       series: items.reduce((l, n) => ({ ...l, [n.id]: {
