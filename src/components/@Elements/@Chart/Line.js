@@ -280,7 +280,7 @@ class Chart extends PureComponent {
 
     const statics = data.lines.filter(i => i.type !== 0);
     const legend = data || {};
-    const dn = props.item.widgetlinks.link.did + '.' + props.item.widgetlinks.link.prop;
+    const dn = props.item.widgetlinks.link.dn + '.' + props.item.widgetlinks.link.prop;
     const alias = [].reduce((l, n) => ({ ...l, [n.dn]: n.id }), {});
     const { start, end } = getZoomInterval(props.item.interval.value.id);
     this.ctx = createContext(
