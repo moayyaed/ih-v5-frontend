@@ -43,6 +43,7 @@ const classes = theme => ({
 class SmartButton2 extends PureComponent {
 
   handleDialogClick = (data, context) => {
+    console.log(data)
     if (data === ':exit:') {
       core.transfer.unsub('form_dialog', this.handleDialogClick);
     } else {
@@ -51,9 +52,10 @@ class SmartButton2 extends PureComponent {
 
       if (data.result) {
         this.props.onChange(this.props.id, this.props.options, null, {
-          did: data.result.value.did,
-          prop: data.result.value.prop,  
-          title: context.component.title,
+          id: data.result.did,
+          dn: data.result.dn,
+          prop: data.result.prop,  
+          title: data.result.title,
         })
       } else {
         const value = { ...data };
