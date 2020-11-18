@@ -1,5 +1,6 @@
 const dynamic = {
-  chart: { variant: 'options',title: 'Выберите график', id: 'charts' },
+  chart: { variant: 'tree', title: 'Выберите свойство', id: 'visitems', save: false },
+  chart_multi: { variant: 'options',title: 'Выберите график', id: 'charts' },
   devicelog: { variant: 'tree',title: 'Выберите свойство', id: 'visitemsAndVistemplates' },
   devicesettings: { variant: 'tree',title: 'Выберите свойство', id: 'visitemsAndVistemplates' },
 };

@@ -347,7 +347,7 @@ const CHART = {
   buttonSize: { value: 100 },
   axisBottom: { value: true },
   legendLabel: { value: 'Demo temp1' },
-  axisPosision: { value: { id: 'left', title: 'Left' } },
+  axisPosition: { value: { id: 'left', title: 'Left' } },
   axisLabel: { value: '°C' },
   axisWidth: { value: 50 },
   axisMin: { value: 0 },

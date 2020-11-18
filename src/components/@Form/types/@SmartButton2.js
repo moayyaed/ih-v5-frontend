@@ -48,24 +48,33 @@ class SmartButton2 extends PureComponent {
     } else {
       core.transfer.unsub('form_dialog', this.handleDialogClick);
       core.actions.appdialog.close();
-      
-      const value = { ...data };
-      delete value.active;
 
-      this.props.onChange(this.props.id, this.props.options, null, {
-        id: context.component.id, 
-        title: context.component.title,
-        value,
-      })
+      if (data.result) {
+        this.props.onChange(this.props.id, this.props.options, null, {
+          did: data.result.value.did,
+          prop: data.result.value.prop,  
+          title: context.component.title,
+        })
+      } else {
+        const value = { ...data };
+        delete value.active;
+  
+        this.props.onChange(this.props.id, this.props.options, null, {
+          id: context.component.id, 
+          title: context.component.title,
+          value,
+        })
+      }
     } 
   }
 
   handleClickLink = (value) => {
     const params = {
-      disabledSave: false,
+      disabledSave: this.props.options.params.save !== undefined ? !this.props.options.params.save : false,
       ...this.props.options.params,
       type: this.props.options.params.variant,
-      selectnodeid: this.props.data.id,
+      selectnodeid: this.props.data.id || this.props.data.did,
+      select: this.props.data.prop,
       data: this.props.data,
     }
   

@@ -129,7 +129,7 @@ const chart = {
     },
     { 
       title: 'Position', 
-      prop: 'axisPosision', 
+      prop: 'axisPosition', 
       type: 'droplistlink',
       data: [
         {

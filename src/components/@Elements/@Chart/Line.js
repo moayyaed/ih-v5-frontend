@@ -144,33 +144,7 @@ const styles = {
 };
 
 const demo = {
-  data_type: 'trend',
-  chart_type: 'line',
-  leftaxis_title: '°C',
-  leftaxis_min: 0,
-  leftaxis_max: 100,
-  rightaxis_title: '°F',
-  rightaxis_min: 0,
-  rightaxis_max: 270,
-  rightaxis: true,
-  lines: [
-    {
-      type: 0,
-      name: 'Demo temp1',
-      legend: 'Demo temp1 - Left',
-      linecolor: 'rgba(74,144,226,1)',
-      dn_prop: '',
-      raxis: false
-    },
-    {
-      type: 0,
-      name: 'Demo temp2',
-      legend: 'Demo temp2 - Right',
-      linecolor: 'rgba(255,152,0,1)',
-      dn_prop: '',
-      raxis: true
-    }
-  ]
+
 }
 
 
@@ -256,15 +230,25 @@ class Chart extends PureComponent {
   }
 
   getData = (props = this.props, _discrete = false) => {
+    /*
     const data = props.mode === 'user' ? props.item.data : demo;
     if (data.lines === undefined) {
       data.lines = [];
     }
+    
     const items = data.lines
       .filter(i => i.type === 0)
       .map((i, key) => {
       return { id: key.toString(), ...i, linecolor: getColor(i.linecolor) };
     });
+    */
+
+   const data = props.mode === 'user' ? 
+    { lines: [] } : 
+    { lines: [{ id: 'line', type: 0 }] };
+
+   const items = data.lines;
+
     const statics = data.lines.filter(i => i.type !== 0);
     const legend = data || {};
     const dn = items.map(i => i.dn_prop).join(',');
@@ -501,25 +485,22 @@ class Chart extends PureComponent {
     
     const lineType = props.item.lineType !== undefined ? props.item.lineType.value.id : 'line';
     const lineColor = props.item.lineColor !== undefined ? props.item.lineColor.value : 'rgba(74,144,226,1)';
-    const axisPosision = props.item.axisPosision !== undefined ? props.item.axisPosision.value.id : 'left';
+    const axisPosition = props.item.axisPosition !== undefined ? props.item.axisPosition.value.id : 'left';
     const axisWidth = props.item.axisWidth !== undefined ? props.item.axisWidth.value : 50;
     const axisMin = props.item.axisMin !== undefined ? props.item.axisMin.value : 0;
     const axisMax = props.item.axisMax !== undefined ? props.item.axisMax.value : 100;
 
     legend.chart_type = lineType;
-
     this.ctx.chart.updateOptions({
       file: [[new Date()].concat(items.map(() => null))],
       visibility: items.map(() => true),
       dateWindow: windowfreeze ? [this.ctx.chart.dateWindow_[0], this.ctx.chart.dateWindow_[1]] : [start, end],
-
       stepPlot: legend.chart_type === 'step' ? true : false,
       includeZero: legend.chart_type === 'bar' ? true : false,
       highlightCircleSize: legend.chart_type === 'bar' ? 0 : 3,
       plotter: legend.chart_type === 'bar' ? this.multiColumnBarPlotter : (props.item.lineSmooth && props.item.lineSmooth.value ? this.smoothPlotter : null),
-     
       series: {
-        line: { axis: axisPosision === 'right' ? 'y2' : 'y' },
+        line: { axis: axisPosition === 'right' ? 'y2' : 'y' },
       },
       axes: {
         x: {
@@ -527,19 +508,25 @@ class Chart extends PureComponent {
           axisLabelFormatter: this.getAxisValueX,
           axisLineColor: props.item.gridColor.value,
         },
-        [axisPosision === 'right' ? 'y2' : 'y']: {
-          drawAxis: axisPosision === 'none' ? false : true,
-          axisLabelFormatter: this.getAxisValueY,
-          axisLabelWidth: axisWidth,
-          axisLineColor: props.item.gridColor.value,
-          valueRange: legend.chart_type === 'bar' ? null : [axisMin, axisMax],
+        y: {
+          drawAxis: true,
+          axisLabelFormatter: (v) => this.getAxisValueY(v, 'left', axisPosition, props),
+          axisLabelWidth: axisPosition === 'left' ? axisWidth : -8,
+          axisLineColor: axisPosition === 'left' ?  props.item.gridColor.value : null,
+          valueRange: axisPosition === 'left' ? legend.chart_type === 'bar' ? null : [axisMin, axisMax] : null,
+        },
+        y2: {
+          drawAxis: axisPosition === 'none' ? false : (axisPosition === 'right'),
+          axisLabelFormatter: (v) => this.getAxisValueY(v, 'right', axisPosition, props),
+          axisLabelWidth: axisPosition === 'right' ? axisWidth : 0,
+          axisLineColor: axisPosition === 'right' ? props.item.gridColor.value : null,
+          valueRange: axisPosition === 'right' ? legend.chart_type === 'bar' ? null : [axisMin, axisMax] : null,
         },
       },
-      
       labels: ['x', 'line'],
       colors: [ lineColor ],
-      ylabel: this.getLabel(props),
-      y2label: this.getLabel(props),
+      ylabel: this.getLabel(props, 'left'),
+      y2label: this.getLabel(props, 'right'),
       gridLineColor: props.item.gridColor.value,
       legend: 'always',
       labelsSeparateLines: true,
@@ -617,34 +604,30 @@ class Chart extends PureComponent {
     this.linkDatePicker = e;
   }
 
-  getLabel = (props = this.props) => {
+  getLabel = (props = this.props, type) => {
     const item = props.item;
-    if (item.axisLabel !== undefined && item.axisLabel.value) {
-      return `<span
-      style="font-size:14px;color:${item.textColor.value}">
-      ${item.axisLabel.value
-      }</span>`;
+    const axisPosition = item.axisPosition !== undefined ? props.item.axisPosition.value.id : 'left';
+    if (axisPosition === type) {
+      if (item.axisLabel !== undefined && item.axisLabel.value) {
+        return `<span
+        style="font-size:14px;color:${item.textColor.value}">
+        ${item.axisLabel.value
+        }</span>`;
+      }
+      return `<span style="font-size:14px;color:${item.textColor.value}"></span>`;
     }
     return `<span style="font-size:14px;color:${item.textColor.value}"></span>`;
   }
 
-  getLabelRight = (props = this.props) => {
-    const item = props.item;
-    if (item.axisRightLabel !== undefined && item.axisRightLabel.value) {
-      return `<span
-      style="font-size:14px;color:${item.textColor.value}">
-      ${this.ctx.params.legend.rightaxis_title
-      }</span>`;
+  getAxisValueY = (v, type, pos, props) => {
+    if (type === pos) {
+      const item = props.item;
+      if (Number.isInteger(v)) {
+        return `<span style="color:${item.textColor.value}">${v}</span>`;
+      }
+      return `<span style="color:${item.textColor.value}">${parseFloat(v).toFixed(2)}</span>`; 
     }
-    return `<span style="font-size:14px;color:${item.textColor.value}"></span>`;
-  }
-
-  getAxisValueY = (v) => {
-    const item = this.props.item;
-    if (Number.isInteger(v)) {
-      return `<span style="color:${item.textColor.value}">${v}</span>`;
-    }
-    return `<span style="color:${item.textColor.value}">${parseFloat(v).toFixed(2)}</span>`;
+    return '<span></span>'
   }
 
   getAxisValueX = (a, b, c, d) => {
@@ -740,7 +723,7 @@ class Chart extends PureComponent {
 
     const legendLabel = props.item.legendLabel !== undefined ? props.item.legendLabel.value : 'Demo temp1';
     const lineColor = props.item.lineColor !== undefined ? props.item.lineColor.value : 'rgba(74,144,226,1)';
-    const axisPosision = props.item.axisPosision !== undefined ? props.item.axisPosision.value.id : 'left';
+    const axisPosition = props.item.axisPosition !== undefined ? props.item.axisPosition.value.id : 'left';
 
     const st = `text-align:center;color:${color};width:150px;font-size:14px;display:flex;align-items:center;justify-content:center;`;
     const s0 = `display:flex;flex-direction:row;flex-shrink:0;height: 100%;`;
@@ -748,7 +731,7 @@ class Chart extends PureComponent {
     const sr = 'font-size:14px;display:flex;width:100%;padding-right:5;padding-left:10px;height:100%;align-items:left;';
     const bl = 'flex-direction:row;display:flex;width:100%;height:100%;justify-content:end;flex-wrap: wrap;text-align:right;';
     const br = 'flex-direction:row;display:flex;width:100%;height:100%;justify-content:end;flex-wrap: wrap;';
-    const temp = [{ id: `l_${props.id}_line`, linecolor: lineColor, raxis: axisPosision === 'right' }]
+    const temp = [{ id: `l_${props.id}_line`, linecolor: lineColor, raxis: axisPosition === 'right' }]
 
     const lt = temp
       .filter(v => !v.raxis)
