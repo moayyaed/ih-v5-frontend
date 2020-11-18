@@ -509,7 +509,7 @@ class Chart extends PureComponent {
     legend.chart_type = lineType;
     this.ctx.chart.updateOptions({
       file: [[new Date(), null]],
-      visibility: items.map(() => true),
+      visibility: [ true ],
       dateWindow: windowfreeze ? [this.ctx.chart.dateWindow_[0], this.ctx.chart.dateWindow_[1]] : [start, end],
       stepPlot: legend.chart_type === 'step' ? true : false,
       includeZero: legend.chart_type === 'bar' ? true : false,
