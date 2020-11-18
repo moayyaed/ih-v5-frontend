@@ -259,19 +259,6 @@ class Chart extends PureComponent {
   }
 
   getData = (props = this.props, _discrete = false) => {
-    /*
-    const data = props.mode === 'user' ? props.item.data : demo;
-    if (data.lines === undefined) {
-      data.lines = [];
-    }
-    
-    const items = data.lines
-      .filter(i => i.type === 0)
-      .map((i, key) => {
-      return { id: key.toString(), ...i, linecolor: getColor(i.linecolor) };
-    });
-    */
-
    const data = props.mode === 'user' ? 
     { lines: [] } : 
     { lines: [{ id: 'line', type: 0 }] };
