@@ -216,6 +216,61 @@ const chart = {
       prop: 'buttonsColor', 
       type: 'color',
     },
+    { 
+      title: 'Static Lines', 
+      prop: 'lines', 
+      type: 'combine',
+      itemTitle: 'Line',
+      itemScheme: [
+        { 
+          title: 'Color', 
+          prop: 'color', 
+          type: 'color',
+          bind: false,
+        },
+        { 
+          title: 'Value', 
+          prop: 'value', 
+          type: 'number',
+          bind: false,
+        },
+      ],
+      itemDefault: {
+        color: { value: 'rgba(208,2,27,1)' },
+        value: { value: 5 },
+      },
+    },
+    { 
+      title: 'Static Fields', 
+      prop: 'fields', 
+      type: 'combine',
+      itemTitle: 'Field',
+      itemScheme: [
+        { 
+          title: 'Color', 
+          prop: 'color', 
+          type: 'color',
+          bind: false,
+        },
+        { 
+          title: 'Low', 
+          prop: 'low', 
+          type: 'number',
+          bind: false,
+        },
+        { 
+          title: 'Hight', 
+          prop: 'hight', 
+          type: 'number',
+          bind: false,
+        },
+      ],
+      itemDefault: {
+        color: { value: 'rgba(74,144,226,0.15)' },
+        low: { value: 20 },
+        hight: { value: 80 },
+      },
+    },
   ],
   main: main,
   move: move,

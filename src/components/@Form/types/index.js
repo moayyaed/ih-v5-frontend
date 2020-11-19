@@ -22,6 +22,7 @@ import Images from './@Images';
 import Shadow from './@Shadow';
 import Animation from './@Animation';
 import Actions from './@Actions';
+import Combine from './@Combine';
 
 import Layout from './@Layout';
 import Container from './@Container';
@@ -85,6 +86,8 @@ function getComponentByType(type) {
       return Animation;
     case 'actions':
       return Actions;
+    case 'combine':
+      return Combine;
       
     case 'layout':
       return Layout;

@@ -458,40 +458,37 @@ class Chart extends PureComponent {
     ctx.stroke();
   }
 
-  underlayCallback = (canvas, area, g) => {
+  underlayCallback = (item, canvas, area, g) => {
     if (g.dateWindow_) {
-      
-      this.ctx.params.statics.forEach(i => {
-        if (i.type === 1) {
-          const left_bottom = g.toDomCoords(g.dateWindow_[0], i.staticvalue);
-          const right_top = g.toDomCoords(g.dateWindow_[1], i.staticvalue);
+      item.lines.forEach(i => {
+        const left_bottom = g.toDomCoords(g.dateWindow_[0], i.value.value);
+        const right_top = g.toDomCoords(g.dateWindow_[1], i.value.value);
+  
+        const left = left_bottom[0];
+        const right = right_top[0];
+        const top = left_bottom[1];
+        const bottom = right_top[1];
     
-          const left = left_bottom[0];
-          const right = right_top[0];
-          const top = left_bottom[1];
-          const bottom = right_top[1];
-     
-          canvas.beginPath();
-          canvas.strokeStyle = getColor(i.linecolor);
-          canvas.moveTo(left, top);
-          canvas.lineTo(right, bottom);
-          canvas.stroke();
-        } else {
-          const left_bottom = g.toDomCoords(g.dateWindow_[0], i.statichigh);
-          const right_top = g.toDomCoords(g.dateWindow_[1], i.staticlow);
-    
-          const left = left_bottom[0];
-          const right = right_top[0];
-          const top = left_bottom[1];
-          const bottom = right_top[1];
-          
-          canvas.fillStyle = getColor(i.linecolor);
-          canvas.fillRect(left, top, right - left, bottom - top);
-        }
+        canvas.beginPath();
+        canvas.strokeStyle = getColor(i.color.value);
+        canvas.moveTo(left, top);
+        canvas.lineTo(right, bottom);
+        canvas.stroke();
       });
-    
-    }
 
+      item.fields.forEach(i => {
+        const left_bottom = g.toDomCoords(g.dateWindow_[0], i.hight.value);
+        const right_top = g.toDomCoords(g.dateWindow_[1], i.low.value);
+  
+        const left = left_bottom[0];
+        const right = right_top[0];
+        const top = left_bottom[1];
+        const bottom = right_top[1];
+        
+        canvas.fillStyle = getColor(i.color.value);
+        canvas.fillRect(left, top, right - left, bottom - top);
+      });
+    }
   }
 
   updateOptions = (props = this.props, windowfreeze = false) => {
@@ -508,6 +505,7 @@ class Chart extends PureComponent {
 
     legend.chart_type = lineType;
     this.ctx.chart.updateOptions({
+      underlayCallback: (a, b, c) => this.handleChanged(a, b, c, props),
       file: [[new Date(), null]],
       visibility: [ true ],
       dateWindow: windowfreeze ? [this.ctx.chart.dateWindow_[0], this.ctx.chart.dateWindow_[1]] : [start, end],
@@ -595,8 +593,8 @@ class Chart extends PureComponent {
     this.ctx.chart.updateOptions({ dateWindow: [ns, ne] });
   }
 
-  handleChanged = (_, __, chart) => {
-    this.underlayCallback(_, __, chart);
+  handleChanged = (_, __, chart, props = this.props) => {
+    this.underlayCallback(props.item, _, __, chart);
     render(this.ctx, chart, this.props.item.data.timerange);
   }
 

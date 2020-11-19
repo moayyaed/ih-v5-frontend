@@ -352,6 +352,8 @@ const CHART = {
   axisWidth: { value: 50 },
   axisMin: { value: 0 },
   axisMax: { value: 100 },
+  lines: [],
+  fields: [],
 }
 
 const CHART_MULTI = {
