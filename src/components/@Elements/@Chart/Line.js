@@ -253,8 +253,9 @@ class Chart extends PureComponent {
   }
 
   realtimeCharts = (data) => {
-    if (this.props.item.realtime.value && data[this.props.item.widgetlinks.link.id] !== undefined) {
-      this.realtime(data[this.props.item.widgetlinks.link.id])
+    const dn = this.props.item.widgetlinks.link.dn + '.' + this.props.item.widgetlinks.link.prop;
+    if (this.props.item.realtime.value && data[dn] !== undefined) {
+      this.realtime(data[dn])
     }
   }
 
@@ -310,26 +311,13 @@ class Chart extends PureComponent {
   }
 
   realtime = (data) => {
-    let x = 0;
-    Object.keys(data)
-      .forEach(key => {
-        const item = data[key];
-        x = x < item.x ? item.x : x;
-        const d = this.ctx.params.items
-          .map(v => {
-            if (v.dn_prop === key) {
-              return Number(item.y);
-            }
-            return null;
-          });
-        const id = getDayId(item.x);
-        if (this.ctx.buffer.raw[id] && this.ctx.buffer.raw[id].ready) {
-          this.ctx.buffer.raw[id].data.push([new Date(item.x)].concat(d));
-        }
-      });
+    const id = getDayId(data.x);
+    if (this.ctx.buffer.raw[id] && this.ctx.buffer.raw[id].ready) {
+      this.ctx.buffer.raw[id].data.push([new Date(data.x), Number(data.y)]);
+    }
     if (this.state.realtime) {
       renderRealTime(this.ctx);
-      this.setWindow(x, this.props.item.positionCurentTime.value);
+      this.setWindow(data.x, this.props.item.positionCurentTime.value);
     }
   }
 
