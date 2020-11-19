@@ -442,18 +442,23 @@ class Chart extends PureComponent {
         lastRightX = lastRightY = null;
       }
     }
-    const cords = g.toDomCoords(0, 0);
-    const rgb = Dygraph.toRGB_(g.getColors()[0]);
-    const color ='rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + g.getNumericOption('fillAlpha', 'line') + ')';
-    console.log()
-    ctx.stroke();
-
-    ctx.lineTo(points[points.length - 1].canvasx, cords[1]);
-    ctx.lineTo(points[0].canvasx, cords[1]);
-    
-    ctx.closePath();
-    ctx.fillStyle = color;
-    ctx.fill();
+    const fill = this.props.item.fillGraph !== undefined ? this.props.item.fillGraph.value : false;
+    if (fill) {
+      const cords = g.toDomCoords(0, 0);
+      const rgb = Dygraph.toRGB_(g.getColors()[0]);
+      const color ='rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + g.getNumericOption('fillAlpha', 'line') + ')';
+      console.log()
+      ctx.stroke();
+  
+      ctx.lineTo(points[points.length - 1].canvasx, cords[1]);
+      ctx.lineTo(points[0].canvasx, cords[1]);
+      
+      ctx.closePath();
+      ctx.fillStyle = color;
+      ctx.fill();
+    } else {
+      ctx.stroke();
+    }
   }
 
   underlayCallback = (item, canvas, area, g) => {
