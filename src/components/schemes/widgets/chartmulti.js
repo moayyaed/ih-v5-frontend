@@ -156,11 +156,6 @@ const chart = {
       type: 'cb',
     },
     { 
-      title: 'Discrete', 
-      prop: 'buttonDiscrete', 
-      type: 'cb',
-    },
-    { 
       title: 'Navigate', 
       prop: 'buttonNavigate', 
       type: 'cb',

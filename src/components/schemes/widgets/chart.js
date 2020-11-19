@@ -157,13 +157,13 @@ const chart = {
       type: 'number',
     },
     { 
-      title: 'Low', 
-      prop: 'axisMin', 
+      title: 'Max', 
+      prop: 'axisMax', 
       type: 'number',
     },
     { 
-      title: 'Hight', 
-      prop: 'axisMax', 
+      title: 'Min', 
+      prop: 'axisMin', 
       type: 'number',
     },
     { 
@@ -194,11 +194,6 @@ const chart = {
     { 
       title: 'Date', 
       prop: 'buttonDate', 
-      type: 'cb',
-    },
-    { 
-      title: 'Discrete', 
-      prop: 'buttonDiscrete', 
       type: 'cb',
     },
     { 
@@ -253,14 +248,14 @@ const chart = {
           bind: false,
         },
         { 
-          title: 'Low', 
-          prop: 'low', 
+          title: 'Hight', 
+          prop: 'hight', 
           type: 'number',
           bind: false,
         },
         { 
-          title: 'Hight', 
-          prop: 'hight', 
+          title: 'Low', 
+          prop: 'low', 
           type: 'number',
           bind: false,
         },
