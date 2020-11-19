@@ -7,8 +7,8 @@ import Fab from '@material-ui/core/Fab';
 
 import { KeyboardDatePicker } from '@material-ui/pickers';
 
-import IconBefore from '@material-ui/icons/ArrowBackIos';
-import IconNext from '@material-ui/icons/ArrowForwardIos';
+import IconBefore from '@material-ui/icons/KeyboardArrowLeft';
+import IconNext from '@material-ui/icons/KeyboardArrowRight';
 
 import SvgIcon from '@material-ui/core/SvgIcon';
 
@@ -790,7 +790,7 @@ class Chart extends PureComponent {
               style={{ ...styles.buttonNavBefore, transform: `scale(${buttonSize})`, backgroundColor: item.buttonsColor.value }}
               onClick={this.handleNavBefore}
             >
-              <IconBefore />
+              <IconBefore fontSize="large" />
             </Fab>
           : null}
           {item.buttonNavigate.value ?
@@ -799,7 +799,7 @@ class Chart extends PureComponent {
               style={{ ...styles.buttonNavNext, transform: `scale(${buttonSize})`, backgroundColor: item.buttonsColor.value }}
               onClick={this.handleNavNext}
             >
-              <IconNext />
+              <IconNext fontSize="large" />
             </Fab>
           : null}
           {item.buttonHome.value ?
