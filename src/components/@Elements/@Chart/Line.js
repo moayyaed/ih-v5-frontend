@@ -776,7 +776,7 @@ class Chart extends PureComponent {
     const top = item.legendHeight.value;
     const buttonSize = item.buttonSize.value / 100;
     return (
-      <div style={{ ...styles.root, zIndex: mode === 'user' ? 1 : -1 }}>
+      <div style={{ ...styles.root, background: item.backgroundColor.value, zIndex: mode === 'user' ? 1 : -1 }}>
         <div ref={this.linkedLegend} style={{ ...styles.legend, height: top }} />
         <div ref={this.linked} style={{ ...styles.container, width: '100%', top, height: getHeight(height, item) }} />
         <div style={styles.toolbar} />

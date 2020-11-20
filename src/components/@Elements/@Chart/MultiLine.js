@@ -362,6 +362,47 @@ class Chart extends PureComponent {
     }
   }
 
+  pieChartPlotter = (e, props = this.props) => {
+    var ctx  = e.drawingContext;
+    var self = { _pieData: {} }
+    var itm, nme, data = self._pieData;
+    if ( true)  {
+      var t, i, y, all, total = 0;
+      data = {};
+      all = e.allSeriesPoints; // array of array
+      for ( t=0; t<all.length ; t++ )  {
+        y = 0;
+        itm  = all[t];
+        nme  = itm[0].name;
+        for ( i=0; i<itm.length; i++ )
+          y += itm[i].yval;
+        total += y;
+        data[nme] = { color : null, y : y };
+      }
+      data.total = total;
+      self._pieData = data;
+    }
+    if ( data[e.setName] )
+         data[e.setName].color = e.color;
+    var delta = ctx.canvas.width > ctx.canvas.height ? ctx.canvas.height : ctx.canvas.width;
+    var center= parseInt ( delta / 2, 10 );
+    var lastend = 0;
+    ctx.clearRect ( 0, 0, ctx.canvas.width, ctx.canvas.height );
+    for ( var name in data )  {
+      itm = data[name];
+      if ( self._highlighted === name )
+        ctx.fillStyle = "#FF8844";
+      else
+        ctx.fillStyle = itm.color === null ? "#888888" : itm.color;
+      ctx.beginPath ( );
+      ctx.moveTo ( ctx.canvas.width/2, ctx.canvas.height/2 );
+      ctx.arc ( ctx.canvas.width/2, ctx.canvas.height/2, center/2, lastend, lastend + ( Math.PI * 2 * ( itm.y / data.total ) ), false );
+      ctx.lineTo ( ctx.canvas.width/2, ctx.canvas.height/2 );
+      ctx.fill ( );
+      lastend += Math.PI * 2 * ( itm.y / data.total );
+    }
+  }
+
   multiColumnBarPlotter = (e, props = this.props) => {
     if (e.seriesIndex !== 0) return;
 
@@ -449,46 +490,6 @@ class Chart extends PureComponent {
     return !!x && !isNaN(x);
   };
 
-  smoothPlotter = (e) => {  
-    var ctx = e.drawingContext,
-    points = e.points;
-
-    ctx.beginPath();
-    ctx.moveTo(points[0].canvasx, points[0].canvasy);
-
-    var lastRightX = points[0].canvasx, lastRightY = points[0].canvasy;
-
-    for (var i = 1; i < points.length; i++) {
-      var p0 = points[i - 1],
-          p1 = points[i],
-          p2 = points[i + 1];
-      p0 = p0 && this.isOK(p0.canvasy) ? p0 : null;
-      p1 = p1 && this.isOK(p1.canvasy) ? p1 : null;
-      p2 = p2 && this.isOK(p2.canvasy) ? p2 : null;
-      if (p0 && p1) {
-        var controls = this.getControlPoints({x: p0.canvasx, y: p0.canvasy},
-                                        {x: p1.canvasx, y: p1.canvasy},
-                                        p2 && {x: p2.canvasx, y: p2.canvasy},
-                                        this.props.item.lineSmooth.value / 100);
-        lastRightX = (lastRightX !== null) ? lastRightX : p0.canvasx;
-        lastRightY = (lastRightY !== null) ? lastRightY : p0.canvasy;
-        ctx.bezierCurveTo(lastRightX, lastRightY,
-                          controls[0], controls[1],
-                          p1.canvasx, p1.canvasy);
-        lastRightX = controls[2];
-        lastRightY = controls[3];
-      } else if (p1) {
-        ctx.moveTo(p1.canvasx, p1.canvasy);
-        lastRightX = p1.canvasx;
-        lastRightY = p1.canvasy;
-      } else {
-        lastRightX = lastRightY = null;
-      }
-    }
-
-    ctx.stroke();
-  }
-
   underlayCallback = (canvas, area, g) => {
     if (g.dateWindow_) {
       
@@ -534,7 +535,7 @@ class Chart extends PureComponent {
       visibility: items.map(() => true),
       includeZero: legend.chart_type === 'bar' ? true : false,
       highlightCircleSize: legend.chart_type === 'bar' ? 0 : 3,
-      plotter: legend.chart_type === 'bar' ? (e) => this.multiColumnBarPlotter(e, props) : null,
+      plotter: legend.chart_type === 'bar' ? (e) => this.multiColumnBarPlotter(e, props) : legend.chart_type === 'pie' ? (e) => this.pieChartPlotter(e, props) : null,
       file: [[new Date()].concat(items.map(() => null))],
       dateWindow: windowfreeze ? [this.ctx.chart.dateWindow_[0], this.ctx.chart.dateWindow_[1]] : [start, end],
       series: items.reduce((l, n) => ({ ...l, [n.id]: {
@@ -796,7 +797,7 @@ class Chart extends PureComponent {
     const top = item.legendHeight.value;
     const buttonSize = item.buttonSize.value / 100;
     return (
-      <div style={{ ...styles.root, zIndex: mode === 'user' ? 1 : -1 }}>
+      <div style={{ ...styles.root, background: item.backgroundColor.value, zIndex: mode === 'user' ? 1 : -1 }}>
         <div ref={this.linkedLegend} style={{ ...styles.legend, height: top }} />
         <div ref={this.linked} style={{ ...styles.container, width: '100%', top, height: getHeight(height, item) }} />
         <div style={styles.toolbar} />
