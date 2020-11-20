@@ -363,44 +363,50 @@ class Chart extends PureComponent {
   }
 
   pieChartPlotter = (e, props = this.props) => {
-    var ctx  = e.drawingContext;
-    var self = { _pieData: {} }
-    var itm, nme, data = self._pieData;
-    if ( true)  {
-      var t, i, y, all, total = 0;
-      data = {};
-      all = e.allSeriesPoints; // array of array
-      for ( t=0; t<all.length ; t++ )  {
-        y = 0;
-        itm  = all[t];
-        nme  = itm[0].name;
-        for ( i=0; i<itm.length; i++ )
-          y += itm[i].yval;
-        total += y;
-        data[nme] = { color : null, y : y };
-      }
-      data.total = total;
-      self._pieData = data;
-    }
-    if ( data[e.setName] )
-         data[e.setName].color = e.color;
-    var delta = ctx.canvas.width > ctx.canvas.height ? ctx.canvas.height : ctx.canvas.width;
-    var center= parseInt ( delta / 2, 10 );
+    const g = e.dygraph;
+    const ctx = e.drawingContext;
+    const groupPoints = e.allSeriesPoints;
+
+    const total = {};
+
+    groupPoints
+      .forEach((item, key) => {
+        total[key] = item.reduce((p, c) => p + c.yval, 0)
+      })
+
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    
+    const delta = ctx.canvas.width > ctx.canvas.height ? ctx.canvas.height : ctx.canvas.width;
+    const center= parseInt ( delta / 2, 10 );
+    const max = Object.keys(total).reduce((p, c) => p + total[c], 0)
     var lastend = 0;
-    ctx.clearRect ( 0, 0, ctx.canvas.width, ctx.canvas.height );
-    for ( var name in data )  {
-      itm = data[name];
-      if ( self._highlighted === name )
-        ctx.fillStyle = "#FF8844";
-      else
-        ctx.fillStyle = itm.color === null ? "#888888" : itm.color;
-      ctx.beginPath ( );
-      ctx.moveTo ( ctx.canvas.width/2, ctx.canvas.height/2 );
-      ctx.arc ( ctx.canvas.width/2, ctx.canvas.height/2, center/2, lastend, lastend + ( Math.PI * 2 * ( itm.y / data.total ) ), false );
-      ctx.lineTo ( ctx.canvas.width/2, ctx.canvas.height/2 );
-      ctx.fill ( );
-      lastend += Math.PI * 2 * ( itm.y / data.total );
-    }
+    groupPoints
+      .forEach((item, key) => {
+        const w = ctx.canvas.width / 2;
+        const h = ctx.canvas.height / 2;
+        var off = 150
+
+        ctx.fillStyle = g.colors_[key] || '#888888';
+        ctx.strokeStyle ='white';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(w, h);
+        var len = (total[key] / max) * 2 * Math.PI
+        var r = h - off / 2
+        ctx.arc(w, h, r, lastend, lastend + len,false);
+        ctx.lineTo(w,h);
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = 'black' || g.colors_[key];
+        ctx.font = "15px Arial";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        const mid = lastend + len / 2
+        const text = `${this.ctx.params.items[key].name} - ${(total[key] / max * 100).toFixed(2)}%`
+        ctx.fillText(text, w + Math.cos(mid) * r * 1.1 , h + Math.sin(mid) * r * 1.1);
+        lastend += Math.PI * 2 * (total[key] / max);
+      })
+    this.multiColumnBarPlotter(e, props)
   }
 
   multiColumnBarPlotter = (e, props = this.props) => {
@@ -548,6 +554,7 @@ class Chart extends PureComponent {
           axisLineColor: props.item.gridColor.value,
         },
         y: {
+          highlightCircleSize: legend.chart_type === 'pie' ? 0 : 3,
           drawAxis: props.item.axisLeft !== undefined ? props.item.axisLeft.value : true,
           axisLabelFormatter: this.getAxisValueY,
           axisLabelWidth: props.item.axisLeftWidth !== undefined ? props.item.axisLeftWidth.value : 50,
@@ -555,6 +562,7 @@ class Chart extends PureComponent {
           valueRange: legend.chart_type === 'bar' ? null : [legend.leftaxis_min, legend.leftaxis_max],
         },
         y2: {
+          highlightCircleSize: legend.chart_type === 'pie' ? 0 : 3,
           drawAxis: (props.item.axisRight !== undefined ? props.item.axisRight.value : true) && legend.rightaxis,
           axisLabelFormatter: this.getAxisValueY,
           axisLabelWidth: props.item.axisRightWidth !== undefined ? props.item.axisRightWidth.value : 50,
@@ -572,7 +580,7 @@ class Chart extends PureComponent {
       labelsSeparateLines: true,
       hideOverlayOnMouseOut: false,
       legendFormatter: this.setLegend,
-      drawPoints: props.item.points.value,
+      drawPoints: legend.chart_type === 'pie' ? false : props.item.points.value,
       fillGraph: props.item.fillGraph !== undefined ? props.item.fillGraph.value : false,
     });
     const genlegend = this.generateLegend(props);

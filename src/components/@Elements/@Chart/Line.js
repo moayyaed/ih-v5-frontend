@@ -449,7 +449,6 @@ class Chart extends PureComponent {
       const cords = g.toDomCoords(0, 0);
       const rgb = Dygraph.toRGB_(g.getColors()[0]);
       const color ='rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + g.getNumericOption('fillAlpha', 'line') + ')';
-      console.log()
       ctx.stroke();
   
       ctx.lineTo(points[points.length - 1].canvasx, cords[1]);
