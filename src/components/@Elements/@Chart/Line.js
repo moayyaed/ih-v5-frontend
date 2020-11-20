@@ -321,7 +321,7 @@ class Chart extends PureComponent {
     }
   }
 
-  multiColumnBarPlotter = (e) => {
+  multiColumnBarPlotter = (e, props = this.props) => {
     if (e.seriesIndex !== 0) return;
 
     var g = e.dygraph;
@@ -357,15 +357,17 @@ class Chart extends PureComponent {
 
         const width = bar_width/sets.length;
         const x = center_x + (j * width);
-
-        ctx.fillRect(x, p.canvasy, width - 0, y_bottom - p.canvasy);
+        const fill = props.item.fillGraph !== undefined ? props.item.fillGraph.value : false;
+        if (fill) {
+          ctx.fillRect(x, p.canvasy, width - 0, y_bottom - p.canvasy);
+        }
         ctx.strokeRect(x, p.canvasy, width - 0, y_bottom - p.canvasy);
       }
     }
   }
 
   getControlPoints = (p0, p1, p2, opt_alpha, opt_allowFalseExtrema) => {
-    var alpha = (opt_alpha !== undefined) ? opt_alpha : this.props.item.lineSmooth.value / 100;
+    var alpha = (opt_alpha !== undefined) ? opt_alpha : 1 / 3;
     var allowFalseExtrema = opt_allowFalseExtrema || false;
   
     if (!p2) {
@@ -406,7 +408,7 @@ class Chart extends PureComponent {
     return !!x && !isNaN(x);
   };
 
-  smoothPlotter = (e) => {  
+  smoothPlotter = (e, props = this.props) => {  
     var ctx = e.drawingContext,
     points = e.points;
     const g = e.dygraph;
@@ -426,7 +428,7 @@ class Chart extends PureComponent {
         var controls = this.getControlPoints({x: p0.canvasx, y: p0.canvasy},
                                         {x: p1.canvasx, y: p1.canvasy},
                                         p2 && {x: p2.canvasx, y: p2.canvasy},
-                                        this.props.item.lineSmooth.value / 100);
+                                        1 / 3);
         lastRightX = (lastRightX !== null) ? lastRightX : p0.canvasx;
         lastRightY = (lastRightY !== null) ? lastRightY : p0.canvasy;
         ctx.bezierCurveTo(lastRightX, lastRightY,
@@ -442,7 +444,7 @@ class Chart extends PureComponent {
         lastRightX = lastRightY = null;
       }
     }
-    const fill = this.props.item.fillGraph !== undefined ? this.props.item.fillGraph.value : false;
+    const fill = props.item.fillGraph !== undefined ? props.item.fillGraph.value : false;
     if (fill) {
       const cords = g.toDomCoords(0, 0);
       const rgb = Dygraph.toRGB_(g.getColors()[0]);
@@ -515,7 +517,7 @@ class Chart extends PureComponent {
       stepPlot: legend.chart_type === 'step' ? true : false,
       includeZero: legend.chart_type === 'bar' ? true : false,
       highlightCircleSize: legend.chart_type === 'bar' ? 0 : 3,
-      plotter: legend.chart_type === 'bar' ? this.multiColumnBarPlotter : (props.item.lineSmooth && props.item.lineSmooth.value ? this.smoothPlotter : null),
+      plotter: legend.chart_type === 'bar' ? (e) => this.multiColumnBarPlotter(e, props) : legend.chart_type === 'smooth' ? (e) => this.smoothPlotter(e, props):  null,
       series: {
         line: { axis: axisPosition === 'right' ? 'y2' : 'y' },
       },

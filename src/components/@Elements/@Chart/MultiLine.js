@@ -362,7 +362,7 @@ class Chart extends PureComponent {
     }
   }
 
-  multiColumnBarPlotter = (e) => {
+  multiColumnBarPlotter = (e, props = this.props) => {
     if (e.seriesIndex !== 0) return;
 
     var g = e.dygraph;
@@ -398,8 +398,10 @@ class Chart extends PureComponent {
 
         const width = bar_width/sets.length;
         const x = center_x + (j * width);
-
-        ctx.fillRect(x, p.canvasy, width - 0, y_bottom - p.canvasy);
+        const fill = props.item.fillGraph !== undefined ? props.item.fillGraph.value : false;
+        if (fill) {
+          ctx.fillRect(x, p.canvasy, width - 0, y_bottom - p.canvasy);
+        }
         ctx.strokeRect(x, p.canvasy, width - 0, y_bottom - p.canvasy);
       }
     }
@@ -532,7 +534,7 @@ class Chart extends PureComponent {
       visibility: items.map(() => true),
       includeZero: legend.chart_type === 'bar' ? true : false,
       highlightCircleSize: legend.chart_type === 'bar' ? 0 : 3,
-      plotter: legend.chart_type === 'bar' ? this.multiColumnBarPlotter : null,
+      plotter: legend.chart_type === 'bar' ? (e) => this.multiColumnBarPlotter(e, props) : null,
       file: [[new Date()].concat(items.map(() => null))],
       dateWindow: windowfreeze ? [this.ctx.chart.dateWindow_[0], this.ctx.chart.dateWindow_[1]] : [start, end],
       series: items.reduce((l, n) => ({ ...l, [n.id]: {
