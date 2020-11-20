@@ -777,7 +777,7 @@ class Chart extends PureComponent {
     const sl = 'font-size:14px;display:flex;width:100%;padding-left:5px;padding-right:10px;height:100%';
     const sr = 'font-size:14px;display:flex;width:100%;padding-right:5;padding-left:10px;height:100%;align-items:left;';
     const bl = 'flex-direction:row;display:flex;width:100%;height:100%;justify-content:end;flex-wrap: wrap;text-align:right;';
-    const br = 'flex-direction:row;display:flex;width:100%;height:100%;justify-content:end;flex-wrap: wrap;';
+    const br = 'flex-direction:row-reverse;display:flex;width:100%;height:100%;justify-content:end;flex-wrap: wrap;';
     const temp = this.ctx.params.items.map((i, k) => ({ ...i, id: `l_${props.id}_${k}` }));
 
     const lt = temp
