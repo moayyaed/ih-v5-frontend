@@ -178,7 +178,7 @@ function CalendarIcon(props) {
 
 
 function getHeight(h, item) {
-  if (!item.buttonSync.value && !item.buttonHome.value && !item.buttonDate.value && !item.buttonDiscrete.value && !item.buttonNavigate.value) {
+  if (!item.buttonSync.value && !item.buttonHome.value && !item.buttonDate.value && !item.buttonNavigate.value) {
     return h;
   }
   return h - 44;
@@ -701,7 +701,7 @@ class Chart extends PureComponent {
 
   handleSync = () => {
     core.transfer.send('command_layout', { 
-      command: 'synccharts',
+      command: this.props.dialogId ? 'synccharts_dialog' : 'synccharts',
       range: this.ctx.chart.dateWindow_,
       realtime: this.state.realtime,
       layoutId: this.props.layoutId, 
@@ -781,7 +781,7 @@ class Chart extends PureComponent {
         <div style={styles.toolbar} />
         <div ref={this.linkedSpiner} style={styles.spiner}>LOADING</div>
         <div ref={this.linkedPanel} style={styles.panel} />
-        {item.buttonDiscrete.value && this.state.enabledsd ? <div style={{ ...styles.speeddial, transform: `scale(${buttonSize})` }}></div>: null}
+        {this.state.enabledsd ? <div style={{ ...styles.speeddial, transform: `scale(${buttonSize})` }}></div>: null}
           {item.buttonSync.value ?
             <Fab
               size="small"

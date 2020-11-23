@@ -324,6 +324,7 @@ const DEVICELOG = {
 const CHART = {
   ...BLOCK,
   widget: true,
+  expand: { value: true },
   widgetlinks: {
     link: { }
   },
@@ -359,6 +360,7 @@ const CHART = {
 const CHART_MULTI = {
   ...BLOCK,
   widget: true,
+  expand: { value: true },
   widgetlinks: {
     link: { }
   },

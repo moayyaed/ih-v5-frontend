@@ -1,4 +1,4 @@
-import { APP_LAYOUT_DIALOG_SET_DATA, APP_LAYOUT_DIALOG_UPDATE_ELEMENTS } from './constants';
+import { APP_LAYOUT_DIALOG_SET_DATA, APP_LAYOUT_DIALOG_UPDATE_ELEMENTS, APP_LAYOUT_DIALOG_SYNC_CHARTS_LAYOUT } from './constants';
 
 
 const defaultState = {
@@ -61,6 +61,29 @@ function reducer(state = defaultState, action) {
                 }, {}),
             }
           }, {}),
+      };
+    case APP_LAYOUT_DIALOG_SYNC_CHARTS_LAYOUT:
+      return { 
+        ...state,
+        elements: Object
+        .keys(state.elements)
+        .reduce((p, c) => {
+          if (state.elements[c].type === 'chart') {
+            return { 
+              ...p, 
+              [c]: {
+                ...state.elements[c],
+                data: {
+                  ...state.elements[c].data,
+                  range: action.range,
+                  forceRealtime: action.realtime,
+                  triger: Date.now(),
+                }
+              }
+            }
+          }
+          return { ...p, [c]: state.elements[c] }
+        }, {}),
       };
     default:
       return state;

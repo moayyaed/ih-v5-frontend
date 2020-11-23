@@ -45,7 +45,8 @@ class Chart extends PureComponent {
                 {React.createElement(props.item.type === 'chart' ? Line : MultiLine, { 
                   id: props.id, 
                   layoutId: props.layoutId, 
-                  containerId: props.containerId || null, 
+                  containerId: props.containerId || null,
+                  dialogId: props.dialogId || null,
                   mode: props.mode, 
                   item: props.item, 
                   h: height 

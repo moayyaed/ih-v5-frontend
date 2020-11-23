@@ -69,6 +69,10 @@ class AppLayout extends Component {
         core.actions.layout.syncChartsLayout(data.range, data.realtime);
       }
     }
+
+    if ( data.command === 'synccharts_dialog') {
+      core.actions.layoutDialog.syncCharts(data.range, data.realtime);
+    }
   }
   
   request = () => {

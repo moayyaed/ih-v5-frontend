@@ -70,7 +70,7 @@ function reducer(state = defaultState, action) {
             elements: Object
               .keys(state.containers[action.containerId].elements)
               .reduce((p, c) => {
-                if (state.containers[action.containerId].elements[c].type === 'chart') {
+                if (state.containers[action.containerId].elements[c].type === 'chart' || state.containers[action.containerId].elements[c].type === 'chart_multi') {
                   return { 
                     ...p, 
                     [c]: {
