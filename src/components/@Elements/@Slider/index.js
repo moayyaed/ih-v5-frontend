@@ -30,14 +30,15 @@ const styles = {
 const temp = { value: 50 };
 
 const onChange = (item, value) => {
-  if (item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.value) {
+  if (item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id) {
+    const did = item.widgetlinks.link.id === '__device' ? core.store.getState().layoutDialog.contextId : item.widgetlinks.link.id;
     core.tunnel.command({
       uuid: shortid.generate(),
       method: 'action',
       type:'command',
       command: 'setval',
-      did: item.widgetlinks.link.value.did,
-      prop: item.widgetlinks.link.value.prop,
+      did: did,
+      prop: item.widgetlinks.link.prop,
       value,
     });
   }
