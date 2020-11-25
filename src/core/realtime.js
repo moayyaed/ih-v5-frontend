@@ -53,9 +53,10 @@ function messageTunnel(e) {
     } else if (json.uuid !== undefined) {
       if (json.data) {
         realtime.events.emit(json.uuid, json.data);
-      }
-      if (json.chartdata) {
+      } else if (json.chartdata !== undefined) {
         core.transfer.send('chartdata', json.chartdata)
+      } else {
+        realtime.events.emit(json.uuid, json);
       }
     } else {
       if (json.error) {
