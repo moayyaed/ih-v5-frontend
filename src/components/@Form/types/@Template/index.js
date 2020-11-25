@@ -120,7 +120,7 @@ class Template extends PureComponent {
             key="1"
             minimal
             active={select === 'actions'} 
-            icon="hand-up"  
+            icon="hand-up"
             onClick={() => this.handleChangeProperty('actions')} 
           />,
           <Separator key="2" />,
@@ -128,7 +128,7 @@ class Template extends PureComponent {
             key="3"
             minimal 
             active={select === 'move'} 
-            icon="move"  
+            icon={IconMove}
             onClick={() => this.handleChangeProperty('move')}
           />,
         ];
@@ -142,9 +142,17 @@ class Template extends PureComponent {
           icon="style"  
           onClick={() => this.handleChangeProperty('main')} 
         />,
+        <Separator key="2" />,
+        <Button 
+          key="3"
+          minimal
+          active={select === 'element'} 
+          icon="highlight"
+          onClick={() => this.handleChangeProperty('element')} 
+        />,
         <Separator key="4" />,
         <Button 
-          key="13"
+          key="5"
           minimal 
           active={select === 'move'} 
           icon={IconMove}  

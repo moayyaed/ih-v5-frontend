@@ -90,5 +90,14 @@ input.core:focus {
   outline: none;
   color: rgba(0, 0, 0, 0.87)!important;
   border: 1px solid #9E9E9E!important;
-  background-color: unset!important;;
+  background-color: unset!important;
+}
+
+.dygraph-label-rotate-left {
+  left: -125px!important;
+  transform: rotate(270deg)!important;
+  -webkit-transform: rotate(270deg)!important;
+  -moz-transform: rotate(270deg)!important;
+  -o-transform: rotate(270deg)!important;
+  -ms-transform: rotate(270deg)!important;
 }

@@ -135,6 +135,7 @@ const styles = {
 const COMMANDS = {
   device: 'devcmd',
   device_any: 'devcmdAndAny',
+  setval_any: 'setitemsAndAny',
   layout: 'layoutx',
   plugin: 'pluginx',
   script: 'scriptx',
@@ -145,6 +146,7 @@ const COMMANDS = {
 const COMMANDS_TITLES = {
   device: 'Device Command',
   device_any: 'Device Command',
+  setval_any: 'Set Value',
   plugin: 'Plugin Command',
   layout: 'Go To Layout',
   script: 'Run Script',
@@ -329,10 +331,10 @@ function Actions(props) {
       open: true, 
       transferid: 'form_dialog',
       template: {
-        noscroll: command === 'setval',
+        noscroll: command === 'setval' || command === 'setval_any',
         disabledSave: (command === 'device' || command === 'device_any') ? true : false,
         title: COMMANDS_TITLES[command],
-        type: (command === 'device' || command === 'device_any' ||  command === 'setval') ? 'tree' : 'options',
+        type: (command === 'device' || command === 'device_any' || command === 'setval' || command === 'setval_any') ? 'tree' : 'options',
         id: COMMANDS[command] || 'null',
         dialog: 'channellink',
         selectnodeid: did,
@@ -364,7 +366,7 @@ function Actions(props) {
             return i;
           }), 
         })
-      } else if (context.template.itemCommand === 'setval') {
+      } else if (context.template.itemCommand === 'setval' || context.template.itemCommand === 'setval_any') {
         props.onChange(props.id, props.options, null, { 
           ...props.data, 
           [context.template.itemType]: props.data[context.template.itemType].map((i, key) => {
@@ -448,10 +450,11 @@ function Actions(props) {
       if (route.dialog) {
         return [
           <MenuItem key="0" onClick={() => handleClickOption('device_any')}>Device Command</MenuItem>,
-          <MenuItem key="1" onClick={() => handleClickOption('initdialog')}>Init Dialog</MenuItem>,
-          <MenuItem key="2" onClick={() => handleClickOption('dialog')}>Show Dialog</MenuItem>,
+          <MenuItem key="1" onClick={() => handleClickOption('setval_any')}>Set Value</MenuItem>,
+          <MenuItem key="2" onClick={() => handleClickOption('initdialog')}>Init Dialog</MenuItem>,
+          <MenuItem key="3" onClick={() => handleClickOption('dialog')}>Show Dialog</MenuItem>,
           <Divider key="-" />,
-          <MenuItem key="3" onClick={() => handleClickOption('close')}>Close Dialog</MenuItem>,
+          <MenuItem key="4" onClick={() => handleClickOption('close')}>Close Dialog</MenuItem>,
         ]
       }
       return [

@@ -13,7 +13,6 @@ export function getElementsOtherVar(store, item) {
   if (store.states[item.did] && store.states[item.did][item.prop] !== undefined) {
     const checkValue = Number(store.states[item.did][item.prop])
     let value = checkValue !== NaN ? checkValue : store.states[item.prop];
-  
     try {
       const func = createValueFunc(item.func).body;
       value = func.call(null, value)

@@ -168,7 +168,7 @@ const chart = {
       type: 'divider',
     },
     { 
-      title: 'Active', 
+      title: 'Visible', 
       prop: 'axisBottom', 
       type: 'cb',
     },

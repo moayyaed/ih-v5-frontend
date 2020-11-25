@@ -76,7 +76,7 @@ const chart = {
       type: 'divider',
     },
     { 
-      title: 'Active', 
+      title: 'Visible', 
       prop: 'legend', 
       type: 'cb',
     },
@@ -91,7 +91,7 @@ const chart = {
       type: 'divider',
     },
     { 
-      title: 'Active', 
+      title: 'Visible', 
       prop: 'axisLeft', 
       type: 'cb',
     },
@@ -111,7 +111,7 @@ const chart = {
       type: 'divider',
     },
     { 
-      title: 'Active', 
+      title: 'Visible', 
       prop: 'axisRight', 
       type: 'cb',
     },
@@ -131,7 +131,7 @@ const chart = {
       type: 'divider',
     },
     { 
-      title: 'Active', 
+      title: 'Visible', 
       prop: 'axisBottom', 
       type: 'cb',
     },

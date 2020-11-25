@@ -254,7 +254,7 @@ class Button extends PureComponent {
                 }
               }
             } else {
-              if (item.command === 'setval') {
+              if (item.command === 'setval' || item.command === 'setval_any') {
                 const store = core.store.getState().layout;
                 if (item.local) {
                   const data = getElementsLocalVars(store, item)
@@ -264,14 +264,15 @@ class Button extends PureComponent {
                     .keys(store.containers)
                     .forEach(containerId => core.actions.layout.updateElementsContainer(containerId, data))
                 } else {
+                  const _item = { ...item, did: '__device' ? core.store.getState().layoutDialog.contextId : item.did }
                   core.tunnel.command({
                     uuid: shortid.generate(),
                     method: 'action',
                     type:'command',
-                    command: item.command,
-                    did: item.did,
+                    command: item.command === 'setval_any' ? 'setval' : item.command,
+                    did: _item.did,
                     prop: item.prop,
-                    value: getElementsOtherVar(store, item)
+                    value: getElementsOtherVar(store, _item)
                   });
                 }
               } else {
