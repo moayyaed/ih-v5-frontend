@@ -400,6 +400,16 @@ const SLIDER = {
   data: {},
 }
 
+const INPUT = {
+  ...BLOCK,
+  widget: true,
+  control: true,
+  widgetlinks: {
+    link: { }
+  },
+  data: {},
+}
+
 
 function getDefaultParams(type) {
   switch (type) {
@@ -435,6 +445,8 @@ function getDefaultParams(type) {
       return CHART_MULTI;
     case 'slider':
       return SLIDER;
+      case 'input':
+        return INPUT;
     default:
       return BLOCK;
   }

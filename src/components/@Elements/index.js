@@ -18,7 +18,7 @@ import DeviceLog from './@DeviceLog';
 import DeviceSettings from './@DeviceSettings';
 
 import Slider from './@Slider';
-
+import Input from './@Input';
 
 function getElementByType(type) {
   switch (type) {
@@ -51,6 +51,8 @@ function getElementByType(type) {
       return DeviceSettings;
     case 'slider':
       return Slider;
+    case 'input':
+      return Input;
     default:
       return Block;
   }

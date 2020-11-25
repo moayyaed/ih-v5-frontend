@@ -187,7 +187,7 @@ function Animation(props) {
   const handleChange = (e) => {
       props.onChange(props.id, props.options, null, { 
         ...props.data, 
-        active: Number(e.target.checked),
+        active: e.target.checked,
         value: props.data.value ? props.data.value : defaultAnimation,
         keyframes: props.data.keyframes ? props.data.keyframes : defaultKeyframes
       })
@@ -257,8 +257,8 @@ function Animation(props) {
           core.actions.app.alertOpen('warning', 'Function error: ' + obj.error.message);
         } else { 
           try {
-            const v = obj.body.call(null, 0, {})
-            const params = { ...props.data, enabled: true, did, prop, title, template, func };
+            const v = obj.body.call(null, 0, {})           
+            const params = {  keyframes: props.data.keyframes ? props.data.keyframes : defaultKeyframes, ...props.data, active: true, enabled: true, did, prop, title, template, func };
 
             core.transfer.unsub('form_dialog', handleDialogClick3);
             core.actions.appdialog.close();
@@ -309,7 +309,7 @@ function Animation(props) {
 
             const data = { ...props.data, uuid, _bind: id, title, func };
             
-            props.onChange(props.id, props.options, null, { ...props.data, active: true, enabled: true, uuid, _bind: id, title, value: v, func, animation: data })
+            props.onChange(props.id, props.options, null, {  keyframes: props.data.keyframes ? props.data.keyframes : defaultKeyframes, ...props.data, active: true, enabled: true, uuid, _bind: id, title, value: v, func, animation: data })
           } catch (e) {
             core.actions.app.alertOpen('warning', 'Function error: ' + e.message);
           }
