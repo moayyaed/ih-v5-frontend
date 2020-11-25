@@ -132,7 +132,7 @@ class Property extends PureComponent {
             prop: key,
             title: key,
             type: 'smartbutton2',
-            params: scheme.dynamic[this.props.elementData.type],
+            params: scheme.dynamic_dialog[this.props.elementData.type],
           }));
         map = [{ title: 'Data', prop: 'bind', type: 'divider' }]
         .concat(map)
