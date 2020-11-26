@@ -253,7 +253,6 @@ class Chart extends PureComponent {
   }
 
   realtimeCharts = (data) => {
-    console.log(data, this.props.item.widgetlinks.link)
     const dn = (this.props.item.widgetlinks.link.id === '__device' ? core.store.getState().layoutDialog.contextId : this.props.item.widgetlinks.link.dn) + '.' + this.props.item.widgetlinks.link.prop;
     if (this.props.item.realtime.value && data[dn] !== undefined) {
       this.realtime(data[dn])
@@ -269,7 +268,8 @@ class Chart extends PureComponent {
 
     const statics = data.lines.filter(i => i.type !== 0);
     const legend = data || {};
-    const dn = props.mode === 'user' ? ((props.item.widgetlinks.link.id === '__device' ? core.store.getState().layoutDialog.contextId : props.item.widgetlinks.link.dn) + '.' + props.item.widgetlinks.link.prop) : 'line';
+    const isDidProp = props.item.widgetlinks.link.id === '__device';
+    const dn = props.mode === 'user' ? ((isDidProp ? core.store.getState().layoutDialog.contextId : props.item.widgetlinks.link.dn) + '.' + props.item.widgetlinks.link.prop) : 'line';
     const alias = [].reduce((l, n) => ({ ...l, [n.dn]: n.id }), {});
     const { start, end } = getZoomInterval(props.item.interval.value.id);
     this.ctx = createContext(
@@ -277,7 +277,7 @@ class Chart extends PureComponent {
       this.spiner,
       props.fetch,
       { start, end },
-      { id: props.id, type: props.item.type, chartid: dn, dn, alias, items, legend, statics, mode: props.mode },
+      { id: props.id, type: props.item.type, chartid: dn, dn, alias, items, legend, statics, mode: props.mode, isDidProp },
       this.panel,
     );
     const genlegend = this.generateLegend();
