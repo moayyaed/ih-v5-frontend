@@ -124,9 +124,6 @@ function preparationData(data) {
       .keys(data.elements[id])
       .forEach(propId => {
         const item = data.elements[id][propId];
-        if (propId === 'animation') {
-          console.log(data.elements[id].type, item.value)
-        }
         // animation
         if (
           propId === 'animation' &&

@@ -38,7 +38,7 @@ const elements = {
   },
   button: {
     main: main,
-    elements: [...text, ...image, ...effects],
+    element: [...text, ...image, ...effects],
     link: [{ type: 'actions', prop: 'actions' }],
     move: move,
   },
