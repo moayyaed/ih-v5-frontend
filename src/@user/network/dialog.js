@@ -29,7 +29,7 @@ function preparationData(data) {
       if (itemsY[item.y.value] === undefined) {
         itemsY[item.y.value] = [];
       }
-      if (item.type === 'expand') {
+      if (item.type === 'expander') {
         itemsY[item.y.value].push({id});
         count++;
       } else {

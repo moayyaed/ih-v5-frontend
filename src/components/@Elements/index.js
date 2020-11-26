@@ -38,7 +38,6 @@ function getElementByType(type) {
       return Action;
     case 'action2':
       return Action2;
-    case 'expand':
     case 'expander':
       return Expand;
     case 'chart':
