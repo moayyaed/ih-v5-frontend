@@ -435,6 +435,7 @@ function getDefaultParams(type) {
     case 'action2':
       return ACTION2;
     case 'expand':
+    case 'expander':
       return EXPAND;
     case 'devicelog':
     case 'devicesettings':

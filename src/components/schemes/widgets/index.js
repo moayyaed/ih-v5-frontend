@@ -13,6 +13,7 @@ const widgets = {
   chart,
   chart_multi,
   expand,
+  expander: expand,
   input,
   slider,
   devicelog,

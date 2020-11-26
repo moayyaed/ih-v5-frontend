@@ -253,7 +253,7 @@ class Chart extends PureComponent {
   }
 
   realtimeCharts = (data) => {
-    const dn = (this.props.item.widgetlinks.link.id === '__device' ? core.store.getState().layoutDialog.contextId : this.props.item.widgetlinks.link.dn) + '.' + this.props.item.widgetlinks.link.prop;
+    const dn = (this.props.item.widgetlinks.link.id === '__device' ? core.store.getState().layoutDialog.contextId : this.props.item.widgetlinks.link.id) + '.' + this.props.item.widgetlinks.link.prop;
     if (this.props.item.realtime.value && data[dn] !== undefined) {
       this.realtime(data[dn])
     }

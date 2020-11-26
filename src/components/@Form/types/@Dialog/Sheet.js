@@ -457,18 +457,16 @@ class Sheet extends Component {
       { id: '5', title: 'Button', click: () => this.handleAddElement(e, 'button') },
       { id: '-', type: 'divider' },
       { id: '7', title: 'Slider', click: () => this.handleAddElement(e, 'slider') },
-      { id: '7', title: 'Input', click: () => this.handleAddElement(e, 'input') },
-      { id: '8', title: 'Charts', 
+      { id: '8', title: 'Input', click: () => this.handleAddElement(e, 'input') },
+      { id: '9', title: 'Charts', 
       children: [
         { id: '1', title: 'Chart Line', click: () => this.handleAddElement(e, 'chart') },
         { id: '2', title: 'Chart Multiline', click: () => this.handleAddElement(e, 'chart_multi') },
       ]
     },
-      { id: '9', title: 'Device Settings', click: () => this.handleAddElement(e, 'devicesettings') },
-      { id: '10', title: 'Device Log', click: () => this.handleAddElement(e, 'devicelog') },
-      { id: '11', title: 'Expander', click: () => this.handleAddElement(e, 'expander') },
-      // { id: '5', title: 'Action Zone', click: () => this.handleAddElement(e, 'action2') },
-     // { id: '7', title: 'CCTV', click: () => this.handleAddElement(e, 'cctv') },
+      { id: '10', title: 'Device Settings', click: () => this.handleAddElement(e, 'devicesettings') },
+      { id: '11', title: 'Device Log', click: () => this.handleAddElement(e, 'devicelog') },
+      { id: '12', title: 'Expander', click: () => this.handleAddElement(e, 'expander') },
     ]
   
     const scheme = {

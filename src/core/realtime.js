@@ -51,10 +51,13 @@ function messageTunnel(e) {
     if (json.method) {
       core.transfer.send('command_layout', json)
     } else if (json.uuid !== undefined) {
-      if (json.data) {
-        realtime.events.emit(json.uuid, json.data);
-      } else if (json.chartdata !== undefined) {
-        core.transfer.send('chartdata', json.chartdata)
+      if (json.data || json.chartdata) {
+        if (json.data) {
+          realtime.events.emit(json.uuid, json.data);
+        }
+        if (json.chartdata) {
+          core.transfer.send('chartdata', json.chartdata)
+        }
       } else {
         realtime.events.emit(json.uuid, json);
       }

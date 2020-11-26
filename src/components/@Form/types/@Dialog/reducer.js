@@ -287,12 +287,12 @@ function reducerContainer(state, action) {
       return { 
         ...state,
         list: state.list.concat(action.elementId),
-        selectType: action.data.type === 'expand' ? state.selectType : 'one',
-        selectOne: action.data.type === 'expand' ? state.selectOne : action.elementId,
-        selects: action.data.type === 'expand' ? state.selects : {
+        selectType: action.data.type === 'expander' ? state.selectType : 'one',
+        selectOne: action.data.type === 'expander' ? state.selectOne : action.elementId,
+        selects: action.data.type === 'expander' ? state.selects : {
           [action.elementId]: true,
         },
-        selectContainer: action.data.type === 'expand' ? state.selectContainer : null,
+        selectContainer: action.data.type === 'expander' ? state.selectContainer : null,
         elements: {
           ...state.elements,
           [action.elementId]: action.data,
