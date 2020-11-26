@@ -258,7 +258,7 @@ function Animation(props) {
         } else { 
           try {
             const v = obj.body.call(null, 0, {})           
-            const params = {  keyframes: props.data.keyframes ? props.data.keyframes : defaultKeyframes, ...props.data, active: true, enabled: true, did, prop, title, template, func };
+            const params = {  keyframes: props.data.keyframes ? props.data.keyframes : defaultKeyframes, value: props.data.value ? props.data.value : v, ...props.data, active: true, enabled: true, did, prop, title, template, func };
 
             core.transfer.unsub('form_dialog', handleDialogClick3);
             core.actions.appdialog.close();
