@@ -260,7 +260,7 @@ class Sheet extends Component {
       w2: { value: 60 }, h2: { value: 60 },
     }
 
-    if (type === 'expand') {
+    if (type === 'expander') {
       data.x.value = 0;
       data.w.value = '100%';
       data.h.value = 4;
@@ -384,7 +384,7 @@ class Sheet extends Component {
     e.preventDefault();
     e.stopPropagation();
     if (e.shiftKey && this.props.selectType !== null) {
-      if (this.props.elements[elementId].type !== 'expand' && this.props.selects[elementId] === undefined) {
+      if (this.props.elements[elementId].type !== 'expander' && this.props.selects[elementId] === undefined) {
         const data = { 
           x: { value: Infinity }, 
           y: { value: Infinity }, 
@@ -411,7 +411,7 @@ class Sheet extends Component {
           );
       }
     } else {
-      if (this.props.elements[elementId].type !== 'expand') {
+      if (this.props.elements[elementId].type !== 'expander') {
         core.actions.dialog
         .select(
           this.props.id, this.props.prop,
@@ -428,7 +428,7 @@ class Sheet extends Component {
     e.persist();
 
     const close = () => {
-      if (this.props.elements[elementId] && this.props.elements[elementId].type === 'expand') {
+      if (this.props.elements[elementId] && this.props.elements[elementId].type === 'expander') {
         core.actions.dialog
           .clearSelects(
             this.props.id, this.props.prop,
@@ -437,7 +437,7 @@ class Sheet extends Component {
     }
 
     const disabled = {
-      'isDelete': (this.props.elements[elementId] && this.props.elements[elementId].type === 'expand') ? false : Object.keys(this.props.selects).length === 0 || this.props.selectOne === 'content',
+      'isDelete': (this.props.elements[elementId] && this.props.elements[elementId].type === 'expander') ? false : Object.keys(this.props.selects).length === 0 || this.props.selectOne === 'content',
       'isSelect': Object.keys(this.props.selects).length === 0 || this.props.selectOne === 'content',
       'isPaste': !(core.buffer.class === 'dialog'),
       'isTemplate': this.props.selectOne ? !(this.props.selectOne && this.props.elements[this.props.selectOne] && this.props.elements[this.props.selectOne] && this.props.elements[this.props.selectOne].type === 'template') : false,
@@ -466,7 +466,7 @@ class Sheet extends Component {
     },
       { id: '9', title: 'Device Settings', click: () => this.handleAddElement(e, 'devicesettings') },
       { id: '10', title: 'Device Log', click: () => this.handleAddElement(e, 'devicelog') },
-      { id: '11', title: 'Expand Border', click: () => this.handleAddElement(e, 'expand') },
+      { id: '11', title: 'Expander', click: () => this.handleAddElement(e, 'expander') },
       // { id: '5', title: 'Action Zone', click: () => this.handleAddElement(e, 'action2') },
      // { id: '7', title: 'CCTV', click: () => this.handleAddElement(e, 'cctv') },
     ]
@@ -488,7 +488,7 @@ class Sheet extends Component {
       ]
     }
 
-    if (this.props.elements[elementId] && this.props.elements[elementId].type === 'expand') {
+    if (this.props.elements[elementId] && this.props.elements[elementId].type === 'expander') {
       core.actions.dialog
         .select(
           this.props.id, this.props.prop,

@@ -8,6 +8,8 @@ import {
 
 import { Button } from '@blueprintjs/core';
 
+import { IconMove } from 'components/@Form/types/@Layout/icons';
+
 import Sheet from './Sheet';
 
 import Property from './Property/index.js';
@@ -230,7 +232,7 @@ class Dialog extends PureComponent {
           key="5"
           minimal 
           active={select === 'move'} 
-          icon="move"  
+          icon={IconMove} 
           onClick={() => this.handleChangeProperty('move')}
         />,
         <Separator key="6" />,
