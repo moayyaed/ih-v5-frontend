@@ -436,12 +436,16 @@ class Sheet extends Component {
       { id: '4', title: 'Text & Image', click: () => this.handleAddElement(e, 'text_image') },
       { id: '5', title: 'Button', click: () => this.handleAddElement(e, 'button') },
       { id: '6', type: 'divider' },
-      { id: '7', title: 'Charts', 
-      children: [
-        { id: '1', title: 'Chart Line', click: () => this.handleAddElement(e, 'chart') },
-        { id: '2', title: 'Chart Multiline', click: () => this.handleAddElement(e, 'chart_multi') },
-      ]
-    },
+      { id: '7', title: 'Slider', click: () => this.handleAddElement(e, 'slider') },
+      { id: '8', title: 'Input', click: () => this.handleAddElement(e, 'input') },
+      { id: '9', title: 'Device Settings', click: () => this.handleAddElement(e, 'devicesettings') },
+      { id: '10', title: 'Device Log', click: () => this.handleAddElement(e, 'devicelog') },
+      { id: '11', title: 'Charts', 
+        children: [
+          { id: '1', title: 'Chart Line', click: () => this.handleAddElement(e, 'chart') },
+          { id: '2', title: 'Chart Multiline', click: () => this.handleAddElement(e, 'chart_multi') },
+        ]
+      },
     ]
   
     const scheme = {

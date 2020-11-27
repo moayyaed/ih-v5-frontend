@@ -137,6 +137,17 @@ class Property extends PureComponent {
         map = [{ title: 'Data', prop: 'bind', type: 'divider' }]
         .concat(map)
       }
+
+      if (this.props.elementData.expand !== undefined && this.props.type === 'move') {
+        map = map.concat([
+          { 
+            title: 'Expand', 
+            prop: 'expand', 
+            type: 'cb',
+            bind: false,
+          },
+        ])
+      }
   
       return (
         <Scrollbars style={styles.scroll}>

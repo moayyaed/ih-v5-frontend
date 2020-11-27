@@ -458,14 +458,14 @@ class Sheet extends Component {
       { id: '-', type: 'divider' },
       { id: '7', title: 'Slider', click: () => this.handleAddElement(e, 'slider') },
       { id: '8', title: 'Input', click: () => this.handleAddElement(e, 'input') },
-      { id: '9', title: 'Charts', 
-      children: [
-        { id: '1', title: 'Chart Line', click: () => this.handleAddElement(e, 'chart') },
-        { id: '2', title: 'Chart Multiline', click: () => this.handleAddElement(e, 'chart_multi') },
-      ]
-    },
-      { id: '10', title: 'Device Settings', click: () => this.handleAddElement(e, 'devicesettings') },
-      { id: '11', title: 'Device Log', click: () => this.handleAddElement(e, 'devicelog') },
+      { id: '9', title: 'Device Settings', click: () => this.handleAddElement(e, 'devicesettings') },
+      { id: '10', title: 'Device Log', click: () => this.handleAddElement(e, 'devicelog') },
+      { id: '11', title: 'Charts', 
+        children: [
+          { id: '1', title: 'Chart Line', click: () => this.handleAddElement(e, 'chart') },
+          { id: '2', title: 'Chart Multiline', click: () => this.handleAddElement(e, 'chart_multi') },
+        ]
+      },
       { id: '12', title: 'Expander', click: () => this.handleAddElement(e, 'expander') },
     ]
   

@@ -264,7 +264,7 @@ class Button extends PureComponent {
                     .keys(store.containers)
                     .forEach(containerId => core.actions.layout.updateElementsContainer(containerId, data))
                 } else {
-                  const _item = { ...item, did: '__device' ? core.store.getState().layoutDialog.contextId : item.did }
+                  const _item = { ...item, did: item.did === '__device' ? core.store.getState().layoutDialog.contextId : item.did }
                   core.tunnel.command({
                     uuid: shortid.generate(),
                     method: 'action',
