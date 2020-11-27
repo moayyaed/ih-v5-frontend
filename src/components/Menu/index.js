@@ -71,7 +71,7 @@ class _Menu extends Component {
     if (remote) {
       const route = core.store.getState().app.route;
       core
-        .request({ method: 'contextmenu', props: { route }, params: { id: remote.popupid } })
+        .request({ method: 'contextmenu', props: { route }, params: { id: remote.popupid, target: this.props.target } })
         .ok(res => {
           this.setState(state => {
             return {

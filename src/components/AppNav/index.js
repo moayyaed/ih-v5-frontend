@@ -351,6 +351,7 @@ class AppNav extends Component {
           scheme={scheme}
           disabled={disabled}
           commands={commands}
+          target={item.node.id}
         />, 
         pos, () => core.actions.appnav.selectNodeContextMenu(this.props.stateid));
     }

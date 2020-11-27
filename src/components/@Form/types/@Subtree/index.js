@@ -651,6 +651,7 @@ class Subtree extends PureComponent {
           scheme={scheme}
           disabled={disabled}
           commands={commands}
+          target={item.node.id}
         />, 
         pos, this.selectNodeContextMenu);
     }

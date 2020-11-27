@@ -4,7 +4,6 @@ import css from 'css';
 import { createValueFunc, options } from 'components/tools';
 
 function preparationData(data) {
-
   const dialogPosition = data.settings.position.value.id;
 
   let count = 0;

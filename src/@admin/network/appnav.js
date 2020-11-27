@@ -94,7 +94,7 @@ core.network.request('contextmenu', (send, context) => {
     method: 'get', 
     type: 'popup',
     id: context.params.id,
-    nodeid: context.props.route.nodeid, 
+    nodeid: context.params.target, 
   });
 })
 
