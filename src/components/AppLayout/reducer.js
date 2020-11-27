@@ -117,6 +117,9 @@ function reducer(state = defaultState, action) {
               [c2]: Object
                 .keys(state.layout.elements[c2])
                 .reduce((p3, c3) => {
+                  if (c3 === 'data' && state.layout.elements[c2].type === 'devicelog' && action.data[c2]) {
+                    return { ...p3, [c3]: action.data[c2].concat(state.layout.elements[c2][c3]) }
+                  }
                   if (
                     state.layout.elements[c2][c3].enabled && 
                     action.data[state.layout.elements[c2][c3].did] &&
@@ -171,6 +174,9 @@ function reducer(state = defaultState, action) {
                       const elements = Object
                         .keys(state.containers[c].elements[c2])
                         .reduce((p3, c3) => {
+                          if (c3 === 'data' && state.containers[c].elements[c2].type === 'devicelog' && action.data[c2]) {
+                            return { ...p3, [c3]: action.data[c2].concat(state.containers[c].elements[c2][c3]) }
+                          }
                           if (
                             state.containers[c].elements[c2][c3].enabled && 
                             action.data[state.containers[c].elements[c2][c3].did] &&

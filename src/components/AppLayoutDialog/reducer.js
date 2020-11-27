@@ -40,6 +40,9 @@ function reducer(state = defaultState, action) {
               [c2]: Object
                 .keys(state.elements[c2])
                 .reduce((p3, c3) => {
+                  if (c3 === 'data' && state.elements[c2].type === 'devicelog' && action.data[c2]) {
+                    return { ...p3, [c3]: action.data[c2].concat(state.elements[c2][c3]) }
+                  }
                   if (
                     state.elements[c2][c3].enabled && 
                     action.data[state.elements[c2][c3].did] &&
