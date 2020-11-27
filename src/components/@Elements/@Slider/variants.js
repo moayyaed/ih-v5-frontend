@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
-import Slider from '@material-ui/core/Slider';
+import Slider from 'libs/Slider';
 import Tooltip from '@material-ui/core/Tooltip';
 
 

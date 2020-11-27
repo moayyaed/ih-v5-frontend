@@ -65,6 +65,7 @@ class Container extends PureComponent {
         </div>
       )
     }
+    const scale = getScale(this.props.item, this.props.container.settings, this.props.scaleW, this.props.scaleH)
     return (
       <div
         key={id}
@@ -78,7 +79,7 @@ class Container extends PureComponent {
           animation: item.animation && item.animation.active ? item.animation.value : 'unset',
         }}
       >
-        {elemets(this.props.container.elements[id].type, { id, dialogId: this.props.item.dialogId, containerId: this.props.item.containerId.id, layoutId: this.props.layoutId, mode: this.props.mode, item: this.props.container.elements[id] })}
+        {elemets(this.props.container.elements[id].type, { id, dialogId: this.props.item.dialogId, scale, containerId: this.props.item.containerId.id, layoutId: this.props.layoutId, mode: this.props.mode, item: this.props.container.elements[id] })}
       </div>
     )
   }

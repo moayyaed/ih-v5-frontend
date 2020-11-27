@@ -2,7 +2,8 @@ import React from 'react';
 import core from 'core';
 
 import shortid from 'shortid';
-import Slider from '@material-ui/core/Slider';
+// import Slider from '@material-ui/core/Slider';
+import Slider from 'libs/Slider';
 
 
 import { 
@@ -50,13 +51,13 @@ function getSlider(props) {
 
   switch(props.item.variant.value.id) {
     case 'ios':
-      return <IOSSlider onChangeCommitted={(e, v) => onChange(props.item, v)} defaultValue={data.value} valueLabelDisplay="on" />;
+      return <IOSSlider zoom={props.scale} onChangeCommitted={(e, v) => onChange(props.item, v)} defaultValue={data.value} valueLabelDisplay="on" />;
     case 'pretto':
-      return <PrettoSlider onChangeCommitted={(e, v) => onChange(props.item, v)} valueLabelDisplay="auto" defaultValue={data.value} />
+      return <PrettoSlider zoom={props.scale} onChangeCommitted={(e, v) => onChange(props.item, v)} valueLabelDisplay="auto" defaultValue={data.value} />
     case 'airbnb':
-      return <AirbnbSlider onChangeCommitted={(e, v) => onChange(props.item, v)} ThumbComponent={AirbnbThumbComponent} defaultValue={data.value} />
+      return <AirbnbSlider zoom={props.scale} onChangeCommitted={(e, v) => onChange(props.item, v)} ThumbComponent={AirbnbThumbComponent} defaultValue={data.value} />
     default: 
-      return <Slider onChangeCommitted={(e, v) => onChange(props.item, v)} ValueLabelComponent={ValueLabelComponent} defaultValue={data.value} />;
+      return <Slider zoom={props.scale} onChangeCommitted={(e, v) => onChange(props.item, v)} ValueLabelComponent={ValueLabelComponent} defaultValue={data.value} />;
   }
 }
 

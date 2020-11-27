@@ -3,7 +3,8 @@ import move from '../elements/move';
 
 
 const slider = {
-  main: [
+  main: main,
+  element: [
     { 
       title: 'Slider', 
       prop: 'slider', 
@@ -32,7 +33,6 @@ const slider = {
         },
       ]
     },
-    ...main,
   ],
   move: move,
   link: [],
