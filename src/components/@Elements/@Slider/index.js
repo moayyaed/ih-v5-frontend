@@ -11,7 +11,8 @@ import {
   IOSSlider, 
   AirbnbThumbComponent, 
   AirbnbSlider, 
-  PrettoSlider 
+  PrettoSlider,
+  MaterialSlider,
 } from './variants';
 
 import { transform } from '../tools';
@@ -57,7 +58,7 @@ function getSlider(props) {
     case 'airbnb':
       return <AirbnbSlider zoom={props.scale} onChangeCommitted={(e, v) => onChange(props.item, v)} ThumbComponent={AirbnbThumbComponent} defaultValue={data.value} />
     default: 
-      return <Slider zoom={props.scale} onChangeCommitted={(e, v) => onChange(props.item, v)} ValueLabelComponent={ValueLabelComponent} defaultValue={data.value} />;
+      return <MaterialSlider zoom={props.scale} onChangeCommitted={(e, v) => onChange(props.item, v)} defaultValue={data.value} valueLabelDisplay="auto" />;
   }
 }
 

@@ -814,7 +814,8 @@ const Slider = /*#__PURE__*/React.forwardRef(function Slider(props, ref) {
       value: typeof valueLabelFormat === 'function' ? valueLabelFormat(scale(value), index) : valueLabelFormat,
       index: index,
       open: open === index || active === index || valueLabelDisplay === 'on',
-      disabled: disabled
+      disabled: disabled,
+      zoom: zoom,
     }, /*#__PURE__*/React.createElement(ThumbComponent, {
       className: clsx(classes.thumb, classes[`thumbColor${capitalize(color)}`], active === index && classes.active, disabled && classes.disabled, focusVisible === index && classes.focusVisible),
       tabIndex: disabled ? null : 0,

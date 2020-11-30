@@ -2,14 +2,14 @@ import React from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
 import Slider from 'libs/Slider';
-import Tooltip from '@material-ui/core/Tooltip';
+import Tooltip from 'libs/Tooltip';
 
 
 export function ValueLabelComponent(props) {
   const { children, open, value } = props;
-
+  
   return (
-    <Tooltip open={open} enterTouchDelay={0} placement="top" title={value}>
+    <Tooltip open={open} enterTouchDelay={0} placement="top" title={value} zoom={props.zoom} >
       {children}
     </Tooltip>
   );
@@ -160,3 +160,15 @@ export function AirbnbThumbComponent(props) {
     </span>
   );
 }
+
+export const MaterialSlider = withStyles({
+  valueLabel: {
+    // left: 'calc(-50% + 12px)',
+    top: -28,
+    '& *': {
+      background: 'transparent',
+      color: '#000',
+      fontSize: 16,
+    },
+  },
+})(Slider);
