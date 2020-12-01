@@ -274,9 +274,9 @@ function handleClickExit() {
 function handleClickHelp() {
   const store = core.store.getState().app;
   const lang = core.session.lang || 'ru';
-  
+
   if (store.route.tab) {
-    window.open(`https://docs.ih-systems.com/${lang}_${store.route.tab}`, '_blank');
+    window.open(`https://docs.ih-systems.com/${lang}_${store.route.rootid}`, '_blank');
   } else if (store.route.menuid) {
     window.open(`https://docs.ih-systems.com/${lang}_${store.route.menuid}`, '_blank');
   } else {
