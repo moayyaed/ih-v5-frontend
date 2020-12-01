@@ -29,7 +29,7 @@ const styles = {
 }
 
 
-const scheme = {
+const scheme_old = {
   direction: 'column',
   first: {
     direction: 'row',
@@ -43,6 +43,13 @@ const scheme = {
     second: 'controls',
     splitPercentage: 75,
   },
+  splitPercentage: 70,
+}
+
+const scheme = {
+  direction: 'column',
+  first: 'code',
+  second: 'console',
   splitPercentage: 70,
 }
 
