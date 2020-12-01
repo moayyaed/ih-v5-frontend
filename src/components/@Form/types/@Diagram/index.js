@@ -60,7 +60,6 @@ class Diagram extends PureComponent {
   state = state;
 
   componentDidMount() {
-    console.log(this.props.data)
     core.transfer.sub('diagram', this.handleTransferData);
     this.diagrams.load({
       gridSize: 0,

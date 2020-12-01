@@ -69,6 +69,11 @@ const styles = {
     marginRight: 12,
     color: '#fafafa',
   },
+  button2: {
+    marginRight: 12,
+    color: '#fafafa',
+    transform: 'rotate(180deg)'
+  },
   divider: {
     marginRight: 12,
   }
@@ -331,8 +336,8 @@ function AppBar(props) {
         </div>
         <div style={styles.container}>
 
-          <LightTooltip title="upload packet">
-            <IconButton style={styles.button} size="small" onClick={() => handleUpload(props)}>
+          <LightTooltip title="import packet">
+            <IconButton style={styles.button2} size="small" onClick={() => handleUpload(props)}>
               <PublishIcon fontSize="small" />
             </IconButton>
           </LightTooltip>
