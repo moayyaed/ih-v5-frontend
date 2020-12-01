@@ -3,14 +3,7 @@ import move from '../elements/move';
 
 
 const slider = {
-  main: [
-    { 
-      title: 'Slider', 
-      prop: 'slider', 
-      type: 'divider',
-    },
-    ...main,
-  ],
+  main: main,
   move: move,
   link: [],
 };
