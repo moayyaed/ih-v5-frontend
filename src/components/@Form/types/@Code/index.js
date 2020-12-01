@@ -63,27 +63,32 @@ const TITLES = {
 
 const EMPTY_ARRAY = [];
 
-function config(type, route) {
-  return {
-    method: 'sub',
-    type: 'debug',
-    id: 'scene',
-    nodeid: route.nodeid,
-    uuid: `${type}_${route.nodeid}`
-  };
-}
 
 class Code extends PureComponent {
   state = { consoleValue: '', consoleAutoScroll: true }
 
   componentDidMount() {
+    this.nodeid = this.props.route.nodeid;
     core.tunnel
-      .sub(config('scene', this.props.route), this.handleRealTimeDataConsole);
+      .sub({
+        method: 'sub',
+        type: 'debug',
+        id: 'scene',
+        nodeid: this.nodeid,
+        uuid: `scene_${this.nodeid}`
+      }, this.handleRealTimeDataConsole);
   }
 
   componentWillUnmount() {
     core.tunnel
-      .unsub(config('scene', this.props.route), this.handleRealTimeDataConsole);
+      .unsub({
+        method: 'unsub',
+        type: 'debug',
+        id: 'scene',
+        nodeid: this.nodeid,
+        uuid: `scene_${this.nodeid}`
+      }, this.handleRealTimeDataConsole);
+    this.nodeid = null;
   }
 
 
