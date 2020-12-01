@@ -50,7 +50,7 @@ class Property extends PureComponent {
       let map = scheme[this.props.elementData.type][this.props.type];
       let data = this.props.elementData;
       if (map === undefined) {
-        return <div style={styles.stub}>Properties not supported</div>;
+        return <div style={styles.stub}>No properties</div>;
       }
       if (this.props.templateData) {
         data = this.props.templateData.listState

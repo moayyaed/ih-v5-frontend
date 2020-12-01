@@ -79,7 +79,7 @@ class Property extends PureComponent {
     if (this.props.selectType && this.props.elementData) {
       const map = scheme[this.props.selectType][this.props.type];
       if (map === undefined) {
-        return <div style={styles.stub}>Properties not supported</div>;
+        return <div style={styles.stub}>No properties</div>;
       }
       return (
         <Scrollbars style={styles.scroll}>

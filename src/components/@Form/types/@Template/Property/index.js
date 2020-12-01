@@ -48,7 +48,7 @@ class Property extends PureComponent {
     if (this.props.selectType === 'one' && this.props.elementData && this.props.elementData.type) {
       const map = scheme[this.props.elementData.type][this.props.type];
       if (map === undefined) {
-        return <div style={styles.stub}>Properties not supported</div>;
+        return <div style={styles.stub}>No properties</div>;
       }
       return (
         <Scrollbars style={{ width: '100%', height: '100%' }}>
