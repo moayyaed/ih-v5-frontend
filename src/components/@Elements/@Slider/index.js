@@ -77,6 +77,7 @@ function _Slider(props) {
         boxShadow: props.item.boxShadow.active ? props.item.boxShadow.value : 'unset',
         transform: transform(props.item),
         overflow: props.item.overflow && props.item.overflow.value ? 'hidden' : 'unset',
+        visibility: props.item.visible && props.item.visible.value == false ? 'hidden' : 'unset',
       }}
     >
       <div style={{ ...styles.root, pointerEvents: props.mode === 'user' ? 'all' : 'none' }}>
