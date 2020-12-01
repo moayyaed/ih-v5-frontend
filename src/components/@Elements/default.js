@@ -402,6 +402,14 @@ const SLIDER = {
 
 const INPUT = {
   ...BLOCK,
+  variant: { value: { id: 'standard', title: 'Standard' }},
+  label: { value: 'Option 1'},
+  placeholder: { value: ''},
+  startAdornment: { value: ''},
+  endAdornment: { value: ''},
+  size: { value: { id: 'medium', title: 'Medium' }},
+  fullWidth: { value: false },
+  fullHeight: { value: false },
   widget: true,
   control: true,
   widgetlinks: {

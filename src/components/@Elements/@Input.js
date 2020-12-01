@@ -3,6 +3,11 @@ import core from 'core';
 
 import shortid from 'shortid';
 
+import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
+
+import { withStyles } from '@material-ui/core/styles';
+
 import { transform } from './tools';
 
 
@@ -13,8 +18,21 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 10,
   },
+  textField: {
+    height: '100%',
+  }
 };
+
+const classes = theme => ({
+  root: {
+    height: '100%',
+  },
+  input: {
+    height: '100%!important'
+  },
+});
 
 
 const temp = { value: 50 };
@@ -34,6 +52,31 @@ const onChange = (item, value) => {
   }
 }
 
+function getInput(props) {
+  const data = props.mode === 'user' && props.item.data.value !== undefined ? props.item.data : temp;
+
+  if (props.item.variant.value.id === 'minimal') {
+    return <input defaultValue="abc" />;
+  }
+
+  return (
+    <TextField
+      multiline={props.item.fullHeight.value}
+      style={props.item.fullHeight.value ? styles.textField : null}
+      fullWidth={props.item.fullWidth.value}
+      label={props.item.label.value} 
+      variant={props.item.variant.value.id}
+      size={props.item.size.value.id}
+      defaultValue="abc"
+      InputProps={{
+        classes: props.item.fullHeight.value ? { root: props.classes.root, input: props.classes.input } : {},
+        startAdornment: <InputAdornment position="start">{props.item.startAdornment.value}</InputAdornment>,
+        endAdornment: <InputAdornment position="end">{props.item.endAdornment.value}</InputAdornment>,
+      }}
+    />
+  );
+}
+
 function Input(props) {
   return (
     <div 
@@ -51,10 +94,11 @@ function Input(props) {
         visibility: props.item.visible && props.item.visible.value == false ? 'hidden' : 'unset',
       }}
     >
-      WIDGET_INPUT
+      <div style={{ ...styles.root, pointerEvents: props.mode === 'user' ? 'all' : 'none' }}>
+        {getInput(props)}
+      </div>
     </div>
   );
 }
 
-
-export default Input;
+export default withStyles(classes)(React.memo(Input));
