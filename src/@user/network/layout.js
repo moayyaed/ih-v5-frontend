@@ -62,7 +62,7 @@ function preparationData(data) {
           values[0] = _id;
           data.layout.elements[id][propId].value = values.join(' ');
           if (item.enabled) {
-            data.layout.elements[id][propId].func = item.func.replace(old_id, _id)                 
+            data.layout.elements[id][propId].func = item.func.replace(RegExp(old_id, 'g'), _id)                 
           }
           
           const styles = css.parse(item.keyframes);
@@ -157,7 +157,7 @@ function preparationData(data) {
                           values[0] = id;
                           data.templates[templateId].state[stateId].values[value][elemId][property].value = values.join(' ');
                           if (item.enabled) {
-                            data.templates[templateId].state[stateId].values[value][elemId][property].func = item.func.replace(old_id, id)                 
+                            data.templates[templateId].state[stateId].values[value][elemId][property].func = item.func.replace(RegExp(old_id, 'g'), id)                 
                           }
 
                           const styles = css.parse(item.keyframes);
@@ -294,7 +294,7 @@ function preparationData(data) {
             values[0] = _id;
             data.containers[key].elements[id][propId].value = values.join(' ');
             if (item.enabled) {
-              data.containers[key].elements[id][propId].func = item.func.replace(old_id, _id)                 
+              data.containers[key].elements[id][propId].func = item.func.replace(RegExp(old_id, 'g'), _id)                 
             }
             
             const styles = css.parse(item.keyframes);

@@ -137,7 +137,7 @@ function preparationData(data) {
           values[0] = _id;
           data.elements[id][propId].value = values.join(' ');
           if (item.enabled) {
-            data.elements[id][propId].func = item.func.replace(old_id, _id)                 
+            data.elements[id][propId].func = item.func.replace(RegExp(old_id, 'g'), _id)                 
           }
           
           const styles = css.parse(item.keyframes);
