@@ -133,7 +133,7 @@ class Template extends PureComponent {
           />,
         ];
       }
-      const select = this.props.data.propertyType || 'main';
+      const select = this.props.data.propertyType || 'element';
       return [
         <Button 
           key="1"
@@ -543,7 +543,7 @@ class Template extends PureComponent {
       return (
         <Property
           disabled={toolbar === 'vars' && !this.props.data.listState.length}
-          type={this.props.data.propertyType || 'main'}
+          type={this.props.data.propertyType || 'element'}
           selectType={this.props.data.selectType}
           elementId={this.props.data.selectOne}
           elementData={elementData}

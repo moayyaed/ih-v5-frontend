@@ -117,7 +117,7 @@ class Container extends PureComponent {
           { [key]: value }
         );
     } else {
-      const propertyType = this.props.data.propertyType || 'main';
+      const propertyType = this.props.data.propertyType || 'element';
       const item = this.props.data.elements[this.props.data.selectOne];
       if (item.widget && propertyType === 'link') {
         core.actions.container
@@ -210,7 +210,7 @@ class Container extends PureComponent {
 
   renderButtons = (id) => {
     if (id === 'property') {
-      const select = this.props.data.propertyType || 'main';
+      const select = this.props.data.propertyType || 'element';
       return [
         <Button 
           key="1"
@@ -334,7 +334,7 @@ class Container extends PureComponent {
       const templateData = elementData && elementData.type === 'template' ? this.props.data.templates[elementData.templateId] : null;
       return (
         <Property
-          type={this.props.data.propertyType || 'main'}
+          type={this.props.data.propertyType || 'element'}
           selectType={this.props.data.selectType}
           elementId={this.props.data.selectOne}
           elementData={elementData}
