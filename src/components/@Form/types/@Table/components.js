@@ -6,8 +6,10 @@ import Text from './Text';
 import Input from './Input';
 import Link from './Link';
 import Droplist from './Droplist';
-import SmartButton from './SmartButton';
 import Color from './Color';
+
+import SmartButton from './SmartButton';
+import SmartButton2 from './SmartButton2';
 
 import Error from './Error';
 
@@ -26,6 +28,8 @@ function getComponent(type) {
       return Droplist;
     case 'smartbutton':
       return SmartButton;
+    case 'smartbutton2':
+      return SmartButton2;
     case 'color':
       return Color;
     default:

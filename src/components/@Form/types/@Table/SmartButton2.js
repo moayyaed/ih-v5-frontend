@@ -19,14 +19,14 @@ const styles = {
     overflow: 'hidden',
   },
   rootMini2: {
-  fontSize: 12,
+    fontSize: 13,
     fontFamily: 'Roboto,Helvetica,Arial,sans-serif',
     fontWeight: 400,
     color: '#3f51b5',
     width: '100%',
     border: 'unset', 
-    height: 21,
-    background: 'unset',
+    height: 28,
+    background: '#fff',
   },
 }
 
@@ -40,9 +40,15 @@ const classes = theme => ({
 });
 
 
-class SmartButton2 extends PureComponent {
+class TableSmartButton2Component extends PureComponent {
 
   handleDialogClick = (data, context) => {
+    const id = this.props.container.props.id;
+    const options = this.props.container.props.options;
+    const column = this.props.column;
+    const row = this.props.rowData;
+    
+
     if (data === ':exit:') {
       core.transfer.unsub('form_dialog', this.handleDialogClick);
     } else {
@@ -50,7 +56,7 @@ class SmartButton2 extends PureComponent {
       core.actions.appdialog.close();
 
       if (data.result) {
-        this.props.onChange(this.props.id, this.props.options, null, {
+        this.props.container.props.onChange(id, options, { op: 'edit', column, row }, {
           id: data.result.did,
           dn: data.result.dn,
           prop: data.result.prop,  
@@ -60,7 +66,7 @@ class SmartButton2 extends PureComponent {
         const value = { ...data };
         delete value.active;
   
-        this.props.onChange(this.props.id, this.props.options, null, {
+        this.props.container.props.onChange(id, options, { op: 'edit', column, row }, {
           id: context.component.id, 
           title: context.component.title,
           value,
@@ -71,12 +77,12 @@ class SmartButton2 extends PureComponent {
 
   handleClickLink = (value) => {
     const params = {
-      disabledSave: this.props.options.params.save !== undefined ? !this.props.options.params.save : false,
-      ...this.props.options.params,
-      type: this.props.options.params.variant,
-      selectnodeid: this.props.data.id || this.props.data.did,
-      select: this.props.data.prop,
-      data: this.props.data,
+      disabledSave: this.props.column.params.save !== undefined ? !this.props.column.params.save : false,
+      ...this.props.column.params,
+      type: this.props.column.params.variant,
+      selectnodeid: this.props.cellData.id || this.props.cellData.did,
+      select: this.props.cellData.prop,
+      data: this.props.cellData,
     }
   
     core.transfer.sub('form_dialog', this.handleDialogClick);
@@ -88,34 +94,35 @@ class SmartButton2 extends PureComponent {
   }
 
   handleClickUnLink = (e) => {
-    this.props.onChange(this.props.id, this.props.options, null, {
+    const id = this.props.container.props.id;
+    const options = this.props.container.props.options;
+    const column = this.props.column;
+    const row = this.props.rowData;
+
+    this.props.container.props.onChange(id, options, { op: 'edit', column, row }, {
       value: {},
     })
   } 
 
   render() {
-    if (this.props.mini) {
-      return (
-        <>
-          <div style={styles.rootMini}>
-            <input
-              className="core"
-              style={styles.rootMini2} 
-              disabled={true}
-              value={this.props.data.title || ''}
-            />
-          </div>
-          <ButtonMenu
-              enabled={this.props.route.type} 
-              icon={this.props.data.enabled} 
-              onChange={this.handleClickLink}
-              onClear={this.handleClickUnLink} 
-            />
-        </>
-      )
-    }
-    return null;
+    return (
+      <>
+        <input
+          className="core"
+          style={styles.rootMini2} 
+          disabled={true}
+          value={this.props.cellData.title || ''}
+        />
+        <ButtonMenu
+          enabled={true} 
+          dividerOff={true}
+          icon={this.props.cellData.enabled} 
+          onChange={this.handleClickLink}
+          onClear={this.handleClickUnLink} 
+        />
+      </>
+    )
   }
 }
 
-export default withStyles(classes)(SmartButton2);
+export default withStyles(classes)(TableSmartButton2Component);

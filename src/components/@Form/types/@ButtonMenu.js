@@ -7,8 +7,6 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import LinkIcon from '@material-ui/icons/Link';
-import LinkOffIcon from '@material-ui/icons/LinkOff';
 
 
 const styles = {
@@ -23,6 +21,9 @@ const styles = {
     borderLeft: '1px solid #d8e1e8',
     margin: '4px 6px'
   },
+  divideroff: {
+    margin: '4px 2px'
+  }
 }
 
 
@@ -60,7 +61,7 @@ function ButtonMenu(props) {
           <MenuItem key="1" onClick={handleLink}>Link</MenuItem>
           <MenuItem key="2" onClick={handleUnlink}>Unlink</MenuItem>
         </Menu>
-        <div style={styles.divider} />
+        <div style={props.dividerOff ? styles.divideroff : styles.divider} />
         <IconButton className="nb" style={styles.buttonMini2} onClick={(e) => handleClick(e, props.icon)} size="small" >
           <MoreVertIcon fontSize="small" />
         </IconButton>
