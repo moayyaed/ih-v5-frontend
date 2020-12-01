@@ -25,6 +25,8 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    paddingLeft: 16,
+    paddingRight: 16,
   },
 };
 
@@ -52,13 +54,13 @@ function getSlider(props) {
 
   switch(props.item.variant.value.id) {
     case 'ios':
-      return <IOSSlider zoom={props.scale} onChangeCommitted={(e, v) => onChange(props.item, v)} defaultValue={data.value} valueLabelDisplay="on" />;
+      return <IOSSlider zoom={props.scale} min={data.min || 0} max={data.max || 100} onChangeCommitted={(e, v) => onChange(props.item, v)} defaultValue={data.value} valueLabelDisplay="on" />;
     case 'pretto':
-      return <PrettoSlider zoom={props.scale} onChangeCommitted={(e, v) => onChange(props.item, v)} valueLabelDisplay="auto" defaultValue={data.value} />
+      return <PrettoSlider zoom={props.scale} min={data.min || 0} max={data.max || 100} onChangeCommitted={(e, v) => onChange(props.item, v)} valueLabelDisplay="auto" defaultValue={data.value} />
     case 'airbnb':
-      return <AirbnbSlider zoom={props.scale} onChangeCommitted={(e, v) => onChange(props.item, v)} ThumbComponent={AirbnbThumbComponent} defaultValue={data.value} />
+      return <AirbnbSlider zoom={props.scale} min={data.min || 0} max={data.max || 100} onChangeCommitted={(e, v) => onChange(props.item, v)} ThumbComponent={AirbnbThumbComponent} defaultValue={data.value} />
     default: 
-      return <MaterialSlider zoom={props.scale} onChangeCommitted={(e, v) => onChange(props.item, v)} defaultValue={data.value} valueLabelDisplay="auto" />;
+      return <MaterialSlider zoom={props.scale} min={data.min || 0} max={data.max || 100} onChangeCommitted={(e, v) => onChange(props.item, v)} defaultValue={data.value} valueLabelDisplay="auto" />;
   }
 }
 
