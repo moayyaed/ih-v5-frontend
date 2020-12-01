@@ -100,6 +100,7 @@ function preparationData(data) {
 
     data.settings.alignW.value.id = 'center';
     data.settings.alignH.value.id = 'flex-start'
+    data.settings.scrollX = { value: false }
     data.settings.scrollY = { value: true }
   }
 
@@ -111,6 +112,7 @@ function preparationData(data) {
     data.settings.alignH.value.id = 'center'
 
     data.settings.scrollX = { value: true }
+    data.settings.scrollY = { value: false }
   }
 
   // --------------------------
