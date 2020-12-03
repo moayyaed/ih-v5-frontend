@@ -79,6 +79,21 @@ const slider = {
       type: 'cb',
     },
     { 
+      title: 'Input Mode', 
+      prop: 'inputMode', 
+      type: 'droplistlink',
+      data: [
+        {
+          id: 'any',
+          title: 'Any'
+        },
+        {
+          id: 'number',
+          title: 'Number'
+        },
+      ]
+    },
+    { 
       title: 'Save Mode', 
       prop: 'saveMode', 
       type: 'droplistlink',
