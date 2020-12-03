@@ -79,8 +79,8 @@ const slider = {
       type: 'cb',
     },
     { 
-      title: 'Variant', 
-      prop: 'variant', 
+      title: 'Save Mode', 
+      prop: 'saveMode', 
       type: 'droplistlink',
       data: [
         {
