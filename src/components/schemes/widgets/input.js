@@ -54,21 +54,6 @@ const slider = {
       type: 'inputlink',
     },
     { 
-      title: 'Size', 
-      prop: 'size', 
-      type: 'droplistlink',
-      data: [
-        {
-          id: 'small',
-          title: 'Small'
-        },
-        {
-          id: 'medium',
-          title: 'Medium'
-        },
-      ]
-    },
-    { 
       title: 'Full Width', 
       prop: 'fullWidth', 
       type: 'cb',
@@ -79,7 +64,7 @@ const slider = {
       type: 'cb',
     },
     { 
-      title: 'Input Mode', 
+      title: 'Input Type', 
       prop: 'inputMode', 
       type: 'droplistlink',
       data: [

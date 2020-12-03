@@ -411,7 +411,7 @@ const INPUT = {
   fullWidth: { value: false },
   fullHeight: { value: false },
   inputMode: { value: { id: 'number', title: 'Number' }},
-  saveMode: { value: { id: 'permanent', title: 'Permanent' }},
+  saveMode: { value: { id: 'outfocus', title: 'Out Focus' }},
   widget: true,
   control: true,
   widgetlinks: {

@@ -22,11 +22,17 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 10,
+  },
+  root2: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   textField: {
     height: '100%',
-  }
+  },
 };
 
 const classes = theme => ({
@@ -99,7 +105,7 @@ function getEndAdornment(item, value) {
   if (item.saveMode.value.id === 'button') {
     return (
       <IconButton size="small" onClick={() => sendValue(item, value)}>
-        <SubdirectoryArrowLeftIcon />
+        <SubdirectoryArrowLeftIcon fontSize="small" />
       </IconButton>
     )
   }
@@ -112,6 +118,7 @@ function getInput(props, data, onChange) {
   if (props.item.variant.value.id === 'minimal') {
     return (
       <InputBase
+        style={styles.inputBase}
         value={data.value}
         multiline={props.item.fullHeight.value}
         fullWidth={props.item.fullWidth.value}
@@ -188,7 +195,11 @@ function Input(props) {
         visibility: props.item.visible && props.item.visible.value == false ? 'hidden' : 'unset',
       }}
     >
-      <div style={{ ...styles.root, pointerEvents: props.mode === 'user' ? 'all' : 'none' }}>
+      <div style={{ 
+        ...styles.root, 
+        padding: props.item.variant.value.id === 'minimal' ? 5 : 10, 
+        pointerEvents: props.mode === 'user' ? 'all' : 'none' 
+      }}>
         {getInput(props, data, onChange)}
       </div>
     </div>
