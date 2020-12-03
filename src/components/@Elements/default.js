@@ -420,6 +420,16 @@ const INPUT = {
   data: {},
 }
 
+const CHECKBOX = {
+  ...BLOCK,
+  widget: true,
+  control: true,
+  widgetlinks: {
+    link: { }
+  },
+  data: {},
+}
+
 
 function getDefaultParams(type) {
   switch (type) {
@@ -454,10 +464,12 @@ function getDefaultParams(type) {
       return CHART;
     case 'chart_multi':
       return CHART_MULTI;
+    case 'input':
+      return INPUT;
     case 'slider':
       return SLIDER;
-      case 'input':
-        return INPUT;
+    case 'checkbox':
+      return CHECKBOX;
     default:
       return BLOCK;
   }
