@@ -4,6 +4,7 @@ const dynamic_dialog = {
   devicelog: { variant: 'tree',title: 'Выберите свойство', id: 'devicesAndAny' },
   devicesettings: { variant: 'tree',title: 'Выберите свойство', id: 'devicesAndAny' },
   slider: { variant: 'tree',title: 'Выберите свойство', id: 'devpropsAndAny', save: false },
+  input: { variant: 'tree',title: 'Выберите свойство', id: 'devpropsAndAny', save: false },
 };
 
 

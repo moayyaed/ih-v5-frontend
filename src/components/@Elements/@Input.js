@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import core from 'core';
 
 import shortid from 'shortid';
@@ -38,31 +38,67 @@ const classes = theme => ({
 
 const temp = { value: 'abc' };
 
-const onChange = (type, item, value) => {
-  console.log(value)
-  /*
-  if (item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id) {
-    const did = item.widgetlinks.link.id === '__device' ? core.store.getState().layoutDialog.contextId : item.widgetlinks.link.id;
-    core.tunnel.command({
-      uuid: shortid.generate(),
-      method: 'action',
-      type:'command',
-      command: 'setval',
-      did: did,
-      prop: item.widgetlinks.link.prop,
-      value,
-    });
+
+function checkValue(mode, value, prevValue) {
+  if (mode === 'number') {
+    if (value === '0-' || value === '-0') {
+      return '-'
+    }
+    if (value === '-') {
+      return 0;
+    }
+    if (value[value.length - 1] === '.' || value[value.length - 1] === ',') {
+      return value;
+    }
+    if (value === '') {
+      return 0;
+    }
+    const v = parseFloat(value);
+    if (isNaN(v)) {
+      return prevValue === undefined ? 0 : prevValue;
+    }
+    return parseFloat(value);
   }
-  */
+  return value;
 }
 
-function getInput(props) {
-  const data = props.mode === 'user' && props.item.data.value !== undefined ? props.item.data : temp;
+function sendValue(item, value) {
+  if (item.inputMode.value.id === 'number' && typeof value !== 'string') {
+    if (item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id) {
+      const did = item.widgetlinks.link.id === '__device' ? core.store.getState().layoutDialog.contextId : item.widgetlinks.link.id;
+      core.tunnel.command({
+        uuid: shortid.generate(),
+        method: 'action',
+        type:'command',
+        command: 'setval',
+        did: did,
+        prop: item.widgetlinks.link.prop,
+        value,
+      });
+    }
+  } else {
+    if (item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id) {
+      const did = item.widgetlinks.link.id === '__device' ? core.store.getState().layoutDialog.contextId : item.widgetlinks.link.id;
+      core.tunnel.command({
+        uuid: shortid.generate(),
+        method: 'action',
+        type:'command',
+        command: 'setval',
+        did: did,
+        prop: item.widgetlinks.link.prop,
+        value,
+      });
+    }
+  }
+}
 
+
+function getInput(props, data, onChange) {
+  
   if (props.item.variant.value.id === 'minimal') {
     return (
       <InputBase
-        defaultValue={data.value}
+        value={data.value}
         multiline={props.item.fullHeight.value}
         fullWidth={props.item.fullWidth.value}
         placeholder={props.item.placeholder.value }
@@ -82,7 +118,7 @@ function getInput(props) {
       label={props.item.label.value} 
       variant={props.item.variant.value.id}
       size={props.item.size.value.id}
-      defaultValue={data.value}
+      value={data.value}
       placeholder={props.item.placeholder.value }
       InputProps={{
         classes: props.item.fullHeight.value ? { root: props.classes.root, input: props.classes.input } : {},
@@ -90,13 +126,33 @@ function getInput(props) {
         endAdornment: props.item.endAdornment.value !== '' ? <InputAdornment position="end">{props.item.endAdornment.value}</InputAdornment> : null,
       }}
       InputLabelProps={{ shrink: true }}
-      onChange={(e) => onChange('change', props.item, e.target.value)}
-      onBlur={(e) => onChange('blur', props.item, e.target.value)}
+      onChange={(e) => onChange('change', e.target.value)}
+      onBlur={(e) => onChange('blur', e.target.value)}
     />
   );
 }
 
 function Input(props) {
+
+  const defData = props.mode === 'user' && props.item.data.value !== undefined ? props.item.data : temp;
+
+  const [data, setData] = useState({ ...defData, value: checkValue(props.item.inputMode.value.id, defData.value, 0)});
+
+  const onChange = (type, v) => {
+
+    const value = checkValue(props.item.inputMode.value.id, v, data.value)
+
+    setData({ ...data, value })
+
+    if (props.item.saveMode.value.id === 'permanent' && type === 'change') {
+      sendValue(props.item, value)
+    }
+
+    if (props.item.saveMode.value.id === 'outfocus' && type === 'blur') {
+      sendValue(props.item, value)
+    }
+  }
+
   return (
     <div 
       style={{
@@ -114,7 +170,7 @@ function Input(props) {
       }}
     >
       <div style={{ ...styles.root, pointerEvents: props.mode === 'user' ? 'all' : 'none' }}>
-        {getInput(props)}
+        {getInput(props, data, onChange)}
       </div>
     </div>
   );
