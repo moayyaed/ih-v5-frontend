@@ -44,7 +44,7 @@ function getCheckbox(props, data) {
       <MuiCheckbox 
         defaultChecked={Boolean(data.value)} 
         onChange={(e) => onChange(props.item, e.target.checked)}
-        color="primary" 
+        color="primary"
       />
     )
   }
