@@ -7,6 +7,9 @@ import TextField from '@material-ui/core/TextField';
 import InputBase from '@material-ui/core/InputBase';
 import InputAdornment from '@material-ui/core/InputAdornment';
 
+import IconButton from '@material-ui/core/IconButton';
+import SubdirectoryArrowLeftIcon from '@material-ui/icons/SubdirectoryArrowLeft';
+
 import { withStyles } from '@material-ui/core/styles';
 
 import { transform } from './tools';
@@ -92,6 +95,17 @@ function sendValue(item, value) {
   }
 }
 
+function getEndAdornment(item, value) {
+  if (item.saveMode.value.id === 'button') {
+    return (
+      <IconButton onClick={() => sendValue(item, value)}>
+        <SubdirectoryArrowLeftIcon />
+      </IconButton>
+    )
+  }
+  return item.endAdornment.value !== '' ? <InputAdornment position="end">{item.endAdornment.value}</InputAdornment> : null
+}
+
 
 function getInput(props, data, onChange) {
   
@@ -103,9 +117,10 @@ function getInput(props, data, onChange) {
         fullWidth={props.item.fullWidth.value}
         placeholder={props.item.placeholder.value }
         startAdornment={props.item.startAdornment.value !== '' ? <InputAdornment position="start">{props.item.startAdornment.value}</InputAdornment> : null}
-        endAdornment={props.item.endAdornment.value !== '' ? <InputAdornment position="end">{props.item.endAdornment.value}</InputAdornment> : null}
+        endAdornment={getEndAdornment(props.item, data.value)}
         onChange={(e) => onChange('change', props.item, e.target.value)}
         onBlur={(e) => onChange('blur', props.item, e.target.value)}
+        onKeyPress={(e) => e.key === 'Enter' && onChange('press', data.value)}
       />
     )
   }
@@ -123,11 +138,12 @@ function getInput(props, data, onChange) {
       InputProps={{
         classes: props.item.fullHeight.value ? { root: props.classes.root, input: props.classes.input } : {},
         startAdornment: props.item.startAdornment.value !== '' ? <InputAdornment position="start">{props.item.startAdornment.value}</InputAdornment> : null,
-        endAdornment: props.item.endAdornment.value !== '' ? <InputAdornment position="end">{props.item.endAdornment.value}</InputAdornment> : null,
+        endAdornment: getEndAdornment(props.item, data.value),
       }}
       InputLabelProps={{ shrink: true }}
       onChange={(e) => onChange('change', e.target.value)}
       onBlur={(e) => onChange('blur', e.target.value)}
+      onKeyPress={(e) => e.key === 'Enter' && onChange('press', data.value)}
     />
   );
 }
@@ -149,6 +165,10 @@ function Input(props) {
     }
 
     if (props.item.saveMode.value.id === 'outfocus' && type === 'blur') {
+      sendValue(props.item, value)
+    }
+
+    if (type === 'press') {
       sendValue(props.item, value)
     }
   }
