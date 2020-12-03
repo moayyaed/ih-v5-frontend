@@ -2,8 +2,10 @@ import chart from './chart';
 import chart_multi from './chartmulti';
 
 import expand from './expand';
-import slider from './slider';
+
 import input from './input';
+import slider from './slider';
+import checkbox from './checkbox';
 
 import devicelog from './devicelog';
 import devicesettings from './devicesettings';
@@ -16,6 +18,7 @@ const widgets = {
   expander: expand,
   input,
   slider,
+  checkbox,
   devicelog,
   devicesettings,
 };

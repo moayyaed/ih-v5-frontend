@@ -17,8 +17,9 @@ import CCTV from './@CCTV';
 import DeviceLog from './@DeviceLog';
 import DeviceSettings from './@DeviceSettings';
 
-import Slider from './@Slider';
 import Input from './@Input';
+import Slider from './@Slider';
+import Checkbox from './@Checkbox';
 
 function getElementByType(type) {
   switch (type) {
@@ -49,10 +50,12 @@ function getElementByType(type) {
       return DeviceLog;
     case 'devicesettings':
       return DeviceSettings;
-    case 'slider':
-      return Slider;
     case 'input':
       return Input;
+    case 'slider':
+      return Slider;
+    case 'checkbox':
+      return Checkbox;
     default:
       return Block;
   }

@@ -422,6 +422,8 @@ const INPUT = {
 
 const CHECKBOX = {
   ...BLOCK,
+  label: { value: 'Option 1'},
+  labelPlacement: { value: { id: 'end', title: 'Right' }},
   widget: true,
   control: true,
   widgetlinks: {
