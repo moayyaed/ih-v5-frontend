@@ -4,6 +4,7 @@ import core from 'core';
 import shortid from 'shortid';
 
 import TextField from '@material-ui/core/TextField';
+import InputBase from '@material-ui/core/InputBase';
 import InputAdornment from '@material-ui/core/InputAdornment';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -56,7 +57,16 @@ function getInput(props) {
   const data = props.mode === 'user' && props.item.data.value !== undefined ? props.item.data : temp;
 
   if (props.item.variant.value.id === 'minimal') {
-    return <input defaultValue="abc" />;
+    return (
+      <InputBase
+        defaultValue="abc"
+        multiline={props.item.fullHeight.value}
+        fullWidth={props.item.fullWidth.value}
+        placeholder={props.item.placeholder.value }
+        startAdornment={props.item.startAdornment.value !== '' ? <InputAdornment position="start">{props.item.startAdornment.value}</InputAdornment> : null}
+        endAdornment={props.item.endAdornment.value !== '' ? <InputAdornment position="end">{props.item.endAdornment.value}</InputAdornment> : null}
+      />
+    )
   }
 
   return (
@@ -68,11 +78,13 @@ function getInput(props) {
       variant={props.item.variant.value.id}
       size={props.item.size.value.id}
       defaultValue="abc"
+      placeholder={props.item.placeholder.value }
       InputProps={{
         classes: props.item.fullHeight.value ? { root: props.classes.root, input: props.classes.input } : {},
-        startAdornment: <InputAdornment position="start">{props.item.startAdornment.value}</InputAdornment>,
-        endAdornment: <InputAdornment position="end">{props.item.endAdornment.value}</InputAdornment>,
+        startAdornment: props.item.startAdornment.value !== '' ? <InputAdornment position="start">{props.item.startAdornment.value}</InputAdornment> : null,
+        endAdornment: props.item.endAdornment.value !== '' ? <InputAdornment position="end">{props.item.endAdornment.value}</InputAdornment> : null,
       }}
+      InputLabelProps={{ shrink: true }}
     />
   );
 }
