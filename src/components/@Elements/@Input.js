@@ -36,9 +36,11 @@ const classes = theme => ({
 });
 
 
-const temp = { value: 50 };
+const temp = { value: 'abc' };
 
-const onChange = (item, value) => {
+const onChange = (type, item, value) => {
+  console.log(value)
+  /*
   if (item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id) {
     const did = item.widgetlinks.link.id === '__device' ? core.store.getState().layoutDialog.contextId : item.widgetlinks.link.id;
     core.tunnel.command({
@@ -51,6 +53,7 @@ const onChange = (item, value) => {
       value,
     });
   }
+  */
 }
 
 function getInput(props) {
@@ -59,12 +62,14 @@ function getInput(props) {
   if (props.item.variant.value.id === 'minimal') {
     return (
       <InputBase
-        defaultValue="abc"
+        defaultValue={data.value}
         multiline={props.item.fullHeight.value}
         fullWidth={props.item.fullWidth.value}
         placeholder={props.item.placeholder.value }
         startAdornment={props.item.startAdornment.value !== '' ? <InputAdornment position="start">{props.item.startAdornment.value}</InputAdornment> : null}
         endAdornment={props.item.endAdornment.value !== '' ? <InputAdornment position="end">{props.item.endAdornment.value}</InputAdornment> : null}
+        onChange={(e) => onChange('change', props.item, e.target.value)}
+        onBlur={(e) => onChange('blur', props.item, e.target.value)}
       />
     )
   }
@@ -77,7 +82,7 @@ function getInput(props) {
       label={props.item.label.value} 
       variant={props.item.variant.value.id}
       size={props.item.size.value.id}
-      defaultValue="abc"
+      defaultValue={data.value}
       placeholder={props.item.placeholder.value }
       InputProps={{
         classes: props.item.fullHeight.value ? { root: props.classes.root, input: props.classes.input } : {},
@@ -85,6 +90,8 @@ function getInput(props) {
         endAdornment: props.item.endAdornment.value !== '' ? <InputAdornment position="end">{props.item.endAdornment.value}</InputAdornment> : null,
       }}
       InputLabelProps={{ shrink: true }}
+      onChange={(e) => onChange('change', props.item, e.target.value)}
+      onBlur={(e) => onChange('blur', props.item, e.target.value)}
     />
   );
 }

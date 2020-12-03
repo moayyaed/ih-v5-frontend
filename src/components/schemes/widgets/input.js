@@ -78,6 +78,25 @@ const slider = {
       prop: 'fullHeight', 
       type: 'cb',
     },
+    { 
+      title: 'Variant', 
+      prop: 'variant', 
+      type: 'droplistlink',
+      data: [
+        {
+          id: 'permanent',
+          title: 'Permanent'
+        },
+        {
+          id: 'outfocus',
+          title: 'Out Focus'
+        },
+        {
+          id: 'button',
+          title: 'Button Confirm'
+        },
+      ]
+    },
   ],
   move: move,
   link: [],
