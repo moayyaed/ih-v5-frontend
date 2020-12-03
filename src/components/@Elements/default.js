@@ -410,7 +410,7 @@ const INPUT = {
   size: { value: { id: 'medium', title: 'Medium' }},
   fullWidth: { value: false },
   fullHeight: { value: false },
-  inputMode: { value: { id: 'any', title: 'Any' }},
+  inputMode: { value: { id: 'number', title: 'Number' }},
   saveMode: { value: { id: 'permanent', title: 'Permanent' }},
   widget: true,
   control: true,

@@ -98,7 +98,7 @@ function sendValue(item, value) {
 function getEndAdornment(item, value) {
   if (item.saveMode.value.id === 'button') {
     return (
-      <IconButton onClick={() => sendValue(item, value)}>
+      <IconButton size="small" onClick={() => sendValue(item, value)}>
         <SubdirectoryArrowLeftIcon />
       </IconButton>
     )
@@ -118,8 +118,8 @@ function getInput(props, data, onChange) {
         placeholder={props.item.placeholder.value }
         startAdornment={props.item.startAdornment.value !== '' ? <InputAdornment position="start">{props.item.startAdornment.value}</InputAdornment> : null}
         endAdornment={getEndAdornment(props.item, data.value)}
-        onChange={(e) => onChange('change', props.item, e.target.value)}
-        onBlur={(e) => onChange('blur', props.item, e.target.value)}
+        onChange={(e) => onChange('change', e.target.value)}
+        onBlur={(e) => onChange('blur', e.target.value)}
         onKeyPress={(e) => e.key === 'Enter' && onChange('press', data.value)}
       />
     )
@@ -155,7 +155,6 @@ function Input(props) {
   const [data, setData] = useState({ ...defData, value: checkValue(props.item.inputMode.value.id, defData.value, 0)});
 
   const onChange = (type, v) => {
-
     const value = checkValue(props.item.inputMode.value.id, v, data.value)
 
     setData({ ...data, value })
