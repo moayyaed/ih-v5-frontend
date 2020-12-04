@@ -117,4 +117,21 @@ core.network.response('download_files', (answer, res, context) => {
 })
 
 
+core.network.request('server_command', (send, context) => {
+  send({ 
+    method: 'send', 
+    type: 'tree',
+    nodeid: context.params.nodeid, 
+    payload: context.params.param,
+  });
+})
+
+
+core.network.response('server_command', (answer, res, context) => {
+  answer(res.data);
+})
+
+
+
+
 

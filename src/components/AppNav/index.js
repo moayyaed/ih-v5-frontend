@@ -331,6 +331,7 @@ class AppNav extends Component {
       upload: (menuItem) => this.handleUpload(item, menuItem),
       export: (menuItem) => this.handleExport(item, menuItem),
       newtab: (menuItem) => this.handleClickNode(null, item),
+      send: (menuItem) => this.handleServerCommand(item, menuItem),
     };
 
     let scheme = { main: [] };
@@ -616,6 +617,16 @@ class AppNav extends Component {
         .ok((res) => core.actions.appnav.data(this.props.stateid, res));
       });
     }
+  }
+
+  handleServerCommand = (item, menu) => {
+    core
+      .request({ method: 'server_command', props: this.props, params: { 
+        nodeid: item.node.id, param: menu.param 
+      }})
+      .ok(res => {
+        core.transfer.send('refresh_content');
+      });
   }
 
   handleChangePanelSize = (value) => {
