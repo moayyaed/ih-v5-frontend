@@ -11,7 +11,6 @@ import group from './group';
 import action from './action';
 
 import template from './template';
-import container from './container';
 
 
 export const main = [...background, ...border, ...decoration];
@@ -53,7 +52,6 @@ const elements = {
     link: [],
     ...template,
   },
-  container: container,
 };
 
 

@@ -339,11 +339,12 @@ class AppNav extends Component {
     if (params !== undefined && params.popup) {
       scheme = params.popup;
 
+      /*
       if (!this.props.disabledRoute) {
         scheme = { ...scheme, main: [
           ].concat(scheme.main)
         }
-      }
+      } */
       
       core.actions.appnav.selectNodeContextMenu(this.props.stateid, item.node);
       ContextMenu.show(

@@ -10,6 +10,8 @@ import checkbox from './checkbox';
 import devicelog from './devicelog';
 import devicesettings from './devicesettings';
 
+import container from './container';
+
 
 const widgets = {
   chart,
@@ -21,6 +23,8 @@ const widgets = {
   checkbox,
   devicelog,
   devicesettings,
+  
+  container,
 };
 
 

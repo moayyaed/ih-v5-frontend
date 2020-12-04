@@ -1,3 +1,5 @@
+import { CONTAINER_ADD_ELEMENT } from "components/@Form/types/@Container/constants"
+
 const BLOCK = {
   borderSize: { value: 1 },
   borderRadius: { value: 0 },
@@ -299,6 +301,19 @@ const GROUP = {
   overflow: { value: true },
 }
 
+const CONTAINER = {
+  animation: {},
+  zIndex: { value: 100 },
+  opacity: { value: 100 },
+  visible: { value: true },
+  overflow: { value: true },
+  widget: true,
+  widgetlinks: {
+    link: { }
+  },
+  data: {},
+}
+
 const TEMPLATE = {
   animation: {},
   zIndex: { value: 100 },
@@ -450,6 +465,7 @@ function getDefaultParams(type) {
     case 'group':
       return GROUP;
     case 'container':
+      return CONTAINER;
     case 'template':
       return TEMPLATE
     case 'action':

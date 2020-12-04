@@ -6,6 +6,7 @@ const dynamic = {
   input: { variant: 'tree', title: 'Выберите свойство', id: 'devprops', save: false },
   slider: { variant: 'tree', title: 'Выберите свойство', id: 'devprops', save: false },
   checkbox: { variant: 'tree', title: 'Выберите свойство', id: 'devprops', save: false },
+  container: { variant: 'tree', title: 'Выберите контейнер', id: 'viscont' },
 };
 
 

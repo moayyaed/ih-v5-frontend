@@ -63,6 +63,7 @@ const container = {
       type: 'cb',
     },
   ],
+  link: [],
 }
 
 
