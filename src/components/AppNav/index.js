@@ -621,8 +621,10 @@ class AppNav extends Component {
 
   handleServerCommand = (item, menu) => {
     core
-      .request({ method: 'server_command', props: this.props, params: { 
-        nodeid: item.node.id, param: menu.param 
+      .request({ method: 'server_command', props: this.props, params: {
+        id: `send_${item.node.id}`,
+        nodeid: item.node.id, 
+        param: menu.param,
       }})
       .ok(res => {
         if (this.props.route.nodeid) {

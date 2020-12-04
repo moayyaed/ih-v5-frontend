@@ -119,6 +119,7 @@ core.network.response('download_files', (answer, res, context) => {
 
 core.network.request('server_command', (send, context) => {
   send({ 
+    id: context.params.id,
     method: 'send', 
     type: 'tree',
     nodeid: context.params.nodeid, 
