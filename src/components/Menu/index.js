@@ -1,11 +1,10 @@
 import React, { Component, PureComponent } from 'react';
 import core from 'core';
 
-import Skeleton from '@material-ui/lab/Skeleton';
-
 import { Classes, Menu, MenuDivider, MenuItem } from "@blueprintjs/core";
 
 import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 const styles = {
   root: {
@@ -22,6 +21,7 @@ const styles = {
     height: 16,
   }
 }
+
 
 function itemMenu(i, disabled, click, command, target) {
   if (Array.isArray(i)) {
@@ -66,15 +66,24 @@ class RemoteItem extends PureComponent {
   state = { i: this.props.i }
 
   componentDidMount() {
-    this.test = core
-    .request({ 
-      method: 'contextmenu', 
-      props: { route: core.store.getState().app.route }, 
-      params: { id: this.props.i.popupid, target: this.props.target } }
-    )
-    .ok(res => {
-      this.setState({ i: { ...this.state.i, children: res } })
-    });
+    this.req = this.test = core
+      .request({ 
+        method: 'contextmenu', 
+        props: { route: core.store.getState().app.route }, 
+        params: { id: this.props.i.popupid, target: this.props.target } }
+      )
+      .ok(res => {
+        this.setState({ i: { ...this.state.i, children: res } })
+        this.req = null;
+      });
+    
+  }
+
+  componentWillUnmount() {
+    if (this.req) {
+      this.req.cancel();
+      this.req = null;
+    }
   }
 
   render({ disabled, click, command, target } = this.props) {
@@ -97,7 +106,6 @@ class _Menu extends Component {
   }
 
   componentDidMount() {
-
     if (typeof this.props.scheme.main === 'string') {
       core
       .request({ 
@@ -108,42 +116,9 @@ class _Menu extends Component {
       .loading(() => this.setState({ loading: true }))
       .ok(res => this.setState({ data: res, loading: false }));
     }
-
-    /*
-    let remote = null;
-    const data =  this.state.loading ? [] : this.props.scheme.main;
-
-
-
-    data.forEach(i => {
-      if (i.type === 'remote') {
-        remote = i
-      }
-    });
-
-    if (remote) {
-      const route = core.store.getState().app.route;
-      core
-        .request({ method: 'contextmenu', props: { route }, params: { id: remote.popupid, target: this.props.target } })
-        .ok(res => {
-          this.setState(state => {
-            return {
-              ...state,
-              data: state.data.map(i => {
-                if (i.id === remote.id) {
-                  return { ...i, children: res };
-                }
-                return i;
-              }),
-            }
-          });
-        });
-    }
-    */
   }
 
   handleClick = (item, forceCommand, e) => {
-    
     const command = forceCommand ? forceCommand : item.command;
     if (command && this.props.commands[command]) {
       this.props.commands[command].call(null, { popupid: item.id, title: item.title, param: item.param }, e);

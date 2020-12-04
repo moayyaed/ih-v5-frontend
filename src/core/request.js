@@ -21,6 +21,7 @@ class Request {
     this.req = null;
     this.options = null;
     this.controller = null;
+    this.isCancel = null;
 
     this.timerDelay = null;
     this.timerTimeout = null;
@@ -72,14 +73,15 @@ class Request {
       core.network.realtime.destroy();
       core.actions.app.auth(false);
     }
-
-    console.warn(e)
-    core.actions.app.alertOpen('error', e.message);
-    if (this.handleError) {
-      if (e.stack) {
-        this.handleError({ message: e.message });
-      } else {
-        this.handleError(e);
+    
+    if (!this.isCancel) {
+      core.actions.app.alertOpen('error', e.message);
+      if (this.handleError) {
+        if (e.stack) {
+          this.handleError({ message: e.message });
+        } else {
+          this.handleError(e);
+        }
       }
     }
     this.destroy();
@@ -101,6 +103,11 @@ class Request {
       this.start();
     }
     return this;
+  }
+
+  cancel() {
+    this.isCancel = true;
+    this.controller.abort();
   }
 
   loading(handle) {
@@ -208,7 +215,6 @@ function http(data, options, resolve, reject) {
 
   let _uri = '';
   let _options = {}
-
 
   if (core.cache.token) {
     headers.token = core.cache.token;
