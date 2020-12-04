@@ -335,17 +335,6 @@ function AppBar(props) {
           </IconButton>
         </div>
         <div style={styles.container}>
-
-          <LightTooltip title="import packet">
-            <IconButton style={styles.button2} size="small" onClick={() => handleUpload(props)}>
-              <PublishIcon fontSize="small" />
-            </IconButton>
-          </LightTooltip>
-          <LightTooltip title="bug report">
-            <IconButton style={styles.button} size="small" onClick={handleSnap}>
-              <AdbIcon fontSize="small" />
-            </IconButton>
-          </LightTooltip>
           <LightTooltip title="user interface">
             <IconButton style={styles.button} size="small" onClick={handleClickUserInterface}>
               <WebIcon fontSize="small" />
@@ -356,6 +345,18 @@ function AppBar(props) {
               <SettingsIcon style={{ color: props.menuid === 'settings' ? '#03A9F4' : 'unset' }} fontSize="small" />
             </IconButton>
           </LightTooltip>
+
+          <LightTooltip title="import packet">
+            <IconButton style={styles.button2} size="small" onClick={() => handleUpload(props)}>
+              <PublishIcon fontSize="small" />
+            </IconButton>
+          </LightTooltip>
+          <Divider orientation="vertical" flexItem style={styles.divider} />
+          <LightTooltip title="bug report">
+            <IconButton style={styles.button} size="small" onClick={handleSnap}>
+              <AdbIcon fontSize="small" />
+            </IconButton>
+          </LightTooltip>      
           <Divider orientation="vertical" flexItem style={styles.divider} />
           <LightTooltip title="help">
             <IconButton style={styles.button} size="small" onClick={handleClickHelp}>
