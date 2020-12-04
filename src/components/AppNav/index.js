@@ -625,7 +625,9 @@ class AppNav extends Component {
         nodeid: item.node.id, param: menu.param 
       }})
       .ok(res => {
-        core.transfer.send('refresh_content');
+        if (this.props.route.nodeid) {
+          core.transfer.send('refresh_content');
+        }
       });
   }
 
