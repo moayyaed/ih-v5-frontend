@@ -120,6 +120,9 @@ class Layout extends PureComponent {
       const item = this.props.data.elements[this.props.data.selectOne];
 
       if (item.widget && propertyType === 'link') {
+        if (item.type === 'container') {
+          console.log('container!');
+        }
         core.actions.layout
           .editElement(
             this.props.id, this.props.options.prop,

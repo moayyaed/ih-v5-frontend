@@ -49,14 +49,14 @@ function deleteElements(elements, containers, templates, selects) {
         }
         if (e[c].type === 'container') {
           const temp = Object
-            .keys(containers[e[c].containerId.id].elements)
+            .keys(containers[e[c].widgetlinks.link.id].elements)
             .reduce((p2, c2) => {
-              if (containers[e[c].containerId.id].elements[c2].type === 'template') {
-                return { ...p2, [containers[e[c].containerId.id].elements[c2].templateId]: true }
+              if (containers[e[c].widgetlinks.link.id].elements[c2].type === 'template') {
+                return { ...p2, [containers[e[c].widgetlinks.link.id].elements[c2].templateId]: true }
               }
               return p2;
             }, {})
-          return { ...p, ...temp, [e[c].containerId.id]: true   }
+          return { ...p, ...temp, [e[c].widgetlinks.link.id]: true }
         }
         return p;
       }, {})

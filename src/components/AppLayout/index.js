@@ -94,9 +94,9 @@ class AppLayout extends Component {
             method: 'unsub',
             type: 'container',
             uuid: id,
-            id: this.props.state.layout.elements[id].containerId.id,
-          }, this.subs[this.props.state.layout.elements[id].containerId.id]);
-          delete this.subs[this.props.state.layout.elements[id].containerId.id]
+            id: this.props.state.layout.elements[id].widgetlinks.link.id,
+          }, this.subs[this.props.state.layout.elements[id].widgetlinks.link.id]);
+          delete this.subs[this.props.state.layout.elements[id].widgetlinks.link.id]
         }
       });
     }
@@ -115,13 +115,13 @@ class AppLayout extends Component {
 
         data.layout.list.forEach(id => {
           if (data.layout.elements[id].type === 'container') {
-            this.subs[data.layout.elements[id].containerId.id] = (realtime) => this.realtimeContainer(data.layout.elements[id].containerId.id, realtime)
+            this.subs[data.layout.elements[id].widgetlinks.link.id] = (realtime) => this.realtimeContainer(data.layout.elements[id].widgetlinks.link.id, realtime)
             core.tunnel.sub({ 
               method: 'sub',
               type: 'container',
               uuid: id,
-              id: data.layout.elements[id].containerId.id,
-            }, this.subs[data.layout.elements[id].containerId.id]);
+              id: data.layout.elements[id].widgetlinks.link.id,
+            }, this.subs[data.layout.elements[id].widgetlinks.link.id]);
           }
         });
     });
@@ -181,7 +181,7 @@ class AppLayout extends Component {
             animation: item.animation && item.animation.active ? item.animation.value : 'unset',
           }}
         >
-          {elemets(this.props.state.layout.elements[id].type, { id, layoutId: this.props.state.layoutId, mode: 'user', item: this.props.state.layout.elements[id], container: this.props.state.containers[this.props.state.layout.elements[id].containerId.id], templates: this.props.state.templates, scaleW, scaleH })}
+          {elemets(this.props.state.layout.elements[id].type, { id, layoutId: this.props.state.layoutId, mode: 'user', item: this.props.state.layout.elements[id], container: this.props.state.containers[this.props.state.layout.elements[id].widgetlinks.link.id], templates: this.props.state.templates, scaleW, scaleH })}
         </div>
       )
     }

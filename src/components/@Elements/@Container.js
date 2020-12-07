@@ -1,4 +1,5 @@
 import React, { Component, PureComponent } from 'react';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Scrollbars2 from 'libs/Scrllbars2';
 import elemets from 'components/@Elements';
@@ -61,7 +62,7 @@ class Container extends PureComponent {
             animation: item.animation && item.animation.active ? item.animation.value : 'unset',
           }}
         >
-          {elemets(this.props.container.elements[id].type, { id, containerId: this.props.item.containerId.id, layoutId: this.props.layoutId, mode: this.props.mode, item: this.props.container.elements[id], template: this.props.templates[item.templateId] })}
+          {elemets(this.props.container.elements[id].type, { id, containerId: this.props.item.widgetlinks.link.id, layoutId: this.props.layoutId, mode: this.props.mode, item: this.props.container.elements[id], template: this.props.templates[item.templateId] })}
         </div>
       )
     }
@@ -79,12 +80,27 @@ class Container extends PureComponent {
           animation: item.animation && item.animation.active ? item.animation.value : 'unset',
         }}
       >
-        {elemets(this.props.container.elements[id].type, { id, dialogId: this.props.item.dialogId, scale, containerId: this.props.item.containerId.id, layoutId: this.props.layoutId, mode: this.props.mode, item: this.props.container.elements[id] })}
+        {elemets(this.props.container.elements[id].type, { id, dialogId: this.props.item.dialogId, scale, containerId: this.props.item.widgetlinks.link.id, layoutId: this.props.layoutId, mode: this.props.mode, item: this.props.container.elements[id] })}
       </div>
     )
   }
 
   render() {
+    if (this.props.container === undefined) {
+      return (
+        <div
+          style={{
+            width: '100%', 
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <CircularProgress />
+        </div>
+      )
+    }
     const scale = getScale(this.props.item, this.props.container.settings, this.props.scaleW, this.props.scaleH)
     const type = this.props.container.settings.backgroundColor.type;
     const color = type === 'fill' ? '' : ', ' + this.props.container.settings.backgroundColor.value;

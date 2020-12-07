@@ -267,8 +267,8 @@ class Sheet extends Component {
       core
         .request({ method: 'get_container', params: menuItemId })
         .ok(res => {
-          data.containerId = { id: menuItemId, title: '-' };
-          data.title = title;
+          data.widgetlinks = { link: { id: menuItemId, title: title } };
+
           data.w = { value: res.container.settings.w.value }; 
           data.h = { value: res.container.settings.h.value };
           data.w2 = { value: res.container.settings.w.value }; 
@@ -620,7 +620,7 @@ class Sheet extends Component {
   }
 
   handleClickEditContainer = () => {
-    const containerId = this.props.elements[this.props.selectOne].containerId.id;
+    const containerId = this.props.elements[this.props.selectOne].widgetlinks.link.id;
     core.route(`vis/viscont/viscontview/${containerId}/tabViscontEditor`);
   }
 
@@ -665,7 +665,7 @@ class Sheet extends Component {
       return elemets(item.type, { key: elementId, mode: 'admin', id: elementId, item, template: this.props.templates[item.templateId]})
     }
     if (item.type === 'container') {
-      const container = this.props.containers[item.containerId.id];
+      const container = this.props.containers[item.widgetlinks.link.id];
       const templates = this.props.templates;
       const params = { key: elementId, mode: 'admin', id: elementId, item, container, templates, scaleW: 1, scaleH: 1 }
       return elemets(item.type, params)
