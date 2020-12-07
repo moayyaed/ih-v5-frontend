@@ -97,7 +97,7 @@ class Container extends PureComponent {
             alignItems: 'center',
           }}
         >
-          <CircularProgress />
+          {this.props.item.widgetlinks.link.id ? <CircularProgress /> : null}
         </div>
       )
     }

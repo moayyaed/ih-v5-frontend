@@ -120,8 +120,8 @@ class Layout extends PureComponent {
       const item = this.props.data.elements[this.props.data.selectOne];
 
       if (item.widget && propertyType === 'link') {
-        if (item.type === 'container') {
-          console.log('container!');
+        if (item.type === 'container' && value.id) {
+          this.handleChangeContainer(value.id)
         }
         core.actions.layout
           .editElement(
@@ -192,6 +192,17 @@ class Layout extends PureComponent {
         this.props.id, this.props.options.prop,
         { propertyType: propertyId }
       );
+  }
+
+  handleChangeContainer = (containerId) => {
+    core
+    .request({ method: 'get_container', params: containerId })
+    .ok(res => {
+      core.actions.layout.appendContainersAndTemplates(
+        this.props.id, this.props.options.prop,
+        { [containerId]: res.container }, res.templates
+      )
+    })
   }
 
   renderButtons = (id) => {

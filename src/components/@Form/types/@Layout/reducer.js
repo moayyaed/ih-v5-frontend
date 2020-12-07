@@ -22,6 +22,7 @@ import {
   LAYOUT_DELETE_ELEMENT,
 
   LAYOUT_CHANGE_TEMPLATE_LINK,
+  LAYOUT_APPEND_CONTAINERS_AND_TEMPLATES,
 } from './constants';
 
 
@@ -390,6 +391,18 @@ function reducerContainer(state, action) {
         list: state.list.filter(i => !state.selects[i]),
         ...deleteElements(state.elements, state.containers, state.templates, state.selects),
       };
+    case LAYOUT_APPEND_CONTAINERS_AND_TEMPLATES:
+      return {
+        ...state,
+        containers: {
+          ...state.containers,
+          ...action.containers,
+        },
+        templates: {
+          ...state.templates,
+          ...action.templates,
+        }
+      }
     default:
       return state;
   }
@@ -416,6 +429,7 @@ function reducer(state, action) {
     case LAYOUT_CHANGE_TEMPLATE_LINK:
     case LAYOUT_EDIT_ELEMENT:
     case LAYOUT_DELETE_ELEMENT:
+    case LAYOUT_APPEND_CONTAINERS_AND_TEMPLATES:
       return { 
         ...state, 
         data: {

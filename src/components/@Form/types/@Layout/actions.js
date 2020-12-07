@@ -22,6 +22,7 @@ import {
   LAYOUT_DELETE_ELEMENT,
   
   LAYOUT_CHANGE_TEMPLATE_LINK,
+  LAYOUT_APPEND_CONTAINERS_AND_TEMPLATES,
 } from './constants';
 
 
@@ -190,6 +191,16 @@ export function deleteElement(id, prop) {
   };
 }
 
+export function appendContainersAndTemplates(id, prop, containers, templates) {
+  return {
+    type: LAYOUT_APPEND_CONTAINERS_AND_TEMPLATES,
+    id,
+    prop,
+    containers,
+    templates,
+  };
+}
+
 
 export default {
   data,
@@ -212,4 +223,6 @@ export default {
   editElement,
   deleteElement,
   changeTemplateLink,
+
+  appendContainersAndTemplates,
 }
