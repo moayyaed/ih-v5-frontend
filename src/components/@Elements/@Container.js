@@ -7,15 +7,15 @@ const method = window.document.body.style.zoom === undefined;
 
 
 function getScale(item, settings, scaleW, scaleH) {
-  if (settings.fitW.value && settings.fitH.value) {
+  if (item.fitW.value && item.fitH.value) {
     return Math.min((item.w.value * scaleW) / settings.w.value, (item.h.value * scaleH) / settings.h.value);
   }
 
-  if (settings.fitW.value) {
+  if (item.fitW.value) {
     return (item.w.value * scaleW) / settings.w.value
   }
 
-  if (settings.fitH.value) {
+  if (item.fitH.value) {
     return (item.h.value * scaleH) / settings.h.value;
   }
 
@@ -103,8 +103,8 @@ class Container extends PureComponent {
         }}
       >
         <Scrollbars2
-          scrollX={this.props.mode === 'user' && this.props.container.settings.scrollX ? this.props.container.settings.scrollX.value : 0}
-          scrollY={this.props.mode === 'user' && this.props.container.settings.scrollX ? this.props.container.settings.scrollY.value : 0}
+          scrollX={this.props.mode === 'user' && this.props.item.scrollX ? this.props.item.scrollX.value : 0}
+          scrollY={this.props.mode === 'user' && this.props.item.scrollX ? this.props.item.scrollY.value : 0}
         > 
           <div 
             style={{
@@ -112,8 +112,8 @@ class Container extends PureComponent {
               height: '100%', 
               display: 'flex',
               position: 'absolute',
-              justifyContent: this.props.container.settings.alignW.value.id,
-              alignItems: this.props.container.settings.alignH.value.id,
+              justifyContent: this.props.item.alignW.value.id,
+              alignItems: this.props.item.alignH.value.id,
               background: this.props.container.settings.overlayColor.value,
               // overflow: this.props.item.overflow && this.props.item.overflow.value ? 'hidden' : 'unset',
             }}
