@@ -229,7 +229,7 @@ class Sheet extends Component {
   }
 
   handleAddElement = (e, type, menuItemId, title) => {
-    const elementId = getIdElement(0, type, this.props.elements);
+    const elementId = getIdElement(0, type === 'container' ? 'frame' : type, this.props.elements);
 
     const rect = this.sheet.getBoundingClientRect();
     const x = method2 ? (e.clientX - rect.left) / this.props.settings.scale.value :  (e.pageX - (rect.left * this.props.settings.scale.value)) / this.props.settings.scale.value;

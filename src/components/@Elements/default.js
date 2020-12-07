@@ -302,15 +302,19 @@ const GROUP = {
 }
 
 const CONTAINER = {
+  fitW: { value: true },
+  fitH: { value: true },
+  alignW: { value: { id: "center", title: "Center" } },
+  alignH: { value: { id: "center", title: "Center" } },
+  scrollX: { value: false },
+  scrollY: { value: false },
   animation: {},
   zIndex: { value: 100 },
   opacity: { value: 100 },
   visible: { value: true },
   overflow: { value: true },
   widget: true,
-  widgetlinks: {
-    link: { }
-  },
+  widgetlinks: { link: { } },
   data: {},
 }
 
