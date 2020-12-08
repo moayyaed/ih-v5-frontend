@@ -349,7 +349,6 @@ function preparationData(data, clearAnimation = true) {
           // bind
         })
 
-        console.log(data.widgets[key])
         // widget data
         if (data.widgets[key] && data.containers[key].elements[id].widget && data.widgets[key][id] !== undefined) {
           data.containers[key].elements[id].data = data.widgets[key][id];
