@@ -187,7 +187,7 @@ class TemplateOptions extends Component {
               <Scrollbars style={styles.root} >
                 <div style={styles.container2} >
                   <Form 
-                    key={form.id} 
+                    key={state.component.id} 
                     debug={false} 
                     route={{ nodeid: state.component.id }}
                     scheme={form.options} 
