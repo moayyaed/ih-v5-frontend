@@ -189,7 +189,7 @@ class TemplateOptions extends Component {
                   <Form 
                     key={form.id} 
                     debug={false} 
-                    route={{}}
+                    route={{ nodeid: state.component.id }}
                     scheme={form.options} 
                     data={form.data}
                     cache={form.cache}

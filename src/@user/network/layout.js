@@ -387,3 +387,16 @@ core.network.response('applayout', (answer, res, context) => {
     widgets: { ...res[5].data, ...res[6].data }, 
   }));
 })
+
+
+core.network.request('get_container', (send, context) => {
+  send([
+    { api: 'container',  id: context.params },
+    { api: 'templates', containerid: context.params }
+  ]);
+})
+
+
+core.network.response('get_container', (answer, res, context) => {
+  answer({ container: res[0].data, templates: res[1].data });
+})

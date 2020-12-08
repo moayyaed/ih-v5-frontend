@@ -56,7 +56,16 @@ class AppLayout extends Component {
 
   commandLayout = (data) => {
     if (data.command === 'gotolayout') {
-      core.route(data.id);
+      if (this.props.state.layoutId === data.id) {
+        console.log(data)
+        core
+        .request({ method: 'get_container', params: data })
+        .ok(data => {
+          console.log(data)
+        });
+      } else {
+        core.route(data.id);
+      }
     }
     if (data.command === 'showdialog') {
       core.transfer.send('show_dialog_command', data);
