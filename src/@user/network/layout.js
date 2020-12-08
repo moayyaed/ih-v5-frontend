@@ -3,7 +3,7 @@ import css from 'css';
 
 import { createValueFunc, options } from 'components/tools';
 
-function preparationData(data) {
+function preparationData(data, clearAnimation = true) {
 
   // set local vars 
     Object
@@ -19,24 +19,25 @@ function preparationData(data) {
           });
       });
 
- // set local vars 
+   // set local vars 
 
   // clear animation
-  const temp = []
+  if (clearAnimation) {
+    const temp = []
 
-  Object
-    .keys(document.styleSheets[0].rules)
-    .forEach(id => {
-      if (document.styleSheets[0].rules[id].type === CSSRule.KEYFRAMES_RULE) {
-        temp.push(id)
-      }
-    })
-  temp
-    .reverse()
-    .forEach(id => {
-      document.styleSheets[0].deleteRule(id);
-   })
-  
+    Object
+      .keys(document.styleSheets[0].rules)
+      .forEach(id => {
+        if (document.styleSheets[0].rules[id].type === CSSRule.KEYFRAMES_RULE) {
+          temp.push(id)
+        }
+      })
+    temp
+      .reverse()
+      .forEach(id => {
+        document.styleSheets[0].deleteRule(id);
+     })
+  }
   // clear animation
 
 
@@ -348,6 +349,7 @@ function preparationData(data) {
           // bind
         })
 
+        console.log(data.widgets[key])
         // widget data
         if (data.widgets[key] && data.containers[key].elements[id].widget && data.widgets[key][id] !== undefined) {
           data.containers[key].elements[id].data = data.widgets[key][id];
@@ -392,11 +394,19 @@ core.network.response('applayout', (answer, res, context) => {
 core.network.request('get_container', (send, context) => {
   send([
     { api: 'container',  id: context.params },
-    { api: 'templates', containerid: context.params }
+    { api: 'templates', containerid: context.params },
+    { api: 'container',  id: context.params, rt: 1 },
+    { api: 'container',  id: context.params, widgetdata: 1 },
   ]);
 })
 
 
 core.network.response('get_container', (answer, res, context) => {
-  answer({ container: res[0].data, templates: res[1].data });
+  answer(preparationData({
+    layout: { list: [], elements: {} },
+    containers: { [context.params]: res[0].data } ,
+    templates: res[1].data,
+    states: res[2].data,
+    widgets: { [context.params]: res[3].data },
+  }, false));
 })

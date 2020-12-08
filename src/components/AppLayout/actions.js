@@ -4,6 +4,8 @@ import {
   APP_LAYOUT_UPDATE_ELEMENTS,
   APP_LAYOUT_SYNC_CHARTS_LAYOUT,
   APP_LAYOUT_SYNC_CHARTS_CONTAINER,
+
+  APP_LAYOUT_CHANGE_CONTAINER,
 } from './constants';
 
 
@@ -46,6 +48,15 @@ export function syncChartsContainer(containerId, range, realtime) {
   };
 }
 
+export function changeContainer(targetId, containerId, data) {
+  return {
+    type: APP_LAYOUT_CHANGE_CONTAINER,
+    targetId, 
+    containerId, 
+    data,
+  };
+}
+
 
 export default {
   data,
@@ -53,4 +64,5 @@ export default {
   updateElementsContainer,
   syncChartsLayout,
   syncChartsContainer,
+  changeContainer,
 }

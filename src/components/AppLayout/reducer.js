@@ -5,6 +5,8 @@ import {
   APP_LAYOUT_UPDATE_ELEMENTS,
   APP_LAYOUT_SYNC_CHARTS_LAYOUT,
   APP_LAYOUT_SYNC_CHARTS_CONTAINER,
+
+  APP_LAYOUT_CHANGE_CONTAINER,
 } from './constants';
 
 
@@ -285,6 +287,43 @@ function reducer(state = defaultState, action) {
             return { ...p, [c]: state.containers[c] }
           }, {}),
       };
+      case APP_LAYOUT_CHANGE_CONTAINER:
+        return {
+          ...state,
+          layout: {
+            ...state.layout,
+            elements: Object
+              .keys(state.layout.elements)
+              .reduce((p, c) => {
+                if (c === action.targetId) {
+                  return { 
+                    ...p, 
+                    [c]: {
+                      ...state.layout.elements[c],
+                      widgetlinks: { link: { id: action.containerId, title: '' } }
+                    } 
+                  }
+                }
+                return { ...p, [c]: state.layout.elements[c] }
+              }, {})
+          },
+          containers: {
+            ...state.containers,
+            ...action.data.containers
+          },
+          states: {
+            ...state.states,
+            ...action.data.states
+          },
+          templates: {
+            ...state.templates,
+            ...action.data.templates
+          },
+          widgets: {
+            ...state.widgets,
+            ...action.data.widgets
+          },
+        }
     default:
       return state;
   }

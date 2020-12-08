@@ -57,12 +57,31 @@ class AppLayout extends Component {
   commandLayout = (data) => {
     if (data.command === 'gotolayout') {
       if (this.props.state.layoutId === data.id) {
-        console.log(data)
-        core
-        .request({ method: 'get_container', params: data })
-        .ok(data => {
-          console.log(data)
-        });
+        if (data.target_container_id && data.target_frame && data.target_container_id.id && data.target_frame.id) {
+          core
+          .request({ method: 'get_container', params: data.target_container_id.id })
+          .ok(res => {
+            const container = this.props.state.layout.elements[data.target_frame.id];
+            if (container) {
+              core.tunnel.unsub({ 
+                method: 'unsub',
+                type: 'container',
+                uuid: container.widgetlinks.link.id,
+                id: container.widgetlinks.link.id,
+              }, this.subs[container.widgetlinks.link.id]);
+              delete this.subs[container.widgetlinks.link.id]
+
+              this.subs[data.target_container_id.id] = (realtime) => this.realtimeContainer(data.target_container_id.id, realtime)
+              core.tunnel.sub({ 
+                method: 'sub',
+                type: 'container',
+                uuid: data.target_container_id.id,
+                id: data.target_container_id.id,
+              }, this.subs[data.target_container_id.id]);
+              core.actions.layout.changeContainer(data.target_frame.id, data.target_container_id.id, res);
+            }
+          });
+        }
       } else {
         core.route(data.id);
       }
