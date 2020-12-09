@@ -114,8 +114,6 @@ function getEndAdornment(item, value) {
 
 
 function getInput(props, data, onChange) {
-  console.log(props)
-  
   if (props.item.variant.value.id === 'minimal') {
     return (
       <InputBase
