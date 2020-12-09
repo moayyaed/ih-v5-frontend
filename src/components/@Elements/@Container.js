@@ -80,7 +80,7 @@ class Container extends PureComponent {
           animation: item.animation && item.animation.active ? item.animation.value : 'unset',
         }}
       >
-        {elemets(this.props.container.elements[id].type, { id, dialogId: this.props.item.dialogId, scale, containerId: this.props.item.widgetlinks.link.id, layoutId: this.props.layoutId, mode: this.props.mode, item: this.props.container.elements[id] })}
+        {elemets(this.props.container.elements[id].type, { id, dialogId: this.props.item.dialogId, scale, containerId: this.props.item.widgetlinks && this.props.item.widgetlinks.link.id, layoutId: this.props.layoutId, mode: this.props.mode, item: this.props.container.elements[id] })}
       </div>
     )
   }
