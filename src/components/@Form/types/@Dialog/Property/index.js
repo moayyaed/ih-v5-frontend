@@ -148,12 +148,12 @@ class Property extends PureComponent {
           },
         ])
       }
-  
+
       return (
         <Scrollbars style={styles.scroll}>
           <div style={styles.container}>
             <CompactForm 
-              key="property"
+              key={this.props.elementId || 'property'}
               debug={false} 
               scheme={map}
               route={route}

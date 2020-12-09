@@ -140,7 +140,7 @@ class Property extends PureComponent {
         <Scrollbars style={styles.scroll}>
           <div style={styles.container}>
             <CompactForm 
-              key="property"
+              key={this.props.elementId || 'property'}
               debug={false} 
               scheme={map}
               route={route}
@@ -159,37 +159,3 @@ class Property extends PureComponent {
 
 
 export default Property;
-
-
-
-
-/*
-
-    return (
-      <Scrollbars style={{ width: '100%', height: '100%' }}>
-        {scheme.map(item =>
-          <ExpansionPanel key={item.title} defaultExpanded>
-            <ExpansionPanelSummary 
-              style={styles.summary} 
-              IconButtonProps={{ size: 'small' }}
-              expandIcon={<ExpandMoreIcon fontSize="inherit" />} 
-            >
-              <Typography className={classes.heading}>{item.title}</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails style={styles.details} >
-              <SingleForm 
-                key="property"
-                debug={false} 
-                scheme={item.data}
-                route={route}
-                data={this.props.elementData}
-                cache={cache}
-                onChange={this.handleChange}
-              />
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-        )}
-      </Scrollbars>
-    )
-
-    */
