@@ -114,6 +114,8 @@ class Subtree extends PureComponent {
   };
 
   componentDidMount() {
+    this.nodeid = this.props.route.nodeid;
+
     const params = { id: this.props.options.data, navnodeid: this.props.route.nodeid };
     core
       .request({ method: 'subtree', params })
@@ -141,7 +143,13 @@ class Subtree extends PureComponent {
     }
 
     core.transfer.sub('subtree', this.handleTransferData);
-    this.props.options.toolbar && core.tunnel.sub(config('plugin', this.props.route), this.handleRealTimeDataConsole);
+    this.props.options.toolbar && core.tunnel.sub({
+      method: 'sub',
+      type: 'debug',
+      id: 'plugin',
+      nodeid: this.nodeid,
+      uuid: `plugin_${this.nodeid}`
+    }, this.handleRealTimeDataConsole);
   }
 
   componentDidUpdate(prevProps) {
@@ -158,11 +166,19 @@ class Subtree extends PureComponent {
   }
 
   componentWillUnmount() {
+    core.transfer.unsub('subtree', this.handleTransferData);
+    this.props.options.toolbar && core.tunnel.unsub({
+      method: 'unsub',
+      type: 'debug',
+      id: 'plugin',
+      nodeid: this.nodeid,
+      uuid: `plugin_${this.nodeid}`
+    }, this.handleRealTimeDataConsole);
+
     this.id = null;
     this.rowid = null;
     this.save = null;
-    core.transfer.unsub('subtree', this.handleTransferData);
-    this.props.options.toolbar && core.tunnel.unsub(config('plugin', this.props.route), this.handleRealTimeDataConsole);
+    this.nodeid = null;
   }
 
   setData = (data) => {
