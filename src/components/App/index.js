@@ -12,7 +12,6 @@ import Alert from 'components/Alert';
 
 import { createBrowserHistory } from 'history';
 
-import { YMInitializer } from 'react-yandex-metrika';
 
 const history = createBrowserHistory();
 
@@ -99,7 +98,6 @@ class App extends Component {
   render({ alert, route, restart, network } = this.props.state) {
     return (
       <>
-        <YMInitializer accounts={[68453362]} options={{ webvisor: true, clickmap:true }} version="2"/>
         <NProgressBar />
         <Backdrop style={styles.backdrop} open={restart} onClick={this.handleCloseBackdrop}>
           <CircularProgress color="inherit" />

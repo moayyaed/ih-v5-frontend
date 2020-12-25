@@ -22,6 +22,7 @@ const classes = theme => ({
 function handleClick(props) {
   const store = core.store.getState().apppage;
   const params = {
+    subnodeid: props.route.channel,
     nodeid: props.route.nodeid,
     command: props.options.command,
     param: props.options.param,
@@ -35,6 +36,9 @@ function handleClick(props) {
     }
     if (props.options.command === 'restart') {
       core.actions.app.restart(true);
+    }
+    if (res.alert) {
+      core.actions.app.alertOpen(res.alert || 'info', res.message || '');
     }
   });
 }
