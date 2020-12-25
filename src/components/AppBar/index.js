@@ -123,7 +123,7 @@ function handleUpload (props) {
   const uuid = shortid.generate();
   
   input.type = 'file';
-  input.accept=".ihpack"
+  input.accept=".ihpack, .zip"
 
   input.onchange = (e) => {
     const list = [];  
@@ -346,7 +346,7 @@ function AppBar(props) {
             </IconButton>
           </LightTooltip>
 
-          <LightTooltip title="import packet">
+          <LightTooltip title="import">
             <IconButton style={styles.button2} size="small" onClick={() => handleUpload(props)}>
               <PublishIcon fontSize="small" />
             </IconButton>

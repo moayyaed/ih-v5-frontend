@@ -143,13 +143,6 @@ class Subtree extends PureComponent {
     }
 
     core.transfer.sub('subtree', this.handleTransferData);
-    this.props.options.toolbar && core.tunnel.sub({
-      method: 'sub',
-      type: 'debug',
-      id: 'plugin',
-      nodeid: this.nodeid,
-      uuid: `plugin_${this.nodeid}`
-    }, this.handleRealTimeDataConsole);
   }
 
   componentDidUpdate(prevProps) {
@@ -167,18 +160,21 @@ class Subtree extends PureComponent {
 
   componentWillUnmount() {
     core.transfer.unsub('subtree', this.handleTransferData);
-    this.props.options.toolbar && core.tunnel.unsub({
+  
+    this.isSub && core.tunnel.unsub({
       method: 'unsub',
       type: 'debug',
       id: 'plugin',
       nodeid: this.nodeid,
       uuid: `plugin_${this.nodeid}`
     }, this.handleRealTimeDataConsole);
+ 
 
     this.id = null;
     this.rowid = null;
     this.save = null;
     this.nodeid = null;
+    this.isSub = null;
   }
 
   setData = (data) => {
@@ -269,6 +265,17 @@ class Subtree extends PureComponent {
       };
     })
   }
+
+  handleCloseConsole = () => {
+    this.isSub = null;
+    core.tunnel.unsub({
+      method: 'unsub',
+      type: 'debug',
+      id: 'plugin',
+      nodeid: this.nodeid,
+      uuid: `plugin_${this.nodeid}`
+    }, this.handleRealTimeDataConsole);
+  }
   
   renderButtons = (id) => {
     if (id === 'tree' && this.props.options.toolbar) {
@@ -298,7 +305,7 @@ class Subtree extends PureComponent {
             <ExpandButton />
           </div>,
           <div key="6" data-tip="Remove" key="remove">
-            <RemoveButton />
+            <RemoveButton onClick={this.handleCloseConsole} />
           </div>,
         ]
       )
@@ -823,7 +830,7 @@ class Subtree extends PureComponent {
   }
 
   renderDownToolbar = (id) => {
-    if (id === 'tree' && this.props.options.toolbar) {
+    if (id === 'tree1' && this.props.options.toolbar) {
       return (
         <div style={styles.downToolbar} >
           <Button icon="plus" minimal />
@@ -843,6 +850,16 @@ class Subtree extends PureComponent {
   }
 
   handleShowWindow = (id) => {
+    if (id === 'console') {
+      this.isSub = true;
+      core.tunnel.sub({
+        method: 'sub',
+        type: 'debug',
+        id: 'plugin',
+        nodeid: this.nodeid,
+        uuid: `plugin_${this.nodeid}`
+      }, this.handleRealTimeDataConsole);
+    }
     if (this.state.windows.direction === 'row') {
       this.setState(state => {
         return { 
