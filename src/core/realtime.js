@@ -49,7 +49,19 @@ function messageTunnel(e) {
   try {
     const json = JSON.parse(e.data);
     if (json.method) {
-      core.transfer.send('command_layout', json)
+      if (json.method === 'syscommand') {
+        if (json.command === 'alert') {
+          core.actions.app.alertOpen(json.type || 'info', json.message || '');
+        }
+        if (json.command === 'restart') {
+          core.actions.app.restart(true);
+        }
+        if (json.command === 'refresh') {
+          core.transfer.send('refresh_content');
+        }
+      } else {
+        core.transfer.send('command_layout', json)
+      }
     } else if (json.uuid !== undefined) {
       if (json.data || json.chartdata) {
         if (json.data) {

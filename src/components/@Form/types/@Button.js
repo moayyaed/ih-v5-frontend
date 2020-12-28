@@ -40,6 +40,9 @@ function handleClick(props) {
     if (res.alert) {
       core.actions.app.alertOpen(res.alert || 'info', res.message || '');
     }
+    if (res.refresh) {
+      core.transfer.send('refresh_content');
+    }
   });
 }
 
