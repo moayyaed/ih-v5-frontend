@@ -1,4 +1,3 @@
-import ym from 'react-yandex-metrika';
 import Bowser from "bowser";
 
 import NProgress from 'nprogress';
@@ -39,7 +38,6 @@ function route(path) {
   if (core.lastPath !== nextPath) {
     // core.lastPath = nextPath;
     core.history.push(nextPath);
-    ym('hit', nextPath);
   }
 }
 
