@@ -43,6 +43,9 @@ function handleClick(props) {
     if (res.refresh) {
       core.transfer.send('refresh_content');
     }
+    if (res.restart) {
+      core.actions.app.restart(true);
+    }
   });
 }
 
