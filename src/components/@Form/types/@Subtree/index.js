@@ -266,6 +266,18 @@ class Subtree extends PureComponent {
     })
   }
 
+  handleChangeAutoScroll = () => {
+    this.setState(state => {
+      return { ...state, consoleAutoScroll: !state.consoleAutoScroll };
+    });
+  }
+
+  handleClearConsole = () => {
+    this.setState(state => {
+      return { ...state, consoleValue: '' };
+    });
+  }
+
   handleCloseConsole = () => {
     this.isSub = null;
     core.tunnel.unsub({
