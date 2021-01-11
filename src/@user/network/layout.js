@@ -4,7 +4,6 @@ import css from 'css';
 import { createValueFunc, options } from 'components/tools';
 
 function preparationData(data, clearAnimation = true) {
-
   // set local vars 
     Object
       .keys(core.cache.vars)
@@ -237,12 +236,29 @@ function preparationData(data, clearAnimation = true) {
                     return { ...p, ...state[elemId] }
                   }
                   return p;
-                }, {});            
-              data.containers[key].elements[id].elements[elemId] = { 
+                }, {});   
+
+              const tempState = { 
                 ...renderState[elemId], 
                 ...masterState[elemId],
                 ...curentStateElem,
-              }
+              }; 
+              data.containers[key].elements[id].elements[elemId] = Object
+                .keys(tempState)
+                .reduce((p, c) => {
+                  if (typeof tempState[c] === 'string') {
+                    return { ...p, [c]: tempState[c] }
+                  }
+                  return { 
+                    ...p, 
+                    [c]: Object
+                      .keys(tempState[c])
+                      .reduce((p2, c2) => {
+                        return { ...p2, [c2]: tempState[c][c2] }
+                      }, {}) 
+                  }
+                }, {})
+                
               Object
                 .keys(data.containers[key].elements[id].elements[elemId])
                 .forEach(propId => {
@@ -266,6 +282,7 @@ function preparationData(data, clearAnimation = true) {
                           data.containers[key].elements[id].elements[elemId][propId].value = v;
                         } else {
                           data.containers[key].elements[id].elements[elemId][propId].value = data.containers[key].elements[id].elements[elemId][propId].func.call(null, value, data.containers[key].elements[id].states);
+                          // console.log(key, id, elemId, propId, data.containers[key].elements[id].elements[elemId][propId].value)
                         }
                         
                       } catch {
@@ -274,6 +291,7 @@ function preparationData(data, clearAnimation = true) {
                     }
                   }
                 })
+              
             })
           }
         }
