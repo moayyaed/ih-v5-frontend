@@ -272,7 +272,7 @@ class Button extends PureComponent {
                     command: item.command === 'setval_any' ? 'setval' : item.command,
                     did: _item.did,
                     prop: item.prop,
-                    value: getElementsOtherVar(store, _item)
+                    value: getElementsOtherVar(core.store.getState(), _item)
                   });
                 }
               } else {

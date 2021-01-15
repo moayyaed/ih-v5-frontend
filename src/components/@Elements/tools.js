@@ -10,9 +10,9 @@ export function transform({ flipH, flipV, rotate }) {
 }
 
 export function getElementsOtherVar(store, item) {
-  if (store.states[item.did] && store.states[item.did][item.prop] !== undefined) {
-    const checkValue = Number(store.states[item.did][item.prop])
-    let value = checkValue !== NaN ? checkValue : store.states[item.prop];
+  if (store.layout.states[item.did] && store.layout.states[item.did][item.prop] !== undefined) {
+    const checkValue = Number(store.layout.states[item.did][item.prop])
+    let value = checkValue !== NaN ? checkValue : store.layout.states[item.did][item.prop];
     try {
       const func = createValueFunc(item.func).body;
       value = func.call(null, value)
@@ -20,6 +20,18 @@ export function getElementsOtherVar(store, item) {
       console.warn('Error: Action function wrong!')
     }
     return value
+  } else {
+    if (store.layoutDialog.static[item.did] && store.layoutDialog.static[item.did][item.prop] !== undefined) {
+      const checkValue = Number(store.layoutDialog.static[item.did][item.prop])
+      let value = checkValue !== NaN ? checkValue : store.layoutDialog.static[item.did][item.prop];
+      try {
+        const func = createValueFunc(item.func).body;
+        value = func.call(null, value)
+      } catch {
+        console.warn('Error: Action function wrong!')
+      }
+      return value
+    }
   }
   return 0;
 }
