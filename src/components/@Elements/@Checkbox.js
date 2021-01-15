@@ -38,20 +38,20 @@ const onChange = (item, value) => {
   }
 }
 
-function getCheckbox(props, data) {
+function getCheckbox(props, data, setData) {
   if (props.item.labelPlacement.value.id === 'none') {
     return (
       <MuiCheckbox 
-        defaultChecked={Boolean(data.value)} 
-        onChange={(e) => onChange(props.item, e.target.checked)}
+        checked={Boolean(data.value)} 
+        onChange={(e) => {  setData({ ...data, value: e.target.checked }); onChange(props.item, e.target.checked)}}
         color="primary"
       />
     )
   }
   return (
     <FormControlLabel
-      defaultChecked={Boolean(data.value)}
-      onChange={(e) => onChange(props.item, e.target.checked)}
+      checked={Boolean(data.value)}
+      onChange={(e) => { setData({ ...data, value: e.target.checked }); onChange(props.item, e.target.checked)}}
       control={<MuiCheckbox color="primary" />}
       label={props.item.label.value}
       labelPlacement={props.item.labelPlacement.value.id}
@@ -60,8 +60,8 @@ function getCheckbox(props, data) {
 }
 
 function Checkbox(props) {
-  const data = props.mode === 'user' && props.item.data.value !== undefined ? props.item.data : temp;
-
+  const [data, setData] = useState(props.mode === 'user' && props.item.data.value !== undefined ? props.item.data : temp);
+  
   return (
     <div 
       style={{
@@ -82,7 +82,7 @@ function Checkbox(props) {
         ...styles.root, 
         pointerEvents: props.mode === 'user' ? 'all' : 'none' 
       }}>
-        {getCheckbox(props, data)}
+        {getCheckbox(props, data, setData)}
       </div>
     </div>
   );
