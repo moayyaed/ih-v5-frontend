@@ -79,6 +79,17 @@ class Form extends Component {
         </Grid>
       )
     }
+    if (item.class === 'clear') {
+      return (
+        <Grid key={item.id} item xs={item.xs}>
+          <div 
+            style={{ height: getHeight(item.height, item.calc, this.props.heightOffset), padding: getPadding(item.padding) }} 
+          >
+            {this.getGridContent(item.id)}
+          </div>
+        </Grid>
+      )
+    }
     return (
       <Grid key={item.id} item xs={item.xs}>
         {this.getGridContent(item.id)}
