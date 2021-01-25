@@ -36,6 +36,7 @@ import Code from './@Code';
 import Diagram from './@Diagram';
 import Script from './@Script';
 import Subtree from './@Subtree';
+import PortalAuth from './@PortalAuth';
 
 
 function getComponentByType(type) {
@@ -112,6 +113,8 @@ function getComponentByType(type) {
     case 'pluginform1':
     case 'subtree':
       return Subtree;
+    case 'portalauth':
+        return PortalAuth;
     default:
       return Text;
   }
