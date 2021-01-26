@@ -3,6 +3,7 @@ import React from 'react';
 import LogoIH from './LogoIH';
 import LogoIH2 from './LogoIH_2';
 import LogoIH3 from './LogoIH_3';
+import LogoIH4 from './LogoIH_4';
 import AccessIcon from './Access';
 import AnalyticsIcon from './Analytics';
 import DatabaseIcon from './Database';
@@ -11,7 +12,7 @@ import DevIcon from './Dev';
 import ResourcesIcon from './Resources';
 import ScriptsIcon from './Scripts';
 import VisIcon from './Vis';
-
+import PortalIcon from './Portal';
 
 
 function icon(name, style) {
@@ -22,6 +23,10 @@ function icon(name, style) {
       return React.createElement(LogoIH2, { style })
     case 'logo3':
       return React.createElement(LogoIH3, { style })
+    case 'logo4':
+      return React.createElement(LogoIH4, { style })
+    case 'portal':
+      return React.createElement(PortalIcon, { style })
     case 'access':
       return React.createElement(AccessIcon, { style })
     case 'analytics':
