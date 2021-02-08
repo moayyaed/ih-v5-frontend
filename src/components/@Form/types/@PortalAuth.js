@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import core from 'core';
 
 import icon from 'components/icons';
 
@@ -10,8 +11,6 @@ import Link from '@material-ui/core/Link';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-// import gif1 from '../../../assets/animation_1.gif'
-// import gif2 from '../../../assets/animation_2.gif'
 import anim1 from '../../../assets/anim1.mp4'
 import anim2 from '../../../assets/anim2.mp4'
 
@@ -176,8 +175,46 @@ const styles = {
   },
 }
 
+
 class PortalAuth extends Component {
-  state = { step: 'signin', showpass: false, showpass2: false }
+  state = { 
+    step: 'signin', 
+    showpass: false, 
+    showpass2: false,
+    email: '',
+    login: '',
+    pass: '',
+    pass2: '',
+    pass3: '',
+  }
+
+  req = (url, body) => {
+    return new Promise((resolve, reject) => {
+      fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json' },
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.res) {
+          if (data.status) {
+            resolve(data.payload);
+          } else {
+            core.actions.app.alertOpen('warning', data.message || '');
+            reject();
+          }
+        } else {
+          core.actions.app.alertOpen('warning', data.message);
+          reject();
+        }
+      })
+      .catch(() => {
+        core.actions.app.alertOpen('error', 'Не удается выполнить запрос. Попробуйте повторить попытку позже');
+        reject();
+      }) 
+    }); 
+  }
  
   handleSignUp = () => {
     this.setState({ step: 'signup' })
@@ -188,7 +225,29 @@ class PortalAuth extends Component {
   }
 
   handleConfirm = () => {
-    this.setState({ step: 'confirm' });
+    if (this.isFailEmail(this.state.email)) {
+      core.actions.app.alertOpen('warning', 'Указан некорректный адрес электронный почты.');
+    } else if (this.state.pass2 !== this.state.pass3) {
+      core.actions.app.alertOpen('warning', 'Введённые пароли не совпадают.');
+    } else {
+      this.req('/portal/auth/signup', { 
+        email: this.state.email, 
+        login: this.state.login, 
+        pass: this.state.pass2, 
+      })
+      .then(res => {
+        this.setState({ step: 'confirm', id : res.id })
+      });
+    }
+  }
+
+  isFailEmail = (email) => {
+    const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    return !re.test(String(email).toLowerCase());
+  }
+
+  handleChangeInput = (key, value) => {
+    this.setState({ [key]: value });
   }
 
   handleChangePassVis = (e) => {
@@ -228,7 +287,7 @@ class PortalAuth extends Component {
                   labelPlacement="end"
                 />
               <div style={styles.text3}>
-                Используйте аккаунт <Link href="https://ih-systems.com/" target="_blank">ih-systems.com</Link> для получения обновления.
+                Используйте аккаунт для получения обновления.
               </div>
             </div>
             <div style={styles.buttons}>
@@ -252,7 +311,7 @@ class PortalAuth extends Component {
               {icon('logo4', styles.icon)}
               </div>
               <div style={styles.title2}>
-                Создайте аккаунт IH-SYSTEMS
+                Создайте аккаунт
               </div>
               <div style={styles.subtitle}>
                 
@@ -262,14 +321,18 @@ class PortalAuth extends Component {
                   autoFocus
                   label="E-mail" 
                   size="small" 
-                  variant="outlined" 
+                  variant="outlined"
+                  value={this.state.email}
+                  onChange={(e) => this.handleChangeInput('email', e.target.value)}
                 />
                 <TextField
                   style={styles.text2} 
                   label="Login" 
                   size="small" 
                   variant="outlined"
-                  helperText="Можно использовать буквы латинского алфавита и цифры." 
+                  value={this.state.login}
+                  helperText="Логин должен начинаться с буквы и состоять не менее чем из 6 символов; при создании логина можно использовать латинские буквы, цифры и тире" 
+                  onChange={(e) => this.handleChangeInput('login', e.target.value)}
                 />
                 <div style={styles.boxPass}>
                   <TextField
@@ -277,6 +340,8 @@ class PortalAuth extends Component {
                     label="Пароль" 
                     size="small" 
                     variant="outlined"
+                    value={this.state.pass2}
+                    onChange={(e) => this.handleChangeInput('pass2', e.target.value)}
                   />
                   <TextField
                     type={this.state.showpass2 ? 'text' : 'password'}
@@ -284,10 +349,12 @@ class PortalAuth extends Component {
                     label="Подтвердить" 
                     size="small" 
                     variant="outlined"
+                    value={this.state.pass3}
+                    onChange={(e) => this.handleChangeInput('pass3', e.target.value)}
                   />
                 </div>
                 <div style={styles.text5}>
-                  Пароль должен содержать не менее восьми знаков, включать буквы верхнего регистроа и цифры 
+                  Пароль должен состоять как минимум из 8 символов и включать одну цифру. 
                 </div>
                 <FormControlLabel
                   control={<Checkbox color="primary" onChange={this.handleChangePassVis2} />}
@@ -309,7 +376,7 @@ class PortalAuth extends Component {
                 <video style={styles.video} autoPlay loop muted inline src={anim1} type="video/mp4" />
               </div>
               <div style={styles.title3}>
-                Тут должен быть крутой слоган
+                Добро пожаловать в Сообщество INTRA!
               </div>
             </div>
           </Paper>
@@ -334,7 +401,7 @@ class PortalAuth extends Component {
               <div style={styles.content2}>
                 <div style={styles.text6}>
                   В целях безопасности мы должны убедиться, что это действительно вы.
-                  Мы отправили вам письмо с 6-значным кодом потверждения на почту <Link href="#">dev@ih-systems.com</Link> 
+                  Мы отправили вам письмо с 4-значным кодом потверждения на почту <Link href="#">{this.state.email}</Link> 
                 </div>
                 <TextField autoFocus style={styles.text7} label="Введите код подтверждения" />
                 <div style={styles.buttons2}>
