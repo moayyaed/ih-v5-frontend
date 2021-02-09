@@ -419,7 +419,7 @@ class PortalAuth extends Component {
                 <video style={styles.video} autoPlay loop muted inline src={anim2} type="video/mp4" />
               </div>
               <div style={styles.title3}>
-                Где тексты лебовски???.
+                
               </div>
             </div>
           </Paper>
