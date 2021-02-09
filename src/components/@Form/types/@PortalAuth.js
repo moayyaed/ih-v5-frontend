@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import core from 'core';
 
+import NProgress from 'nprogress';
+
 import icon from 'components/icons';
 
 import Button from '@material-ui/core/Button';
@@ -186,10 +188,13 @@ class PortalAuth extends Component {
     pass: '',
     pass2: '',
     pass3: '',
+    userid: null,
+    code: '',
   }
 
   req = (url, body) => {
     return new Promise((resolve, reject) => {
+      NProgress.start();
       fetch(url, {
         method: 'POST',
         body: JSON.stringify(body),
@@ -197,6 +202,7 @@ class PortalAuth extends Component {
       })
       .then(res => res.json())
       .then(data => {
+        NProgress.done();
         if (data.res) {
           if (data.status) {
             resolve(data.payload);
@@ -210,6 +216,7 @@ class PortalAuth extends Component {
         }
       })
       .catch(() => {
+        NProgress.done();
         core.actions.app.alertOpen('error', 'Не удается выполнить запрос. Попробуйте повторить попытку позже');
         reject();
       }) 
@@ -217,11 +224,46 @@ class PortalAuth extends Component {
   }
  
   handleSignUp = () => {
-    this.setState({ step: 'signup' })
+    this.setState({ 
+      step: 'signup',
+      showpass: false, 
+      showpass2: false,
+      login: '',
+      pass: '',
+      pass2: '',
+      pass3: '',
+      userid: null,
+      code: '',
+    })
   }
 
   handleSignIn = () => {
-    this.setState({ step: 'signin' })
+    this.setState({ 
+      step: 'signin', 
+      showpass: false, 
+      showpass2: false,
+      login: '',
+      pass: '',
+      pass2: '',
+      pass3: '',
+      userid: null,
+      code: '',
+    })
+  }
+
+  handleSignSubmit = () => {
+    if (this.isFailEmail(this.state.email)) {
+      core.actions.app.alertOpen('warning', 'Указан некорректный адрес электронный почты.');
+    } else {
+      this.req('/portal/auth/signin', { 
+        email: this.state.email, 
+        pass: this.state.pass, 
+      })
+      .then(res => {
+        console.log(res);
+        core.actions.app.alertOpen('success', ` Access is allowed ${res.token}`);
+      });
+    }
   }
 
   handleConfirm = () => {
@@ -236,9 +278,20 @@ class PortalAuth extends Component {
         pass: this.state.pass2, 
       })
       .then(res => {
-        this.setState({ step: 'confirm', id : res.id })
+        this.setState({ step: 'confirm', userid : res.userid })
       });
     }
+  }
+
+  handleConfirmCode = () => {
+    this.req('/portal/auth/confirm', { 
+      userid: this.state.userid,
+      code: core.tools.sha256(`intra_code_${this.state.code}`),
+    })
+    .then(res => {
+      console.log(res);
+      core.actions.app.alertOpen('success', ` Access is allowed ${res.token}`);
+    });
   }
 
   isFailEmail = (email) => {
@@ -273,13 +326,20 @@ class PortalAuth extends Component {
               
             </div>
             <div style={styles.content}>
-              <TextField autoFocus label="E-mail" variant="outlined" fullWidth />
+              <TextField 
+                autoFocus 
+                label="E-mail" 
+                variant="outlined" 
+                fullWidth 
+                onChange={(e) => this.handleChangeInput('email', e.target.value)}
+              />
               <TextField 
                 style={styles.text2} 
                 type={this.state.showpass ? 'text' : 'password'} 
                 label="Password" 
                 variant="outlined" 
                 fullWidth
+                onChange={(e) => this.handleChangeInput('pass', e.target.value)}
               />
               <FormControlLabel
                   control={<Checkbox color="primary" onChange={this.handleChangePassVis} />}
@@ -294,7 +354,7 @@ class PortalAuth extends Component {
               <Button color="primary" disableElevation onClick={this.handleSignUp}>
                 Создать аккаунт
               </Button>
-              <Button variant="contained" color="primary" disableElevation>
+              <Button variant="contained" color="primary" disableElevation onClick={this.handleSignSubmit}>
                  Войти
               </Button>
             </div>
@@ -403,12 +463,18 @@ class PortalAuth extends Component {
                   В целях безопасности мы должны убедиться, что это действительно вы.
                   Мы отправили вам письмо с 4-значным кодом потверждения на почту <Link href="#">{this.state.email}</Link> 
                 </div>
-                <TextField autoFocus style={styles.text7} label="Введите код подтверждения" />
+                <TextField 
+                  autoFocus 
+                  style={styles.text7} 
+                  label="Введите код подтверждения"
+                  value={this.state.code}
+                  onChange={(e) => this.handleChangeInput('code', e.target.value)} 
+                />
                 <div style={styles.buttons2}>
                   <Button color="primary" disableElevation onClick={this.handleSignUp}>
                     назад
                   </Button>
-                  <Button variant="contained" color="primary" disableElevation>
+                  <Button variant="contained" color="primary" disableElevation onClick={this.handleConfirmCode}>
                     подтвердить
                   </Button>
                 </div>
@@ -419,7 +485,6 @@ class PortalAuth extends Component {
                 <video style={styles.video} autoPlay loop muted inline src={anim2} type="video/mp4" />
               </div>
               <div style={styles.title3}>
-                
               </div>
             </div>
           </Paper>
