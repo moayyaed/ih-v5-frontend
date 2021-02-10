@@ -192,6 +192,12 @@ class PortalAuth extends Component {
     code: '',
   }
 
+  componentDidMount() {
+    if (this.props.data.message) {
+      core.actions.app.alertOpen('warning', this.props.data.message);
+    }
+  }
+
   req = (url, body) => {
     return new Promise((resolve, reject) => {
       NProgress.start();
@@ -260,8 +266,7 @@ class PortalAuth extends Component {
         pass: this.state.pass, 
       })
       .then(res => {
-        console.log(res);
-        core.actions.app.alertOpen('success', ` Access is allowed ${res.token}`);
+        core.transfer.send('refresh_content');
       });
     }
   }
@@ -289,8 +294,7 @@ class PortalAuth extends Component {
       code: core.tools.sha256(`intra_code_${this.state.code}`),
     })
     .then(res => {
-      console.log(res);
-      core.actions.app.alertOpen('success', ` Access is allowed ${res.token}`);
+      core.transfer.send('refresh_content');
     });
   }
 
