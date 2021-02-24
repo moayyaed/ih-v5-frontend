@@ -182,7 +182,11 @@ class Code extends PureComponent {
               name={id}
               fontSize={14}
               value={props.data}
-              setOptions={{ useWorker: false }}
+              setOptions={{ 
+                useWorker: false,
+                tabSize: 2,
+                useSoftTabs: true
+              }}
               onChange={(value) => props.onChange(props.id, props.options, null, value)}
             />}
         </ReactResizeDetector>

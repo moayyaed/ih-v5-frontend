@@ -22,10 +22,22 @@ class ComponentTabs extends Component {
     }
 
     this.saveData = { };
+
+    document.addEventListener('keydown', this.handleKeyDown);
   }
 
   componentWillUnmount() {
     this.saveData = null;
+    document.removeEventListener('keydown', this.handleKeyDown);
+  }
+
+  handleKeyDown = (e) => {
+    if ((e.which == '115' || e.which == '83') && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      if (this.props.state.save) {
+        this.handleToolbarClick('save');
+      }
+    }
   }
 
   handleClickTab = (e, value) => {
