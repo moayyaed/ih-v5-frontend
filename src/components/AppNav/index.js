@@ -405,6 +405,7 @@ class AppNav extends Component {
   }
 
   handlePasteNode = (item) => {
+    const rootid = this.props.state.options.roots[item.path[0]];
     const parent = item.node.children !== undefined ? item.node : item.parentNode;
     const payload = core.buffer.data;
     const params = {
@@ -415,8 +416,16 @@ class AppNav extends Component {
     core
     .request({ method: 'appnav_paste_node', props: this.props, params, payload })
     .ok((res) => {
+      const type = res.data[0].children ? 'parent' : 'child';
+
       const list = insertNodes(this.props.state.list, item.node, res.data);
       core.actions.appnav.data(this.props.stateid, { list });
+
+      if (res.data.length > 1) {
+        core.actions.appnav.clearSelected(this.props.stateid);
+      }
+
+      this.handleChangeRoute(type, rootid, { node: res.data[0] });
     });
   }
 
