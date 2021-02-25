@@ -370,7 +370,7 @@ function TouchNumber(props) {
         <input
           className="core"
           style={styles.rootMini} 
-          value={data.value} 
+          value={Math.round(data.value)} 
           onChange={(e) => props.onChange(props.id, props.options, null, { ...data, value: checkValue(e.target.value, props) })}
         />
         <Button

@@ -52,7 +52,7 @@ class Template extends PureComponent {
     const type = this.props.template.settings.backgroundColor.type;
     const color = type === 'fill' ? '' : ', ' + this.props.template.settings.backgroundColor.value;
     const src =  this.props.template.settings.backgroundImage.value.indexOf('://') !== -1 ? this.props.template.settings.backgroundImage.value : '/images/' + this.props.template.settings.backgroundImage.value
-    const scale = this.props.item.h.value / this.props.template.settings.h.value//, this.props.item.w.value / this.props.template.settings.w.value) 
+    const scale = this.props.item.w.value / this.props.template.settings.w.value;
     return (
       <div
         className="parent2"

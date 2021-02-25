@@ -26,29 +26,29 @@ function getProportionContainer(type, data, pos, old) {
     case 'TLX':
       return { 
         x: pos.x,
-        y: old.y - Math.round(((old.h * (pos.w  / old.w) - old.h)) / grid) * grid,
+        y: old.y - (((old.h * (pos.w  / old.w) - old.h)) / grid) * grid,
         w: pos.w,
-        h: Math.round((old.h * (pos.w  / old.w)) / grid) * grid,
+        h: ((old.h * (pos.w  / old.w)) / grid) * grid,
       };
     case 'TLY':
       return { 
-        x: old.x - Math.round(((old.w * (pos.h  / old.h) - old.w)) / grid) * grid,
+        x: old.x - (((old.w * (pos.h  / old.h) - old.w)) / grid) * grid,
         y: pos.y,
-        w: Math.round((old.w * (pos.h  / old.h)) / grid) * grid,
+        w: ((old.w * (pos.h  / old.h)) / grid) * grid,
         h: pos.h,
       };
     case 'TRX':
       return { 
         x: pos.x,
-        y: old.y - Math.round(((old.h * (pos.w  / old.w) - old.h)) / grid) * grid,
+        y: old.y - (((old.h * (pos.w  / old.w) - old.h)) / grid) * grid,
         w: pos.w,
-        h: Math.round((old.h * (pos.w  / old.w)) / grid) * grid,
+        h: ((old.h * (pos.w  / old.w)) / grid) * grid,
       };
     case 'TRY':
       return { 
         x: pos.x,
         y: pos.y,
-        w: Math.round(((pos.h  / old.h) * old.w) / grid) * grid, 
+        w: (((pos.h  / old.h) * old.w) / grid) * grid, 
         h: pos.h,
       };
     case 'BLX':
@@ -56,13 +56,13 @@ function getProportionContainer(type, data, pos, old) {
         x: pos.x,
         y: pos.y,
         w: pos.w,
-        h: Math.round(((pos.w  / old.w) * old.h) / grid) * grid
+        h: (((pos.w  / old.w) * old.h) / grid) * grid
       };
     case 'BLY':
       return { 
-        x: old.x - Math.round((old.w * (pos.h  / old.h) - old.w) / grid) * grid,
+        x: old.x - ((old.w * (pos.h  / old.h) - old.w) / grid) * grid,
         y: pos.y,
-        w: Math.round((old.w * (pos.h  / old.h)) / grid) * grid,
+        w: ((old.w * (pos.h  / old.h)) / grid) * grid,
         h: pos.h,
       };
     case 'BRX':
@@ -70,13 +70,13 @@ function getProportionContainer(type, data, pos, old) {
         x: pos.x,
         y: pos.y,
         w: pos.w,
-        h: Math.round(((pos.w  / old.w) * old.h) / grid) * grid,
+        h: (((pos.w  / old.w) * old.h) / grid) * grid,
       };
     case 'BRY':
       return { 
         x: pos.x,
         y: pos.y,
-        w: Math.round(((pos.h  / old.h) * old.w) / grid) * grid,
+        w: (((pos.h  / old.h) * old.w) / grid) * grid,
         h: pos.h
       };
     default:

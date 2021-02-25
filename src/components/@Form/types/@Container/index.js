@@ -134,11 +134,20 @@ class Container extends PureComponent {
             this.props.data.selectOne, name, name === 'links' ? { [key]: value.result } : { [key]: value },
           )
       }  else if (item.type === 'template' && (key === 'w' || key === 'h')) {
-        core.actions.container
-          .editElement(
-            this.props.id, this.props.options.prop,
-            this.props.data.selectOne, { w: { ...item.w, value: value.value }, h: { ...item.h, value: value.value } }
-          );
+        const delta = value.value / item[key].value 
+        if (key === 'w') {
+          core.actions.container
+            .editElement(
+              this.props.id, this.props.options.prop,
+              this.props.data.selectOne, { w: { ...item.w, value: value.value }, h: { ...item.h, value: item.h.value * delta } }
+            );
+        } else {
+          core.actions.container
+            .editElement(
+              this.props.id, this.props.options.prop,
+              this.props.data.selectOne, { w: { ...item.w, value: item.w.value * delta}, h: { ...item.h, value: value.value } }
+            );
+        }
       } else {
         if (key === 'w2' || key === 'h2') {
           const item = this.props.data.elements[this.props.data.selectOne];
