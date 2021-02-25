@@ -130,93 +130,97 @@ class Sheet extends Component {
   }
 
   handleMouseWhellContainer = (e) => {
-    const isTouchPad = e.nativeEvent.wheelDeltaY ? 
-    e.nativeEvent.wheelDeltaY === -3 * e.nativeEvent.deltaY : e.nativeEvent.deltaMode === 0;
-
-    const offset = this.container.getBoundingClientRect();
-
-    let x = this.props.settings.x.value;
-    let y = this.props.settings.y.value;
-    let s = this.props.settings.scale.value;
-
-    const px = e.pageX - offset.left;
-    const py = e.pageY - offset.top;
-
-    const tx = (px - (x * s)) / s;
-    const ty = (py - (y * s)) / s;
-
-    if (isTouchPad) {
-      if (e.deltaY > 0) {
-        s -= (e.deltaY * 1 / 450)
-      } else {
-        s += (e.deltaY * -1 / 450)
-      }
-    } else {
-      s += Math.max(-1, Math.min(1, e.deltaY)) * -0.1 * s;
-    } 
-
-    s = Math.round(s * 1e2 ) / 1e2;
-
-    if (s > 8) {
-      s = 8;
-    }
-    if (s < 0.1 ) {
-      s = 0.1;
-    }
+    if (e.ctrlKey || e.metaKey) {
+      const isTouchPad = e.nativeEvent.wheelDeltaY ? 
+      e.nativeEvent.wheelDeltaY === -3 * e.nativeEvent.deltaY : e.nativeEvent.deltaMode === 0;
   
-    x = Math.round((-tx * s + px) / s)
-    y = Math.round((-ty * s + py) / s)
-
-    core.actions.container
-      .settings(
-        this.props.id, this.props.prop,
-        { x: { value: x }, y: { value: y }, scale: { value: s } }
-      );
+      const offset = this.container.getBoundingClientRect();
+  
+      let x = this.props.settings.x.value;
+      let y = this.props.settings.y.value;
+      let s = this.props.settings.scale.value;
+  
+      const px = e.pageX - offset.left;
+      const py = e.pageY - offset.top;
+  
+      const tx = (px - (x * s)) / s;
+      const ty = (py - (y * s)) / s;
+  
+      if (isTouchPad) {
+        if (e.deltaY > 0) {
+          s -= (e.deltaY * 1 / 450)
+        } else {
+          s += (e.deltaY * -1 / 450)
+        }
+      } else {
+        s += Math.max(-1, Math.min(1, e.deltaY)) * -0.1 * s;
+      } 
+  
+      s = Math.round(s * 1e2 ) / 1e2;
+  
+      if (s > 8) {
+        s = 8;
+      }
+      if (s < 0.1 ) {
+        s = 0.1;
+      }
+    
+      x = Math.round((-tx * s + px) / s)
+      y = Math.round((-ty * s + py) / s)
+  
+      core.actions.container
+        .settings(
+          this.props.id, this.props.prop,
+          { x: { value: x }, y: { value: y }, scale: { value: s } }
+        );
+    }
   }
 
   handleMouseWhellContainer2 = (e) => {
-    const isTouchPad = e.nativeEvent.wheelDeltaY ? 
-    e.nativeEvent.wheelDeltaY === -3 * e.nativeEvent.deltaY : e.nativeEvent.deltaMode === 0;
-
-    const offset = this.container.getBoundingClientRect();
-
-    let x = this.props.settings.x.value;
-    let y = this.props.settings.y.value;
-    let s = this.props.settings.scale.value;
-
-    const px = e.pageX - offset.left;
-    const py = e.pageY - offset.top;
-
-    const tx = (px - x) / s;
-    const ty = (py - y) / s;
-
-    if (isTouchPad) {
-      if (e.deltaY > 0) {
-        s -= (e.deltaY * 1 / 450)
+    if (e.ctrlKey || e.metaKey) {
+      const isTouchPad = e.nativeEvent.wheelDeltaY ? 
+      e.nativeEvent.wheelDeltaY === -3 * e.nativeEvent.deltaY : e.nativeEvent.deltaMode === 0;
+  
+      const offset = this.container.getBoundingClientRect();
+  
+      let x = this.props.settings.x.value;
+      let y = this.props.settings.y.value;
+      let s = this.props.settings.scale.value;
+  
+      const px = e.pageX - offset.left;
+      const py = e.pageY - offset.top;
+  
+      const tx = (px - x) / s;
+      const ty = (py - y) / s;
+  
+      if (isTouchPad) {
+        if (e.deltaY > 0) {
+          s -= (e.deltaY * 1 / 450)
+        } else {
+          s += (e.deltaY * -1 / 450)
+        }
       } else {
-        s += (e.deltaY * -1 / 450)
+        s += Math.max(-1, Math.min(1, e.deltaY)) * -0.1 * s;
       }
-    } else {
-      s += Math.max(-1, Math.min(1, e.deltaY)) * -0.1 * s;
+  
+      s = Math.round(s * 1e2 ) / 1e2;
+  
+      if (s > 8) {
+        s = 8;
+      }
+      if (s < 0.1 ) {
+        s = 0.1;
+      }
+  
+      x = -tx * s + px
+      y = -ty * s + py
+  
+      core.actions.container
+        .settings(
+          this.props.id, this.props.prop,
+          { x: { value: x }, y: { value: y }, scale: { value: s } }
+        );
     }
-
-    s = Math.round(s * 1e2 ) / 1e2;
-
-    if (s > 8) {
-      s = 8;
-    }
-    if (s < 0.1 ) {
-      s = 0.1;
-    }
-
-    x = -tx * s + px
-    y = -ty * s + py
-
-    core.actions.container
-      .settings(
-        this.props.id, this.props.prop,
-        { x: { value: x }, y: { value: y }, scale: { value: s } }
-      );
   }
 
   handleMoveSheet = (e) => {
