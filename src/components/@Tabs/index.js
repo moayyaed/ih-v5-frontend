@@ -32,7 +32,7 @@ class ComponentTabs extends Component {
   }
 
   handleKeyDown = (e) => {
-    if ((e.which == '115' || e.which == '83') && (e.ctrlKey || e.metaKey)) {
+    if ((e.keyCode == '115' || e.keyCode == '83') && (e.ctrlKey || e.metaKey)) {
       e.preventDefault();
       if (this.props.state.save) {
         this.handleToolbarClick('save');

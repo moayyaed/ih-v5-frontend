@@ -101,9 +101,31 @@ function getIdElement(index, prefix, elements) {
 
 
 class Sheet extends Component {
+  state = { move: false }
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown);
+    document.addEventListener('keyup', this.handleKeyUp);
+  }
 
   componentWillUnmount() {
     this.dragSelectContainer = null;
+    document.removeEventListener('keydown', this.handleKeyDown);
+    document.removeEventListener('keyup', this.handleKeyUp);
+  }
+
+  handleKeyUp = (e) => {
+    if (e.keyCode == '32') {
+      document.body.style.cursor = 'auto';
+      this.setState({ move: false });
+    }
+  }
+  
+  handleKeyDown = (e) => {
+    if (this.state.move === false && e.keyCode == '32') {
+      document.body.style.cursor = 'grab'
+      this.setState({ move: true });
+    }
   }
 
   handleMouseUpContainer = (e) => {
@@ -233,6 +255,8 @@ class Sheet extends Component {
   }
 
   handleAddElement = (e, type, menuItemId, title) => {
+    this.lastDragEventTime = Date.now()
+    
     const elementId = getIdElement(0, type === 'container' ? 'frame' : type, this.props.elements);
 
     const rect = this.sheet.getBoundingClientRect();
@@ -350,12 +374,14 @@ class Sheet extends Component {
   }
 
   handleClickBody = (e) => {
-    const delta = Date.now() - this.lastDragEventTime;
-    if (delta > 300) {
-      core.actions.layout
-      .clearSelects(
-        this.props.id, this.props.prop,
-      );
+    if (!this.state.move) {
+      const delta = Date.now() - this.lastDragEventTime;
+      if (delta > 300) {
+        core.actions.layout
+        .clearSelects(
+          this.props.id, this.props.prop,
+        );
+      }
     }
   }
 
@@ -363,40 +389,42 @@ class Sheet extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    if (e.shiftKey && this.props.selectType !== null) {
-      if (this.props.selects[elementId] === undefined) {
-        const data = { 
-          x: { value: Infinity }, 
-          y: { value: Infinity }, 
-          w: { value: 0 }, 
-          h: { value: 0 }, 
-          zIndex: { value: 0 } 
-        };
-        Object
-          .keys({ ...this.props.selects, [elementId]: true })
-          .forEach(key => {
-            const element = this.props.elements[key];
-            data.x.value = Math.min(data.x.value, element.x.value);
-            data.y.value = Math.min(data.y.value, element.y.value); 
-            data.w.value = Math.max(data.w.value, element.x.value + element.w.value); 
-            data.h.value = Math.max(data.h.value, element.y.value + element.h.value); 
-            data.zIndex.value = Math.max(data.zIndex.value, element.zIndex.value); 
-          });
-        data.w.value = data.w.value - data.x.value;
-        data.h.value = data.h.value - data.y.value;
-
+    if (!this.state.move) {
+      if (e.shiftKey && this.props.selectType !== null) {
+        if (this.props.selects[elementId] === undefined) {
+          const data = { 
+            x: { value: Infinity }, 
+            y: { value: Infinity }, 
+            w: { value: 0 }, 
+            h: { value: 0 }, 
+            zIndex: { value: 0 } 
+          };
+          Object
+            .keys({ ...this.props.selects, [elementId]: true })
+            .forEach(key => {
+              const element = this.props.elements[key];
+              data.x.value = Math.min(data.x.value, element.x.value);
+              data.y.value = Math.min(data.y.value, element.y.value); 
+              data.w.value = Math.max(data.w.value, element.x.value + element.w.value); 
+              data.h.value = Math.max(data.h.value, element.y.value + element.h.value); 
+              data.zIndex.value = Math.max(data.zIndex.value, element.zIndex.value); 
+            });
+          data.w.value = data.w.value - data.x.value;
+          data.h.value = data.h.value - data.y.value;
+  
+          core.actions.layout
+            .selectSome(
+              this.props.id, this.props.prop,
+              elementId, data
+            );
+        }
+      } else {
         core.actions.layout
-          .selectSome(
+          .select(
             this.props.id, this.props.prop,
-            elementId, data
+            elementId
           );
       }
-    } else {
-      core.actions.layout
-        .select(
-          this.props.id, this.props.prop,
-          elementId
-        );
     }
   }
 
@@ -549,6 +577,8 @@ class Sheet extends Component {
   }
 
   handleClickPasteElements = (e) => {
+    this.lastDragEventTime = Date.now()
+
     const rect = this.sheet.getBoundingClientRect();
     const x = (e.pageX - (rect.left * this.props.settings.scale.value)) / this.props.settings.scale.value // (e.clientX - rect.left) / this.props.settings.scale.value;
     const y = (e.pageY - (rect.top * this.props.settings.scale.value)) / this.props.settings.scale.value  // (e.clientY - rect.top) / this.props.settings.scale.value;
@@ -648,6 +678,7 @@ class Sheet extends Component {
               key={id}
               id={id}
               isGroup
+              move={this.state.move}
               grid={this.props.settings.grid.value}
               scale={this.props.settings.scale.value}
               item={this.props.elements[id]}
@@ -764,6 +795,7 @@ class Sheet extends Component {
           key="select"
           id="select"
           select
+          move={this.state.move}
           grid={this.props.settings.grid.value}
           scale={this.props.settings.scale.value}
           item={this.props.selectContainer}
@@ -803,6 +835,7 @@ class Sheet extends Component {
           onWheel={method2 ? this.handleMouseWhellContainer2 : this.handleMouseWhellContainer}
         >
           <Draggable
+            disabled={!this.state.move}
             grid={[1, 1]}
             transform={method2}
             scale={method2 ? 1 : settings.scale.value}
@@ -834,6 +867,7 @@ class Sheet extends Component {
                     <Element 
                       key={id}
                       id={id}
+                      move={this.state.move}
                       grid={settings.grid.value}
                       scale={settings.scale.value}
                       item={elements[id]}

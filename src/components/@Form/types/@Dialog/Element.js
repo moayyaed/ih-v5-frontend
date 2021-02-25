@@ -18,7 +18,7 @@ function Element(props) {
       grid={[props.grid, props.grid]}
       scale={props.scale}
       position={{ x: props.item.x.value , y: props.item.y.value }}
-      disabled={props.isGroup || props.selectType === 'some'}
+      disabled={props.move ? true : props.isGroup || props.selectType === 'some'}
       onStart={(e, data) => props.onStartMove(e, props.id, data)}
       onDrag={(e, data) => props.onMove(e, props.id, data)}
       onStop={(e, data) => props.onStopMove(e, props.id, data)}
