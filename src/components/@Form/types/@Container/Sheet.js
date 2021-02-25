@@ -392,7 +392,7 @@ class Sheet extends Component {
   handleClickBody = (e) => {
     if (!this.state.move) {
       const delta = Date.now() - this.lastDragEventTime;
-      if (delta > 300) {
+      if (this.lastDragEventTime === undefined || delta > 300) {
         core.actions.container
         .clearSelects(
           this.props.id, this.props.prop,
@@ -591,7 +591,7 @@ class Sheet extends Component {
 
   handleClickPasteElements = (e) => {
     this.lastDragEventTime = Date.now()
-    
+
     const rect = this.sheet.getBoundingClientRect();
     const x = (e.pageX - (rect.left * this.props.settings.scale.value)) / this.props.settings.scale.value // (e.clientX - rect.left) / this.props.settings.scale.value;
     const y = (e.pageY - (rect.top * this.props.settings.scale.value)) / this.props.settings.scale.value  // (e.clientY - rect.top) / this.props.settings.scale.value;

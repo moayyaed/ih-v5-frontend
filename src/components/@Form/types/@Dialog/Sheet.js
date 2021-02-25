@@ -270,7 +270,7 @@ class Sheet extends Component {
 
   handleAddElement = (e, type, templateId, title) => {
     this.lastDragEventTime = Date.now()
-    
+
     const elementId = getIdElement(0, type, this.props.elements);
     const rect = this.sheet.getBoundingClientRect();
 
@@ -400,7 +400,7 @@ class Sheet extends Component {
   handleClickBody = (e) => {
     if (!this.state.move) {
       const delta = Date.now() - this.lastDragEventTime;
-      if (delta > 300) {
+      if (this.lastDragEventTime === undefined || delta > 300) {
         core.actions.dialog
         .clearSelects(
           this.props.id, this.props.prop,
