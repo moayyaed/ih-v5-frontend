@@ -499,7 +499,8 @@ class Sheet extends Component {
           { id: '2', title: 'Chart Multiline', click: () => this.handleAddElement(e, 'chart_multi') },
         ]
       },
-      { id: '12', title: 'Expander', click: () => this.handleAddElement(e, 'expander') },
+      { id: '12', type: 'divider' },
+      { id: '13', title: 'Expander', click: () => this.handleAddElement(e, 'expander') },
     ]
   
     const scheme = {
