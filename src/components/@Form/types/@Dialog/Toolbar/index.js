@@ -56,7 +56,7 @@ class Toolbar extends PureComponent {
 
   handleClickElement = (e, id) => {
     e.preventDefault();
-    this.props.onClickElement(id);
+    this.props.onClickElement(e, id);
   }
   
   handleChange = (id, options, target, value) => {
