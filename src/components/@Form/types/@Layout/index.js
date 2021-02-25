@@ -310,11 +310,6 @@ class Layout extends PureComponent {
   handleClickOptionToolbarMenu = (command, type, props) => {
     if (type === 'element') {
       core.actions.layout
-        .select(
-          this.props.id, this.props.options.prop,
-          props.nodeId
-        );
-      core.actions.layout
         .deleteElement(this.props.id, this.props.options.prop);
     }
     this.save();

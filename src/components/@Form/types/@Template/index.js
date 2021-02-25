@@ -328,11 +328,6 @@ class Template extends PureComponent {
     }
     if (type === 'element') {
       core.actions.template
-        .select(
-          this.props.id, this.props.options.prop,
-          props.label
-        );
-      core.actions.template
         .deleteElement(this.props.id, this.props.options.prop);
     }
     this.save();

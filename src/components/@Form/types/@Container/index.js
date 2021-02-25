@@ -322,11 +322,6 @@ class Container extends PureComponent {
   handleClickOptionToolbarMenu = (command, type, props) => {
     if (type === 'element') {
       core.actions.container
-        .select(
-          this.props.id, this.props.options.prop,
-          props.nodeId
-        );
-      core.actions.container
         .deleteElement(this.props.id, this.props.options.prop);
     }
     this.save();
