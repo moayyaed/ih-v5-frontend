@@ -37,7 +37,50 @@ const elements = {
   },
   button: {
     main: main,
-    element: [...text, ...image, ...effects],
+    element: [  
+      { 
+        title: 'Button', 
+        prop: '_button', 
+        type: 'divider', //ratio
+      },
+      {
+        prop: 'imgPosition',
+        title: 'Orientation',
+        type: 'droplistlink',
+        data: [
+          {
+            id: 'top',
+            title: 'Top'
+          },
+          {
+            id: 'bottom',
+            title: 'Bottom'
+          },
+          {
+            id: 'center',
+            title: 'Center'
+          },
+          {
+            id: 'left',
+            title: 'Left'
+          },
+          {
+            id: 'right',
+            title: 'Right'
+          },
+        ]
+      },
+      { 
+        title: 'Ratio', 
+        prop: 'imgRatio', 
+        type: 'number',
+        step: 5,
+        min: 0,
+        max: 100,
+      },
+      ...text, 
+      ...image, 
+      ...effects],
     link: [{ type: 'actions', prop: 'actions' }],
     move: move,
   },

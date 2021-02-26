@@ -28,7 +28,7 @@ const image = [
     step: 10,
     min: 0,
     max: 360,
-  }
+  },
 ];
 
 

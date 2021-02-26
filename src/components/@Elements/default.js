@@ -220,6 +220,8 @@ const BUTTON = {
   imgColor: { value: 'transparent' },
   imgSize: { value: 0 },
   imgRotate: { value: 0 },
+  imgPosition: { value: { id: 'center', title: 'Center' } },
+  imgRatio: { value: 30 },
   borderSize: { value: 1 },
   borderRadius: { value: 0 },
   borderStyle: { value: { id: 'solid', title: 'Solid' } },
