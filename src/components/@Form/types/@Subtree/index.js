@@ -641,7 +641,7 @@ class Subtree extends PureComponent {
     e.preventDefault();
     e.stopPropagation();
 
-    const type = item.node.root !== undefined ? 'root' : item.node.children !== undefined ? 'parent' : 'child';
+    const type = item.node.children !== undefined ? 'parent' : 'child';
     const pos = { left: e.clientX, top: e.clientY };
 
     const selects = this.state.selects;
