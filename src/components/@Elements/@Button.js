@@ -6,6 +6,7 @@ import Hammer from 'hammerjs';
 import shortid from 'shortid';
 
 import { transform, getElementsLocalVars, getElementsOtherVar } from './tools';
+import { getOtherDirection } from 'react-mosaic-component';
 
 
 const styles = {
@@ -27,7 +28,8 @@ const styles = {
   }
 }
 
-function getTextStyle(params) {
+
+function getTextContentStyle(params) {
   return {
     fill: params.textColor.value,
     font: `${params.textItalic.value ? 'italic': ''} ${params.textBold.value ? 'bold' : ''} ${params.textSize.value}px ${params.textFontFamily.value.id}`
@@ -100,16 +102,35 @@ function scale(value) {
   }
 }
 
+function getTextStyle(props) {
+  const imgPosition = props.imgPosition ? props.imgPosition.value.id : 'center';
+  return {
+    position: imgPosition === 'center' ? 'absolute' : 'static',
+    width: getHW(props, 'text', 'w'),
+    height: getHW(props, 'text', 'h'),
+    display: 'flex',
+    overflow: 'hidden',
+    pointerEvents: 'none',
+    left: 0,
+    transform: `rotate(${props.textRotate.value}deg)`,
+  };
+}
+
 function getImageStyle(props) {
   const img = props.img.value || '';
   const svg = img.slice(-4) === '.svg';
   const src = img.indexOf('://') !== -1 ? `url(${encodeURI(img)})` : `url(/images/${encodeURI(img)})`
+  const imgPosition = props.imgPosition ? props.imgPosition.value.id : 'center';
+
+  const base = {
+    position: imgPosition === 'center' ? 'absolute' : 'static',
+    width: getHW(props, 'img', 'w'),
+    height: getHW(props, 'img', 'h'),
+  };
 
   if (svg && (props.imgColor.value !== 'transparent' && props.imgColor.value !== 'rgba(0,0,0,0)')) {
     return {
-      position: 'absolute', 
-      width: '100%',
-      height: '100%',
+      ...base,
       backgroundColor: props.imgColor.value,
       WebkitMaskSize: 'contain',
       WebkitMaskRepeat: 'no-repeat',
@@ -121,9 +142,7 @@ function getImageStyle(props) {
   }
 
   return {
-    position: 'absolute', 
-    width: '100%',
-    height: '100%',
+    ...base,
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center center',
@@ -132,13 +151,58 @@ function getImageStyle(props) {
   }
 }
 
+function getDirection(position) {
+  switch(position) {
+    case 'top':
+      return 'column';
+    case 'bottom':
+      return 'column-reverse';
+    case 'left':
+      return 'row';
+    case 'right':
+      return 'row-reverse';
+    default:
+      return null;
+  }
+}
+
+function getHW(props, type, key) {
+  const imgPosition = props.imgPosition ? props.imgPosition.value.id : 'center';
+  const imgRatio = props.imgRatio ? props.imgRatio.value : 30;
+
+  if (imgPosition === 'center') {
+    return '100%';
+  }
+  if (imgPosition === 'top' || imgPosition === 'bottom') {
+    if (key === 'w') {
+      return '100%'
+    }
+    if (type === 'img') {
+      return imgRatio + '%';
+    }
+    return 100 - imgRatio + '%';
+  }
+  if (imgPosition === 'left' || imgPosition === 'right') {
+    if (key === 'h') {
+      return '100%'
+    }
+    if (type === 'img') {
+      return imgRatio + '%';
+    }
+    return 100 - imgRatio + '%';
+  }
+}
+
 function ButtonEgine(props) {
+  const imgPosition = props.item.imgPosition ? props.item.imgPosition.value.id : 'center';
   return (
     <div
       style={{
         position: 'absolute', 
         width: '100%', 
         height: '100%', 
+        display: imgPosition === 'center' ? 'block' : 'flex',
+        flexDirection: getDirection(imgPosition),
         background: props.item.backgroundColor.value,
         border: `${props.item.borderSize.value}px ${props.item.borderStyle.value.id} ${props.item.borderColor.value}`,
         borderRadius: (Math.min(props.item.w.value, props.item.h.value) / 2 / 100) * props.item.borderRadius.value,
@@ -149,27 +213,14 @@ function ButtonEgine(props) {
         overflow: props.item.overflow && props.item.overflow.value ? 'hidden' : 'unset',
       }}
     >
-      <div
-        style={getImageStyle(props.item)}
-      />
-      <svg 
-        style={{
-          position: 'absolute', 
-          display: 'flex',
-          width: '100%', 
-          height: '100%', 
-          overflow: 'hidden',
-          pointerEvents: 'none',
-          left: 0,
-        }}
-      >
+      <div style={getImageStyle(props.item)} />
+      <svg style={getTextStyle(props.item)} >
         <text
-          transform={`rotate(${props.item.textRotate.value} ${pos(props.item.w.value, props.item.textAlignH.value.id, props.item.borderSize.value)} ${pos(props.item.h.value, props.item.textAlignV.value.id,  props.item.borderSize.value)})`}
           x={getX(props.item.textAlignH.value.id)} 
           y={getY(props.item.textAlignV.value.id, props.item.textSize.value, props.item.h.value, props.item.borderSize.value)} 
           textAnchor={getTextAnchor(props.item.textAlignH.value.id)} 
           alignmentBaseline="middle"
-          style={getTextStyle(props.item)}
+          style={getTextContentStyle(props.item)}
         >
           {props.item.text.value}
         </text>

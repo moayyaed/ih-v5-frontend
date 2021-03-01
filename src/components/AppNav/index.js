@@ -21,7 +21,7 @@ import Panel from 'components/Panel';
 
 
 import theme from './theme';
-import { getNodesRange, insertNodes, editNodes, removeNodes, findNode, getPrevNode, structToMap, getFirstChild } from './utils';
+import { getNodesRange, insertNodes, editNodes2, removeNodes, findNode, getPrevNode, structToMap, getFirstChild } from './utils';
 
 const styles = {
   panel: {
@@ -89,12 +89,7 @@ class AppNav extends Component {
           if (node.windowHeight - this.panel.clientHeight > 0) {
             res.scrollTop = node.scrollPoint - ((this.panel.clientHeight - 5) / 2) - 9;
           }
-          res.list = editNodes(res.list, (item) => {
-            if (item.children !== undefined && node.paths[item.id]) {
-              return { ...item, expanded: true };
-            }
-            return item;
-          }); 
+          res.list = editNodes2(res.list, node.paths); 
         }
 
         if (this.props.disabledRoute && node) {
@@ -298,7 +293,6 @@ class AppNav extends Component {
     const rootid = this.props.state.options.roots[item.path[0]];
     const pos = { left: e.clientX, top: e.clientY };
 
-    const type = this.props.state.options[rootid] !== undefined ? 'parent' : 'child';
     const selects = this.props.state.selects;
     let files = ''
     if (selects.data[item.node.id]) {
@@ -335,8 +329,10 @@ class AppNav extends Component {
     };
 
     let scheme = { main: [] };
-     
+ 
+    const type = item.node.root !== undefined ? 'root' : item.node.children !== undefined ? 'parent' : 'child';
     const params = this.props.state.options[rootid][type]; 
+    
     if (params !== undefined && params.popup) {
       scheme = params.popup;
 

@@ -143,6 +143,22 @@ export function editNodes(data, func) {
   return temp;
 }
 
+export function editNodes2(data, paths) {
+  data.forEach(item => {
+    if (item.children) {
+      if (paths[item.id]) {
+        item.expanded = true;
+      }
+      editNodes2(item.children, paths)
+    } else {
+      if (paths[item.id]) {
+        item.expanded = true;
+      }
+    }
+  });
+  return data;
+}
+
 export function getOrder(parent, node) {
   if (node.children !== undefined) {
     if (parent.children.length) {
