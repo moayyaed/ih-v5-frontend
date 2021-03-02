@@ -44,10 +44,12 @@ class CustomScrollbars extends Component {
   render() {
     return (
       <Scrollbars
-        
+        ref={this.props.innerRef}
+        style={this.props.style}
         renderThumbHorizontal={this.renderThumbHorizontalDefault}
         renderThumbVertical={this.renderThumbVerticalDefault}
         renderView={this.renderViewDefault}
+        onScroll={this.props.onScroll}
        >
         {this.props.children}
       </Scrollbars>
@@ -56,4 +58,8 @@ class CustomScrollbars extends Component {
 }
 
 
-export default CustomScrollbars;
+// export default CustomScrollbars;
+
+export default React.forwardRef((props, ref) => <CustomScrollbars 
+  innerRef={ref} {...props}
+/>);

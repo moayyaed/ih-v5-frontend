@@ -226,7 +226,7 @@ class AppLayout extends Component {
           animation: item.animation && item.animation.active ? item.animation.value : 'unset',
         }}
       >
-        {elemets(this.props.state.layout.elements[id].type, { id, layoutId: this.props.state.layoutId, mode: 'user', item: this.props.state.layout.elements[id] })}
+        {elemets(this.props.state.layout.elements[id].type, { id, scaleW, scaleH, layoutId: this.props.state.layoutId, mode: 'user', item: this.props.state.layout.elements[id] })}
       </div>
     )
   }

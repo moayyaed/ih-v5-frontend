@@ -71,6 +71,8 @@ function pos(v, type, b) {
 }
 
 function Text(props) {
+  const w = props.item.w.value * (props.scaleW || 1);
+  const h = props.item.h.value * (props.scaleH || 1);
   return (
     <div
       style={{
@@ -79,7 +81,7 @@ function Text(props) {
         height: '100%', 
         background: props.item.backgroundColor.value,
         border: `${props.item.borderSize.value}px ${props.item.borderStyle.value.id} ${props.item.borderColor.value}`,
-        borderRadius: (Math.min(props.item.w.value, props.item.h.value) / 2 / 100) * props.item.borderRadius.value,
+        borderRadius: (Math.min(w, h) / 2 / 100) * props.item.borderRadius.value,
         opacity: props.item.opacity.value / 100,
         boxShadow: props.item.boxShadow.active ? props.item.boxShadow.value : 'unset',
         transform: transform(props.item),
@@ -98,9 +100,9 @@ function Text(props) {
         }}
       >
         <text
-          transform={`rotate(${props.item.textRotate.value} ${pos(props.item.w.value, props.item.textAlignH.value.id, props.item.borderSize.value)} ${pos(props.item.h.value, props.item.textAlignV.value.id,  props.item.borderSize.value)})`}
+          transform={`rotate(${props.item.textRotate.value} ${pos(w, props.item.textAlignH.value.id, props.item.borderSize.value)} ${pos(h, props.item.textAlignV.value.id,  props.item.borderSize.value)})`}
           x={getX(props.item.textAlignH.value.id)} 
-          y={getY(props.item.textAlignV.value.id, props.item.textSize.value, props.item.h.value, props.item.borderSize.value)} 
+          y={getY(props.item.textAlignV.value.id, props.item.textSize.value, h, props.item.borderSize.value)} 
           textAnchor={getTextAnchor(props.item.textAlignH.value.id)} 
           alignmentBaseline="middle"
           style={getTextStyle(props.item)}
