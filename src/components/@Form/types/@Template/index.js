@@ -468,7 +468,7 @@ class Template extends PureComponent {
   }
 
   handleClickTreeElement = (e, elementId) => {
-    if (e.shiftKey && this.props.data.selectType !== null) {
+    if ((e.ctrlKey || e.metaKey) && this.props.data.selectType !== null) {
       if (this.props.data.selects[elementId] === undefined) {
         const data = { 
           x: { value: Infinity }, 

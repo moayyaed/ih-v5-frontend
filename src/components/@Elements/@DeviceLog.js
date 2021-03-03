@@ -122,7 +122,7 @@ class VirtualScroll extends Component {
         return (
           <Step 
               key={'i'+(index+start)}
-              ref={e => this.itemElements[index + start] = e} 
+              ref={e => this.linkElement(e, index + start)} 
               style={styles.step} active>
             <StepLabel icon={<StepIcon icon=" "/>}  style={{ ...styles.steplabel }}>{item.title}</StepLabel>
             <StepContent
@@ -135,6 +135,12 @@ class VirtualScroll extends Component {
           </Step>
         );
       });
+  }
+
+  linkElement = (e, index) => {
+    if (e) {
+      this.itemElements[index] = e
+    }
   }
 
   linked = (e) => {
