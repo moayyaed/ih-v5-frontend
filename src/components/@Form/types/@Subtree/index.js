@@ -32,6 +32,7 @@ import theme from 'components/AppNav/theme';
 
 import 'ace-builds/src-noconflict/theme-tomorrow';
 import 'ace-builds/src-noconflict/mode-text';
+import { CodeSharp } from '@material-ui/icons';
 
 
 const styles = {
@@ -633,45 +634,83 @@ class Subtree extends PureComponent {
   }
 
   handleDialogClick = (data, context) => {
-    if (data === ':exit:') {
+    if (data === ':exit:' || data === null) {
       core.transfer.unsub('form_dialog', this.handleDialogClick);
     } else {
       core.transfer.unsub('form_dialog', this.handleDialogClick);
       core.actions.appdialog.close();
-      
-      const nodeid = context.template.subnode.id;
-      const dialogresult = context.component;
 
+      if (context.template.variant === 'form') {
+        const nodeid = context.template.subnode.id;
+        const dialogresult = data;
 
-      const params = { id: this.props.options.data, navnodeid: this.props.route.nodeid };
-      const payload = { ...context.template.data, nodeid, dialogresult }
-      
-      core
-      .request({ method: 'subtree_dialog_node', params, payload: payload })
-      .ok((res) => {
-        core.transfer.send('refresh_sub_tree_content');
-      })
+        const params = { id: this.props.options.data, navnodeid: this.props.route.nodeid };
+        const payload = { ...context.template.transferdata, nodeid, dialogresult }
+
+        delete payload.meta;
+        delete payload.data;
+
+        core
+          .request({ method: 'subtree_dialog_node', params, payload: payload })
+          .ok((res) => {
+            // core.transfer.send('refresh_sub_tree_content');
+          })
+
+      } else {
+        const nodeid = context.template.subnode.id;
+        const dialogresult = context.component;
+  
+  
+        const params = { id: this.props.options.data, navnodeid: this.props.route.nodeid };
+        const payload = { ...context.template.data, nodeid, dialogresult }
+        
+        core
+          .request({ method: 'subtree_dialog_node', params, payload: payload })
+          .ok((res) => {
+            core.transfer.send('refresh_sub_tree_content');
+          })
+      }
     } 
   }
 
-  handleShowDialog = (item, menuitem) => {
-    const _params = menuitem.param;
-    const params = {
-      disabledSave: _params.save !== undefined ? !_params.save : false,
-      ..._params,
-      subnode: item.node,
-      type: _params.variant,
-      selectnodeid: null,
-      select: null,
-      data: _params,
-    }
-  
+  handleShowDialog = (item, menuitem) => {  
     core.transfer.sub('form_dialog', this.handleDialogClick);
-    core.actions.appdialog.data({ 
-      open: true, 
-      transferid: 'form_dialog',
-      template: params,
-    });
+
+    if (menuitem.param.variant === 'form') {
+      core.actions.appdialog.data({
+        open: true, 
+        transferid: 'form_dialog',
+        template: {
+          ...menuitem.param,
+          subnode: item.node,
+          transferdata: menuitem.param,
+          type: 'form',
+          title: menuitem.param.title,
+          options: menuitem.param.meta,
+          data: menuitem.param.data,
+          cache: Object
+            .keys(menuitem.param.data)
+            .reduce((p, c) => ({ ...p, [c]: { } }), {}),
+        },
+      });
+    } else {
+      const _params = menuitem.param;
+      const params = {
+        disabledSave: _params.save !== undefined ? !_params.save : false,
+        ..._params,
+        subnode: item.node,
+        type: _params.variant,
+        selectnodeid: null,
+        select: null,
+        data: _params,
+      }
+      
+      core.actions.appdialog.data({ 
+        open: true, 
+        transferid: 'form_dialog',
+        template: params,
+      });
+    }
   }
 
   handleClickBody = (e) => {
