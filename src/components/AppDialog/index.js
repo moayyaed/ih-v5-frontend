@@ -4,7 +4,7 @@ import core from 'core';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 import Dialog from '@material-ui/core/Dialog';
 
@@ -25,29 +25,35 @@ const styles = {
   }
 }
 
-const classes = theme => ({
-  title: {
-    marginLeft: theme.spacing(2),
-    flex: 1,
-  },
-  dialog: {
+
+const useStyles = makeStyles({
+  dialog: props => {
+    if (props.style) {
+      return {
+        position: 'relative',
+        width: props.style.width,
+        minHeight: props.style.height,
+        maxHeight: props.style.height,
+      }
+    }
+    return {
       position: 'relative',
       minHeight: '80vh',
       maxHeight: '80vh',
+    }
   },
 });
 
 
 function AppDialog(props) {
-
-
+  const classes = useStyles(props.state.template);
   if (props.state.open) {
     return (
       <Dialog 
         fullWidth 
         maxWidth="lg"
         open={props.state.open}
-        classes={{ paper: props.classes.dialog }}  
+        classes={{ paper: classes.dialog }}  
       >
         <AppBar
           type={props.state.template.type}
@@ -70,4 +76,4 @@ const mapStateToProps = createSelector(
   (state) => ({ state })
 )
 
-export default connect(mapStateToProps)(withStyles(classes)(AppDialog));
+export default connect(mapStateToProps)(AppDialog);
