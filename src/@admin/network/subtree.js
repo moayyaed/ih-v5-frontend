@@ -96,6 +96,20 @@ core.network.response('subtree_remove_node', (answer, res, context) => {
   answer(res);
 })
 
+core.network.request('subtree_dialog_node', (send, context) => {
+  send({ 
+    method: 'dialog', 
+    type: 'subtree',
+    id: context.params.id,
+    navnodeid: context.params.navnodeid,
+    payload: context.payload,
+  });
+})
+
+core.network.response('subtree_dialog_node', (answer, res, context) => {
+  answer(res);
+})
+
 core.network.request('subtree_move_node', (send, context) => {
   send({ 
     method: 'update', 

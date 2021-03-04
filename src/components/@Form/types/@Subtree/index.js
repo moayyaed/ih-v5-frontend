@@ -143,6 +143,7 @@ class Subtree extends PureComponent {
     }
 
     core.transfer.sub('subtree', this.handleTransferData);
+    core.transfer.sub('refresh_sub_tree_content', this.handleUpdate);
   }
 
   componentDidUpdate(prevProps) {
@@ -160,7 +161,8 @@ class Subtree extends PureComponent {
 
   componentWillUnmount() {
     core.transfer.unsub('subtree', this.handleTransferData);
-  
+    core.transfer.unsub('refresh_sub_tree_content', this.handleUpdate);
+
     this.isSub && core.tunnel.unsub({
       method: 'unsub',
       type: 'debug',
@@ -175,6 +177,10 @@ class Subtree extends PureComponent {
     this.save = null;
     this.nodeid = null;
     this.isSub = null;
+  }
+
+  handleUpdate = () => {
+    this.formRequest(this.props.route.channel, this.props.route.channelview);
   }
 
   setData = (data) => {
@@ -626,6 +632,48 @@ class Subtree extends PureComponent {
     });
   }
 
+  handleDialogClick = (data, context) => {
+    if (data === ':exit:') {
+      core.transfer.unsub('form_dialog', this.handleDialogClick);
+    } else {
+      core.transfer.unsub('form_dialog', this.handleDialogClick);
+      core.actions.appdialog.close();
+      
+      const nodeid = context.template.subnode.id;
+      const dialogresult = context.component;
+
+
+      const params = { id: this.props.options.data, navnodeid: this.props.route.nodeid };
+      const payload = { ...context.template.data, nodeid, dialogresult }
+      
+      core
+      .request({ method: 'subtree_dialog_node', params, payload: payload })
+      .ok((res) => {
+        core.transfer.send('refresh_sub_tree_content');
+      })
+    } 
+  }
+
+  handleShowDialog = (item, menuitem) => {
+    const _params = menuitem.param;
+    const params = {
+      disabledSave: _params.save !== undefined ? !_params.save : false,
+      ..._params,
+      subnode: item.node,
+      type: _params.variant,
+      selectnodeid: null,
+      select: null,
+      data: _params,
+    }
+  
+    core.transfer.sub('form_dialog', this.handleDialogClick);
+    core.actions.appdialog.data({ 
+      open: true, 
+      transferid: 'form_dialog',
+      template: params,
+    });
+  }
+
   handleClickBody = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -674,6 +722,7 @@ class Subtree extends PureComponent {
       copy: () => this.handleCopyNode(item),
       paste: () => this.handlePasteNode(item),
       delete: () =>   core.actions.alert.show(title, message, () => this.handleRemoveNodes(item)),
+      dialog: (menuItem) => this.handleShowDialog(item, menuItem),
     };
     let scheme = { main: [] };
 
