@@ -63,14 +63,28 @@ function getX(v) {
   }
 }
 
-function getY(v, size, h, b) {
+function getBottomYB(pos, ratio, size, h, b) {
+  const height = (h - (b * 2));
+  switch(pos) {
+    case 'top':
+    case 'bottom':
+      return  height - (height / 100 * ratio) - (size / 2) + 'px';
+    default:
+      return height - (size / 3.5) + 'px';
+  }
+}
+
+function getY(v, size, h, b, _imgPosition, _imgRatio) {
+  const imgPosition = _imgPosition ? _imgPosition.value.id : 'center';
+  const imgRatio = _imgRatio ? _imgRatio.value : 30;
+  
   switch(v) {
     case 'top':
     case 'flex-start':
       return size / 2 + 'px';
     case 'bottom':
     case 'flex-end':
-      return (h - (b * 2)) - (size / 2) + 'px';
+      return getBottomYB(imgPosition, imgRatio, size, h, b) 
     default:
       return '50%';
   }
@@ -209,7 +223,6 @@ function ButtonEgine(props) {
         opacity: props.item.opacity.value / 100,
         boxShadow: props.item.boxShadow.active ? props.item.boxShadow.value : 'unset',
         transform: transform(props.item),
-        // animation: props.item.animation.active ? props.item.animation.value : 'unset',
         overflow: props.item.overflow && props.item.overflow.value ? 'hidden' : 'unset',
       }}
     >
@@ -217,7 +230,7 @@ function ButtonEgine(props) {
       <svg style={getTextStyle(props.item)} >
         <text
           x={getX(props.item.textAlignH.value.id)} 
-          y={getY(props.item.textAlignV.value.id, props.item.textSize.value, props.item.h.value, props.item.borderSize.value)} 
+          y={getY(props.item.textAlignV.value.id, props.item.textSize.value, props.item.h.value, props.item.borderSize.value, props.item.imgPosition, props.item.imgRatio)} 
           textAnchor={getTextAnchor(props.item.textAlignH.value.id)} 
           alignmentBaseline="middle"
           style={getTextContentStyle(props.item)}
@@ -404,7 +417,6 @@ class Button extends PureComponent {
     return React.createElement(ButtonEgine, this.props);
   }
 }
-
 
 
 export default Button;

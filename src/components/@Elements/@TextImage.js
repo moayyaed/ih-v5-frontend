@@ -52,13 +52,14 @@ function getX(v) {
 }
 
 function getY(v, size, h, b) {
+  const height = (h - (b * 2));
   switch(v) {
     case 'top':
     case 'flex-start':
       return size / 2 + 'px';
     case 'bottom':
     case 'flex-end':
-      return (h - (b * 2)) - (size / 2) + 'px';
+      return height - (size / 3.5) + 'px';
     default:
       return '50%';
   }

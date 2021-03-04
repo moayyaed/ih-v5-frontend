@@ -100,7 +100,7 @@ class App extends Component {
       <>
         <NProgressBar />
         <Backdrop style={styles.backdrop} open={restart} onClick={this.handleCloseBackdrop}>
-          <CircularProgress color="inherit" />
+          {restart ? <CircularProgress color="inherit" /> : null}
         </Backdrop>
         <Alert 
           open={alert.open} 

@@ -155,17 +155,24 @@ class AppLayout extends Component {
     });
   }
 
-  handleRender = (id, item, scaleW, scaleH) => {
+  handleRender = (id, _item, scaleW, scaleH) => {
+    const item = {
+      ..._item,
+      x: { value: _item.x.value * scaleW },
+      y: { value: _item.y.value * scaleH },
+      w: { value: _item.w.value * scaleW },
+      h: { value: _item.h.value * scaleH },
+    };
     if (item.type === 'group') {
       return (
         <div
           key={id}
           style={{ 
             position: 'absolute', 
-            left: item.x.value * scaleW,
-            top: item.y.value * scaleH,
-            width: item.w.value * scaleW,
-            height: item.h.value * scaleH,
+            left: item.x.value,
+            top: item.y.value,
+            width: item.w.value,
+            height: item.h.value,
             opacity: item.opacity.value / 100,
             zIndex: item.zIndex.value,
             overflow: item.overflow && item.overflow.value ? 'hidden' : 'unset',
@@ -183,10 +190,10 @@ class AppLayout extends Component {
           key={id}
           style={{ 
             position: 'absolute', 
-            left: item.x.value * scaleW,
-            top: item.y.value * scaleH,
-            width: item.w.value * scaleW,
-            height: item.h.value * scaleH,
+            left: item.x.value,
+            top: item.y.value,
+            width: item.w.value,
+            height: item.h.value,
             zIndex: item.zIndex.value,
             animation: item.animation && item.animation.active ? item.animation.value : 'unset',
           }}
@@ -201,10 +208,10 @@ class AppLayout extends Component {
           key={id}
           style={{ 
             position: 'absolute', 
-            left: item.x.value * scaleW,
-            top: item.y.value * scaleH,
-            width: item.w.value * scaleW,
-            height: item.h.value * scaleH,
+            left: item.x.value,
+            top: item.y.value,
+            width: item.w.value,
+            height: item.h.value,
             zIndex: item.zIndex.value,
             animation: item.animation && item.animation.active ? item.animation.value : 'unset',
           }}
@@ -218,15 +225,15 @@ class AppLayout extends Component {
         key={id}
         style={{ 
           position: 'absolute', 
-          left: item.x.value * scaleW,
-          top: item.y.value * scaleH,
-          width: item.w.value * scaleW,
-          height: item.h.value * scaleH,
+          left: item.x.value,
+          top: item.y.value,
+          width: item.w.value,
+          height: item.h.value,
           zIndex: item.zIndex.value,
           animation: item.animation && item.animation.active ? item.animation.value : 'unset',
         }}
       >
-        {elemets(this.props.state.layout.elements[id].type, { id, scaleW, scaleH, layoutId: this.props.state.layoutId, mode: 'user', item: this.props.state.layout.elements[id] })}
+        {elemets(this.props.state.layout.elements[id].type, { id, layoutId: this.props.state.layoutId, mode: 'user', item: item })}
       </div>
     )
   }
