@@ -71,7 +71,9 @@ class TemplateOptions extends Component {
 
   handleClickNode = (item, component, nodeid, context) => {
     core.actions.appdialog.component({ title: item.node.title, type: component, id: nodeid });
-    this.request(component, nodeid)
+    if (component) {
+      this.request(component, nodeid)
+    }
   }
 
   request = (id, nodeid) => {
@@ -186,16 +188,17 @@ class TemplateOptions extends Component {
             </div>
               <Scrollbars style={styles.root} >
                 <div style={styles.container2} >
-                  <Form 
-                    key={form.id} 
-                    debug={false} 
-                    route={{ nodeid: state.component.id }}
-                    scheme={form.options} 
-                    data={form.data}
-                    cache={form.cache}
-                    onChange={this.handleChange}
-                    heightOffset={257}
-                  />
+                  {state.component.type ? 
+                    <Form 
+                      key={form.id} 
+                      debug={false} 
+                      route={{ nodeid: state.component.id }}
+                      scheme={form.options} 
+                      data={form.data}
+                      cache={form.cache}
+                      onChange={this.handleChange}
+                      heightOffset={257}
+                    /> : null}
                 </div>
               </Scrollbars>
             </div>

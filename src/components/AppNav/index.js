@@ -91,7 +91,7 @@ class AppNav extends Component {
           }
           res.list = editNodes2(res.list, node.paths); 
         }
-
+       
         if (this.props.disabledRoute && node) {
           let rootkey = null;
             rootkey = Object
