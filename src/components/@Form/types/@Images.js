@@ -46,7 +46,7 @@ const styles = {
 }
 
 function handleClick(id) {
-  core.route(`resources/images/imageview/${id}/tabImageView`)
+  core.route(`vis/images/imageview/${id}/tabImageView`)
 }
 
 function Image(props) {
