@@ -21,6 +21,8 @@ import Input from './@Input';
 import Slider from './@Slider';
 import Checkbox from './@Checkbox';
 
+import Log from './@Log';
+
 function getElementByType(type) {
   switch (type) {
     case 'text':
@@ -56,6 +58,8 @@ function getElementByType(type) {
       return Slider;
     case 'checkbox':
       return Checkbox;
+    case 'log':
+      return Log;
     default:
       return Block;
   }

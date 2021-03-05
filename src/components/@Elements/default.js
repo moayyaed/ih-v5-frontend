@@ -342,6 +342,16 @@ const DEVICELOG = {
   data: [],
 }
 
+const LOG = {
+  ...BLOCK,
+  widget: true,
+  expand: { value: true },
+  widgetlinks: {
+    link: { }
+  },
+  data: [],
+}
+
 const CHART = {
   ...BLOCK,
   widget: true,
@@ -494,6 +504,8 @@ function getDefaultParams(type) {
       return SLIDER;
     case 'checkbox':
       return CHECKBOX;
+    case 'log':
+      return LOG;
     default:
       return BLOCK;
   }
