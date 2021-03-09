@@ -284,9 +284,12 @@ class Draggable extends React.Component<DraggableProps, DraggableState> {
     }
 
     // Short-circuit if user's callback killed it.
-    uiData.xx = uiData.x / this.props.grid[0] * this.props.grid[0];
-    uiData.yy = uiData.y / this.props.grid[1] * this.props.grid[1];
-  
+    // uiData.xx = uiData.x / this.props.grid[0] * this.props.grid[0];
+    // uiData.yy = uiData.y / this.props.grid[1] * this.props.grid[1];
+    
+    uiData.xx = Math.round(uiData.x / this.props.grid[0]) * this.props.grid[0];
+    uiData.yy = Math.round(uiData.y / this.props.grid[1]) * this.props.grid[1];
+
     const shouldUpdate = this.props.onDrag(e, uiData);
     if (shouldUpdate === false) return false;
     // console.log(this.state.prevPropsPosition.y, this.state.y)

@@ -20,11 +20,25 @@ import {
   LAYOUT_ADD_TEMPLATE,
   LAYOUT_EDIT_ELEMENT,
   LAYOUT_DELETE_ELEMENT,
+  LAYOUT_PASTE_STYLE_ELEMENT,
 
   LAYOUT_CHANGE_TEMPLATE_LINK,
   LAYOUT_APPEND_CONTAINERS_AND_TEMPLATES,
 } from './constants';
 
+function cloneObject(i) {
+  if ((!!i) && (i.constructor === Object)) {
+    Object
+      .keys(i)
+      .reduce((p, c) => {
+        return { ...p, [c]: cloneObject(i[c]) }
+      }, {});
+  }
+  if (Array.isArray(i)) {
+    return i.map(cloneObject);
+  }
+  return i;
+}
 
 function deleteElements(elements, containers, templates, selects) {
   const e = Object
@@ -403,6 +417,29 @@ function reducerContainer(state, action) {
           ...action.templates,
         }
       }
+    case LAYOUT_PASTE_STYLE_ELEMENT:
+      return { 
+        ...state,
+        elements: Object.
+          keys(state.elements)
+          .reduce((p, c) => {
+            if (state.selects[c]) {
+              const buf = cloneObject(action.buffer);
+              return { 
+                ...p, 
+                [c]: Object
+                  .keys(state.elements[c])
+                  .reduce((p2, c2) => {
+                    if (buf[c2] !== undefined) {
+                      return { ...p2, [c2]: buf[c2] }
+                    }
+                    return { ...p2, [c2]: state.elements[c][c2] }
+                  }, {})
+              }
+            }
+            return { ...p, [c]: state.elements[c] }
+          }, {})
+        };
     default:
       return state;
   }
@@ -430,6 +467,7 @@ function reducer(state, action) {
     case LAYOUT_EDIT_ELEMENT:
     case LAYOUT_DELETE_ELEMENT:
     case LAYOUT_APPEND_CONTAINERS_AND_TEMPLATES:
+    case LAYOUT_PASTE_STYLE_ELEMENT:
       return { 
         ...state, 
         data: {

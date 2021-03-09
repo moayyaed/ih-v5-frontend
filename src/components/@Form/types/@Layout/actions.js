@@ -20,6 +20,7 @@ import {
   LAYOUT_ADD_TEMPLATE,
   LAYOUT_EDIT_ELEMENT,
   LAYOUT_DELETE_ELEMENT,
+  LAYOUT_PASTE_STYLE_ELEMENT,
   
   LAYOUT_CHANGE_TEMPLATE_LINK,
   LAYOUT_APPEND_CONTAINERS_AND_TEMPLATES,
@@ -191,6 +192,15 @@ export function deleteElement(id, prop) {
   };
 }
 
+export function pasteStyle(id, prop, buffer) {
+  return {
+    type: LAYOUT_PASTE_STYLE_ELEMENT,
+    id,
+    prop,
+    buffer,
+  };
+}
+
 export function appendContainersAndTemplates(id, prop, containers, templates) {
   return {
     type: LAYOUT_APPEND_CONTAINERS_AND_TEMPLATES,
@@ -222,6 +232,7 @@ export default {
   addTemplate,
   editElement,
   deleteElement,
+  pasteStyle,
   changeTemplateLink,
 
   appendContainersAndTemplates,

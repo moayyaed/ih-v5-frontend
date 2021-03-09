@@ -57,6 +57,7 @@ const core = {
   tools,
   route,
   buffer: {},
+  styleBuffer: null,
   progress: {
     count: 0,
     start: progressStart,

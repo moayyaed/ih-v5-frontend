@@ -480,13 +480,61 @@ class Sheet extends Component {
         { id: '7', check: 'isSelect', title: 'Copy', click: this.handleClickCopyElements },
         { id: '8', check: 'isPaste', title: 'Paste', click: () => this.handleClickPasteElements(e) },
         { id: '9', type: 'divider' },
-        { id: '10', check: 'isSelect', title: 'Delete', click: () => this.handleDeleteElement(elementId) },
-        { id: '11', type: 'divider' },
-        { id: '12', check: 'isContainer', title: 'Edit Container', click: this.handleClickEditContainer },
+        { id: '10', check: 'checkCopyStyle', title: 'Copy Style', click: this.handleCopyStyle},
+        { id: '11', check: 'checkPasteStyle', title: 'Paste Style', click: this.handlePasteStyle },
+        { id: '12', type: 'divider' },
+        { id: '13', check: 'isSelect', title: 'Delete', click: () => this.handleDeleteElement(elementId) },
+        { id: '14', type: 'divider' },
+        { id: '15', check: 'isContainer', title: 'Edit Container', click: this.handleClickEditContainer },
       ]
     }
 
     ContextMenu.show(<Menu disabled={disabled} commands={commands} scheme={scheme} />, pos);
+  }
+
+  handleCopyStyle = () => {
+    const disabled = {
+      actions: true, widgetlinks: true, data: true,
+      widget: true, expand: true, data: true,
+      control: true, label: true, text: true,
+      img: true, x: true, y: true,
+      w: true, h: true, w2: true, h2: true,
+      type: true,
+    }
+
+    function cloneObject(i) {
+      if ((!!i) && (i.constructor === Object)) {
+        Object
+          .keys(i)
+          .reduce((p, c) => {
+            return { ...p, [c]: cloneObject(i[c]) }
+          }, {});
+      }
+      if (Array.isArray(i)) {
+        return i.map(cloneObject);
+      }
+      return i;
+    }
+
+    const element = this.props.elements[this.props.selectOne];
+
+    core.styleBuffer = Object
+      .keys(element)
+      .reduce((p, c) => {
+        if (disabled[c] || element[c].enabled) {
+          return p;
+        } 
+        return { ...p, [c]: cloneObject(element[c]) }
+      }, {});
+  }
+
+  handlePasteStyle = () => {
+    core.actions.layout
+      .pasteStyle(
+        this.props.id, this.props.prop,
+        core.styleBuffer,
+      );
+    this.props.save();
   }
 
   handleClickGroupElements = () => {

@@ -19,6 +19,7 @@ import {
   DIALOG_ADD_TEMPLATE,
   DIALOG_EDIT_ELEMENT,
   DIALOG_DELETE_ELEMENT,
+  DIALOG_PASTE_STYLE_ELEMENT,
   
   DIALOG_CHANGE_TEMPLATE,
 } from './constants';
@@ -177,6 +178,15 @@ export function deleteElement(id, prop) {
   };
 }
 
+export function pasteStyle(id, prop, buffer) {
+  return {
+    type: DIALOG_PASTE_STYLE_ELEMENT,
+    id,
+    prop,
+    buffer,
+  };
+}
+
 
 export default {
   data,
@@ -197,5 +207,6 @@ export default {
   addTemplate,
   editElement,
   deleteElement,
+  pasteStyle,
   changeTemplate,
 }

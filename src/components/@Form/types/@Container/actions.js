@@ -21,6 +21,7 @@ import {
   CONTAINER_DELETE_ELEMENT,
   
   CONTAINER_CHANGE_TEMPLATE,
+  CONTAINER_PASTE_STYLE_ELEMENT,
 } from './constants';
 
 
@@ -177,6 +178,15 @@ export function deleteElement(id, prop) {
   };
 }
 
+export function pasteStyle(id, prop, buffer) {
+  return {
+    type: CONTAINER_PASTE_STYLE_ELEMENT,
+    id,
+    prop,
+    buffer,
+  };
+}
+
 
 export default {
   data,
@@ -198,4 +208,6 @@ export default {
   editElement,
   deleteElement,
   changeTemplate,
+
+  pasteStyle,
 }
