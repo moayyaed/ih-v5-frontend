@@ -101,3 +101,20 @@ input.core:focus {
   -o-transform: rotate(270deg)!important;
   -ms-transform: rotate(270deg)!important;
 }
+
+.sortableHelper {
+  z-index: 9999!important;
+  overflow: hidden;
+}
+
+.BaseTable__header-cell {
+  padding-left: 15px!important;;
+}
+
+.BaseTable__header-handle:hover {
+  background-color: rgba(0,0,0,.1);
+  transition: background-color .3s ease-out;
+  -moz-transition: background-color .3s ease-out;
+  -webkit-transition: background-color .3s ease-out;
+  -o-transition: background-color .3s ease-out;
+}
