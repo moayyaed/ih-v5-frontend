@@ -3,8 +3,27 @@ import { sortableContainer, sortableElement, sortableHandle, } from 'react-sorta
 
 import BaseTable, { AutoResizer, Column } from 'react-base-table';
 
+import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import FilterListIcon from '@material-ui/icons/FilterList';
+
+import Popover from '@material-ui/core/Popover';
+
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Checkbox from '@material-ui/core/Checkbox';
+
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import InputBase from '@material-ui/core/InputBase';
+import SearchIcon from '@material-ui/icons/Search';
+
+import Divider from '@material-ui/core/Divider';
+
+import { fade, withStyles } from '@material-ui/core/styles';
+
+import { FixedSizeList as List, shouldComponentUpdate } from 'react-window';
 
 import { transform } from '../tools';
 
@@ -18,7 +37,59 @@ import {
 
 import 'react-base-table/styles.css';
 
+const classes = (theme) => ({
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 6,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: 6,
+      width: 'auto',
+    },
+  },
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputRoot: {
+    color: 'inherit',
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
+    },
+  },
+});
+
 const styles = {
+  toolbar: {
+    height: 50,
+    padding: 0,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  checkboxAll: {
+    color: '#fff',
+    marginLeft: 4,
+  },
   headerContainer: {
     width: '100%',
     height: '100%',
@@ -28,6 +99,16 @@ const styles = {
   columnContainer: {
     display: 'flex',
     position: 'relative',
+  },
+  filterContainer: {
+    right: 6,
+    position: 'absolute',
+    zIndex: 1000,
+    height: '100%',
+    width: 24,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   dragHandle: {
     position: 'absolute',
@@ -39,27 +120,28 @@ const styles = {
     justifyContent: 'center',
     cursor: 'grab',
   },
-  buttonFilter: {
-    right: 6,
-    position: 'absolute',
-    zIndex: 1000,
-    height: '100%',
-    width: 24,
+  filterButtonsContainer: {
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
+    margin: '12px 24px',
   },
+  filterToolbarContainer: {
+    width: 300,
+  },
+  filterButton: {
+    marginLeft: 24,
+  }
 }
 
 const DragHandle = sortableHandle(() => 
   <span className="BaseTable__header-handle" style={styles.dragHandle}>::</span>);
 
-const SortableHeader = sortableElement(({children }) => {
+const SortableHeader = sortableElement(({children, column }) => {
   return (
     <div style={styles.columnContainer}>
       <DragHandle />
       {React.cloneElement(children)}
-      <ButtonFilter />
+      <ButtonFilter column={column} />
     </div>
   )
 });
@@ -69,7 +151,7 @@ const SortableHeaderRowRenderer = sortableContainer(
     return (
       <div style={styles.headerContainer}>
         {React.Children.map(cells, (column, index) => 
-          <SortableHeader index={index}>
+          <SortableHeader index={index} column={columns[index]}>
             {column}
           </SortableHeader>
         )}
@@ -107,17 +189,138 @@ const data = new Array(1000)
   .map((i, k) => ({ id: k, title: 'row'+k, value1: k, value2: '_'+k }))
 
 
-class ButtonFilter extends Component {
+class _ButtonFilter extends Component {
+  state = { 
+    open: false, 
+    anchorEl: null, 
+    selectAll: true, 
+    data: data.map(i => i[this.props.column.dataKey]) 
+  }
+  
+  handleOpen = (e) => {
+    this.setState({ open: true, anchorEl: e.currentTarget })
+  }
+
+  handleClose = () => {
+    this.setState({ open: false, anchorEl: null })
+  }
+
+  handleSelectAll = (e) => {
+    this.setState({ selectAll: e.target.checked })
+  }
+
+  handleSearch = (e) => {
+    if (e.target.value) {
+      this.setState({ 
+        data: data
+          .map(i => i[this.props.column.dataKey])
+          .filter(i => i.indexOf(e.target.value) !== -1)
+      })
+    } else {
+      this.setState({ data: data.map(i => i[this.props.column.dataKey]) })
+    }
+  }
+
+  renderRow = ({ index, style, data }) => (
+    <ListItem key={index} style={style} role={undefined} dense button onClick={() => {}}>
+      <ListItemIcon>
+        <Checkbox
+          edge="start"
+          checked={data.selectAll}
+          tabIndex={-1}
+          disableRipple
+          color="primary"
+        />
+      </ListItemIcon>
+      <ListItemText primary={data.data[index]} />
+    </ListItem>
+  );
+
   render() {
+    const classes = this.props.classes;
     return (
-      <div style={styles.buttonFilter}>
-        <IconButton size="small">
+      <div style={styles.filterContainer}>
+        <IconButton size="small" onClick={this.handleOpen} >
           <FilterListIcon fontSize="inherit" />
         </IconButton>
+        <Popover
+          open={this.state.open}
+          anchorEl={this.state.anchorEl}
+          onClose={this.handleClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+        >
+          <div style={styles.filterToolbarContainer}>
+            <AppBar position="static">
+              <Divider orientation="vertical" flexItem  />
+              <Toolbar style={styles.toolbar}>
+                <Checkbox
+                  style={styles.checkboxAll}
+                  edge="start"
+                  defaultChecked={true}
+                  tabIndex={-1}
+                  disableRipple
+                  color="default"
+                  onChange={this.handleSelectAll}
+                />
+                <div className={classes.search}>
+                  <div className={classes.searchIcon}>
+                    <SearchIcon />
+                  </div>
+                  <InputBase
+                    placeholder="Search…"
+                    classes={{
+                      root: classes.inputRoot,
+                      input: classes.inputInput,
+                    }}
+                    inputProps={{ 'aria-label': 'search' }}
+                    onChange={this.handleSearch}
+                  />
+                </div>
+              </Toolbar>
+            </AppBar>
+          </div>
+          <Divider />
+          <List
+            height={450}
+            itemCount={this.state.data.length}
+            itemSize={50}
+            width={300}
+            itemData={this.state}
+          >
+            {this.renderRow}
+          </List>
+          <Divider />
+          <div style={styles.filterButtonsContainer}>
+            <Button 
+              variant="outlined"
+              onClick={this.handleClose}
+            >
+                Отмена
+            </Button>
+            <Button 
+              disableElevation
+              color="primary"
+              variant="contained"
+              style={styles.filterButton}
+              onClick={this.handleClose}
+            >
+              ОК
+            </Button>
+          </div>
+        </Popover>
       </div>
     )
   }
 } 
+
+const ButtonFilter = withStyles(classes)(_ButtonFilter);
 
 class Log extends Component {
 
@@ -263,3 +466,5 @@ class Log extends Component {
 
 
 export default Log;
+
+
