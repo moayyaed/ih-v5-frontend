@@ -108,7 +108,8 @@ input.core:focus {
 }
 
 .BaseTable__header-cell {
-  padding-left: 15px!important;;
+  padding-left: 15px!important;
+  padding-right: 32px!important;
 }
 
 .BaseTable__header-handle:hover {

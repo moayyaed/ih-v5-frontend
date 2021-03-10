@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { sortableContainer, sortableElement, sortableHandle, } from 'react-sortable-hoc';
 
 import BaseTable, { AutoResizer, Column } from 'react-base-table';
+
+import IconButton from '@material-ui/core/IconButton';
+import FilterListIcon from '@material-ui/icons/FilterList';
+
 import { transform } from '../tools';
 
 import { 
@@ -23,6 +27,7 @@ const styles = {
   },
   columnContainer: {
     display: 'flex',
+    position: 'relative',
   },
   dragHandle: {
     position: 'absolute',
@@ -32,7 +37,18 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-  }
+    cursor: 'grab',
+  },
+  buttonFilter: {
+    right: 6,
+    position: 'absolute',
+    zIndex: 1000,
+    height: '100%',
+    width: 24,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 }
 
 const DragHandle = sortableHandle(() => 
@@ -43,6 +59,7 @@ const SortableHeader = sortableElement(({children }) => {
     <div style={styles.columnContainer}>
       <DragHandle />
       {React.cloneElement(children)}
+      <ButtonFilter />
     </div>
   )
 });
@@ -90,9 +107,27 @@ const data = new Array(1000)
   .map((i, k) => ({ id: k, title: 'row'+k, value1: k, value2: '_'+k }))
 
 
+class ButtonFilter extends Component {
+  render() {
+    return (
+      <div style={styles.buttonFilter}>
+        <IconButton size="small">
+          <FilterListIcon fontSize="inherit" />
+        </IconButton>
+      </div>
+    )
+  }
+} 
+
 class Log extends Component {
 
-  state = { columns: columns, data: [], loading: true, loadingMore: false, loadedAll: false }
+  state = { 
+    columns: columns, 
+    data: [], 
+    loading: true, 
+    loadingMore: false, 
+    loadedAll: false 
+  }
 
   componentDidMount() {
     this.loadData();
