@@ -21,10 +21,6 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import Popover from '@material-ui/core/Popover';
 import Divider from '@material-ui/core/Divider';
 
-const data = new Array(1000)
-  .fill(0)
-  .map((i, k) => ({ id: k, title: 'row'+k, value1: k, value2: '_'+k }))
-
 
 const classes = (theme) => ({
   search: {
@@ -101,21 +97,50 @@ const styles = {
   }
 }
 
+function getValue(type, data) {
+  switch(type) {
+    case 'cb':
+      return data === undefined ? '' : data ? 'true' : 'false';
+    case 'number':
+      return data || '';
+    case 'input':
+      return data || '';
+    case 'link':
+      return data.title || '';
+    case 'droplist':
+      return data.title || '';
+    case 'smartbutton':
+      return data.title || '';
+    case 'smartbutton2':
+      return data.title || '';
+    case 'color':
+      return data || '';
+    default:
+      return data || '';
+  }
+}
 
 class ButtonFilter extends Component {
   state = { 
     open: false, 
     anchorEl: null, 
     selectAll: true, 
-    data: data.map(i => i[this.props.column.dataKey]) 
+    data: []
   }
   
   handleOpen = (e) => {
-    this.setState({ open: true, anchorEl: e.currentTarget })
+    const column = this.props.column;
+    const data = this.props.data;
+
+    this.setState({ 
+      open: true, 
+      anchorEl: e.currentTarget, 
+      data: data.map(i => getValue(column.type, i[column.prop])) 
+    })
   }
 
   handleClose = () => {
-    this.setState({ open: false, anchorEl: null })
+    this.setState({ open: false, anchorEl: null, data: [] })
   }
 
   handleSelectAll = (e) => {
@@ -123,6 +148,7 @@ class ButtonFilter extends Component {
   }
 
   handleSearch = (e) => {
+    /*
     if (e.target.value) {
       this.setState({ 
         data: data
@@ -132,6 +158,7 @@ class ButtonFilter extends Component {
     } else {
       this.setState({ data: data.map(i => i[this.props.column.dataKey]) })
     }
+    */
   }
 
   renderRow = ({ index, style, data }) => (

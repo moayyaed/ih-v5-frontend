@@ -124,6 +124,7 @@ class Table extends PureComponent {
         columns={columns}
         helperClass='sortableHelper'
         onSortEnd={this.onSortEnd}
+        data={this.props.data}
       />
     );
   }
