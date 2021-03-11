@@ -125,57 +125,85 @@ class ButtonFilter extends Component {
     open: false, 
     anchorEl: null, 
     selectAll: true, 
-    data: [],
+    selectAllIndeterminate: false, 
     searchText: '',
+    originalData: [],
+    data: [],
+    selects: {},
   }
   
   handleOpen = (e) => {
     const column = this.props.column;
     const data = this.props.data;
 
-    const temp = {};
+    const selects = {};
 
     data.forEach(i => {
-      temp[getValue(column.type, i[column.prop])] = true;
+      selects[getValue(column.type, i[column.prop])] = true;
     }); 
 
-    const originalData = Object.keys(temp).sort();
+    const originalData = Object.keys(selects).sort();
 
     this.setState({ 
       open: true, 
       anchorEl: e.currentTarget,
       originalData: originalData, 
       data: originalData,
+      selects: selects,
     })
   }
 
   handleClose = () => {
-    this.setState({ open: false, anchorEl: null, data: [] })
+    this.setState({ open: false, anchorEl: null, data: [], originalData: [], selects: {} })
   }
 
   handleSelectAll = (e) => {
-    this.setState({ selectAll: e.target.checked })
+    const selects = {};
+
+    this.state.data.forEach(key => {
+      selects[key] = e.target.checked;
+    });
+
+    this.setState({ 
+      selectAll: e.target.checked,
+      selectAllIndeterminate: false,
+      selects: { ...this.state.selects, ...selects },
+    })
   }
 
   handleSearch = (e) => {
-    this.setState({ })
-  
     if (e.target.value) {
       this.setState({ 
         searchText: e.target.value,
-        data: this.state.originalData.filter(i => i.indexOf(e.target.value) !== -1)
+        data: this.state.originalData.filter(i => i.indexOf(e.target.value) !== -1),
+        selectAllIndeterminate: true,
       })
     } else {
-      this.setState({ searchText: e.target.value, data: this.state.originalData })
+      this.setState({ 
+        searchText: e.target.value, 
+        data: this.state.originalData, 
+        selectAllIndeterminate: true 
+      })
     }
   }
 
-  renderRow = ({ index, style, data }) => (
-    <ListItem key={index} style={style} role={undefined} dense button onClick={() => {}}>
+  handleCheckbox = (id, value) => {
+    this.setState({ selectAllIndeterminate: true, selects: { ...this.state.selects, [id]: value }})
+  }
+
+  renderRow = ({ index, style, data, onChekbox }) => (
+    <ListItem 
+      dense 
+      button 
+      key={index} 
+      style={style} 
+      role={undefined} 
+      onClick={(e) => this.handleCheckbox(data.data[index], !data.selects[data.data[index]])}
+    >
       <ListItemIcon>
         <Checkbox
           edge="start"
-          checked={data.selectAll}
+          checked={Boolean(data.selects[data.data[index]])}
           tabIndex={-1}
           disableRipple
           color="primary"
@@ -210,9 +238,10 @@ class ButtonFilter extends Component {
               <Divider orientation="vertical" flexItem  />
               <Toolbar style={styles.toolbar}>
                 <Checkbox
+                  indeterminate={this.state.selectAllIndeterminate}
                   style={styles.checkboxAll}
                   edge="start"
-                  defaultChecked={true}
+                  checked={this.state.selectAll}
                   tabIndex={-1}
                   disableRipple
                   color="default"
@@ -242,6 +271,7 @@ class ButtonFilter extends Component {
             itemSize={50}
             width={300}
             itemData={this.state}
+            onChekbox={this.handleCheckbox}
           >
             {this.renderRow}
           </List>
