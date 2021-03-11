@@ -125,17 +125,27 @@ class ButtonFilter extends Component {
     open: false, 
     anchorEl: null, 
     selectAll: true, 
-    data: []
+    data: [],
+    searchText: '',
   }
   
   handleOpen = (e) => {
     const column = this.props.column;
     const data = this.props.data;
 
+    const temp = {};
+
+    data.forEach(i => {
+      temp[getValue(column.type, i[column.prop])] = true;
+    }); 
+
+    const originalData = Object.keys(temp).sort();
+
     this.setState({ 
       open: true, 
-      anchorEl: e.currentTarget, 
-      data: data.map(i => getValue(column.type, i[column.prop])) 
+      anchorEl: e.currentTarget,
+      originalData: originalData, 
+      data: originalData,
     })
   }
 
@@ -148,17 +158,16 @@ class ButtonFilter extends Component {
   }
 
   handleSearch = (e) => {
-    /*
+    this.setState({ })
+  
     if (e.target.value) {
       this.setState({ 
-        data: data
-          .map(i => i[this.props.column.dataKey])
-          .filter(i => i.indexOf(e.target.value) !== -1)
+        searchText: e.target.value,
+        data: this.state.originalData.filter(i => i.indexOf(e.target.value) !== -1)
       })
     } else {
-      this.setState({ data: data.map(i => i[this.props.column.dataKey]) })
+      this.setState({ searchText: e.target.value, data: this.state.originalData })
     }
-    */
   }
 
   renderRow = ({ index, style, data }) => (
@@ -219,7 +228,7 @@ class ButtonFilter extends Component {
                       root: classes.inputRoot,
                       input: classes.inputInput,
                     }}
-                    inputProps={{ 'aria-label': 'search' }}
+                    value={this.state.searchText}
                     onChange={this.handleSearch}
                   />
                 </div>
