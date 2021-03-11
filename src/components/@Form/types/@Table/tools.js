@@ -1,3 +1,5 @@
+import { SystemUpdateAltRounded } from "@material-ui/icons";
+
 export function getDefault(type) {
   switch(type) {
     case 'cb':
@@ -31,4 +33,19 @@ export const arrayMove = (array, from, to) => {
 	arrayMoveMutate(array, from, to);
 	return array;
 };
+
+export function createColumns(tableId, columns) {
+  let cache =  [];
+
+  try { 
+    const str = window.localStorage.getItem(`table_${tableId}`);
+    if (str) {
+      cache = JSON.parse(str);
+    }
+  } catch {
+
+  }
+
+  return columns;
+}
 

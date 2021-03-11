@@ -3,6 +3,16 @@ import css from 'css';
 
 import { createValueFunc, options } from 'components/tools';
 
+function mergeData(data1, data2) {
+  const temp = { ...data1, ...data2 };
+  Object
+    .keys(temp)
+    .forEach(key => {
+      temp[key] = {  ...data1[key], ...data2[key] };
+    });
+  return temp;
+}
+
 function preparationData(data, clearAnimation = true) {
   // set local vars 
     Object
@@ -402,8 +412,8 @@ core.network.response('applayout', (answer, res, context) => {
     layout: res[0].data,
     containers: res[1].data,
     templates: res[2].data,
-    states: { ...res[3].data, ...res[4].data },
-    widgets: { ...res[5].data, ...res[6].data }, 
+    states: mergeData(res[3].data, res[4].data),
+    widgets: mergeData(res[5].data, res[6].data), 
   }));
 })
 

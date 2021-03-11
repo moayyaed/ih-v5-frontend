@@ -9,7 +9,7 @@ import shortid from 'shortid';
 import Menu from 'components/Menu';
 
 import SortableHeader from './Header';
-import { getDefault, arrayMove } from './tools';
+import { getDefault, arrayMove, createColumns } from './tools';
 
 import components from './components';
 
@@ -33,7 +33,7 @@ const styles = {
 class Table extends PureComponent {
 
   state = {
-    columns: this.props.options.columns,
+    columns: createColumns(this.props.options.prop, this.props.options.columns),
   }
 
   componentDidMount() {
