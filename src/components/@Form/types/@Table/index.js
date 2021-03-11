@@ -8,8 +8,10 @@ import BaseTable, { AutoResizer, Column } from 'react-base-table';
 import shortid from 'shortid';
 import Menu from 'components/Menu';
 
-import components from './components';
+import SortableHeader from './Header';
+import { getDefault, arrayMove } from './tools';
 
+import components from './components';
 
 const styles = {
   root: {
@@ -28,27 +30,14 @@ const styles = {
 }
 
 
-function getDefault(type) {
-  switch(type) {
-    case 'cb':
-      return false;
-    case 'number':
-      return 0;
-    case 'input':
-      return '';
-    case 'link':
-      return '';
-    case 'droplist':
-      return { id: '-', title: '-' };
-    default:
-      return '';
-  }
-}
-
-
 class Table extends PureComponent {
 
+  state = {
+    columns: this.props.options.columns,
+  }
+
   componentDidMount() {
+    console.log(this.props)
     this.check = {};
   }
 
@@ -125,6 +114,26 @@ class Table extends PureComponent {
     }
   }
 
+  headerRenderer = ({ cells, columns }) => {
+    return (
+      <SortableHeader
+        useDragHandle
+        axis="x"
+        lockAxis="x"
+        cells={cells}
+        columns={columns}
+        helperClass='sortableHelper'
+        onSortEnd={this.onSortEnd}
+      />
+    );
+  }
+
+  onSortEnd = ({ oldIndex, newIndex }) => {
+    this.setState({
+      columns: arrayMove(this.state.columns, oldIndex, newIndex),
+    });
+  }
+
   render() {
     return (
       <div style={styles.root} onContextMenu={this.handleContextMenuBody}>
@@ -143,8 +152,9 @@ class Table extends PureComponent {
               rowEventHandlers={{ onContextMenu: this.handleContextMenuRow }}
               components={components}
               route={this.props.route}
+              headerRenderer={this.headerRenderer}
             >
-              {this.props.options.columns.map(i => 
+              {this.state.columns.map(i => 
                 <Column 
                   {...i}
                   resizable 
