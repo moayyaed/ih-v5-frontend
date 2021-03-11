@@ -9,7 +9,7 @@ import shortid from 'shortid';
 import Menu from 'components/Menu';
 
 import SortableHeader from './Header';
-import { getDefault, arrayMove, createColumns } from './tools';
+import { getDefault, arrayMove, createColumns, saveColumns } from './tools';
 
 import components from './components';
 
@@ -131,7 +131,19 @@ class Table extends PureComponent {
   onSortEnd = ({ oldIndex, newIndex }) => {
     this.setState({
       columns: arrayMove(this.state.columns, oldIndex, newIndex),
+    }, () => {
+      saveColumns(this.props.options.prop, this.state.columns)
     });
+  }
+
+  handleColumnResizeEnd = ({ column, width }) => {
+    const temp = this.state.columns.map(i => {
+      if (i.prop === column.prop) {
+        return column;
+      }
+      return i;
+    });
+    saveColumns(this.props.options.prop, temp)
   }
 
   render() {
@@ -153,6 +165,7 @@ class Table extends PureComponent {
               components={components}
               route={this.props.route}
               headerRenderer={this.headerRenderer}
+              onColumnResizeEnd={this.handleColumnResizeEnd}
             >
               {this.state.columns.map(i => 
                 <Column 

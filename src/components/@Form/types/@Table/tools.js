@@ -45,7 +45,37 @@ export function createColumns(tableId, columns) {
   } catch {
 
   }
+  const temp = cache
+    .reduce((p, c, index) => {
+      return { ...p, [c.prop]: { sort: index, width: c.width } };
+    }, {});
+    
+  return columns
+    .map(i => {
+      if (temp[i.prop] !== undefined) {
+        return { ...i, width: temp[i.prop].width }
+      }
+      return i;
+    })
+    .sort((aa, bb) => {
+      const a = temp[aa.prop] !== undefined ? temp[aa.prop].sort : 9999;
+      const b = temp[bb.prop] !== undefined ? temp[bb.prop].sort : 9999;
+      if (a > b) {
+        return 1;
+      }
+      if (a < b) {
+        return -1;
+      }
+      return 0;
+    });
+}
 
-  return columns;
+export function saveColumns(tableId, columns) {
+  const temp = columns.map(i => ({ prop: i.prop, width: i.width }))
+  try { 
+    window.localStorage.setItem(`table_${tableId}`, JSON.stringify(temp));
+  } catch {
+
+  }
 }
 
