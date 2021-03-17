@@ -121,19 +121,29 @@ class Table extends PureComponent {
   }
 
   handleFilter = (column, selects) => {
-    console.log(column.type, column.prop, selects);
+    const columns = this.state.columns.reduce((p, c) => ({ ...p, [c.prop]: c }), {});
+    const filters = { ...this.state.filters, [column.prop]: selects };
+    const filterList = Object.keys(filters)
+
     const data = this.props.data
       .reduce((p, c) => {
-        if (selects === null) {
-          return p.concat(c); 
-        }
-        if (selects[getValue(column.type, c[column.prop])] !== undefined) {
+        let check = true;
+        filterList.forEach(key => {
+          const filter = filters[key];
+          if (filter) {
+            const value = getValue(columns[key].type, c[columns[key].prop]);
+            if (!filter[value]) {
+              check = false;
+            }
+          }
+        })
+
+        if (check) {
           return p.concat(c); 
         }
         return p;
       }, []);
-    this.setState({ data: data });
-  
+    this.setState({ data, filters });
   }
 
 
@@ -163,9 +173,11 @@ class Table extends PureComponent {
         cells={cells}
         columns={columns}
         helperClass='sortableHelper'
-        onSortEnd={this.onSortEnd}
-        data={this.props.data}
+        filters={this.state.filters}
+        originData={this.props.data}
+        data={this.state.data}
         onFilter={this.handleFilter}
+        onSortEnd={this.onSortEnd}
       />
     );
   }

@@ -179,8 +179,11 @@ class ButtonFilter extends Component {
   handleOpen = (e) => {
     this.cache = cloneObject(this.state);
 
+    const countActiveFilters = Object
+      .keys(this.props.filters)
+      .filter(key => this.props.filters[key]).length; 
     const column = this.props.column;
-    const data = this.props.data;
+    const data = countActiveFilters > 1 ? this.props.data : this.state.active ? this.props.originData : this.props.data;
 
     const searchText = this.state.searchText.toLowerCase();
     const selects = {};
