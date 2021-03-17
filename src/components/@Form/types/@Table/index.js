@@ -29,15 +29,39 @@ const styles = {
   }
 }
 
+function getValue(type, data) {
+  switch(type) {
+    case 'cb':
+      return data === undefined ? '' : data ? 'true' : 'false';
+    case 'number':
+      return data || '';
+    case 'input':
+      return data || '';
+    case 'link':
+      return data.title || '';
+    case 'droplist':
+      return data.title || '';
+    case 'smartbutton':
+      return data.title || '';
+    case 'smartbutton2':
+      return data.title || '';
+    case 'color':
+      return data || '';
+    default:
+      return data || '';
+  }
+}
+
 
 class Table extends PureComponent {
 
   state = {
     columns: createColumns(this.props.options.prop, this.props.options.columns),
+    filters: {},
+    data: this.props.data,
   }
 
   componentDidMount() {
-    console.log(this.props)
     this.check = {};
   }
 
@@ -96,6 +120,22 @@ class Table extends PureComponent {
     }
   }
 
+  handleFilter = (column, selects) => {
+    console.log(column.type, column.prop, selects);
+    const data = this.props.data
+      .reduce((p, c) => {
+        if (selects === null) {
+          return p.concat(c); 
+        }
+        if (selects[getValue(column.type, c[column.prop])] !== undefined) {
+          return p.concat(c); 
+        }
+        return p;
+      }, []);
+    this.setState({ data: data });
+  
+  }
+
 
   renderRow = ({ key, index, children, rowid, ...rest }) => {
     return (
@@ -125,6 +165,7 @@ class Table extends PureComponent {
         helperClass='sortableHelper'
         onSortEnd={this.onSortEnd}
         data={this.props.data}
+        onFilter={this.handleFilter}
       />
     );
   }
@@ -158,7 +199,7 @@ class Table extends PureComponent {
               rowHeight={35}
               width={width}
               height={height}
-              data={this.props.data}
+              data={this.state.data}
               options={this.props.options}
               onChange={this.props.onChange}
               rowProps={this.rowProps}

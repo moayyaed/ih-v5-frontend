@@ -31,22 +31,22 @@ const DragHandle = sortableHandle(() =>
   <span className="BaseTable__header-handle" style={styles.dragHandle}>::</span>);
 
 
-const SortableHeader = sortableElement(({children, column, data }) => {
+const SortableHeader = sortableElement(({children, column, data, onFilter }) => {
   return (
     <div style={styles.columnContainer}>
       <DragHandle />
       {React.cloneElement(children)}
-      <ButtonFilter column={column} data={data} />
+      <ButtonFilter onFilter={onFilter} column={column} data={data} />
     </div>
   )
 });
 
 export const SortableHeaderRowRenderer = sortableContainer(
-  ({ cells, columns, data }) => {
+  ({ cells, columns, data, onFilter }) => {
     return (
       <div style={styles.headerContainer}>
         {React.Children.map(cells, (column, index) => 
-          <SortableHeader index={index} data={data} column={columns[index]}>
+          <SortableHeader onFilter={onFilter} index={index} data={data} column={columns[index]}>
             {column}
           </SortableHeader>
         )}

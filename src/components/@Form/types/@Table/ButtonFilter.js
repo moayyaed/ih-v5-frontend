@@ -17,9 +17,13 @@ import SearchIcon from '@material-ui/icons/Search';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import FilterListIcon from '@material-ui/icons/FilterList';
+import CloseIcon from '@material-ui/icons/Close';
 
 import Popover from '@material-ui/core/Popover';
 import Divider from '@material-ui/core/Divider';
+
+import { blueGrey } from '@material-ui/core/colors';
+import { DataUsage } from '@material-ui/icons';
 
 
 const classes = (theme) => ({
@@ -69,6 +73,7 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    background: '#607d8b',
   },
   checkboxAll: {
     color: '#fff',
@@ -97,6 +102,20 @@ const styles = {
   }
 }
 
+function cloneObject(i) {
+  if ((!!i) && (i.constructor === Object)) {
+    Object
+      .keys(i)
+      .reduce((p, c) => {
+        return { ...p, [c]: cloneObject(i[c]) }
+      }, {});
+  }
+  if (Array.isArray(i)) {
+    return i.map(cloneObject);
+  }
+  return i;
+}
+
 function getValue(type, data) {
   switch(type) {
     case 'cb':
@@ -120,8 +139,29 @@ function getValue(type, data) {
   }
 }
 
+const ColorButton = withStyles((theme) => ({
+  root: {
+    color: theme.palette.getContrastText(blueGrey[500]),
+    backgroundColor: blueGrey[500],
+    '&:hover': {
+      backgroundColor: blueGrey[700],
+    },
+  },
+}))(Button);
+
+const CustomCheckbox = withStyles({
+  root: {
+    color: blueGrey[400],
+    '&$checked': {
+      color: blueGrey[600],
+    },
+  },
+  checked: {},
+})((props) => <Checkbox color="default" {...props} />);
+
 class ButtonFilter extends Component {
   state = { 
+    active: false,
     open: false, 
     anchorEl: null, 
     selectAll: true, 
@@ -131,30 +171,76 @@ class ButtonFilter extends Component {
     data: [],
     selects: {},
   }
+
+  componentWillUnmount() {
+    this.cache = null;
+  }
   
   handleOpen = (e) => {
+    this.cache = cloneObject(this.state);
+
     const column = this.props.column;
     const data = this.props.data;
 
+    const searchText = this.state.searchText.toLowerCase();
     const selects = {};
 
     data.forEach(i => {
-      selects[getValue(column.type, i[column.prop])] = true;
+      const key = getValue(column.type, i[column.prop]);
+      selects[key] = this.state.selects[key] === undefined ? true : this.state.selects[key];
     }); 
 
     const originalData = Object.keys(selects).sort();
+    const filterData = this.state.searchText ? originalData.filter(i => i.toLowerCase().indexOf(searchText) !== -1) : originalData;
 
     this.setState({ 
       open: true, 
       anchorEl: e.currentTarget,
       originalData: originalData, 
-      data: originalData,
+      data: filterData,
       selects: selects,
     })
   }
 
+  handleOk = () => {
+    this.cache = null;
+    const active = !(Object.keys(this.state.selects).filter(i => this.state.selects[i]).length === this.state.originalData.length);
+    const temp = {};
+
+    if (this.state.searchText) {
+      this.state.data.forEach(key => {
+        if (this.state.selects[key]) {
+          temp[key] = this.state.selects[key];
+        }
+      });
+      this.props.onFilter(this.props.column, temp);
+    } else {
+      if (active) {
+        Object
+          .keys(this.state.selects)
+          .forEach(key => {
+            if (this.state.selects[key]) {
+              temp[key] = this.state.selects[key];
+            }
+          });
+        this.props.onFilter(this.props.column, temp);
+      } else {
+        this.props.onFilter(this.props.column, null);
+      }
+    }
+    
+    this.setState({ 
+      active: this.state.searchText ? true : active , 
+      open: false, 
+      anchorEl: null, 
+      data: [], 
+      originalData: [] 
+    }); 
+  }
+
   handleClose = () => {
-    this.setState({ open: false, anchorEl: null, data: [], originalData: [], selects: {} })
+    this.setState({ ...this.cache, open: false, anchorEl: null, data: [], originalData: [] })
+    this.cache = null;
   }
 
   handleSelectAll = (e) => {
@@ -172,23 +258,29 @@ class ButtonFilter extends Component {
   }
 
   handleSearch = (e) => {
+    const searchText = e.target.value.toLowerCase();
     if (e.target.value) {
       this.setState({ 
         searchText: e.target.value,
-        data: this.state.originalData.filter(i => i.indexOf(e.target.value) !== -1),
+        data: this.state.originalData.filter(i => i.toLowerCase().indexOf(searchText) !== -1),
         selectAllIndeterminate: true,
       })
     } else {
       this.setState({ 
         searchText: e.target.value, 
         data: this.state.originalData, 
-        selectAllIndeterminate: true 
+        selectAllIndeterminate: !(Object.keys(this.state.selects).filter(i => this.state.selects[i]).length === this.state.originalData.length)
       })
     }
   }
 
   handleCheckbox = (id, value) => {
-    this.setState({ selectAllIndeterminate: true, selects: { ...this.state.selects, [id]: value }})
+    const selects = { ...this.state.selects, [id]: value };
+    const selectAllIndeterminate = !(Object.keys(selects).filter(i => selects[i]).length === this.state.originalData.length);
+    this.setState({ 
+      selectAllIndeterminate: this.state.searchText ? true : selectAllIndeterminate, 
+      selects: selects,
+    })
   }
 
   renderRow = ({ index, style, data, onChekbox }) => (
@@ -201,7 +293,7 @@ class ButtonFilter extends Component {
       onClick={(e) => this.handleCheckbox(data.data[index], !data.selects[data.data[index]])}
     >
       <ListItemIcon>
-        <Checkbox
+        <CustomCheckbox
           edge="start"
           checked={Boolean(data.selects[data.data[index]])}
           tabIndex={-1}
@@ -217,7 +309,11 @@ class ButtonFilter extends Component {
     const classes = this.props.classes;
     return (
       <div style={styles.filterContainer}>
-        <IconButton size="small" onClick={this.handleOpen} >
+        <IconButton 
+          size="small" 
+          style={{ color: this.state.active ? '#f57c00' : 'rgba(0, 0, 0, 0.54)' }} 
+          onClick={this.handleOpen} 
+        >
           <FilterListIcon fontSize="inherit" />
         </IconButton>
         <Popover
@@ -252,7 +348,7 @@ class ButtonFilter extends Component {
                     <SearchIcon />
                   </div>
                   <InputBase
-                    placeholder="Search…"
+                    placeholder="Поиск..."
                     classes={{
                       root: classes.inputRoot,
                       input: classes.inputInput,
@@ -283,15 +379,15 @@ class ButtonFilter extends Component {
             >
                 Отмена
             </Button>
-            <Button 
+            <ColorButton 
               disableElevation
               color="primary"
               variant="contained"
               style={styles.filterButton}
-              onClick={this.handleClose}
+              onClick={this.handleOk}
             >
               ОК
-            </Button>
+            </ColorButton>
           </div>
         </Popover>
       </div>
