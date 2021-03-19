@@ -128,6 +128,7 @@ function reducerContainer(state, action) {
         // propertyType: 'move',
       };
     case CONTAINER_GROUP_ELEMENTS:
+      console.log(state)
       return { 
         ...state,
         selectType: 'one',
@@ -140,14 +141,13 @@ function reducerContainer(state, action) {
           .keys(state.elements)
           .reduce((p, c) => {
             if (action.groupData.elements.includes(c)) {
-              const temp = { ...state.elements[c] }
-              delete temp['groupId'];
               return { 
                 ...p, 
                 [c]: {
-                  ...temp,
-                  x: { ...state.elements[c].x, value: state.elements[state.elements[c].groupId].x.value + state.elements[c].x.value },
-                  y: { ...state.elements[c].y, value: state.elements[state.elements[c].groupId].y.value + state.elements[c].y.value },
+                  ...state.elements[c],
+                  groupId: action.groupId,
+                  x: { ...state.elements[c].x, value: state.elements[c].x.value - action.groupData.x.value },
+                  y: { ...state.elements[c].y, value: state.elements[c].y.value - action.groupData.y.value },
                 } 
               }
             }
