@@ -122,7 +122,7 @@ class Request {
 
   start() {
     this.timerDelay = setTimeout(this.handleDelay.bind(this), this.options.delay);
-    this.timerTimeout = setTimeout(this.handleTimeout.bind(this), this.options.timeout);
+    // this.timerTimeout = setTimeout(this.handleTimeout.bind(this), this.options.timeout);
 
     this.controller = new AbortController();
 

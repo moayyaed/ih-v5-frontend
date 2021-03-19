@@ -128,7 +128,6 @@ function reducerContainer(state, action) {
         // propertyType: 'move',
       };
     case CONTAINER_GROUP_ELEMENTS:
-      console.log(state)
       return { 
         ...state,
         selectType: 'one',
