@@ -390,7 +390,7 @@ class Sheet extends Component {
     e.stopPropagation();
 
     if (!this.state.move) {
-      if (e.shiftKey && this.props.selectType !== null) {
+      if (e.shiftKey && this.props.selectType !== null && this.props.selectOne !== 'content') {
         if (this.props.selects[elementId] === undefined) {
           const data = { 
             x: { value: Infinity }, 
