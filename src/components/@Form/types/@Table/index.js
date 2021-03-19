@@ -8,8 +8,11 @@ import BaseTable, { AutoResizer, Column } from 'react-base-table';
 import shortid from 'shortid';
 import Menu from 'components/Menu';
 
+import Link from '@material-ui/core/Link';
+
 import SortableHeader from './Header';
 import { getDefault, arrayMove, createColumns, saveColumns } from './tools';
+
 
 import components from './components';
 
@@ -26,6 +29,16 @@ const styles = {
     width: '100%',
     height: 2,
     backgroundColor: 'rgba(244, 67, 54, 0.5)',
+  },
+  link: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'normal',
+    lineHeight: 1.6,
+    color: '#333',
+    fontSize: 13,
+    fontFamily: 'system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji',
+    fontWeight: 700,
   }
 }
 
@@ -52,13 +65,79 @@ function getValue(type, data) {
   }
 }
 
+function sort(column, type, _a, _b) {
+  let a, b;
+
+  const valueA = getValue(column.type, _a[column.prop]);
+  const valueB = getValue(column.type, _b[column.prop]);
+
+  const valueNumberA = Number(valueA);
+  const valueNumberB = Number(valueB);
+
+  if (Number.isNaN(valueNumberA) === false && Number.isNaN(valueNumberB) === false ) {
+    a = valueNumberA;
+    b = valueNumberB;
+  } else {
+    a = valueA;
+    b = valueB;
+  }
+  
+  if (type === 1) {
+    if (a > b) {
+      return 1;
+    }
+    if (a < b) {
+      return -1;
+    }
+    return 0;
+  }
+
+  if (type === 2) {
+    if (a < b) {
+      return 1;
+    }
+    if (a > b) {
+      return -1;
+    }
+    return 0;
+  }
+
+  return 0;
+}
+
+function getFilterData(_columns, _filters, _data) {
+  const columns = _columns.reduce((p, c) => ({ ...p, [c.prop]: c }), {});
+  const filters = _filters;
+  const filterList = Object.keys(filters)
+
+  return _data
+    .reduce((p, c) => {
+      let check = true;
+      filterList.forEach(key => {
+        const filter = filters[key];
+        if (filter) {
+          const value = getValue(columns[key].type, c[columns[key].prop]);
+          if (!filter[value]) {
+            check = false;
+          }
+        }
+      })
+
+      if (check) {
+        return p.concat(c); 
+      }
+      return p;
+    }, []);
+}
+
 
 class Table extends PureComponent {
 
   state = {
     columns: createColumns(this.props.options.prop, this.props.options.columns),
-    filters: {},
     data: this.props.data,
+    filters: {},
+    sort: null,
   }
 
   componentDidMount() {
@@ -143,7 +222,43 @@ class Table extends PureComponent {
         }
         return p;
       }, []);
-    this.setState({ data, filters });
+    if (this.state.sort === null) {
+      this.setState({ data, filters });
+    } else {
+      this.setState({ 
+        data: data
+          .sort((a, b) => sort(columns[this.state.sort.column], this.state.sort.type, a, b)), 
+          filters 
+      });
+    }
+  }
+
+  handleSort = (column) => {
+    const { columns, filters } = this.state;
+    const data = this.props.data;
+
+    if (this.state.sort === null) {
+      this.setState({ 
+        sort: { column: column.prop, type: 1 },
+        data: getFilterData(columns, filters, data).sort((a, b) => sort(column, 1, a, b)),
+      })
+    } else {
+      if (this.state.sort.column === column.prop) {
+        if (this.state.sort.type + 1 === 3) {
+          this.setState({ sort: null, data: getFilterData(columns, filters, data) })
+        } else {
+          this.setState({ 
+            sort: { column: column.prop, type: this.state.sort.type + 1 },
+            data: getFilterData(columns, filters, data).sort((a, b) => sort(column, this.state.sort.type + 1, a, b)),
+          })
+        }
+      } else {
+        this.setState({ 
+          sort: { column: column.prop, type: 1 }, 
+          data: getFilterData(columns, filters, data).sort((a, b) => sort(column, 1, a, b)),
+        })
+      }
+    }
   }
 
 
@@ -182,12 +297,27 @@ class Table extends PureComponent {
     );
   }
 
+  headerRendererColumn = ({ column }) => {
+    // ↑↓
+    if (this.state.sort && this.state.sort.column === column.prop) {
+      return (
+        <Link style={styles.link} href="#" component="button" onClick={() => this.handleSort(column)}>
+          {(this.state.sort.type === 1 ? '↑ ': '↓ ') + column.title}
+        </Link>
+      );
+    }
+    
+    return (
+      <Link style={styles.link} href="#" component="button" onClick={() => this.handleSort(column)}>
+        {column.title}
+      </Link>
+    );
+  }
+
   onSortEnd = ({ oldIndex, newIndex }) => {
-    this.setState({
-      columns: arrayMove(this.state.columns, oldIndex, newIndex),
-    }, () => {
-      saveColumns(this.props.options.prop, this.state.columns)
-    });
+    const columns = arrayMove(this.state.columns, oldIndex, newIndex);
+    this.setState({ columns: columns });
+    saveColumns(this.props.options.prop, columns)
   }
 
   handleColumnResizeEnd = ({ column, width }) => {
@@ -229,6 +359,7 @@ class Table extends PureComponent {
                   dataKey={i.prop}
                   width={i.width || 150}
                   cache={this.props.cache}
+                  headerRenderer={this.headerRendererColumn}
                 />
               )}
             </BaseTable>

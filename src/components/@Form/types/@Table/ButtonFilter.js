@@ -246,6 +246,22 @@ class ButtonFilter extends Component {
     this.cache = null;
   }
 
+  handleClear = () => {
+    this.cache = null;
+    this.setState({
+      active: false,
+      open: false, 
+      anchorEl: null, 
+      selectAll: true, 
+      selectAllIndeterminate: false, 
+      searchText: '',
+      originalData: [],
+      data: [],
+      selects: {},
+    })
+    this.props.onFilter(this.props.column, null);
+  }
+
   handleSelectAll = (e) => {
     const selects = {};
 
@@ -378,9 +394,9 @@ class ButtonFilter extends Component {
           <div style={styles.filterButtonsContainer}>
             <Button 
               variant="outlined"
-              onClick={this.handleClose}
+              onClick={this.handleClear}
             >
-                Отмена
+              Удалить фильтр
             </Button>
             <ColorButton 
               disableElevation
