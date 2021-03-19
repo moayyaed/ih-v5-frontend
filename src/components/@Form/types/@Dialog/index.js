@@ -310,10 +310,19 @@ class Dialog extends PureComponent {
     }
   }
 
-  handleClickOptionToolbarMenu = (command, type, props) => {
+  handleClickOptionToolbarMenu = (command, type, props, value) => {
     if (type === 'element') {
-      core.actions.dialog
+      if (command === 'delete') {
+        core.actions.dialog
         .deleteElement(this.props.id, this.props.options.prop);
+      }
+      if (command === 'edit') {
+        core.actions.dialog
+          .editElement(
+            this.props.id, this.props.options.prop,
+            props.nodeId, { title: null, label: value },
+          )
+      }
     }
     this.save();
   }

@@ -53,7 +53,7 @@ function checkLinks(data, states, id, v) {
   return Object
     .keys(data)
     .reduce((p, c) => {
-      if (data[c]._bind && data[c].enabled) {
+      if (data[c] && data[c]._bind && data[c].enabled) {
         const value = data[c]._bind === id ? v : (states[data[c]._bind] ?  states[data[c]._bind].curent : data[c].value)
           try {
             if (core.cache.functions[data[c].uuid] === undefined) {

@@ -38,6 +38,7 @@ const styles = {
 
 
 class Toolbar extends PureComponent {
+  state = { edits: {} }
 
   handleClickIcon = (e, id) => {
 
@@ -52,6 +53,10 @@ class Toolbar extends PureComponent {
     const pos = { left: e.clientX, top: e.clientY };
     const scheme = {
       main: [
+        { id: '5', 
+          title: 'Edit', 
+          click: () => this.handleEditTitle(props),
+        },  
         { id: '6', 
           title: 'Delete', 
           click: () => this.props.onClickMenu('delete', props.type, props),
@@ -60,6 +65,11 @@ class Toolbar extends PureComponent {
     }
 
     ContextMenu.show(<Menu scheme={scheme} />, pos);
+  }
+
+  handleEditTitle = (props) => {
+    const label = props.label ? props.label : props.title ? `${props.nodeId} (${props.title})` : props.nodeId;
+    this.setState({ edits: { ...this.state.edits, [props.nodeId]: label } })
   }
 
   handleClickElement = (e, id) => {
@@ -67,27 +77,19 @@ class Toolbar extends PureComponent {
     this.props.onClickElement(e, id);
   }
 
-  handleClickMenu = (e, props) => {
-
-    e.preventDefault();
-    e.stopPropagation();
-
-
-    const pos = { left: e.clientX, top: e.clientY };
-    const scheme = {
-      main: [
-        { id: '6', 
-          title: 'Delete', 
-          click: () => this.props.onClickMenu('delete', props.type, props),
-        },        
-      ]
-    }
-
-    ContextMenu.show(<Menu scheme={scheme} />, pos);
-  }
-
   handleChange = (id, options, target, value) => {
     this.props.onChange(id, value);
+  }
+
+  handleChangeTitle = (id, value) => {
+    this.setState({ edits: { ...this.state.edits, [id]: value } })
+  }
+
+  handleChangeTitleComplete = (props) => {
+    const value = this.state.edits[props.nodeId];
+    
+    this.props.onClickMenu('edit', props.type, props, value)
+    this.setState({ edits: {} })
   }
 
   render({ selectElements, listElements, elements } = this.props) {
@@ -103,11 +105,14 @@ class Toolbar extends PureComponent {
             selected={Object.keys(selectElements)}
           >
             <ElementsItems 
+              edits={this.state.edits}
               list={listElements}
               elements={elements}
               onClickIcon={this.handleClickIcon}
               onClickLabel={this.handleClickElement}
               onClickMenuToolbar={this.handleClickMenu}
+              onChangeTitle={this.handleChangeTitle}
+              onChangeTitleComplete={this.handleChangeTitleComplete}
             />
           </TreeView>
         </Scrollbars>

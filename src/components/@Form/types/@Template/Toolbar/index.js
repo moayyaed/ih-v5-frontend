@@ -32,6 +32,7 @@ const cache = {}
 
 
 class Toolbar extends PureComponent {
+  state = { edits: {} }
 
   handleClickAdd = (e) => {
     e.preventDefault();
@@ -81,6 +82,10 @@ class Toolbar extends PureComponent {
     const pos = { left: e.clientX, top: e.clientY };
     const scheme = {
       main: [
+        { id: '5', 
+          title: 'Edit', 
+          click: () => this.handleEditTitleLabel(props),
+        },  
         { id: '6', 
           title: 'Delete', 
           click: () => this.props.onClickMenu('delete', props.type, props),
@@ -174,6 +179,23 @@ class Toolbar extends PureComponent {
     this.props.onChange(id, value);
   }
 
+  handleEditTitleLabel = (props) => {
+    const label = props.label ? props.label : props.title ? `${props.nodeId} (${props.title})` : props.nodeId;
+    this.setState({ edits: { ...this.state.edits, [props.nodeId]: label } })
+  }
+
+  handleChangeTitleLabel = (id, value) => {
+    this.setState({ edits: { ...this.state.edits, [id]: value } })
+  }
+
+  handleChangeTitleLabelComplete = (props) => {
+    const value = this.state.edits[props.nodeId];
+    
+    this.props.onClickMenu('edit', props.type, props, value)
+    this.setState({ edits: {} })
+  }
+
+
   render({ selectElements, selectState, listElements, listState, elements, state } = this.props) {
     if (this.props.type === 'tree') {
       return (
@@ -187,12 +209,15 @@ class Toolbar extends PureComponent {
             defaultExpandIcon={<ExpandIcon />}
             selected={Object.keys(selectElements)}
           >
-            <ElementsItems 
+            <ElementsItems
+              edits={this.state.edits} 
               list={listElements}
               elements={elements}
               onClickIcon={this.handleClickIcon}
               onClickLabel={this.handleClickElement}
               onClickMenuToolbar={this.handleClickMenu}
+              onChangeTitle={this.handleChangeTitleLabel}
+              onChangeTitleComplete={this.handleChangeTitleLabelComplete}
             />
           </TreeView>
         </Scrollbars>
@@ -244,12 +269,15 @@ class Toolbar extends PureComponent {
             defaultExpandIcon={<ExpandIcon />}
             selected={Object.keys(selectElements)}
           >
-            <EventsItems 
+            <EventsItems
+              edits={this.state.edits} 
               list={listElements}
               elements={elements}
               onClickIcon={this.handleClickIcon}
               onClickLabel={this.handleClickElement}
               onClickMenuToolbar={this.handleClickMenu}
+              onChangeTitle={this.handleChangeTitleLabel}
+              onChangeTitleComplete={this.handleChangeTitleLabelComplete}
             />
           </TreeView>
         </Scrollbars>

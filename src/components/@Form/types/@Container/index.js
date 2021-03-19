@@ -319,10 +319,19 @@ class Container extends PureComponent {
     }
   }
 
-  handleClickOptionToolbarMenu = (command, type, props) => {
+  handleClickOptionToolbarMenu = (command, type, props, value) => {
     if (type === 'element') {
-      core.actions.container
+      if (command === 'delete') {
+        core.actions.container
         .deleteElement(this.props.id, this.props.options.prop);
+      }
+      if (command === 'edit') {
+        core.actions.container
+          .editElement(
+            this.props.id, this.props.options.prop,
+            props.nodeId, { title: null, label: value },
+          )
+      }
     }
     this.save();
   }

@@ -104,9 +104,29 @@ export function ElementsItems(props) {
 }
 
 function OptionItem(props) {
+  if (props.edits[props.nodeId] !== undefined) {
+    return (
+      <div style={styles.masterItem}>
+        <input
+          autoFocus
+          className="text" 
+          value={props.edits[props.nodeId]}
+          onChange={(e) => props.onChangeTitle(props.nodeId, e.target.value)} 
+          onBlur={() => props.onChangeTitleComplete(props)}
+          onKeyUp={(e) => e.keyCode === 13 && props.onChangeTitleComplete(props)}
+        />
+        <div style={styles.itemButtonsMaster}>
+          <IconButton size="small" style={styles.itemButton} onClick={(e) => props.onClickMenuToolbar(e, props)} >
+            <MoreVertOutlinedIcon fontSize="inherit" />
+          </IconButton>
+        </div>
+      </div>
+    )
+  }
+  const label = props.label ? props.label : props.title ? `${props.nodeId} (${props.title})` : props.nodeId;
   return (
     <div style={styles.masterItem}>
-      <div style={styles.itemLabel}>{props.type === 'property' ? <PropertyItem nodeId={props.p} label={props.p} value={props.label} /> : props.label}</div>
+      <div style={styles.itemLabel}>{props.type === 'property' ? <PropertyItem nodeId={props.p} label={props.p} value={props.label} /> : label}</div>
       <div style={styles.itemButtonsMaster}>
         <IconButton size="small" style={styles.itemButton} onClick={(e) => props.onClickMenuToolbar(e, props)} >
           <MoreVertOutlinedIcon fontSize="inherit" />
@@ -137,11 +157,11 @@ export function AnimationItems(props) {
             {Object
               .keys(props.state[id].values)
               .map(v => 
-                <BasicItem key={v} nodeId={v} label={<OptionItem {...props} type="value" v={v} label={`${props.state[id].title}: ${v}`} />} >
+                <BasicItem key={v} nodeId={v} label={<OptionItem nodeId={v} {...props} type="value" v={v} label={`${props.state[id].title}: ${v}`} />} >
                   {Object
                     .keys(props.state[id].values[v])
                     .map(i => 
-                      <BasicItem key={i} nodeId={i} label={<OptionItem {...props} v={v} i={i} type="id" label={i} />} >
+                      <BasicItem key={i} nodeId={i} label={<OptionItem nodeId={i} {...props} v={v} i={i} type="id" label={i} />} >
                         {Object
                           .keys(props.state[id].values[v][i])
                           .map(p => {
@@ -150,7 +170,7 @@ export function AnimationItems(props) {
                               <BasicItem 
                                 key={p} 
                                 nodeId={p} 
-                                label={<OptionItem {...props} type="property" v={v} i={i} p={p}  label={data} />}
+                                label={<OptionItem nodeId={p} {...props} type="property" v={v} i={i} p={p}  label={data} />}
                                 endIcon={<TypeIcon type="property" />} 
                               />
                             )
@@ -210,7 +230,7 @@ function EventsItemGroup(props) {
         <BasicItem
           key={id}
           nodeId={id}
-          label={<OptionItem {...props} type="element" label={id} />}
+          label={<OptionItem nodeId={id} {...props} type="element" title={props.elements[id].title} label={props.elements[id].label} />}
           endIcon={<TypeIcon type={props.elements[id].type}/>}
           onIconClick={(e) => props.onClickIcon(e, id)} 
           onLabelClick={(e) => props.onClickLabel(e, id)} 
@@ -245,7 +265,7 @@ function ElementItemGroup(props) {
       <BasicItem
         key={id}
         nodeId={id}
-        label={<OptionItem {...props} type="element" label={id} />}
+        label={<OptionItem nodeId={id} {...props} type="element" title={props.elements[id].title} label={props.elements[id].label} />}
         endIcon={<TypeIcon type={props.elements[id].type}/>}
         onIconClick={(e) => props.onClickIcon(e, id)} 
         onLabelClick={(e) => props.onClickLabel(e, id)} 

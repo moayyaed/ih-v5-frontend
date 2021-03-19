@@ -54,9 +54,29 @@ const classes = theme => ({
 });
 
 function OptionItem(props) {
+  if (props.edits[props.nodeId] !== undefined) {
+    return (
+      <div style={styles.masterItem}>
+          <input
+            autoFocus
+            className="text" 
+            value={props.edits[props.nodeId]}
+            onChange={(e) => props.onChangeTitle(props.nodeId, e.target.value)} 
+            onBlur={() => props.onChangeTitleComplete(props)}
+            onKeyUp={(e) => e.keyCode === 13 && props.onChangeTitleComplete(props)}
+          />
+        <div style={styles.itemButtonsMaster}>
+          <IconButton size="small" style={styles.itemButton} onClick={(e) => props.onClickMenuToolbar(e, props)} >
+            <MoreVertOutlinedIcon fontSize="inherit" />
+          </IconButton>
+        </div>
+      </div>
+    )
+  }
+  const label = props.label ? props.label : props.title ? `${props.nodeId} (${props.title})` : props.nodeId;
   return (
     <div style={styles.masterItem}>
-      <div style={styles.itemLabel}>{props.label}</div>
+      <div style={styles.itemLabel}>{label}</div>
       <div style={styles.itemButtonsMaster}>
         <IconButton size="small" style={styles.itemButton} onClick={(e) => props.onClickMenuToolbar(e, props)} >
           <MoreVertOutlinedIcon fontSize="inherit" />
@@ -87,7 +107,7 @@ function ElementItemGroup(props) {
         <BasicItem
           key={id}
           nodeId={id}
-          label={<OptionItem {...props} type="element" nodeId={id} label={props.elements[id].title ? `${id} (${props.elements[id].title})`: id} />}
+          label={<OptionItem {...props} type="element" nodeId={id} title={props.elements[id].title} label={props.elements[id].label} />}
           endIcon={<TypeIcon type={props.elements[id].type}/>}
           onIconClick={(e) => props.onClickIcon(e, id)} 
           onLabelClick={(e) => props.onClickLabel(e, id)} 
@@ -100,7 +120,7 @@ function ElementItemGroup(props) {
       <BasicItem
         key={id}
         nodeId={id}
-        label={<OptionItem {...props} type="element" nodeId={id} label={props.elements[id].title ? `${id} (${props.elements[id].title})`: id} />}
+        label={<OptionItem {...props} type="element" nodeId={id} title={props.elements[id].title} label={props.elements[id].label} />}
         endIcon={<TypeIcon type={props.elements[id].type}/>}
         onIconClick={(e) => props.onClickIcon(e, id)} 
         onLabelClick={(e) => props.onClickLabel(e, id)} 

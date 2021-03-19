@@ -286,7 +286,7 @@ class Template extends PureComponent {
       );
   }
 
-  handleClickOptionToolbarMenu = (command, type, props) => {
+  handleClickOptionToolbarMenu = (command, type, props, value) => {
     const selectState = this.props.data.selectState;
     const valueState = this.props.data.state[selectState].curent;
     
@@ -327,8 +327,17 @@ class Template extends PureComponent {
         );
     }
     if (type === 'element') {
-      core.actions.template
+      if (command === 'delete') {
+        core.actions.template
         .deleteElement(this.props.id, this.props.options.prop);
+      }
+      if (command === 'edit') {
+        core.actions.template
+          .editElement(
+            this.props.id, this.props.options.prop,
+            props.nodeId, { title: null, label: value },
+          )
+      }
     }
     this.save();
   }

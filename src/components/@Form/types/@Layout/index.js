@@ -307,10 +307,19 @@ class Layout extends PureComponent {
     }
   }
 
-  handleClickOptionToolbarMenu = (command, type, props) => {
+  handleClickOptionToolbarMenu = (command, type, props, value) => {
     if (type === 'element') {
-      core.actions.layout
-        .deleteElement(this.props.id, this.props.options.prop);
+      if (command === 'delete') {
+        core.actions.layout
+          .deleteElement(this.props.id, this.props.options.prop);
+      }
+      if (command === 'edit') {
+        core.actions.layout
+          .editElement(
+            this.props.id, this.props.options.prop,
+            props.nodeId, { title: null, label: value },
+          )
+      }
     }
     this.save();
   }
