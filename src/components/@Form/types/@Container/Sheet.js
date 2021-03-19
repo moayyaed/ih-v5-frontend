@@ -389,21 +389,29 @@ class Sheet extends Component {
     this.props.save();
   }
 
-  handleMouseUpBody = (e) => {
-    if (this.mbstart) {
-      console.log('ok!')
-    } else {
-      if (!this.state.move) {
-        const delta = Date.now() - this.lastDragEventTime;
-        if (this.lastDragEventTime === undefined || delta > 300) {
-          core.actions.container
+  handleClickBody = () => {
+    if (!this.state.move) {
+      const delta = Date.now() - this.lastDragEventTime;
+      if (this.lastDragEventTime === undefined || delta > 300) {
+        core.actions.container
           .clearSelects(
             this.props.id, this.props.prop,
           );
-        }
       }
     }
+  }
 
+  handleMouseUpBody = (e) => {
+    if (this.mbstart) {
+      this.lastDragEventTime = Date.now();
+
+      const x = this.mbx - this.props.settings.x.value;
+      const y = this.mby - this.props.settings.y.value;
+      const w = x + this.mbw;
+      const h = y + this.mbh;
+
+      console.log(x, y, w, h);
+    }
 
     this.body.removeEventListener('mousemove', this.handleMouseMove);
 
@@ -422,12 +430,14 @@ class Sheet extends Component {
   }
 
   handleMouseDown = (e) => {
-    const offset = this.body.getBoundingClientRect();
+    if (!this.state.move) {
+      const offset = this.body.getBoundingClientRect();
     
-    this.mbinitx = e.pageX - offset.left;
-    this.mbinity = e.pageY - offset.top;
-    
-    this.body.addEventListener('mousemove', this.handleMouseMove)
+      this.mbinitx = e.pageX - offset.left;
+      this.mbinity = e.pageY - offset.top;
+      
+      this.body.addEventListener('mousemove', this.handleMouseMove)
+    }
   }
 
   handleMouseMove = (e) => {
@@ -436,7 +446,6 @@ class Sheet extends Component {
     const px = e.pageX - offset.left;
     const py = e.pageY - offset.top;
     
-
     this.mbx = this.mbinitx < px ? this.mbinitx : px;
     this.mby = this.mbinity < py ? this.mbinity : py;
     this.mbw = this.mbinitx < px ? px - this.mbinitx : this.mbinitx - px;
@@ -961,7 +970,7 @@ class Sheet extends Component {
     const src =  settings.backgroundImage.value.indexOf('://') !== -1 ? settings.backgroundImage.value : '/images/' + settings.backgroundImage.value
     const devcolor = settings.devBackgroundColor ? settings.devBackgroundColor.value : 'rgba(0,0,0,0.25)';
     return (
-      <div style={styles.root} ref={this.linkBody} onMouseDown={this.handleMouseDown} onMouseUp={this.handleMouseUpBody}>
+      <div style={styles.root} ref={this.linkBody} onMouseDown={this.handleMouseDown} onMouseUp={this.handleMouseUpBody} onClick={this.handleClickBody}>
         <div ref={this.linkMousebox} style={styles.mousebox} />
         <div 
           ref={this.linkContainer}
