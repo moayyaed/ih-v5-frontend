@@ -149,21 +149,21 @@ class ComponentTabs extends Component {
         temp = value.id;
       }
       this.saveData[route.tab][id][component.prop][target.row.id][target.column.prop] = temp;
-      core.actions.form.valueTable(id, component.prop, target.row.id, target.column.prop, value);
+      // core.actions.form.valueTable(id, component.prop, target.row.id, target.column.prop, value);
     }
 
     if (target.op === 'add') {
       this.saveData[route.tab][id][component.prop][target.row.id] = target.row;
-      core.actions.form.addRowTable(id, component.prop, target.row);
+      // core.actions.form.addRowTable(id, component.prop, target.row);
     }
 
     if (target.op === 'delete') {
       if (this.saveData[route.tab][id][component.prop][target.row.id] === null) {
         delete this.saveData[route.tab][id][component.prop][target.row.id];
-        core.actions.form.removeRowTable(id, component.prop, target.row.id, false);
+        // core.actions.form.removeRowTable(id, component.prop, target.row.id, false);
       } else {
         this.saveData[route.tab][id][component.prop][target.row.id] = null;
-        core.actions.form.removeRowTable(id, component.prop, target.row.id, true);
+        // core.actions.form.removeRowTable(id, component.prop, target.row.id, true);
       }
     }
   }
