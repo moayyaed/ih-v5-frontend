@@ -160,10 +160,10 @@ class ComponentTabs extends Component {
     if (target.op === 'delete') {
       if (this.saveData[route.tab][id][component.prop][target.row.id] === null) {
         delete this.saveData[route.tab][id][component.prop][target.row.id];
-        // core.actions.form.removeRowTable(id, component.prop, target.row.id, false);
+        core.actions.form.removeRowTable(id, component.prop, target.row.id, false);
       } else {
         this.saveData[route.tab][id][component.prop][target.row.id] = null;
-        // core.actions.form.removeRowTable(id, component.prop, target.row.id, true);
+        core.actions.form.removeRowTable(id, component.prop, target.row.id, true);
       }
     }
   }

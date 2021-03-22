@@ -135,6 +135,7 @@ class Table extends PureComponent {
 
   state = {
     columns: createColumns(this.props.options.prop, this.props.options.columns),
+    dataOrigin: this.props.data,
     data: this.props.data,
     filters: {},
     sort: null,
@@ -148,6 +149,25 @@ class Table extends PureComponent {
     this.check = null;
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.data !== this.props.data) {
+      const { columns, filters } = this.state;
+      if (this.state.sort) {
+        const _columns = this.state.columns.reduce((p, c) => ({ ...p, [c.prop]: c }), {});
+        this.setState({
+          dataOrigin: this.props.data,
+          data: getFilterData(columns, filters, this.props.data)
+            .sort((a, b) => sort(_columns[this.state.sort.column], 1, a, b)),
+        })
+      } else {
+        this.setState({
+          dataOrigin: this.props.data,
+          data: getFilterData(columns, filters, this.props.data)
+        })
+      }
+    }
+  }
+
   handleRowAdd = () => {
     const { id, options } = this.props;
     const row = options.columns
@@ -155,11 +175,25 @@ class Table extends PureComponent {
         return { ...p, [c.prop]: getDefault(c.type) }
       }, { id: '__' + shortid.generate() });
     this.props.onChange(id, options, { op: 'add', row })
+    this.setState({
+      dataOrigin: this.state.dataOrigin.concat(row),
+      data: this.state.data.concat(row),
+    })
   }
 
   handleRowDelete = (row) => {
     const { id, options } = this.props;
     this.props.onChange(id, options, { op: 'delete', row })
+  }
+
+  handleRowChange = (id, component, target, value) => {
+    this.props.onChange(id, component, target, value)
+    this.setState({
+      dataOrigin: this.state.dataOrigin
+        .map(i => i.id === target.row.id ? ({ ...i, [target.column.prop]: value }): i),
+      data: this.state.data
+        .map(i => i.id === target.row.id ? ({ ...i, [target.column.prop]: value }): i),
+    })
   }
 
   handleContextMenuBody = (event) => {
@@ -204,7 +238,7 @@ class Table extends PureComponent {
     const filters = { ...this.state.filters, [column.prop]: selects };
     const filterList = Object.keys(filters)
 
-    const data = this.props.data
+    const data = this.state.dataOrigin
       .reduce((p, c) => {
         let check = true;
         filterList.forEach(key => {
@@ -235,7 +269,7 @@ class Table extends PureComponent {
 
   handleSort = (column) => {
     const { columns, filters } = this.state;
-    const data = this.props.data;
+    const data = this.state.dataOrigin;
 
     if (this.state.sort === null) {
       this.setState({ 
@@ -289,7 +323,7 @@ class Table extends PureComponent {
         columns={columns}
         helperClass='sortableHelper'
         filters={this.state.filters}
-        originData={this.props.data}
+        originData={this.state.dataOrigin}
         data={this.state.data}
         onFilter={this.handleFilter}
         onSortEnd={this.onSortEnd}
@@ -343,7 +377,7 @@ class Table extends PureComponent {
               height={height}
               data={this.state.data}
               options={this.props.options}
-              onChange={this.props.onChange}
+              onChange={this.handleRowChange}
               rowProps={this.rowProps}
               rowEventHandlers={{ onContextMenu: this.handleContextMenuRow }}
               components={components}

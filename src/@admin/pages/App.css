@@ -226,7 +226,7 @@ input.core:focus {
   padding-left: 15px!important;
 }
 
-.BaseTable__header-cell-filter {
+.BaseTable__header-cell .filter {
   padding-left: 15px!important;
    padding-right: 32px!important;
 }

@@ -35,7 +35,7 @@ const SortableHeader = sortableElement(({children, column, filters, originData, 
   return (
     <div style={styles.columnContainer}>
       <DragHandle />
-      {React.cloneElement(children, { className: column.filter ? 'BaseTable__header-cell-filter' : 'BaseTable__header-cell' })}
+      {React.cloneElement(children, { className: column.filter ? 'BaseTable__header-cell .filter' : 'BaseTable__header-cell' })}
       {column.filter ? <ButtonFilter onFilter={onFilter} column={column} filters={filters} originData={originData} data={data} /> : null}
     </div>
   )
