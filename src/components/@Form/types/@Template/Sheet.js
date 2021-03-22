@@ -162,12 +162,13 @@ class Sheet extends Component {
         
         const temp = [];
   
-        const x = this.mbx - this.props.settings.x.value;
-        const y = this.mby - this.props.settings.y.value;
-        const w = x + this.mbw;
-        const h = y + this.mbh;
+        const s = this.props.settings.scale.value;
+        
+        const x = (this.mbx - (this.props.settings.x.value * s)) / s;
+        const y = (this.mby - (this.props.settings.y.value * s)) / s;
+        const w = x + (this.mbw / s);
+        const h = y + (this.mbh / s);
 
-  
         this.props.list.forEach(key => {
           const item = this.props.elements[key]
 
