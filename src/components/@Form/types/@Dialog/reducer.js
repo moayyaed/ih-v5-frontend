@@ -6,6 +6,7 @@ import {
 
   DIALOG_SET_SELECT,
   DIALOG_SET_SELECT_SOME,
+  DIALOG_SET_SELECT_MOUSE_BOX,
   DIALOG_CLEAR_SELECTS,
 
   DIALOG_GROUP_ELEMENTS,
@@ -109,6 +110,17 @@ function reducerContainer(state, action) {
         }
       };
     case DIALOG_SET_SELECT_SOME:
+      return { 
+        ...state,
+        selectType: 'some',
+        selectOne: null,
+        selectContainer: action.data,
+        selects: {
+          ...state.selects,
+          [action.elementId]: true,
+        },
+      };
+    case DIALOG_SET_SELECT_MOUSE_BOX:
       return { 
         ...state,
         selectType: 'some',
@@ -403,6 +415,7 @@ function reducer(state, action) {
     case DIALOG_SET_SETTINGS:
     case DIALOG_SET_SELECT:
     case DIALOG_SET_SELECT_SOME:
+    case DIALOG_SET_SELECT_MOUSE_BOX:
     case DIALOG_CLEAR_SELECTS:
     case DIALOG_GROUP_ELEMENTS:
     case DIALOG_UNGROUP_ELEMENTS:

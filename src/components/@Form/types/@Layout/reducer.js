@@ -6,6 +6,7 @@ import {
 
   LAYOUT_SET_SELECT,
   LAYOUT_SET_SELECT_SOME,
+  LAYOUT_SET_SELECT_MOUSE_BOX,
   LAYOUT_CLEAR_SELECTS,
 
   LAYOUT_GROUP_ELEMENTS,
@@ -141,6 +142,14 @@ function reducerContainer(state, action) {
           ...state.selects,
           [action.elementId]: true,
         },
+      };
+    case LAYOUT_SET_SELECT_MOUSE_BOX:
+      return { 
+        ...state,
+        selectType: 'some',
+        selectOne: null,
+        selectContainer: action.data,
+        selects: action.selects,
       };
     case LAYOUT_CLEAR_SELECTS:
       return { 
@@ -454,6 +463,7 @@ function reducer(state, action) {
     case LAYOUT_SET_SETTINGS:
     case LAYOUT_SET_SELECT:
     case LAYOUT_SET_SELECT_SOME:
+    case LAYOUT_SET_SELECT_MOUSE_BOX:
     case LAYOUT_CLEAR_SELECTS:
     case LAYOUT_GROUP_ELEMENTS:
     case LAYOUT_UNGROUP_ELEMENTS:

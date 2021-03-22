@@ -6,6 +6,7 @@ import {
 
   TEMPLATE_SET_SELECT,
   TEMPLATE_SET_SELECT_SOME,
+  TEMPLATE_SET_SELECT_MOUSE_BOX,
   TEMPLATE_CLEAR_SELECTS,
 
   TEMPLATE_GROUP_ELEMENTS,
@@ -85,6 +86,16 @@ export function selectSome(id, prop, elementId, data) {
     id,
     prop,
     elementId,
+    data,
+  };
+}
+
+export function selectMB(id, prop, selects, data) {
+  return {
+    type: TEMPLATE_SET_SELECT_MOUSE_BOX,
+    id,
+    prop,
+    selects,
     data,
   };
 }
@@ -373,6 +384,7 @@ export default {
   settings,
   select,
   selectSome,
+  selectMB,
   clearSelects, 
 
   groupElements,

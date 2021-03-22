@@ -38,6 +38,13 @@ const styles = {
     background: 'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMUlEQVQ4T2NkYGAQYcAP3uCTZhw1gGGYhAGBZIA/nYDCgBDAm9BGDWAAJyRCgLaBCAAgXwixzAS0pgAAAABJRU5ErkJggg==) center center',
     // backgroundImage: "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+DQogPGxpbmUgeDE9IjEwMCIgeTE9IjAiIHgyPSIxMDAiIHkyPSIxMDAiIHN0cm9rZT0iIzc1NzU3NSIgLz4NCiA8bGluZSB4MT0iMCIgeTE9IjEwMCIgeDI9IjEwMCIgeTI9IjEwMCIgc3Ryb2tlPSIjNzU3NTc1IiAvPg0KPC9zdmc+')",
   },
+  mousebox: {
+    display: 'none',
+    position: 'absolute',
+    background: 'rgba(33, 150, 243, 0.2)',
+    zIndex: 11000,
+    border: '1px solid #90caf9',
+  }
 }
 
 const LEFT = [
@@ -142,6 +149,124 @@ class Sheet extends Component {
       this.setState({ move: true });
     }
   }
+
+
+  handleMouseUpBody = (e) => {
+    if (e.button === 0) {
+      if (this.mbstart) {
+        this.lastDragEventTime = Date.now();
+        
+        const temp = [];
+  
+        const x = this.mbx - this.props.settings.x.value;
+        const y = this.mby - this.props.settings.y.value;
+        const w = x + this.mbw;
+        const h = y + this.mbh;
+  
+        this.props.list.forEach(key => {
+          const item = this.props.elements[key]
+
+          const a = x <= item.x.value;
+          const b = y <= item.y.value;
+          const c = w >= (item.x.value + item.w.value)
+          const d = h >= (item.y.value + item.h.value)
+
+          if (a && b && c && d) {
+            temp.push(key)
+          }
+        });
+        if (temp.length) {
+          if (temp.length === 1) {
+            core.actions.container
+              .select(this.props.id, this.props.prop, temp[0]);
+          } else {
+            const data = { 
+              x: { value: Infinity }, 
+              y: { value: Infinity }, 
+              w: { value: 0 }, 
+              h: { value: 0 }, 
+              zIndex: { value: 0 } 
+            };
+              temp
+                .forEach(key => {
+                  const element = this.props.elements[key];
+                  data.x.value = Math.min(data.x.value, element.x.value);
+                  data.y.value = Math.min(data.y.value, element.y.value); 
+                  data.w.value = Math.max(data.w.value, element.x.value + element.w.value); 
+                  data.h.value = Math.max(data.h.value, element.y.value + element.h.value); 
+                  data.zIndex.value = Math.max(data.zIndex.value, element.zIndex.value); 
+                });
+            data.w.value = data.w.value - data.x.value;
+            data.h.value = data.h.value - data.y.value;
+            core.actions.dialog
+              .selectMB(
+                this.props.id, this.props.prop,
+                temp.reduce((p, c) => ({ ...p, [c]: true }), {}), data
+              );
+          }
+        }
+      } else {
+        this.handleClickBody();
+      }
+  
+      this.body.removeEventListener('mousemove', this.handleMouseMove);
+  
+      this.mousebox.style.display  = 'none';
+      this.mousebox.style.top = 0 + 'px';
+      this.mousebox.style.left = 0 + 'px';
+      this.mousebox.style.height = 0 + 'px';
+      this.mousebox.style.width = 0 + 'px';
+  
+      this.mbstart = false;
+  
+      this.mbx = 0;
+      this.mby = 0;
+      this.mbw = 0;
+      this.mbh = 0;
+    }
+  }
+
+  handleMouseDown = (e) => {
+    if (e.button === 0) {
+      if (!this.state.move) {
+        const offset = this.body.getBoundingClientRect();
+      
+        this.mbinitx = e.pageX - offset.left;
+        this.mbinity = e.pageY - offset.top;
+        
+        this.body.addEventListener('mousemove', this.handleMouseMove)
+      }
+    }
+  }
+
+  handleMouseMove = (e) => {
+    const offset = this.body.getBoundingClientRect();
+    
+    const px = e.pageX - offset.left;
+    const py = e.pageY - offset.top;
+    
+    this.mbx = this.mbinitx < px ? this.mbinitx : px;
+    this.mby = this.mbinity < py ? this.mbinity : py;
+    this.mbw = this.mbinitx < px ? px - this.mbinitx : this.mbinitx - px;
+    this.mbh = this.mbinity < py ? py - this.mbinity : this.mbinity - py;
+
+    if (!this.mbstart && (this.mbw > 8 || this.mbh > 8)) {
+      this.mbstart = true
+      this.mousebox.style.display  = 'block';
+      this.mousebox.style.top = this.mbinity + 'px';
+      this.mousebox.style.left = this.mbinitx + 'px';
+      this.mousebox.style.height = 0 + 'px';
+      this.mousebox.style.width = 0 + 'px';
+    }
+
+    if (this.mbstart) {
+      this.mousebox.style.top = this.mby + 'px';
+      this.mousebox.style.left = this.mbx + 'px';
+      this.mousebox.style.height = this.mbh + 'px';
+      this.mousebox.style.width = this.mbw + 'px';
+    }
+  }
+
 
   handleMouseUpContainer = (e) => {
 
@@ -897,6 +1022,10 @@ class Sheet extends Component {
     }
     return null;
   }
+
+  linkBody = (e) => {
+    this.body = e;
+  } 
   
   linkContainer = (e) => {
     this.container = e;
@@ -905,6 +1034,10 @@ class Sheet extends Component {
   linkSheet = (e) => {
     this.sheet = e;
   } 
+  
+  linkMousebox = (e) => {
+    this.mousebox = e;
+  }
 
   render({ selects, settings, list, elements } = this.props) {
     const type = settings.backgroundColor.type;
@@ -912,7 +1045,8 @@ class Sheet extends Component {
     const src =  settings.backgroundImage.value.indexOf('://') !== -1 ? settings.backgroundImage.value : '/images/' + settings.backgroundImage.value
     const devcolor = settings.devBackgroundColor ? settings.devBackgroundColor.value : 'rgba(0,0,0,0.25)';
     return (
-      <div style={styles.root} onClick={this.handleClickBody}>
+      <div style={styles.root} ref={this.linkBody} onMouseDown={this.handleMouseDown} onMouseUp={this.handleMouseUpBody}>
+        <div ref={this.linkMousebox} style={styles.mousebox} />
         <div 
           ref={this.linkContainer}
           style={styles.container}

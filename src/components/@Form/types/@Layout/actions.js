@@ -6,6 +6,7 @@ import {
 
   LAYOUT_SET_SELECT,
   LAYOUT_SET_SELECT_SOME,
+  LAYOUT_SET_SELECT_MOUSE_BOX,
   LAYOUT_CLEAR_SELECTS,
 
   LAYOUT_GROUP_ELEMENTS,
@@ -66,6 +67,16 @@ export function selectSome(id, prop, elementId, data) {
     id,
     prop,
     elementId,
+    data,
+  };
+}
+
+export function selectMB(id, prop, selects, data) {
+  return {
+    type: LAYOUT_SET_SELECT_MOUSE_BOX,
+    id,
+    prop,
+    selects,
     data,
   };
 }
@@ -218,6 +229,7 @@ export default {
   settings,
   select,
   selectSome,
+  selectMB,
   clearSelects, 
 
   groupElements,

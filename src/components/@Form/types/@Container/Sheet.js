@@ -11,7 +11,6 @@ import Menu from 'components/Menu';
 
 import elemets from 'components/@Elements';
 import getDefaultParamsElement from 'components/@Elements/default';
-import { PaymentRounded } from '@material-ui/icons';
 
 const method2 = window.document.body.style.zoom === undefined;
 

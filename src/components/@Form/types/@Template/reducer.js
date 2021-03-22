@@ -10,6 +10,7 @@ import {
 
   TEMPLATE_SET_SELECT,
   TEMPLATE_SET_SELECT_SOME,
+  TEMPLATE_SET_SELECT_MOUSE_BOX,
   TEMPLATE_CLEAR_SELECTS,
 
   TEMPLATE_GROUP_ELEMENTS,
@@ -335,6 +336,14 @@ function reducerTemplate(state, action) {
           ...state.selects,
           [action.elementId]: true,
         },
+      };
+    case TEMPLATE_SET_SELECT_MOUSE_BOX:
+      return { 
+        ...state,
+        selectType: 'some',
+        selectOne: null,
+        selectContainer: action.data,
+        selects: action.selects,
       };
     case TEMPLATE_CLEAR_SELECTS:
       return { 
@@ -1099,6 +1108,7 @@ function reducer(state, action) {
     case TEMPLATE_SET_SETTINGS:
     case TEMPLATE_SET_SELECT:
     case TEMPLATE_SET_SELECT_SOME:
+    case TEMPLATE_SET_SELECT_MOUSE_BOX:
     case TEMPLATE_CLEAR_SELECTS:
     case TEMPLATE_GROUP_ELEMENTS:
     case TEMPLATE_UNGROUP_ELEMENTS:

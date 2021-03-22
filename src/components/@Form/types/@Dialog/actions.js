@@ -6,6 +6,7 @@ import {
 
   DIALOG_SET_SELECT,
   DIALOG_SET_SELECT_SOME,
+  DIALOG_SET_SELECT_MOUSE_BOX,
   DIALOG_CLEAR_SELECTS,
 
   DIALOG_GROUP_ELEMENTS,
@@ -64,6 +65,16 @@ export function selectSome(id, prop, elementId, data) {
     id,
     prop,
     elementId,
+    data,
+  };
+}
+
+export function selectMB(id, prop, selects, data) {
+  return {
+    type: DIALOG_SET_SELECT_MOUSE_BOX,
+    id,
+    prop,
+    selects,
     data,
   };
 }
@@ -194,6 +205,7 @@ export default {
   settings,
   select,
   selectSome,
+  selectMB,
   clearSelects, 
 
   groupElements,
