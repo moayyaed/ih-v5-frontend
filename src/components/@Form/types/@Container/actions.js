@@ -6,6 +6,7 @@ import {
 
   CONTAINER_SET_SELECT,
   CONTAINER_SET_SELECT_SOME,
+  CONTAINER_SET_SELECT_MOUSE_BOX,
   CONTAINER_CLEAR_SELECTS,
 
   CONTAINER_GROUP_ELEMENTS,
@@ -64,6 +65,16 @@ export function selectSome(id, prop, elementId, data) {
     id,
     prop,
     elementId,
+    data,
+  };
+}
+
+export function selectMB(id, prop, selects, data) {
+  return {
+    type: CONTAINER_SET_SELECT_MOUSE_BOX,
+    id,
+    prop,
+    selects,
     data,
   };
 }
@@ -194,6 +205,7 @@ export default {
   settings,
   select,
   selectSome,
+  selectMB,
   clearSelects, 
 
   groupElements,

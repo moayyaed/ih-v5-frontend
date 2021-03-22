@@ -402,41 +402,90 @@ class Sheet extends Component {
   }
 
   handleMouseUpBody = (e) => {
-    if (this.mbstart) {
-      this.lastDragEventTime = Date.now();
+    if (e.button === 0) {
+      if (this.mbstart) {
+        this.lastDragEventTime = Date.now();
+        
+        const temp = [];
+  
+        const x = this.mbx - this.props.settings.x.value;
+        const y = this.mby - this.props.settings.y.value;
+        const w = x + this.mbw;
+        const h = y + this.mbh;
+  
+        this.props.list.forEach(key => {
+          const item = this.props.elements[key]
 
-      const x = this.mbx - this.props.settings.x.value;
-      const y = this.mby - this.props.settings.y.value;
-      const w = x + this.mbw;
-      const h = y + this.mbh;
+          const a = x <= item.x.value;
+          const b = y <= item.y.value;
+          const c = w >= (item.x.value + item.w.value)
+          const d = h >= (item.y.value + item.h.value)
 
-      console.log(x, y, w, h);
+          if (a && b && c && d) {
+            temp.push(key)
+          }
+        });
+        if (temp.length) {
+          if (temp.length === 1) {
+            core.actions.container
+              .select(this.props.id, this.props.prop, temp[0]);
+          } else {
+            const data = { 
+              x: { value: Infinity }, 
+              y: { value: Infinity }, 
+              w: { value: 0 }, 
+              h: { value: 0 }, 
+              zIndex: { value: 0 } 
+            };
+              temp
+                .forEach(key => {
+                  const element = this.props.elements[key];
+                  data.x.value = Math.min(data.x.value, element.x.value);
+                  data.y.value = Math.min(data.y.value, element.y.value); 
+                  data.w.value = Math.max(data.w.value, element.x.value + element.w.value); 
+                  data.h.value = Math.max(data.h.value, element.y.value + element.h.value); 
+                  data.zIndex.value = Math.max(data.zIndex.value, element.zIndex.value); 
+                });
+            data.w.value = data.w.value - data.x.value;
+            data.h.value = data.h.value - data.y.value;
+            core.actions.container
+              .selectMB(
+                this.props.id, this.props.prop,
+                temp.reduce((p, c) => ({ ...p, [c]: true }), {}), data
+              );
+          }
+        }
+      } else {
+        this.handleClickBody();
+      }
+  
+      this.body.removeEventListener('mousemove', this.handleMouseMove);
+  
+      this.mousebox.style.display  = 'none';
+      this.mousebox.style.top = 0 + 'px';
+      this.mousebox.style.left = 0 + 'px';
+      this.mousebox.style.height = 0 + 'px';
+      this.mousebox.style.width = 0 + 'px';
+  
+      this.mbstart = false;
+  
+      this.mbx = 0;
+      this.mby = 0;
+      this.mbw = 0;
+      this.mbh = 0;
     }
-
-    this.body.removeEventListener('mousemove', this.handleMouseMove);
-
-    this.mousebox.style.display  = 'none';
-    this.mousebox.style.top = 0 + 'px';
-    this.mousebox.style.left = 0 + 'px';
-    this.mousebox.style.height = 0 + 'px';
-    this.mousebox.style.width = 0 + 'px';
-
-    this.mbstart = false;
-
-    this.mbx = 0;
-    this.mby = 0;
-    this.mbw = 0;
-    this.mbh = 0;
   }
 
   handleMouseDown = (e) => {
-    if (!this.state.move) {
-      const offset = this.body.getBoundingClientRect();
-    
-      this.mbinitx = e.pageX - offset.left;
-      this.mbinity = e.pageY - offset.top;
+    if (e.button === 0) {
+      if (!this.state.move) {
+        const offset = this.body.getBoundingClientRect();
       
-      this.body.addEventListener('mousemove', this.handleMouseMove)
+        this.mbinitx = e.pageX - offset.left;
+        this.mbinity = e.pageY - offset.top;
+        
+        this.body.addEventListener('mousemove', this.handleMouseMove)
+      }
     }
   }
 
@@ -970,7 +1019,7 @@ class Sheet extends Component {
     const src =  settings.backgroundImage.value.indexOf('://') !== -1 ? settings.backgroundImage.value : '/images/' + settings.backgroundImage.value
     const devcolor = settings.devBackgroundColor ? settings.devBackgroundColor.value : 'rgba(0,0,0,0.25)';
     return (
-      <div style={styles.root} ref={this.linkBody} onMouseDown={this.handleMouseDown} onMouseUp={this.handleMouseUpBody} onClick={this.handleClickBody}>
+      <div style={styles.root} ref={this.linkBody} onMouseDown={this.handleMouseDown} onMouseUp={this.handleMouseUpBody}>
         <div ref={this.linkMousebox} style={styles.mousebox} />
         <div 
           ref={this.linkContainer}

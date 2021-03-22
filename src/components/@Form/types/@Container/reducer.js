@@ -7,6 +7,7 @@ import {
 
   CONTAINER_SET_SELECT,
   CONTAINER_SET_SELECT_SOME,
+  CONTAINER_SET_SELECT_MOUSE_BOX,
   CONTAINER_CLEAR_SELECTS,
 
   CONTAINER_GROUP_ELEMENTS,
@@ -118,6 +119,14 @@ function reducerContainer(state, action) {
           ...state.selects,
           [action.elementId]: true,
         },
+      };
+    case CONTAINER_SET_SELECT_MOUSE_BOX:
+      return { 
+        ...state,
+        selectType: 'some',
+        selectOne: null,
+        selectContainer: action.data,
+        selects: action.selects,
       };
     case CONTAINER_CLEAR_SELECTS:
       return { 
@@ -403,6 +412,7 @@ function reducer(state, action) {
     case CONTAINER_SET_SETTINGS:
     case CONTAINER_SET_SELECT:
     case CONTAINER_SET_SELECT_SOME:
+    case CONTAINER_SET_SELECT_MOUSE_BOX:
     case CONTAINER_CLEAR_SELECTS:
     case CONTAINER_GROUP_ELEMENTS:
     case CONTAINER_UNGROUP_ELEMENTS:
