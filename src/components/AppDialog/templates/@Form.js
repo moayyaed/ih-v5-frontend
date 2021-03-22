@@ -95,12 +95,12 @@ class TemplateForm extends Component {
         temp = value.id;
       }
       this.save[id][component.prop][target.row.id][target.column.prop] = temp;
-      core.actions.appdialog.formValueTable(id, component.prop, target.row.id, target.column.prop, value);
+      // core.actions.appdialog.formValueTable(id, component.prop, target.row.id, target.column.prop, value);
     }
 
     if (target.op === 'add') {
       this.save[id][component.prop][target.row.id] = target.row;
-      core.actions.appdialog.formAddRowTable(id, component.prop, target.row);
+      // core.actions.appdialog.formAddRowTable(id, component.prop, target.row);
     }
 
     if (target.op === 'delete') {

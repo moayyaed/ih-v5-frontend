@@ -812,12 +812,12 @@ class Subtree extends PureComponent {
         temp = value.id;
       }
       this.save[id][component.prop][target.row.id][target.column.prop] = temp;
-      this.valueTable(id, component.prop, target.row.id, target.column.prop, value);
+      // this.valueTable(id, component.prop, target.row.id, target.column.prop, value);
     }
 
     if (target.op === 'add') {
       this.save[id][component.prop][target.row.id] = target.row;
-      this.addRowTable(id, component.prop, target.row);
+      // this.addRowTable(id, component.prop, target.row);
     }
 
     if (target.op === 'delete') {
