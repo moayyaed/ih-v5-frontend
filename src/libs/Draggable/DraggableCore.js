@@ -350,7 +350,6 @@ export default class DraggableCore extends React.Component<DraggableCoreProps, D
   };
 
   handleDragStop: EventHandler<MouseTouchEvent> = (e) => {
-    console.log('+')
     if (e.ctrlKey || e.metaKey || this.props.stopevents) {
       e.preventDefault();
       e.stopPropagation();

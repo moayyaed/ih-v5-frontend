@@ -274,8 +274,22 @@ class Dialog extends PureComponent {
   }
 
   handleClickTreeElement = (e, elementId) => {
-    if ((e.ctrlKey || e.metaKey) && this.props.data.selectType !== null) {
+    const selects = { ...this.props.data.selects };
+    if ((e.ctrlKey || e.metaKey) && this.props.data.selectType !== null && this.props.data.selectOne !== 'content' && elementId !== 'content') {
       if (this.props.data.selects[elementId] === undefined) {
+        selects[elementId] = true;
+      } else {
+        delete selects[elementId];
+      }
+      const selectsList = Object.keys(selects);
+
+      if (selectsList.length === 0) {
+        core.actions.dialog
+          .clearSelects(this.props.id, this.props.options.prop);
+      } else if (selectsList.length === 1) {
+        core.actions.dialog
+          .select(this.props.id, this.props.options.prop, selectsList[0]);
+      } else {
         const data = { 
           x: { value: Infinity }, 
           y: { value: Infinity }, 
@@ -283,8 +297,8 @@ class Dialog extends PureComponent {
           h: { value: 0 }, 
           zIndex: { value: 0 } 
         };
-        Object
-          .keys({ ...this.props.data.selects, [elementId]: true })
+  
+        selectsList
           .forEach(key => {
             const element = this.props.data.elements[key];
             data.x.value = Math.min(data.x.value, element.x.value);
@@ -295,18 +309,13 @@ class Dialog extends PureComponent {
           });
         data.w.value = data.w.value - data.x.value;
         data.h.value = data.h.value - data.y.value;
+  
         core.actions.dialog
-          .selectSome(
-            this.props.id, this.props.options.prop,
-            elementId, data
-          );
+          .selectMB(this.props.id, this.props.options.prop, selects, data);
       }
     } else {
       core.actions.dialog
-        .select(
-          this.props.id, this.props.options.prop,
-          elementId
-        );
+        .select(this.props.id, this.props.options.prop, elementId);
     }
   }
 

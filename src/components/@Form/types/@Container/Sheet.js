@@ -458,7 +458,6 @@ class Sheet extends Component {
             }
           }
         } else {
-          console.log('!')
           this.handleClickBody();
         }
     
@@ -529,7 +528,23 @@ class Sheet extends Component {
 
     if (!this.state.move) {
       if ((e.ctrlKey || e.metaKey) && this.props.selectType !== null && this.props.selectOne !== 'content') {
+        const selects = { ...this.props.selects };
+
         if (this.props.selects[elementId] === undefined) {
+          selects[elementId] = true;
+        } else {
+          delete selects[elementId];
+        }
+
+        const selectsList = Object.keys(selects);
+  
+        if (selectsList.length === 0) {
+          core.actions.container
+            .clearSelects(this.props.id, this.props.prop);
+        } else if (selectsList.length === 1) {
+          core.actions.container
+            .select(this.props.id, this.props.prop, selectsList[0]);
+        } else {
           const data = { 
             x: { value: Infinity }, 
             y: { value: Infinity }, 
@@ -537,8 +552,8 @@ class Sheet extends Component {
             h: { value: 0 }, 
             zIndex: { value: 0 } 
           };
-          Object
-            .keys({ ...this.props.selects, [elementId]: true })
+    
+          selectsList
             .forEach(key => {
               const element = this.props.elements[key];
               data.x.value = Math.min(data.x.value, element.x.value);
@@ -549,11 +564,9 @@ class Sheet extends Component {
             });
           data.w.value = data.w.value - data.x.value;
           data.h.value = data.h.value - data.y.value;
+    
           core.actions.container
-            .selectSome(
-              this.props.id, this.props.prop,
-              elementId, data
-            );
+            .selectMB(this.props.id, this.props.prop, selects, data);
         }
       } else {
         core.actions.container
