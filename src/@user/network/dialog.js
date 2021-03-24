@@ -138,7 +138,7 @@ function preparationData(data) {
 
           values[0] = _id;
           data.elements[id][propId].value = values.join(' ');
-          if (item.enabled) {
+          if (item && item.enabled) {
             data.elements[id][propId].func = item.func.replace(RegExp(old_id, 'g'), _id)                 
           }
           
@@ -167,7 +167,7 @@ function preparationData(data) {
         } // animation
 
         // bind
-        if (item.enabled) {
+        if (item && item.enabled) {
           try {
             data.elements[id][propId].func = createValueFunc(item.func).body;
 

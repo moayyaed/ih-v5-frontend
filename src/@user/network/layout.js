@@ -71,7 +71,7 @@ function preparationData(data, clearAnimation = true) {
 
           values[0] = _id;
           data.layout.elements[id][propId].value = values.join(' ');
-          if (item.enabled) {
+          if (item && item.enabled) {
             data.layout.elements[id][propId].func = item.func.replace(RegExp(old_id, 'g'), _id)                 
           }
           
@@ -99,7 +99,7 @@ function preparationData(data, clearAnimation = true) {
           }
         }
         // bind
-        if (item.enabled) {
+        if (item && item.enabled) {
           try {
             data.layout.elements[id][propId].func = createValueFunc(item.func).body;
             if (
@@ -166,7 +166,7 @@ function preparationData(data, clearAnimation = true) {
                     
                           values[0] = id;
                           data.templates[templateId].state[stateId].values[value][elemId][property].value = values.join(' ');
-                          if (item.enabled) {
+                          if (item && item.enabled) {
                             data.templates[templateId].state[stateId].values[value][elemId][property].func = item.func.replace(RegExp(old_id, 'g'), id)                 
                           }
 
@@ -194,7 +194,7 @@ function preparationData(data, clearAnimation = true) {
                           }
                         }
                           // bind
-                          if (item.enabled) {
+                          if (item && item.enabled) {
                             try {
                               data.templates[templateId].state[stateId].values[value][elemId][property].func = createValueFunc(item.func).body;
                             } catch {
@@ -322,7 +322,7 @@ function preparationData(data, clearAnimation = true) {
 
             values[0] = _id;
             data.containers[key].elements[id][propId].value = values.join(' ');
-            if (item.enabled) {
+            if (item && item.enabled) {
               data.containers[key].elements[id][propId].func = item.func.replace(RegExp(old_id, 'g'), _id)                 
             }
             
@@ -350,7 +350,7 @@ function preparationData(data, clearAnimation = true) {
             }
           }
           // bind
-          if (item.enabled) {
+          if (item && item.enabled) {
             try {
               data.containers[key].elements[id][propId].func = createValueFunc(item.func).body;
               if (data.states[item.did] && data.states[item.did][item.prop] !== undefined) {

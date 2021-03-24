@@ -126,10 +126,7 @@ function reducerContainer(state, action) {
         selectType: 'some',
         selectOne: null,
         selectContainer: action.data,
-        selects: {
-          ...state.selects,
-          [action.elementId]: true,
-        },
+        selects: action.selects,
       };
     case DIALOG_CLEAR_SELECTS:
       return { 

@@ -15,6 +15,7 @@ function Element(props) {
   return (
     <Draggable
       bounds=".parent"
+      stopevents={props.stopevents}
       grid={[props.grid, props.grid]}
       scale={props.scale}
       position={{ x: props.item.x.value , y: props.item.y.value }}

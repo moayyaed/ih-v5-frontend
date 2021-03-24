@@ -152,91 +152,95 @@ class Sheet extends Component {
 
 
   handleMouseUpBody = (e) => {
-    if (e.button === 0) {
-      if (this.mbstart) {
-        this.lastDragEventTime = Date.now();
-        
-        const temp = [];
+    if (!(e.ctrlKey || e.metaKey)) {
+      if (e.button === 0) {
+        if (this.mbstart) {
+          this.lastDragEventTime = Date.now();
+          
+          const temp = [];
+    
+          const s = this.props.settings.scale.value;
+          
+          const x = (this.mbx - (this.props.settings.x.value * s)) / s;
+          const y = (this.mby - (this.props.settings.y.value * s)) / s;
+          const w = x + (this.mbw / s);
+          const h = y + (this.mbh / s);
+    
+          this.props.list.forEach(key => {
+            const item = this.props.elements[key]
   
-        const s = this.props.settings.scale.value;
-        
-        const x = (this.mbx - (this.props.settings.x.value * s)) / s;
-        const y = (this.mby - (this.props.settings.y.value * s)) / s;
-        const w = x + (this.mbw / s);
-        const h = y + (this.mbh / s);
+            const a = x <= item.x.value;
+            const b = y <= item.y.value;
+            const c = w >= (item.x.value + item.w.value)
+            const d = h >= (item.y.value + item.h.value)
   
-        this.props.list.forEach(key => {
-          const item = this.props.elements[key]
-
-          const a = x <= item.x.value;
-          const b = y <= item.y.value;
-          const c = w >= (item.x.value + item.w.value)
-          const d = h >= (item.y.value + item.h.value)
-
-          if (a && b && c && d) {
-            temp.push(key)
+            if (a && b && c && d) {
+              temp.push(key)
+            }
+          });
+          if (temp.length) {
+            if (temp.length === 1) {
+              core.actions.container
+                .select(this.props.id, this.props.prop, temp[0]);
+            } else {
+              const data = { 
+                x: { value: Infinity }, 
+                y: { value: Infinity }, 
+                w: { value: 0 }, 
+                h: { value: 0 }, 
+                zIndex: { value: 0 } 
+              };
+                temp
+                  .forEach(key => {
+                    const element = this.props.elements[key];
+                    data.x.value = Math.min(data.x.value, element.x.value);
+                    data.y.value = Math.min(data.y.value, element.y.value); 
+                    data.w.value = Math.max(data.w.value, element.x.value + element.w.value); 
+                    data.h.value = Math.max(data.h.value, element.y.value + element.h.value); 
+                    data.zIndex.value = Math.max(data.zIndex.value, element.zIndex.value); 
+                  });
+              data.w.value = data.w.value - data.x.value;
+              data.h.value = data.h.value - data.y.value;
+              core.actions.dialog
+                .selectMB(
+                  this.props.id, this.props.prop,
+                  temp.reduce((p, c) => ({ ...p, [c]: true }), {}), data
+                );
+            }
           }
-        });
-        if (temp.length) {
-          if (temp.length === 1) {
-            core.actions.container
-              .select(this.props.id, this.props.prop, temp[0]);
-          } else {
-            const data = { 
-              x: { value: Infinity }, 
-              y: { value: Infinity }, 
-              w: { value: 0 }, 
-              h: { value: 0 }, 
-              zIndex: { value: 0 } 
-            };
-              temp
-                .forEach(key => {
-                  const element = this.props.elements[key];
-                  data.x.value = Math.min(data.x.value, element.x.value);
-                  data.y.value = Math.min(data.y.value, element.y.value); 
-                  data.w.value = Math.max(data.w.value, element.x.value + element.w.value); 
-                  data.h.value = Math.max(data.h.value, element.y.value + element.h.value); 
-                  data.zIndex.value = Math.max(data.zIndex.value, element.zIndex.value); 
-                });
-            data.w.value = data.w.value - data.x.value;
-            data.h.value = data.h.value - data.y.value;
-            core.actions.dialog
-              .selectMB(
-                this.props.id, this.props.prop,
-                temp.reduce((p, c) => ({ ...p, [c]: true }), {}), data
-              );
-          }
+        } else {
+          this.handleClickBody();
         }
-      } else {
-        this.handleClickBody();
+    
+        this.body.removeEventListener('mousemove', this.handleMouseMove);
+    
+        this.mousebox.style.display  = 'none';
+        this.mousebox.style.top = 0 + 'px';
+        this.mousebox.style.left = 0 + 'px';
+        this.mousebox.style.height = 0 + 'px';
+        this.mousebox.style.width = 0 + 'px';
+    
+        this.mbstart = false;
+    
+        this.mbx = 0;
+        this.mby = 0;
+        this.mbw = 0;
+        this.mbh = 0;
       }
-  
-      this.body.removeEventListener('mousemove', this.handleMouseMove);
-  
-      this.mousebox.style.display  = 'none';
-      this.mousebox.style.top = 0 + 'px';
-      this.mousebox.style.left = 0 + 'px';
-      this.mousebox.style.height = 0 + 'px';
-      this.mousebox.style.width = 0 + 'px';
-  
-      this.mbstart = false;
-  
-      this.mbx = 0;
-      this.mby = 0;
-      this.mbw = 0;
-      this.mbh = 0;
     }
   }
 
   handleMouseDown = (e) => {
-    if (e.button === 0) {
-      if (!this.state.move) {
-        const offset = this.body.getBoundingClientRect();
-      
-        this.mbinitx = e.pageX - offset.left;
-        this.mbinity = e.pageY - offset.top;
+    if (!(e.ctrlKey || e.metaKey)) {
+      if (e.button === 0) {
+        if (!this.state.move) {
+          const offset = this.body.getBoundingClientRect();
         
-        this.body.addEventListener('mousemove', this.handleMouseMove)
+          this.mbinitx = e.pageX - offset.left;
+          this.mbinity = e.pageY - offset.top;
+          
+          this.body.addEventListener('mousemove', this.handleMouseMove)
+        }
       }
     }
   }
@@ -541,7 +545,7 @@ class Sheet extends Component {
     e.stopPropagation();
 
     if (!this.state.move) {
-      if (e.shiftKey && this.props.selectType !== null && this.props.selectOne !== 'content') {
+      if ((e.ctrlKey || e.metaKey) && this.props.selectType !== null && this.props.selectOne !== 'content') {
         if (this.props.elements[elementId].type !== 'expander' && this.props.selects[elementId] === undefined) {
           const data = { 
             x: { value: Infinity }, 
@@ -957,7 +961,7 @@ class Sheet extends Component {
     if (this.dragSelectContainer) {
       this.dragSelectContainer = null;
     } else {
-      if (e.shiftKey) {
+      if ((e.ctrlKey || e.metaKey)) {
         const elements = window.document.elementsFromPoint(e.clientX, e.clientY);
         let elementId = null;
         
@@ -1008,6 +1012,7 @@ class Sheet extends Component {
           key="select"
           id="select"
           select
+          stopevents={!this.state.move}
           move={this.state.move}
           grid={this.props.settings.grid.value}
           scale={this.props.settings.scale.value}

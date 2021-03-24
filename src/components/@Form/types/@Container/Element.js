@@ -14,6 +14,7 @@ const styles = {
 function Element(props) {
   return (
     <Draggable
+      stopevents={props.stopevents}
       bounds=".parent"
       grid={[props.grid, props.grid]}
       scale={props.scale}

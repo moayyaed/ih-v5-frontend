@@ -15,6 +15,7 @@ function Element(props) {
   return (
     <Draggable
       bounds=".parent"
+      stopevents={props.stopevents}
       scale={props.scale}
       position={{ x: props.item.x.value , y: props.item.y.value }}
       disabled={props.move ? true : props.isGroup || props.selectType === 'some'}

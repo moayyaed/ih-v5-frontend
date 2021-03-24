@@ -312,6 +312,11 @@ export default class DraggableCore extends React.Component<DraggableCoreProps, D
   };
 
   handleDrag: EventHandler<MouseTouchEvent> = (e) => {
+    if (e.ctrlKey || e.metaKey || this.props.stopevents) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
     // Get the current drag point from the event. This is used as the offset.
     const position = getControlPosition(e, this.state.touchIdentifier, this);
     if (position == null) return;
@@ -345,6 +350,12 @@ export default class DraggableCore extends React.Component<DraggableCoreProps, D
   };
 
   handleDragStop: EventHandler<MouseTouchEvent> = (e) => {
+    console.log('+')
+    if (e.ctrlKey || e.metaKey || this.props.stopevents) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
     if (!this.state.dragging) return;
 
     const position = getControlPosition(e, this.state.touchIdentifier, this);
@@ -390,6 +401,12 @@ export default class DraggableCore extends React.Component<DraggableCoreProps, D
   };
 
   onMouseDown: EventHandler<MouseTouchEvent> = (e) => {
+    if (e.ctrlKey || e.metaKey || this.props.stopevents) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    // 
     dragEventFor = eventsFor.mouse; // on touchscreen laptops we could switch back to mouse
 
     return this.handleDragStart(e);
@@ -397,7 +414,6 @@ export default class DraggableCore extends React.Component<DraggableCoreProps, D
 
   onMouseUp: EventHandler<MouseTouchEvent> = (e) => {
     dragEventFor = eventsFor.mouse;
-
     return this.handleDragStop(e);
   };
 
