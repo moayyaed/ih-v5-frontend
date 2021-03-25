@@ -870,13 +870,13 @@ class Sheet extends Component {
 
   handleRenderElement = (elementId, item) => {
     if (item.type === 'group') {
+      // outline: item.groupId ? 'unset' : '1px dashed #6d7882',
       return (
         <div
           style={{
             position: 'absolute', 
             width: '100%', 
             height: '100%', 
-            outline: item.groupId ? 'unset' : `1px dashed #6d7882`,
             opacity: item.opacity.value / 100,
             animation: item.animation && item.animation.active ? item.animation.value : 'unset',
             overflow: item.overflow && item.overflow.value ? 'hidden' : 'unset',
