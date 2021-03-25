@@ -1,31 +1,10 @@
 import React, { Component } from 'react';
-import { sortableContainer, sortableElement, sortableHandle, } from 'react-sortable-hoc';
+import core from 'core';
 
-import BaseTable, { AutoResizer, Column } from 'react-base-table';
-
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import FilterListIcon from '@material-ui/icons/FilterList';
-
-import Popover from '@material-ui/core/Popover';
-
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Checkbox from '@material-ui/core/Checkbox';
-
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import InputBase from '@material-ui/core/InputBase';
-import SearchIcon from '@material-ui/icons/Search';
-
-import Divider from '@material-ui/core/Divider';
-
-import { fade, withStyles } from '@material-ui/core/styles';
-
-import { FixedSizeList as List, shouldComponentUpdate } from 'react-window';
+import BaseTable, { Column } from 'react-base-table';
 
 import { transform } from '../tools';
+import { arrayMove, createColumns, saveColumns } from './tools';
 
 import { 
   LoadingLayer, 
@@ -33,332 +12,94 @@ import {
   LoadingMoreText, 
   Loader, 
   Empty,
+  SortableHeaderRowRenderer,
 } from './elements';
 
-import 'react-base-table/styles.css';
+import 'react-base-table/styles.css'
 
-const classes = (theme) => ({
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 6,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: 6,
-      width: 'auto',
-    },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  inputRoot: {
-    color: 'inherit',
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
-  },
-});
-
-const styles = {
-  toolbar: {
-    height: 50,
-    padding: 0,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  checkboxAll: {
-    color: '#fff',
-    marginLeft: 4,
-  },
-  headerContainer: {
-    width: '100%',
-    height: '100%',
-    position: 'relative',
-    display: 'flex',
-  },
-  columnContainer: {
-    display: 'flex',
-    position: 'relative',
-  },
-  filterContainer: {
-    right: 6,
-    position: 'absolute',
-    zIndex: 1000,
-    height: '100%',
-    width: 24,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  dragHandle: {
-    position: 'absolute',
-    zIndex: 1000,
-    height: '100%',
-    width: 12,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    cursor: 'grab',
-  },
-  filterButtonsContainer: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    margin: '12px 24px',
-  },
-  filterToolbarContainer: {
-    width: 300,
-  },
-  filterButton: {
-    marginLeft: 24,
+function getInitState(mode, item) {
+  const id = item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id;
+  if (mode === 'user') {
+    if (id) {
+      return {
+        columns: createColumns(id, item.data.columns),
+        data: [],
+        loading: true, 
+        loadingMore: false, 
+        loadedAll: false 
+      }
+    }
+    return {
+      columns: [],
+      data: [],
+      loading: false, 
+      loadingMore: false, 
+      loadedAll: true 
+    }
+  }
+  return {
+    columns: [
+      { title: 'Дата', prop: 'date', width: 150 },
+      { title: 'Тип', prop: 'type', width: 200 },
+      { title: 'Сообщение', prop: 'mes', width: 450 }
+    ],
+    data: [
+      { date: '31.12.2020 23:59:57', type: 'Информирование', mes: 'Значение: 0' },
+      { date: '31.12.2020 23:59:58', type: 'Информирование', mes: 'Значение: 1' },
+      { date: '31.12.2020 23:59:59', type: 'Информирование', mes: 'Значение: 2' }
+    ],
+    loading: false, 
+    loadingMore: false, 
+    loadedAll: true 
   }
 }
 
-const DragHandle = sortableHandle(() => 
-  <span className="BaseTable__header-handle" style={styles.dragHandle}>::</span>);
-
-const SortableHeader = sortableElement(({children, column }) => {
-  return (
-    <div style={styles.columnContainer}>
-      <DragHandle />
-      {React.cloneElement(children)}
-      <ButtonFilter column={column} />
-    </div>
-  )
-});
-
-const SortableHeaderRowRenderer = sortableContainer(
-  ({ cells, columns }) => {
-    return (
-      <div style={styles.headerContainer}>
-        {React.Children.map(cells, (column, index) => 
-          <SortableHeader index={index} column={columns[index]}>
-            {column}
-          </SortableHeader>
-        )}
-      </div>
-    )
-  }
-);
-
-const arrayMoveMutate = (array, from, to) => {
-	const startIndex = from < 0 ? array.length + from : from;
-
-	if (startIndex >= 0 && startIndex < array.length) {
-		const endIndex = to < 0 ? array.length + to : to;
-
-		const [item] = array.splice(from, 1);
-		array.splice(endIndex, 0, item);
-	}
-};
-
-const arrayMove = (array, from, to) => {
-	array = [...array];
-	arrayMoveMutate(array, from, to);
-	return array;
-};
-
-const columns = [
-  { prop: 'id', width: 200 },
-  { prop: 'title', width: 200 },
-  { prop: 'value1', width: 200 },
-  { prop: 'value2', width: 200 },
-];
-
-const data = new Array(1000)
-  .fill(0)
-  .map((i, k) => ({ id: k, title: 'row'+k, value1: k, value2: '_'+k }))
-
-
-class _ButtonFilter extends Component {
-  state = { 
-    open: false, 
-    anchorEl: null, 
-    selectAll: true, 
-    data: data.map(i => i[this.props.column.dataKey]) 
-  }
-  
-  handleOpen = (e) => {
-    this.setState({ open: true, anchorEl: e.currentTarget })
-  }
-
-  handleClose = () => {
-    this.setState({ open: false, anchorEl: null })
-  }
-
-  handleSelectAll = (e) => {
-    this.setState({ selectAll: e.target.checked })
-  }
-
-  handleSearch = (e) => {
-    if (e.target.value) {
-      this.setState({ 
-        data: data
-          .map(i => i[this.props.column.dataKey])
-          .filter(i => i.indexOf(e.target.value) !== -1)
-      })
-    } else {
-      this.setState({ data: data.map(i => i[this.props.column.dataKey]) })
-    }
-  }
-
-  renderRow = ({ index, style, data }) => (
-    <ListItem key={index} style={style} role={undefined} dense button onClick={() => {}}>
-      <ListItemIcon>
-        <Checkbox
-          edge="start"
-          checked={data.selectAll}
-          tabIndex={-1}
-          disableRipple
-          color="primary"
-        />
-      </ListItemIcon>
-      <ListItemText primary={data.data[index]} />
-    </ListItem>
-  );
-
-  render() {
-    const classes = this.props.classes;
-    return (
-      <div style={styles.filterContainer}>
-        <IconButton size="small" onClick={this.handleOpen} >
-          <FilterListIcon fontSize="inherit" />
-        </IconButton>
-        <Popover
-          open={this.state.open}
-          anchorEl={this.state.anchorEl}
-          onClose={this.handleClose}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-        >
-          <div style={styles.filterToolbarContainer}>
-            <AppBar position="static">
-              <Divider orientation="vertical" flexItem  />
-              <Toolbar style={styles.toolbar}>
-                <Checkbox
-                  style={styles.checkboxAll}
-                  edge="start"
-                  defaultChecked={true}
-                  tabIndex={-1}
-                  disableRipple
-                  color="default"
-                  onChange={this.handleSelectAll}
-                />
-                <div className={classes.search}>
-                  <div className={classes.searchIcon}>
-                    <SearchIcon />
-                  </div>
-                  <InputBase
-                    placeholder="Search…"
-                    classes={{
-                      root: classes.inputRoot,
-                      input: classes.inputInput,
-                    }}
-                    inputProps={{ 'aria-label': 'search' }}
-                    onChange={this.handleSearch}
-                  />
-                </div>
-              </Toolbar>
-            </AppBar>
-          </div>
-          <Divider />
-          <List
-            height={450}
-            itemCount={this.state.data.length}
-            itemSize={50}
-            width={300}
-            itemData={this.state}
-          >
-            {this.renderRow}
-          </List>
-          <Divider />
-          <div style={styles.filterButtonsContainer}>
-            <Button 
-              variant="outlined"
-              onClick={this.handleClose}
-            >
-                Отмена
-            </Button>
-            <Button 
-              disableElevation
-              color="primary"
-              variant="contained"
-              style={styles.filterButton}
-              onClick={this.handleClose}
-            >
-              ОК
-            </Button>
-          </div>
-        </Popover>
-      </div>
-    )
-  }
-} 
-
-const ButtonFilter = withStyles(classes)(_ButtonFilter);
 
 class Journal extends Component {
 
-  state = { 
-    columns: columns, 
-    data: [], 
-    loading: true, 
-    loadingMore: false, 
-    loadedAll: false 
-  }
+  state = getInitState(this.props.mode, this.props.item)
 
   componentDidMount() {
-    this.loadData();
+    const item = this.props.item;
+    const id = item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id;
+    if (id) {
+      this.loadData();
+    }
   }
 
 
   loadData = () => {
-    setTimeout(() => {
-      this.setState({
-        data: data.slice(0, 100),
-        loading: false,
-        loadedAll: false,
-      })
-    }, 250);
+    const item = this.props.item;
+    const id = item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id;
+    const params = {
+      type: 'journal',
+      id,
+      count: Math.round((item.h.value - (item.borderSize.value * 2)) / 35 * 2),
+      rowid: 0,
+    }
+    
+    core
+      .request({ method: 'journal', params })
+      .ok(data => this.setState({ data: data, loading: false, loadedAll: data.length === 0 }));
   }
 
   loadMore = () => {
     this.setState({ loadingMore: true })
-
-    setTimeout(() => {
-      const temp = data.slice(this.state.data.length, this.state.data.length + 100);
-    
-      this.setState({
-        data: this.state.data.concat(temp),
-        loadingMore: false,
-        loadedAll: temp.length === 0,
-      })
-    }, 250)
+    const item = this.props.item;
+    const id = item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id;
+    const params = {
+      type: 'journal',
+      id,
+      count: Math.round((item.h.value - (item.borderSize.value * 2)) / 35 * 2),
+      rowid: this.state.data[this.state.data.length - 1].id,
+    }
+    core
+      .request({ method: 'journal', params })
+      .ok(data => this.setState({ 
+        data: this.state.data.concat(data), 
+        loadingMore: false, 
+        loadedAll: data.length === 0,
+      }));
   }
 
   handleEndReached = (params) => {
@@ -373,12 +114,15 @@ class Journal extends Component {
     const { loading, loadingMore } = this.state
 
     if (loadingMore) {
+      /*
       return (
         <LoadingMoreLayer>
           <LoadingMoreText>Loading More</LoadingMoreText>
           <Loader small />
         </LoadingMoreLayer>
       )
+      */
+     return null;
     }
    
     if (loading) {
@@ -413,10 +157,31 @@ class Journal extends Component {
     );
   }
 
-  onSortEnd = ({oldIndex, newIndex}) => {
-    this.setState({
-      columns: arrayMove(this.state.columns, oldIndex, newIndex),
+  handleColumnResizeEnd = ({ column, width }) => {
+    const item = this.props.item;
+    const id = item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id;
+    const temp = this.state.columns.map(i => {
+      if (i.prop === column.dataKey) {
+        return { ...i, width };
+      }
+      return i;
     });
+    this.setState({ columns: temp });
+    if (id) {
+      saveColumns(id, temp)
+    }
+  }
+
+  onSortEnd = ({oldIndex, newIndex}) => {
+    const item = this.props.item;
+    const columns = arrayMove(this.state.columns, oldIndex, newIndex);
+    const id = item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id;
+
+    this.setState({ columns: columns });
+    
+    if (id) {
+      saveColumns(id, columns)
+    }
   }
 
   render(props = this.props) {
@@ -448,12 +213,13 @@ class Journal extends Component {
           overlayRenderer={this.renderOverlay}
           emptyRenderer={this.renderEmpty}
           headerRenderer={this.headerRenderer}
+          onColumnResizeEnd={this.handleColumnResizeEnd}
         >
           {this.state.columns.map(i => 
             <Column
               resizable 
               key={i.prop} 
-              title={i.prop}
+              title={i.title}
               dataKey={i.prop}
               width={i.width || 150}
             />

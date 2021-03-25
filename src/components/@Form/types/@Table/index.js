@@ -356,11 +356,12 @@ class Table extends PureComponent {
 
   handleColumnResizeEnd = ({ column, width }) => {
     const temp = this.state.columns.map(i => {
-      if (i.prop === column.prop) {
-        return column;
+      if (i.prop === column.dataKey) {
+        return { ...i, width };
       }
       return i;
     });
+    this.setState({ columns: temp });
     saveColumns(this.props.options.prop, temp)
   }
 
