@@ -62,6 +62,7 @@ class Request {
   }
 
   responseError(e) {
+    console.error(e)
     clearTimeout(this.timerDelay);
     clearTimeout(this.timerTimeout);
   

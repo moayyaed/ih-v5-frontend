@@ -93,7 +93,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://v5.ih-systems.com:3000",
+  "proxy": "http://v5.ih-systems.com:49801",
   "devDependencies": {
     "source-map-explorer": "^2.2.2"
   }

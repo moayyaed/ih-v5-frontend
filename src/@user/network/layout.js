@@ -256,7 +256,7 @@ function preparationData(data, clearAnimation = true) {
               data.containers[key].elements[id].elements[elemId] = Object
                 .keys(tempState)
                 .reduce((p, c) => {
-                  if (typeof tempState[c] === 'string') {
+                  if (typeof tempState[c] === 'string' || tempState[c] === null) {
                     return { ...p, [c]: tempState[c] }
                   }
                   return { 
@@ -272,7 +272,7 @@ function preparationData(data, clearAnimation = true) {
               Object
                 .keys(data.containers[key].elements[id].elements[elemId])
                 .forEach(propId => {
-                  if (data.containers[key].elements[id].elements[elemId][propId].enabled) {
+                  if (data.containers[key].elements[id].elements[elemId][propId] && data.containers[key].elements[id].elements[elemId][propId].enabled) {
                     const bind = data.containers[key].elements[id].elements[elemId][propId]._bind;
                     if (data.containers[key].elements[id].links[bind]) {
                       const item = data.containers[key].elements[id].links[bind];

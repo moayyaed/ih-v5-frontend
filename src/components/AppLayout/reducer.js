@@ -123,6 +123,7 @@ function reducer(state = defaultState, action) {
                     return { ...p3, [c3]: action.data[c2].concat(state.layout.elements[c2][c3]) }
                   }
                   if (
+                    state.layout.elements[c2][c3] &&
                     state.layout.elements[c2][c3].enabled && 
                     action.data[state.layout.elements[c2][c3].did] &&
                     action.data[state.layout.elements[c2][c3].did][state.layout.elements[c2][c3].prop] !== undefined 
@@ -180,6 +181,7 @@ function reducer(state = defaultState, action) {
                             return { ...p3, [c3]: action.data[c2].concat(state.containers[c].elements[c2][c3]) }
                           }
                           if (
+                            state.containers[c].elements[c2][c3] &&
                             state.containers[c].elements[c2][c3].enabled && 
                             action.data[state.containers[c].elements[c2][c3].did] &&
                             action.data[state.containers[c].elements[c2][c3].did][state.containers[c].elements[c2][c3].prop] !== undefined 
@@ -246,7 +248,7 @@ function reducer(state = defaultState, action) {
                                     [c5]: Object
                                       .keys(data[c5])
                                       .reduce((p6, c6) => {
-                                        if (data[c5][c6].enabled) {
+                                        if (data[c5][c6] && data[c5][c6].enabled) {
                                           try  {
                                             if (c6 === 'w2' || c6 === 'h2') {
                                               const prop1 = c6 === 'w2' ? 'x': 'y';

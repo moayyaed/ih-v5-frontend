@@ -44,6 +44,7 @@ function reducer(state = defaultState, action) {
                     return { ...p3, [c3]: action.data[c2].concat(state.elements[c2][c3]) }
                   }
                   if (
+                    state.elements[c2][c3] &&
                     state.elements[c2][c3].enabled && 
                     action.data[state.elements[c2][c3].did] &&
                     action.data[state.elements[c2][c3].did][state.elements[c2][c3].prop] !== undefined 
