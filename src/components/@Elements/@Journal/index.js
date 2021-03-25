@@ -322,7 +322,7 @@ class _ButtonFilter extends Component {
 
 const ButtonFilter = withStyles(classes)(_ButtonFilter);
 
-class Log extends Component {
+class Journal extends Component {
 
   state = { 
     columns: columns, 
@@ -465,6 +465,6 @@ class Log extends Component {
 }
 
 
-export default Log;
+export default Journal;
 
 

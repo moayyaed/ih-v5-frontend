@@ -2,11 +2,11 @@ import { main } from '../elements';
 import move from '../elements/move';
 
 
-const log = {
+const journal = {
   main: main,
   move: move,
   link: [],
 };
 
 
-export default log;
+export default journal;

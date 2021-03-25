@@ -642,7 +642,7 @@ class Sheet extends Component {
           { id: '2', title: 'Chart Multiline', click: () => this.handleAddElement(e, 'chart_multi') },
         ]
       },
-      { id: '12', title: 'Log', click: () => this.handleAddElement(e, 'log') },
+      { id: '12', title: 'Journal', click: () => this.handleAddElement(e, 'journal') },
       { id: '13', type: 'divider' },
       { id: '14', title: 'Expander', click: () => this.handleAddElement(e, 'expander') },
     ]

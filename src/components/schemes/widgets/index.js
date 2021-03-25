@@ -11,7 +11,7 @@ import devicelog from './devicelog';
 import devicesettings from './devicesettings';
 
 import container from './container';
-import log from './log';
+import journal from './journal';
 
 
 const widgets = {
@@ -26,7 +26,7 @@ const widgets = {
   devicesettings,
   
   container,
-  log,
+  journal,
 };
 
 

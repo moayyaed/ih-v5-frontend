@@ -342,7 +342,7 @@ const DEVICELOG = {
   data: [],
 }
 
-const LOG = {
+const JOURNAL = {
   ...BLOCK,
   widget: true,
   expand: { value: true },
@@ -504,8 +504,8 @@ function getDefaultParams(type) {
       return SLIDER;
     case 'checkbox':
       return CHECKBOX;
-    case 'log':
-      return LOG;
+    case 'journal':
+      return JOURNAL;
     default:
       return BLOCK;
   }

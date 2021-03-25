@@ -21,7 +21,7 @@ import Input from './@Input';
 import Slider from './@Slider';
 import Checkbox from './@Checkbox';
 
-import Log from './@Log';
+import Journal from './@Journal';
 
 function getElementByType(type) {
   switch (type) {
@@ -58,8 +58,8 @@ function getElementByType(type) {
       return Slider;
     case 'checkbox':
       return Checkbox;
-    case 'log':
-      return Log;
+    case 'journal':
+      return Journal;
     default:
       return Block;
   }

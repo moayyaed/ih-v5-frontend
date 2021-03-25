@@ -6,7 +6,7 @@ const dynamic_dialog = {
   input: { variant: 'tree',title: 'Выберите свойство', id: 'devpropsAndAny', save: false },
   slider: { variant: 'tree',title: 'Выберите свойство', id: 'devpropsAndAny', save: false },
   checkbox: { variant: 'tree',title: 'Выберите свойство', id: 'devpropsAndAny', save: false },
-  log: { variant: 'tree', title: 'Выберите журнал', id: 'charts' },
+  journal: { variant: 'tree', title: 'Выберите журнал', id: 'journals' },
 };
 
 
