@@ -104,7 +104,7 @@ export function ElementsItems(props) {
 }
 
 function OptionItem(props) {
-  if (props.edits[props.nodeId] !== undefined) {
+  if (props.edits && props.edits[props.nodeId] !== undefined) {
     return (
       <div style={styles.masterItem}>
         <input
