@@ -60,10 +60,12 @@ class Journal extends Component {
   state = getInitState(this.props.mode, this.props.item)
 
   componentDidMount() {
-    const item = this.props.item;
-    const id = item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id;
-    if (id) {
-      this.loadData();
+    if (this.props.mode === 'user') {
+      const item = this.props.item;
+      const id = item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id;
+      if (id) {
+        this.loadData();
+      }
     }
   }
 
