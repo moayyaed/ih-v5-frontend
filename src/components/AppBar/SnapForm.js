@@ -149,7 +149,7 @@ class Test extends PureComponent {
     if (painterro) {
       if (state.title !== '' && state.comment !== '') {
         const url = window.location.protocol === 'https:' ?
-        'https://docs.ih-systems.com:40001/bug-report' : 'http://docs.ih-systems.com:40000/bug-report'
+        'https://docs.intrahouse.ru:40001/bug-report' : 'http://docs.intrahouse.ru:40000/bug-report'
         window
           .fetch(url, {
             headers: {

@@ -281,11 +281,11 @@ function handleClickHelp() {
   const lang = core.session.lang || 'ru';
 
   if (store.route.tab) {
-    window.open(`https://docs.ih-systems.com/${lang}_${store.route.rootid}`, '_blank');
+    window.open(`https://docs.intrahouse.ru/${lang}_${store.route.rootid}`, '_blank');
   } else if (store.route.menuid) {
-    window.open(`https://docs.ih-systems.com/${lang}_${store.route.menuid}`, '_blank');
+    window.open(`https://docs.intrahouse.ru/${lang}_${store.route.menuid}`, '_blank');
   } else {
-    window.open('https://docs.ih-systems.com', '_blank');
+    window.open('https://docs.intrahouse.ru', '_blank');
   }
 }
 
