@@ -5,7 +5,7 @@ const text = [
     type: 'divider',
   },
   { 
-    title: 'Value', 
+    title: 'Text', 
     prop: 'text', 
     type: 'inputlink',
   },
