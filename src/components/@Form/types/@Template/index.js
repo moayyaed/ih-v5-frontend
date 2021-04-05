@@ -335,7 +335,7 @@ class Template extends PureComponent {
         core.actions.template
           .editElement(
             this.props.id, this.props.options.prop,
-            props.nodeId, { title: null, label: value },
+            props.nodeId, { _label: value },
           )
       }
     }

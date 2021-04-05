@@ -256,6 +256,8 @@ class Draggable extends React.Component<DraggableProps, DraggableState> {
       y: uiData.y,
     };
 
+    let boundNode = null;
+
     // Keep within bounds.
     if (this.props.bounds) {
       // Save original x and y.
@@ -268,7 +270,8 @@ class Draggable extends React.Component<DraggableProps, DraggableState> {
       newState.y += this.state.slackY;
 
       // Get bound position. This will ceil/floor the x and y within the boundaries.
-      const [newStateX, newStateY] = getBoundPosition(this, newState.x, newState.y);
+      const [newStateX, newStateY, _boundNode ] = getBoundPosition(this, newState.x, newState.y);
+      boundNode = _boundNode;
       newState.x = newStateX;
       newState.y = newStateY;
       // console.log(newStateX, newStateY)
@@ -286,14 +289,32 @@ class Draggable extends React.Component<DraggableProps, DraggableState> {
     // Short-circuit if user's callback killed it.
     // uiData.xx = uiData.x / this.props.grid[0] * this.props.grid[0];
     // uiData.yy = uiData.y / this.props.grid[1] * this.props.grid[1];
-    
+  
     uiData.xx = Math.round(uiData.x / this.props.grid[0]) * this.props.grid[0];
     uiData.yy = Math.round(uiData.y / this.props.grid[1]) * this.props.grid[1];
+
+    // uiData.xx = uiData.x;
+    // uiData.yy = uiData.y;
+
+    
+
+    if (boundNode) {
+      const boundWidth = Math.round(boundNode.offsetWidth);
+      const boundHeight = Math.round(boundNode.offsetHeight);
+
+      if ((uiData.x + uiData.node.offsetWidth) >= boundWidth) {
+        uiData.xx = boundWidth - uiData.node.offsetWidth;
+      }
+  
+      if ((uiData.y + uiData.node.offsetHeight) >= boundHeight) {
+        uiData.yy = boundHeight - uiData.node.offsetHeight;
+      }
+    }
 
     const shouldUpdate = this.props.onDrag(e, uiData);
     if (shouldUpdate === false) return false;
     // console.log(this.state.prevPropsPosition.y, this.state.y)
-  
+    
     newState.xx = uiData.xx
     newState.yy = uiData.yy
 

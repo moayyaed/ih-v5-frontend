@@ -111,7 +111,7 @@ class Property extends PureComponent {
         const map2 = list
           .reduce((p, c) => {
             return p
-              .concat([{ type: 'actions', prop: c, title: this.props.templateData.elements[c].label || c }])
+              .concat([{ type: 'actions', prop: c, title: this.props.templateData.elements[c]._label || c }])
           }, [])
         map = [{ title: 'Variables', prop: 'bind', type: 'divider' }]
           .concat(map, map2)

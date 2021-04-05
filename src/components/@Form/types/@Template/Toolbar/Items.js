@@ -123,10 +123,10 @@ function OptionItem(props) {
       </div>
     )
   }
-  const label = props.label ? props.label : props.title ? `${props.nodeId} (${props.title})` : props.nodeId;
+ 
   return (
     <div style={styles.masterItem}>
-      <div style={styles.itemLabel}>{props.type === 'property' ? <PropertyItem nodeId={props.p} label={props.p} value={props.label} /> : label}</div>
+      <div style={styles.itemLabel}>{props.type === 'property' ? <PropertyItem nodeId={props.p} label={props.p} value={props.label} /> : props.label}</div>
       <div style={styles.itemButtonsMaster}>
         <IconButton size="small" style={styles.itemButton} onClick={(e) => props.onClickMenuToolbar(e, props)} >
           <MoreVertOutlinedIcon fontSize="inherit" />
@@ -230,7 +230,7 @@ function EventsItemGroup(props) {
         <BasicItem
           key={id}
           nodeId={id}
-          label={<OptionItem nodeId={id} {...props} type="element" title={props.elements[id].title} label={props.elements[id].label} />}
+          label={<OptionItem nodeId={id} {...props} type="element" label={props.elements[id]._label} />}
           endIcon={<TypeIcon type={props.elements[id].type}/>}
           onIconClick={(e) => props.onClickIcon(e, id)} 
           onLabelClick={(e) => props.onClickLabel(e, id)} 
@@ -265,7 +265,7 @@ function ElementItemGroup(props) {
       <BasicItem
         key={id}
         nodeId={id}
-        label={<OptionItem nodeId={id} {...props} type="element" title={props.elements[id].title} label={props.elements[id].label} />}
+        label={<OptionItem nodeId={id} {...props} type="element" label={props.elements[id]._label} />}
         endIcon={<TypeIcon type={props.elements[id].type}/>}
         onIconClick={(e) => props.onClickIcon(e, id)} 
         onLabelClick={(e) => props.onClickLabel(e, id)} 

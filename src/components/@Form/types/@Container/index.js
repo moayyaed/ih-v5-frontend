@@ -338,7 +338,7 @@ class Container extends PureComponent {
         core.actions.container
           .editElement(
             this.props.id, this.props.options.prop,
-            props.nodeId, { title: null, label: value },
+            props.nodeId, { _label: value },
           )
       }
     }

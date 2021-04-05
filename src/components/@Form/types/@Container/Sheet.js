@@ -280,6 +280,7 @@ class Sheet extends Component {
 
     const data = {
       type,
+      _label: elementId,
       x: { value: Math.round(x * 1e2 ) / 1e2 }, 
       y: { value: Math.round(y * 1e2 ) / 1e2 },
       w: { value: 60 }, h: { value: 60 },
@@ -292,7 +293,6 @@ class Sheet extends Component {
         .ok(res => {
           data.links = {};
           data.templateId = templateId;
-          data.title = title;
           data.w = { value: res.settings.w.value }; 
           data.h = { value: res.settings.h.value };
           data.w2 = { value: res.settings.w.value }; 
@@ -649,7 +649,7 @@ class Sheet extends Component {
       control: true, label: true, text: true,
       img: true, x: true, y: true,
       w: true, h: true, w2: true, h2: true,
-      type: true,
+      type: true, _label: true, links: true,
     }
 
     function cloneObject(i) {
@@ -1063,6 +1063,7 @@ class Sheet extends Component {
                 width: settings.w.value, 
                 height: settings.h.value,
                 backgroundColor: devcolor,
+                overflow: 'unset'
               }}
               onContextMenu={(e) => this.handleContextMenuElement(e, null)}
             >

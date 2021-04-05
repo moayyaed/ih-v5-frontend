@@ -85,6 +85,7 @@ function getProportionContainer(type, data, pos, old) {
 }
 
 function getPositionContainer(type, position, grid, data) {
+  // console.log(data.x)
   switch (type) {
     case 'TL':
       return { 

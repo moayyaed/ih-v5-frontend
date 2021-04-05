@@ -73,10 +73,10 @@ function OptionItem(props) {
       </div>
     )
   }
-  const label = props.label ? props.label : props.title ? `${props.nodeId} (${props.title})` : props.nodeId;
+
   return (
     <div style={styles.masterItem}>
-      <div style={styles.itemLabel}>{label}</div>
+      <div style={styles.itemLabel}>{props.label}</div>
       <div style={styles.itemButtonsMaster}>
         <IconButton size="small" style={styles.itemButton} onClick={(e) => props.onClickMenuToolbar(e, props)} >
           <MoreVertOutlinedIcon fontSize="inherit" />
@@ -107,7 +107,7 @@ function ElementItemGroup(props) {
         <BasicItem
           key={id}
           nodeId={id}
-          label={<OptionItem {...props} type="element" nodeId={id} title={props.elements[id].title} label={props.elements[id].label} />}
+          label={<OptionItem {...props} type="element" nodeId={id} label={props.elements[id]._label} />}
           endIcon={<TypeIcon type={props.elements[id].type}/>}
           onIconClick={(e) => props.onClickIcon(e, id)} 
           onLabelClick={(e) => props.onClickLabel(e, id)} 
@@ -120,7 +120,7 @@ function ElementItemGroup(props) {
       <BasicItem
         key={id}
         nodeId={id}
-        label={<OptionItem {...props} type="element" nodeId={id} title={props.elements[id].title} label={props.elements[id].label} />}
+        label={<OptionItem {...props} type="element" nodeId={id} label={props.elements[id]._label} />}
         endIcon={<TypeIcon type={props.elements[id].type}/>}
         onIconClick={(e) => props.onClickIcon(e, id)} 
         onLabelClick={(e) => props.onClickLabel(e, id)} 

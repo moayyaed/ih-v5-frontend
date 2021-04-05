@@ -329,7 +329,7 @@ class Dialog extends PureComponent {
         core.actions.dialog
           .editElement(
             this.props.id, this.props.options.prop,
-            props.nodeId, { title: null, label: value },
+            props.nodeId, { _label: value },
           )
       }
     }

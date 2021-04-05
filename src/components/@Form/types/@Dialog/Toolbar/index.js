@@ -69,7 +69,7 @@ class Toolbar extends PureComponent {
   }
 
   handleEditTitle = (props) => {
-    const label = props.label ? props.label : props.title ? `${props.nodeId} (${props.title})` : props.nodeId;
+    const label = props.label && typeof props.label === 'string' ? props.label : props.title ? `${props.nodeId} (${props.title})` : props.nodeId;
     this.setState({ edits: { ...this.state.edits, [props.nodeId]: label } })
   }
 

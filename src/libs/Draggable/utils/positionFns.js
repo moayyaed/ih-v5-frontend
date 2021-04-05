@@ -14,6 +14,7 @@ export function getBoundPosition(draggable: Draggable, x: number, y: number): [n
 
   // Clone new bounds
   let {bounds} = draggable.props;
+  let _boundNode = null;
   bounds = typeof bounds === 'string' ? bounds : cloneBounds(bounds);
   const node = findDOMNode(draggable);
 
@@ -29,6 +30,7 @@ export function getBoundPosition(draggable: Draggable, x: number, y: number): [n
     if (!(boundNode instanceof ownerWindow.HTMLElement)) {
       throw new Error('Bounds selector "' + bounds + '" could not find an element.');
     }
+    _boundNode = boundNode;
     const nodeStyle = ownerWindow.getComputedStyle(node);
     const boundNodeStyle = ownerWindow.getComputedStyle(boundNode);
     // Compute bounds. This is a pain with padding and offsets but this gets it exactly right.
@@ -72,7 +74,7 @@ export function getBoundPosition(draggable: Draggable, x: number, y: number): [n
   // But above left and top limits.
   if (isNum(bounds.left)) x = Math.max(x, bounds.left);
   if (isNum(bounds.top)) y = Math.max(y, bounds.top);
-  return [x, y];
+  return [x, y, _boundNode];
 }
 
 export function snapToGrid(grid: [number, number], pendingX: number, pendingY: number): [number, number] {
