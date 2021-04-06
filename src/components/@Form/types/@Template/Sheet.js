@@ -293,7 +293,7 @@ class Sheet extends Component {
   }
 
   handleMouseWhellContainer = (e) => {
-    if (e.ctrlKey || e.metaKey) {
+    if (e.altKey) {
       const isTouchPad = e.nativeEvent.wheelDeltaY ? 
       e.nativeEvent.wheelDeltaY === -3 * e.nativeEvent.deltaY : e.nativeEvent.deltaMode === 0;
   
@@ -340,7 +340,7 @@ class Sheet extends Component {
   }
 
   handleMouseWhellContainer2 = (e) => {
-    if (e.ctrlKey || e.metaKey) {
+    if (e.altKey) {
       const isTouchPad = e.nativeEvent.wheelDeltaY ? 
       e.nativeEvent.wheelDeltaY === -3 * e.nativeEvent.deltaY : e.nativeEvent.deltaMode === 0;
   
@@ -781,6 +781,7 @@ class Sheet extends Component {
               move={this.state.move}
               grid={this.props.settings.grid.value}
               scale={this.props.settings.scale.value}
+              settings={this.props.settings}
               item={this.props.elements[id]}
               select={this.props.selects[id]}
               selectType={this.props.selectType}  
@@ -900,6 +901,7 @@ class Sheet extends Component {
           move={this.state.move}
           grid={this.props.settings.grid.value}
           scale={this.props.settings.scale.value}
+          settings={this.props.settings}
           item={this.props.selectContainer}
           onStartMove={this.handleStartMoveSelectContainer}
           onMove={this.handleMoveSelectContainer}
@@ -998,6 +1000,7 @@ class Sheet extends Component {
                       move={this.state.move}
                       grid={settings.grid.value}
                       scale={settings.scale.value}
+                      settings={settings}
                       item={elements[id]}
                       select={selects[id]}
                       selectToolbar={this.props.selectToolbar}

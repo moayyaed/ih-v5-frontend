@@ -43,6 +43,7 @@ function Element(props) {
           position={props.item}
           grid={props.grid} 
           scale={props.scale} 
+          settings={props.settings}
           forceProportion={props.item.type === 'group' || props.item.type === 'template'}
           onChange={props.onChangeSize}
         />

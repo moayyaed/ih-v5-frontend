@@ -84,45 +84,80 @@ function getProportionContainer(type, data, pos, old) {
   }
 }
 
-function getPositionContainer(type, position, grid, data) {
-  // console.log(data.x)
+function _grid(type, v, grid, settings, pos) {
+  if (type === 'x' && v <= 0) {
+    return 0;
+  }
+  if (type === 'x' && v + styles.control.width >= settings.w.value) {
+    return settings.w.value;
+  }
+
+  if (type === 'y' && v <= 0) {
+    return 0;
+  }
+  if (type === 'y' && v + styles.control.height >= settings.h.value) {
+    return settings.h.value;
+  }
+
+  if (type === 'w' && pos.x + v >= settings.w.value) {
+    return settings.w.value - pos.x;
+  }
+
+  if (type === 'h' && pos.y + v >= settings.h.value) {
+    return settings.h.value - pos.y;
+  }
+
+  return Math.round(v / grid) * grid;
+}
+
+function getPositionContainer(type, position, grid, settings, data) {
   switch (type) {
     case 'TL':
+      const _tlx = _grid('x', position.x + data.x, grid, settings, position);
+      const _tlw = position.w - (_tlx - position.x);
+      const _tly = _grid('y', position.y + data.y, grid, settings, position);
+      const _tlh = position.h - (_tly - position.y);
       return { 
-        x: position.x + Math.round(data.x / grid) * grid,
-        y: position.y + Math.round(data.y / grid) * grid,
-        w: position.w - Math.round(data.x / grid) * grid,
-        h: position.h - Math.round(data.y / grid) * grid,
+        x: _tlx,
+        y: _tly,
+        w: _tlw <= 0 ? 0 : _tlw,
+        h: _tlh <= 0 ? 0 : _tlh,
       };
     case 'TR':
+      const _try = _grid('y', position.y + data.y, grid, settings, position);
+      const _trh = position.h - (_try - position.y);
       return { 
         x: position.x,
-        y: position.y + Math.round(data.y / grid) * grid,
-        w: Math.round((data.x + styles.control.width) / grid) * grid, 
-        h: position.h - Math.round(data.y / grid) * grid,
+        y: _try,
+        w: _grid('w', (data.x + styles.control.width), grid, settings, position), 
+        h: _trh <= 0 ? 0 : _trh,
       };
     case 'BL':
+      const _blx = _grid('x', position.x + data.x, grid, settings, position);
+      const _blw = position.w - (_blx - position.x);
       return { 
-        x: position.x + Math.round(data.x / grid) * grid,
+        x: _blx,
         y: position.y,
-        w: position.w - Math.round(data.x / grid) * grid,
-        h: Math.round((data.y + styles.control.height) / grid) * grid, 
+        w: _blw <= 0 ? 0 : _blw,
+        h: _grid('h', (data.y + styles.control.height), grid, settings, position), 
       };
     case 'BR':
         return { 
           x: position.x,
           y: position.y,
-          w: Math.round((data.x + styles.control.width) / grid) * grid, 
-          h: Math.round((data.y + styles.control.height) / grid) * grid, 
+          w: _grid('w', (data.x + styles.control.width), grid, settings, position), 
+          h: _grid('h', (data.y + styles.control.height), grid, settings, position), 
         };
     default:
       return position;
   }
 }
 
-function getSize(isProportion, type, pos, grid, data) {
+function getSize(isProportion, type, props, data) {
+  const grid = props.grid;
+  const pos = props.position;
   const position = { x: pos.x.value, y: pos.y.value, w: pos.w.value, h: pos.h.value, }
-  const newPosition = getPositionContainer(type, position, grid, data);
+  const newPosition = getPositionContainer(type, position, grid, props.settings, data);
   if (isProportion) {
     const newPositionProportion = getProportionContainer(type, data, newPosition, position, grid);
     return {
@@ -171,9 +206,9 @@ function ResizeControls(props) {
         grid={[1, 1]}
         scale={props.scale} 
         position={{ x: positions.topLeft.x.value , y: positions.topLeft.y.value }}
-        onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TL', props.position, props.grid, data), 'start')}
-        onDrag={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TL', props.position, props.grid, data), 'move')}
-        onStop={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TL', props.position, props.grid, data), 'stop')}     
+        onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TL', props, data), 'start')}
+        onDrag={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TL', props, data), 'move')}
+        onStop={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TL', props, data), 'stop')}     
       >
         <div style={styles.control} />
       </Draggable>
@@ -182,9 +217,9 @@ function ResizeControls(props) {
         grid={[1, 1]}
         scale={props.scale} 
         position={{ x: positions.topRight.x.value , y: positions.topRight.y.value }}
-        onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TR', props.position, props.grid, data))}
-        onDrag={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TR', props.position, props.grid, data))}
-        onStop={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TR', props.position, props.grid, data))}     
+        onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TR', props, data))}
+        onDrag={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TR', props, data))}
+        onStop={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'TR', props, data))}     
       >
         <div style={styles.control} />
       </Draggable>
@@ -193,9 +228,9 @@ function ResizeControls(props) {
         grid={[1, 1]}
         scale={props.scale} 
         position={{ x: positions.bottomLeft.x.value , y: positions.bottomLeft.y.value }}
-        onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'BL', props.position, props.grid, data))}
-        onDrag={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'BL', props.position, props.grid, data))}
-        onStop={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'BL', props.position, props.grid, data))}     
+        onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'BL', props, data))}
+        onDrag={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'BL', props, data))}
+        onStop={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'BL', props, data))}     
       >
         <div style={styles.control} />
       </Draggable>
@@ -204,9 +239,9 @@ function ResizeControls(props) {
         grid={[1, 1]}
         scale={props.scale} 
         position={{ x: positions.bottomRight.x.value , y: positions.bottomRight.y.value }}
-        onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'BR', props.position, props.grid, data))}
-        onDrag={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'BR', props.position, props.grid, data))}
-        onStop={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'BR', props.position, props.grid, data))}     
+        onStart={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'BR', props, data))}
+        onDrag={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'BR', props, data))}
+        onStop={(e, data) => props.onChange(e, props.id, getSize(e.shiftKey || props.forceProportion, 'BR', props, data))}     
       >
         <div style={styles.control} />
       </Draggable>
