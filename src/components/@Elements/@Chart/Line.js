@@ -507,6 +507,7 @@ class Chart extends PureComponent {
     const axisWidth = props.item.axisWidth !== undefined ? props.item.axisWidth.value : 50;
     const axisMin = props.item.axisMin !== undefined ? props.item.axisMin.value : 0;
     const axisMax = props.item.axisMax !== undefined ? props.item.axisMax.value : 100;
+    const axisDynamic = props.item.axisDynamic !== undefined ? props.item.axisDynamic.value : false;
 
     legend.chart_type = lineType;
     this.ctx.chart.updateOptions({
@@ -532,14 +533,14 @@ class Chart extends PureComponent {
           axisLabelFormatter: (v) => this.getAxisValueY(v, 'left', axisPosition, props),
           axisLabelWidth: axisPosition === 'left' ? axisWidth : -8,
           axisLineColor: axisPosition === 'left' ?  props.item.gridColor.value : null,
-          valueRange: axisPosition === 'left' ? legend.chart_type === 'bar' ? null : [axisMin, axisMax] : null,
+          valueRange: axisPosition === 'left' ? (legend.chart_type === 'bar' || axisDynamic) ? null : [axisMin, axisMax] : null,
         },
         y2: {
           drawAxis: axisPosition === 'none' ? false : (axisPosition === 'right'),
           axisLabelFormatter: (v) => this.getAxisValueY(v, 'right', axisPosition, props),
           axisLabelWidth: axisPosition === 'right' ? axisWidth : 0,
           axisLineColor: axisPosition === 'right' ? props.item.gridColor.value : null,
-          valueRange: axisPosition === 'right' ? legend.chart_type === 'bar' ? null : [axisMin, axisMax] : null,
+          valueRange: axisPosition === 'right' ? (legend.chart_type || axisDynamic) === 'bar' ? null : [axisMin, axisMax] : null,
         },
       },
       labels: ['x', 'line'],

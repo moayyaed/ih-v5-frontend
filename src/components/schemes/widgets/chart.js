@@ -163,6 +163,11 @@ const chart = {
       type: 'number',
     },
     { 
+      title: 'Dynamic', 
+      prop: 'axisDynamic', 
+      type: 'cb',
+    },
+    { 
       title: 'Axis Bottom', 
       prop: 'axisbottom', 
       type: 'divider',

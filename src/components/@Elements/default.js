@@ -384,6 +384,7 @@ const CHART = {
   axisWidth: { value: 50 },
   axisMin: { value: 0 },
   axisMax: { value: 100 },
+  axisDynamic: { value: false },
   lines: [],
   fields: [],
 }
