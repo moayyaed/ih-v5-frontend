@@ -22,7 +22,13 @@ import '@blueprintjs/icons/lib/css/blueprint-icons.css';
 
 import App from 'components/App';
 
-const theme = createMuiTheme();
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#607d8b'
+    }
+  }
+});
 
 function Dependences() {
   return (
