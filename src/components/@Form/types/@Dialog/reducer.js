@@ -28,7 +28,7 @@ import {
 
 function cloneObject(i) {
   if ((!!i) && (i.constructor === Object)) {
-    Object
+    return Object
       .keys(i)
       .reduce((p, c) => {
         return { ...p, [c]: cloneObject(i[c]) }

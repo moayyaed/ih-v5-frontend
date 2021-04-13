@@ -54,14 +54,6 @@ const LEFT = [
 
 const RIGHT = [ 'singleClickRight' ];
 
-function getRandomColor() {
-  var letters = '0123456789ABCDEF';
-  var color = '#';
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
 
 function getAllElementsByGroup(list, elements) {
   return list
@@ -69,49 +61,15 @@ function getAllElementsByGroup(list, elements) {
       if (elements[c].type === 'group') {
         return {
           ...p,
-          [c]: { ...elements[c] },
+          [c]: cloneObject(elements[c]),
           ...getAllElementsByGroup(elements[c].elements, elements)
         };
       }
       return {
         ...p,
-        [c]: { ...elements[c] },
+        [c]: cloneObject(elements[c]),
       };
     }, {});
-}
-
-function cloneNewStructElements(list, elements, targetElements) {
-  const l = [];
-  const e = {};
-
-  function group(newId, oldId, check) {
-    const gl = [];
-    elements[oldId].elements
-      .forEach(cid => {
-        const mergeElements = { ...targetElements, ...e }
-        const id = getIdElement(0, elements[cid].type, mergeElements);
-        e[id] = { ...elements[cid], groupId: newId };
-        gl.push(id)
-        if (elements[cid].type === 'group') {
-          group(id, cid);
-        }
-      });
-      e[newId].elements = gl;
-  }
-
-  list.forEach(key => {
-    const mergeElements = { ...targetElements, ...e }
-    const id = mergeElements[key] === undefined ? key : getIdElement(0, targetElements[key].type, mergeElements);
-
-    l.push(id);
-    e[id] = { ...elements[key] };
-
-    if (elements[key].type === 'group') {
-      group(id, key);
-    }
-
-  });
-  return { list: l, elements: e }
 }
 
 function getIdElement(index, prefix, elements) {
@@ -119,6 +77,101 @@ function getIdElement(index, prefix, elements) {
     return `${prefix}_${index + 1}`;
   }
   return getIdElement(index + 1, prefix, elements);
+}
+
+function cloneObject(i) {
+  if ((!!i) && (i.constructor === Object)) {
+    return Object
+      .keys(i)
+      .reduce((p, c) => {
+        return { ...p, [c]: cloneObject(i[c]) }
+      }, {});
+  }
+  if (Array.isArray(i)) {
+    return i.map(cloneObject);
+  }
+  return i;
+}
+
+function getNewID(index, id, list) {
+  const temp = id.split('_');
+  
+  if (temp.length >= 2 && isNaN(Number(temp.slice(-1))) === false) {
+    const key = temp.slice(0, temp.length - 1).join('_') + '_' + index;
+    if (list[key] === undefined) {
+      return key;
+    }
+    return getNewID(index + 1, id, list);
+  } else {
+    const key = id + '_' + index;
+    if (list[key] === undefined) {
+      return key;
+    }
+    return getNewID(index + 1, id, list);
+  }
+}
+
+function cloneNewStructElements(list, elements, curentElements) {
+  let l = []
+  let e = {};
+
+  const blackListId = {};
+  const blackListLabel = {};
+
+  Object
+    .keys(curentElements)
+    .forEach(k => {
+      blackListId[k] = true;
+      blackListLabel[curentElements[k]._label] = true;
+    })
+
+  function group(k, item) {
+    const gl = clone(item.elements, k);
+    item.elements = gl;
+  }
+  
+  function clone(_list, gkey) {
+    const gl = [];
+    _list.forEach(k => {
+      const item = cloneObject(elements[k]);
+  
+      let id = k
+      let label = item._label;
+  
+      if (blackListId[id] !== undefined) {
+        id = getNewID(1, id, blackListId)
+      }
+  
+      if (blackListLabel[label] !== undefined) {
+        label = getNewID(1, label, blackListLabel)
+      }
+  
+      item._label = label;
+      
+      blackListId[id] = true;
+      blackListLabel[label] = true;
+
+      if (gkey) {
+        item.groupId = gkey;
+      }
+
+      if (item.type === 'group') {
+        group(id, item);
+      }
+      
+      if (gkey) {
+        gl.push(id);
+      } else {
+        l.push(id);
+      }
+      e = { ...e, [id]: item }
+    })
+    return gl;
+  }
+  
+  clone(list);
+
+  return { list: l, elements: e};
 }
 
 
@@ -586,7 +639,7 @@ class Sheet extends Component {
 
     const disabled = {
       isSelect: Object.keys(this.props.selects).length === 0 || this.props.selectOne === 'content',
-      isPaste: !(core.buffer.class === 'container'),
+      isPaste: !(core.buffer.class === 'graph'),
       isTemplate: this.props.selectOne ? !(this.props.selectOne && this.props.elements[this.props.selectOne] && this.props.elements[this.props.selectOne] && this.props.elements[this.props.selectOne].type === 'template') : false,
       checkCopyStyle: !(this.props.selectType === 'one' && this.props.selectOne  !== 'content'),
       checkPasteStyle: !(core.styleBuffer && this.props.selectOne !== 'content' && Object.keys(this.props.selects).length !== 0),
@@ -707,6 +760,7 @@ class Sheet extends Component {
         });
       const params = getDefaultParamsElement('group');
       const groupData = { 
+        _label: groupId, 
         x, y, 
         w: { value: w.value - x.value }, 
         h: { value: h.value - y.value }, 
@@ -756,24 +810,30 @@ class Sheet extends Component {
 
   handleClickCopyElements = () => {
     const list = [];
+    let elements = {};
     let x = Infinity, y = Infinity, w = 0, h = 0;
-    const elements = Object
+
+    Object
       .keys(this.props.selects)
-      .reduce((p, c) => {
-        list.push(c);
-        x = Math.min(x, this.props.elements[c].x.value);
-        y = Math.min(y, this.props.elements[c].y.value); 
-        w = Math.max(w, this.props.elements[c].x.value + this.props.elements[c].w.value); 
-        h = Math.max(h, this.props.elements[c].y.value + this.props.elements[c].h.value); 
-        if (this.props.elements[c].type === 'group') {
-          const childs = getAllElementsByGroup(this.props.elements[c].elements, this.props.elements);
-          return { ...p, ...childs, [c]: { ...this.props.elements[c] } }
+      .forEach(key => {
+        const item = this.props.elements[key];
+
+        if (item.type === 'group') {
+          const childs = getAllElementsByGroup(item.elements, this.props.elements);
+          elements = { ...elements, ...childs, [key]: cloneObject(item) }
+        } else {
+          elements = { ...elements, [key]: cloneObject(item) }
         }
-        return { ...p, [c]: { ...this.props.elements[c] } }
-      }, {})
-      
-    const buffer = { list, elements, offsetX: x, offsetY: y };
-    core.buffer = { class: 'container', type: null, data: buffer  };
+
+        x = Math.min(x, item.x.value);
+        y = Math.min(y, item.y.value); 
+        w = Math.max(w, item.x.value + item.w.value); 
+        h = Math.max(h, item.y.value + item.h.value); 
+
+        list.push(key);
+      })
+
+      core.buffer = { class: 'graph', type: null, data: { list, elements, offsetX: x, offsetY: y } };
   }
 
   handleClickPasteElements = (e) => {
@@ -784,22 +844,42 @@ class Sheet extends Component {
     const y = (e.pageY - (rect.top * this.props.settings.scale.value)) / this.props.settings.scale.value  // (e.clientY - rect.top) / this.props.settings.scale.value;
 
     const clone = cloneNewStructElements(core.buffer.data.list, core.buffer.data.elements, this.props.elements);
+    
+    const selects = {};
+    const data = { 
+      x: { value: Infinity }, 
+      y: { value: Infinity }, 
+      w: { value: 0 }, 
+      h: { value: 0 }, 
+      zIndex: { value: 0 } 
+    };
+
     const elements = Object
       .keys(clone.elements)
       .reduce((p, c) => {
         if (clone.list.includes(c)) {
-          return { 
-            ...p, 
-            [c]: {
-              ...clone.elements[c],
-              x: { value: x + (clone.elements[c].x.value - core.buffer.data.offsetX) },
-              y: { value: y + (clone.elements[c].y.value - core.buffer.data.offsetY) },
-            }  
-          }
+          const element = {
+            ...clone.elements[c],
+            x: { value: x + (clone.elements[c].x.value - core.buffer.data.offsetX) },
+            y: { value: y + (clone.elements[c].y.value - core.buffer.data.offsetY) },
+          };
+
+          selects[c] = true;
+
+          data.x.value = Math.min(data.x.value, element.x.value);
+          data.y.value = Math.min(data.y.value, element.y.value); 
+          data.w.value = Math.max(data.w.value, element.x.value + element.w.value); 
+          data.h.value = Math.max(data.h.value, element.y.value + element.h.value); 
+          data.zIndex.value = Math.max(data.zIndex.value, element.zIndex.value); 
+
+          return { ...p, [c]: element }
         }
         return { ...p, [c]: clone.elements[c] }
       }, {})
- 
+    
+    data.w.value = data.w.value - data.x.value;
+    data.h.value = data.h.value - data.y.value;
+
     core.actions.container
       .data(
         this.props.id, this.props.prop,
@@ -811,55 +891,10 @@ class Sheet extends Component {
           },
         }
       );
-      core.actions.dialog
-      .data(
-        this.props.id, this.props.prop,
-        { 
-          list: this.props.list.concat(clone.list),
-          elements: {
-            ...this.props.elements,
-            ...elements,
-          },
-        }
-      );
-    if (clone.list.length) {
-      if (clone.list.length > 1) {
-        const selects = clone.list.slice(1).reduce((p, c) => ({ ...p, [c]: true }), {});
-        const elementId = clone.list[0];
-        const data = { 
-          x: { value: Infinity }, 
-          y: { value: Infinity }, 
-          w: { value: 0 }, 
-          h: { value: 0 }, 
-          zIndex: { value: 0 } 
-        };
-        Object
-          .keys({ ...selects, [elementId]: true })
-          .forEach(key => {
-            const element = elements[key];
-            data.x.value = Math.min(data.x.value, element.x.value);
-            data.y.value = Math.min(data.y.value, element.y.value); 
-            data.w.value = Math.max(data.w.value, element.x.value + element.w.value); 
-            data.h.value = Math.max(data.h.value, element.y.value + element.h.value); 
-            data.zIndex.value = Math.max(data.zIndex.value, element.zIndex.value); 
-          });
-        data.w.value = data.w.value - data.x.value;
-        data.h.value = data.h.value - data.y.value;
-        core.actions.container
-          .data(this.props.id, this.props.prop, { selects });
-        core.actions.container
-          .selectSome(
-            this.props.id, this.props.prop,
-            elementId, data
-          );
-      } else {
-        core.actions.container
-          .select(
-            this.props.id, this.props.prop,
-            clone.list[0],
-          );
-      }
-    }
+
+    core.actions.container
+      .selectMB(this.props.id, this.props.prop, selects, data);
+    
     this.props.save();
   }
 

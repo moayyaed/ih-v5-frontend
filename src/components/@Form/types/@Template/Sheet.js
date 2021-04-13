@@ -54,14 +54,6 @@ const styles = {
 }
 
 
-function getRandomColor() {
-  var letters = '0123456789ABCDEF';
-  var color = '#';
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
 
 function getAllElementsByGroup(list, elements) {
   return list
@@ -69,53 +61,15 @@ function getAllElementsByGroup(list, elements) {
       if (elements[c].type === 'group') {
         return {
           ...p,
-          [c]: { ...elements[c] },
+          [c]: cloneObject(elements[c]),
           ...getAllElementsByGroup(elements[c].elements, elements)
         };
       }
       return {
         ...p,
-        [c]: { ...elements[c] },
+        [c]: cloneObject(elements[c]),
       };
     }, {});
-}
-
-function cloneNewStructElements(list, elements, targetElements, state) {
-  const l = [];
-  const e = {};
-  const o = {};
-
-
-  function group(newId, oldId, check) {
-    const gl = [];
-    elements[oldId].elements
-      .forEach(cid => {
-        const mergeElements = { ...targetElements, ...e }
-        const id = getIdElement(0, elements[cid].type, mergeElements);
-        e[id] = { ...elements[cid], groupId: newId };
-        o[id] = cid;
-        gl.push(id)
-        if (elements[cid].type === 'group') {
-          group(id, cid);
-        }
-      });
-      e[newId].elements = gl;
-  }
-
-  list.forEach(key => {
-    const mergeElements = { ...targetElements, ...e }
-    const id = mergeElements[key] === undefined ? key : getIdElement(0, targetElements[key].type, mergeElements);
-
-    l.push(id);
-    e[id] = { ...elements[key] };
-    o[id] = key;
-
-    if (elements[key].type === 'group') {
-      group(id, key);
-    }
-
-  });
-  return { list: l, elements: e, old: o }
 }
 
 function getIdElement(index, prefix, elements) {
@@ -125,6 +79,100 @@ function getIdElement(index, prefix, elements) {
   return getIdElement(index + 1, prefix, elements);
 }
 
+function cloneObject(i) {
+  if ((!!i) && (i.constructor === Object)) {
+    return Object
+      .keys(i)
+      .reduce((p, c) => {
+        return { ...p, [c]: cloneObject(i[c]) }
+      }, {});
+  }
+  if (Array.isArray(i)) {
+    return i.map(cloneObject);
+  }
+  return i;
+}
+
+function getNewID(index, id, list) {
+  const temp = id.split('_');
+  
+  if (temp.length >= 2 && isNaN(Number(temp.slice(-1))) === false) {
+    const key = temp.slice(0, temp.length - 1).join('_') + '_' + index;
+    if (list[key] === undefined) {
+      return key;
+    }
+    return getNewID(index + 1, id, list);
+  } else {
+    const key = id + '_' + index;
+    if (list[key] === undefined) {
+      return key;
+    }
+    return getNewID(index + 1, id, list);
+  }
+}
+
+function cloneNewStructElements(list, elements, curentElements) {
+  let l = []
+  let e = {};
+
+  const blackListId = {};
+  const blackListLabel = {};
+
+  Object
+    .keys(curentElements)
+    .forEach(k => {
+      blackListId[k] = true;
+      blackListLabel[curentElements[k]._label] = true;
+    })
+
+  function group(k, item) {
+    const gl = clone(item.elements, k);
+    item.elements = gl;
+  }
+  
+  function clone(_list, gkey) {
+    const gl = [];
+    _list.forEach(k => {
+      const item = cloneObject(elements[k]);
+  
+      let id = k
+      let label = item._label;
+  
+      if (blackListId[id] !== undefined) {
+        id = getNewID(1, id, blackListId)
+      }
+  
+      if (blackListLabel[label] !== undefined) {
+        label = getNewID(1, label, blackListLabel)
+      }
+  
+      item._label = label;
+      
+      blackListId[id] = true;
+      blackListLabel[label] = true;
+
+      if (gkey) {
+        item.groupId = gkey;
+      }
+
+      if (item.type === 'group') {
+        group(id, item);
+      }
+      
+      if (gkey) {
+        gl.push(id);
+      } else {
+        l.push(id);
+      }
+      e = { ...e, [id]: item }
+    })
+    return gl;
+  }
+  
+  clone(list);
+
+  return { list: l, elements: e};
+}
 
 class Sheet extends Component {
   state = { move: false }
@@ -452,69 +500,99 @@ class Sheet extends Component {
   }
 
   handleClickCopyElements = () => {
+    const store = core.store.getState().apppage.data.p1.template;
+
     const list = [];
-    const store = core.store.getState().apppage.data[this.props.id][this.props.prop];
+    let elements = {};
     let x = Infinity, y = Infinity, w = 0, h = 0;
-    const elements = Object
+
+    Object
       .keys(this.props.selects)
-      .reduce((p, c) => {
-        list.push(c);
-        x = Math.min(x, this.props.elements[c].x);
-        y = Math.min(y, this.props.elements[c].y); 
-        w = Math.max(w, this.props.elements[c].x + this.props.elements[c].w); 
-        h = Math.max(h, this.props.elements[c].y + this.props.elements[c].h); 
-        if (this.props.elements[c].type === 'group') {
-          const childs = getAllElementsByGroup(this.props.elements[c].elements, this.props.elements);
-          return { ...p, ...childs, [c]: { ...this.props.elements[c] } }
+      .forEach(key => {
+        const item = this.props.elements[key];
+
+        if (item.type === 'group') {
+          const childs = getAllElementsByGroup(item.elements, this.props.elements);
+          elements = { ...elements, ...childs, [key]: cloneObject(item) }
+        } else {
+          elements = { ...elements, [key]: cloneObject(item) }
         }
-        return { ...p, [c]: { ...this.props.elements[c] } }
-      }, {})
-    const buffer = { list, elements, offsetX: x, offsetY: y, state: store.state };
-    core.buffer = { class: 'template', type: null, data: buffer  };
+
+        x = Math.min(x, item.x.value);
+        y = Math.min(y, item.y.value); 
+        w = Math.max(w, item.x.value + item.w.value); 
+        h = Math.max(h, item.y.value + item.h.value); 
+
+        list.push(key);
+      })
+
+      core.buffer = { class: 'graph', type: 'template', data: { list, elements, state: cloneObject(store.state), offsetX: x, offsetY: y } };
   }
 
   handleClickPasteElements = (e) => {
     this.lastDragEventTime = Date.now()
 
-    const store = core.store.getState().apppage.data[this.props.id][this.props.prop];
+    const store = core.store.getState().apppage.data.p1.template;
+
+    console.log(core.buffer.data)
+    
     const rect = this.sheet.getBoundingClientRect();
-    const x = (e.pageX - (rect.left * this.props.settings.scale)) / this.props.settings.scale // (e.clientX - rect.left) / this.props.settings.scale;
-    const y = (e.pageY - (rect.top * this.props.settings.scale)) / this.props.settings.scale  // (e.clientY - rect.top) / this.props.settings.scale;
+    const x = (e.pageX - (rect.left * this.props.settings.scale.value)) / this.props.settings.scale.value // (e.clientX - rect.left) / this.props.settings.scale.value;
+    const y = (e.pageY - (rect.top * this.props.settings.scale.value)) / this.props.settings.scale.value  // (e.clientY - rect.top) / this.props.settings.scale.value;
 
-    const masterData = {}
+    const clone = cloneNewStructElements(core.buffer.data.list, core.buffer.data.elements, this.props.elements);
+    
+    const selects = {};
+    const data = { 
+      x: { value: Infinity }, 
+      y: { value: Infinity }, 
+      w: { value: 0 }, 
+      h: { value: 0 }, 
+      zIndex: { value: 0 } 
+    };
 
-    const clone = cloneNewStructElements(core.buffer.data.list, core.buffer.data.elements, this.props.elements, core.buffer.data.state);
     const elements = Object
       .keys(clone.elements)
       .reduce((p, c) => {
-        const defaultData = getDefaultParamsElement(clone.elements[c].type);
-        masterData[c] = Object
-          .keys(defaultData)
-          .reduce((p2, c2) => {
-            if (clone.elements[c][c2] !== undefined) {
-              return { ...p2, [c2]: clone.elements[c][c2] }
-            }
-            return { ...p2, [c2]: defaultData[c2] }
-          }, {})
         if (clone.list.includes(c)) {
-          return { 
-            ...p, 
-            [c]: {
-              ...clone.elements[c],
-              x: x + (clone.elements[c].x - core.buffer.data.offsetX),
-              y: y + (clone.elements[c].y - core.buffer.data.offsetY),
-            }  
-          }
+          const element = {
+            ...clone.elements[c],
+            x: { value: x + (clone.elements[c].x.value - core.buffer.data.offsetX) },
+            y: { value: y + (clone.elements[c].y.value - core.buffer.data.offsetY) },
+          };
+
+          selects[c] = true;
+
+          data.x.value = Math.min(data.x.value, element.x.value);
+          data.y.value = Math.min(data.y.value, element.y.value); 
+          data.w.value = Math.max(data.w.value, element.x.value + element.w.value); 
+          data.h.value = Math.max(data.h.value, element.y.value + element.h.value); 
+          data.zIndex.value = Math.max(data.zIndex.value, element.zIndex.value); 
+
+          return { ...p, [c]: element }
         }
         return { ...p, [c]: clone.elements[c] }
       }, {})
+    
+    data.w.value = data.w.value - data.x.value;
+    data.h.value = data.h.value - data.y.value;
 
     core.actions.template
-      .pasteElement(
+      .data(
         this.props.id, this.props.prop,
-        clone.list, elements, core.buffer.data.state, masterData, 
+        { 
+          list: this.props.list.concat(clone.list),
+          elements: {
+            ...this.props.elements,
+            ...elements,
+          },
+        }
       );
+
+    core.actions.template
+      .selectMB(this.props.id, this.props.prop, selects, data);
     
+    this.props.save();
   }
 
   handleDeleteElement = () => {
@@ -663,10 +741,12 @@ class Sheet extends Component {
 
     const disabled = {
       '1': toolbar === 'vars',
-      'isSelect': true, // (toolbar === 'vars' || toolbar === 'events') || Object.keys(this.props.selects).length === 0,
-      'isPaste': true, // (toolbar === 'vars' || toolbar === 'events') || !(core.buffer.class === 'template'),
+      'isSelect': this.props.selectOne === 'content' || Object.keys(this.props.selects).length === 0,
+      'isPaste': !(core.buffer.class === 'graph'),
       '4': true, // (toolbar === 'vars' || toolbar === 'events') || Object.keys(this.props.selects).length === 0,
       '5': toolbar === 'vars' || Object.keys(this.props.selects).length === 0,
+      checkCopyStyle: !(this.props.selectType === 'one' && this.props.selectOne  !== 'content'),
+      checkPasteStyle: !(core.styleBuffer && this.props.selectOne !== 'content' && Object.keys(this.props.selects).length !== 0),
     }
     const pos = { left: e.clientX, top: e.clientY };
     const list = toolbar === 'events'? [
@@ -714,6 +794,7 @@ class Sheet extends Component {
         });
       const defaultData = getDefaultParamsElement('group');
       const groupData = { 
+        _label: groupId, 
         x, y, 
         w: w - x, 
         h: h - y, 
