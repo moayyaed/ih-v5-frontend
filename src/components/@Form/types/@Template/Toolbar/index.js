@@ -237,6 +237,7 @@ class Toolbar extends PureComponent {
           >
             <AnimationItems 
               list={listState}
+              elements={elements}
               state={state}
               select={selectState}
               onClickIcon={this.handleClickIcon}
