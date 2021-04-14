@@ -157,20 +157,20 @@ export function AnimationItems(props) {
             {Object
               .keys(props.state[id].values)
               .map(v => 
-                <BasicItem key={v} nodeId={v} label={<OptionItem nodeId={v} {...props} type="value" v={v} label={`${props.state[id].title}: ${v}`} />} >
+                <BasicItem key={id + '_' + v} nodeId={id + '_' + v} label={<OptionItem nodeId={v} {...props} type="value" s={id} v={v} label={`${props.state[id].title}: ${v}`} />} >
                   {Object
                     .keys(props.state[id].values[v])
                     .map(i => 
-                      <BasicItem key={i} nodeId={i} label={<OptionItem nodeId={i} {...props} v={v} i={i} type="id" label={props.elements[i] ? props.elements[i]._label : i} />} >
+                      <BasicItem key={id + '_' + v + '_' + i} nodeId={id + '_' + v + '_' + i} label={<OptionItem nodeId={i} {...props} s={id} v={v} i={i} type="id" label={props.elements[i] ? props.elements[i]._label : i} />} >
                         {Object
                           .keys(props.state[id].values[v][i])
                           .map(p => {
                             const data = props.state[id].values[v][i][p];
                             return (
                               <BasicItem 
-                                key={p} 
-                                nodeId={p} 
-                                label={<OptionItem nodeId={p} {...props} type="property" v={v} i={i} p={p}  label={data} />}
+                                key={id + '_' + v + '_' + i + '_' + p} 
+                                nodeId={id + '_' + v + '_' + i + '_' + p} 
+                                label={<OptionItem nodeId={p} {...props} type="property" s={id} v={v} i={i} p={p}  label={data} />}
                                 endIcon={<TypeIcon type="property" />} 
                               />
                             )

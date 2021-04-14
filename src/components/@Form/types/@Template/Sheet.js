@@ -72,6 +72,13 @@ function getAllElementsByGroup(list, elements) {
     }, {});
 }
 
+function getIdState(index, prefix, state) {
+  if (state[`${prefix}${index + 1}`] === undefined) {
+    return `${prefix}${index + 1}`;
+  }
+  return getIdState(index + 1, prefix, state);
+}
+
 function getIdElement(index, prefix, elements) {
   if (elements[`${prefix}_${index + 1}`] === undefined) {
     return `${prefix}_${index + 1}`;
@@ -114,9 +121,17 @@ function getNewID(index, id, list) {
 function cloneNewStructElements(list, elements, curentElements) {
   let l = []
   let e = {};
+  let olds = {};
 
   const blackListId = {};
   const blackListLabel = {};
+  const whiteList = {
+    rectangle: true,
+    circle: true,
+    text: true,
+    image: true,
+    text_image: true,
+  };
 
   Object
     .keys(curentElements)
@@ -128,13 +143,20 @@ function cloneNewStructElements(list, elements, curentElements) {
   function group(k, item) {
     const gl = clone(item.elements, k);
     item.elements = gl;
+
+    item.elements.forEach(key => {
+      if (whiteList[elements[key].type]) {
+        l.push(key);
+      }
+    })
   }
   
   function clone(_list, gkey) {
     const gl = [];
     _list.forEach(k => {
       const item = cloneObject(elements[k]);
-  
+      const oldid = k;
+
       let id = k
       let label = item._label;
   
@@ -151,28 +173,156 @@ function cloneNewStructElements(list, elements, curentElements) {
       blackListId[id] = true;
       blackListLabel[label] = true;
 
-      if (gkey) {
-        item.groupId = gkey;
+      if (item.groupId !== undefined) {
+        delete item.groupId;
       }
 
       if (item.type === 'group') {
         group(id, item);
       }
+
+      olds[oldid] = id;
       
       if (gkey) {
         gl.push(id);
       } else {
-        l.push(id);
+        if (whiteList[item.type]) {
+          l.push(id);
+        }
       }
-      e = { ...e, [id]: item }
+      if (whiteList[item.type]) {
+        e = { ...e, [id]: item }
+      }
     })
     return gl;
   }
   
   clone(list);
 
-  return { list: l, elements: e};
+  return { list: l, elements: e, olds };
 }
+
+function isObject(item) {
+  return (item && typeof item === 'object' && !Array.isArray(item));
+}
+
+function mergeDeep(target, ...sources) {
+  if (!sources.length) return target;
+  const source = sources.shift();
+
+  if (isObject(target) && isObject(source)) {
+    for (const key in source) {
+      if (isObject(source[key])) {
+        if (!target[key]) Object.assign(target, { [key]: {} });
+        mergeDeep(target[key], source[key]);
+      } else {
+        Object.assign(target, { [key]: source[key] });
+      }
+    }
+  }
+
+  return mergeDeep(target, ...sources);
+}
+
+function cloneNewStructState(elements, olds, state, listCurentState, curentState) {
+  const namesCurentState = {}
+  const idsCurentState = {}
+
+  const newListState = [];
+
+  let newMaster = {};
+  let newState = {};
+
+  Object
+  .keys(curentState)
+  .forEach(key => {
+    if (curentState[key].title) {
+      idsCurentState[key] = curentState[key].title
+      namesCurentState[curentState[key].title] = key;
+    }
+  });
+
+  Object
+    .keys(elements)
+    .forEach(key => {
+      const item = cloneObject(elements[key]);
+
+      delete item['type'];
+      delete item['title'];
+      delete item['label'];
+      delete item['_label'];
+
+      newMaster = { ...newMaster, [key]: item }
+
+      Object
+        .keys(state)
+        .forEach(key => {
+          if (state[key].title) {
+            Object
+              .keys(state[key].values)
+              .forEach(v => {
+                Object
+                  .keys(state[key].values[v])
+                  .forEach(id => {
+                    if (olds[id] !== undefined) {
+                      const oldid = id;
+                      const newid = olds[id];
+
+                      let stateid = namesCurentState[state[key].title];
+
+                      if (namesCurentState[state[key].title] === undefined) {
+                        stateid = getIdState(0, 'state', idsCurentState);
+                      }
+
+                      
+                      if (newState[stateid] === undefined) {
+                        newState[stateid] = { values: {} }
+                        if (idsCurentState[stateid] === undefined) {
+                          idsCurentState[stateid] = true;
+                          namesCurentState[state[key].title] = stateid;
+
+                          newListState.push(stateid);
+
+                          newState[stateid].title = state[key].title;
+                          newState[stateid].curent = 0
+                          newState[stateid].edit = false
+                          newState[stateid].hide =false
+                        }
+                      }
+                      if (newState[stateid].values[v] === undefined) {
+                        newState[stateid].values[v] = {};
+                      }
+                      if (newState[stateid].values[v][newid] === undefined) {
+                        newState[stateid].values[v][newid] = {};
+                      }
+                      
+                      const propertys = cloneObject(state[key].values[v][id]);
+                      
+                      delete propertys['x'];
+                      delete propertys['y'];
+
+                      newState[stateid].values[v][newid] = { 
+                        ...newState[stateid].values[v][newid],
+                        ...propertys,
+                      }
+                    }
+                  })
+              })
+          }
+        })
+    });
+
+    idsCurentState['master'] = 'master';
+    newState['master'] = {
+      values: { 
+        0: newMaster
+      }
+    }
+
+ 
+    return { l: listCurentState.concat(newListState), s: cloneObject(mergeDeep(curentState, newState)) }
+}
+
 
 class Sheet extends Component {
   state = { move: false }
@@ -533,16 +683,15 @@ class Sheet extends Component {
     this.lastDragEventTime = Date.now()
 
     const store = core.store.getState().apppage.data.p1.template;
-
-    console.log(core.buffer.data)
     
     const rect = this.sheet.getBoundingClientRect();
     const x = (e.pageX - (rect.left * this.props.settings.scale.value)) / this.props.settings.scale.value // (e.clientX - rect.left) / this.props.settings.scale.value;
     const y = (e.pageY - (rect.top * this.props.settings.scale.value)) / this.props.settings.scale.value  // (e.clientY - rect.top) / this.props.settings.scale.value;
 
     const clone = cloneNewStructElements(core.buffer.data.list, core.buffer.data.elements, this.props.elements);
-    
+
     const selects = {};
+
     const data = { 
       x: { value: Infinity }, 
       y: { value: Infinity }, 
@@ -576,8 +725,11 @@ class Sheet extends Component {
     
     data.w.value = data.w.value - data.x.value;
     data.h.value = data.h.value - data.y.value;
+  
+    const clone2 = cloneNewStructState(elements, clone.olds, core.buffer.type === 'template' ? core.buffer.data.state : {}, store.listState, store.state)
 
-    core.actions.template
+    if (Object.keys(elements).length) {
+      core.actions.template
       .data(
         this.props.id, this.props.prop,
         { 
@@ -586,13 +738,15 @@ class Sheet extends Component {
             ...this.props.elements,
             ...elements,
           },
+          listState: clone2.l,
+          state: clone2.s
         }
       );
-
     core.actions.template
       .selectMB(this.props.id, this.props.prop, selects, data);
-    
+
     this.props.save();
+    }
   }
 
   handleDeleteElement = () => {
@@ -741,8 +895,8 @@ class Sheet extends Component {
 
     const disabled = {
       '1': toolbar === 'vars',
-      'isSelect': this.props.selectOne === 'content' || Object.keys(this.props.selects).length === 0,
-      'isPaste': !(core.buffer.class === 'graph'),
+      'isSelect': toolbar === 'tree' ? this.props.selectOne === 'content' || Object.keys(this.props.selects).length === 0 : true,
+      'isPaste': toolbar === 'tree' ? !(core.buffer.class === 'graph') : true,
       '4': true, // (toolbar === 'vars' || toolbar === 'events') || Object.keys(this.props.selects).length === 0,
       '5': toolbar === 'vars' || Object.keys(this.props.selects).length === 0,
       checkCopyStyle: !(this.props.selectType === 'one' && this.props.selectOne  !== 'content'),

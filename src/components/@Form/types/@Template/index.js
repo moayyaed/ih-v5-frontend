@@ -294,7 +294,7 @@ class Template extends PureComponent {
       core.actions.template
         .deleteStateByValue(
           this.props.id, this.props.options.prop,
-          props.select, props.v, props.i, props.p
+          props.s, props.v, props.i, props.p
         );
       core.actions.template
         .changeValueState(
@@ -306,7 +306,7 @@ class Template extends PureComponent {
       core.actions.template
         .deleteStateByElement(
           this.props.id, this.props.options.prop,
-          props.select, props.v, props.i, props.p
+          props.s, props.v, props.i, props.p
         );
       core.actions.template
         .changeValueState(
@@ -318,7 +318,7 @@ class Template extends PureComponent {
       core.actions.template
         .deleteStateByProperty(
           this.props.id, this.props.options.prop,
-          props.select, props.v, props.i, props.p
+          props.s, props.v, props.i, props.p
         );
       core.actions.template
         .changeValueState(
