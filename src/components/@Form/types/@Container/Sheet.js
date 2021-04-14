@@ -117,6 +117,10 @@ function cloneNewStructElements(list, elements, curentElements) {
 
   const blackListId = {};
   const blackListLabel = {};
+  const blockList = {
+    container: true,
+    expander: true,
+  }
 
   Object
     .keys(curentElements)
@@ -164,7 +168,28 @@ function cloneNewStructElements(list, elements, curentElements) {
       } else {
         l.push(id);
       }
-      e = { ...e, [id]: item }
+      if (blockList[item.type]) {
+        const newItem = cloneObject(getDefaultParamsElement('rectangle'));
+
+        newItem.type = 'rectangle';
+        newItem._label = item._label + ' (unsupported)';
+
+        newItem.x = item.x;
+        newItem.y = item.y;
+        newItem.w = item.w;
+        newItem.h = item.h;
+
+        newItem.w2 = item.w2;
+        newItem.h2 = item.h2;
+
+        if (item.groupId) {
+          newItem.groupId = item.groupId;
+        }
+
+        e = { ...e, [id]: newItem }
+      } else {
+        e = { ...e, [id]: item }
+      }
     })
     return gl;
   }
@@ -655,7 +680,7 @@ class Sheet extends Component {
       { id: '1', title: 'Circle', click: () => this.handleAddElement(e, 'circle') },
       { id: '2', title: 'Text', click: () => this.handleAddElement(e, 'text') },
       { id: '3', title: 'Image', click: () => this.handleAddElement(e, 'image') },
-      { id: '4', title: 'Text & Image', click: () => this.handleAddElement(e, 'text_image') },
+      // { id: '4', title: 'Text & Image', click: () => this.handleAddElement(e, 'text_image') },
       { id: '5', title: 'Button', click: () => this.handleAddElement(e, 'button') },
       { id: '-', type: 'divider' },
       { id: '6', title: 'Slider', click: () => this.handleAddElement(e, 'slider') },

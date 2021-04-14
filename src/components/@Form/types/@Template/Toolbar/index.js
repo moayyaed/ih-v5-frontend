@@ -45,7 +45,16 @@ class Toolbar extends PureComponent {
     e.preventDefault();
     e.stopPropagation();
 
+    const commands = {
+      mergeTo: ({ popupid, title }) => this.handleMergeTo(popupid, id), 
+    };
 
+    const states = Object
+      .keys(this.props.state)
+      .filter(i => i !== 'master')
+      .map(i => ({ id: i, title: this.props.state[i].title, disabled: i === id }))
+
+    console.log();
     const pos = { left: e.clientX, top: e.clientY };
     const scheme = {
       main: [
@@ -53,24 +62,29 @@ class Toolbar extends PureComponent {
           title: 'Edit', 
           click: () => this.handleClickEdit(id, true),
         },
-        { id: '2', type: 'divider' },
-        { id: '3', 
+        { id: '2', 
+          title: 'Merge To', 
+          command: 'mergeTo',
+          children: states,
+        },
+        { id: '3', type: 'divider' },
+        { id: '4', 
           title: 'Priority Up', 
           click: () => this.handleClickUp(id, index),
         },
-        { id: '4', 
+        { id: '5', 
           title: 'Priority Down', 
           click: () => this.handleClickDown(id, index),
         },
-        { id: '5', type: 'divider' },
-        { id: '6', 
+        { id: '6', type: 'divider' },
+        { id: '7', 
           title: 'Delete', 
           click: () => this.handleClickDelete(id),
         },        
       ]
     }
 
-    ContextMenu.show(<Menu scheme={scheme} />, pos);
+    ContextMenu.show(<Menu scheme={scheme} commands={commands} />, pos);
   }
 
   handleClickMenu = (e, props) => {
@@ -102,6 +116,10 @@ class Toolbar extends PureComponent {
 
   handleClickDelete = (id) => {
     this.props.onClickDeleteState(id);
+  }
+
+  handleMergeTo = (sourceId, tragetId) => {
+    this.props.onClickMergeTo(sourceId, tragetId);
   }
 
   handleClickIcon = (e, id) => {

@@ -66,6 +66,42 @@ const state = {
   },
 }
 
+function cloneObject(i) {
+  if ((!!i) && (i.constructor === Object)) {
+    return Object
+      .keys(i)
+      .reduce((p, c) => {
+        return { ...p, [c]: cloneObject(i[c]) }
+      }, {});
+  }
+  if (Array.isArray(i)) {
+    return i.map(cloneObject);
+  }
+  return i;
+}
+
+function isObject(item) {
+  return (item && typeof item === 'object' && !Array.isArray(item));
+}
+
+function mergeDeep(target, ...sources) {
+  if (!sources.length) return target;
+  const source = sources.shift();
+
+  if (isObject(target) && isObject(source)) {
+    for (const key in source) {
+      if (isObject(source[key])) {
+        if (!target[key]) Object.assign(target, { [key]: {} });
+        mergeDeep(target[key], source[key]);
+      } else {
+        Object.assign(target, { [key]: source[key] });
+      }
+    }
+  }
+
+  return mergeDeep(target, ...sources);
+}
+
 
 class Template extends PureComponent {
   state = state;
@@ -541,6 +577,37 @@ class Template extends PureComponent {
     this.save();
   }
 
+  handleClickMergeToState = (sourceId, tragetId) => {
+    const source = this.props.data.state[sourceId].values;
+    const target = this.props.data.state[tragetId].values;
+
+    core.actions.template
+      .data(
+        this.props.id, this.props.options.prop,
+        {
+          selectState: sourceId,
+          listState: this.props.data.listState.filter(i => i !== tragetId),
+          state: Object
+            .keys(this.props.data.state)
+            .reduce((p, c) => {
+              if (c === sourceId) {
+                return { ...p, [c]: { ...this.props.data.state[c], values: cloneObject(mergeDeep(source, target)) } }
+              }
+              if (c === tragetId) {
+                return p;
+              }
+              return { ...p, [c]: this.props.data.state[c] }
+            }, {})
+        }
+      );
+    core.actions.template
+      .changeValueState(
+        this.props.id, this.props.options.prop,
+        sourceId, this.props.data.state[sourceId].curent,
+      );
+    this.save();
+  }
+
   handleClickEditIdState = (stateId, value) => {
     core.actions.template
       .editIdState(
@@ -615,6 +682,7 @@ class Template extends PureComponent {
           onClickMenu={this.handleClickOptionToolbarMenu}
           onClickAddState={this.handleClickAddState}
           onClickDeleteState={this.handleClickDeleteState}
+          onClickMergeTo={this.handleClickMergeToState}
           onClickEditIdState={this.handleClickEditIdState}
           onClickElement={this.handleClickTreeElement}
           onChange={this.handleChangeValueProperty2}

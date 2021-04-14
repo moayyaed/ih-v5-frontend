@@ -910,7 +910,7 @@ class Sheet extends Component {
       { id: '1', title: 'Circle', click: () => this.handleAddElement(e, 'circle') },
       { id: '2', title: 'Text', click: () => this.handleAddElement(e, 'text') },
       { id: '3', title: 'Image', click: () => this.handleAddElement(e, 'image') },
-      { id: '4', title: 'Text & Image', click: () => this.handleAddElement(e, 'text_image') },
+      // { id: '4', title: 'Text & Image', click: () => this.handleAddElement(e, 'text_image') },
     ]
     const scheme = {
       main: [

@@ -38,7 +38,7 @@ function itemMenu(i, disabled, click, command, target) {
       <MenuItem 
         key={i.id} 
         text={i.title} 
-        disabled={disabled[i.check] !== undefined ? disabled[i.check] : false} 
+        disabled={disabled[i.check] !== undefined ? disabled[i.check] : i.disabled} 
         onClick={(e) => click(i, command, e)}
       >{i.children.map(x => itemMenu(x, disabled, click, command, target))}</MenuItem>
     )
@@ -56,7 +56,7 @@ function itemMenu(i, disabled, click, command, target) {
     <MenuItem 
       key={i.id} 
       text={i.title} 
-      disabled={disabled[i.check] !== undefined ? disabled[i.check] : false} 
+      disabled={disabled[i.check] !== undefined ? disabled[i.check] : i.disabled} 
       onClick={(e) => click(i, command, e)}
     />
   )
