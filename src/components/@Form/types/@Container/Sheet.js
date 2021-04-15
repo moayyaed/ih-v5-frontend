@@ -204,12 +204,16 @@ class Sheet extends Component {
   state = { move: false }
 
   componentDidMount() {
+    this.pasteOffset = 1;
+
     document.addEventListener('keydown', this.handleKeyDown);
     document.addEventListener('keyup', this.handleKeyUp);
   }
 
   componentWillUnmount() {
+    this.pasteOffset = null;
     this.dragSelectContainer = null;
+
     document.removeEventListener('keydown', this.handleKeyDown);
     document.removeEventListener('keyup', this.handleKeyUp);
   }
@@ -222,6 +226,21 @@ class Sheet extends Component {
   }
   
   handleKeyDown = (e) => {
+    // copy
+    if (e.keyCode == '67' && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      if (!(this.props.selectOne === 'content' || Object.keys(this.props.selects).length === 0)) {
+        this.handleClickCopyElements();
+      }
+    }
+    // paste
+    if (e.keyCode == '86' && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      if (core.buffer.class === 'graph') {
+        this.handleClickPasteElements(null);
+      }
+    }
+
     if (this.state.move === false && e.keyCode == '32') {
       document.body.style.cursor = 'grab'
       this.setState({ move: true });
@@ -834,6 +853,8 @@ class Sheet extends Component {
   }
 
   handleClickCopyElements = () => {
+    this.pasteOffset = 1;
+
     const list = [];
     let elements = {};
     let x = Infinity, y = Infinity, w = 0, h = 0;
@@ -865,8 +886,24 @@ class Sheet extends Component {
     this.lastDragEventTime = Date.now()
 
     const rect = this.sheet.getBoundingClientRect();
-    const x = (e.pageX - (rect.left * this.props.settings.scale.value)) / this.props.settings.scale.value // (e.clientX - rect.left) / this.props.settings.scale.value;
-    const y = (e.pageY - (rect.top * this.props.settings.scale.value)) / this.props.settings.scale.value  // (e.clientY - rect.top) / this.props.settings.scale.value;
+    
+    let x = 10;
+    let y = 10;
+
+    if (e === null) {
+      const delta = this.pasteOffset * 10;
+      if (core.buffer.data.offsetX + delta < this.props.settings.w.value && core.buffer.data.offsetY + delta < this.props.settings.h.value) {
+        x = core.buffer.data.offsetX + delta;
+        y = core.buffer.data.offsetY + delta;
+
+        this.pasteOffset = this.pasteOffset + 1;
+      } else {
+        this.pasteOffset = 1;
+      }
+    } else {
+      x = (e.pageX - (rect.left * this.props.settings.scale.value)) / this.props.settings.scale.value // (e.clientX - rect.left) / this.props.settings.scale.value;
+      y = (e.pageY - (rect.top * this.props.settings.scale.value)) / this.props.settings.scale.value  // (e.clientY - rect.top) / this.props.settings.scale.value;
+    }
 
     const clone = cloneNewStructElements(core.buffer.data.list, core.buffer.data.elements, this.props.elements);
     

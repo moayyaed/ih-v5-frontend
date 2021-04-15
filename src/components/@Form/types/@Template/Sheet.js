@@ -328,13 +328,18 @@ class Sheet extends Component {
   state = { move: false }
 
   componentDidMount() {
+    this.pasteOffset = 1;
+    
     document.addEventListener('keydown', this.handleKeyDown);
     document.addEventListener('keyup', this.handleKeyUp);
   }
 
   componentWillUnmount() {
     core.cache.functions = {};
+    
+    this.pasteOffset = null;
     this.dragSelectContainer = null;
+
     document.removeEventListener('keydown', this.handleKeyDown);
     document.removeEventListener('keyup', this.handleKeyUp);
   }
@@ -347,6 +352,29 @@ class Sheet extends Component {
   }
   
   handleKeyDown = (e) => {
+    // copy
+    if (e.keyCode == '67' && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+
+      const store = core.store.getState().apppage.data[this.props.id][this.props.prop];
+      const toolbar = store.mode;
+
+      if (!(toolbar === 'tree' ? this.props.selectOne === 'content' || Object.keys(this.props.selects).length === 0 : true)) {
+        this.handleClickCopyElements();
+      }
+    }
+    // paste
+    if (e.keyCode == '86' && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      
+      const store = core.store.getState().apppage.data[this.props.id][this.props.prop];
+      const toolbar = store.mode;
+
+      if (!(toolbar === 'tree' ? !(core.buffer.class === 'graph') : true)) {
+        this.handleClickPasteElements(null);
+      }
+    }
+    
     if (this.state.move === false && e.keyCode == '32') {
       document.body.style.cursor = 'grab'
       this.setState({ move: true });
@@ -650,6 +678,8 @@ class Sheet extends Component {
   }
 
   handleClickCopyElements = () => {
+    this.pasteOffset = 1;
+
     const store = core.store.getState().apppage.data.p1.template;
 
     const list = [];
@@ -685,9 +715,25 @@ class Sheet extends Component {
     const store = core.store.getState().apppage.data.p1.template;
     
     const rect = this.sheet.getBoundingClientRect();
-    const x = (e.pageX - (rect.left * this.props.settings.scale.value)) / this.props.settings.scale.value // (e.clientX - rect.left) / this.props.settings.scale.value;
-    const y = (e.pageY - (rect.top * this.props.settings.scale.value)) / this.props.settings.scale.value  // (e.clientY - rect.top) / this.props.settings.scale.value;
+    
+    let x = 10;
+    let y = 10;
 
+    if (e === null) {
+      const delta = this.pasteOffset * 10;
+      if (core.buffer.data.offsetX + delta < this.props.settings.w.value && core.buffer.data.offsetY + delta < this.props.settings.h.value) {
+        x = core.buffer.data.offsetX + delta;
+        y = core.buffer.data.offsetY + delta;
+
+        this.pasteOffset = this.pasteOffset + 1;
+      } else {
+        this.pasteOffset = 1;
+      }
+    } else {
+      x = (e.pageX - (rect.left * this.props.settings.scale.value)) / this.props.settings.scale.value // (e.clientX - rect.left) / this.props.settings.scale.value;
+      y = (e.pageY - (rect.top * this.props.settings.scale.value)) / this.props.settings.scale.value  // (e.clientY - rect.top) / this.props.settings.scale.value;
+    }
+    
     const clone = cloneNewStructElements(core.buffer.data.list, core.buffer.data.elements, this.props.elements);
 
     const selects = {};
