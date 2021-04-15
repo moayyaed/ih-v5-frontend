@@ -862,6 +862,7 @@ class Sheet extends Component {
     this.pasteOffset = 1;
 
     const list = [];
+    let templates = {};
     let elements = {};
     let x = Infinity, y = Infinity, w = 0, h = 0;
 
@@ -885,7 +886,18 @@ class Sheet extends Component {
         list.push(key);
       })
 
-      core.buffer = { class: 'graph', type: null, data: { list, elements, offsetX: x, offsetY: y } };
+      Object
+        .keys(elements)
+        .forEach(k => {
+          const item = elements[k];
+          if (item.type === 'template') {
+            if (templates[item.templateId] === undefined) {
+              templates[item.templateId] = cloneObject(this.props.templates[item.templateId])
+            }
+          }
+        })
+
+      core.buffer = { class: 'graph', type: 'container', data: { list, elements, templates, offsetX: x, offsetY: y } };
   }
 
   handleClickPasteElements = (e) => {
@@ -948,6 +960,8 @@ class Sheet extends Component {
     data.w.value = data.w.value - data.x.value;
     data.h.value = data.h.value - data.y.value;
 
+    const templates = core.buffer.type === 'container' ? core.buffer.data.templates : {}
+
     if (Object.keys(elements).length) {
       core.actions.container
         .data(
@@ -958,6 +972,10 @@ class Sheet extends Component {
               ...this.props.elements,
               ...elements,
             },
+            templates: {
+              ...templates,
+              ...this.props.templates,
+            }
           }
         );
 
