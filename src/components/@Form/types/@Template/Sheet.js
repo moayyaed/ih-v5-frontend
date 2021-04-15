@@ -742,10 +742,14 @@ class Sheet extends Component {
           state: clone2.s
         }
       );
-    core.actions.template
-      .selectMB(this.props.id, this.props.prop, selects, data);
-
-    this.props.save();
+      if (Object.keys(elements).length === 1) {
+        core.actions.template
+            .select(this.props.id, this.props.prop, Object.keys(elements)[0]);
+      } else {
+        core.actions.template
+          .selectMB(this.props.id, this.props.prop, selects, data);
+      }
+      this.props.save();
     }
   }
 

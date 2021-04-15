@@ -905,22 +905,29 @@ class Sheet extends Component {
     data.w.value = data.w.value - data.x.value;
     data.h.value = data.h.value - data.y.value;
 
-    core.actions.container
-      .data(
-        this.props.id, this.props.prop,
-        { 
-          list: this.props.list.concat(clone.list),
-          elements: {
-            ...this.props.elements,
-            ...elements,
-          },
-        }
-      );
+    if (Object.keys(elements).length) {
+      core.actions.container
+        .data(
+          this.props.id, this.props.prop,
+          { 
+            list: this.props.list.concat(clone.list),
+            elements: {
+              ...this.props.elements,
+              ...elements,
+            },
+          }
+        );
 
-    core.actions.container
-      .selectMB(this.props.id, this.props.prop, selects, data);
-    
-    this.props.save();
+      if (Object.keys(elements).length === 1) {
+        core.actions.container
+            .select(this.props.id, this.props.prop, Object.keys(elements)[0]);
+      } else {
+        core.actions.container
+          .selectMB(this.props.id, this.props.prop, selects, data);
+      }
+      
+      this.props.save();
+    }
   }
 
   handleClickEditTemplate = () => {
