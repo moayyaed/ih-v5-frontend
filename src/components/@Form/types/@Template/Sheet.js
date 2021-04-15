@@ -352,12 +352,12 @@ class Sheet extends Component {
   }
   
   handleKeyDown = (e) => {
+    const store = core.store.getState().apppage.data[this.props.id][this.props.prop];
+    const toolbar = store.mode;
+    
     // copy
     if (e.keyCode == '67' && (e.ctrlKey || e.metaKey)) {
       e.preventDefault();
-
-      const store = core.store.getState().apppage.data[this.props.id][this.props.prop];
-      const toolbar = store.mode;
 
       if (!(toolbar === 'tree' ? this.props.selectOne === 'content' || Object.keys(this.props.selects).length === 0 : true)) {
         this.handleClickCopyElements();
@@ -367,11 +367,17 @@ class Sheet extends Component {
     if (e.keyCode == '86' && (e.ctrlKey || e.metaKey)) {
       e.preventDefault();
       
-      const store = core.store.getState().apppage.data[this.props.id][this.props.prop];
-      const toolbar = store.mode;
-
       if (!(toolbar === 'tree' ? !(core.buffer.class === 'graph') : true)) {
         this.handleClickPasteElements(null);
+      }
+    }
+    // delete
+    if ((e.keyCode === 46 || e.keyCode === 8 && e.target.tagName.toLowerCase() !== 'input')) {
+      if (!(this.props.selectOne === 'content' || Object.keys(this.props.selects).length === 0)) {
+
+        if (!(toolbar === 'tree' ? this.props.selectOne === 'content' || Object.keys(this.props.selects).length === 0 : true)) {
+          this.handleDeleteElement(null);
+        }
       }
     }
     

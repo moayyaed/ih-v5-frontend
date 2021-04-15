@@ -240,7 +240,13 @@ class Sheet extends Component {
         this.handleClickPasteElements(null);
       }
     }
-
+    // delete
+    if ((e.keyCode === 46 || e.keyCode === 8 && e.target.tagName.toLowerCase() !== 'input')) {
+      if (!(this.props.selectOne === 'content' || Object.keys(this.props.selects).length === 0)) {
+        this.handleDeleteElement(null);
+      }
+    }
+    
     if (this.state.move === false && e.keyCode == '32') {
       document.body.style.cursor = 'grab'
       this.setState({ move: true });
