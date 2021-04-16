@@ -115,6 +115,7 @@ class Container extends PureComponent {
           backgroundImage:  `url(${encodeURI(src)})${color}`,
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
+          boxShadow: this.props.item.boxShadow && this.props.item.boxShadow.active ? this.props.item.boxShadow.value : 'unset',
           visibility: this.props.item.visible && this.props.item.visible.value == false ? 'hidden' : 'unset',
         }}
       >

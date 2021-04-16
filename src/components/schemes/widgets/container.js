@@ -92,6 +92,11 @@ const container = {
       type: 'animation',
     },
     { 
+      title: 'Shadow', 
+      prop: 'boxShadow', 
+      type: 'shadow',
+    },
+    { 
       title: 'Opacity', 
       prop: 'opacity', 
       type: 'number',

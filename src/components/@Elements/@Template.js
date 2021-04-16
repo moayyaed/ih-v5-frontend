@@ -51,13 +51,13 @@ class Template extends PureComponent {
 
   render() {
     // background: this.props.template.settings.overlayColor.value
-    // const type = this.props.template.settings.backgroundColor.type;
-    // const color = type === 'fill' ? '' : ', ' + this.props.template.settings.backgroundColor.value;
-    // const src =  this.props.template.settings.backgroundImage.value.indexOf('://') !== -1 ? this.props.template.settings.backgroundImage.value : '/images/' + this.props.template.settings.backgroundImage.value
-
+    const type = this.props.item.backgroundColor.type;
+    const color = type === 'fill' ? '' : ', ' + this.props.item.backgroundColor.value;
+    const src =  '';
 
     const b = this.props.item.borderSize.value * 2; 
     const scale = (this.props.item.w.value -b) / (this.props.template.settings.w.value);
+
     return (
       <div
         className="parent2"
@@ -65,7 +65,7 @@ class Template extends PureComponent {
           position: 'absolute', 
           width: '100%', 
           height: '100%',
-          background: this.props.item.backgroundColor.value,
+
           border: `${this.props.item.borderSize.value}px ${this.props.item.borderStyle.value.id} ${this.props.item.borderColor.value}`,
           borderRadius: (Math.min(this.props.item.w.value, this.props.item.h.value) / 2 / 100) * this.props.item.borderRadius.value,
           opacity: this.props.item.opacity.value / 100,
@@ -73,8 +73,8 @@ class Template extends PureComponent {
           transform: transform(this.props.item),
           // animation: this.props.item.animation && this.props.item.animation.active ? this.props.item.animation.value : 'unset',
           overflow: this.props.item.overflow && this.props.item.overflow.value ? 'hidden' : 'unset',
-          backgroundColor: this.props.template.settings.backgroundColor.value,
-          // backgroundImage:  `url(${encodeURI(src)})${color}`,
+          backgroundColor: this.props.item.backgroundColor.value,
+          backgroundImage:  `url(${encodeURI(src)})${color}`,
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
           visibility: this.props.item.visible && this.props.item.visible.value == false ? 'hidden' : 'unset',

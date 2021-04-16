@@ -313,6 +313,7 @@ const CONTAINER = {
   animation: {},
   zIndex: { value: 100 },
   opacity: { value: 100 },
+  boxShadow: { active: false, value: '2px 2px 4px 0px #000000' },
   visible: { value: true },
   overflow: { value: true },
   widget: true,
