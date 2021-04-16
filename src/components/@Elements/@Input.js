@@ -35,14 +35,92 @@ const styles = {
   },
 };
 
-const classes = theme => ({
-  root: {
-    height: '100%',
-  },
-  input: {
-    height: '100%!important'
-  },
-});
+const classes = theme => {
+  return {
+    root: {
+      height: '100%',
+    },
+    input: props => ({
+      color: props.item.textColor.value,
+      height: '100%!important'
+    }),
+    label: props => ({
+      '& input': {
+        color: props.item.textColor.value,
+      },
+      '& label': {
+        color: props.item.labelColor.value,
+      },
+      '& label.Mui-focused': {
+        color: props.item.labelColorHover.value,
+      },
+    }),
+    labelFilled: props => ({
+      '& input': {
+        backgroundColor: props.item.baseColor.value,
+      },
+      '& input.Mui-focused': {
+        backgroundColor: props.item.baseColorHover.value,
+      },
+      '& label': {
+        color: props.item.labelColor.value,
+      },
+      '& label.Mui-focused': {
+        color: props.item.labelColorHover.value,
+      },
+    }),
+    standard: props => ({
+      "&:before": {
+        borderColor: props.item.underlineColor.value,
+      },
+      "&:hover:not($disabled):not($focused):not($error):before": {
+        borderColor: `${props.item.underlineColorHover.value}!important`
+      },
+      "&:after": {
+        borderColor: props.item.underlineColorSelect.value,
+      }
+    }),
+    filled: props => ({
+      '& input': {
+        color: props.item.textColor.value,
+      },
+      "&:before": {
+        borderColor: props.item.underlineColor.value,
+      },
+      "&:hover:not($disabled):not($focused):not($error):before": {
+        borderColor: `${props.item.underlineColorHover.value}!important`
+      },
+      "&:after": {
+        borderColor: props.item.underlineColorSelect.value,
+      }
+    }),
+    outlined: props => ({
+      '& input': {
+        color: props.item.textColor.value,
+      },
+      '& label': {
+        color: props.item.labelColor.value,
+      },
+      '& label.Mui-focused': {
+        color: props.item.labelColorHover.value,
+      },
+      '& .MuiOutlinedInput-root': {
+        '& fieldset': {
+          borderColor: props.item.underlineColor.value,
+        },
+        '&:hover fieldset': {
+          // 
+        },
+        "&:hover fieldset": {
+          borderColor: props.item.underlineColorHover.value,
+        },
+        '&.Mui-focused fieldset': {
+          borderColor: props.item.underlineColorSelect.value,
+        },
+      },
+    }),
+  }
+};
 
 
 const temp = { value: 'abc' };
@@ -112,12 +190,44 @@ function getEndAdornment(item, value) {
   return item.endAdornment.value !== '' ? <InputAdornment position="end">{item.endAdornment.value}</InputAdornment> : null
 }
 
+function getClasses(item, classes) {
+  const temp = {};
+
+  if (item.fullHeight.value) {
+    temp.root = classes.root;
+    temp.input = classes.input;
+  }
+
+  if (item.variant.value.id === 'standard') {
+    temp.underline = classes.standard;
+  }
+
+  if (item.variant.value.id === 'filled') {
+    temp.underline = classes.filled;
+  }
+
+  return temp;
+}
+
+function getClasses2(item, classes) {
+
+  if (item.variant.value.id === 'outlined') {
+    return { root: classes.outlined };
+  }
+
+  if (item.variant.value.id === 'filled') {
+    return { root: classes.labelFilled };
+  }
+
+  return { root: classes.label };
+}
+
 
 function getInput(props, data, onChange) {
   if (props.item.variant.value.id === 'minimal') {
     return (
       <InputBase
-        style={styles.inputBase}
+        style={{ ...styles.inputBase, color: props.item.textColor.value }}
         value={data.value}
         multiline={props.item.fullHeight.value}
         fullWidth={props.item.fullWidth.value}
@@ -133,6 +243,7 @@ function getInput(props, data, onChange) {
 
   return (
     <TextField
+      classes={getClasses2(props.item, props.classes)}
       multiline={props.item.fullHeight.value}
       style={props.item.fullHeight.value ? styles.textField : null}
       fullWidth={props.item.fullWidth.value}
@@ -142,11 +253,11 @@ function getInput(props, data, onChange) {
       value={data.value}
       placeholder={props.item.placeholder.value }
       InputProps={{
-        classes: props.item.fullHeight.value ? { root: props.classes.root, input: props.classes.input } : {},
+        classes: getClasses(props.item, props.classes),
         startAdornment: props.item.startAdornment.value !== '' ? <InputAdornment position="start">{props.item.startAdornment.value}</InputAdornment> : null,
         endAdornment: getEndAdornment(props.item, data.value),
       }}
-      InputLabelProps={{ shrink: true }}
+      InputLabelProps={{ shrink: true, }}
       onChange={(e) => onChange('change', e.target.value)}
       onBlur={(e) => onChange('blur', e.target.value)}
       onKeyPress={(e) => e.key === 'Enter' && onChange('press', data.value)}

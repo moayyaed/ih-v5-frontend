@@ -97,6 +97,46 @@ const slider = {
         },
       ]
     },
+    { 
+      title: 'Text Color', 
+      prop: 'textColor', 
+      type: 'color',
+    },
+    { 
+      title: 'Label Color', 
+      prop: 'labelColor', 
+      type: 'color',
+    },
+    { 
+      title: 'Label Color Hover', 
+      prop: 'labelColorHover', 
+      type: 'color',
+    },
+    { 
+      title: 'Underline Color', 
+      prop: 'underlineColor', 
+      type: 'color',
+    },
+    { 
+      title: 'Underline Color Hover', 
+      prop: 'underlineColorHover', 
+      type: 'color',
+    },
+    { 
+      title: 'Underline Color Select', 
+      prop: 'underlineColorSelect', 
+      type: 'color',
+    },
+    { 
+      title: 'Input Color', 
+      prop: 'baseColor', 
+      type: 'color',
+    },
+    { 
+      title: 'Input Color Hover', 
+      prop: 'baseColorHover', 
+      type: 'color',
+    },
   ],
   move: move,
   link: [],
