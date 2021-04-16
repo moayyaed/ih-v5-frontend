@@ -1,28 +1,12 @@
+import background from './background';
+import border from './border';
+import decoration from './decoration';
+
 const template = {
   main: [
-    { 
-      title: 'Decoration', 
-      prop: 'decoration', 
-      type: 'divider',
-    },
-    { 
-      title: 'Animation', 
-      prop: 'animation', 
-      type: 'animation',
-    },
-    { 
-      title: 'Opacity', 
-      prop: 'opacity', 
-      type: 'number',
-      step: 5,
-      min: 0,
-      max: 100,
-    },
-    {
-      title: 'Visible',
-      prop: 'visible',
-      type: 'cb',
-    }
+    ...background, 
+    ...border, 
+    ...decoration
   ],
   move: [
     { 
@@ -51,16 +35,39 @@ const template = {
       type: 'number',
     },
     { 
-      title: 'Crop', 
-      prop: 'overflow', 
-      type: 'cb',
-    },
-    { 
       title: 'Z-index', 
       prop: 'zIndex', 
       type: 'number',
       min: -100,
       max: 5000,
+    },
+    { 
+      title: 'Transform', 
+      prop: 'transform', 
+      type: 'divider',
+    },
+    { 
+      title: 'Flip H', 
+      prop: 'flipH', 
+      type: 'cb',
+    },
+    { 
+      title: 'Flip V', 
+      prop: 'flipV', 
+      type: 'cb',
+    },
+    { 
+      title: 'Crop', 
+      prop: 'overflow', 
+      type: 'cb',
+    },
+    { 
+      title: 'Rotate', 
+      prop: 'rotate', 
+      type: 'number',
+      step: 10,
+      min: 0,
+      max: 360,
     },
   ],
 }

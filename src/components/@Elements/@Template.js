@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import core from 'core';
 
 import elemets from 'components/@Elements';
+import { transform } from './tools';
 
 const method = window.document.body.style.zoom === undefined;
 
@@ -49,9 +50,10 @@ class Template extends PureComponent {
   }
 
   render() {
-    const type = this.props.template.settings.backgroundColor.type;
-    const color = type === 'fill' ? '' : ', ' + this.props.template.settings.backgroundColor.value;
-    const src =  this.props.template.settings.backgroundImage.value.indexOf('://') !== -1 ? this.props.template.settings.backgroundImage.value : '/images/' + this.props.template.settings.backgroundImage.value
+    // background: this.props.template.settings.overlayColor.value
+    // const type = this.props.template.settings.backgroundColor.type;
+    // const color = type === 'fill' ? '' : ', ' + this.props.template.settings.backgroundColor.value;
+    // const src =  this.props.template.settings.backgroundImage.value.indexOf('://') !== -1 ? this.props.template.settings.backgroundImage.value : '/images/' + this.props.template.settings.backgroundImage.value
     const scale = this.props.item.w.value / this.props.template.settings.w.value;
     return (
       <div
@@ -63,17 +65,22 @@ class Template extends PureComponent {
           transform: method ? `scale(${scale})` : 'unset',
           transformOrigin: method ? '0 0' : 'unset',
           zoom: method ? 'unset' : scale,
+          background: this.props.item.backgroundColor.value,
+          border: `${this.props.item.borderSize.value}px ${this.props.item.borderStyle.value.id} ${this.props.item.borderColor.value}`,
+          borderRadius: (Math.min(this.props.item.w.value, this.props.item.h.value) / 2 / 100) * this.props.item.borderRadius.value,
           opacity: this.props.item.opacity.value / 100,
+          boxShadow: this.props.item.boxShadow.active ? this.props.item.boxShadow.value : 'unset',
+          transform: transform(this.props.item),
           // animation: this.props.item.animation && this.props.item.animation.active ? this.props.item.animation.value : 'unset',
           overflow: this.props.item.overflow && this.props.item.overflow.value ? 'hidden' : 'unset',
           backgroundColor: this.props.template.settings.backgroundColor.value,
-          backgroundImage:  `url(${encodeURI(src)})${color}`,
+          // backgroundImage:  `url(${encodeURI(src)})${color}`,
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
           visibility: this.props.item.visible && this.props.item.visible.value == false ? 'hidden' : 'unset',
         }}
       >
-        <div style={{ width: '100%', height: '100%', background: this.props.template.settings.overlayColor.value }}>
+        <div style={{ width: '100%', height: '100%' }}>
           {this.props.template.list.map(id => this.handleRender(id, this.props.item.elements ? this.props.item.elements[id] : this.props.template.elements[id]))}
         </div>
       </div>

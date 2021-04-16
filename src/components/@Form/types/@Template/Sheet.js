@@ -1240,9 +1240,9 @@ class Sheet extends Component {
   }
 
   render({ selects, settings, list, elements } = this.props) {
-    const type = settings.backgroundColor.type;
-    const color = type === 'fill' ? '' : ', ' + settings.backgroundColor.value;
-    const src =  settings.backgroundImage.value.indexOf('://') !== -1 ? settings.backgroundImage.value : '/images/' + settings.backgroundImage.value
+    // const type = settings.backgroundColor.type;
+    // const color = type === 'fill' ? '' : ', ' + settings.backgroundColor.value;
+    // const src =  settings.backgroundImage.value.indexOf('://') !== -1 ? settings.backgroundImage.value : '/images/' + settings.backgroundImage.value
     const devcolor = settings.devBackgroundColor ? settings.devBackgroundColor.value : 'rgba(0,0,0,0.25)';
     return (
       <div style={styles.root} ref={this.linkBody} onMouseDown={this.handleMouseDown} onMouseUp={this.handleMouseUpBody}>
@@ -1278,12 +1278,13 @@ class Sheet extends Component {
               <div style={{ 
                 width: '100%', 
                 height: '100%', 
-                backgroundColor: settings.backgroundColor.value,
-                backgroundImage:  `url(${encodeURI(src)})${color}`,
+                // backgroundColor: settings.backgroundColor.value,
+                // backgroundImage:  `url(${encodeURI(src)})${color}`,
+                // background: settings.overlayColor.value
                 backgroundSize: 'cover',
                 backgroundPosition: 'center center',
               }}>
-                <div className="parent2" style={{ width: '100%', height: '100%', background: settings.overlayColor.value }}>
+                <div className="parent2" style={{ width: '100%', height: '100%' }}>
                   {list.map(id => 
                     <Element 
                       key={id}

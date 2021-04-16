@@ -98,6 +98,11 @@ const slider = {
       ]
     },
     { 
+      title: 'Text Size', 
+      prop: 'textSize', 
+      type: 'number',
+    },
+    { 
       title: 'Text Color', 
       prop: 'textColor', 
       type: 'color',

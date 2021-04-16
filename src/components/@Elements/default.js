@@ -321,6 +321,8 @@ const CONTAINER = {
 }
 
 const TEMPLATE = {
+  ...BLOCK,
+  borderSize: { value: 0 },
   animation: {},
   zIndex: { value: 100 },
   opacity: { value: 100 },
@@ -444,6 +446,7 @@ const INPUT = {
   fullHeight: { value: false },
   inputMode: { value: { id: 'number', title: 'Number' }},
   saveMode: { value: { id: 'outfocus', title: 'Out Focus' }},
+  textSize: { value: 16 },
   textColor: { value: 'rgba(0,0,0,0.87)' },
   labelColor: { value: 'rgba(0,0,0,0.54)' },
   labelColorHover: { value: 'rgba(25,118,210,1)' },

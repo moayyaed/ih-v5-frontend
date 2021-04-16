@@ -646,7 +646,7 @@ class Template extends PureComponent {
       const toolbar = this.props.data.mode || 'tree';
 
       const elementData = this.props.data.selectOne === 'content' ? 
-      { ...this.props.data.settings , type: 'content' } : 
+      { ...this.props.data.settings , type: 'content4' } : 
       { ...curentData, ...masterData, ...stateData };
 
       return (

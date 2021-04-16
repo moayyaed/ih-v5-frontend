@@ -280,10 +280,33 @@ const content3 = {
   ],
 }
 
+const content4 = {
+  move: [
+    { 
+      title: 'Position', 
+      prop: 'position', 
+      type: 'divider',
+    },
+    { 
+      title: 'Width', 
+      prop: 'w', 
+      type: 'number',
+      bind: false,
+    },
+    { 
+      title: 'Height', 
+      prop: 'h', 
+      type: 'number',
+      bind: false,
+    },
+  ],
+};
+
 const contents = {
   content,
   content2,
   content3,
+  content4,
 }
 
 export default contents;

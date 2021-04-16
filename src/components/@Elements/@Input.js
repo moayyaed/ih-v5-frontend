@@ -42,11 +42,13 @@ const classes = theme => {
     },
     input: props => ({
       color: props.item.textColor.value,
+      fontSize: props.item.textSize.value,
       height: '100%!important'
     }),
     label: props => ({
       '& input': {
         color: props.item.textColor.value,
+        fontSize: props.item.textSize.value,
       },
       '& label': {
         color: props.item.labelColor.value,
@@ -83,6 +85,7 @@ const classes = theme => {
     filled: props => ({
       '& input': {
         color: props.item.textColor.value,
+        fontSize: props.item.textSize.value,
       },
       "&:before": {
         borderColor: props.item.underlineColor.value,
@@ -97,6 +100,7 @@ const classes = theme => {
     outlined: props => ({
       '& input': {
         color: props.item.textColor.value,
+        fontSize: props.item.textSize.value,
       },
       '& label': {
         color: props.item.labelColor.value,
