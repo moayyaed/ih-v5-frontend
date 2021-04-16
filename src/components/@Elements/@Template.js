@@ -54,7 +54,10 @@ class Template extends PureComponent {
     // const type = this.props.template.settings.backgroundColor.type;
     // const color = type === 'fill' ? '' : ', ' + this.props.template.settings.backgroundColor.value;
     // const src =  this.props.template.settings.backgroundImage.value.indexOf('://') !== -1 ? this.props.template.settings.backgroundImage.value : '/images/' + this.props.template.settings.backgroundImage.value
-    const scale = this.props.item.w.value / this.props.template.settings.w.value;
+
+
+    const b = this.props.item.borderSize.value * 2; 
+    const scale = (this.props.item.w.value -b) / (this.props.template.settings.w.value);
     return (
       <div
         className="parent2"
@@ -62,9 +65,6 @@ class Template extends PureComponent {
           position: 'absolute', 
           width: '100%', 
           height: '100%',
-          transform: method ? `scale(${scale})` : 'unset',
-          transformOrigin: method ? '0 0' : 'unset',
-          zoom: method ? 'unset' : scale,
           background: this.props.item.backgroundColor.value,
           border: `${this.props.item.borderSize.value}px ${this.props.item.borderStyle.value.id} ${this.props.item.borderColor.value}`,
           borderRadius: (Math.min(this.props.item.w.value, this.props.item.h.value) / 2 / 100) * this.props.item.borderRadius.value,
@@ -80,7 +80,14 @@ class Template extends PureComponent {
           visibility: this.props.item.visible && this.props.item.visible.value == false ? 'hidden' : 'unset',
         }}
       >
-        <div style={{ width: '100%', height: '100%' }}>
+        <div style={{ 
+          width: '100%', 
+          height: '100%',
+          transform: method ? `scale(${scale})` : 'unset',
+          transformOrigin: method ? '0 0' : 'unset',
+          zoom: method ? 'unset' : scale,
+          }}
+        >
           {this.props.template.list.map(id => this.handleRender(id, this.props.item.elements ? this.props.item.elements[id] : this.props.template.elements[id]))}
         </div>
       </div>
