@@ -356,7 +356,7 @@ class Sheet extends Component {
     const toolbar = store.mode;
     
     // copy
-    if (e.keyCode == '67' && (e.ctrlKey || e.metaKey)) {
+    if (e.keyCode == '67' && (e.ctrlKey || e.metaKey) && e.target.tagName.toLowerCase() !== 'input') {
       e.preventDefault();
 
       if (!(toolbar === 'tree' ? this.props.selectOne === 'content' || Object.keys(this.props.selects).length === 0 : true)) {
@@ -364,7 +364,7 @@ class Sheet extends Component {
       }
     }
     // paste
-    if (e.keyCode == '86' && (e.ctrlKey || e.metaKey)) {
+    if (e.keyCode == '86' && (e.ctrlKey || e.metaKey) && e.target.tagName.toLowerCase() !== 'input') {
       e.preventDefault();
       
       if (!(toolbar === 'tree' ? !(core.buffer.class === 'graph') : true)) {

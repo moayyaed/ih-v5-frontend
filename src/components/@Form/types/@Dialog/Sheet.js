@@ -227,14 +227,14 @@ class Sheet extends Component {
   
   handleKeyDown = (e) => {
     // copy
-    if (e.keyCode == '67' && (e.ctrlKey || e.metaKey)) {
+    if (e.keyCode == '67' && (e.ctrlKey || e.metaKey) && e.target.tagName.toLowerCase() !== 'input') {
       e.preventDefault();
       if (!(this.props.selectOne === 'content' || Object.keys(this.props.selects).length === 0)) {
         this.handleClickCopyElements();
       }
     }
     // paste
-    if (e.keyCode == '86' && (e.ctrlKey || e.metaKey)) {
+    if (e.keyCode == '86' && (e.ctrlKey || e.metaKey) && e.target.tagName.toLowerCase() !== 'input') {
       e.preventDefault();
       if (core.buffer.class === 'graph') {
         this.handleClickPasteElements(null);
