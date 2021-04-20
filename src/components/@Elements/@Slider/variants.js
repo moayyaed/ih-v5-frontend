@@ -5,6 +5,7 @@ import Slider from 'libs/Slider';
 import Tooltip from '@material-ui/core/Tooltip';
 
 
+
 export function ValueLabelComponent(props) {
   const { children, open, value } = props;
   
@@ -15,63 +16,57 @@ export function ValueLabelComponent(props) {
   );
 }
 
+function getColor(str) {
+  const temp = str.slice(5, str.length - 1).split(',');
+  if (temp.length === 4) {
+    temp[3] = '0.16';
+    return 'rgba(' + temp.join(',') + ')';
+  }
+  return str;
+}
+
 
 const iOSBoxShadow =
   '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.13),0 0 0 1px rgba(0,0,0,0.02)';
 
-const marks = [
-  {
-    value: 0,
-  },
-  {
-    value: 20,
-  },
-  {
-    value: 37,
-  },
-  {
-    value: 100,
-  },
-];
 
 export const IOSSlider = withStyles({
-  root: {
-    color: '#3880ff',
+  root: props => ({
+    color: props.item.trackColorLeft.value,
     height: 2,
     padding: '15px 0',
-  },
-  thumb: {
+  }),
+  thumb: props => ({
     height: 28,
     width: 28,
-    backgroundColor: '#fff',
+    backgroundColor: props.item.thumbColor.value,
     boxShadow: iOSBoxShadow,
     marginTop: -14,
     marginLeft: -14,
-    '&:focus, &:hover, &$active': {
+    '&:focus, &:hover': {
       boxShadow: '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.3),0 0 0 1px rgba(0,0,0,0.02)',
-      // Reset on touch devices, it doesn't add specificity
       '@media (hover: none)': {
         boxShadow: iOSBoxShadow,
       },
     },
-  },
-  active: {},
-  valueLabel: {
+  }),
+  valueLabel: props => ({
     left: 'calc(-50% + 12px)',
     top: -22,
     '& *': {
       background: 'transparent',
-      color: '#000',
+      color: props.item.labelColor.value,
+      fontSize: props.item.labelSize.value,
     },
-  },
+  }),
   track: {
     height: 2,
   },
-  rail: {
+  rail: props => ({
     height: 2,
     opacity: 0.5,
-    backgroundColor: '#bfbfbf',
-  },
+    backgroundColor: props.item.trackColorRight.value,
+  }),
   mark: {
     backgroundColor: '#bfbfbf',
     height: 8,
@@ -85,90 +80,122 @@ export const IOSSlider = withStyles({
 })(Slider);
 
 export const PrettoSlider = withStyles({
-  root: {
-    color: '#52af77',
+  root: props => ({
+    color: props.item.trackColorLeft.value,
     height: 8,
-  },
-  thumb: {
+  }),
+  thumb: props => ({
     height: 24,
     width: 24,
     backgroundColor: '#fff',
-    border: '2px solid currentColor',
+    border: `2px solid ${props.item.thumbColor.value}`,
     marginTop: -8,
     marginLeft: -12,
-    '&:focus, &:hover, &$active': {
+    '&:focus, &:hover': {
       boxShadow: 'inherit',
     },
-  },
-  active: {},
-  valueLabel: {
+  }),
+  valueLabel: props => ({
     left: 'calc(-50% + 4px)',
-  },
+        '& *': {
+      background: props.item.thumbColor.value,
+      color: props.item.labelColor.value,
+      fontSize: props.item.labelSize.value,
+    },
+  }),
   track: {
     height: 8,
     borderRadius: 4,
   },
-  rail: {
+  rail: props => ({
     height: 8,
     borderRadius: 4,
-  },
+    backgroundColor: props.item.trackColorRight.value,
+  }),
 })(Slider);
 
 export const AirbnbSlider = withStyles({
-  root: {
-    color: '#3a8589',
+  root: props => ({
+    color: props.item.trackColorLeft.value,
     height: 3,
     padding: '13px 0',
-  },
-  thumb: {
+  }),
+  thumb: props => ({
     height: 27,
     width: 27,
     backgroundColor: '#fff',
-    border: '1px solid currentColor',
+    border: `1px solid ${props.item.thumbColor.value}`,
     marginTop: -12,
     marginLeft: -13,
     boxShadow: '#ebebeb 0 2px 2px',
-    '&:focus, &:hover, &$active': {
+    '&:focus, &:hover': {
       boxShadow: '#ccc 0 2px 3px 1px',
     },
     '& .bar': {
       // display: inline-block !important;
       height: 9,
       width: 1,
-      backgroundColor: 'currentColor',
+      backgroundColor: props.item.thumbColor.value,
       marginLeft: 1,
       marginRight: 1,
     },
-  },
-  active: {},
+  }),
   track: {
     height: 3,
   },
-  rail: {
-    color: '#d8d8d8',
+  rail: props => ({
+    color: props.item.trackColorRight.value,
     opacity: 1,
     height: 3,
-  },
+  }),
 })(Slider);
+
+const LightTooltip = withStyles((theme) => ({
+  tooltip: props => {
+    return {
+      backgroundColor: props.item.thumbColor.value,
+      color: props.item.labelColor.value,
+      fontSize: props.item.labelSize.value,
+      boxShadow: theme.shadows[1],
+    }
+  },
+}))(Tooltip);
 
 export function AirbnbThumbComponent(props) {
   return (
-    <span {...props}>
-      <span className="bar" />
-      <span className="bar" />
-      <span className="bar" />
-    </span>
+    <LightTooltip open={props.item.autoHideLabel.value ? null : true} item={props.item} enterTouchDelay={0} placement="top" title={props['aria-valuenow']} zoom={props.zoom} >
+      <span {...props}>
+        <span className="bar" />
+        <span className="bar" />
+        <span className="bar" />
+      </span>
+  </LightTooltip>
   );
 }
 
 export const MaterialSlider = withStyles({
-  valueLabel: {
+  root: props => ({
+    color: props.item.trackColorLeft.value,
+  }),
+  thumb: props => ({
+    '&:hover': {
+      boxShadow: `0px 0px 0px 8px ${getColor(props.item.thumbColor.value)}!important`
+    },
+    backgroundColor: props.item.thumbColor.value,
+  }),
+  focusVisible: props => ({
+    boxShadow: `0px 0px 0px 8px ${getColor(props.item.thumbColor.value)}!important`
+  }),
+  rail: props => ({
+    backgroundColor: props.item.trackColorRight.value,
+  }),
+  valueLabel: props => ({
     // left: 'calc(-50% + 12px)',
     top: -28,
     '& *': {
       background: 'transparent',
-      color: '#000',
-      fontSize: 16,
+      color: props.item.labelColor.value,
+      fontSize: props.item.labelSize.value,
     },
-  },
+  }),
 })(Slider);

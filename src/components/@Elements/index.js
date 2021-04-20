@@ -55,6 +55,10 @@ function getElementByType(type) {
     case 'input':
       return Input;
     case 'slider':
+    case 'slider_android':
+    case 'slider_ios':
+    case 'slider_pretto':
+    case 'slider_airbnb':
       return Slider;
     case 'checkbox':
       return Checkbox;

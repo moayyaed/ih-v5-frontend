@@ -53,7 +53,9 @@ const styles = {
   }
 }
 
-
+function checkTarget(str) {
+  return (str.toLowerCase() !== 'input' && str.toLowerCase() !== 'textarea')
+}
 
 function getAllElementsByGroup(list, elements) {
   return list
@@ -356,7 +358,7 @@ class Sheet extends Component {
     const toolbar = store.mode;
     
     // copy
-    if (e.keyCode == '67' && (e.ctrlKey || e.metaKey) && e.target.tagName.toLowerCase() !== 'input') {
+    if (e.keyCode == '67' && (e.ctrlKey || e.metaKey) && checkTarget(e.target.tagName)) {
       e.preventDefault();
 
       if (!(toolbar === 'tree' ? this.props.selectOne === 'content' || Object.keys(this.props.selects).length === 0 : true)) {
@@ -364,7 +366,7 @@ class Sheet extends Component {
       }
     }
     // paste
-    if (e.keyCode == '86' && (e.ctrlKey || e.metaKey) && e.target.tagName.toLowerCase() !== 'input') {
+    if (e.keyCode == '86' && (e.ctrlKey || e.metaKey) && checkTarget(e.target.tagName)) {
       e.preventDefault();
       
       if (!(toolbar === 'tree' ? !(core.buffer.class === 'graph') : true)) {
@@ -372,7 +374,7 @@ class Sheet extends Component {
       }
     }
     // delete
-    if ((e.keyCode === 46 || e.keyCode === 8 && e.target.tagName.toLowerCase() !== 'input')) {
+    if ((e.keyCode === 46 || e.keyCode === 8 && checkTarget(e.target.tagName))) {
       if (!(this.props.selectOne === 'content' || Object.keys(this.props.selects).length === 0)) {
 
         if (!(toolbar === 'tree' ? this.props.selectOne === 'content' || Object.keys(this.props.selects).length === 0 : true)) {

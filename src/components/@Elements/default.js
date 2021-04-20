@@ -1,4 +1,3 @@
-import { CONTAINER_ADD_ELEMENT } from "components/@Form/types/@Container/constants"
 
 const BLOCK = {
   borderSize: { value: 1 },
@@ -426,13 +425,47 @@ const CHART_MULTI = {
 
 const SLIDER = {
   ...BLOCK,
-  variant: { value: { id: 'material', title: 'Material' }},
   widget: true,
   control: true,
   widgetlinks: {
     link: { }
   },
   data: {},
+  autoHideLabel: { value: false },
+  labelSize: { value: 14 },
+  trackStep: { value: 1 }
+}
+
+const SLIDER_ANDROID = {
+  ...SLIDER,
+  labelColor: { value: 'rgba(0,0,0,0.87)' },
+  trackColorLeft: { value: 'rgba(25,118,210,1)' },
+  trackColorRight: { value: 'rgba(25,118,210,1)' },
+  thumbColor: { value: 'rgba(25,118,210,1)' },
+}
+
+const SLIDER_IOS = {
+  ...SLIDER,
+  labelColor: { value: 'rgba(0,0,0,0.87)' },
+  trackColorLeft: { value: 'rgba(56,128,255,1)' },
+  trackColorRight: { value: 'rgba(191,191,191,1)' },
+  thumbColor: { value: 'rgba(255,255,255,1)' },
+}
+
+const SLIDER_PRETTO = {
+  ...SLIDER,
+  labelColor: { value: 'rgba(255,255,255,1)' },
+  trackColorLeft: { value: 'rgba(82,175,119,1)' },
+  trackColorRight: { value: 'rgba(82,175,119,1)' },
+  thumbColor: { value: 'rgba(82,175,119,1)' },
+}
+
+const SLIDER_AIRBNB = {
+  ...SLIDER,
+  labelColor: { value: 'rgba(255,255,255,1)' },
+  trackColorLeft: { value: 'rgba(58,133,137,1)' },
+  trackColorRight: { value: 'rgba(216,216,216,1)' },
+  thumbColor: { value: 'rgba(58,133,137,1)' },
 }
 
 const INPUT = {
@@ -515,6 +548,14 @@ function getDefaultParams(type) {
       return INPUT;
     case 'slider':
       return SLIDER;
+    case 'slider_android':
+      return SLIDER_ANDROID;
+    case 'slider_ios':
+      return SLIDER_IOS;
+    case 'slider_pretto':
+      return SLIDER_PRETTO;
+    case 'slider_airbnb':
+      return SLIDER_AIRBNB;
     case 'checkbox':
       return CHECKBOX;
     case 'journal':

@@ -50,17 +50,18 @@ const onChange = (item, value) => {
 
 
 function getSlider(props) {
+
   const data = props.mode === 'user' && props.item.data.value !== undefined ? props.item.data : temp;
 
-  switch(props.item.variant.value.id) {
-    case 'ios':
-      return <IOSSlider zoom={props.scale} min={data.min || 0} max={data.max || 100} onChangeCommitted={(e, v) => onChange(props.item, v)} defaultValue={data.value} valueLabelDisplay="on" />;
-    case 'pretto':
-      return <PrettoSlider zoom={props.scale} min={data.min || 0} max={data.max || 100} onChangeCommitted={(e, v) => onChange(props.item, v)} valueLabelDisplay="auto" defaultValue={data.value} />
-    case 'airbnb':
-      return <AirbnbSlider zoom={props.scale} min={data.min || 0} max={data.max || 100} onChangeCommitted={(e, v) => onChange(props.item, v)} ThumbComponent={AirbnbThumbComponent} defaultValue={data.value} />
+  switch(props.item.type) {
+    case 'slider_ios':
+      return <IOSSlider item={props.item} zoom={props.scale} min={data.min || 0} max={data.max || 100} onChangeCommitted={(e, v) => onChange(props.item, v)} defaultValue={data.value} valueLabelDisplay={props.item.autoHideLabel.value ? 'auto': 'on'} />;
+    case 'slider_pretto':
+      return <PrettoSlider item={props.item} zoom={props.scale} min={data.min || 0} max={data.max || 100} onChangeCommitted={(e, v) => onChange(props.item, v)} defaultValue={data.value} valueLabelDisplay={props.item.autoHideLabel.value ? 'auto': 'on'} />
+    case 'slider_airbnb':
+      return <AirbnbSlider item={props.item} zoom={props.scale} min={data.min || 0} max={data.max || 100} onChangeCommitted={(e, v) => onChange(props.item, v)} defaultValue={data.value} ThumbComponent={AirbnbThumbComponent} />
     default: 
-      return <MaterialSlider zoom={props.scale} min={data.min || 0} max={data.max || 100} onChangeCommitted={(e, v) => onChange(props.item, v)} defaultValue={data.value} valueLabelDisplay="auto" />;
+      return <MaterialSlider item={props.item} zoom={props.scale} min={data.min || 0} max={data.max || 100} onChangeCommitted={(e, v) => onChange(props.item, v)} defaultValue={data.value} valueLabelDisplay={props.item.autoHideLabel.value ? 'auto': 'on'} />;
   }
 }
 

@@ -54,6 +54,9 @@ const LEFT = [
 
 const RIGHT = [ 'singleClickRight' ];
 
+function checkTarget(str) {
+  return (str.toLowerCase() !== 'input' && str.toLowerCase() !== 'textarea')
+}
 
 function getAllElementsByGroup(list, elements) {
   return list
@@ -227,21 +230,21 @@ class Sheet extends Component {
   
   handleKeyDown = (e) => {
     // copy
-    if (e.keyCode == '67' && (e.ctrlKey || e.metaKey) && e.target.tagName.toLowerCase() !== 'input') {
+    if (e.keyCode == '67' && (e.ctrlKey || e.metaKey) && checkTarget(e.target.tagName)) {
       e.preventDefault();
       if (!(this.props.selectOne === 'content' || Object.keys(this.props.selects).length === 0)) {
         this.handleClickCopyElements();
       }
     }
     // paste
-    if (e.keyCode == '86' && (e.ctrlKey || e.metaKey) && e.target.tagName.toLowerCase() !== 'input') {
+    if (e.keyCode == '86' && (e.ctrlKey || e.metaKey) && checkTarget(e.target.tagName)) {
       e.preventDefault();
       if (core.buffer.class === 'graph') {
         this.handleClickPasteElements(null);
       }
     }
     // delete
-    if ((e.keyCode === 46 || e.keyCode === 8 && e.target.tagName.toLowerCase() !== 'input')) {
+    if ((e.keyCode === 46 || e.keyCode === 8 && checkTarget(e.target.tagName))) {
       if (!(this.props.selectOne === 'content' || Object.keys(this.props.selects).length === 0)) {
         this.handleDeleteElement(null);
       }
@@ -708,8 +711,15 @@ class Sheet extends Component {
       // { id: '4', title: 'Text & Image', click: () => this.handleAddElement(e, 'text_image') },
       { id: '5', title: 'Button', click: () => this.handleAddElement(e, 'button') },
       { id: '-', type: 'divider' },
-      { id: '6', title: 'Slider', click: () => this.handleAddElement(e, 'slider') },
-      { id: '7', title: 'Input', click: () => this.handleAddElement(e, 'input') },
+      { id: '6', title: 'Input', click: () => this.handleAddElement(e, 'input') },
+      { id: '7', title: 'Sliders', 
+        children: [
+            { id: '1', title: 'Slider Android', click: () => this.handleAddElement(e, 'slider_android') },
+            { id: '2', title: 'Slider iOS', click: () => this.handleAddElement(e, 'slider_ios') },
+            { id: '3', title: 'Slider Pretto', click: () => this.handleAddElement(e, 'slider_pretto') },
+            { id: '4', title: 'Slider Airbnb', click: () => this.handleAddElement(e, 'slider_airbnb') },
+          ]
+        },
       { id: '8', title: 'Checkbox', click: () => this.handleAddElement(e, 'checkbox') },
       { id: '9', title: 'Device Settings', click: () => this.handleAddElement(e, 'devicesettings') },
       { id: '10', title: 'Device Log', click: () => this.handleAddElement(e, 'devicelog') },

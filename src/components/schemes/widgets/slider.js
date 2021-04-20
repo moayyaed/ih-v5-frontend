@@ -11,27 +11,34 @@ const slider = {
       type: 'divider',
     },
     { 
-      title: 'Variant', 
-      prop: 'variant', 
-      type: 'droplistlink',
-      data: [
-        {
-          id: 'material',
-          title: 'Material'
-        },
-        {
-          id: 'ios',
-          title: 'Ios'
-        },
-        {
-          id: 'pretto',
-          title: 'Pretto'
-        },
-        {
-          id: 'airbnb',
-          title: 'Airbnb'
-        },
-      ]
+      title: 'Auto Hide Label', 
+      prop: 'autoHideLabel', 
+      type: 'cb',
+    },
+    { 
+      title: 'Label Seize', 
+      prop: 'labelSize', 
+      type: 'number',
+    },
+    { 
+      title: 'Label Color', 
+      prop: 'labelColor', 
+      type: 'color',
+    },
+    { 
+      title: 'Track Color Left', 
+      prop: 'trackColorLeft', 
+      type: 'color',
+    },
+    { 
+      title: 'Track Color Right', 
+      prop: 'trackColorRight', 
+      type: 'color',
+    },
+    { 
+      title: 'Thumb Color', 
+      prop: 'thumbColor', 
+      type: 'color',
     },
   ],
   move: move,
