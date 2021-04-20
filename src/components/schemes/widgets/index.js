@@ -4,6 +4,8 @@ import chart_multi from './chartmulti';
 import expand from './expand';
 
 import input from './input';
+import input2 from './input_2';
+import input3 from './input_3';
 import slider from './slider';
 import checkbox from './checkbox';
 
@@ -20,6 +22,10 @@ const widgets = {
   expand,
   expander: expand,
   input,
+  input_classic: input,
+  input_modern: input2,
+  input_filled: input3,
+  input_outlined: input2,
   slider,
   slider_android: slider,
   slider_ios: slider,

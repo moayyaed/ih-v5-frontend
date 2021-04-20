@@ -79,7 +79,21 @@ const input = {
       prop: 'textColor', 
       type: 'color',
     },
-
+    { 
+      title: 'Base Color', 
+      prop: 'normalColor', 
+      type: 'color',
+    },
+    { 
+      title: 'Hover Color', 
+      prop: 'hoverColor', 
+      type: 'color',
+    },
+    { 
+      title: 'Active Color', 
+      prop: 'activeColor', 
+      type: 'color',
+    },
   ],
   move: move,
   link: [],

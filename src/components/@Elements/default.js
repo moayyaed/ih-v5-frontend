@@ -470,8 +470,6 @@ const SLIDER_AIRBNB = {
 
 const INPUT = {
   ...BLOCK,
-  variant: { value: { id: 'standard', title: 'Standard' }},
-  label: { value: 'Option 1'},
   placeholder: { value: ''},
   startAdornment: { value: ''},
   endAdornment: { value: ''},
@@ -482,13 +480,6 @@ const INPUT = {
   saveMode: { value: { id: 'outfocus', title: 'Out Focus' }},
   textSize: { value: 16 },
   textColor: { value: 'rgba(0,0,0,0.87)' },
-  labelColor: { value: 'rgba(0,0,0,0.54)' },
-  labelColorHover: { value: 'rgba(25,118,210,1)' },
-  baseColor: { value: 'rgba(0,0,0,0.09)' },
-  baseColorHover: { value: 'rgba(0,0,0,0.13)' },
-  underlineColor: { value: 'rgba(0,0,0,0.42)' },
-  underlineColorHover: { value: 'rgba(0,0,0,0.87)' },
-  underlineColorSelect: { value: 'rgba(25,118,210,1)' },
   widget: true,
   control: true,
   widgetlinks: {
@@ -496,6 +487,39 @@ const INPUT = {
   },
   data: {},
 }
+
+const INPUT_CLASSIC = {
+  ...INPUT,
+  normalColor: { value: 'rgba(0,0,0,0.54)' },
+  hoverColor: { value: 'rgba(0,0,0,0.87)' },
+  activeColor: { value: 'rgba(25,118,210,1)' },
+}
+
+const INPUT_MODERN = {
+  ...INPUT,
+  label: { value: 'Option 1'},
+  normalColor: { value: 'rgba(0,0,0,0.54)' },
+  hoverColor: { value: 'rgba(0,0,0,0.87)' },
+  activeColor: { value: 'rgba(25,118,210,1)' },
+}
+
+const INPUT_FILLED = {
+  ...INPUT,
+  label: { value: 'Option 1'},
+  normalColor: { value: 'rgba(0,0,0,0.54)' },
+  hoverColor: { value: 'rgba(0,0,0,0.87)' },
+  activeColor: { value: 'rgba(25,118,210,1)' },
+  backdropColor: { value: 'rgba(0,0,0,0.09)' },
+}
+
+const INPUT_OUTLINED = {
+  ...INPUT,
+  label: { value: 'Option 1'},
+  normalColor: { value: 'rgba(0,0,0,0.54)' },
+  hoverColor: { value: 'rgba(0,0,0,0.87)' },
+  activeColor: { value: 'rgba(25,118,210,1)' },
+}
+
 
 const CHECKBOX = {
   ...BLOCK,
@@ -546,6 +570,14 @@ function getDefaultParams(type) {
       return CHART_MULTI;
     case 'input':
       return INPUT;
+    case 'input_classic':
+      return INPUT_CLASSIC;
+    case 'input_modern':
+      return INPUT_MODERN;
+    case 'input_filled':
+      return INPUT_FILLED;
+    case 'input_outlined':
+      return INPUT_OUTLINED;
     case 'slider':
       return SLIDER;
     case 'slider_android':

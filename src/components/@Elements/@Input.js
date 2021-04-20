@@ -51,35 +51,35 @@ const classes = theme => {
         fontSize: props.item.textSize.value,
       },
       '& label': {
-        color: props.item.labelColor.value,
+        color: props.item.normalColor.value,
       },
       '& label.Mui-focused': {
-        color: props.item.labelColorHover.value,
+        color: props.item.activeColor.value,
       },
     }),
     labelFilled: props => ({
       '& input': {
-        backgroundColor: props.item.baseColor.value,
+        backgroundColor: props.item.backdropColor ? props.item.backdropColor.value : '',
       },
       '& input.Mui-focused': {
-        backgroundColor: props.item.baseColorHover.value,
+        backgroundColor: props.item.activeColor.value,
       },
       '& label': {
-        color: props.item.labelColor.value,
+        color: props.item.normalColor.value,
       },
       '& label.Mui-focused': {
-        color: props.item.labelColorHover.value,
+        color: props.item.activeColor.value,
       },
     }),
     standard: props => ({
       "&:before": {
-        borderColor: props.item.underlineColor.value,
+        borderColor: props.item.normalColor.value,
       },
       "&:hover:not($disabled):not($focused):not($error):before": {
-        borderColor: `${props.item.underlineColorHover.value}!important`
+        borderColor: `${props.item.hoverColor.value}!important`
       },
       "&:after": {
-        borderColor: props.item.underlineColorSelect.value,
+        borderColor: props.item.activeColor.value,
       }
     }),
     filled: props => ({
@@ -88,13 +88,13 @@ const classes = theme => {
         fontSize: props.item.textSize.value,
       },
       "&:before": {
-        borderColor: props.item.underlineColor.value,
+        borderColor: props.item.normalColor.value,
       },
       "&:hover:not($disabled):not($focused):not($error):before": {
-        borderColor: `${props.item.underlineColorHover.value}!important`
+        borderColor: `${props.item.hoverColor.value}!important`
       },
       "&:after": {
-        borderColor: props.item.underlineColorSelect.value,
+        borderColor: props.item.activeColor.value,
       }
     }),
     outlined: props => ({
@@ -103,24 +103,29 @@ const classes = theme => {
         fontSize: props.item.textSize.value,
       },
       '& label': {
-        color: props.item.labelColor.value,
+        color: props.item.normalColor.value,
       },
       '& label.Mui-focused': {
-        color: props.item.labelColorHover.value,
+        color: props.item.activeColor.value,
       },
       '& .MuiOutlinedInput-root': {
         '& fieldset': {
-          borderColor: props.item.underlineColor.value,
+          borderColor: props.item.normalColor.value,
         },
         '&:hover fieldset': {
           // 
         },
         "&:hover fieldset": {
-          borderColor: props.item.underlineColorHover.value,
+          borderColor: props.item.hoverColor.value,
         },
         '&.Mui-focused fieldset': {
-          borderColor: props.item.underlineColorSelect.value,
+          borderColor: props.item.activeColor.value,
         },
+      },
+    }),
+    adornment: props => ({
+      '& *': {
+        color: getColor(props.item.textColor.value),
       },
     }),
   }
@@ -129,6 +134,25 @@ const classes = theme => {
 
 const temp = { value: 'abc' };
 
+function getColor(str) {
+  const temp = str.slice(5, str.length - 1).split(',');
+  if (temp.length === 4) {
+    temp[3] = '0.54';
+    return 'rgba(' + temp.join(',') + ')';
+  }
+  return str;
+}
+
+function getVariant(type) {
+  switch (type) {
+    case 'input_filled':
+      return 'filled';
+    case 'input_outlined':
+      return 'outlined';
+    default:
+      return 'standard';
+  }
+}
 
 function checkValue(mode, value, prevValue) {
   if (mode === 'number') {
@@ -183,7 +207,7 @@ function sendValue(item, value) {
   }
 }
 
-function getEndAdornment(item, value) {
+function getEndAdornment(item, value, classes) {
   if (item.saveMode.value.id === 'button') {
     return (
       <IconButton size="small" onClick={() => sendValue(item, value)}>
@@ -191,7 +215,7 @@ function getEndAdornment(item, value) {
       </IconButton>
     )
   }
-  return item.endAdornment.value !== '' ? <InputAdornment position="end">{item.endAdornment.value}</InputAdornment> : null
+  return item.endAdornment.value !== '' ? <InputAdornment classes={{ positionEnd: classes.adornment }} position="end">{item.endAdornment.value}</InputAdornment> : null
 }
 
 function getClasses(item, classes) {
@@ -202,11 +226,11 @@ function getClasses(item, classes) {
     temp.input = classes.input;
   }
 
-  if (item.variant.value.id === 'standard') {
+  if (item.type === 'input_modern') {
     temp.underline = classes.standard;
   }
 
-  if (item.variant.value.id === 'filled') {
+  if (item.type === 'input_filled') {
     temp.underline = classes.filled;
   }
 
@@ -215,11 +239,11 @@ function getClasses(item, classes) {
 
 function getClasses2(item, classes) {
 
-  if (item.variant.value.id === 'outlined') {
+  if (item.type === 'input_outlined') {
     return { root: classes.outlined };
   }
 
-  if (item.variant.value.id === 'filled') {
+  if (item.type === 'input_filled') {
     return { root: classes.labelFilled };
   }
 
@@ -228,16 +252,16 @@ function getClasses2(item, classes) {
 
 
 function getInput(props, data, onChange) {
-  if (props.item.variant.value.id === 'minimal') {
+  if (props.item.type === 'input' || props.item.type === 'input_classic') {
     return (
       <InputBase
-        style={{ ...styles.inputBase, color: props.item.textColor.value }}
+        style={{ ...styles.inputBase, color: props.item.textColor.value, fontSize: props.item.textSize.value }}
         value={data.value}
         multiline={props.item.fullHeight.value}
         fullWidth={props.item.fullWidth.value}
         placeholder={props.item.placeholder.value }
-        startAdornment={props.item.startAdornment.value !== '' ? <InputAdornment position="start">{props.item.startAdornment.value}</InputAdornment> : null}
-        endAdornment={getEndAdornment(props.item, data.value)}
+        startAdornment={props.item.startAdornment.value !== '' ? <InputAdornment classes={{ positionStart: props.classes.adornment }}  position="start">{props.item.startAdornment.value}</InputAdornment> : null}
+        endAdornment={getEndAdornment(props.item, data.value, props.classes)}
         onChange={(e) => onChange('change', e.target.value)}
         onBlur={(e) => onChange('blur', e.target.value)}
         onKeyPress={(e) => e.key === 'Enter' && onChange('press', data.value)}
@@ -252,14 +276,14 @@ function getInput(props, data, onChange) {
       style={props.item.fullHeight.value ? styles.textField : null}
       fullWidth={props.item.fullWidth.value}
       label={props.item.label.value} 
-      variant={props.item.variant.value.id}
+      variant={getVariant(props.item.type)}
       size={props.item.size.value.id}
       value={data.value}
       placeholder={props.item.placeholder.value }
       InputProps={{
         classes: getClasses(props.item, props.classes),
-        startAdornment: props.item.startAdornment.value !== '' ? <InputAdornment position="start">{props.item.startAdornment.value}</InputAdornment> : null,
-        endAdornment: getEndAdornment(props.item, data.value),
+        startAdornment: props.item.startAdornment.value !== '' ? <InputAdornment classes={{ positionStart: props.classes.adornment }}  position="start">{props.item.startAdornment.value}</InputAdornment> : null,
+        endAdornment: getEndAdornment(props.item, data.value, props.classes),
       }}
       InputLabelProps={{ shrink: true, }}
       onChange={(e) => onChange('change', e.target.value)}
@@ -311,7 +335,7 @@ function Input(props) {
     >
       <div style={{ 
         ...styles.root, 
-        padding: props.item.variant.value.id === 'minimal' ? 5 : 10, 
+        padding: (props.item.type === 'input' || props.item.type === 'input_classic') ? 5 : 10, 
         pointerEvents: props.mode === 'user' ? 'all' : 'none' 
       }}>
         {getInput(props, data, onChange)}

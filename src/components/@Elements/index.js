@@ -53,6 +53,10 @@ function getElementByType(type) {
     case 'devicesettings':
       return DeviceSettings;
     case 'input':
+    case 'input_classic':
+    case 'input_modern':
+    case 'input_filled':
+    case 'input_outlined':
       return Input;
     case 'slider':
     case 'slider_android':
