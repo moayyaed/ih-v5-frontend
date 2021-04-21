@@ -740,7 +740,14 @@ class Sheet extends Component {
       // { id: '4', title: 'Text & Image', click: () => this.handleAddElement(e, 'text_image') },
       { id: '5', title: 'Button', click: () => this.handleAddElement(e, 'button') },
       { id: '-', type: 'divider' },
-      { id: '6', title: 'Input', click: () => this.handleAddElement(e, 'input') },
+      { id: '6', title: 'Inputs', 
+        children: [
+          { id: '1', title: 'Input Classic', click: () => this.handleAddElement(e, 'input_classic') },
+          { id: '2', title: 'Input Modern', click: () => this.handleAddElement(e, 'input_modern') },
+          { id: '3', title: 'Input Filled', click: () => this.handleAddElement(e, 'input_filled') },
+          { id: '4', title: 'Input Outlined', click: () => this.handleAddElement(e, 'input_outlined') },
+        ]
+      },
       { id: '7', title: 'Sliders', 
         children: [
           { id: '1', title: 'Slider Android', click: () => this.handleAddElement(e, 'slider_android') },
