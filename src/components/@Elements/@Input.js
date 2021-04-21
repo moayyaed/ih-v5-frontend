@@ -75,7 +75,7 @@ const classes = theme => {
       "&:before": {
         borderColor: props.item.normalColor.value,
       },
-      "&:hover:not($disabled):not($focused):not($error):before": {
+      "&:hover:before": {
         borderColor: `${props.item.hoverColor.value}!important`
       },
       "&:after": {
@@ -90,7 +90,7 @@ const classes = theme => {
       "&:before": {
         borderColor: props.item.normalColor.value,
       },
-      "&:hover:not($disabled):not($focused):not($error):before": {
+      "&:hover:before": {
         borderColor: `${props.item.hoverColor.value}!important`
       },
       "&:after": {

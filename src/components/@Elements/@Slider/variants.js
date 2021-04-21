@@ -162,8 +162,9 @@ const LightTooltip = withStyles((theme) => ({
 }))(Tooltip);
 
 export function AirbnbThumbComponent(props) {
+  const open = props.mode === 'user' ? props.item.autoHideLabel.value ? undefined : true : undefined
   return (
-    <LightTooltip open={props.item.autoHideLabel.value ? null : true} item={props.item} enterTouchDelay={0} placement="top" title={props['aria-valuenow']} zoom={props.zoom} >
+    <LightTooltip open={open} item={props.item} enterTouchDelay={0} placement="top" title={props['aria-valuenow']} zoom={props.zoom} >
       <span {...props}>
         <span className="bar" />
         <span className="bar" />

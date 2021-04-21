@@ -405,6 +405,7 @@ const Slider = /*#__PURE__*/React.forwardRef(function Slider(props, ref) {
     valueLabelFormat = Identity,
     zoom,
     item,
+    mode,
   } = props,
         other = _objectWithoutPropertiesLoose(props, ["aria-label", "aria-labelledby", "aria-valuetext", "classes", "className", "color", "component", "defaultValue", "disabled", "getAriaLabel", "getAriaValueText", "marks", "max", "min", "name", "onChange", "onChangeCommitted", "onMouseDown", "orientation", "scale", "step", "ThumbComponent", "track", "value", "ValueLabelComponent", "valueLabelDisplay", "valueLabelFormat"]);
 
@@ -821,6 +822,7 @@ const Slider = /*#__PURE__*/React.forwardRef(function Slider(props, ref) {
       className: clsx(classes.thumb, classes[`thumbColor${capitalize(color)}`], active === index && classes.active, disabled && classes.disabled, focusVisible === index && classes.focusVisible),
       tabIndex: disabled ? null : 0,
       item,
+      mode,
       role: "slider",
       style: style,
       "data-index": index,

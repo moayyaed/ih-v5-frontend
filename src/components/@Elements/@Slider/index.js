@@ -59,7 +59,7 @@ function getSlider(props) {
     case 'slider_pretto':
       return <PrettoSlider item={props.item} zoom={props.scale} min={data.min || 0} max={data.max || 100} onChangeCommitted={(e, v) => onChange(props.item, v)} defaultValue={data.value} valueLabelDisplay={props.item.autoHideLabel.value ? 'auto': 'on'} />
     case 'slider_airbnb':
-      return <AirbnbSlider item={props.item} zoom={props.scale} min={data.min || 0} max={data.max || 100} onChangeCommitted={(e, v) => onChange(props.item, v)} defaultValue={data.value} ThumbComponent={AirbnbThumbComponent} />
+      return <AirbnbSlider mode={props.mode} item={props.item} zoom={props.scale} min={data.min || 0} max={data.max || 100} onChangeCommitted={(e, v) => onChange(props.item, v)} defaultValue={data.value} ThumbComponent={AirbnbThumbComponent} />
     default: 
       return <MaterialSlider item={props.item} zoom={props.scale} min={data.min || 0} max={data.max || 100} onChangeCommitted={(e, v) => onChange(props.item, v)} defaultValue={data.value} valueLabelDisplay={props.item.autoHideLabel.value ? 'auto': 'on'} />;
   }
