@@ -210,7 +210,7 @@ function sendValue(item, value) {
 function getEndAdornment(item, value, classes) {
   if (item.saveMode.value.id === 'button') {
     return (
-      <IconButton size="small" onClick={() => sendValue(item, value)}>
+      <IconButton style={{ color: item.normalColor.value }} size="small" onClick={() => sendValue(item, value)}>
         <SubdirectoryArrowLeftIcon fontSize="small" />
       </IconButton>
     )
