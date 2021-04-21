@@ -70,6 +70,11 @@ const input = {
       type: 'inputlink',
     },
     { 
+      title: 'Label', 
+      prop: 'label', 
+      type: 'inputlink',
+    },
+    { 
       title: 'Text Size', 
       prop: 'textSize', 
       type: 'number',
