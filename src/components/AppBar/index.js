@@ -122,6 +122,16 @@ function getTitle() {
   return 'IntraHouse';
 }
 
+function getUrl() {
+  if (core.cache.conf === 1) {
+    return 'docs.intrahouse.ru';
+  }
+  if (core.cache.conf === 2) {
+    return 'docs.intrascada.com';
+  }
+  return 'docs.intrahouse.ru';
+}
+
 function WebIcon(props) {
   return (
     <SvgIcon style={{ fontSize: 16 }}  viewBox="0 0 24 24"  {...props}>
@@ -296,11 +306,11 @@ function handleClickHelp() {
   const lang = core.session.lang || 'ru';
 
   if (store.route.tab) {
-    window.open(`https://docs.intrahouse.ru/${lang}_${store.route.rootid}`, '_blank');
+    window.open(`https://${getUrl()}/${lang}_${store.route.rootid}`, '_blank');
   } else if (store.route.menuid) {
-    window.open(`https://docs.intrahouse.ru/${lang}_${store.route.menuid}`, '_blank');
+    window.open(`https://${getUrl()}/${lang}_${store.route.menuid}`, '_blank');
   } else {
-    window.open('https://docs.intrahouse.ru', '_blank');
+    window.open(`https://${getUrl()}`, '_blank');
   }
 }
 

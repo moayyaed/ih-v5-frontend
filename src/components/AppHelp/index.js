@@ -15,13 +15,22 @@ const styles = {
   },
 }
 
+function getUrl() {
+  if (core.cache.conf === 1) {
+    return 'docs.intrahouse.ru';
+  }
+  if (core.cache.conf === 2) {
+    return 'docs.intrascada.com';
+  }
+  return 'docs.intrahouse.ru';
+}
 
 class AppHelp extends PureComponent {
 
   render() {
     return (
       <div style={styles.root}>
-        <iframe key={this.props.id} style={styles.frame} src={`${window.location.protocol}//docs.intrahouse.ru/ru_${this.props.id}`} />
+        <iframe key={this.props.id} style={styles.frame} src={`${window.location.protocol}//${getUrl()}/ru_${this.props.id}`} />
       </div>)
     ;
   }
