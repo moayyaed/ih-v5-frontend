@@ -76,6 +76,13 @@ const styles = {
   },
   divider: {
     marginRight: 12,
+  },
+  title: {
+    position: 'absolute',
+    left: 70,
+    color: 'rgb(250, 250, 250)',
+    fontWeight: 600,
+    fontSize: 14,
   }
 };
 
@@ -106,6 +113,15 @@ const TooltipBad = withStyles((theme) => ({
   },
 }))(Tooltip);
 
+function getTitle() {
+  if (core.cache.conf === 1) {
+    return 'INTRA PRO';
+  }
+  if (core.cache.conf === 2) {
+    return 'INTRA SCADA';
+  }
+  return 'INTRA HOUSE';
+}
 
 function WebIcon(props) {
   return (
@@ -335,6 +351,7 @@ function AppBar(props) {
           </IconButton>
         </div>
         <div style={styles.container}>
+          <div style={styles.title}>{getTitle()}</div>
           <LightTooltip title="user interface">
             <IconButton style={styles.button} size="small" onClick={handleClickUserInterface}>
               <WebIcon fontSize="small" />
