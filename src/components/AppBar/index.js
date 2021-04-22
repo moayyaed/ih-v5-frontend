@@ -81,8 +81,7 @@ const styles = {
     position: 'absolute',
     left: 70,
     color: 'rgb(250, 250, 250)',
-    fontWeight: 600,
-    fontSize: 14,
+    fontSize: 18,
   }
 };
 
@@ -115,12 +114,12 @@ const TooltipBad = withStyles((theme) => ({
 
 function getTitle() {
   if (core.cache.conf === 1) {
-    return 'INTRA PRO';
+    return 'IntraHouse PRO';
   }
   if (core.cache.conf === 2) {
-    return 'INTRA SCADA';
+    return 'IntraSCADA';
   }
-  return 'INTRA HOUSE';
+  return 'IntraHouse';
 }
 
 function WebIcon(props) {
