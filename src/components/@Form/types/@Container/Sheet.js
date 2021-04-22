@@ -770,7 +770,7 @@ class Sheet extends Component {
       img: true, x: true, y: true,
       w: true, h: true, w2: true, h2: true,
       type: true, _label: true, links: true,
-      templateId: true,
+      templateId: true, groupId: true,
     }
 
     function cloneObject(i) {
