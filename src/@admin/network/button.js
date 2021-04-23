@@ -10,7 +10,7 @@ core.network.request('button_command', (send, context) => {
     param: context.params.param,
     nodeid: context.params.nodeid,
     subnodeid: context.params.subnodeid,
-    payload: {},
+    payload: context.payload,
   });
 })
 
