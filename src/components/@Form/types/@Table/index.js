@@ -60,6 +60,8 @@ function getValue(type, data) {
       return data.title || '';
     case 'color':
       return data || '';
+    case 'button':
+      return data.title || '';
     default:
       return data || '';
   }

@@ -11,6 +11,8 @@ import Color from './Color';
 import SmartButton from './SmartButton';
 import SmartButton2 from './SmartButton2';
 
+import Button from './Button';
+
 import Error from './Error';
 
 
@@ -32,6 +34,8 @@ function getComponent(type) {
       return SmartButton2;
     case 'color':
       return Color;
+    case 'button':
+      return Button;
     default:
       return Text;
   }
