@@ -3,6 +3,8 @@ import Button from '@material-ui/core/Button';
 
 const styles = {
   root: {
+    top: -2,
+    position: 'relative',
     height: '100%',
     width: '100%',
     display: 'flex',
@@ -10,7 +12,8 @@ const styles = {
     alignItems: 'center',
   },
   button: {
-    height: 22,
+    height: 27,
+    textTransform: 'unset',
   },
 }
 

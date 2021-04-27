@@ -375,7 +375,7 @@ class Table extends PureComponent {
             <BaseTable
               fixed
               id={this.props.id}
-              rowHeight={35}
+              rowHeight={this.props.options.rowHeight || 35}
               width={width}
               height={height}
               data={this.state.data}
