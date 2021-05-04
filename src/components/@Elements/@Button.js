@@ -6,7 +6,6 @@ import Hammer from 'hammerjs';
 import shortid from 'shortid';
 
 import { transform, getElementsLocalVars, getElementsOtherVar } from './tools';
-import { getOtherDirection } from 'react-mosaic-component';
 
 
 const styles = {

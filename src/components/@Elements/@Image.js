@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { transform } from './tools';
 
 const styles = {
@@ -15,9 +15,9 @@ const styles = {
   },
 }
 
-function getImageStyle(props) {
-  const img = props.img.value || '';
-  const svg = img.slice(-4) === '.svg';
+function getImageStyle(props, state) {
+  const img = window.__ihp2p ? state.img : props.img.value || '';
+  const svg = window.__ihp2p ? state.name.slice(-4) === '.svg' : img.slice(-4) === '.svg';
   const src = img.indexOf('://') !== -1 ? `url(${encodeURI(img)})` : `url(/images/${encodeURI(img)})`
   
   if (svg && (props.imgColor.value !== 'transparent' && props.imgColor.value !== 'rgba(0,0,0,0)')) {
@@ -56,30 +56,45 @@ function scale(value) {
   }
 }
 
-function Image(props) {
-  return (
-    <div 
-      style={{
-        position: 'absolute', 
-        width: '100%', 
-        height: '100%', 
-        background: props.item.backgroundColor.value,
-        border: `${props.item.borderSize.value}px ${props.item.borderStyle.value.id} ${props.item.borderColor.value}`,
-        borderRadius: (Math.min(props.item.w.value, props.item.h.value) / 2 / 100) * props.item.borderRadius.value,
-        opacity: props.item.opacity.value / 100,
-        boxShadow: props.item.boxShadow.active ? props.item.boxShadow.value : 'unset',
-        transform: transform(props.item),
-        // animation: props.item.animation.active ? props.item.animation.value : 'unset',
-        overflow: props.item.overflow && props.item.overflow.value ? 'hidden' : 'unset',
-        visibility: props.item.visible && props.item.visible.value == false ? 'hidden' : 'unset',
-      }}
-    >
-      <div
-        style={getImageStyle(props.item)}
-      />
-    </div>
-  );
+class Image extends Component {
+  state = { name: '', img: '' }
+
+  componentDidMount() {
+    if (window.__ihp2p) {
+      window.__ihp2p.image(this.props.item.img.value, this.handleLoadImage);
+    }
+  }
+
+  handleLoadImage = (name, url) => {
+    this.setState({ name, img: url })
+  }
+
+  render(props = this.props) {
+    return (
+      <div 
+        style={{
+          position: 'absolute', 
+          width: '100%', 
+          height: '100%', 
+          background: props.item.backgroundColor.value,
+          border: `${props.item.borderSize.value}px ${props.item.borderStyle.value.id} ${props.item.borderColor.value}`,
+          borderRadius: (Math.min(props.item.w.value, props.item.h.value) / 2 / 100) * props.item.borderRadius.value,
+          opacity: props.item.opacity.value / 100,
+          boxShadow: props.item.boxShadow.active ? props.item.boxShadow.value : 'unset',
+          transform: transform(props.item),
+          // animation: props.item.animation.active ? props.item.animation.value : 'unset',
+          overflow: props.item.overflow && props.item.overflow.value ? 'hidden' : 'unset',
+          visibility: props.item.visible && props.item.visible.value == false ? 'hidden' : 'unset',
+        }}
+      >
+        <div
+          style={getImageStyle(props.item, this.state)}
+        />
+      </div>
+    );
+  }
 }
+
 
 
 export default Image;
