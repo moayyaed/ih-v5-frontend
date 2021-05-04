@@ -245,8 +245,10 @@ function http(data, options, resolve, reject) {
       },
     }
   }
+
+  const fetch = window.__ihp2p ? window.__ihp2p.fetch : window.fetch;
   
-  window.fetch(_uri, _options)
+  fetch(_uri, _options)
   .then((response) => {
     if (response.ok) {
       return response.json();
