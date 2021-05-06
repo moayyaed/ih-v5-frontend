@@ -144,7 +144,7 @@ function WebIcon(props) {
 function handleUpload (props) {
   const data = new FormData();
   const input = document.createElement('input');
-  const xhr = window.__ihp2p ? new window.__ihp2p.xhr : new XMLHttpRequest();
+  const xhr = window.__ihp2p ? new window.__ihp2p.xhr() : new XMLHttpRequest();
   const uuid = shortid.generate();
   
   input.type = 'file';

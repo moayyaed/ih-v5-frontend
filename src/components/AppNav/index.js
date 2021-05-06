@@ -468,7 +468,7 @@ class AppNav extends Component {
   handleUpload = (item, params) => {
     const data = new FormData();
     const input = document.createElement('input');
-    const xhr = window.__ihp2p ? new window.__ihp2p.xhrP2P : new XMLHttpRequest();
+    const xhr = window.__ihp2p ? new window.__ihp2p.xhr() : new XMLHttpRequest();
     const parent = item.node.children !== undefined ? item.node : item.parentNode;
     const previd = parent.id === item.node.id ? '_bottom': item.node.id;
     
@@ -560,7 +560,7 @@ class AppNav extends Component {
   }
 
   handleExport = (item, params) => {
-    const xhr = new XMLHttpRequest();
+    const xhr = window.__ihp2p ? new window.__ihp2p.xhr() : new XMLHttpRequest();
 
     const nodeid = item.node.id;
     const param = params.param;
