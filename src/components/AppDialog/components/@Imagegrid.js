@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import core from 'core';
 
 import Typography from '@material-ui/core/Typography';
@@ -9,6 +9,7 @@ import Paper from '@material-ui/core/Paper';
 
 import { Scrollbars } from 'react-custom-scrollbars';
 
+import shortid from 'shortid';
 
 const styles = {
   root2: {
@@ -65,24 +66,45 @@ const styles = {
   }
 }
 
+class Image extends PureComponent {
+  state = { name: '', img: '' }
 
-function Image(props) {
-  return (
-    <Paper style={styles.imgContainer} onClick={() => props.onClick(!(props.select === props.path), props.path)} >
-      <div style={styles.imgBody} >
-        <div style={{ backgroundImage: `url(/images/${encodeURI(props.path)})`, ...styles.img }} />
-      </div>
-      <div style={styles.imgBody2}>
-        <div style={styles.imgTitle}>{props.path}</div>
-        <Checkbox
-          size="small"
-          color="primary"
-          checked={props.path === props.select}
-          onChange={(e) => props.onClick(e.target.checked, props.path)}
-        />
-      </div>
-    </Paper>
-  )
+  componentDidMount() {
+    if (window.__ihp2p) {
+      this.uuid = shortid.generate();
+      window.__ihp2p.image(this.uuid, this.props.path, this.handleLoadImage);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.uuid) {
+      window.__ihp2p.image(this.uuid, null);
+      this.uuid = null;
+    }
+  }
+
+  handleLoadImage = (name, url) => {
+    this.setState({ name, img: url })
+  }
+
+  render(props = this.props) {
+    return (
+      <Paper style={styles.imgContainer} onClick={() => props.onClick(!(props.select === props.path), props.path)} >
+        <div style={styles.imgBody} >
+          <div style={{ backgroundImage: window.__ihp2p ? `url(${this.state.img})` : `url(/images/${encodeURI(props.path)})`, ...styles.img }} />
+        </div>
+        <div style={styles.imgBody2}>
+          <div style={styles.imgTitle}>{props.path}</div>
+          <Checkbox
+            size="small"
+            color="primary"
+            checked={props.path === props.select}
+            onChange={(e) => props.onClick(e.target.checked, props.path)}
+          />
+        </div>
+      </Paper>
+    )
+  }
 }
 
 

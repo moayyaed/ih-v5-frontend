@@ -144,7 +144,7 @@ function WebIcon(props) {
 function handleUpload (props) {
   const data = new FormData();
   const input = document.createElement('input');
-  const xhr = new XMLHttpRequest();
+  const xhr = window.__ihp2p ? new window.__ihp2p.xhr : new XMLHttpRequest();
   const uuid = shortid.generate();
   
   input.type = 'file';
@@ -211,7 +211,11 @@ function handleUpload (props) {
     
     xhr.upload.onprogress = (e) => {
       const progress = Math.round((e.loaded / e.total) * 100);
-      core.actions.appprogress.data({ progress })
+      if (progress >= 99) {
+        core.actions.appprogress.data({ progress: 99 })
+      } else {
+        core.actions.appprogress.data({ progress })
+      }
     }
 
     xhr.onreadystatechange = (e) => {

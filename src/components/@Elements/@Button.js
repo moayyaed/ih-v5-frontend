@@ -129,10 +129,11 @@ function getTextStyle(props) {
   };
 }
 
-function getImageStyle(props) {
-  const img = props.img.value || '';
-  const svg = img.slice(-4) === '.svg';
+function getImageStyle(props, state) {
+  const img = window.__ihp2p ? state.img : props.img.value || '';
+  const svg = window.__ihp2p ? state.name.slice(-4) === '.svg' : img.slice(-4) === '.svg';
   const src = img.indexOf('://') !== -1 ? `url(${encodeURI(img)})` : `url(/images/${encodeURI(img)})`
+  
   const imgPosition = props.imgPosition ? props.imgPosition.value.id : 'center';
 
   const base = {
@@ -206,7 +207,7 @@ function getHW(props, type, key) {
   }
 }
 
-function ButtonEgine(props) {
+function ButtonEgine(props, state) {
   const imgPosition = props.item.imgPosition ? props.item.imgPosition.value.id : 'center';
   return (
     <div
@@ -225,7 +226,7 @@ function ButtonEgine(props) {
         overflow: props.item.overflow && props.item.overflow.value ? 'hidden' : 'unset',
       }}
     >
-      <div style={getImageStyle(props.item)} />
+      <div style={getImageStyle(props.item, state)} />
       <svg style={getTextStyle(props.item)} >
         <text
           x={getX(props.item.textAlignH.value.id)} 
@@ -268,6 +269,7 @@ function getParams(item, props) {
 
 
 class Button extends PureComponent {
+  state = { name: '', img: '' }
 
   componentDidMount() {
     if (this.link) {
@@ -288,6 +290,30 @@ class Button extends PureComponent {
       this.mc.on('pressup', this.handlePress);
       
     }
+
+    if (window.__ihp2p) {
+      this.uuid = shortid.generate();
+      window.__ihp2p.image(this.uuid, this.props.item.img.value, this.handleLoadImage);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.uuid) {
+      window.__ihp2p.image(this.uuid, null);
+      this.uuid = null;
+    }
+  }
+
+  componentDidUpdate = (prevProps) => {
+    if (this.props.item.img.value !== prevProps.item.img.value) {
+      if (window.__ihp2p) {
+        window.__ihp2p.image(this.uuid, this.props.item.img.value, this.handleLoadImage);
+      }
+    }
+  }
+
+  handleLoadImage = (name, url) => {
+    this.setState({ name, img: url })
   }
 
   handleAction = (props, event, actions) => {
@@ -406,14 +432,14 @@ class Button extends PureComponent {
           style={{ ...styles.user, color: this.props.item.colorRipple.value, visibility: this.props.item.visible && this.props.item.visible.value == false ? 'hidden' : 'unset', }}
           onContextMenu={this.handleContextMenu}
         >
-          {React.createElement(ButtonEgine, this.props)}
+          {ButtonEgine(this.props, this.state)}
         </ButtonBase>
       )
     }
     if (this.props.mode === 'admin') {
-      return React.createElement(ButtonEgine, this.props);
+      return ButtonEgine(this.props, this.state);
     }
-    return React.createElement(ButtonEgine, this.props);
+    return ButtonEgine(this.props, this.state);
   }
 }
 

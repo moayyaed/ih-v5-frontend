@@ -12,6 +12,8 @@ import Menu from 'components/Menu';
 import elemets from 'components/@Elements';
 import getDefaultParamsElement from 'components/@Elements/default';
 
+import shortid from 'shortid';
+
 const method2 = window.document.body.style.zoom === undefined;
 
 
@@ -205,21 +207,35 @@ function cloneNewStructElements(list, elements, curentElements) {
 
 
 class Sheet extends Component {
-  state = { move: false }
+  state = { move: false, name: '', img: ''  }
 
   componentDidMount() {
     this.pasteOffset = 1;
 
     document.addEventListener('keydown', this.handleKeyDown);
     document.addEventListener('keyup', this.handleKeyUp);
+
+    if (window.__ihp2p) {
+      this.uuid = shortid.generate();
+      window.__ihp2p.image(this.uuid, this.props.settings.backgroundImage.value, this.handleLoadImage);
+    }
   }
 
   componentWillUnmount() {
     this.pasteOffset = null;
     this.dragSelectContainer = null;
 
+    if (this.uuid) {
+      window.__ihp2p.image(this.uuid, null);
+      this.uuid = null;
+    }
+
     document.removeEventListener('keydown', this.handleKeyDown);
     document.removeEventListener('keyup', this.handleKeyUp);
+  }
+
+  handleLoadImage = (name, url) => {
+    this.setState({ name, img: url })
   }
 
   handleKeyUp = (e) => {
@@ -1200,10 +1216,19 @@ class Sheet extends Component {
     this.mousebox = e;
   }
 
+  componentDidUpdate = (prevProps) => {
+    if (this.props.settings.backgroundImage.value !== prevProps.settings.backgroundImage.value) {
+      if (window.__ihp2p) {
+        window.__ihp2p.image(this.uuid, this.props.settings.backgroundImage.value, this.handleLoadImage);
+      }
+    }
+  }
+
   render({ selects, settings, list, elements } = this.props) {
     const type = settings.backgroundColor.type;
+    const img = window.__ihp2p ? this.state.img : settings.backgroundImage.value || '';
     const color = type === 'fill' ? '' : ', ' + settings.backgroundColor.value;
-    const src =  settings.backgroundImage.value.indexOf('://') !== -1 ? settings.backgroundImage.value : '/images/' + settings.backgroundImage.value
+    const src =  img.indexOf('://') !== -1 ? img : '/images/' + img;
     const devcolor = settings.devBackgroundColor ? settings.devBackgroundColor.value : 'rgba(0,0,0,0.25)';
     return (
       <div style={styles.root} ref={this.linkBody} onMouseDown={this.handleMouseDown} onMouseUp={this.handleMouseUpBody}>

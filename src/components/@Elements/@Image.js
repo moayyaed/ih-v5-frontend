@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import shortid from 'shortid';
 import { transform } from './tools';
 
 const styles = {
@@ -61,7 +62,23 @@ class Image extends Component {
 
   componentDidMount() {
     if (window.__ihp2p) {
-      window.__ihp2p.image(this.props.item.img.value, this.handleLoadImage);
+      this.uuid = shortid.generate();
+      window.__ihp2p.image(this.uuid, this.props.item.img.value, this.handleLoadImage);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.uuid) {
+      window.__ihp2p.image(this.uuid, null);
+      this.uuid = null;
+    }
+  }
+
+  componentDidUpdate = (prevProps) => {
+    if (this.props.item.img.value !== prevProps.item.img.value) {
+      if (window.__ihp2p) {
+        window.__ihp2p.image(this.uuid, this.props.item.img.value, this.handleLoadImage);
+      }
     }
   }
 

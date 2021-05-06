@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import core from 'core';
 
 import Paper from '@material-ui/core/Paper';
 import { Scrollbars } from 'react-custom-scrollbars';
 
+import shortid from 'shortid';
 
 const styles = {
   root: {
@@ -49,18 +50,42 @@ function handleClick(id) {
   core.route(`vis/images/imageview/${id}/tabImageView`)
 }
 
-function Image(props) {
-  return (
-    <Paper style={styles.imgContainer} onClick={() => props.onClick(props.path)} >
-      <div style={styles.imgBody} >
-        <div style={{ backgroundImage: `url(/images/${encodeURI(props.path)})`, ...styles.img }} />
-      </div>
-      <div style={styles.imgBody2}>
-        <div style={styles.imgTitle}>{props.path}</div>
-      </div>
-    </Paper>
-  )
+class Image extends PureComponent {
+
+  state = { name: '', img: '' }
+
+  componentDidMount() {
+    if (window.__ihp2p) {
+      this.uuid = shortid.generate();
+      window.__ihp2p.image(this.uuid, this.props.path, this.handleLoadImage);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.uuid) {
+      window.__ihp2p.image(this.uuid, null);
+      this.uuid = null;
+    }
+  }
+
+  handleLoadImage = (name, url) => {
+    this.setState({ name, img: url })
+  }
+
+  render(props = this.props) {
+    return (
+      <Paper style={styles.imgContainer} onClick={() => props.onClick(props.path)} >
+        <div style={styles.imgBody} >
+          <div style={{ backgroundImage: window.__ihp2p ? `url(${this.state.img})` : `url(/images/${encodeURI(props.path)})`, ...styles.img }} />
+        </div>
+        <div style={styles.imgBody2}>
+          <div style={styles.imgTitle}>{props.path}</div>
+        </div>
+      </Paper>
+    )
+  }
 }
+
 
 function Images(props) {
   return (
