@@ -9,6 +9,8 @@ import { withStyles } from '@material-ui/core/styles';
 import ReactResizeDetector from 'react-resize-detector';
 import elemets from 'components/@Elements';
 
+import shortid from 'shortid';
+
 
 const styles = {
   root: {
@@ -25,13 +27,30 @@ const classes = theme => ({
 
 class AppLayout extends Component {
 
+  state = { name: '', img: '' }
+
   componentDidMount() {
+    if (window.__ihp2p) {
+      this.uuid = shortid.generate();
+    }
+
     core.transfer.sub('command_layout', this.commandLayout);
     core.transfer.sub('chartdata', this.realtimeCharts);
 
     this.cache = {};
     this.subs = {}
     this.request();
+  }
+
+  componentWillUnmount() {
+    if (this.uuid) {
+      window.__ihp2p.image(this.uuid, null);
+      this.uuid = null;
+    }
+  }
+
+  handleLoadImage = (name, url) => {
+    this.setState({ name, img: url })
   }
 
   realtimeLayout = (data) => {
@@ -242,15 +261,21 @@ class AppLayout extends Component {
     if (prevProps.route.layout !== this.props.route.layout) {
       this.request();
     }
+
+    if (prevProps.state.layout.settings === undefined || this.props.state.layout.settings.backgroundImage.value !== prevProps.state.layout.settings.backgroundImage.value) {
+      if (window.__ihp2p) {
+        window.__ihp2p.image(this.uuid, this.props.state.layout.settings.backgroundImage.value, this.handleLoadImage);
+      }
+    }
   }
   render({ id, route, state, auth, classes } = this.props) {
     if (state.layoutId === null) {
       return null;
     }
-
+    const img = window.__ihp2p ? this.state.img : state.layout.settings.backgroundImage.value;
     const type = state.layout.settings.backgroundColor.type;
     const color = type === 'fill' ? '' : ', ' + state.layout.settings.backgroundColor.value;
-    const src =  state.layout.settings.backgroundImage.value.indexOf('://') !== -1 ? state.layout.settings.backgroundImage.value : '/images/' + state.layout.settings.backgroundImage.value
+    const src =  img.indexOf('://') !== -1 ? img : '/images/' + img
     return (
       <ReactResizeDetector handleWidth handleHeight>
         {({ width, height }) => {

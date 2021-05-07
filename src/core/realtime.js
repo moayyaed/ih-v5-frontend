@@ -6,13 +6,26 @@ function trasportWS() {
   const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
   const host = window.location.host === 'localhost:3000' ? 'v5.ih-systems.com:49801' : window.location.host;
 
-  const ws = new WebSocket(`${protocol}://${host}`);
-  ws.onopen = openTunnel;
-  ws.onmessage = messageTunnel;
-  ws.onerror = errorTunnel;
-  ws.onclose = closeTunnel;
+  if (window.__ihp2p) {
+    const p2pws = new window.__ihp2p.ws(window.window.__ihp2p.core.sessionid);
 
-  return ws;
+    p2pws.onopen = openTunnel;
+    p2pws.onmessage = messageTunnel;
+    p2pws.onerror = errorTunnel;
+    p2pws.onclose = closeTunnel;
+
+    p2pws.open();
+
+    return p2pws;
+  } else {
+    const ws = new WebSocket(`${protocol}://${host}`);
+    ws.onopen = openTunnel;
+    ws.onmessage = messageTunnel;
+    ws.onerror = errorTunnel;
+    ws.onclose = closeTunnel;
+  
+    return ws;
+  }
 }
 
 
