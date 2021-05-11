@@ -268,6 +268,7 @@ class AppLayout extends Component {
       }
     }
   }
+  
   render({ id, route, state, auth, classes } = this.props) {
     if (state.layoutId === null) {
       return null;

@@ -4,6 +4,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Scrollbars2 from 'libs/Scrllbars2';
 import elemets from 'components/@Elements';
 
+import shortid from 'shortid';
+
 const method = window.document.body.style.zoom === undefined;
 
 
@@ -25,6 +27,25 @@ function getScale(item, settings, scaleW, scaleH) {
 
 
 class Container extends PureComponent {
+
+  state = { name: '', img: '' }
+
+  componentDidMount() {
+    if (window.__ihp2p) {
+      this.uuid = shortid.generate();
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.uuid) {
+      window.__ihp2p.image(this.uuid, null);
+      this.uuid = null;
+    }
+  }
+
+  handleLoadImage = (name, url) => {
+    this.setState({ name, img: url })
+  }
 
   handleRender = (id, item) => {
     if (item.type === 'group') {
@@ -85,6 +106,14 @@ class Container extends PureComponent {
     )
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.container.settings.backgroundImage.value !== prevProps.props.container.settings.backgroundImage.value) {
+      if (window.__ihp2p) {
+        window.__ihp2p.image(this.uuid, this.props.container.settings.backgroundImage.value, this.handleLoadImage);
+      }
+    }
+  }
+
   render() {
     if (this.props.container === undefined) {
       return (
@@ -101,10 +130,11 @@ class Container extends PureComponent {
         </div>
       )
     }
+    const img = window.__ihp2p ? this.state.img : this.props.container.settings.backgroundImage.value;
     const scale = getScale(this.props.item, this.props.container.settings, this.props.scaleW, this.props.scaleH)
     const type = this.props.container.settings.backgroundColor.type;
     const color = type === 'fill' ? '' : ', ' + this.props.container.settings.backgroundColor.value;
-    const src =  this.props.container.settings.backgroundImage.value.indexOf('://') !== -1 ? this.props.container.settings.backgroundImage.value : '/images/' + this.props.container.settings.backgroundImage.value
+    const src =  img.indexOf('://') !== -1 ? img : '/images/' + img;
     return (
       <div
         style={{
