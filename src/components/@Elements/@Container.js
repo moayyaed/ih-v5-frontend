@@ -107,7 +107,7 @@ class Container extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.container.settings.backgroundImage.value !== prevProps.props.container.settings.backgroundImage.value) {
+    if (this.props.container.settings.backgroundImage.value !== prevProps.container.settings.backgroundImage.value) {
       if (window.__ihp2p) {
         window.__ihp2p.image(this.uuid, this.props.container.settings.backgroundImage.value, this.handleLoadImage);
       }
