@@ -5,6 +5,7 @@ import core from 'core';
 function trasportWS() {
   const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
   const host = window.location.host === 'localhost:3000' ? 'v5.ih-systems.com:49801' : window.location.host;
+  const token = core.cache.token;
 
   if (window.__ihp2p) {
     const p2pws = new window.__ihp2p.ws(window.window.__ihp2p.core.sessionid);
@@ -14,11 +15,12 @@ function trasportWS() {
     p2pws.onerror = errorTunnel;
     p2pws.onclose = closeTunnel;
 
+    p2pws.send(token);
     p2pws.open();
 
     return p2pws;
   } else {
-    const ws = new WebSocket(`${protocol}://${host}`);
+    const ws = new WebSocket(`${protocol}://${host}/${token}`);
     ws.onopen = openTunnel;
     ws.onmessage = messageTunnel;
     ws.onerror = errorTunnel;
