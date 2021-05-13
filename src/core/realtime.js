@@ -104,7 +104,11 @@ function errorTunnel() {
 function closeTunnel() {
   if (!realtime.clear) {
     core.actions.app.network(false);
-    realtime.timer = setTimeout(startWebSocketTunnel, 2000);
+    if (window.__ihp2p) {
+      realtime.timer = setTimeout(startWebSocketTunnel, 2000 * window.__ihp2p.closeCount);
+    } else {
+      realtime.timer = setTimeout(startWebSocketTunnel, 2000);
+    }
   }
 }
 
