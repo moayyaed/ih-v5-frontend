@@ -14,10 +14,8 @@ function trasportWS() {
     p2pws.onmessage = messageTunnel;
     p2pws.onerror = errorTunnel;
     p2pws.onclose = closeTunnel;
-
-    p2pws.send(token);
-    p2pws.open();
-
+    p2pws.token(token);
+    p2pws.connect();
     return p2pws;
   } else {
     const ws = new WebSocket(`${protocol}://${host}/${token}`);

@@ -20,9 +20,10 @@ core.network.request('login', (send, context) => {
 
 core.network.response('login', (answer, res, context) => {
   core.session = res;
+  core.cache.conf = res.conf;
+  
   if (res.token) {
     core.cache.token = res.token;
-    core.cache.conf = res.conf;
     
     if (context.params.rememberme) {
       window.localStorage.setItem('token', res.token);

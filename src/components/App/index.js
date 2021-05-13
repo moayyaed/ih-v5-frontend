@@ -37,41 +37,8 @@ class App extends Component {
     core.history = history;
     history.listen(this.handleChageRoute);
 
+    document.addEventListener('keydown', this.handleKeyDown);
     this.handleChageRoute(history.location);
-  }
-
-  handleRequestSave = (route, scheme, forcePayload) => {
-    /*
-    const tab = scheme.tabs.find(i => i.id === route.tab);
-      
-    if (tab && (forcePayload || this.saveData[route.tab] !== undefined)) {
-      const params = { formid: tab.component[0].id, ...route };
-      const payload = forcePayload || this.saveData[route.tab];
-
-      core
-      .request({ method: 'components_tabs_form_save', params, payload })
-      .ok(res => {})
-    }
-    */
-  }
-
-  handleSave = (store) => {
-    /*
-    const route = store.app.route;
-    const scheme = core.options.componentsScheme[route.componentid];
-    const state = store.apppage;
-
-    if (typeof state.save === 'string') {
-      core.transfer.send(
-        state.save, 
-        'save', 
-        payload => this.handleRequestSave(route, scheme, payload), 
-        () => {},
-      );
-    } else {
-      this.handleRequestSave(route, scheme);
-    } 
-    */
   }
 
   handleChageRoute = (location, action) => {
@@ -84,6 +51,29 @@ class App extends Component {
       core.lastPath = location.pathname;
 
       core.actions.app.route(params);
+    }
+  }
+  handleKeyDown = (e) => {
+    if (e.keyCode == '27') {
+      window.localStorage.removeItem('token');
+      window.localStorage.removeItem('rememberme');
+      window.sessionStorage.removeItem('key');
+      window.sessionStorage.removeItem('target');
+
+      if (window.__ihp2p) {
+        clearTimeout(window.__ihp2p.timer);
+        window.__ihp2p.close = null;
+        window.location.href = "/";
+      } else {
+        core.network.realtime.destroy();
+        core.actions.app.auth(false);
+
+        if (core.options.type === 'user') {
+          window.location.href = "/";
+        } else {
+          window.location.href = "/admin";
+        }
+      }
     }
   }
 

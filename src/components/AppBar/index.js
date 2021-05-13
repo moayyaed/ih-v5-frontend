@@ -298,11 +298,23 @@ function handleClickSettings(menuid) {
 function handleClickExit() {
   window.localStorage.removeItem('token');
   window.localStorage.removeItem('rememberme');
-  
-  core.network.realtime.destroy();
-  core.actions.app.auth(false);
-  
-  window.location.href = "/admin";
+  window.sessionStorage.removeItem('key');
+  window.sessionStorage.removeItem('target');
+
+  if (window.__ihp2p) {
+    clearTimeout(window.__ihp2p.timer);
+    window.__ihp2p.close = null;
+    window.location.href = "/";
+  } else {
+    core.network.realtime.destroy();
+    core.actions.app.auth(false);
+
+    if (core.options.type === 'user') {
+      window.location.href = "/";
+    } else {
+      window.location.href = "/admin";
+    }
+  }
 }
 
 function handleClickHelp() {
