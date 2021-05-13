@@ -94,7 +94,7 @@ const styles = {
   headerBorder: {
     background: '#9E9E9E',
     height: 4,
-    width: 46,
+    width: 116,
   },
   button: {
     marginTop: 14, 
@@ -221,13 +221,13 @@ function Login() {
     <div style={styles.root}>
       <div style={styles.page}>
         <div style={styles.panel1}>
-          <div style={styles.logoText1}>Welcome to</div>
+          <div style={styles.logoText1}>Добро пожаловать в</div>
           <div style={styles.logoText2}>IH-SYSTEMS</div>
-          <div style={styles.logoText3}><a style={styles.url}>ih-systems.com | Platform 5.1.0</a></div>
+          <div style={styles.logoText3}><a style={styles.url}></a></div>
         </div>
         <div style={styles.panel2}>
           <div style={styles.header}>
-            <div style={styles.headerText}>Login</div>
+            <div style={styles.headerText}>Авторизация</div>
             <div style={styles.headerBorder} />
           </div>
           <div style={styles.form}>
@@ -236,13 +236,13 @@ function Login() {
                 variant="filled"  
                 fullWidth 
                 name="username" 
-                label="Username" 
+                label="Пользователь" 
                 value={values.username}
                 onChange={handleChange('username')}
                 style={styles.text} 
               />
               <FormControl style={styles.text} fullWidth variant="filled">
-                <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                <InputLabel htmlFor="standard-adornment-password">Пароль</InputLabel>
                 <FilledInput
                   style={styles.passText}
                   className="inputpass"
@@ -266,7 +266,7 @@ function Login() {
               <FormControlLabel
                 value="end"
                 control={<Checkbox checked={values.rememberme} color="primary" onChange={handleChange2('rememberme')} />}
-                label="Remember Me"
+                label="Запомнить меня"
               />
               <Button 
                 fullWidth
@@ -274,7 +274,7 @@ function Login() {
                 variant="outlined"
                 style={styles.button}
               >
-                Enter
+                Вход
               </Button>
             </form>
           </div>
