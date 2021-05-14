@@ -16,7 +16,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
-import background from '../../assets/background2.png'
+import background from '../../assets/background.png'
 
 
 const styles = {
@@ -46,7 +46,7 @@ const styles = {
     width: 575,
     height: 425,
     overflow: 'hidden',
-    background: `url(${window.__ihp2p ? '/background2.png' : background}) no-repeat center center`,
+    background: `url(${window.__ihp2p ? '/background.png' : background}) no-repeat center center`,
     backgroundSize: 'cover',
     opacity: 0.2,
   },
