@@ -16,6 +16,8 @@ import FormControl from '@material-ui/core/FormControl';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
+import background from '../../assets/background2.png'
+
 
 const styles = {
   root: {
@@ -25,10 +27,10 @@ const styles = {
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.95) 50%), url(https://cdn.nextgov.com/media/img/upload/2020/01/14/NGiot20200114/860x394.jpg) no-repeat center center',
+    background: '#f5f5f5',
     backgroundSize: 'cover',
   },
-  page: {
+  container: {
     position: 'relative',
     width: 575,
     height: 425,
@@ -36,8 +38,17 @@ const styles = {
     backgroundColor: 'white',
     overflow: 'hidden',
     boxShadow: '0px 53px 37px -39px rgba(0, 0, 0, 0.7)',
-    background: 'linear-gradient(45deg, rgba(96, 125, 139, 0.6) 0%, rgba(96, 125, 139, 0.9) 100%), url(https://cdn.nextgov.com/media/img/upload/2020/01/14/NGiot20200114/860x394.jpg) no-repeat center center',
+    background: `#405c68`,
     backgroundSize: 'cover',
+  },
+  page: {
+    position: 'absolute',
+    width: 575,
+    height: 425,
+    overflow: 'hidden',
+    background: `url(${background}) no-repeat center center`,
+    backgroundSize: 'cover',
+    opacity: 0.2,
   },
   panel1: {
     display: 'flex',
@@ -219,68 +230,69 @@ function Login() {
   
   return (
     <div style={styles.root}>
-      <div style={styles.page}>
-        <div style={styles.panel1}>
-          <div style={styles.logoText1}>Добро пожаловать в</div>
-          <div style={styles.logoText2}>IH-SYSTEMS</div>
-          <div style={styles.logoText3}><a style={styles.url}></a></div>
-        </div>
-        <div style={styles.panel2}>
-          <div style={styles.header}>
-            <div style={styles.headerText}>Авторизация</div>
-            <div style={styles.headerBorder} />
+      <div style={styles.container}>
+        <div style={styles.page} />
+          <div style={styles.panel1}>
+            <div style={styles.logoText1}>Добро пожаловать в</div>
+            <div style={styles.logoText2}>IH-SYSTEMS</div>
+            <div style={styles.logoText3}><a style={styles.url}></a></div>
           </div>
-          <div style={styles.form}>
-            <form onSubmit={handleSubmit}>
-              <TextField 
-                variant="filled"  
-                fullWidth 
-                name="username" 
-                label="Пользователь" 
-                value={values.username}
-                onChange={handleChange('username')}
-                style={styles.text} 
-              />
-              <FormControl style={styles.text} fullWidth variant="filled">
-                <InputLabel htmlFor="standard-adornment-password">Пароль</InputLabel>
-                <FilledInput
-                  style={styles.passText}
-                  className="inputpass"
-                  name="password"
-                  type={values.showPassword ? 'text' : 'password'}
-                  value={values.password}
-                  onChange={handleChange('password')}
-                  endAdornment={
-                    <InputAdornment style={styles.adornment} position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                      >
-                        {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
+          <div style={styles.panel2}>
+            <div style={styles.header}>
+              <div style={styles.headerText}>Авторизация</div>
+              <div style={styles.headerBorder} />
+            </div>
+            <div style={styles.form}>
+              <form onSubmit={handleSubmit}>
+                <TextField 
+                  variant="filled"  
+                  fullWidth 
+                  name="username" 
+                  label="Пользователь" 
+                  value={values.username}
+                  onChange={handleChange('username')}
+                  style={styles.text} 
                 />
-              </FormControl>
-              <FormControlLabel
-                value="end"
-                control={<Checkbox checked={values.rememberme} color="primary" onChange={handleChange2('rememberme')} />}
-                label="Запомнить меня"
-              />
-              <Button 
-                fullWidth
-                type='submit'
-                variant="outlined"
-                style={styles.button}
-              >
-                Вход
-              </Button>
-            </form>
+                <FormControl style={styles.text} fullWidth variant="filled">
+                  <InputLabel htmlFor="standard-adornment-password">Пароль</InputLabel>
+                  <FilledInput
+                    style={styles.passText}
+                    className="inputpass"
+                    name="password"
+                    type={values.showPassword ? 'text' : 'password'}
+                    value={values.password}
+                    onChange={handleChange('password')}
+                    endAdornment={
+                      <InputAdornment style={styles.adornment} position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                        >
+                          {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+                <FormControlLabel
+                  value="end"
+                  control={<Checkbox checked={values.rememberme} color="primary" onChange={handleChange2('rememberme')} />}
+                  label="Запомнить меня"
+                />
+                <Button 
+                  fullWidth
+                  type='submit'
+                  variant="outlined"
+                  style={styles.button}
+                >
+                  Вход
+                </Button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
   );
 }
 
