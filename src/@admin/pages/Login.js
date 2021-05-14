@@ -46,7 +46,7 @@ const styles = {
     width: 575,
     height: 425,
     overflow: 'hidden',
-    background: `url(${background}) no-repeat center center`,
+    background: `url(${window.__ihp2p ? '/background2.png' : background}) no-repeat center center`,
     backgroundSize: 'cover',
     opacity: 0.2,
   },
