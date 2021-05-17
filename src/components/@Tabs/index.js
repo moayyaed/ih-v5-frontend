@@ -198,7 +198,7 @@ class ComponentTabs extends Component {
           {scheme.tabs.map(i => <Tab key={i.id} value={i.id} label={i.title} />)}
         </Tabs>
         <Toolbar
-          disabled={this.props.disabledToolbar}
+          disabled={this.props.disabledToolbar || (state.options && state.options.hidesave)}
           route={route}
           save={state.save}
           breadcrumbs={state.data ? state.data.breadcrumbs : []}
