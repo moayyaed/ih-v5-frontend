@@ -755,6 +755,7 @@ class Sheet extends Component {
         ]
       },
       { id: '12', title: 'Journal', click: () => this.handleAddElement(e, 'journal') },
+      { id: '13', title: 'Alert Journal', click: () => this.handleAddElement(e, 'alertlog') },
     ]
   
     const scheme = {

@@ -188,12 +188,21 @@ function requestHTTP(context, item) {
   }
 
   if (context.params.mode === 'user') {
-    return fetch(url, { headers: { token: core.cache.token } })
-    .then(res => res.json())
-    .then(json => {
-      context.worker.req = context.worker.req - 1;
-      return { set: json.data };
-    });
+    if (window.__ihp2p) {
+      return window.__ihp2p.fetch(url, { headers: { token: core.cache.token } })
+      .then(res => res.json())
+      .then(json => {
+        context.worker.req = context.worker.req - 1;
+        return { set: json.data };
+      });
+    } else {
+      return fetch(url, { headers: { token: core.cache.token } })
+      .then(res => res.json())
+      .then(json => {
+        context.worker.req = context.worker.req - 1;
+        return { set: json.data };
+      });
+    }
   } else {
     context.worker.req = context.worker.req - 1;
     if (context.params.type === 'chart') {

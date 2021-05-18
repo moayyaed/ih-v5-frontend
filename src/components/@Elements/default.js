@@ -354,6 +354,16 @@ const JOURNAL = {
   data: [],
 }
 
+const ALERTLOG = {
+  ...BLOCK,
+  widget: true,
+  expand: { value: true },
+  widgetlinks: {
+    link: { }
+  },
+  data: [],
+}
+
 const CHART = {
   ...BLOCK,
   widget: true,
@@ -592,6 +602,8 @@ function getDefaultParams(type) {
       return CHECKBOX;
     case 'journal':
       return JOURNAL;
+    case 'alertlog':
+      return ALERTLOG;
     default:
       return BLOCK;
   }
