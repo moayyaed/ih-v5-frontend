@@ -90,6 +90,17 @@ class Form extends Component {
         </Grid>
       )
     }
+
+    if (item.class === undefined) {
+      return (
+        <div 
+          style={{ height: getHeight(item.height, item.calc, this.props.heightOffset - 40 - 1), padding: 0 }} 
+        >
+          {this.getGridContent(item.id)}
+        </div>
+      )
+    }
+
     return (
       <Grid key={item.id} item xs={item.xs}>
         {this.getGridContent(item.id)}
@@ -101,6 +112,11 @@ class Form extends Component {
     if (debug) {
       return <Debug scheme={scheme} data={data} cache={cache} />
     }
+
+    if (scheme && scheme.type === 'menu' && data) {
+      return scheme.grid.map(this.getGridComponent)
+    }
+
     if (scheme && scheme.grid && data) {
       return (
         <Grid container spacing={3 || scheme.spacing}>

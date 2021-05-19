@@ -14,8 +14,17 @@ import { Button, Popover, Position, ContextMenu } from '@blueprintjs/core';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { SortableTreeWithoutDndContext as SortableTree } from 'react-sortable-tree';
 
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+
 import Menu from 'components/Menu';
 import Form from 'components/@Form';
+import Panel from 'components/Panel';
 
 import { 
   getNodesRange, 
@@ -39,6 +48,7 @@ const styles = {
   root: {
     width: '100%',
     height: '100%',
+    display: 'flex',
   },
   treeContainer: {
     width: '100%',
@@ -73,6 +83,13 @@ const styles = {
     marginLeft: 8,
     marginRight: 8,
   },
+  panel: {
+    height: '100%',
+    padding: 0,
+    flexShrink: 0,
+    overflow: 'hidden',
+    borderRight: '1px solid #d3d3d3',
+  },
 }
 
 const EMPTY_ARRAY = [];
@@ -85,6 +102,10 @@ function config(type, route) {
     nodeid: route.nodeid,
     uuid: `${type}_${route.nodeid}`
   };
+}
+
+function ListItemLink(props) {
+  return <ListItem button component="a" {...props} />;
 }
 
 class Submenu extends PureComponent {
@@ -112,10 +133,10 @@ class Submenu extends PureComponent {
       splitPercentage: 25,
     },
     scrollTop: 0,
+    width: 250,
   };
 
   componentDidMount() {
-    console.log('submenu')
     this.nodeid = this.props.route.nodeid;
 
     const params = { id: this.props.options.data, navnodeid: this.props.route.nodeid };
@@ -296,6 +317,22 @@ class Submenu extends PureComponent {
       uuid: `plugin_${this.nodeid}`
     }, this.handleRealTimeDataConsole);
   }
+
+  handleClickMenu = (item) => {
+    if (this.state.selects.lastItem) {
+      this.setState(state => {
+        return { 
+          ...state, 
+          selects: { 
+            lastItem: null,
+            contextMenu: null,
+            data: {}
+          } 
+        };
+      });
+    }
+    this.handleChangeRoute({ node: item });
+  }
   
   renderButtons = (id) => {
     if (id === 'tree' && this.props.options.toolbar) {
@@ -349,23 +386,14 @@ class Submenu extends PureComponent {
     const { props, state } = this;
     if (id === 'tree' && this.state.loadingTree === false) {
       return (
-        <div style={styles.treeContainer} onClick={this.handleClickBody} onContextMenu={this.handleContextMenuBody}>
-          <SortableTree
-            key={props.route.nodeid}
-            rowHeight={21}
-            innerStyle={styles.tree}
-            treeData={state.list}
-            getNodeKey={({ node }) => node.id}
-            theme={theme}
-            canNodeHaveChildren={this.handleCheckChild}
-            generateNodeProps={this.generateNodeProps}
-            onChange={this.handleChangeTree}
-            onMoveNode={this.handleMoveNode}
-            reactVirtualizedListProps={{ 
-              onScroll: this.handleTreeScroll,
-              scrollTop: this.state.scrollTop,
-            }}
-          />
+        <div style={styles.treeContainer} >
+          <List component="nav" >
+            {state.list.map(i =>
+              <ListItem button onClick={() => this.handleClickMenu(i)}>
+                <ListItemText primary={i.title} />
+              </ListItem>
+            )}
+          </List>
         </div>   
       )
     }
@@ -998,6 +1026,10 @@ class Submenu extends PureComponent {
     }
   }
 
+  handleChangePanelSize = (value) => {
+    this.setState({ width: value })
+  }
+
   linkContainer = (e) => {
     this.container = e;
   }
@@ -1006,30 +1038,18 @@ class Submenu extends PureComponent {
     this.console = e;
   }
 
-  render() {
+  render({ state } = this) {
     return (
       <div ref={this.linkContainer} style={styles.root}>
-        <Mosaic
-          className="mosaic-blueprint-theme"
-          value={this.state.windows}
-          onChange={this.handleChangeWindows}
-          renderTile={(id, path) => {
-            return (
-              <MosaicWindow
-                key={id}
-                draggable={false}
-                title={ id === 'tree' ? this.props.options.leftTitle : this.props.options.rightTitle}
-                additionalControls={EMPTY_ARRAY}
-                path={path}
-                renderToolbar={null}
-                toolbarControls={this.renderButtons(id)}
-                renderPreview={() => this.renderDownToolbar(id)}
-              >
-                {this.renderComponent(id)}
-              </MosaicWindow>
-            )
-          }}
-        />
+         <Panel 
+          position="right2"
+          width={state.width} 
+          style={styles.panel}
+          onChangeSize={this.handleChangePanelSize}
+        >
+          {this.renderComponent('tree')}
+         </Panel>
+         {this.renderComponent('form')}
       </div>
     )
   }    

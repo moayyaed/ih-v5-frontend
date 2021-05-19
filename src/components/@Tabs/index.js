@@ -203,9 +203,10 @@ class ComponentTabs extends Component {
           save={state.save}
           breadcrumbs={state.data ? state.data.breadcrumbs : []}
           onClick={this.handleToolbarClick}
+          mini={state.options && state.options.type === 'menu'}
         />
-        <Scrollbars style={{ width: '100%', height: 'calc(100% - 69px)', backgroundColor: '#f5f5f5' }}>
-          <div style={{ padding: 20, paddingTop: 0 }} >
+        <Scrollbars style={{ width: '100%', height: `calc(100% - ${state.options && state.options.type === 'menu' ? 49 : 69}px)`, backgroundColor: '#f5f5f5' }}>
+          <div style={{ padding: state.options && state.options.type === 'menu' ? 0 : 20, paddingTop: 0 }} >
             <Content 
               key={`content_${route.nodeid}_${route.tab}`}
               scheme={scheme} 

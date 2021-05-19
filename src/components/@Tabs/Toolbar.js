@@ -74,10 +74,10 @@ class Breadcrumbs extends Component {
 
 function Toolbar(props) {
   if (props.disabled) {
-    return <div style={styles.hide} />;
+    return <div style={{ ...styles.hide, height: props.mini ? 0 : 30}} />;
   }
   return (
-    <div style={styles.root}>
+    <div style={{ ...styles.root, height: props.mini ? 0 : 20}}>
       <SplitButton disabled={!props.save} onClick={props.onClick} />
     </div>
   )

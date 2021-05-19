@@ -66,10 +66,13 @@ function colorOpacity(str) {
 }
 
 function getColor(colors, row) {
-  if (row.state) {
-    return colors[row.level];
+  if (colors) {
+    if (row.state) {
+      return colors[row.level];
+    }
+    return colorOpacity(colors[row.level]);
   }
-  return colorOpacity(colors[row.level]);
+  return 'unset';
 }
 
 
