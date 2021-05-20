@@ -168,7 +168,7 @@ class Submenu extends PureComponent {
           return { ...state, ...res };
         }, () => {
           if (res.list.length) {
-            this.handleChangeRoute({ node: res.list[0] });
+            this.handleChangeRoute({ node: res.list[0] }, true);
           }
         });
       });
@@ -547,12 +547,16 @@ class Submenu extends PureComponent {
     }
   }
 
-  handleChangeRoute = (item) => {
+  handleChangeRoute = (item, replace) => {
     const { route } = this.props;
     const type = item.node.children !== undefined ? 'parent' : 'child';
     const channelview = item.node.component ? item.node.component : this.state.options.common[type].defaultComponent;
 
-    core.route(`${route.menuid}/${route.rootid}/${route.componentid}/${route.nodeid}/${route.tab}/${channelview}/${item.node.id}`);
+    if (replace) {
+      core.history.replace(`${route.menuid}/${route.rootid}/${route.componentid}/${route.nodeid}/${route.tab}/${channelview}/${item.node.id}`);
+    } else {
+      core.route(`${route.menuid}/${route.rootid}/${route.componentid}/${route.nodeid}/${route.tab}/${channelview}/${item.node.id}`);
+    }
   }
 
   handleCheckChild = (node) => {

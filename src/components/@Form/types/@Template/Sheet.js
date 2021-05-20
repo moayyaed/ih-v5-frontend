@@ -124,6 +124,7 @@ function cloneNewStructElements(list, elements, curentElements) {
   let l = []
   let e = {};
   let olds = {};
+  let olds2 = {};
 
   const blackListId = {};
   const blackListLabel = {};
@@ -147,8 +148,14 @@ function cloneNewStructElements(list, elements, curentElements) {
     item.elements = gl;
 
     item.elements.forEach(key => {
-      if (whiteList[elements[key].type]) {
-        l.push(key);
+      if (elements[key] === undefined) {
+        if (whiteList[elements[olds2[key]].type]) {
+          l.push(key);
+        }
+      } else {
+        if (whiteList[elements[key].type]) {
+          l.push(key);
+        }
       }
     })
   }
@@ -158,7 +165,7 @@ function cloneNewStructElements(list, elements, curentElements) {
     _list.forEach(k => {
       const item = cloneObject(elements[k]);
       const oldid = k;
-
+  
       let id = k
       let label = item._label;
   
@@ -176,6 +183,8 @@ function cloneNewStructElements(list, elements, curentElements) {
       blackListLabel[label] = true;
 
       if (item.groupId !== undefined) {
+        item.x.value = elements[item.groupId].x.value + item.x.value;
+        item.y.value = elements[item.groupId].y.value + item.y.value;
         delete item.groupId;
       }
 
@@ -184,6 +193,7 @@ function cloneNewStructElements(list, elements, curentElements) {
       }
 
       olds[oldid] = id;
+      olds2[id] = oldid;
       
       if (gkey) {
         gl.push(id);
@@ -741,7 +751,7 @@ class Sheet extends Component {
       x = (e.pageX - (rect.left * this.props.settings.scale.value)) / this.props.settings.scale.value // (e.clientX - rect.left) / this.props.settings.scale.value;
       y = (e.pageY - (rect.top * this.props.settings.scale.value)) / this.props.settings.scale.value  // (e.clientY - rect.top) / this.props.settings.scale.value;
     }
-    
+
     const clone = cloneNewStructElements(core.buffer.data.list, core.buffer.data.elements, this.props.elements);
 
     const selects = {};
@@ -779,7 +789,7 @@ class Sheet extends Component {
     
     data.w.value = data.w.value - data.x.value;
     data.h.value = data.h.value - data.y.value;
-  
+
     const clone2 = cloneNewStructState(elements, clone.olds, core.buffer.type === 'template' ? core.buffer.data.state : {}, store.listState, store.state)
 
     if (Object.keys(elements).length) {
