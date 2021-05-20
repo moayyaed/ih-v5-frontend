@@ -19,12 +19,15 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import IconButton from '@material-ui/core/IconButton';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 import Menu from 'components/Menu';
 import Form from 'components/@Form';
 import Panel from 'components/Panel';
+
+import { withStyles } from '@material-ui/core/styles';
 
 import { 
   getNodesRange, 
@@ -92,6 +95,12 @@ const styles = {
   },
 }
 
+const classes = theme => ({
+  listItemText:{
+    fontSize: 14,
+  }
+});
+
 const EMPTY_ARRAY = [];
 
 function config(type, route) {
@@ -104,9 +113,6 @@ function config(type, route) {
   };
 }
 
-function ListItemLink(props) {
-  return <ListItem button component="a" {...props} />;
-}
 
 class Submenu extends PureComponent {
 
@@ -158,7 +164,13 @@ class Submenu extends PureComponent {
             }); 
           }
         }
-        this.setData(res);
+        this.setState(state => {
+          return { ...state, ...res };
+        }, () => {
+          if (res.list.length) {
+            this.handleChangeRoute({ node: res.list[0] });
+          }
+        });
       });
     
     if (this.props.route.channelview && this.props.route.channel) {
@@ -389,8 +401,13 @@ class Submenu extends PureComponent {
         <div style={styles.treeContainer} >
           <List component="nav" >
             {state.list.map(i =>
-              <ListItem button onClick={() => this.handleClickMenu(i)}>
-                <ListItemText primary={i.title} />
+              <ListItem button selected={this.props.route.channel === i.id} onClick={() => this.handleClickMenu(i)}>
+                <ListItemText classes={{ primary:  props.classes.listItemText }}  primary={i.title} />
+                <ListItemSecondaryAction>
+                    <IconButton edge="end">
+                      <ArrowForwardIosIcon />
+                    </IconButton>
+                  </ListItemSecondaryAction>
               </ListItem>
             )}
           </List>
@@ -1056,5 +1073,4 @@ class Submenu extends PureComponent {
 }
 
 
-export default Submenu;
-
+export default withStyles(classes)(Submenu);
