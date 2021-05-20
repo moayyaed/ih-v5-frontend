@@ -404,8 +404,8 @@ class Submenu extends PureComponent {
               <ListItem button selected={this.props.route.channel === i.id} onClick={() => this.handleClickMenu(i)}>
                 <ListItemText classes={{ primary:  props.classes.listItemText }}  primary={i.title} />
                 <ListItemSecondaryAction>
-                    <IconButton edge="end">
-                      <ArrowForwardIosIcon />
+                    <IconButton size="small">
+                      <ArrowForwardIosIcon fontSize="inherit" />
                     </IconButton>
                   </ListItemSecondaryAction>
               </ListItem>
