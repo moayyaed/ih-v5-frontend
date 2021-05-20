@@ -61,7 +61,7 @@ const styles = {
     padding: 5
   },
   form: { 
-    padding: 10,
+    padding: 20,
     overflow: 'hidden',
   },
   downToolbar: {
