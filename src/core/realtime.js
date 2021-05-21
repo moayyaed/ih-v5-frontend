@@ -4,7 +4,7 @@ import core from 'core';
 
 function trasportWS() {
   const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-  const host = window.location.host === 'localhost:3000' ? 'v5.ih-systems.com:49801' : window.location.host;
+  const host = window.location.host === 'localhost:3000' ? 'v5.ih-systems.com:3000' : window.location.host;
   const token = core.cache.token;
 
   if (window.__ihp2p) {
@@ -76,12 +76,15 @@ function messageTunnel(e) {
         core.transfer.send('command_layout', json)
       }
     } else if (json.uuid !== undefined) {
-      if (json.data || json.chartdata) {
+      if (json.data || json.chartdata || json.alertdata) {
         if (json.data) {
           realtime.events.emit(json.uuid, json.data);
         }
         if (json.chartdata) {
           core.transfer.send('chartdata', json.chartdata)
+        }
+        if (json.alertdata) {
+          core.transfer.send('realtime_alert', json.alertdata)
         }
       } else {
         realtime.events.emit(json.uuid, json);

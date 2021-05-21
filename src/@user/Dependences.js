@@ -12,8 +12,14 @@ import 'normalize.css/normalize.css';
 
 import App from 'components/App';
 
-const theme = createMuiTheme();
 
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#424242'
+    }
+  }
+});
 
 function Dependences() {
   return (

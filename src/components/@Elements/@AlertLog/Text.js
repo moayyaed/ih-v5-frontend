@@ -14,7 +14,7 @@ const styles = {
 
 function TableTextComponent(props) {
   return (
-    <div style={styles.text} className={props.className}>{props.cellData}</div>
+    <div style={{ ...styles.text, color: props.container.props.options.fontcolor[props.rowData.level] || 'rgba(0, 0, 0, 0.87)' }} className={props.className}>{props.cellData}</div>
   )
 }
 

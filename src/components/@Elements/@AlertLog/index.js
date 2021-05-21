@@ -85,8 +85,50 @@ class AlertLog extends Component {
       const item = this.props.item;
       const id = item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id;
       if (id) {
+        core.transfer.sub('realtime_alert', this.realtimeAlert);
         this.loadData();
       }
+    }
+  }
+
+  componentWillUnmount() {
+    core.transfer.unsub('realtime_alert', this.realtimeAlert);
+  }
+
+  realtimeAlert = (data) => {
+    const item = this.props.item;
+    const id = item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id;
+    
+    if (id && data[id]) {
+      if (data[id].op === 'add') {
+        this.setState({ data: data[id].payload.concat(this.state.data) })
+      }
+
+      if (data[id].op === 'update') {
+       const temp = data[id].payload.reduce((p, c) => ({ ...p, [c.id]: c }),{})
+       this.setState({ 
+         data: this.state.data
+          .map(i => {
+            if (temp[i.id]) {
+               return { ...i, ...temp[i.id] };
+            }
+            return i;
+          }) 
+        });
+      }
+
+      if (data[id].op === 'delete') {
+        const temp = data[id].payload.reduce((p, c) => ({ ...p, [c.id]: c }),{})
+        this.setState({ 
+          data: this.state.data
+           .filter(i => {
+             if (temp[i.id]) {
+                return false
+             }
+             return true;
+           }) 
+         });
+       }
     }
   }
 
@@ -215,7 +257,7 @@ class AlertLog extends Component {
 
   renderRow = ({ key, index, children, rowid, ...rest }) => {
     const row = this.state.data[index];
-    const colors = this.props.item.data.levelcolor;
+    const colors = this.props.item.data.color;
 
     return (
       <div key={key} index={index} {...rest} style={{ ...rest.style, background: getColor(colors, row) }} >
@@ -247,6 +289,7 @@ class AlertLog extends Component {
           width={props.item.w.value - (props.item.borderSize.value * 2)}
           height={props.item.h.value - (props.item.borderSize.value * 2)}
           data={this.state.data}
+          options={this.props.item.data}
           disabled={this.state.loading}
           loadingMore={this.state.loadingMore}
           onEndReached={this.handleEndReached}

@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 
 const styles = {
   root: {
-    top: -2,
+    top: -1,
     position: 'relative',
     height: '100%',
     width: '100%',
@@ -57,7 +57,7 @@ function handleClick(props) {
 function TableButtonComponent(props) {
   return (
     <div style={styles.root} className={props.className}>
-      <Button style={styles.button} variant="contained" color="primary" onClick={() => {}}>
+      <Button disabled={props.rowData.state === 0} style={styles.button} variant="contained" color="primary" onClick={() => {}}>
         {'Действие' || props.cellData.title}
       </Button>
     </div>
