@@ -58,7 +58,7 @@ function TableButtonComponent(props) {
   return (
     <div style={styles.root} className={props.className}>
       <Button disabled={props.rowData.state === 0} style={styles.button} variant="contained" color="primary" onClick={() => {}}>
-        {'Действие' || props.cellData.title}
+        {'Подтвердить' || props.cellData.title}
       </Button>
     </div>
   )
