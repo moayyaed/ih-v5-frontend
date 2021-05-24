@@ -176,10 +176,24 @@ function requestAuth(params) {
   });
 }
 
-const urlParams = new URLSearchParams(window.location.search)
+function getParams(path) {
+  const temp = {};
+  const temp2 = path.split('&');
 
-const username = urlParams.get('username');
-const password = urlParams.get('password');
+  temp2.forEach(i => {
+    const temp3 = i.split('=');
+    if (temp3.length === 2) {
+      temp[temp3[0]] = temp3[1];
+    }
+  });
+
+  return temp;
+}
+
+const params = getParams(window.location.search)
+
+const username = params.username;
+const password = params.password;
 
 if (username) {
   requestAuth({ username, password, memberme: getRememberme() })
