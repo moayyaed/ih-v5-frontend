@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import core from 'core';
 
 import TextField from '@material-ui/core/TextField';
@@ -15,6 +15,9 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import background from '../../assets/background.png'
 
@@ -203,111 +206,132 @@ if (username) {
   }
 }
 
-
-function Login() {
-  const [values, setValues] = React.useState({
+class Login extends Component {
+  state = {
     username: getUsername(),
     password: '',
     rememberme: getRememberme(),
     showPassword: false,
-  });
-
-  const handleChange = prop => event => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
-
-  const handleChange2 = prop => event => {
-    setValues({ ...values, [prop]: event.target.checked });
-  };
-
-
-  const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword });
-  };
-
-  const handleMouseDownPassword = event => {
-    event.preventDefault();
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    requestAuth(values);
-
-    setUsername(values.username);
-    setRememberme(values.rememberme)
+    loading: !core.cache.token,
+    version: '',
+    header: '',
+    title: '',
   }
 
-  if (core.cache.token) {
-    return null;
+  componentDidMount() {
+    if (!core.cache.token) {
+      const fetch = window.__ihp2p ? window.__ihp2p.fetch : window.fetch;
+
+      fetch('/info')
+        .then(res => res.json())
+        .then(json => {
+          this.setState({ loading: false, ...json })
+        })
+    }
+  }
+
+  handleChange = prop => event => {
+    this.setState({ ...this.state, [prop]: event.target.value });
+  };
+
+  handleChange2 = prop => event => {
+    this.setState({ ...this.state, [prop]: event.target.checked });
+  };
+
+
+  handleClickShowPassword = () => {
+    this.setState({ ...this.state, showPassword: !this.state.showPassword });
+  };
+
+  handleMouseDownPassword = event => {
+    event.preventDefault();
+  };
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+
+    requestAuth(this.state);
+
+    setUsername(this.state.username);
+    setRememberme(this.state.rememberme)
   }
   
-  return (
-    <div style={styles.root}>
-      <div style={styles.container}>
-        <div style={styles.page} />
-          <div style={styles.panel1}>
-            <div style={styles.logoText1}>Добро пожаловать в</div>
-            <div style={styles.logoText2}>IH-SYSTEMS</div>
-            <div style={styles.logoText3}><a style={styles.url}></a></div>
-          </div>
-          <div style={styles.panel2}>
-            <div style={styles.header}>
-              <div style={styles.headerText}>Авторизация</div>
-              <div style={styles.headerBorder} />
+  render() {
+    if (this.state.loading || core.cache.token) {
+      return (
+        <Backdrop style={{ background: 'unset', color: '#607d8b', zIndex: 10000 }} open >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      )
+    }
+    
+    return (
+      <div style={styles.root}>
+        <div style={styles.container}>
+          <div style={styles.page} />
+            <div style={styles.panel1}>
+              <div style={styles.logoText1}>Добро пожаловать в</div>
+              <div style={styles.logoText2}>{this.state.header}</div>
+              <div style={styles.logoText3}><div style={styles.url}>{`${this.state.title} ${this.state.version}`}</div></div>
             </div>
-            <div style={styles.form}>
-              <form onSubmit={handleSubmit}>
-                <TextField 
-                  variant="filled"  
-                  fullWidth 
-                  name="username" 
-                  label="Пользователь" 
-                  value={values.username}
-                  onChange={handleChange('username')}
-                  style={styles.text} 
-                />
-                <FormControl style={styles.text} fullWidth variant="filled">
-                  <InputLabel htmlFor="standard-adornment-password">Пароль</InputLabel>
-                  <FilledInput
-                    style={styles.passText}
-                    className="inputpass"
-                    name="password"
-                    type={values.showPassword ? 'text' : 'password'}
-                    value={values.password}
-                    onChange={handleChange('password')}
-                    endAdornment={
-                      <InputAdornment style={styles.adornment} position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                        >
-                          {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
+            <div style={styles.panel2}>
+              <div style={styles.header}>
+                <div style={styles.headerText}>Авторизация</div>
+                <div style={styles.headerBorder} />
+              </div>
+              <div style={styles.form}>
+                <form onSubmit={this.handleSubmit}>
+                  <TextField 
+                    variant="filled"  
+                    fullWidth 
+                    name="username" 
+                    label="Пользователь" 
+                    value={this.state.username}
+                    onChange={this.handleChange('username')}
+                    style={styles.text} 
                   />
-                </FormControl>
-                <FormControlLabel
-                  value="end"
-                  control={<Checkbox checked={values.rememberme} color="primary" onChange={handleChange2('rememberme')} />}
-                  label="Запомнить меня"
-                />
-                <Button 
-                  fullWidth
-                  type='submit'
-                  variant="outlined"
-                  style={styles.button}
-                >
-                  Вход
-                </Button>
-              </form>
+                  <FormControl style={styles.text} fullWidth variant="filled">
+                    <InputLabel htmlFor="standard-adornment-password">Пароль</InputLabel>
+                    <FilledInput
+                      style={styles.passText}
+                      className="inputpass"
+                      name="password"
+                      type={this.state.showPassword ? 'text' : 'password'}
+                      value={this.state.password}
+                      onChange={this.handleChange('password')}
+                      endAdornment={
+                        <InputAdornment style={styles.adornment} position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={this.handleClickShowPassword}
+                            onMouseDown={this.handleMouseDownPassword}
+                          >
+                            {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                    />
+                  </FormControl>
+                  <FormControlLabel
+                    value="end"
+                    control={<Checkbox checked={this.state.rememberme} color="primary" onChange={this.handleChange2('rememberme')} />}
+                    label="Запомнить меня"
+                  />
+                  <Button 
+                    fullWidth
+                    type='submit'
+                    variant="outlined"
+                    style={styles.button}
+                  >
+                    Вход
+                  </Button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-  );
+    );
+  }
 }
 
 
