@@ -38,6 +38,7 @@ import Script from './@Script';
 import Subtree from './@Subtree';
 import Submenu from './@Submenu';
 import PortalAuth from './@PortalAuth';
+import Frame from './@Frame';
 
 
 function getComponentByType(type) {
@@ -118,6 +119,8 @@ function getComponentByType(type) {
       return Submenu;
     case 'portalauth':
         return PortalAuth;
+    case 'frame':
+      return Frame;
     default:
       return Text;
   }
