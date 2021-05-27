@@ -49,7 +49,7 @@ function getInitState(mode, item) {
     {
         title: "Сообщение",
         prop: "txt",
-        width: 500
+        width: 200
     },
     {
         title: "Время завершения",
