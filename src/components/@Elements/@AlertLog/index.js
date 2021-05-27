@@ -41,14 +41,38 @@ function getInitState(mode, item) {
   }
   return {
     columns: [
-      { title: 'Дата', prop: 'date', width: 150 },
-      { title: 'Тип', prop: 'type', width: 200 },
-      { title: 'Сообщение', prop: 'mes', width: 450 }
+      {
+        title: "Время начала",
+        prop: "tsStartStr",
+        width: 200
+    },
+    {
+        title: "Сообщение",
+        prop: "txt",
+        width: 500
+    },
+    {
+        title: "Время завершения",
+        prop: "tsStopStr",
+        width: 200
+    },
+    {
+        title: "Квитировать",
+        prop: "rowbutton",
+        width: 200
+    },
+    {
+        title: "Время квитирования",
+        prop: "tsAckStr",
+        width: 200
+    },
+    {
+        title: "Оператор",
+        prop: "username",
+        width: 200
+    }
     ],
     data: [
-      { date: '31.12.2020 23:59:57', type: 'Информирование', mes: 'Значение: 0' },
-      { date: '31.12.2020 23:59:58', type: 'Информирование', mes: 'Значение: 1' },
-      { date: '31.12.2020 23:59:59', type: 'Информирование', mes: 'Значение: 2' }
     ],
     loading: false, 
     loadingMore: false, 
@@ -270,6 +294,7 @@ class AlertLog extends Component {
     return (
       <div 
         style={{
+          pointerEvents: props.mode === 'user' ? 'all' : 'none',
           position: 'absolute', 
           width: '100%', 
           height: '100%', 

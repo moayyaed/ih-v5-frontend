@@ -190,6 +190,7 @@ class Journal extends Component {
     return (
       <div 
         style={{
+          pointerEvents: props.mode === 'user' ? 'all' : 'none',
           position: 'absolute', 
           width: '100%', 
           height: '100%', 
