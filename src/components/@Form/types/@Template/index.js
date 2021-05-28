@@ -617,6 +617,45 @@ class Template extends PureComponent {
     this.save();
   }
 
+  getTitleSelect = () => {
+    if (this.props.data.selectOne) {
+      if (this.props.data.selectOne === 'content') {
+        return 'Шаблон';
+      }
+      if (this.props.data.mode === 'vars') {
+        return `Cостояние - ${this.props.data.state[this.props.data.selectState].title}: ${this.props.data.state[this.props.data.selectState].curent}, ${this.props.data.elements[this.props.data.selectOne]._label}`
+      }
+      return this.props.data.elements[this.props.data.selectOne]._label;
+    }
+    if (!this.props.data.selectOne) {
+      if (this.props.data.mode === 'vars') {
+        if (this.props.data.selectType === 'some') {
+          const temp = Object
+          .keys(this.props.data.selects)
+          .map(i => this.props.data.elements[i]._label)
+          .join(', ');
+          return `Cостояние - ${this.props.data.state[this.props.data.selectState].title}: ${this.props.data.state[this.props.data.selectState].curent}, ${temp}`
+        }
+        return `Cостояние - ${this.props.data.state[this.props.data.selectState].title}: ${this.props.data.state[this.props.data.selectState].curent}`
+      }
+      if (this.props.data.mode === 'events') {
+        return `Действия`
+      }
+    }
+
+    return Object
+      .keys(this.props.data.selects)
+      .map(i => this.props.data.elements[i]._label)
+      .join(', ');
+  }
+
+  getTitle = (id) => {
+    if (id === 'sheet') {
+      return this.getTitleSelect();
+    }
+    return TITLES[id];
+  }
+
   renderComponent = (id) => {
     if (id === 'sheet' && this.props.data.settings) {
       return (
@@ -707,7 +746,7 @@ class Template extends PureComponent {
                 key={id}
                 className={id}
                 draggable={false}
-                title={TITLES[id]}
+                title={this.getTitle(id)}
                 additionalControls={EMPTY_ARRAY}
                 path={path}
                 renderToolbar={null}

@@ -333,6 +333,27 @@ class Layout extends PureComponent {
     this.save();
   }
 
+  getTitleSelect = () => {
+    if (this.props.data.selectOne) {
+      if (this.props.data.selectOne === 'content') {
+        return 'Экран';
+      }
+      return this.props.data.elements[this.props.data.selectOne]._label;
+    }
+    return Object
+      .keys(this.props.data.selects)
+      .map(i => this.props.data.elements[i]._label)
+      .join(', ');
+  }
+
+  getTitle = (id) => {
+    if (id === 'sheet') {
+      return this.getTitleSelect();
+    }
+    return TITLES[id];
+  }
+  
+
   renderComponent = (id) => {
     if (id === 'sheet' && this.props.data.settings) {
       return (
@@ -400,7 +421,7 @@ class Layout extends PureComponent {
                 key={id}
                 className={id}
                 draggable={false}
-                title={TITLES[id]}
+                title={this.getTitle(id)}
                 additionalControls={EMPTY_ARRAY}
                 path={path}
                 renderToolbar={null}

@@ -993,6 +993,7 @@ function reducerTemplate(state, action) {
         }
       case TEMPLATE_SET_MODE_MASTER:
         const elementsMaster = getElemntsMaster(state);
+        const sl = Object.keys(state.selects).length;
         return {
           ...state,
           toolbarType: 'tree',
@@ -1001,9 +1002,9 @@ function reducerTemplate(state, action) {
           selectState: 'master',
           selectContainer: getPositionSelectContainer(state, elementsMaster),
           elements: elementsMaster,
-          selectType: state.mode === 'events' ? null : state.selectType,
-          selectOne: state.mode === 'events' ? null : state.selectOne,
-          selects: state.mode === 'events' ? {} : state.selects,
+          selectType: state.mode === 'events' ? 'one' : (sl ? state.selectType : 'one'),
+          selectOne: state.mode === 'events' ? 'content' : (sl ? state.selectOne : 'content'),
+          selects: state.mode === 'events' ? { content: true } : (sl ? state.selects : { content: true }),
         }
       case TEMPLATE_SET_MODE_VARS:
         const elementsState = getElemntsState(state);

@@ -91,7 +91,7 @@ export function ElementsItems(props) {
   return (
     <BasicItem 
       nodeId="content" 
-      label="Container"
+      label="Контейнер"
       onIconClick={(e) => props.onClickIcon(e, 'content')} 
       onLabelClick={(e) => props.onClickLabel(e, 'content')} 
     >
