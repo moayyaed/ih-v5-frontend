@@ -139,8 +139,8 @@ function OptionItem(props) {
 export function AnimationItems(props) {
   return (
     <BasicItem 
-      nodeId="Переменные" 
-      label={<StyleItem {...props} label="Variables" />}
+      nodeId="variables" 
+      label={<StyleItem {...props} label="Переменные" />}
       onIconClick={(e) => props.onClickIcon(e, 'variables')} 
       onLabelClick={(e) => props.onClickLabel(e, 'variables')} 
     >
