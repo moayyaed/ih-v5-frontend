@@ -366,7 +366,8 @@ class DroplistLink extends PureComponent {
           />
           <ButtonMenu
             enabled={this.props.options.bind !== undefined ? this.props.options.bind : this.props.route.type} 
-            icon={this.props.data.enabled} 
+            icon={this.props.data.enabled}
+            mode={this.props.mode} 
             onChange={this.handleClickButton}
             onClear={this.handleClear}
           />
@@ -395,7 +396,8 @@ class DroplistLink extends PureComponent {
         />
         <ButtonMenu
           enabled={this.props.options.bind !== undefined ? this.props.options.bind : this.props.route.type} 
-          icon={this.props.data.enabled} 
+          icon={this.props.data.enabled}
+          mode={this.props.mode} 
           onChange={this.handleClickButton}
           onClear={this.handleClear}
         />

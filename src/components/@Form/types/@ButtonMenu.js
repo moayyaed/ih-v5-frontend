@@ -49,7 +49,7 @@ function ButtonMenu(props) {
   }
   
 
-  if (props.enabled !== false) {
+  if (props.mode !== 'vars' && props.enabled !== false) {
     return (
       <div style={styles.root}>
         <Menu

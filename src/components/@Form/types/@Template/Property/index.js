@@ -62,6 +62,7 @@ class Property extends PureComponent {
               cache={this.props.stateData || {}}
               onChange={this.handleChange}
               getStyle={this.props.getStyle}
+              mode={this.props.mode}
             />
           </div>
         </Scrollbars>

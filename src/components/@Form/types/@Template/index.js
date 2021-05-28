@@ -637,7 +637,7 @@ class Template extends PureComponent {
       );
     }
     if (id === 'property' && this.props.data.elements) {
-
+      const mode = this.props.data.mode || 'tree';
       const selectState = this.props.data.selectState || 'master';
       const state = this.props.data.state[selectState];
       const masterData = this.props.data.state.master.values[0][this.props.data.selectOne];
@@ -651,6 +651,7 @@ class Template extends PureComponent {
 
       return (
         <Property
+          mode={mode}
           disabled={toolbar === 'vars' && !this.props.data.listState.length}
           type={this.props.data.propertyType || 'element'}
           selectType={this.props.data.selectType}

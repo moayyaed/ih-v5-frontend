@@ -88,7 +88,7 @@ const styles = {
 }
 
 
-function CompactForm({ scheme, data, cache, route, onChange, getStyle }) {
+function CompactForm({ scheme, data, cache, route, onChange, getStyle, mode }) {
   let q = 0;
   return scheme.map(i => {
     q = q + 1;
@@ -105,14 +105,14 @@ function CompactForm({ scheme, data, cache, route, onChange, getStyle }) {
     if (i.type === 'actions' || i.type === 'combine') {
       return (
         <div key={i.prop} style={styles.basic2} >
-          {components(i.prop, i, data[i.prop] || {}, cache[i.prop], data, route, onChange, getStyle, true)}
+          {components(i.prop, i, data[i.prop] || {}, cache[i.prop], data, route, onChange, getStyle, true, mode)}
         </div>
       )
     }
     return (
       <div key={i.prop} style={styles.basic} >
         <div style={q & 1 ? styles.basicItemLabel2: styles.basicItemLabel}>{i.title}</div>
-        <div style={q & 1 ? styles.basicItemValue2: styles.basicItemValue}>{components(i.prop, i, data[i.prop] || {}, cache[i.prop], data, route, onChange, getStyle, true)}</div>
+        <div style={q & 1 ? styles.basicItemValue2: styles.basicItemValue}>{components(i.prop, i, data[i.prop] || {}, cache[i.prop], data, route, onChange, getStyle, true, mode)}</div>
       </div>
     )
   })

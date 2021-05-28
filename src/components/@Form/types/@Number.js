@@ -353,7 +353,8 @@ function TouchNumber(props) {
           />
           <ButtonMenu
             enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
-            icon={data.enabled} 
+            icon={data.enabled}
+            mode={props.mode} 
             onChange={handleClickButton}
             onClear={handleClear}
           />
@@ -381,6 +382,7 @@ function TouchNumber(props) {
         <ButtonMenu
           enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
           icon={data.enabled} 
+          mode={props.mode} 
           onChange={handleClickButton}
           onClear={handleClear}
         />

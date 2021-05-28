@@ -286,7 +286,8 @@ function Color(props) {
         />
         <ButtonMenu
           enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
-          icon={props.data.enabled} 
+          icon={props.data.enabled}
+          mode={props.mode} 
           onChange={handleClickButton}
           onClear={handleClear} 
         />
@@ -318,7 +319,8 @@ function Color(props) {
       </div>
       <ButtonMenu
         enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
-        icon={props.data.enabled} 
+        icon={props.data.enabled}
+        mode={props.mode} 
         onChange={handleClickButton}
         onClear={handleClear}
       />

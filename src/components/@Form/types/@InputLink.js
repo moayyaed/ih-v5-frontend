@@ -190,7 +190,8 @@ class InputLink extends PureComponent {
           />
             <ButtonMenu
               enabled={this.props.route.type} 
-              icon={this.props.data.enabled} 
+              icon={this.props.data.enabled}
+              mode={this.props.mode} 
               onChange={this.handleClickButton}
               onClear={this.handleClear} 
             />
@@ -208,7 +209,8 @@ class InputLink extends PureComponent {
           endAdornment: (
             <ButtonMenu
               enabled={this.props.route.type} 
-              icon={this.props.data.enabled} 
+              icon={this.props.data.enabled}
+              mode={this.props.mode} 
               onChange={this.handleClickButton}
               onClear={this.handleClear}
             />
