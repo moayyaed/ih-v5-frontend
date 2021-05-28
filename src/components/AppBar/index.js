@@ -82,7 +82,15 @@ const styles = {
     left: 70,
     color: 'rgb(250, 250, 250)',
     fontSize: 18,
-  }
+  },
+  title2: {
+    position: 'absolute',
+    left: 162,
+    color: 'rgb(250, 250, 250)',
+    fontSize: 14,
+    width: 'calc(100% - 451px)',
+    textAlign: 'center',
+  },
 };
 
 
@@ -377,6 +385,7 @@ function AppBar(props) {
         </div>
         <div style={styles.container}>
           <div style={styles.title}>{getTitle()}</div>
+          <div style={styles.title2}>{core.cache.project}</div>
           <LightTooltip title="user interface">
             <IconButton style={styles.button} size="small" onClick={handleClickUserInterface}>
               <WebIcon fontSize="small" />

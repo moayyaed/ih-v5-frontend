@@ -19,8 +19,10 @@ core.network.request('login', (send, context) => {
 
 
 core.network.response('login', (answer, res, context) => {
+
   core.session = res;
   core.cache.conf = res.conf;
+  core.cache.project =  res.project;
   
   if (res.token) {
     core.cache.token = res.token;
