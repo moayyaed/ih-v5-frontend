@@ -113,7 +113,10 @@ const styles = {
     color: '#5f6368',
     fontSize: 14,
     lineHeight: 1.4286,
-    marginTop: 22,
+    marginTop: 12,
+    marginBottom: 12,
+    display: 'flex',
+    justifyContent: 'space-between',
   },
   text4: {
     marginLeft: 8,
@@ -177,6 +180,16 @@ const styles = {
   },
 }
 
+
+function getUrl() {
+  if (core.cache.conf === 1) {
+    return 'intrahouse.ru';
+  }
+  if (core.cache.conf === 2) {
+    return 'intrascada.com';
+  }
+  return 'intrahouse.ru';
+}
 
 class PortalAuth extends Component {
   state = { 
@@ -351,7 +364,12 @@ class PortalAuth extends Component {
                   labelPlacement="end"
                 />
               <div style={styles.text3}>
-                Используйте аккаунт для получения обновления.
+                <Link target="_blank" href={`https://${getUrl()}/my-account/lost-password/`}>
+                  Забыли пароль?
+                </Link>
+                <Link target="_blank" href={`https://docs.${getUrl()}/ru_account_question`}>
+                  Зачем нужен аккаунт?
+                </Link>
               </div>
             </div>
             <div style={styles.buttons}>
