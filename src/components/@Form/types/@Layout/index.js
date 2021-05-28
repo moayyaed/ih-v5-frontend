@@ -337,8 +337,12 @@ class Layout extends PureComponent {
     if (this.props.data.selectOne) {
       if (this.props.data.selectOne === 'content') {
         return 'Экран';
+      } 
+      const item = this.props.data.elements[this.props.data.selectOne];
+      if (item.type === 'container' && item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.title) {
+        return `${item._label} - ${item.widgetlinks.link.title}`;
       }
-      return this.props.data.elements[this.props.data.selectOne]._label;
+      return item._label;
     }
     return Object
       .keys(this.props.data.selects)

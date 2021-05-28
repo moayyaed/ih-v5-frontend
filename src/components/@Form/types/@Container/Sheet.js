@@ -415,6 +415,7 @@ class Sheet extends Component {
         .ok(res => {
           data.links = {};
           data.templateId = templateId;
+          data.templateTitle = title;
           data.w = { value: res.settings.w.value }; 
           data.h = { value: res.settings.h.value };
           data.w2 = { value: res.settings.w.value }; 

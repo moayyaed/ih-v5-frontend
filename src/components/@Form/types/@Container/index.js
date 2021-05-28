@@ -350,6 +350,9 @@ class Container extends PureComponent {
       if (this.props.data.selectOne === 'content') {
         return 'Контейнер';
       }
+      if (this.props.data.elements[this.props.data.selectOne].type === 'template' && this.props.data.elements[this.props.data.selectOne].templateTitle) {
+        return `${this.props.data.elements[this.props.data.selectOne]._label} - ${this.props.data.elements[this.props.data.selectOne].templateTitle}`;
+      }
       return this.props.data.elements[this.props.data.selectOne]._label;
     }
     return Object
