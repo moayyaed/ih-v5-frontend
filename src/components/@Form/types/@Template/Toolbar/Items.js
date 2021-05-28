@@ -81,7 +81,7 @@ export function EventsItems(props) {
   return (
     <BasicItem 
       nodeId="events" 
-      label="Actions"
+      label="Действия"
       onIconClick={(e) => props.onClickIcon(e, 'events')} 
       onLabelClick={(e) => props.onClickLabel(e, 'events')} 
     >
@@ -139,7 +139,7 @@ function OptionItem(props) {
 export function AnimationItems(props) {
   return (
     <BasicItem 
-      nodeId="variables" 
+      nodeId="Переменные" 
       label={<StyleItem {...props} label="Variables" />}
       onIconClick={(e) => props.onClickIcon(e, 'variables')} 
       onLabelClick={(e) => props.onClickLabel(e, 'variables')} 

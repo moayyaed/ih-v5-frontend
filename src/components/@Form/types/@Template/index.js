@@ -623,7 +623,7 @@ class Template extends PureComponent {
         return 'Шаблон';
       }
       if (this.props.data.mode === 'vars') {
-        return `Cостояние - ${this.props.data.state[this.props.data.selectState].title}: ${this.props.data.state[this.props.data.selectState].curent}, ${this.props.data.elements[this.props.data.selectOne]._label}`
+        return `Переменная: ${this.props.data.state[this.props.data.selectState].title}: ${this.props.data.state[this.props.data.selectState].curent}, Элемент: ${this.props.data.elements[this.props.data.selectOne]._label}`
       }
       return this.props.data.elements[this.props.data.selectOne]._label;
     }
@@ -634,9 +634,9 @@ class Template extends PureComponent {
           .keys(this.props.data.selects)
           .map(i => this.props.data.elements[i]._label)
           .join(', ');
-          return `Cостояние - ${this.props.data.state[this.props.data.selectState].title}: ${this.props.data.state[this.props.data.selectState].curent}, ${temp}`
+          return `Переменная: ${this.props.data.state[this.props.data.selectState].title}: ${this.props.data.state[this.props.data.selectState].curent}, Элементы: ${temp}`
         }
-        return `Cостояние - ${this.props.data.state[this.props.data.selectState].title}: ${this.props.data.state[this.props.data.selectState].curent}`
+        return `Переменная: ${this.props.data.state[this.props.data.selectState].title}: ${this.props.data.state[this.props.data.selectState].curent}`
       }
       if (this.props.data.mode === 'events') {
         return `Действия`
