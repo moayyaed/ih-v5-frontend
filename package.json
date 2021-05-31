@@ -66,7 +66,11 @@
     "reselect": "^4.0.0",
     "shortid": "^2.2.15",
     "storm-react-diagrams": "^5.2.1",
-    "typeface-roboto": "^0.0.75"
+    "typeface-roboto": "^0.0.75",
+    "xterm": "^4.12.0",
+    "xterm-addon-attach": "^0.6.0",
+    "xterm-addon-fit": "^0.5.0",
+    "xterm-addon-web-links": "^0.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
