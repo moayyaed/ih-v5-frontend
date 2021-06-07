@@ -212,6 +212,7 @@ class PortalAuth extends Component {
   }
 
   req = (url, body) => {
+    const fetch = window.__ihp2p ? window.__ihp2p.fetch : window.fetch;
     return new Promise((resolve, reject) => {
       NProgress.start();
       fetch(url, {
