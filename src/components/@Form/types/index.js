@@ -23,6 +23,7 @@ import Shadow from './@Shadow';
 import Animation from './@Animation';
 import Actions from './@Actions';
 import Combine from './@Combine';
+import Debug from './@Debug';
 
 import Layout from './@Layout';
 import Container from './@Container';
@@ -124,6 +125,8 @@ function getComponentByType(type) {
       return Frame;
     case 'webconsole':
       return Webconsole;
+    case 'debug':
+      return Debug;
     default:
       return Text;
   }

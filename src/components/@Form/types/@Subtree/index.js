@@ -32,7 +32,6 @@ import theme from 'components/AppNav/theme';
 
 import 'ace-builds/src-noconflict/theme-tomorrow';
 import 'ace-builds/src-noconflict/mode-text';
-import { CodeSharp } from '@material-ui/icons';
 
 
 const styles = {
@@ -306,9 +305,7 @@ class Subtree extends PureComponent {
       }
       return (
         [
-          <Popover key="1" content={<Menu scheme={scheme} />} position={Position.BOTTOM_RIGHT}>
-            <Button icon="cog" minimal />
-          </Popover>
+        
         ]
       )
     }
