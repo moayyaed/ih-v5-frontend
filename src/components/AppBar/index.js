@@ -120,6 +120,19 @@ const TooltipBad = withStyles((theme) => ({
   },
 }))(Tooltip);
 
+function isElectron() {
+  if (typeof window !== 'undefined' && typeof window.process === 'object' && window.process.type === 'renderer') {
+      return true;
+  }
+  if (typeof process !== 'undefined' && typeof process.versions === 'object' && !!process.versions.electron) {
+      return true;
+  }
+  if (typeof navigator === 'object' && typeof navigator.userAgent === 'string' && navigator.userAgent.indexOf('Electron') >= 0) {
+      return true;
+  }
+  return false;
+}
+
 function getTitle() {
   if (core.cache.conf === 1) {
     return 'IntraHouse PRO';
@@ -304,23 +317,30 @@ function handleClickSettings(menuid) {
 }
 
 function handleClickExit() {
-  window.localStorage.removeItem('token');
-  window.localStorage.removeItem('rememberme');
-  window.sessionStorage.removeItem('key');
-  window.sessionStorage.removeItem('target');
+  if (isElectron()) {
+    const electron = window.require('electron');
+    const ipcRenderer  = electron.ipcRenderer;
 
-  if (window.__ihp2p) {
-    clearTimeout(window.__ihp2p.timer);
-    window.__ihp2p.close = null;
-    window.location.href = "/";
+    ipcRenderer.send('exit')
   } else {
-    core.network.realtime.destroy();
-    core.actions.app.auth(false);
-
-    if (core.options.type === 'user') {
+    window.localStorage.removeItem('token');
+    window.localStorage.removeItem('rememberme');
+    window.sessionStorage.removeItem('key');
+    window.sessionStorage.removeItem('target');
+  
+    if (window.__ihp2p) {
+      clearTimeout(window.__ihp2p.timer);
+      window.__ihp2p.close = null;
       window.location.href = "/";
     } else {
-      window.location.href = "/admin";
+      core.network.realtime.destroy();
+      core.actions.app.auth(false);
+  
+      if (core.options.type === 'user') {
+        window.location.href = "/";
+      } else {
+        window.location.href = "/admin";
+      }
     }
   }
 }

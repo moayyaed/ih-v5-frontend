@@ -127,6 +127,19 @@ const styles = {
   }
 }
 
+function isElectron() {
+  if (typeof window !== 'undefined' && typeof window.process === 'object' && window.process.type === 'renderer') {
+      return true;
+  }
+  if (typeof process !== 'undefined' && typeof process.versions === 'object' && !!process.versions.electron) {
+      return true;
+  }
+  if (typeof navigator === 'object' && typeof navigator.userAgent === 'string' && navigator.userAgent.indexOf('Electron') >= 0) {
+      return true;
+  }
+  return false;
+}
+
 
 function setUsername(username) {
   if (window.localStorage !== undefined && username !== '') {
@@ -155,6 +168,10 @@ function getUsername() {
 }
 
 function getRememberme() {
+  if (isElectron()) {
+    return false;
+  }
+
   if (window.localStorage !== undefined) {
     const rememberme = window.localStorage.getItem('rememberme');
     if (rememberme !== null) {
@@ -264,6 +281,8 @@ class Login extends Component {
         </Backdrop>
       )
     }
+
+    const electron = isElectron();
     
     return (
       <div style={styles.root}>
@@ -312,11 +331,12 @@ class Login extends Component {
                       }
                     />
                   </FormControl>
+                  {!electron ? <div style={{ height: 42 }} /> :
                   <FormControlLabel
                     value="end"
                     control={<Checkbox checked={this.state.rememberme} color="primary" onChange={this.handleChange2('rememberme')} />}
                     label="Запомнить меня"
-                  />
+                  />}
                   <Button 
                     fullWidth
                     type='submit'

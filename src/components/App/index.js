@@ -23,6 +23,18 @@ function getPage(state, layoutId) {
   return React.createElement(core.options.pages.main, { route: state.route, network: state.network, layoutId })
 }
 
+function isElectron() {
+  if (typeof window !== 'undefined' && typeof window.process === 'object' && window.process.type === 'renderer') {
+      return true;
+  }
+  if (typeof process !== 'undefined' && typeof process.versions === 'object' && !!process.versions.electron) {
+      return true;
+  }
+  if (typeof navigator === 'object' && typeof navigator.userAgent === 'string' && navigator.userAgent.indexOf('Electron') >= 0) {
+      return true;
+  }
+  return false;
+}
 
 const styles = {
   backdrop: {
@@ -55,23 +67,30 @@ class App extends Component {
   }
   handleKeyDown = (e) => {
     if (e.keyCode == '27') {
-      window.localStorage.removeItem('token');
-      window.localStorage.removeItem('rememberme');
-      window.sessionStorage.removeItem('key');
-      window.sessionStorage.removeItem('target');
-
-      if (window.__ihp2p) {
-        clearTimeout(window.__ihp2p.timer);
-        window.__ihp2p.close = null;
-        window.location.href = "/";
+      if (isElectron()) {
+        const electron = window.require('electron');
+        const ipcRenderer  = electron.ipcRenderer;
+    
+        ipcRenderer.send('exit')
       } else {
-        core.network.realtime.destroy();
-        core.actions.app.auth(false);
-
-        if (core.options.type === 'user') {
+        window.localStorage.removeItem('token');
+        window.localStorage.removeItem('rememberme');
+        window.sessionStorage.removeItem('key');
+        window.sessionStorage.removeItem('target');
+  
+        if (window.__ihp2p) {
+          clearTimeout(window.__ihp2p.timer);
+          window.__ihp2p.close = null;
           window.location.href = "/";
         } else {
-          window.location.href = "/admin";
+          core.network.realtime.destroy();
+          core.actions.app.auth(false);
+  
+          if (core.options.type === 'user') {
+            window.location.href = "/";
+          } else {
+            window.location.href = "/admin";
+          }
         }
       }
     }
