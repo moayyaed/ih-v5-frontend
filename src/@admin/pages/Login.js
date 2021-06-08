@@ -181,7 +181,7 @@ function requestAuth(params) {
 
 function getParams(path) {
   const temp = {};
-  const temp2 = path.split('&');
+  const temp2 = path.slice(1).split('&');
 
   temp2.forEach(i => {
     const temp3 = i.split('=');
