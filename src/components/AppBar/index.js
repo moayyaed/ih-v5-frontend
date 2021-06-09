@@ -406,11 +406,11 @@ function AppBar(props) {
         <div style={styles.container}>
           <div style={styles.title}>{getTitle()}</div>
           <div style={styles.title2}>{core.cache.project}</div>
-          <LightTooltip title="user interface">
+          {isElectron() ? null : <LightTooltip title="user interface">
             <IconButton style={styles.button} size="small" onClick={handleClickUserInterface}>
               <WebIcon fontSize="small" />
             </IconButton>
-          </LightTooltip>
+          </LightTooltip>}
           <LightTooltip title="server settings">
             <IconButton style={styles.button} size="small" onClick={() => handleClickSettings(props.menuid)}>
               <SettingsIcon style={{ color: props.menuid === 'settings' ? '#03A9F4' : 'unset' }} fontSize="small" />
