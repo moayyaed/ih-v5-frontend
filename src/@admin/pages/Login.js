@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import core from 'core';
 
+
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
@@ -140,7 +141,6 @@ function isElectron() {
   return false;
 }
 
-
 function setUsername(username) {
   if (window.localStorage !== undefined && username !== '') {
     window.localStorage.setItem('username', username);
@@ -181,21 +181,6 @@ function getRememberme() {
   return false;
 }
 
-
-function requestAuth(params) {
-  core
-  .request({ method: 'login', params })
-  .ok((res) => {
-    if (res) {
-      core.actions.app.auth(res)
-    } else {
-      core
-        .request({ method: 'init' })
-        .ok(() => core.actions.app.auth(true));
-    }
-  });
-}
-
 function getParams(path) {
   const temp = {};
   const temp2 = path.slice(1).split('&');
@@ -210,18 +195,7 @@ function getParams(path) {
   return temp;
 }
 
-const params = getParams(window.location.search)
 
-const username = params.username;
-const password = params.password;
-
-if (username) {
-  requestAuth({ username, password, memberme: getRememberme() })
-} else {
-  if (core.cache.token) {
-    requestAuth({ rememberme: true, token: true })
-  }
-}
 
 class Login extends Component {
   state = {
@@ -229,23 +203,62 @@ class Login extends Component {
     password: '',
     rememberme: getRememberme(),
     showPassword: false,
-    loading: !core.cache.token,
+    loading: true,
     version: '',
     header: '',
     title: '',
   }
 
   componentDidMount() {
-    if (!core.cache.token) {
-      const fetch = window.__ihp2p ? window.__ihp2p.fetch : window.fetch;
+    const params = getParams(window.location.search)
 
-      fetch('/info')
-        .then(res => res.json())
-        .then(json => {
-          this.setState({ loading: false, ...json })
-        })
+    if (params.username) {
+      this.requestAuth({ 
+        username: params.username, 
+        password: params.password, 
+        memberme: false 
+      })
+    } else {
+      if (core.cache.token) {
+        this.requestAuth({ rememberme: true, token: true })
+      } else {
+        this.requestInfo();
+      }
     }
   }
+
+  requestInfo = () => {
+    const fetch = window.__ihp2p ? window.__ihp2p.fetch : window.fetch;
+  
+    fetch('/info')
+      .then(res => res.json())
+      .then(json => {
+        this.setState({ loading: false, ...json })
+      })
+      .catch(() => {
+        this.setState({ loading: false })
+      })
+  }
+
+  requestAuth = (params = this.state) => {
+    core
+    .request({ method: 'login', params })
+    .ok((res) => {
+      if (res) {
+        core.actions.app.auth(res)
+      } else {
+        core
+          .request({ method: 'init' })
+          .ok(() => core.actions.app.auth(true));
+      }
+    })
+    .error(e => {
+      if (this.state.loading) {
+        this.requestInfo();
+      }
+    });
+  }
+  
 
   handleChange = prop => event => {
     this.setState({ ...this.state, [prop]: event.target.value });
@@ -267,14 +280,14 @@ class Login extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    requestAuth(this.state);
+    this.requestAuth();
 
     setUsername(this.state.username);
     setRememberme(this.state.rememberme)
   }
   
   render() {
-    if (this.state.loading || core.cache.token) {
+    if (this.state.loading) {
       return (
         <Backdrop style={{ background: 'unset', color: '#607d8b', zIndex: 10000 }} open >
           <CircularProgress color="inherit" />
