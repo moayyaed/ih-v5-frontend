@@ -331,7 +331,7 @@ class Login extends Component {
                       }
                     />
                   </FormControl>
-                  {!electron ? <div style={{ height: 42 }} /> :
+                  {electron ? <div style={{ height: 42 }} /> :
                   <FormControlLabel
                     value="end"
                     control={<Checkbox checked={this.state.rememberme} color="primary" onChange={this.handleChange2('rememberme')} />}
