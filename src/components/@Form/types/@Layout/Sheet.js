@@ -758,17 +758,17 @@ class Sheet extends Component {
       { id: '13', title: 'Alert Journal', click: () => this.handleAddElement(e, 'alertlog') },
     ]
 
-    if (core.cache.conf !== 2) {
-      listElemnts.forEach((i, k) => {
+    listElemnts.forEach((i, k) => {
+      if (core.cache.conf !== 2) {
         if (i.title === 'Journal' || i.title === 'Alert Journal') {
           delete listElemnts[k];
         }
+      }
 
-        if (i.title === 'Charts') {
-          listElemnts[k] = { id: '11', title: 'Chart Line', click: () => this.handleAddElement(e, 'chart') }
-        }
-      });
-    }
+      if (i.title === 'Charts' && !core.cache.modules.multichart) {
+        listElemnts[k] = { id: '11', title: 'Chart Line', click: () => this.handleAddElement(e, 'chart') }
+      }
+    });
   
     const scheme = {
       main: [

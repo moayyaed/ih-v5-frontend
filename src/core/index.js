@@ -73,6 +73,7 @@ const core = {
     navs: {},
     tabs: {},
     tab: {},
+    modules: {},
   },
   whois: Bowser.parse(window.navigator.userAgent),
   restart: false,
