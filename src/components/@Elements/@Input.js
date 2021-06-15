@@ -42,13 +42,13 @@ const classes = theme => {
     },
     input: props => ({
       color: props.item.textColor.value,
-      fontSize: props.item.textSize.value,
+      fontSize: props.item.textSize.value * (props.scale || 1),
       height: '100%!important'
     }),
     label: props => ({
       '& input': {
         color: props.item.textColor.value,
-        fontSize: props.item.textSize.value,
+        fontSize: props.item.textSize.value * (props.scale || 1),
       },
       '& label': {
         color: props.item.normalColor.value,
@@ -85,7 +85,7 @@ const classes = theme => {
     filled: props => ({
       '& input': {
         color: props.item.textColor.value,
-        fontSize: props.item.textSize.value,
+        fontSize: props.item.textSize.value * (props.scale || 1),
       },
       "&:before": {
         borderColor: props.item.normalColor.value,
@@ -100,7 +100,7 @@ const classes = theme => {
     outlined: props => ({
       '& input': {
         color: props.item.textColor.value,
-        fontSize: props.item.textSize.value,
+        fontSize: props.item.textSize.value * (props.scale || 1),
       },
       '& label': {
         color: props.item.normalColor.value,
@@ -255,7 +255,7 @@ function getInput(props, data, onChange) {
   if (props.item.type === 'input' || props.item.type === 'input_classic') {
     return (
       <InputBase
-        style={{ ...styles.inputBase, color: props.item.textColor.value, fontSize: props.item.textSize.value }}
+        style={{ ...styles.inputBase, color: props.item.textColor.value, fontSize: props.item.textSize.value * (props.scale || 1) }}
         value={data.value}
         multiline={props.item.fullHeight.value}
         fullWidth={props.item.fullWidth.value}
@@ -324,7 +324,7 @@ function Input(props) {
         width: '100%', 
         height: '100%', 
         background: props.item.backgroundColor.value,
-        border: `${props.item.borderSize.value}px ${props.item.borderStyle.value.id} ${props.item.borderColor.value}`,
+        border: `${props.item.borderSize.value * (props.scale || 1)}px ${props.item.borderStyle.value.id} ${props.item.borderColor.value}`,
         borderRadius: (Math.min(props.item.w.value, props.item.h.value) / 2 / 100) * props.item.borderRadius.value,
         opacity: props.item.opacity.value / 100,
         boxShadow: props.item.boxShadow.active ? props.item.boxShadow.value : 'unset',

@@ -28,10 +28,10 @@ const styles = {
 }
 
 
-function getTextContentStyle(params) {
+function getTextContentStyle(params, scale) {
   return {
     fill: params.textColor.value,
-    font: `${params.textItalic.value ? 'italic': ''} ${params.textBold.value ? 'bold' : ''} ${params.textSize.value}px ${params.textFontFamily.value.id}`
+    font: `${params.textItalic.value ? 'italic': ''} ${params.textBold.value ? 'bold' : ''} ${params.textSize.value * (scale || 1)}px ${params.textFontFamily.value.id}`
   };
 }
 
@@ -218,7 +218,7 @@ function ButtonEgine(props, state) {
         display: imgPosition === 'center' ? 'block' : 'flex',
         flexDirection: getDirection(imgPosition),
         background: props.item.backgroundColor.value,
-        border: `${props.item.borderSize.value}px ${props.item.borderStyle.value.id} ${props.item.borderColor.value}`,
+        border: `${props.item.borderSize.value * (props.scale || 1)}px ${props.item.borderStyle.value.id} ${props.item.borderColor.value}`,
         borderRadius: (Math.min(props.item.w.value, props.item.h.value) / 2 / 100) * props.item.borderRadius.value,
         opacity: props.item.opacity.value / 100,
         boxShadow: props.item.boxShadow.active ? props.item.boxShadow.value : 'unset',
@@ -230,10 +230,10 @@ function ButtonEgine(props, state) {
       <svg style={getTextStyle(props.item)} >
         <text
           x={getX(props.item.textAlignH.value.id)} 
-          y={getY(props.item.textAlignV.value.id, props.item.textSize.value, props.item.h.value, props.item.borderSize.value, props.item.imgPosition, props.item.imgRatio)} 
+          y={getY(props.item.textAlignV.value.id, props.item.textSize.value * (props.scale || 1), props.item.h.value, props.item.borderSize.value, props.item.imgPosition, props.item.imgRatio)} 
           textAnchor={getTextAnchor(props.item.textAlignH.value.id)} 
           alignmentBaseline="middle"
-          style={getTextContentStyle(props.item)}
+          style={getTextContentStyle(props.item, props.scale)}
         >
           {props.item.text.value}
         </text>

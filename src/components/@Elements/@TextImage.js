@@ -17,10 +17,10 @@ const styles = {
   },
 }
 
-function getTextStyle(params) {
+function getTextStyle(params, scale) {
   return {
     fill: params.textColor.value,
-    font: `${params.textItalic.value ? 'italic': ''} ${params.textBold.value ? 'bold' : ''} ${params.textSize.value}px ${params.textFontFamily.value.id}`
+    font: `${params.textItalic.value ? 'italic': ''} ${params.textBold.value ? 'bold' : ''} ${params.textSize.value * (scale || 1)}px ${params.textFontFamily.value.id}`
   };
 }
 
@@ -131,7 +131,7 @@ function Text(props) {
         width: '100%', 
         height: '100%', 
         background: props.item.backgroundColor.value,
-        border: `${props.item.borderSize.value}px ${props.item.borderStyle.value.id} ${props.item.borderColor.value}`,
+        border: `${props.item.borderSize.value * (props.scale || 1)}px ${props.item.borderStyle.value.id} ${props.item.borderColor.value}`,
         borderRadius: (Math.min(props.item.w.value, props.item.h.value) / 2 / 100) * props.item.borderRadius.value,
         opacity: props.item.opacity.value / 100,
         boxShadow: props.item.boxShadow.active ? props.item.boxShadow.value : 'unset',
@@ -157,10 +157,10 @@ function Text(props) {
         <text
           transform={`rotate(${props.item.textRotate.value} ${pos(props.item.w.value, props.item.textAlignH.value.id, props.item.borderSize.value)} ${pos(props.item.h.value, props.item.textAlignV.value.id,  props.item.borderSize.value)})`}
           x={getX(props.item.textAlignH.value.id)} 
-          y={getY(props.item.textAlignV.value.id, props.item.textSize.value, props.item.h.value, props.item.borderSize.value)} 
+          y={getY(props.item.textAlignV.value.id, props.item.textSize.value * (props.scale || 1), props.item.h.value, props.item.borderSize.value)} 
           textAnchor={getTextAnchor(props.item.textAlignH.value.id)} 
           alignmentBaseline="middle"
-          style={getTextStyle(props.item)}
+          style={getTextStyle(props.item, props.scale)}
         >
           {props.item.text.value}
         </text>

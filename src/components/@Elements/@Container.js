@@ -9,7 +9,7 @@ import shortid from 'shortid';
 const method = window.document.body.style.zoom === undefined;
 
 
-function getScale(item, settings, scaleW, scaleH) {
+function getScale(item, settings, scaleW, scaleH, mode) {
   if (item.fitW.value && item.fitH.value) {
     return Math.min((item.w.value * scaleW) / settings.w.value, (item.h.value * scaleH) / settings.h.value);
   }
@@ -47,17 +47,18 @@ class Container extends PureComponent {
     this.setState({ name, img: url })
   }
 
-  handleRender = (id, item) => {
+  handleRender = (id, item, mode) => {
+    const scale = getScale(this.props.item, this.props.container.settings, this.props.scaleW, this.props.scaleH, mode)
     if (item.type === 'group') {
       return (
         <div
           key={id}
           style={{ 
             position: 'absolute', 
-            left: item.x.value,
-            top: item.y.value,
-            width: item.w.value,
-            height: item.h.value,
+            left: item.x.value * scale,
+            top: item.y.value * scale,
+            width: item.w.value * scale,
+            height: item.h.value * scale,
             zIndex: item.zIndex.value,
             opacity: item.opacity.value / 100,
             animation: item.animation && item.animation.active ? item.animation.value : 'unset',
@@ -65,7 +66,7 @@ class Container extends PureComponent {
             visibility: item.visible && item.visible.value == false ? 'hidden' : 'unset',
           }}
         >
-          {item.elements.map(cid => this.handleRender(cid, this.props.container.elements[cid]))}
+          {item.elements.map(cid => this.handleRender(cid, this.props.container.elements[cid], mode))}
         </div>
       )
     }
@@ -75,28 +76,40 @@ class Container extends PureComponent {
           key={id}
           style={{ 
             position: 'absolute', 
-            left: item.x.value,
-            top: item.y.value,
-            width: item.w.value,
-            height: item.h.value,
+            left: item.x.value * scale,
+            top: item.y.value * scale,
+            width: item.w.value * scale,
+            height: item.h.value * scale,
             zIndex: item.zIndex.value,
             animation: item.animation && item.animation.active ? item.animation.value : 'unset',
           }}
         >
-          {elemets(this.props.container.elements[id].type, { id, containerId: this.props.item.widgetlinks.link.id, layoutId: this.props.layoutId, mode: this.props.mode, item: this.props.container.elements[id], template: this.props.templates[item.templateId] })}
+          {elemets(this.props.container.elements[id].type, { 
+            id, 
+            containerId: this.props.item.widgetlinks.link.id, 
+            layoutId: this.props.layoutId, 
+            mode: this.props.mode, 
+            item: { 
+              ...this.props.container.elements[id],
+              x: { value: item.x.value * scale },
+              y: { value: item.y.value * scale },
+              w: { value: item.w.value * scale },
+              h: { value: item.h.value * scale },
+            }, 
+            template: this.props.templates[item.templateId] 
+          })}
         </div>
       )
     }
-    const scale = getScale(this.props.item, this.props.container.settings, this.props.scaleW, this.props.scaleH)
     return (
       <div
         key={id}
         style={{ 
           position: 'absolute', 
-          left: item.x.value,
-          top: item.y.value,
-          width: item.w.value,
-          height: item.h.value,
+          left: item.x.value * scale,
+          top: item.y.value * scale,
+          width: item.w.value * scale,
+          height: item.h.value * scale,
           zIndex: item.zIndex.value,
           animation: item.animation && item.animation.active ? item.animation.value : 'unset',
         }}
@@ -131,7 +144,7 @@ class Container extends PureComponent {
       )
     }
     const img = window.__ihp2p ? this.state.img : this.props.container.settings.backgroundImage.value;
-    const scale = getScale(this.props.item, this.props.container.settings, this.props.scaleW, this.props.scaleH)
+    const scale = getScale(this.props.item, this.props.container.settings, this.props.scaleW, this.props.scaleH, this.props.mode)
     const type = this.props.container.settings.backgroundColor.type;
     const color = type === 'fill' ? '' : ', ' + this.props.container.settings.backgroundColor.value;
     const src =  img.indexOf('://') !== -1 ? img : '/images/' + img;
@@ -168,15 +181,15 @@ class Container extends PureComponent {
             <div
               style={{
                 position: 'relative', 
-                width: this.props.container.settings.w.value, 
-                height: this.props.container.settings.h.value,
-                transform: method ? `scale(${scale})` : 'unset',
+                width: this.props.container.settings.w.value * scale, 
+                height: this.props.container.settings.h.value * scale,
+                //// transform: method ? `scale(${scale})` : 'unset',
                 // transformOrigin: method ? '0 0' : 'unset',
-                zoom:  scale,
+                //// zoom:  scale,
                 flexShrink: 0,
               }}
             >
-              {this.props.container.list.map(id => this.handleRender(id, this.props.container.elements[id]))}
+              {this.props.container.list.map(id => this.handleRender(id, this.props.container.elements[id], this.props.mode))}
             </div>
           </div>
         </Scrollbars2>
