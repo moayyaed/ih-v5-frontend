@@ -1,5 +1,6 @@
 import chart from './chart';
 import chart_multi from './chartmulti';
+import chart_bar from './chartbar';
 
 import expand from './expand';
 
@@ -20,6 +21,7 @@ import alertlog from './alertlog';
 const widgets = {
   chart,
   chart_multi,
+  chart_bar,
   expand,
   expander: expand,
   input,

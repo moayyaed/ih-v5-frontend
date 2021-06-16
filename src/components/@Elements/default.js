@@ -433,6 +433,22 @@ const CHART_MULTI = {
   axisBottom: { value: true },
 }
 
+const CHART_BAR = {
+  ...BLOCK,
+  widget: true,
+  expand: { value: true },
+  widgetlinks: {
+    link: { }
+  },
+  buttonsColor: { value: 'rgba(64, 81, 181, 1)' },
+  buttonSync: { value: true },
+  buttonHome: { value: true },
+  buttonDate: { value: true },
+  buttonDiscrete: { value: true },
+  buttonNavigate: { value: true },
+  buttonSize: { value: 100 },
+}
+
 const SLIDER = {
   ...BLOCK,
   widget: true,
@@ -578,6 +594,8 @@ function getDefaultParams(type) {
       return CHART;
     case 'chart_multi':
       return CHART_MULTI;
+    case 'chart_bar':
+      return CHART_BAR;
     case 'input':
       return INPUT;
     case 'input_classic':

@@ -718,6 +718,7 @@ class Chart extends PureComponent {
   handleDate = () => {
     this.setState({ calendar: true })
   }
+  
 
   handleHome = () => {
     this.setState({ realtime: true });
@@ -731,6 +732,10 @@ class Chart extends PureComponent {
 
     this.setState({ realtime: false, calendar: false });
     this.setWindow(date.getTime(), 0);
+  }
+
+  handleChandeDateClose = () => {
+    this.setState({ calendar: false })
   }
 
   handleSync = () => {
@@ -866,6 +871,7 @@ class Chart extends PureComponent {
             format="MM/dd/yyyy"
             style={styles.datePicker}
             onChange={this.handleChandeDate}
+            onClose={this.handleChandeDateClose}
           />
       </div>
     );

@@ -224,7 +224,7 @@ class AppLayout extends Component {
     if (item.type === 'container') {
       return (
         <div
-          key={id}
+          key={(item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id) || id}
           style={{ 
             position: 'absolute', 
             left: item.x.value,

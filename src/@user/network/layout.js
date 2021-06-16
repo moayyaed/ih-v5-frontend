@@ -49,6 +49,10 @@ function preparationData(data, clearAnimation = true) {
   }
   // clear animation
 
+  // clear chart
+  core.cache.chart = null;
+  // clear chart
+
 
   // layout start
   Object

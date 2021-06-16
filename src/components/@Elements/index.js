@@ -24,6 +24,9 @@ import Checkbox from './@Checkbox';
 import Journal from './@Journal';
 import AlertLog from './@AlertLog';
 
+import ChartBar from './@ChartBar';
+
+
 function getElementByType(type) {
   switch (type) {
     case 'text':
@@ -71,6 +74,8 @@ function getElementByType(type) {
       return Journal;
     case 'alertlog':
       return AlertLog;
+    case 'chart_bar':
+      return ChartBar;
     default:
       return Block;
   }
