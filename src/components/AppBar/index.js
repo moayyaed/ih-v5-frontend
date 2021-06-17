@@ -370,6 +370,7 @@ function AppBar(props) {
   }
 
   const handleSnap = () => {
+    const fetch = window.__ihp2p ? window.__ihp2p.fetch : window.fetch;
     setState({ open: true, data: null, info: {} });
     /*
     html2canvas(document.body, { 
@@ -382,8 +383,7 @@ function AppBar(props) {
       */
      domtoimage.toPng(document.body, { filter })
       .then(function (dataUrl) {
-        window
-          .fetch('/api/info', { headers: { token: core.cache.token } })
+        fetch('/api/info', { headers: { token: core.cache.token } })
           .then(res => res.json())
           .then(info => {
             setState({ open: true, data: dataUrl, info: info.response ? info.data : {} });
@@ -423,7 +423,7 @@ function AppBar(props) {
             </IconButton>
           </LightTooltip>
           <Divider orientation="vertical" flexItem style={styles.divider} />
-          <LightTooltip title="bug report">
+          <LightTooltip title="Сообщить о проблеме">
             <IconButton style={styles.button} size="small" onClick={handleSnap}>
               <AdbIcon fontSize="small" />
             </IconButton>

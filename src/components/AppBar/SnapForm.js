@@ -168,7 +168,7 @@ class Test extends PureComponent {
             done(false);
             if (data.res) {
               this.props.onClose();
-              core.actions.app.alertOpen('info', 'Thanks for your feedback!');
+              core.actions.app.alertOpen('info', 'Спасибо за ваш отзыв!');
             } else {
               core.actions.app.alertOpen('warning', data.message);
             }
@@ -179,7 +179,7 @@ class Test extends PureComponent {
           })
     
       } else {
-        core.actions.app.alertOpen('warning', 'Please fill in all fields!');
+        core.actions.app.alertOpen('warning', 'Пожалуйста заполните все поля!');
         done(false);
       }
     }
@@ -219,9 +219,9 @@ function SnapForm(props) {
             <CloseIcon />
           </IconButton>
           <Typography variant="h6" className={props.classes.title}>
-            Bug Report
+            Сообщить о проблеме
           </Typography>
-          <Button autoFocus color="inherit" onClick={() => handleSubmit(props, state)} >submit</Button>
+          <Button autoFocus color="inherit" onClick={() => handleSubmit(props, state)} >Отправить</Button>
         </Toolbar>
       </AppBar>
       <div style={styles.container} >
@@ -238,7 +238,7 @@ function SnapForm(props) {
               (
                 <div style={styles.loading}>
                   <CircularProgress />
-                  <div style={{ marginTop: 24 }}>Create screen snapshot, please wait...</div>
+                  <div style={{ marginTop: 24 }}>Создание скриншота, пожалуйста подождите...</div>
                 </div>
               )
             }
@@ -251,9 +251,9 @@ function SnapForm(props) {
               InputLabelProps={{ shrink: true }} 
               style={styles.text1} 
               fullWidth 
-              label="Title" 
+              label="Заголовок" 
               variant="outlined"
-              placeholder="What happened?"
+              placeholder="Что случилось?"
               onChange={handleChangeValueTitle}
             />
             <TextField 
@@ -261,9 +261,9 @@ function SnapForm(props) {
               InputProps={{ classes: { root: props.classes.root, input: props.classes.input } }}
               style={styles.text2} 
               multiline 
-              label="Comment" 
+              label="Комментарий" 
               variant="outlined"
-              placeholder="Leave a comment..." 
+              placeholder="Опишите проблему..." 
               onChange={handleChangeValueComment}
             />
           </Paper>
