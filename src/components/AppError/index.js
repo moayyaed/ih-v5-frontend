@@ -142,7 +142,7 @@ class AppError extends Component {
         </Typography>
         <Divider />
         <Typography style={styles.text} variant="body1" gutterBottom>
-          {'Для возобновления работы приложения нажмите кнопку "Переазпустить".' + '\n' + 'Данная операция перезапустит интерфейс пользователя и никак не повлияет на работоспособность сервера.'}
+          {'Для возобновления работы приложения нажмите кнопку "Перезапустить".' + '\n' + 'Данная операция перезапустит интерфейс пользователя и никак не повлияет на работоспособность сервера.'}
         </Typography>
         <Button style={styles.button} variant="contained" color="primary" onClick={this.handleClick}>
           перезапустить
