@@ -120,12 +120,14 @@ class Container extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.container.settings.backgroundImage.value !== prevProps.container.settings.backgroundImage.value) {
-      if (window.__ihp2p) {
+    if (window.__ihp2p) {
+      const prevImg = prevProps.container && prevProps.container.settings && prevProps.container.settings.backgroundImage && prevProps.container.settings.backgroundImage.value || 'unset'
+      const nowImg = this.props.container && this.props.container.settings && this.props.container.settings.backgroundImage && this.props.container.settings.backgroundImage.value || 'unset'
+  
+      if (prevImg !== nowImg) {
         window.__ihp2p.image(this.uuid, this.props.container.settings.backgroundImage.value, this.handleLoadImage);
-      }
-    } 
-  }
+      } 
+    }
 
   render() {
     if (this.props.container === undefined) {
