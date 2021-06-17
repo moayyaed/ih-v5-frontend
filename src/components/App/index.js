@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import core from 'core';
+import { stopReportingRuntimeErrors } from "react-error-overlay";
 
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
@@ -12,15 +13,15 @@ import Alert from 'components/Alert';
 
 import { createBrowserHistory } from 'history';
 
-
+stopReportingRuntimeErrors();
 const history = createBrowserHistory();
 
 
-function getPage(state, layoutId) {
+function getPage(state, layoutId, hasError) {
   if (state.auth === false) {
-    return React.createElement(core.options.pages.login, { route: state.route, network: state.network, layoutId })
+    return React.createElement(core.options.pages.login, { route: state.route, network: state.network, layoutId, hasError })
   }
-  return React.createElement(core.options.pages.main, { route: state.route, network: state.network, layoutId })
+  return React.createElement(core.options.pages.main, { route: state.route, network: state.network, layoutId, hasError })
 }
 
 function isElectron() {
@@ -45,12 +46,34 @@ const styles = {
 
 
 class App extends Component {
+  state = { hasError: true }
+
   componentDidMount() {
     core.history = history;
     history.listen(this.handleChageRoute);
 
     document.addEventListener('keydown', this.handleKeyDown);
     this.handleChageRoute(history.location);
+  }
+
+  static getDerivedStateFromError(error) {
+    return { 
+      hasError: { 
+        title: error.message,
+        stack: error.stack,
+        info: '',
+      } 
+    };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    this.setState({ 
+      hasError: { 
+        title: error.message,
+        stack: error.stack,
+        info: errorInfo.componentStack,
+      } 
+    });
   }
 
   handleChageRoute = (location, action) => {
@@ -63,6 +86,10 @@ class App extends Component {
       core.lastPath = location.pathname;
 
       core.actions.app.route(params);
+
+      if (this.state.hasError) {
+        this.setState({ hasError: false })
+      }
     }
   }
   handleKeyDown = (e) => {
@@ -117,7 +144,7 @@ class App extends Component {
           message={alert.message} 
           onClose={this.handleCloseAlert}
         />
-        {getPage(this.props.state, this.props.layoutId)}
+        {getPage(this.props.state, this.props.layoutId, this.state.hasError)}
       </>
     )
   }

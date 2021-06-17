@@ -11,6 +11,7 @@ import AppPage from 'components/AppPage';
 import AppDialog from 'components/AppDialog';
 import AppAlert from 'components/AppAlert';
 import AppProgress from 'components/AppProgress';
+import AppError from 'components/AppError';
 
 
 const styles = {
@@ -31,6 +32,23 @@ const styles = {
 
 
 function App(props) {
+  if (props.hasError) {
+    return (
+      <>
+        <AppDialog />
+        <AppAlert />
+        <AppProgress />
+        <AppBar menuid={props.route.menuid} network={props.network} />
+        <div className="container">
+          <AppMenu />
+          <div style={styles.box}>
+            <AppError error={props.hasError || {}} />
+          </div>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <AppDialog />
