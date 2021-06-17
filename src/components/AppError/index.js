@@ -8,10 +8,13 @@ import Divider from '@material-ui/core/Divider';
 const styles = {
   root: {
     width: '100%',
-    padding: 24,
+    paddingTop: 18,
+    paddingBottom: 18,
+    paddingLeft: 24,
+    paddingRight: 24,
   },
   error1: {
-    marginTop: 24,
+    marginTop: 18,
     marginLeft: 12,
     marginRight: 12,
     background: '#ffebee',
@@ -21,7 +24,7 @@ const styles = {
     overflowY: 'auto',
   },
   error2: {
-    marginTop: 24,
+    marginTop: 18,
     marginBottom: 24,
     marginLeft: 12,
     marginRight: 12,
@@ -32,11 +35,11 @@ const styles = {
     overflowY: 'auto',
   },
   text: {
-    marginTop: 24,
+    marginTop: 18,
     whiteSpace: 'pre-wrap',
   },
   button: {
-    marginTop: 24,
+    marginTop: 12,
   }
 }
 
