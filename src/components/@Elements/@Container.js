@@ -128,6 +128,7 @@ class Container extends PureComponent {
         window.__ihp2p.image(this.uuid, this.props.container.settings.backgroundImage.value, this.handleLoadImage);
       } 
     }
+  }
 
   render() {
     if (this.props.container === undefined) {
