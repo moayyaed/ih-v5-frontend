@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import core from 'core';
-import { stopReportingRuntimeErrors } from "react-error-overlay";
 
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
@@ -13,7 +12,6 @@ import Alert from 'components/Alert';
 
 import { createBrowserHistory } from 'history';
 
-stopReportingRuntimeErrors();
 const history = createBrowserHistory();
 
 
