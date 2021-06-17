@@ -168,7 +168,7 @@ class Test extends PureComponent {
             done(false);
             if (data.res) {
               this.props.onClose();
-              core.actions.app.alertOpen('info', 'Спасибо за ваш отзыв!');
+              core.actions.app.alertOpen('info', 'Cообщение отправлено!');
             } else {
               core.actions.app.alertOpen('warning', data.message);
             }

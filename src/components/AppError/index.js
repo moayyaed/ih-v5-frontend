@@ -20,12 +20,13 @@ const styles = {
   },
   error1: {
     marginTop: 18,
+    marginBottom: 24,
     marginLeft: 12,
     marginRight: 12,
     background: '#ffebee',
     padding: 18,
     whiteSpace: 'pre-wrap',
-    maxHeight: 200,
+    maxHeight: 250,
     overflowY: 'auto',
   },
   error2: {
@@ -112,7 +113,7 @@ class AppError extends Component {
         .then(res => res.json())
         .then(data => {
           if (data.res) {
-            core.actions.app.alertOpen('info', 'Спасибо за ваш отзыв!');
+            core.actions.app.alertOpen('info', 'Cообщение отправлено!');
           } else {
             this.setState({ disabled: false })
             core.actions.app.alertOpen('warning', data.message);
@@ -138,9 +139,6 @@ class AppError extends Component {
         <Divider />
         <Typography style={styles.error1} variant="body2" gutterBottom>
           {props.error.stack}
-        </Typography>
-        <Typography style={styles.error2} variant="body2" gutterBottom>
-          {props.error.info}
         </Typography>
         <Divider />
         <Typography style={styles.text} variant="body1" gutterBottom>
