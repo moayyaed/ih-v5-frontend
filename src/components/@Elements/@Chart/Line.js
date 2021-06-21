@@ -11,6 +11,10 @@ import IconBefore from '@material-ui/icons/KeyboardArrowLeft';
 import IconNext from '@material-ui/icons/KeyboardArrowRight';
 
 import SvgIcon from '@material-ui/core/SvgIcon';
+import lime from "@material-ui/core/colors/lime";
+
+import { createMuiTheme } from "@material-ui/core";
+import { ThemeProvider } from "@material-ui/styles";
 
 import Intl from 'intl';
 
@@ -140,9 +144,6 @@ const styles = {
   },
 };
 
-const demo = {
-
-}
 
 function EndIcon(props) {
   return (
@@ -665,13 +666,13 @@ class Chart extends PureComponent {
     if (data.x) {
       const x = new Date(data.x);
       if (this.ctx.params.legend.chart_type === 'bar') {
-        this.ctx.litems[`l_${this.props.id}_t`].innerHTML = `${x.toLocaleDateString()}`;
+        // this.ctx.litems[`l_${this.props.id}_t`].innerHTML = `${x.toLocaleDateString()}`;
       } else {
-        this.ctx.litems[`l_${this.props.id}_t`].innerHTML = `${x.toLocaleDateString()} ${x.toLocaleTimeString()}`;
+        // this.ctx.litems[`l_${this.props.id}_t`].innerHTML = `${x.toLocaleDateString()} ${x.toLocaleTimeString()}`;
       }
     }
     data.series.forEach((i, k) => {
-      const id = `l_${this.props.id}_${k}`;
+      const id = `l_chart_1_line`;
       if (this.ctx.litems && this.ctx.litems.hasOwnProperty(id)) {
         if (typeof i.y === 'number') {
           this.ctx.litems[id].innerHTML = i.y;
@@ -833,17 +834,25 @@ class Chart extends PureComponent {
               <EndIcon />
             </Fab>
           : null}
-          <KeyboardDatePicker
-            open={this.state.calendar}
-            margin="normal"
-            label=""
-            minDate={MIN_DATE}
-            maxDate={MAX_DATE}
-            format="MM/dd/yyyy"
-            style={styles.datePicker}
-            onChange={this.handleChandeDate}
-            onClose={this.handleChandeDateClose}
-          />
+          <ThemeProvider theme={createMuiTheme({
+            palette: {
+              primary: {
+                main: item.buttonsColor.value,
+              }
+            },
+          })}>
+            <KeyboardDatePicker
+              open={this.state.calendar}
+              margin="normal"
+              label=""
+              minDate={MIN_DATE}
+              maxDate={MAX_DATE}
+              format="MM/dd/yyyy"
+              style={styles.datePicker}
+              onChange={this.handleChandeDate}
+              onClose={this.handleChandeDateClose}
+            />
+          </ThemeProvider>
       </div>
     );
   }

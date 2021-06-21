@@ -86,7 +86,7 @@ function reducer(state = defaultState, action) {
                     }
                   }
                 }
-                return { ...p, [c]: state.layout.elements[c] }
+                return { ...p, [c]: state.containers[action.containerId].elements[c] }
               }, {}),
           }
         }
