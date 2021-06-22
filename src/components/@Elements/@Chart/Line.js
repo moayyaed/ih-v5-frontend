@@ -253,6 +253,23 @@ class Chart extends PureComponent {
     core.transfer.unsub('realtime_charts', this.realtimeCharts);
   }
 
+  cacheEvent = () => {
+    const data = { 
+      command: this.props.dialogId ? 'synccharts_dialog' : 'synccharts',
+      range: this.ctx.chart.dateWindow_,
+      realtime: this.state.realtime,
+      layoutId: this.props.layoutId, 
+      containerId: this.props.containerId, 
+    };
+    if (this.props.dialogId) {
+      core.cache.chart.d = data
+    } else if (this.props.containerId) {
+      core.cache.chart.c[this.props.containerId] = data
+    } else {
+      core.cache.chart.l = data
+    }
+  }
+
   realtimeCharts = (data) => {
     const dn = (this.props.item.widgetlinks.link.id === '__device' ? core.store.getState().layoutDialog.contextId : this.props.item.widgetlinks.link.id) + '.' + this.props.item.widgetlinks.link.prop;
     if (this.props.item.realtime.value && data[dn] !== undefined) {
@@ -571,13 +588,14 @@ class Chart extends PureComponent {
 
   mousewheel = (e, g, c) => {
     mousewheel(e, g, c);
+    this.cacheEvent();
   }
 
   mousedown = (e, g, c) => {
     if (this.state.realtime) {
       this.setState({ realtime: false });
     }
-    mousedown(e, g, c);
+    mousedown(e, g, c, this.cacheEvent);
     c.is2DPan = false;
   }
 
@@ -589,6 +607,7 @@ class Chart extends PureComponent {
     const ns = x - a;
     const ne = x + a;
     g.updateOptions({ dateWindow: [ns, ne] });
+    this.cacheEvent();
   }
 
   setWindow = (n, p) => {
@@ -603,6 +622,9 @@ class Chart extends PureComponent {
   handleChanged = (_, __, chart, props = this.props) => {
     this.underlayCallback(props.item, _, __, chart);
     render(this.ctx, chart, this.props.item.data.timerange);
+    if (this.ctx && this.ctx.chart) {
+        this.props.item.data.range = this.ctx.chart.dateWindow_;
+    }
   }
 
   linked = (e) => {
@@ -692,6 +714,7 @@ class Chart extends PureComponent {
     this.setState({ realtime: true });
     renderRealTime(this.ctx);
     this.setWindow(Date.now(), this.props.item.positionCurentTime.value);
+    this.cacheEvent();
   }
 
   handleChandeDate = (v) => {
@@ -700,6 +723,7 @@ class Chart extends PureComponent {
 
     this.setState({ realtime: false, calendar: false });
     this.setWindow(date.getTime(), 0);
+    this.cacheEvent();
   }
 
   handleChandeDateClose = () => {
@@ -714,6 +738,7 @@ class Chart extends PureComponent {
       layoutId: this.props.layoutId, 
       containerId: this.props.containerId, 
     })
+    this.cacheEvent();
   };
 
   handleChangeDiscrete = (v) => {
@@ -733,6 +758,7 @@ class Chart extends PureComponent {
     const ns = s - i;
     const ne = e - i;
     this.ctx.chart.updateOptions({ dateWindow: [ns, ne] });
+    this.cacheEvent();
   }
 
   handleNavNext = () => {
@@ -741,6 +767,7 @@ class Chart extends PureComponent {
     const ns = e;
     const ne = e + i;
     this.ctx.chart.updateOptions({ dateWindow: [ns, ne] });
+    this.cacheEvent();
   }
 
   generateLegend = (props = this.props) => {

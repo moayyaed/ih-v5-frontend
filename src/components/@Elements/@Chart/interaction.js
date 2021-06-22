@@ -123,7 +123,7 @@ export function mousewheel(event, g, context) {
 }
 
 
-export function mousedown(event, g, context) {
+export function mousedown(event, g, context, cacheEvent) {
   if (event.button && event.button == 2) return;
 
   context.initializeMouseDown(event, g, context);
@@ -149,6 +149,7 @@ export function mousedown(event, g, context) {
     } else if (context.isPanning) {
       Dygraph.movePan(event, g, context);
     }
+    cacheEvent();
   };
 
   const mouseup = function mouseup(event) {

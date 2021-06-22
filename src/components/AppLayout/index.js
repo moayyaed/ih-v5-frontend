@@ -120,6 +120,19 @@ class AppLayout extends Component {
     if ( data.command === 'synccharts_dialog') {
       core.actions.layoutDialog.syncCharts(data.range, data.realtime);
     }
+
+    if (data.command === 'synccharts_home_all') {
+      if (data.containerId) {
+        core.actions.layout.syncChartsContainer(data.containerId, data.range, data.realtime);
+      } else {
+        core.actions.layout.syncChartsLayout(data.range, data.realtime);
+      }
+    }
+
+    if ( data.command === 'synccharts_home_all_dialog') {
+      core.actions.layoutDialog.syncCharts(data.range, data.realtime);
+    }
+    
   }
   
   request = () => {

@@ -10,6 +10,9 @@ import IconNext from '@material-ui/icons/KeyboardArrowRight';
 
 import SvgIcon from '@material-ui/core/SvgIcon';
 
+import { createMuiTheme } from "@material-ui/core";
+import { ThemeProvider } from "@material-ui/styles";
+
 import { transform } from './tools';
 
 const MIN_DATE = new Date(1451606400 * 1000);
@@ -101,6 +104,23 @@ function CalendarIcon(props) {
 class ChartBar extends Component {
   state = { enabledsd: null, speeddial: false, realtime: true, calendar: false }
 
+  syncAll = () => {
+    var data = null;
+
+    if (this.props.dialogId && core.cache.chart.d) {
+      data = core.cache.chart.d;
+    } else if (this.props.containerId && core.cache.chart.c[this.props.containerId]) {
+      data = core.cache.chart.c[this.props.containerId];
+    } else {
+      if (core.cache.chart.l) {
+        data = core.cache.chart.l
+      }
+    }
+    if (data) {
+      core.transfer.send('command_layout', data)
+    }
+  }
+
   handleDate = () => {
     this.setState({ calendar: true })
   }
@@ -118,15 +138,7 @@ class ChartBar extends Component {
   }
 
   handleSync = () => {
-    /*
-    core.transfer.send('command_layout', { 
-      command: this.props.dialogId ? 'synccharts_dialog' : 'synccharts',
-      range: this.ctx.chart.dateWindow_,
-      realtime: this.state.realtime,
-      layoutId: this.props.layoutId, 
-      containerId: this.props.containerId, 
-    })
-    */
+    this.syncAll();
   };
 
   handleNavBefore = () => {
@@ -150,9 +162,11 @@ class ChartBar extends Component {
   }
 
   handleHome = () => {
-    this.setState({ realtime: true });
-    // renderRealTime(this.ctx);
-    // this.setWindow(Date.now(), this.props.item.positionCurentTime.value);
+    core.transfer.send('command_layout', { 
+      command: this.props.dialogId ? 'synccharts_home_all_dialog' : 'synccharts_home_all',
+      layoutId: this.props.layoutId, 
+      containerId: this.props.containerId, 
+    })
   }
 
   render() {
@@ -222,17 +236,25 @@ class ChartBar extends Component {
               <EndIcon />
             </Fab>
           : null}
-          <KeyboardDatePicker
-            open={this.state.calendar}
-            margin="normal"
-            label=""
-            minDate={MIN_DATE}
-            maxDate={MAX_DATE}
-            format="MM/dd/yyyy"
-            style={styles.datePicker}
-            onChange={this.handleChandeDate}
-            onClose={this.handleChandeDateClose}
-          />
+          <ThemeProvider theme={createMuiTheme({
+              palette: {
+                primary: {
+                  main: item.buttonsColor.value,
+                }
+              },
+            })}>
+            <KeyboardDatePicker
+              open={this.state.calendar}
+              margin="normal"
+              label=""
+              minDate={MIN_DATE}
+              maxDate={MAX_DATE}
+              format="MM/dd/yyyy"
+              style={styles.datePicker}
+              onChange={this.handleChandeDate}
+              onClose={this.handleChandeDateClose}
+            />
+          </ThemeProvider>
         </div>
       </div>
     );

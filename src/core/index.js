@@ -74,6 +74,11 @@ const core = {
     tabs: {},
     tab: {},
     modules: {},
+    chart: {
+      l: null,
+      d: null,
+      c: {},
+    },
   },
   whois: Bowser.parse(window.navigator.userAgent),
   restart: false,
