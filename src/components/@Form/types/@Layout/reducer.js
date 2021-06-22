@@ -188,6 +188,7 @@ function reducerContainer(state, action) {
     case LAYOUT_UNGROUP_ELEMENTS:
       return {
         ...state,
+        selectOne: null,
         selectType: 'some',
         selectContainer: action.data,
         selects: Object.

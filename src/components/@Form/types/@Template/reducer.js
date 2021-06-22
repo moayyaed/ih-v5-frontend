@@ -396,6 +396,7 @@ function reducerTemplate(state, action) {
     case TEMPLATE_UNGROUP_ELEMENTS:
       return {
         ...state,
+        selectOne: null,
         selectType: 'some',
         selectContainer: action.data,
         selects: Object.

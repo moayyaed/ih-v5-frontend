@@ -165,6 +165,7 @@ function reducerContainer(state, action) {
     case DIALOG_UNGROUP_ELEMENTS:
       return {
         ...state,
+        selectOne: null,
         selectType: 'some',
         selectContainer: action.data,
         selects: Object.

@@ -27,7 +27,30 @@ const styles = {
     width: '100%',
     height: '100%',
     display: 'flex',
-  }
+  },
+  toolbar: {
+    width: '100%',
+    display: 'flex',
+  },
+  title: {
+    marginLeft: 15,
+    marginRight: 15,
+    display: 'flex',
+    alignItems: 'center',
+    fontWeight: 600,
+    color: '#394b59',
+  },
+  buttons: {
+    alignItems: 'center',
+    width: '100%',
+    justifyContent: 'flex-end',
+  },
+  filer: {
+    width: 250,
+    height: 24,
+    marginLeft: 12,
+    marginRight: 12,
+  },
 }
 
 
@@ -36,6 +59,7 @@ class Debug extends PureComponent {
 
   state = {
     start: false,
+    filter: '',
     consoleValue: '', 
     consoleAutoScroll: true,
     scrollTop: 0,
@@ -84,23 +108,25 @@ class Debug extends PureComponent {
   }
 
   handleRealTimeDataConsole = (value) => {
-    this.setState(state => {
-      if (this.state.consoleValue.length > 50 * 5000) {
-        return { 
-          ...state, 
-          consoleValue: state.consoleValue
-            .split('\r\n')
-            .slice(1500)
-            .join('\r\n') + value + '\r\n' 
-        };
-      }
-      return { ...state, consoleValue: state.consoleValue + value + '\r\n' };
-    }, () => {
-      if (this.console && this.state.consoleAutoScroll) {
-        const index = this.console.editor.session.getLength() - 1;
-        this.console.editor.scrollToRow(index);
-      }
-    });
+    if (!this.state.filter || value.indexOf(this.state.filter) !== -1 ) {
+      this.setState(state => {
+        if (this.state.consoleValue.length > 50 * 5000) {
+          return { 
+            ...state, 
+            consoleValue: state.consoleValue
+              .split('\r\n')
+              .slice(1500)
+              .join('\r\n') + value + '\r\n' 
+          };
+        }
+        return { ...state, consoleValue: state.consoleValue + value + '\r\n' };
+      }, () => {
+        if (this.console && this.state.consoleAutoScroll) {
+          const index = this.console.editor.session.getLength() - 1;
+          this.console.editor.scrollToRow(index);
+        }
+      });
+    }
   }
 
   handleChangeAutoScroll = () => {
@@ -120,13 +146,18 @@ class Debug extends PureComponent {
       [
         this.state.start ? <Button key="1" icon="stop" minimal onClick={this.handleStop} /> :
         <Button key="2" icon="play" minimal onClick={this.handleStart} />,
-        <Separator key="3" />,
+     
+        <input value={this.state.filter} onChange={this.changeFilter} style={styles.filer} class="bp3-input core" placeholder="Filter..." type="text" />,
         this.state.consoleAutoScroll ? 
-          <Button key="4" icon="git-commit" minimal onClick={this.handleChangeAutoScroll} /> : 
-          <Button key="5" icon="bring-data" minimal onClick={this.handleChangeAutoScroll} />,
-          <Button key="6" icon="trash" minimal onClick={this.handleClearConsole} />,
+          <Button key="5" icon="git-commit" minimal onClick={this.handleChangeAutoScroll} /> : 
+          <Button key="6" icon="bring-data" minimal onClick={this.handleChangeAutoScroll} />,
+          <Button key="7" icon="trash" minimal onClick={this.handleClearConsole} />,
       ]
     )
+  }
+
+  changeFilter = (e) => {
+    this.setState({ filter: e.target.value })
   }
 
   renderComponent = (id) => {
@@ -156,6 +187,17 @@ class Debug extends PureComponent {
     return null;
   }
 
+  renderToolbar = () => {
+    return (
+      <div style={styles.toolbar}>
+        <div style={styles.title}>Консоль</div>
+        <div style={styles.buttons} className="mosaic-window-controls bp3-button-group">
+          {this.renderButtons()}
+        </div>
+      </div>
+    )
+  }
+
 
   linkConsole = (e) => {
     this.console = e;
@@ -175,7 +217,7 @@ class Debug extends PureComponent {
                 title="Консоль"
                 additionalControls={EMPTY_ARRAY}
                 path={path}
-                renderToolbar={null}
+                renderToolbar={this.renderToolbar}
                 toolbarControls={this.renderButtons(id)}
               >
                 {this.renderComponent(id)}
