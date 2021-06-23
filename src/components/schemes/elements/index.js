@@ -84,6 +84,22 @@ const elements = {
     link: [{ type: 'actions', prop: 'actions' }],
     move: move,
   },
+  iframe: { 
+    main: main, 
+    move: move,
+    element: [
+      { 
+        title: 'Iframe', 
+        prop: '_iframe', 
+        type: 'divider',
+      },
+      { 
+        title: 'Url', 
+        prop: 'url', 
+        type: 'inputlink',
+      },
+    ] 
+  },
   group: group,
   action: action,
   action2: {

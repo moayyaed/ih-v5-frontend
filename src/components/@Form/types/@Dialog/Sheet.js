@@ -755,6 +755,7 @@ class Sheet extends Component {
       { id: '3', title: 'Image', click: () => this.handleAddElement(e, 'image') },
       // { id: '4', title: 'Text & Image', click: () => this.handleAddElement(e, 'text_image') },
       { id: '5', title: 'Button', click: () => this.handleAddElement(e, 'button') },
+      { id: '51', title: 'Iframe', click: () => this.handleAddElement(e, 'iframe') },
       { id: '-', type: 'divider' },
       { id: '6', title: 'Inputs', 
         children: [

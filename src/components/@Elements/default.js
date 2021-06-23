@@ -559,6 +559,11 @@ const CHECKBOX = {
   data: {},
 }
 
+const IFRAME = {
+  ...BLOCK,
+  url: { value: 'http://localhost:8088'},
+}
+
 
 function getDefaultParams(type) {
   switch (type) {
@@ -622,6 +627,8 @@ function getDefaultParams(type) {
       return JOURNAL;
     case 'alertlog':
       return ALERTLOG;
+    case 'iframe':
+      return IFRAME;
     default:
       return BLOCK;
   }

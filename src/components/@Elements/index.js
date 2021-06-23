@@ -25,6 +25,7 @@ import Journal from './@Journal';
 import AlertLog from './@AlertLog';
 
 import ChartBar from './@ChartBar';
+import Iframe from './@Iframe';
 
 
 function getElementByType(type) {
@@ -76,6 +77,8 @@ function getElementByType(type) {
       return AlertLog;
     case 'chart_bar':
       return ChartBar;
+    case 'iframe':
+      return Iframe;
     default:
       return Block;
   }
