@@ -93,7 +93,7 @@ function Images(props) {
       <div style={styles.root}>
         {props.data
           .map((i, key)=> 
-            <Image key={key} path={i} onClick={handleClick} />
+            <Image key={i} path={i} onClick={handleClick} />
         )}
       </div>
     </Scrollbars>

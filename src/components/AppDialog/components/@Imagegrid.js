@@ -187,7 +187,7 @@ class Imagegrid extends Component {
               <div style={styles.container2}>
                 {state.component.list
                   .map((i, key)=> 
-                    <Image key={key} path={i} select={state.component.select.value} onClick={this.handleClickCheckBox} />
+                    <Image key={i} path={i} select={state.component.select.value} onClick={this.handleClickCheckBox} />
                 )}
               </div>
             </Scrollbars>
