@@ -123,14 +123,14 @@ class AppLayout extends Component {
 
     if (data.command === 'synccharts_home_all') {
       if (data.containerId) {
-        core.actions.layout.syncChartsContainer(data.containerId, data.range, data.realtime);
+        core.actions.layout.syncChartsContainerHomeAll(data.containerId, data.range, data.realtime);
       } else {
-        core.actions.layout.syncChartsLayout(data.range, data.realtime);
+        core.actions.layout.syncChartsLayoutHomeAll(data.range, data.realtime);
       }
     }
 
     if ( data.command === 'synccharts_home_all_dialog') {
-      core.actions.layoutDialog.syncCharts(data.range, data.realtime);
+      core.actions.layoutDialog.syncChartsHomeAll(data.range, data.realtime);
     }
     
   }

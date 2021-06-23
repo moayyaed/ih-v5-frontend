@@ -6,6 +6,9 @@ import {
   APP_LAYOUT_SYNC_CHARTS_LAYOUT,
   APP_LAYOUT_SYNC_CHARTS_CONTAINER,
 
+  APP_LAYOUT_SYNC_CHARTS_LAYOUT_HOME_ALL,
+  APP_LAYOUT_SYNC_CHARTS_CONTAINER_HOME_ALL,
+
   APP_LAYOUT_CHANGE_CONTAINER,
 } from './constants';
 
@@ -81,6 +84,68 @@ function reducer(state = defaultState, action) {
                         ...state.containers[action.containerId].elements[c].data,
                         range: action.range,
                         forceRealtime: action.realtime,
+                        triger: Date.now(),
+                      }
+                    }
+                  }
+                }
+                return { ...p, [c]: state.containers[action.containerId].elements[c] }
+              }, {}),
+          }
+        }
+      };
+    case APP_LAYOUT_SYNC_CHARTS_LAYOUT_HOME_ALL:
+      return { 
+        ...state,
+        layout: {
+          ...state.layout,
+          elements: Object
+          .keys(state.layout.elements)
+          .reduce((p, c) => {
+            if (state.layout.elements[c].type === 'chart') {
+              return { 
+                ...p, 
+                [c]: {
+                  ...state.layout.elements[c],
+                  data: {
+                    ...state.layout.elements[c].data,
+                    range: action.range,
+                    forceRealtime: action.realtime,
+                    triger: Date.now(),
+                  }
+                }
+              }
+            }
+            return { ...p, [c]: state.layout.elements[c] }
+          }, {}),
+        }
+      };
+    case APP_LAYOUT_SYNC_CHARTS_CONTAINER_HOME_ALL:
+      return { 
+        ...state,
+        containers: {
+          ...state.containers,
+          [action.containerId]: {
+            ...state.containers[action.containerId],
+            elements: Object
+              .keys(state.containers[action.containerId].elements)
+              .reduce((p, c) => {
+                if (state.containers[action.containerId].elements[c].type === 'chart' || state.containers[action.containerId].elements[c].type === 'chart_multi') {
+                  const [s, e] = state.containers[action.containerId].elements[c].data.range;
+                  const pp = state.containers[action.containerId].elements[c].positionCurentTime.value;
+                  const n = Date.now();
+                  const i = e - s;
+                  const d = (i / 100) * pp;
+                  const ns = n - d;
+                  const ne = n + i - d;
+                  return { 
+                    ...p, 
+                    [c]: {
+                      ...state.containers[action.containerId].elements[c],
+                      data: {
+                        ...state.containers[action.containerId].elements[c].data,
+                        range: [ns, ne],
+                        forceRealtime: true,
                         triger: Date.now(),
                       }
                     }

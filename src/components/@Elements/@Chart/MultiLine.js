@@ -722,9 +722,9 @@ class Chart extends PureComponent {
     if (data.x) {
       const x = new Date(data.x);
       if (this.ctx.params.legend.chart_type === 'bar') {
-        // this.ctx.litems[`l_${this.props.id}_t`].innerHTML = `${x.toLocaleDateString()}`;
+        this.ctx.litems[`l_${this.props.id}_t`].innerHTML = `${x.toLocaleDateString()}`;
       } else {
-        // this.ctx.litems[`l_${this.props.id}_t`].innerHTML = `${x.toLocaleDateString()} ${x.toLocaleTimeString()}`;
+        this.ctx.litems[`l_${this.props.id}_t`].innerHTML = `${x.toLocaleDateString()} ${x.toLocaleTimeString()}`;
       }
     }
     data.series.forEach((i, k) => {

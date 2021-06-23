@@ -1,4 +1,9 @@
-import { APP_LAYOUT_DIALOG_SET_DATA, APP_LAYOUT_DIALOG_UPDATE_ELEMENTS, APP_LAYOUT_DIALOG_SYNC_CHARTS_LAYOUT } from './constants';
+import { 
+  APP_LAYOUT_DIALOG_SET_DATA, 
+  APP_LAYOUT_DIALOG_UPDATE_ELEMENTS, 
+  APP_LAYOUT_DIALOG_SYNC_CHARTS_LAYOUT,
+  APP_LAYOUT_DIALOG_SYNC_CHARTS_LAYOUT_HOME_ALL,
+} from './constants';
 
 
 const defaultState = {
@@ -72,7 +77,7 @@ function reducer(state = defaultState, action) {
         elements: Object
         .keys(state.elements)
         .reduce((p, c) => {
-          if (state.elements[c].type === 'chart') {
+          if (state.elements[c].type === 'chart' || state.elements[c].type === 'chart_multi') {
             return { 
               ...p, 
               [c]: {
@@ -81,6 +86,36 @@ function reducer(state = defaultState, action) {
                   ...state.elements[c].data,
                   range: action.range,
                   forceRealtime: action.realtime,
+                  triger: Date.now(),
+                }
+              }
+            }
+          }
+          return { ...p, [c]: state.elements[c] }
+        }, {}),
+      };
+    case APP_LAYOUT_DIALOG_SYNC_CHARTS_LAYOUT_HOME_ALL:
+      return { 
+        ...state,
+        elements: Object
+        .keys(state.elements)
+        .reduce((p, c) => {
+          if (state.elements[c].type === 'chart' || state.elements[c].type === 'chart_multi') {
+            const [s, e] = state.elements[c].data.range;
+            const pp = state.elements[c].positionCurentTime.value;
+            const n = Date.now();
+            const i = e - s;
+            const d = (i / 100) * pp;
+            const ns = n - d;
+            const ne = n + i - d;
+            return { 
+              ...p, 
+              [c]: {
+                ...state.elements[c],
+                data: {
+                  ...state.elements[c].data,
+                  range: [ns, ne],
+                  forceRealtime: true,
                   triger: Date.now(),
                 }
               }

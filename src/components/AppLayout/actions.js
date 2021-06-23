@@ -5,6 +5,10 @@ import {
   APP_LAYOUT_SYNC_CHARTS_LAYOUT,
   APP_LAYOUT_SYNC_CHARTS_CONTAINER,
 
+  APP_LAYOUT_SYNC_CHARTS_LAYOUT_HOME_ALL,
+  APP_LAYOUT_SYNC_CHARTS_CONTAINER_HOME_ALL,
+
+
   APP_LAYOUT_CHANGE_CONTAINER,
 } from './constants';
 
@@ -48,6 +52,23 @@ export function syncChartsContainer(containerId, range, realtime) {
   };
 }
 
+export function syncChartsLayoutHomeAll(range, realtime) {
+  return {
+    type: APP_LAYOUT_SYNC_CHARTS_LAYOUT_HOME_ALL,
+    range,
+    realtime,
+  };
+}
+
+export function syncChartsContainerHomeAll(containerId, range, realtime) {
+  return {
+    type: APP_LAYOUT_SYNC_CHARTS_CONTAINER_HOME_ALL,
+    containerId,
+    range,
+    realtime,
+  };
+}
+
 export function changeContainer(targetId, containerId, data) {
   return {
     type: APP_LAYOUT_CHANGE_CONTAINER,
@@ -64,5 +85,7 @@ export default {
   updateElementsContainer,
   syncChartsLayout,
   syncChartsContainer,
+  syncChartsLayoutHomeAll,
+  syncChartsContainerHomeAll,
   changeContainer,
 }

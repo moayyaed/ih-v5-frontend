@@ -1,4 +1,9 @@
-import { APP_LAYOUT_DIALOG_SET_DATA, APP_LAYOUT_DIALOG_UPDATE_ELEMENTS, APP_LAYOUT_DIALOG_SYNC_CHARTS_LAYOUT } from './constants';
+import { 
+  APP_LAYOUT_DIALOG_SET_DATA, 
+  APP_LAYOUT_DIALOG_UPDATE_ELEMENTS, 
+  APP_LAYOUT_DIALOG_SYNC_CHARTS_LAYOUT,
+  APP_LAYOUT_DIALOG_SYNC_CHARTS_LAYOUT_HOME_ALL, 
+} from './constants';
 
 
 export function data(data) {
@@ -23,8 +28,17 @@ export function syncCharts(range, realtime) {
   };
 }
 
+export function syncChartsHomeAll(range, realtime) {
+  return {
+    type: APP_LAYOUT_DIALOG_SYNC_CHARTS_LAYOUT_HOME_ALL,
+    range,
+    realtime,
+  };
+}
+
 export default {
   data,
   updateElements,
   syncCharts,
+  syncChartsHomeAll,
 }
