@@ -108,7 +108,23 @@ class Debug extends PureComponent {
   }
 
   handleRealTimeDataConsole = (value) => {
-    if (!this.state.filter || value.indexOf(this.state.filter) !== -1 ) {
+    let check = true;
+
+    this.state.filter
+      .split(' ')
+      .forEach(i => {
+        if (check === true) {
+          if (i === '' || i === ' ') {
+            check = true
+          } else {
+            if (value.indexOf(i) === -1) {
+              check = false;
+            }
+          }
+        }
+      });
+
+    if (!this.state.filter || check) {
       this.setState(state => {
         if (this.state.consoleValue.length > 50 * 5000) {
           return { 
