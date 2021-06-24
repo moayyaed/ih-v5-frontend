@@ -101,13 +101,34 @@ function reducer(state = defaultState, action) {
         .keys(state.elements)
         .reduce((p, c) => {
           if (state.elements[c].type === 'chart' || state.elements[c].type === 'chart_multi') {
-            const [s, e] = state.elements[c].data.range;
-            const pp = action.position ? state.elements[c].positionCurentTime.value : 0;
-            const n = action.position ? Date.now() : action.date;
-            const i = e - s;
-            const d = (i / 100) * pp;
-            const ns = n - d;
-            const ne = n + i - d;
+            var ns, ne, forceRealtime;
+            if (typeof action.position === 'string') {
+              forceRealtime = false;
+              const [s, e] = state.elements[c].data.range;
+              if (action.position === 'next') {
+                const i = e - s;
+                ns = e;
+                ne = e + i;
+              } else {
+                const i = e - s;
+                ns = s - i;
+                ne = e - i;
+              }
+            } else {
+              if (action.position) {
+                forceRealtime = true;
+              } else {
+                forceRealtime = false;
+              }
+              const [s, e] = state.elements[c].data.range;
+              const pp = action.position ? state.elements[c].positionCurentTime.value : 0;
+              const n = action.position ? Date.now() : action.date;
+              const i = e - s;
+              const d = (i / 100) * pp;
+              ns = n - d;
+              ne = n + i - d;
+            }
+      
             return { 
               ...p, 
               [c]: {

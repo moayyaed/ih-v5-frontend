@@ -147,23 +147,19 @@ class ChartBar extends Component {
   };
 
   handleNavBefore = () => {
-    /*
-    const [s, e] = this.ctx.chart.dateWindow_;
-    const i = e - s;
-    const ns = s - i;
-    const ne = e - i;
-    */
-    // this.ctx.chart.updateOptions({ dateWindow: [ns, ne] });
+    core.transfer.send('command_layout', { 
+      command: this.props.dialogId ? 'synccharts_before_all_dialog' : 'synccharts_before_all',
+      layoutId: this.props.layoutId, 
+      containerId: this.props.containerId, 
+    })
   }
 
   handleNavNext = () => {
-    /*
-    const [s, e] = this.ctx.chart.dateWindow_;
-    const i = e - s;
-    const ns = e;
-    const ne = e + i;
-    */
-    // this.ctx.chart.updateOptions({ dateWindow: [ns, ne] });
+    core.transfer.send('command_layout', { 
+      command: this.props.dialogId ? 'synccharts_next_all_dialog' : 'synccharts_next_all',
+      layoutId: this.props.layoutId, 
+      containerId: this.props.containerId, 
+    })
   }
 
   handleHome = () => {

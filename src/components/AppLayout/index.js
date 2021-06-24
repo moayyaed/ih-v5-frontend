@@ -144,6 +144,30 @@ class AppLayout extends Component {
     if ( data.command === 'synccharts_date_all_dialog') {
       core.actions.layoutDialog.syncChartsHomeAll(false, data.date);
     }
+
+    if (data.command === 'synccharts_next_all') {
+      if (data.containerId) {
+        core.actions.layout.syncChartsContainerHomeAll(data.containerId, 'next');
+      } else {
+        core.actions.layout.syncChartsLayoutHomeAll('next');
+      }
+    }
+
+    if ( data.command === 'synccharts_next_all_dialog') {
+      core.actions.layoutDialog.syncChartsHomeAll('next');
+    }
+
+    if (data.command === 'synccharts_before_all') {
+      if (data.containerId) {
+        core.actions.layout.syncChartsContainerHomeAll(data.containerId, 'before');
+      } else {
+        core.actions.layout.syncChartsLayoutHomeAll('before');
+      }
+    }
+
+    if ( data.command === 'synccharts_before_all_dialog') {
+      core.actions.layoutDialog.syncChartsHomeAll('before');
+    }
     
   }
   
