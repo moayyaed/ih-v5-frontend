@@ -52,20 +52,20 @@ export function syncChartsContainer(containerId, range, realtime) {
   };
 }
 
-export function syncChartsLayoutHomeAll(range, realtime) {
+export function syncChartsLayoutHomeAll(position, date) {
   return {
     type: APP_LAYOUT_SYNC_CHARTS_LAYOUT_HOME_ALL,
-    range,
-    realtime,
+    position,
+    date,
   };
 }
 
-export function syncChartsContainerHomeAll(containerId, range, realtime) {
+export function syncChartsContainerHomeAll(containerId, position, date) {
   return {
     type: APP_LAYOUT_SYNC_CHARTS_CONTAINER_HOME_ALL,
     containerId,
-    range,
-    realtime,
+    position,
+    date,
   };
 }
 

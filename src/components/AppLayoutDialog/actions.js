@@ -28,11 +28,11 @@ export function syncCharts(range, realtime) {
   };
 }
 
-export function syncChartsHomeAll(range, realtime) {
+export function syncChartsHomeAll(position, date) {
   return {
     type: APP_LAYOUT_DIALOG_SYNC_CHARTS_LAYOUT_HOME_ALL,
-    range,
-    realtime,
+    position,
+    date
   };
 }
 

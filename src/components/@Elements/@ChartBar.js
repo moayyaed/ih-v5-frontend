@@ -134,7 +134,12 @@ class ChartBar extends Component {
     date.setHours(0, 0, 0, 0);
 
     this.setState({ realtime: false, calendar: false });
-    // this.setWindow(date.getTime(), 0);
+    core.transfer.send('command_layout', { 
+      command: this.props.dialogId ? 'synccharts_date_all_dialog' : 'synccharts_date_all',
+      layoutId: this.props.layoutId, 
+      containerId: this.props.containerId, 
+      date: date.getTime(),
+    })
   }
 
   handleSync = () => {

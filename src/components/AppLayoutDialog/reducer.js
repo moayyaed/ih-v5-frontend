@@ -102,8 +102,8 @@ function reducer(state = defaultState, action) {
         .reduce((p, c) => {
           if (state.elements[c].type === 'chart' || state.elements[c].type === 'chart_multi') {
             const [s, e] = state.elements[c].data.range;
-            const pp = state.elements[c].positionCurentTime.value;
-            const n = Date.now();
+            const pp = action.position ? state.elements[c].positionCurentTime.value : 0;
+            const n = action.position ? Date.now() : action.date;
             const i = e - s;
             const d = (i / 100) * pp;
             const ns = n - d;
