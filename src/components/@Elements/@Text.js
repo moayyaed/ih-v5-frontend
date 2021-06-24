@@ -82,7 +82,7 @@ function Text(props) {
         height: '100%', 
         background: props.item.backgroundColor.value,
         border: `${props.item.borderSize.value * (props.scale || 1)}px ${props.item.borderStyle.value.id} ${props.item.borderColor.value}`,
-        borderRadius: (Math.min(w, h) / 2 / 100) * props.item.borderRadius.value,
+        borderRadius: (Math.min(w, h) / 2 / 100) * props.item.borderRadius.value * (props.scale || 1),
         opacity: props.item.opacity.value / 100,
         boxShadow: props.item.boxShadow.active ? props.item.boxShadow.value : 'unset',
         transform: transform(props.item),
