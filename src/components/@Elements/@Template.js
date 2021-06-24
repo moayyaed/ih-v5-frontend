@@ -67,7 +67,7 @@ class Template extends PureComponent {
           height: '100%',
 
           border: `${this.props.item.borderSize.value * (this.props.scale || 1)}px ${this.props.item.borderStyle.value.id} ${this.props.item.borderColor.value}`,
-          borderRadius: (Math.min(this.props.item.w.value, this.props.item.h.value) / 2 / 100) * this.props.item.borderRadius.value * (this.props.scale || 1) * (props.scale || 1),
+          borderRadius: (Math.min(this.props.item.w.value, this.props.item.h.value) / 2 / 100) * this.props.item.borderRadius.value * (this.props.scale || 1),
           opacity: this.props.item.opacity.value / 100,
           boxShadow: this.props.item.boxShadow.active ? this.props.item.boxShadow.value : 'unset',
           transform: transform(this.props.item),
