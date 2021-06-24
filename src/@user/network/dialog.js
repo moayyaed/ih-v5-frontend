@@ -20,6 +20,10 @@ function preparationData(data) {
   const itemsY2 = {};
 
 
+  // clear chart
+   core.cache.chart.d = null;
+  // clear chart
+
   const delta = document.body.clientHeight - data.settings.h.value;
 
   if (dialogPosition !== 'center') {

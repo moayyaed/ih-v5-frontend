@@ -50,7 +50,8 @@ function preparationData(data, clearAnimation = true) {
   // clear animation
 
   // clear chart
-  
+    core.cache.chart.l = null;
+    core.cache.chart.c = {};
   // clear chart
 
 
