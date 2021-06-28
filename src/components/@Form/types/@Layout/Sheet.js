@@ -753,8 +753,9 @@ class Sheet extends Component {
         children: [
           { id: '1', title: 'Chart Line', click: () => this.handleAddElement(e, 'chart') },
           { id: '2', title: 'Chart Multiline', click: () => this.handleAddElement(e, 'chart_multi') },
-          { id: '3', type: 'divider' },
-          { id: '4', title: 'Chart Bar', click: () => this.handleAddElement(e, 'chart_bar') },
+          { id: '3', title: 'Chart Timeline', click: () => this.handleAddElement(e, 'chart_timeline') },
+          { id: '4', type: 'divider' },
+          { id: '5', title: 'Chart Bar', click: () => this.handleAddElement(e, 'chart_bar') },
         ]
       },
       { id: '12', title: 'Journal', click: () => this.handleAddElement(e, 'journal') },

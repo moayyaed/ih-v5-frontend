@@ -13,6 +13,7 @@ import Expand from './@Expand';
 import Container from './@Container';
 import Template from './@Template';
 import Chart from './@Chart';
+import ChartTimeline from './@ChartTimeline';
 import CCTV from './@CCTV';
 import DeviceLog from './@DeviceLog';
 import DeviceSettings from './@DeviceSettings';
@@ -51,6 +52,8 @@ function getElementByType(type) {
     case 'chart':
     case 'chart_multi':
       return Chart;
+    case 'chart_timeline':
+      return ChartTimeline;
     case 'cctv':
       return CCTV;
     case 'devicelog':

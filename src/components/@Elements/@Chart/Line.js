@@ -685,16 +685,17 @@ class Chart extends PureComponent {
   }
 
   setLegend = (data) => {
+    const id = `${this.props.layoutId}_${this.props.containerId || 'null'}_${this.props.dialogId || 'null'}_${this.props.id}`
     if (data.x) {
       const x = new Date(data.x);
       if (this.ctx.params.legend.chart_type === 'bar') {
-        this.ctx.litems[`l_${this.props.id}_t`].innerHTML = `${x.toLocaleDateString()}`;
+        this.ctx.litems[`l_${id}_t`].innerHTML = `${x.toLocaleDateString()}`;
       } else {
-        this.ctx.litems[`l_${this.props.id}_t`].innerHTML = `${x.toLocaleDateString()} ${x.toLocaleTimeString()}`;
+        this.ctx.litems[`l_${id}_t`].innerHTML = `${x.toLocaleDateString()} ${x.toLocaleTimeString()}`;
       }
     }
     data.series.forEach((i, k) => {
-      const id = `l_chart_1_line`;
+      const id = `l_${id}_line`;
       if (this.ctx.litems && this.ctx.litems.hasOwnProperty(id)) {
         if (typeof i.y === 'number') {
           this.ctx.litems[id].innerHTML = i.y;
@@ -771,6 +772,7 @@ class Chart extends PureComponent {
   }
 
   generateLegend = (props = this.props) => {
+    const id = `${props.layoutId}_${props.containerId || 'null'}_${props.dialogId || 'null'}_${props.id}`
     const color = props.item.textColor.value;
 
     const legendLabel = props.item.legendLabel !== undefined ? props.item.legendLabel.value : 'Demo temp1';
@@ -783,7 +785,7 @@ class Chart extends PureComponent {
     const sr = 'font-size:14px;display:flex;width:100%;padding-right:5;padding-left:10px;height:100%;align-items:left;';
     const bl = 'flex-direction:row;display:flex;width:100%;height:100%;justify-content:end;flex-wrap: wrap;text-align:right;';
     const br = 'flex-direction:row;display:flex;width:100%;height:100%;justify-content:end;flex-wrap: wrap;';
-    const temp = [{ id: `l_${props.id}_line`, linecolor: lineColor, raxis: axisPosition === 'right' }]
+    const temp = [{ id: `l_${id}_line`, linecolor: lineColor, raxis: axisPosition === 'right' }]
 
     const lt = temp
       .filter(v => !v.raxis)
@@ -795,12 +797,12 @@ class Chart extends PureComponent {
       .join('');
     const left = `<div style="${bl}">${lt}</div>`;
     const right = `<div style="${br}">${rt}</div>`;
-    const string = `<div style="${s0}"><div style="${sl}">${left}</div><div id="l_${props.id}_t" style="${st}">&nbsp;</div><div style="${sr}">${right}</div></div>`;
+    const string = `<div style="${s0}"><div style="${sl}">${left}</div><div id="l_${id}_t" style="${st}">&nbsp;</div><div style="${sr}">${right}</div></div>`;
     this.legend.innerHTML = string;
     this.ctx.chart.resize();
     return {
-      [`l_${props.id}_t`]: document.getElementById(`l_${props.id}_t`),
-      [`l_${props.id}_line`]: document.getElementById(`l_${props.id}_line`),
+      [`l_${id}_t`]: document.getElementById(`l_${id}_t`),
+      [`l_${id}_line`]: document.getElementById(`l_${id}_line`),
     };
   }
 

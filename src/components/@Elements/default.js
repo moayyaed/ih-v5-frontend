@@ -433,6 +433,16 @@ const CHART_MULTI = {
   axisBottom: { value: true },
 }
 
+const CHART_TIMELINE = {
+  ...BLOCK,
+  widget: true,
+  expand: { value: true },
+  widgetlinks: {
+    link: { }
+  },
+  data: { },
+}
+
 const CHART_BAR = {
   ...BLOCK,
   widget: true,
@@ -599,6 +609,8 @@ function getDefaultParams(type) {
       return CHART;
     case 'chart_multi':
       return CHART_MULTI;
+    case 'chart_timeline':
+      return CHART_TIMELINE;
     case 'chart_bar':
       return CHART_BAR;
     case 'input':
