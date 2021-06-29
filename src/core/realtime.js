@@ -78,7 +78,7 @@ function messageTunnel(e) {
     } else if (json.uuid !== undefined) {
       if (json.data || json.chartdata || json.alertdata) {
         if (json.data) {
-          realtime.events.emit(json.uuid, json.data);
+          realtime.events.emit(json.uuid, json.data, json);
         }
         if (json.chartdata) {
           core.transfer.send('chartdata', json.chartdata)
