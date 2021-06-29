@@ -710,6 +710,13 @@ class Subtree extends PureComponent {
     }
   }
 
+  handleShowBrowse = (item, menuitem) => {  
+      core.actions.browse.data({ 
+        open: true, 
+        params: { unit: this.props.route.nodeid },
+      });
+  }
+
   handleClickBody = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -759,6 +766,7 @@ class Subtree extends PureComponent {
       paste: () => this.handlePasteNode(item),
       delete: () =>   core.actions.alert.show(title, message, () => this.handleRemoveNodes(item)),
       dialog: (menuItem) => this.handleShowDialog(item, menuItem),
+      browse: (menuItem) => this.handleShowBrowse(item, menuItem),
     };
     let scheme = { main: [] };
 

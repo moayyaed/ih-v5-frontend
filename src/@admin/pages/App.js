@@ -11,6 +11,7 @@ import AppPage from 'components/AppPage';
 import AppDialog from 'components/AppDialog';
 import AppAlert from 'components/AppAlert';
 import AppProgress from 'components/AppProgress';
+import AppBrowse from 'components/AppBrowse';
 import AppError from 'components/AppError';
 
 
@@ -38,6 +39,7 @@ function App(props) {
         <AppDialog />
         <AppAlert />
         <AppProgress />
+        <AppBrowse />
         <AppBar menuid={props.route.menuid} network={props.network} />
         <div className="container">
           <AppMenu />
@@ -54,6 +56,7 @@ function App(props) {
       <AppDialog />
       <AppAlert />
       <AppProgress />
+      <AppBrowse />
       <AppBar menuid={props.route.menuid} network={props.network} />
       <div className="container">
         <AppMenu />

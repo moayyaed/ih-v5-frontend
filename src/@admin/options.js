@@ -19,6 +19,9 @@ import reducerAppDialog from 'components/AppDialog/reducer';
 import actionsAppProgress from 'components/AppProgress/actions';
 import reducerAppProgress from 'components/AppProgress/reducer';
 
+import actionsAppBrowse from 'components/AppBrowse/actions';
+import reducerAppBrowse from 'components/AppBrowse/reducer';
+
 import actionsAppAlert from 'components/AppAlert/actions';
 
 import actionsForm from 'components/@Form/actions';
@@ -61,6 +64,7 @@ const options = {
     container: actionsContainer,
     template: actionsTemplate,
     dialog: actionsDialog,
+    appbrowse: actionsAppBrowse,
   },
   reducers: {
     app: reducerApp,
@@ -70,7 +74,7 @@ const options = {
     apppage: [{}, reducerAppPage, reducerForm, reducerLayout, reducerContainer, reducerTemplate, reducerDialog],
     appdialog: reducerAppDialog,
     appprogress: reducerAppProgress,
-
+    appbrowse: reducerAppBrowse,
     msgboxtree: reducerAppNav,
   },
 
