@@ -5,11 +5,15 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
+import shortid from 'shortid';
+
 import { SortableTreeWithoutDndContext as SortableTree } from 'react-sortable-tree';
 import theme from 'components/AppNav/theme';
+import { editNodes, insertNodes2 } from 'components/AppNav/utils';
+
 
 import 'react-sortable-tree/style.css'; 
-import { TramRounded } from '@material-ui/icons';
+
 
 
 const styles = {
@@ -49,20 +53,21 @@ class LeftPanel extends Component {
   state = { scan: false, tree: [], loading: false }
 
   componentDidMount() {
-
+    this.uuid = shortid.generate();
   }
 
   componentWillUnmount() {
     if ( this.state.scan) {
       this.scanStop();
     }
+    this.uuid = null;
   }
 
   scanStart = () => {
     core.tunnel.sub({ 
       method: 'sub',
       type: 'scan',
-      uuid: 'browse',
+      uuid: this.uuid,
       params: this.props.params
     }, this.realtimeData);
 
@@ -73,21 +78,49 @@ class LeftPanel extends Component {
     core.tunnel.unsub({ 
       method: 'unsub',
       type: 'scan',
-      uuid: 'browse',
+      uuid: this.uuid,
       params: this.props.params
     }, this.realtimeData);
 
     this.setState({ scan: false, loading: false })
   }
 
-  realtimeData = (data) => {
-    if (!data.error) {
-      this.setState({ tree: [data], loading: false })
+  realtimeData = (_, json) => {
+    if (json.error) {
+      this.setState({ scan: false, loading: false })
+    } else {
+      if (json.op === 'list') {
+        this.setState({ tree: json.data, loading: false })
+      }
+      if (json.op === 'update') {
+        const tree = editNodes(this.state.tree, (row) => {
+          if (row.id === json.data.id) {
+            return { ...row, title: json.data.title }
+          }
+          return row;
+        });
+        this.setState({ tree, loading: false })
+      }
+
+      if (json.op === 'add') {
+        const tree = insertNodes2(this.state.tree, { id: json.parentid }, json.data)
+ 
+        this.setState({ tree, loading: false })
+      }
     }
+  }
+
+
+  updateNode = ({ node }) => {
+    return node;
   }
 
   handleChangeTree = (data) => {
     this.setState({ tree: data })
+  }
+
+  getNodeKey = ({ node }) => {
+    return node.id;
   }
 
   handleClickButton = () => {
@@ -112,6 +145,7 @@ class LeftPanel extends Component {
           innerStyle={styles.tree}
           treeData={this.state.tree}
           onChange={this.handleChangeTree}
+          getNodeKey={this.getNodeKey}
           generateNodeProps={this.generateNodeProps}
           canNodeHaveChildren={this.handleCheckChild}
           canDrag={false}

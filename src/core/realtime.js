@@ -76,7 +76,10 @@ function messageTunnel(e) {
         core.transfer.send('command_layout', json)
       }
     } else if (json.uuid !== undefined) {
-      if (json.data || json.chartdata || json.alertdata) {
+      if (json.error) {
+        core.actions.app.alertOpen('warning', json.error);
+        realtime.events.emit(json.uuid, 'error', json);
+      } else if (json.data || json.chartdata || json.alertdata) {
         if (json.data) {
           realtime.events.emit(json.uuid, json.data, json);
         }
@@ -95,7 +98,7 @@ function messageTunnel(e) {
       }
     }
    } catch (ev) {
-    console.log(e.data)
+    console.log(ev.message, e.data)
     core.actions.app.alertOpen('error', 'Real-time: incorrect data!');
   }
 }

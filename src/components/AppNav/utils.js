@@ -87,6 +87,23 @@ export function insertNodes(data, node, items) {
   return temp;
 }
 
+export function insertNodes2(data, node, items) {
+  const temp = data.reduce((p, c) => {
+    if (c.id === node.id) {
+      if (c.children !== undefined) {
+        const temp2 = c.children.concat(items);
+        return p.concat({ ...c, children: insertNodes2(temp2, node, items) });
+      }
+      return p.concat(c, items);
+    }
+    if (c.children !== undefined) {
+      return p.concat({ ...c, children: insertNodes2(c.children, node, items) });
+    }
+    return p.concat(c);
+  }, []);
+  return temp;
+}
+
 export function findNode(data, nodeid, parentOpen) {
   const paths = {};
   let find = null;
