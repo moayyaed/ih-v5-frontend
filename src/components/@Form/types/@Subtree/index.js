@@ -711,7 +711,7 @@ class Subtree extends PureComponent {
   }
 
   handleShowBrowse = (item, menuitem) => {  
-      core.actions.browse.data({ 
+      core.actions.appbrowse.data({ 
         open: true, 
         params: { unit: this.props.route.nodeid },
       });
