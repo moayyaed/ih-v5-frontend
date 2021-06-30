@@ -104,7 +104,6 @@ class LeftPanel extends Component {
 
       if (json.op === 'add') {
         const tree = insertNodes2(this.state.tree, { id: json.parentid }, json.data)
- 
         this.setState({ tree, loading: false })
       }
     }
