@@ -239,8 +239,65 @@ input.core:focus {
   -o-transition: background-color .3s ease-out;
 }
 
+.tree-text-pulse1 {
+ -webkit-animation: PULSE 1.25s; 
+ -ms-animation: PULSE 1.25s;
+ animation: PULSE 1.25s; 
+}
 
+.tree-text-pulse2 {
+  -webkit-animation: PULSE2 1.25s; 
+  -ms-animation: PULSE2 1.25s;
+  animation: PULSE2 1.25s; 
+ }
 
+ @-webkit-keyframes PULSE{
+  0%{ 
+    color:#01579b;
+    background: rgb(96 125 139 / 25%);
+  }	
+ 100%{color: #000000de;}
+}
+
+@-ms-keyframes PULSE{
+  0%{ 
+    color:#01579b;
+    background: rgb(96 125 139 / 25%);
+  }	
+ 100%{color: #000000de;}
+}
+
+@keyframes PULSE{
+  0%{ 
+    color:#01579b;
+    background: rgb(96 125 139 / 25%);
+  }	
+ 100%{color: #000000de;}
+}
+
+@-webkit-keyframes PULSE2{
+  0%{ 
+    color:#01579b;
+    background: rgb(96 125 139 / 25%);
+  }	
+ 100%{color: #000000de;}
+}
+
+@-ms-keyframes PULSE2{
+  0%{ 
+    color:#01579b;
+    background: rgb(96 125 139 / 25%);
+  }	
+ 100%{color: #000000de;}
+}
+
+@keyframes PULSE2{
+  0%{ 
+    color:#01579b;
+    background: rgb(96 125 139 / 25%);
+  }	
+ 100%{color: #000000de;}
+}
 
 
 

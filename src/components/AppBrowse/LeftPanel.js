@@ -53,7 +53,19 @@ class LeftPanel extends Component {
   state = { scan: false, tree: [], loading: false }
 
   componentDidMount() {
+    this.struct = {}
+    this.animations = {};
     this.uuid = shortid.generate();
+
+    this.link.addEventListener('animationend', (e) => {
+      if (e.animationName === 'PULSE' || e.animationName === 'PULSE2') {
+        e.path.forEach(i => {
+          if (i.id) {
+            delete this.animations[i.id];
+          }
+        });
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -61,6 +73,7 @@ class LeftPanel extends Component {
       this.scanStop();
     }
     this.uuid = null;
+    this.animations = null;
   }
 
   scanStart = () => {
@@ -70,7 +83,7 @@ class LeftPanel extends Component {
       uuid: this.uuid,
       params: this.props.params
     }, this.realtimeData);
-
+    this.animations = {};
     this.setState({ scan: true, tree: [], loading: true })
   }
 
@@ -90,12 +103,14 @@ class LeftPanel extends Component {
       this.setState({ scan: false, loading: false })
     } else {
       if (json.op === 'list') {
+        this.setStructTree({}, json.data)
         this.setState({ tree: json.data, loading: false })
       }
       if (json.op === 'update') {
+        this.setAnimationUpdate(json.data, Date.now())
         const tree = editNodes(this.state.tree, (row) => {
-          if (row.id === json.data.id) {
-            return { ...row, title: json.data.title }
+          if (json.data[row.id] !== undefined) {
+            return { ...row, title: json.data[row.id].title }
           }
           return row;
         });
@@ -103,9 +118,67 @@ class LeftPanel extends Component {
       }
 
       if (json.op === 'add') {
+        this.setAnimationAdd(json.parentid, json.data, Date.now())
         const tree = insertNodes2(this.state.tree, { id: json.parentid }, json.data)
         this.setState({ tree, loading: false })
       }
+    }
+  }
+
+  setStructTree = (map, data) => {
+    data
+      .forEach(i => {
+        this.struct[i.id] = map;
+        if (i.children !== undefined) {
+          this.setStructTree({ ...map, [i.id]: true }, i.children);
+        }
+      })
+  }
+
+  setAnimationChildren = (list, t) => {
+    list.forEach(i => {
+      this.animations[i.id] = { t, a: '1' };
+      if (i.children) {
+        this.setAnimationChildren(i.children, t);
+      }
+    });
+  }
+
+  setAnimationUpdate = (data, t) => {
+    Object
+      .keys(data)
+      .forEach(key => { 
+        if (this.animations[key] === undefined) {
+          this.animations[key] = { t, a: '1' };
+        } else {
+          if (this.animations[key].t !== t) {
+            this.animations[key].t = t;
+            this.animations[key].a = this.animations[key].a === '1' ?  '2' : '1';
+          }
+        }
+        if (this.struct[key]) {
+          Object
+            .keys(this.struct[key])
+            .forEach(i => {
+              if (this.animations[i] === undefined) {
+                this.animations[i] = { t, a: '1' };
+              } else {
+                if (this.animations[i].t !== t) {
+                  this.animations[i].t = t;
+                  this.animations[i].a = this.animations[i].a === '1' ?  '2' : '1';
+                }
+              }
+            });
+        }
+      });
+  }
+
+  setAnimationAdd = (parentid, data, t) => {
+    this.animations[parentid] = { t, a: '1' }
+    this.animations[data.id] = { t, a: '1' }
+    this.setStructTree(this.struct[parentid] || {}, [data]);
+    if (data.children) {
+      this.setAnimationChildren(data.children, t);
     }
   }
 
@@ -130,9 +203,31 @@ class LeftPanel extends Component {
     }
   }
 
+  generateNodeProps = (row) => {
+    //row.node.expanded
+    if (this.animations[row.node.id] !== undefined && row.node.channel !== undefined) {
+      return {
+        id: row.node.id,
+        className: 'tree-text-pulse' + this.animations[row.node.id].a,
+      };
+    }
+
+    if (this.animations[row.node.id] !== undefined && !row.node.expanded) {
+      return {
+        id: row.node.id,
+        className: 'tree-text-pulse' + this.animations[row.node.id].a,
+      };
+    }
+    return { id: row.node.id };
+  }
+
+  linked = (e) => {
+    this.link = e;
+  }
+
   render() {
     return (
-      <div style={styles.root} >
+      <div ref={this.linked} style={styles.root} >
         {this.state.loading ? 
           <div style={styles.loading}>
             <LinearProgress style={styles.loadingProgress}/> 
