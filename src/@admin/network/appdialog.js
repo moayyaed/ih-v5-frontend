@@ -81,6 +81,17 @@ core.network.response('appdialog_imagegrid', (answer, res, context) => {
 })
 
 
+core.network.request('browse_submit', (send, context) => {
+  send({ 
+    method: 'insert', 
+    type: 'browse',
+    id: 'channels',
+    unit: context.params.unit,
+    nodeid: context.params.nodeid,
+    payload: context.payload,
+  });
+})
 
-
-
+core.network.response('browse_submit', (answer, res, context) => {
+  answer(res);
+})

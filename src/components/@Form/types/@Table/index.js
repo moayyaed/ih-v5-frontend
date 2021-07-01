@@ -201,7 +201,6 @@ class Table extends PureComponent {
   handleContextMenuBody = (event) => {
     event.preventDefault();
     event.stopPropagation();
-
     if (this.props.options.popupenable) {
       const pos = { left: event.clientX, top: event.clientY };
       const scheme = {
@@ -228,6 +227,18 @@ class Table extends PureComponent {
         main: [
           { id: 'add', title: 'Add', click: this.handleRowAdd },
           { id: 'delete', title: deleteTitle, click: () => this.handleRowDelete(rowData)  }
+        ]
+      }
+  
+      ContextMenu.show(<Menu scheme={scheme} />, pos);
+    }
+
+    if (this.props.options.popupdelete) {
+      const { cache } = this.props;
+      const pos = { left: event.clientX, top: event.clientY };
+      const scheme = {
+        main: [
+          { id: 'delete', title: 'Delete', click: () => this.handleRowDelete(rowData)  }
         ]
       }
   

@@ -13,6 +13,8 @@ import Panel from 'components/Panel';
 import LeftPanel from './LeftPanel';
 import RigtPanel from './RigtPanel';
 
+import shortid from 'shortid';
+
 
 const styles = {
   container: {
@@ -48,10 +50,75 @@ const classes = theme => ({
 
 
 class AppBrowse extends Component {
-  state = { width: 300 }
+  state = { 
+    width: 300, 
+    options: { popupdelete: true, columns: [] },
+    data: [],
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.state.open !== this.props.state.open) {
+      this.setState({
+        width: 300, 
+        options: { popupdelete: true, columns: [] },
+        data: [],
+      })
+    }
+  }
 
   handleChangePanelSize = (width) => {
     this.setState({ width });
+  }
+
+  handleAddColumns = (columns) => {
+    this.setState({ options: { ...this.state.options, columns } });
+  }
+
+  handleAddChannel = (channel) => {
+    this.setState({ data: this.state.data.concat({ ...channel, id: shortid.generate() })});
+  }
+
+  onChangeChannel = (id, component, target, value) => {
+    if (target) {
+      if (target.op === 'edit') {
+        let v = value;
+
+        if (target.column.type === 'droplist') {
+          v = value.id;
+        }
+        this.setState({ 
+          data: this.state.data.map(i => {
+            if (i.id === target.row.id) {
+              return { ...i, [target.column.prop]: v }
+            }
+            return i
+          })
+        })
+      }
+  
+      if (target.op === 'delete') {
+        this.setState({ 
+          data: this.state.data.filter(i => {
+            if (i.id === target.row.id) {
+              return false;
+            }
+            return true;
+          })
+        })
+      }
+    }
+  }
+
+  handleSubmit = () => {
+    const params = this.props.state.params;
+    const payload = this.state.data;
+
+    core
+    .request({ method: 'browse_submit', params, payload })
+    .ok((res) => {
+      core.transfer.send('refresh_content');
+      core.actions.appbrowse.data({ open: false, parms: {} });
+    }); 
   }
 
   render() {
@@ -70,9 +137,18 @@ class AppBrowse extends Component {
             style={styles.panel} 
             onChangeSize={this.handleChangePanelSize}
           >
-            <LeftPanel params={this.props.state.params} />
+            <LeftPanel 
+              params={this.props.state.params}
+              onAddColumns={this.handleAddColumns}
+              onAddChannel={this.handleAddChannel}  
+            />
           </Panel>
-          <RigtPanel />
+          <RigtPanel 
+            options={this.state.options}
+            data={this.state.data}
+            onChangeChannel={this.onChangeChannel}
+            onSubmit={this.handleSubmit}    
+          />
         </div>
       </Dialog>
     )

@@ -49,9 +49,6 @@ function DialogAppBar(props) {
         <Typography variant="h6" className={props.classes.title}>
           {props.title}
         </Typography>
-        <Button autoFocus color="inherit" onClick={save} >
-          ok
-        </Button>
       </Toolbar>
     </AppBar>
   )

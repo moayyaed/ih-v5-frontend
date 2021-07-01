@@ -5,6 +5,9 @@ import {
 
 const defaultState = {
   open: false,
+  width: 300, 
+  options: { popupdelete: true, columns: [] },
+  data: [],
 };
 
 

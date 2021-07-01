@@ -57,18 +57,12 @@ class LeftPanel extends Component {
     this.animations = {};
     this.uuid = shortid.generate();
 
-    this.link.addEventListener('animationend', (e) => {
-      if (e.animationName === 'PULSE' || e.animationName === 'PULSE2') {
-        e.path.forEach(i => {
-          if (i.id) {
-            delete this.animations[i.id];
-          }
-        });
-      }
-    });
+    this.link.addEventListener('animationend', this.animationend);
   }
 
   componentWillUnmount() {
+    this.link.removeEventListener('animationend', this.animationend);
+
     if ( this.state.scan) {
       this.scanStop();
     }
@@ -76,12 +70,22 @@ class LeftPanel extends Component {
     this.animations = null;
   }
 
+  animationend = (e) => {
+    if (e.animationName === 'PULSE' || e.animationName === 'PULSE2') {
+      e.path.forEach(i => {
+        if (i.id) {
+          delete this.animations[i.id];
+        }
+      });
+    }
+  }
+
   scanStart = () => {
     core.tunnel.sub({ 
       method: 'sub',
       type: 'scan',
       uuid: this.uuid,
-      params: this.props.params
+      params: { unit: this.props.params.unit }
     }, this.realtimeData);
     this.animations = {};
     this.setState({ scan: true, tree: [], loading: true })
@@ -92,7 +96,7 @@ class LeftPanel extends Component {
       method: 'unsub',
       type: 'scan',
       uuid: this.uuid,
-      params: this.props.params
+      params: { unit: this.props.params.unit }
     }, this.realtimeData);
 
     this.setState({ scan: false, loading: false })
@@ -102,6 +106,9 @@ class LeftPanel extends Component {
     if (json.error) {
       this.setState({ scan: false, loading: false })
     } else {
+      if (json.op === 'meta') {
+        this.props.onAddColumns(json.data.columns)
+      }
       if (json.op === 'list') {
         this.setStructTree({}, json.data)
         this.setState({ tree: json.data, loading: false })
@@ -204,11 +211,12 @@ class LeftPanel extends Component {
   }
 
   generateNodeProps = (row) => {
-    //row.node.expanded
     if (this.animations[row.node.id] !== undefined && row.node.channel !== undefined) {
       return {
         id: row.node.id,
         className: 'tree-text-pulse' + this.animations[row.node.id].a,
+        onDoubleClick: (e) => this.handleClickNode(e, row.node),
+        onContextMenu: (e) => this.handleClickNode(e, row.node)
       };
     }
 
@@ -216,9 +224,24 @@ class LeftPanel extends Component {
       return {
         id: row.node.id,
         className: 'tree-text-pulse' + this.animations[row.node.id].a,
+        onDoubleClick: (e) => this.handleClickNode(e, row.node),
+        onContextMenu: (e) => this.handleClickNode(e, row.node)
       };
     }
-    return { id: row.node.id };
+    return { 
+      id: row.node.id, 
+      onDoubleClick: (e) => this.handleClickNode(e, row.node),
+      onContextMenu: (e) => this.handleClickNode(e, row.node)
+    };
+  }
+  
+  handleClickNode = (e, node) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (node.channel) {
+      this.props.onAddChannel(node.channel)
+    }
   }
 
   linked = (e) => {
@@ -247,7 +270,7 @@ class LeftPanel extends Component {
           onMoveNode={this.handleMoveNode}
           getNodeKey={({ node }) => node.id}
           theme={theme}
-        /> 
+        />
         }
         <Button style={styles.button} variant="contained" color="primary" onClick={this.handleClickButton}>
           {this.state.scan ? 'Остановить' : 'Сканировать'}

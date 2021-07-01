@@ -256,7 +256,10 @@ input.core:focus {
     color:#01579b;
     background: rgb(96 125 139 / 25%);
   }	
- 100%{color: #000000de;}
+ 100%{ 
+   color: #000000de;
+   background: rgb(96 125 139 / 0%);
+  }
 }
 
 @-ms-keyframes PULSE{
@@ -264,7 +267,10 @@ input.core:focus {
     color:#01579b;
     background: rgb(96 125 139 / 25%);
   }	
- 100%{color: #000000de;}
+  100%{ 
+   color: #000000de;
+   background: rgb(96 125 139 / 0%);
+  }
 }
 
 @keyframes PULSE{
@@ -272,7 +278,10 @@ input.core:focus {
     color:#01579b;
     background: rgb(96 125 139 / 25%);
   }	
- 100%{color: #000000de;}
+  100%{ 
+   color: #000000de;
+   background: rgb(96 125 139 / 0%);
+  }
 }
 
 @-webkit-keyframes PULSE2{
@@ -280,7 +289,10 @@ input.core:focus {
     color:#01579b;
     background: rgb(96 125 139 / 25%);
   }	
- 100%{color: #000000de;}
+  100%{ 
+   color: #000000de;
+   background: rgb(96 125 139 / 0%);
+  }
 }
 
 @-ms-keyframes PULSE2{
@@ -288,7 +300,10 @@ input.core:focus {
     color:#01579b;
     background: rgb(96 125 139 / 25%);
   }	
- 100%{color: #000000de;}
+  100%{ 
+   color: #000000de;
+   background: rgb(96 125 139 / 0%);
+  }
 }
 
 @keyframes PULSE2{
@@ -296,7 +311,14 @@ input.core:focus {
     color:#01579b;
     background: rgb(96 125 139 / 25%);
   }	
- 100%{color: #000000de;}
+  100%{ 
+   color: #000000de;
+   background: rgb(96 125 139 / 0%);
+  }
+}
+
+.bp3-portal {
+  z-index: 10000;
 }
 
 
