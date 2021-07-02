@@ -116,7 +116,7 @@ class AppBrowse extends Component {
     core
     .request({ method: 'browse_submit', params, payload })
     .ok((res) => {
-      core.transfer.send('refresh_content');
+      core.transfer.send('refresh_sub_tree_content');
       core.actions.appbrowse.data({ open: false, parms: {} });
     }); 
   }
