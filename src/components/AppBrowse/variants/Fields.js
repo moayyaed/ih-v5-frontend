@@ -71,7 +71,7 @@ class Fields extends Component {
       method: 'sub',
       type: 'scan',
       uuid: this.uuid,
-      params: { unit: this.props.params.unit }
+      params: { ...this.state.data, unit: this.props.params.unit }
     }, this.realtimeData);
     this.animations = {};
     this.setState({ scan: true, tree: [], loading: true })
@@ -82,7 +82,7 @@ class Fields extends Component {
       method: 'unsub',
       type: 'scan',
       uuid: this.uuid,
-      params: { unit: this.props.params.unit }
+      params: { ...this.state.data, unit: this.props.params.unit }
     }, this.realtimeData);
 
     this.setState({ scan: false, loading: false })
@@ -92,7 +92,9 @@ class Fields extends Component {
     if (json.error) {
       this.setState({ scan: false, loading: false })
     } else {
-
+      if (json.op === 'meta') {
+        this.props.onAddColumns(json.data.columns)
+      }
     }
   }
 
