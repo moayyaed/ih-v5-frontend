@@ -3,6 +3,7 @@ import core from 'core';
 
 
 import { Scrollbars } from 'react-custom-scrollbars';
+import shortid from 'shortid';
 
 import Form from 'components/@Form';
 
@@ -53,7 +54,7 @@ class ComponentTabs extends Component {
     }
   }
 
-  handleRequest = (route, scheme) => {
+  handleRequest = (route, scheme, force = false) => {
     const tab = scheme.tabs.find(i => i.id === route.tab);
 
     if (tab !== undefined && tab.component && tab.component.length) {
@@ -68,7 +69,7 @@ class ComponentTabs extends Component {
         this.saveData[tab.id] = {};
         core.actions.apppage.data({
           save: false,
-          id: `${route.nodeid}_${route.tab}`,
+          id: force ? `${shortid.generate()}_${route.nodeid}_${route.tab}` : `${route.nodeid}_${route.tab}`,
           component: tab.component,
           options: res.options,
           data: res.data,

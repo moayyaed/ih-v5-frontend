@@ -143,6 +143,7 @@ class Subtree extends PureComponent {
     }
 
     core.transfer.sub('subtree', this.handleTransferData);
+    core.transfer.sub('subtree_append', this.handleTransferAppend);
     core.transfer.sub('refresh_sub_tree_content', this.handleUpdate);
   }
 
@@ -161,6 +162,7 @@ class Subtree extends PureComponent {
 
   componentWillUnmount() {
     core.transfer.unsub('subtree', this.handleTransferData);
+    core.transfer.unsub('subtree_append', this.handleTransferAppend);
     core.transfer.unsub('refresh_sub_tree_content', this.handleUpdate);
 
     this.isSub && core.tunnel.unsub({
@@ -882,6 +884,11 @@ class Subtree extends PureComponent {
     } else {
       this.handleSaveDataBasic(id, component, target, value);
     }
+  }
+
+  handleTransferAppend = (node, data) => {
+    const list = insertNodes(this.state.list, node, data);
+    this.setData({ list });
   }
 
   handleTransferData = (button) => {
