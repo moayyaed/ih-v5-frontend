@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import core from 'core';
 
+import Menu from 'components/Menu';
+import { ContextMenu } from "@blueprintjs/core";
+
 import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import shortid from 'shortid';
@@ -110,6 +112,9 @@ class LeftPanel extends Component {
         this.props.onAddColumns(json.data.columns)
       }
       if (json.op === 'list') {
+        if (json.data && json.data[0]) {
+          json.data[0].expanded = true;
+        }
         this.setStructTree({}, json.data)
         this.setState({ tree: json.data, loading: false })
       }
@@ -216,7 +221,7 @@ class LeftPanel extends Component {
         id: row.node.id,
         className: 'tree-text-pulse' + this.animations[row.node.id].a,
         onDoubleClick: (e) => this.handleClickNode(e, row.node),
-        onContextMenu: (e) => this.handleClickNode(e, row.node)
+        onContextMenu: (e) => this.handleContextMenuNode(e, row.node)
       };
     }
 
@@ -225,19 +230,43 @@ class LeftPanel extends Component {
         id: row.node.id,
         className: 'tree-text-pulse' + this.animations[row.node.id].a,
         onDoubleClick: (e) => this.handleClickNode(e, row.node),
-        onContextMenu: (e) => this.handleClickNode(e, row.node)
+        onContextMenu: (e) => this.handleContextMenuNode(e, row.node)
       };
     }
     return { 
       id: row.node.id, 
       onDoubleClick: (e) => this.handleClickNode(e, row.node),
-      onContextMenu: (e) => this.handleClickNode(e, row.node)
+      onContextMenu: (e) => this.handleContextMenuNode(e, row.node)
     };
+  }
+
+  handleContextMenuNode = (e, node) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const pos = { left: e.clientX, top: e.clientY };
+    const disabled = {  add: !node.channel };
+
+    const commands = {
+      add: () => this.handleClickNode(null, node), 
+    };
+
+    let scheme = { main: [{ id: 'add', check: 'add', title: 'Добавить', command: 'add' }] };
+      ContextMenu.show(
+        <Menu 
+          scheme={scheme}
+          disabled={disabled}
+          commands={commands}
+          target={''}
+        />, 
+        pos, () => {});
   }
   
   handleClickNode = (e, node) => {
-    e.preventDefault();
-    e.stopPropagation();
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
 
     if (node.channel) {
       this.props.onAddChannel(node.channel)

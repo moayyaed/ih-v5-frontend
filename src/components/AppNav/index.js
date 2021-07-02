@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import core from 'core';
 
 import 'react-sortable-tree/style.css'; 
