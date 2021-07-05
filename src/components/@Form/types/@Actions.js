@@ -141,6 +141,7 @@ const COMMANDS = {
   script: 'scriptx',
   setval: 'setitems',
   dialog: 'dialog',
+  vscript: 'layoutx',
 }
 
 const COMMANDS_TITLES = {
@@ -152,6 +153,7 @@ const COMMANDS_TITLES = {
   script: 'Запуск сценария',
   setval: 'Установить значение',
   dialog: 'Показать диалог',
+  vscript: 'Обработчик визуализации'
 }
 
 const TITLES = {
@@ -464,10 +466,11 @@ function Actions(props) {
         <MenuItem key="5" onClick={() => handleClickOption('layout')}>Переход на экран</MenuItem>,
         <MenuItem key="6" onClick={() => handleClickOption('setval')}>Установить значение</MenuItem>,
         <MenuItem key="7" onClick={() => handleClickOption('dialog')}>Показать диалог</MenuItem>,
+        <MenuItem key="8" onClick={() => handleClickOption('vscript')}>Запуск обработчика визуализации</MenuItem>,
         <Divider key="-" />,
-        <MenuItem key="8" onClick={() => handleClickOption('fullscreen')}>Полный экран</MenuItem>,
-        <MenuItem key="9" onClick={() => handleClickOption('refresh')}>Обновить экран</MenuItem>,
-        <MenuItem key="10" onClick={() => handleClickOption('exit')}>Выход</MenuItem>,
+        <MenuItem key="9" onClick={() => handleClickOption('fullscreen')}>Полный экран</MenuItem>,
+        <MenuItem key="10" onClick={() => handleClickOption('refresh')}>Обновить экран</MenuItem>,
+        <MenuItem key="11" onClick={() => handleClickOption('exit')}>Выход</MenuItem>,
       ]
     }
     return null;
