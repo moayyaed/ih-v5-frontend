@@ -201,6 +201,7 @@ class AppLayout extends Component {
       .request({ method: 'applayout', params })
       .ok(data => {
         data.layoutId = params.layoutId;
+        data.states.__layout = { layoutid: params.layoutId };
         core.actions.layout.data(data);
         core.tunnel.sub({ 
           method: 'sub',

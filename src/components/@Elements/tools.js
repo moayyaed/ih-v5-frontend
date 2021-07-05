@@ -61,3 +61,25 @@ export function getElementsLocalVars(store, item) {
   }
   return {}
 }
+
+export function getVscriptParams(command, props) {
+  const store = core.store.getState();
+  
+  const context = {
+    user: store.app.auth.name,
+    defaultLayoutId: store.app.auth.layout,
+    currentLayoutId: store.layout.layoutId,
+  };
+  const source = { 
+    id: props.id,
+    type: props.item.type,
+    layoutId: props.layoutId || null, 
+    containerId: props.containerId || null,
+    templateId: props.templateId || null,
+    dialogId: props.dialogId || null,
+  };
+  const elements = {};
+  const local = core.cache.vars;
+  
+  return { context, source, elements, local };
+}

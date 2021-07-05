@@ -5,7 +5,7 @@ import shortid from 'shortid';
 
 import core from 'core';
 
-import { transform, getElementsLocalVars } from './tools';
+import { transform, getElementsLocalVars, getVscriptParams } from './tools';
 
 
 const styles = {
@@ -92,6 +92,14 @@ class Action extends PureComponent {
                       Object
                         .keys(store.containers)
                         .forEach(containerId => core.actions.layout.updateElementsContainer(containerId, data))
+                    } else if (item.command === 'visscript') {
+                      core.tunnel.command({
+                        uuid: shortid.generate(),
+                        method: 'action',
+                        type:'command',
+                        command: item.command,
+                        ...getVscriptParams(item, props)
+                      });
                     } else {
                       core.tunnel.command({
                         uuid: shortid.generate(),

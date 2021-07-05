@@ -5,7 +5,7 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import Hammer from 'hammerjs';
 import shortid from 'shortid';
 
-import { transform, getElementsLocalVars, getElementsOtherVar } from './tools';
+import { transform, getVscriptParams, getElementsLocalVars, getElementsOtherVar } from './tools';
 
 
 const styles = {
@@ -364,6 +364,14 @@ class Button extends PureComponent {
                     value: getElementsOtherVar(core.store.getState(), _item)
                   });
                 }
+              } else if (item.command === 'visscript') {
+                core.tunnel.command({
+                  uuid: shortid.generate(),
+                  method: 'action',
+                  type:'command',
+                  command: item.command,
+                  ...getVscriptParams(item, props)
+                });
               } else {
                 core.tunnel.command({
                   uuid: shortid.generate(),
