@@ -45,8 +45,6 @@ const styles = {
 
 class Fields extends Component {
   state = { 
-    scan: false,
-    loading: false,
     data: this.props.params.fields
       .reduce((p, c) => ({ 
         ...p, 
@@ -73,8 +71,8 @@ class Fields extends Component {
       uuid: this.uuid,
       params: { ...this.state.data, unit: this.props.params.unit }
     }, this.realtimeData);
-    this.animations = {};
-    this.setState({ scan: true, tree: [], loading: true })
+    this.setState({ scan: true })
+    this.props.onLoading(true);
   }
 
   scanStop = () => {
@@ -85,15 +83,24 @@ class Fields extends Component {
       params: { ...this.state.data, unit: this.props.params.unit }
     }, this.realtimeData);
 
-    this.setState({ scan: false, loading: false })
+    this.setState({ scan: false })
+    this.props.onLoading(false);
   }
 
   realtimeData = (_, json) => {
+    console.log(json)
     if (json.error) {
-      this.setState({ scan: false, loading: false })
+      this.setState({ scan: false })
+      this.props.onLoading(false);
     } else {
       if (json.op === 'meta') {
         this.props.onAddColumns(json.data.columns)
+      }
+      if (json.op === 'table') {
+        this.props.onAddTable(json.data)
+      }
+      if (json.op === 'complete') {
+        this.scanStop();
       }
     }
   }
@@ -109,17 +116,10 @@ class Fields extends Component {
   handleChangeForm = (_, { prop }, __, value) => {
     this.setState({ data: { ...this.state.data, [prop]: value } })
   }
-  // this.props.onAddChannel(node.channel)
 
   render() {
     return (
       <div style={styles.root} >
-        {this.state.loading ? 
-          <div style={styles.loading}>
-            <LinearProgress style={styles.loadingProgress}/> 
-            <div style={styles.loadingText}>Загрузка данных с плагина...</div>
-          </div>
-        :
           <div style={{ padding: 12 }}>
             <Form 
               key='browse' 
@@ -136,7 +136,6 @@ class Fields extends Component {
               heightOffset={160}
             />
           </div>
-        }
         <Button style={styles.button} variant="contained" color="primary" onClick={this.handleClickButton}>
           {this.state.scan ? 'Остановить' : 'Сканировать'}
         </Button>

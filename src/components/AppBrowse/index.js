@@ -54,6 +54,7 @@ class AppBrowse extends Component {
     width: 300, 
     options: { popupdelete: true, columns: [] },
     data: [],
+    loading: false,
   }
 
   componentDidUpdate(prevProps) {
@@ -62,6 +63,7 @@ class AppBrowse extends Component {
         width: 300, 
         options: { popupdelete: true, columns: [] },
         data: [],
+        loading: false,
       })
     }
   }
@@ -76,6 +78,12 @@ class AppBrowse extends Component {
 
   handleAddChannel = (channel) => {
     this.setState({ data: this.state.data.concat({ ...channel, id: shortid.generate() })});
+  }
+
+  handleAddChannelList = (channels) => {
+    this.setState({ 
+      data: this.state.data.concat(channels.map(i => ({ ...i, id: shortid.generate() })))
+    });
   }
 
   onChangeChannel = (id, component, target, value) => {
@@ -121,6 +129,10 @@ class AppBrowse extends Component {
     }); 
   }
 
+  handleLoading = (loading) => {
+    this.setState({ loading });
+  };
+
   render() {
     return (
       <Dialog 
@@ -137,17 +149,22 @@ class AppBrowse extends Component {
             style={styles.panel} 
             onChangeSize={this.handleChangePanelSize}
           >
-            <LeftPanel 
+            <LeftPanel
+              loading={this.state.loading} 
               params={this.props.state.params}
               onAddColumns={this.handleAddColumns}
-              onAddChannel={this.handleAddChannel}  
+              onAddChannel={this.handleAddChannel}
+              onAddChannelList={this.handleAddChannelList}
+              onLoading={this.handleLoading}  
             />
           </Panel>
-          <RigtPanel 
+          <RigtPanel
+            loading={this.state.loading}  
             options={this.state.options}
             data={this.state.data}
             onChangeChannel={this.onChangeChannel}
-            onSubmit={this.handleSubmit}    
+            onSubmit={this.handleSubmit}
+            onLoading={this.handleLoading}     
           />
         </div>
       </Dialog>
