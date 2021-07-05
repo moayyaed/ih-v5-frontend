@@ -1,6 +1,6 @@
 const move = [
   { 
-    title: 'Position', 
+    title: 'Позиция', 
     prop: 'position', 
     type: 'divider',
   },
@@ -15,54 +15,54 @@ const move = [
     type: 'number',
   },
   { 
-    title: 'Width', 
+    title: 'Ширина', 
     prop: 'w', 
     type: 'number',
   },
   { 
-    title: 'Height', 
+    title: 'Высота', 
     prop: 'h', 
     type: 'number',
   },
   { 
-    title: 'Width From Right', 
+    title: 'Ширина справа', 
     prop: 'w2', 
     type: 'number',
   },
   { 
-    title: 'Height From Bottom', 
+    title: 'Высота снизу', 
     prop: 'h2', 
     type: 'number',
   },
   { 
-    title: 'Z-index', 
+    title: 'Положение элемента', 
     prop: 'zIndex', 
     type: 'number',
     min: -100,
     max: 5000,
   },
   { 
-    title: 'Transform', 
+    title: 'Преобразовать', 
     prop: 'transform', 
     type: 'divider',
   },
   { 
-    title: 'Flip H', 
+    title: 'Отразить по горизонтале', 
     prop: 'flipH', 
     type: 'cb',
   },
   { 
-    title: 'Flip V', 
+    title: 'Отразить по вертикали', 
     prop: 'flipV', 
     type: 'cb',
   },
   { 
-    title: 'Crop', 
+    title: 'Обрезать', 
     prop: 'overflow', 
     type: 'cb',
   },
   { 
-    title: 'Rotate', 
+    title: 'Повернуть', 
     prop: 'rotate', 
     type: 'number',
     step: 10,

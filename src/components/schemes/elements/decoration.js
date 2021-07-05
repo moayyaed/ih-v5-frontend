@@ -1,21 +1,21 @@
 const decoration = [
   { 
-    title: 'Decoration', 
+    title: 'Украшение', 
     prop: 'decoration', 
     type: 'divider',
   },
   { 
-    title: 'Animation', 
+    title: 'Анимация', 
     prop: 'animation', 
     type: 'animation',
   },
   { 
-    title: 'Shadow', 
+    title: 'Тень', 
     prop: 'boxShadow', 
     type: 'shadow',
   },
   { 
-    title: 'Opacity', 
+    title: 'Непрозрачность', 
     prop: 'opacity', 
     type: 'number',
     step: 5,

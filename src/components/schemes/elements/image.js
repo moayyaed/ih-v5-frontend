@@ -1,28 +1,28 @@
 const image = [
   { 
-    title: 'Image', 
+    title: 'Изображение', 
     prop: 'image', 
     type: 'divider',
   },
   { 
-    title: 'Source', 
+    title: 'Путь', 
     prop: 'img', 
     type: 'img',
   },
   { 
-    title: 'Color', 
+    title: 'Цвет', 
     prop: 'imgColor', 
     type: 'color',
   },
   { 
-    title: 'Size', 
+    title: 'Размер', 
     prop: 'imgSize', 
     type: 'number',
     min: -100,
     max: 100,
   },
   { 
-    title: 'Rotate', 
+    title: 'Повернуть', 
     prop: 'imgRotate', 
     type: 'number',
     step: 10,

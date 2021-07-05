@@ -1,11 +1,11 @@
 const effects = [
   { 
-    title: 'Color Hover', 
+    title: 'Цвет наведении', 
     prop: 'colorHover', 
     type: 'color',
   },
   { 
-    title: 'Color Ripple', 
+    title: 'Цвет пульсации', 
     prop: 'colorRipple', 
     type: 'color',
   },

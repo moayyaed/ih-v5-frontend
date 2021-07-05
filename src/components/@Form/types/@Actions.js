@@ -144,23 +144,23 @@ const COMMANDS = {
 }
 
 const COMMANDS_TITLES = {
-  device: 'Device Command',
-  device_any: 'Device Command',
-  setval_any: 'Set Value',
-  plugin: 'Plugin Command',
-  layout: 'Go To Layout',
-  script: 'Run Script',
-  setval: 'Set Value',
-  dialog: 'Show Dialog',
+  device: 'Команда устройства',
+  device_any: 'Команда устройства',
+  setval_any: 'Установить значение',
+  plugin: 'Команда плагина',
+  layout: 'Переход на экран',
+  script: 'Запуск сценария',
+  setval: 'Установить значение',
+  dialog: 'Показать диалог',
 }
 
 const TITLES = {
-  singleClickLeft: 'Single Click',
-  doubleClickLeft: 'Double Click',
-  longClickLeft: 'Long Click',
-  mouseDownLeft: 'Mouse Down',
-  mouseUpLeft: 'Mouse Up',
-  singleClickRight: 'Single Click',
+  singleClickLeft: 'Одиночный клик',
+  doubleClickLeft: 'Двойной клик',
+  longClickLeft: 'Долгое нажатие',
+  mouseDownLeft: 'Кнопка нажата',
+  mouseUpLeft: 'Кнопка отпущена',
+  singleClickRight: 'Одиночный клик',
 }
 
 const LEFT = [
@@ -436,38 +436,38 @@ function Actions(props) {
 
     if (state.type === 'menu-left' || state.type === 'menu-right') {
       return [
-        <MenuItem key="-2" onClick={(e) => handleClickMenu('link', e)}>Link</MenuItem>,
-        <MenuItem key="-1" onClick={(e) => handleClickMenu('unlink', e)}>Unlink</MenuItem>,
+        <MenuItem key="-2" onClick={(e) => handleClickMenu('link', e)}>Привязать</MenuItem>,
+        <MenuItem key="-1" onClick={(e) => handleClickMenu('unlink', e)}>Отвязать</MenuItem>,
         <Divider key="0" />,
-        <MenuItem key="1" onClick={(e) => handleClickMenu('up', e)}>Up</MenuItem>,
-        <MenuItem key="2" onClick={(e) => handleClickMenu('down', e)}>Down</MenuItem>,
+        <MenuItem key="1" onClick={(e) => handleClickMenu('up', e)}>Вверх</MenuItem>,
+        <MenuItem key="2" onClick={(e) => handleClickMenu('down', e)}>Вниз</MenuItem>,
         <Divider key="3" />,
-        <MenuItem key="4" onClick={(e) => handleClickMenu('delete', e)}>Delete</MenuItem>,
+        <MenuItem key="4" onClick={(e) => handleClickMenu('delete', e)}>Удалить</MenuItem>,
       ]
     }
 
     if (state.type === 'option-left' || state.type === 'option-right') {
       if (route.dialog) {
         return [
-          <MenuItem key="0" onClick={() => handleClickOption('device_any')}>Device Command</MenuItem>,
-          <MenuItem key="1" onClick={() => handleClickOption('setval_any')}>Set Value</MenuItem>,
-          <MenuItem key="2" onClick={() => handleClickOption('initdialog')}>Init Dialog</MenuItem>,
-          <MenuItem key="3" onClick={() => handleClickOption('dialog')}>Show Dialog</MenuItem>,
+          <MenuItem key="0" onClick={() => handleClickOption('device_any')}>Команда устройства</MenuItem>,
+          <MenuItem key="1" onClick={() => handleClickOption('setval_any')}>Установить значение</MenuItem>,
+          <MenuItem key="2" onClick={() => handleClickOption('dialog')}>Показать диалог</MenuItem>,
           <Divider key="-" />,
-          <MenuItem key="4" onClick={() => handleClickOption('close')}>Close Dialog</MenuItem>,
+          <MenuItem key="3" onClick={() => handleClickOption('initdialog')}>Начальный диалог</MenuItem>,
+          <MenuItem key="4" onClick={() => handleClickOption('close')}>Закрыть диалог</MenuItem>,
         ]
       }
       return [
-        <MenuItem key="2" onClick={() => handleClickOption('device')}>Device Command</MenuItem>,
-        <MenuItem key="3" onClick={() => handleClickOption('plugin')}>Plugin Command</MenuItem>,
-        <MenuItem key="4" onClick={() => handleClickOption('script')}>Run Script</MenuItem>,
-        <MenuItem key="5" onClick={() => handleClickOption('layout')}>Go To Layout</MenuItem>,
-        <MenuItem key="6" onClick={() => handleClickOption('setval')}>Set Value</MenuItem>,
-        <MenuItem key="7" onClick={() => handleClickOption('dialog')}>Show Dialog</MenuItem>,
+        <MenuItem key="2" onClick={() => handleClickOption('device')}>Команда устройства</MenuItem>,
+        <MenuItem key="3" onClick={() => handleClickOption('plugin')}>Команда плагина</MenuItem>,
+        <MenuItem key="4" onClick={() => handleClickOption('script')}>Запуск сценария</MenuItem>,
+        <MenuItem key="5" onClick={() => handleClickOption('layout')}>Переход на экран</MenuItem>,
+        <MenuItem key="6" onClick={() => handleClickOption('setval')}>Установить значение</MenuItem>,
+        <MenuItem key="7" onClick={() => handleClickOption('dialog')}>Показать диалог</MenuItem>,
         <Divider key="-" />,
-        <MenuItem key="8" onClick={() => handleClickOption('fullscreen')}>Full Screen</MenuItem>,
-        <MenuItem key="9" onClick={() => handleClickOption('refresh')}>Refresh</MenuItem>,
-        <MenuItem key="10" onClick={() => handleClickOption('exit')}>Exit</MenuItem>,
+        <MenuItem key="8" onClick={() => handleClickOption('fullscreen')}>Полный экран</MenuItem>,
+        <MenuItem key="9" onClick={() => handleClickOption('refresh')}>Обновить экран</MenuItem>,
+        <MenuItem key="10" onClick={() => handleClickOption('exit')}>Выход</MenuItem>,
       ]
     }
     return null;
@@ -485,7 +485,7 @@ function Actions(props) {
       </Menu>
       <div style={styles.divider} >
         <div style={styles.dividerTitle} >
-          {props.options.title ? `Mouse Left (${props.options.title})` : 'Mouse Left'}
+          {props.options.title ? `Левая кнопка мыши (${props.options.title})` : 'Левая кнопка мыши'}
         </div>
         <IconButton className="nb2" style={styles.button} onClick={handleClickLeft} size="small" >
           <AddIcon fontSize="small" />
@@ -499,7 +499,7 @@ function Actions(props) {
       )}
       <div style={styles.divider} >
         <div style={styles.dividerTitle} >
-          {props.options.title ? `Mouse Right (${props.options.title})` : 'Mouse Right'}
+          {props.options.title ? `Правая кнопка мыши (${props.options.title})` : 'Правая кнопка мыши'}
         </div>
         <IconButton className="nb2" style={styles.button} onClick={handleClickRight} size="small" >
           <AddIcon fontSize="small" />

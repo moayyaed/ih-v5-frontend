@@ -1,11 +1,11 @@
 const background = [
   { 
-    title: 'Background', 
+    title: 'Фон', 
     prop: 'background', 
     type: 'divider',
   },
   { 
-    title: 'Color', 
+    title: 'Цвет', 
     prop: 'backgroundColor', 
     type: 'color2',
   },

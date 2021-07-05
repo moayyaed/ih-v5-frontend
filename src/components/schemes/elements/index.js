@@ -39,39 +39,39 @@ const elements = {
     main: main,
     element: [  
       { 
-        title: 'Button', 
+        title: 'Кнопка', 
         prop: '_button', 
         type: 'divider', //ratio
       },
       {
         prop: 'imgPosition',
-        title: 'Orientation',
+        title: 'Ориентация',
         type: 'droplistlink',
         data: [
           {
             id: 'top',
-            title: 'Top'
+            title: 'Сверху'
           },
           {
             id: 'bottom',
-            title: 'Bottom'
+            title: 'Снизу'
           },
           {
             id: 'center',
-            title: 'Center'
+            title: 'Центр'
           },
           {
             id: 'left',
-            title: 'Left'
+            title: 'Слева'
           },
           {
             id: 'right',
-            title: 'Right'
+            title: 'Спарва'
           },
         ]
       },
       { 
-        title: 'Ratio', 
+        title: 'Соотношение', 
         prop: 'imgRatio', 
         type: 'number',
         step: 5,

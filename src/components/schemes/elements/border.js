@@ -1,23 +1,23 @@
 const border = [
   { 
-    title: 'Border', 
+    title: 'Рамка', 
     prop: 'border', 
     type: 'divider',
   },
   { 
-    title: 'Color', 
+    title: 'Цвет', 
     prop: 'borderColor', 
     type: 'color',
   },
   { 
-    title: 'Size', 
+    title: 'Размер', 
     prop: 'borderSize', 
     type: 'number',
     min: 0,
     max: 5000,
   },
   { 
-    title: 'Radius', 
+    title: 'Радиус', 
     prop: 'borderRadius', 
     type: 'number',
     step: 10,
@@ -25,7 +25,7 @@ const border = [
     max: 100,
   },
   { 
-    title: 'Style', 
+    title: 'Стиль', 
     prop: 'borderStyle', 
     type: 'droplistlink',
     data: [

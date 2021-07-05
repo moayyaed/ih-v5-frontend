@@ -1,29 +1,29 @@
 const content = {
   main: [
     { 
-      title: 'Background', 
+      title: 'Фон', 
       prop: 'background', 
       type: 'divider',
     },
     { 
-      title: 'Color', 
+      title: 'Цвет', 
       prop: 'backgroundColor', 
       type: 'color2',
       bind: false,
     },
     { 
-      title: 'Image', 
+      title: 'Изображение', 
       prop: 'backgroundImage', 
       type: 'img',
       bind: false,
     },
     { 
-      title: 'Decoration', 
+      title: 'Украшение', 
       prop: 'decoration2', 
       type: 'divider',
     },
     { 
-      title: 'Overlay Color', 
+      title: 'Цвет наложения', 
       prop: 'overlayColor', 
       type: 'color2',
       bind: false,
@@ -31,18 +31,18 @@ const content = {
   ],
   move: [
     { 
-      title: 'Position', 
+      title: 'Позиция', 
       prop: 'position', 
       type: 'divider',
     },
     { 
-      title: 'Width', 
+      title: 'Ширина', 
       prop: 'w', 
       type: 'number',
       bind: false,
     },
     { 
-      title: 'Height', 
+      title: 'Высота', 
       prop: 'h', 
       type: 'number',
       bind: false,
@@ -53,29 +53,29 @@ const content = {
 const content2 = {
   main: [
     { 
-      title: 'Background', 
+      title: 'Фон', 
       prop: 'background', 
       type: 'divider',
     },
     { 
-      title: 'Color', 
+      title: 'Цвет', 
       prop: 'backgroundColor', 
       type: 'color2',
       bind: false,
     },
     { 
-      title: 'Image', 
+      title: 'Изображение', 
       prop: 'backgroundImage', 
       type: 'img',
       bind: false,
     },
     { 
-      title: 'Decoration', 
+      title: 'Украшение', 
       prop: 'decoration2', 
       type: 'divider',
     },
     { 
-      title: 'Overlay Color', 
+      title: 'Цвет наложения', 
       prop: 'overlayColor', 
       type: 'color2',
       bind: false,
@@ -105,29 +105,29 @@ const content2 = {
 const content3 = {
   main: [
     { 
-      title: 'Background', 
+      title: 'Позиция', 
       prop: 'background', 
       type: 'divider',
     },
     { 
-      title: 'Color', 
+      title: 'Цвет', 
       prop: 'backgroundColor', 
       type: 'color2',
       bind: false,
     },
     { 
-      title: 'Image', 
+      title: 'Изображение', 
       prop: 'backgroundImage', 
       type: 'img',
       bind: false,
     },
     { 
-      title: 'Decoration', 
+      title: 'Украшение', 
       prop: 'decoration2', 
       type: 'divider',
     },
     { 
-      title: 'Overlay Color', 
+      title: 'Цвет наложения', 
       prop: 'overlayColor', 
       type: 'color2',
       bind: false,
@@ -135,86 +135,86 @@ const content3 = {
   ],
   move: [
     { 
-      title: 'Dialog', 
+      title: 'Диалог', 
       prop: 'dialog', 
       type: 'divider',
     },
     {
       prop: 'position',
-      title: 'Position',
+      title: 'Позиция',
       type: 'droplistlink',
       bind: false,
       data: [
         {
           id: 'center',
-          title: 'Center'
+          title: 'Центр'
         },
         {
           id: 'left',
-          title: 'Left'
+          title: 'Слева'
         },
         {
           id: 'right',
-          title: 'Right'
+          title: 'Справа'
         },
         {
           id: 'top',
-          title: 'Top'
+          title: 'Сверху'
         },
         {
           id: 'bottom',
-          title: 'Bottom'
+          title: 'Снизу'
         }
       ]
     },
     { 
-      title: 'Outside Close', 
+      title: 'Закрыть по клику', 
       prop: 'outsideClose', 
       type: 'cb',
       bind: false,
     },
     { 
-      title: 'Position', 
+      title: 'Позиция', 
       prop: 'dposition', 
       type: 'divider',
     },
     { 
-      title: 'Width', 
+      title: 'Ширина', 
       prop: 'w', 
       type: 'number',
       bind: false,
     },
     { 
-      title: 'Height', 
+      title: 'Высота', 
       prop: 'h', 
       type: 'number',
       bind: false,
     },
   ], main: [
     { 
-      title: 'Background', 
+      title: 'Фон', 
       prop: 'background', 
       type: 'divider',
     },
     { 
-      title: 'Color', 
+      title: 'Цвет', 
       prop: 'backgroundColor', 
       type: 'color2',
       bind: false,
     },
     { 
-      title: 'Image', 
+      title: 'Изображение', 
       prop: 'backgroundImage', 
       type: 'img',
       bind: false,
     },
     { 
-      title: 'Decoration', 
+      title: 'Украшение', 
       prop: 'decoration2', 
       type: 'divider',
     },
     { 
-      title: 'Overlay Color', 
+      title: 'Цвет наложения', 
       prop: 'overlayColor', 
       type: 'color2',
       bind: false,
@@ -222,57 +222,57 @@ const content3 = {
   ],
   move: [
     { 
-      title: 'Dialog', 
+      title: 'Диалог', 
       prop: 'dialog', 
       type: 'divider',
     },
     {
       prop: 'position',
-      title: 'Position',
+      title: 'Позиция',
       type: 'droplistlink',
       bind: false,
       data: [
         {
           id: 'center',
-          title: 'Center'
+          title: 'Центр'
         },
         {
           id: 'left',
-          title: 'Left'
+          title: 'Слева'
         },
         {
           id: 'right',
-          title: 'Right'
+          title: 'Справа'
         },
         {
           id: 'top',
-          title: 'Top'
+          title: 'Сверху'
         },
         {
           id: 'bottom',
-          title: 'Bottom'
+          title: 'Снизу'
         }
       ]
     },
     { 
-      title: 'Outside Close', 
+      title: 'Закрыть по клику', 
       prop: 'outsideClose', 
       type: 'cb',
       bind: false,
     },
     { 
-      title: 'Position', 
+      title: 'Позиция', 
       prop: 'dposition', 
       type: 'divider',
     },
     { 
-      title: 'Width', 
+      title: 'Ширина', 
       prop: 'w', 
       type: 'number',
       bind: false,
     },
     { 
-      title: 'Height', 
+      title: 'Высота', 
       prop: 'h', 
       type: 'number',
       bind: false,
@@ -283,18 +283,18 @@ const content3 = {
 const content4 = {
   move: [
     { 
-      title: 'Position', 
+      title: 'Позиция', 
       prop: 'position', 
       type: 'divider',
     },
     { 
-      title: 'Width', 
+      title: 'Ширина', 
       prop: 'w', 
       type: 'number',
       bind: false,
     },
     { 
-      title: 'Height', 
+      title: 'Высота', 
       prop: 'h', 
       type: 'number',
       bind: false,

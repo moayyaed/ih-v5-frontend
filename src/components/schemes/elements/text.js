@@ -1,38 +1,38 @@
 const text = [
   { 
-    title: 'Text', 
+    title: 'Текст', 
     prop: 'dividertext', 
     type: 'divider',
   },
   { 
-    title: 'Text', 
+    title: 'Значение', 
     prop: 'text', 
     type: 'inputlink',
   },
   { 
-    title: 'Color', 
+    title: 'Цвет', 
     prop: 'textColor', 
     type: 'color',
   },
   { 
-    title: 'Size', 
+    title: 'Размер', 
     prop: 'textSize', 
     type: 'number',
     min: 0,
     max: 5000,
   },
   { 
-    title: 'Bold', 
+    title: 'Насыщенность', 
     prop: 'textBold', 
     type: 'cb',
   },
   { 
-    title: 'Italic', 
+    title: 'Курсив', 
     prop: 'textItalic', 
     type: 'cb',
   },
   { 
-    title: 'Font', 
+    title: 'Шрифт', 
     prop: 'textFontFamily',
     type: 'droplistlink',
     data: [
@@ -56,44 +56,44 @@ const text = [
   },
   {
     prop: 'textAlignH',
-    title: 'Horizontal',
+    title: 'Горизонталь',
     type: 'droplistlink',
     data: [
       {
         id: 'flex-start',
-        title: 'Left'
+        title: 'Слева'
       },
       {
         id: 'center',
-        title: 'Center'
+        title: 'Центр'
       },
       {
         id: 'flex-end',
-        title: 'Right'
+        title: 'Справа'
       }
     ]
   },
   {
     prop: 'textAlignV',
-    title: 'Vertical',
+    title: 'Вертикаль',
     type: 'droplistlink',
     data: [
       {
         id: 'flex-start',
-        title: 'Top'
+        title: 'Вверх'
       },
       {
         id: 'center',
-        title: 'Center'
+        title: 'Центр'
       },
       {
         id: 'flex-end',
-        title: 'Bottom'
+        title: 'Вниз'
       }
     ]
   },
   { 
-    title: 'Rotate', 
+    title: 'Повернуть', 
     prop: 'textRotate', 
     type: 'number',
     step: 10,

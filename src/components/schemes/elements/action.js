@@ -1,7 +1,7 @@
 const action = {
   move: [
     { 
-      title: 'Position', 
+      title: 'Позиция', 
       prop: 'position', 
       type: 'divider',
     },
@@ -18,13 +18,13 @@ const action = {
       bind: false,
     },
     { 
-      title: 'Width', 
+      title: 'Ширина', 
       prop: 'w', 
       type: 'number',
       bind: false,
     },
     { 
-      title: 'Height', 
+      title: 'Высота', 
       prop: 'h', 
       type: 'number',
       bind: false,
@@ -32,57 +32,57 @@ const action = {
   ],
   actions: [
       { 
-        title: 'Mouse Left', 
+        title: 'Левая кнопка мыши', 
         prop: 'mouseleft', 
         type: 'divider',
       },
       { 
-        title: 'Single Click', 
+        title: 'Одиночный клик', 
         prop: 'singleClickLeft', 
         type: 'input',
       },
       { 
-        title: 'Double Click', 
+        title: 'Двойной клик', 
         prop: 'doubleClickLeft', 
         type: 'input',
       },
       { 
-        title: 'Long Click', 
+        title: 'Долгое нажатие', 
         prop: 'longClickLeft', 
         type: 'input',
       },
       { 
-        title: 'Mouse Down', 
+        title: 'Кнопка нажата', 
         prop: 'mouseDownLeft', 
         type: 'input',
       },
       { 
-        title: 'Mouse Up', 
+        title: 'Кнопка отпущена', 
         prop: 'mouseUpLeft', 
         type: 'input',
       },
       { 
-        title: 'Mouse Right', 
+        title: 'Правая кнопка мыши', 
         prop: 'mouseright', 
         type: 'divider',
       },
       { 
-        title: 'Single Click', 
+        title: 'Одиночный клик', 
         prop: 'singleClickRight', 
         type: 'input',
       },
       { 
-        title: 'Effect ', 
+        title: 'Эффекты', 
         prop: 'effect', 
         type: 'divider',
       },
       { 
-        title: 'Color Hover', 
+        title: 'Цвет наведении', 
         prop: 'colorHover', 
         type: 'color',
       },
       { 
-        title: 'Color Ripple', 
+        title: 'Цвет пульсации', 
         prop: 'colorRipple', 
         type: 'color',
       },

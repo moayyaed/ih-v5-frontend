@@ -1,17 +1,17 @@
 const group = {
   main: [
     { 
-      title: 'Decoration', 
+      title: 'Украшение', 
       prop: 'decoration', 
       type: 'divider',
     },
     { 
-      title: 'Animation', 
+      title: 'Анимация', 
       prop: 'animation', 
       type: 'animation',
     },
     { 
-      title: 'Opacity', 
+      title: 'Непрозрачность', 
       prop: 'opacity', 
       type: 'number',
       step: 5,
@@ -19,14 +19,14 @@ const group = {
       max: 100,
     },
     {
-      title: 'Visible',
+      title: 'Видимый',
       prop: 'visible',
       type: 'cb',
     }
   ],
   move: [
     { 
-      title: 'Position', 
+      title: 'Позиция', 
       prop: 'position', 
       type: 'divider',
     },
@@ -41,22 +41,22 @@ const group = {
       type: 'number',
     },
     { 
-      title: 'Width', 
+      title: 'Ширина', 
       prop: 'w', 
       type: 'text',
     },
     { 
-      title: 'Height', 
+      title: 'Высота', 
       prop: 'h', 
       type: 'text',
     },
     { 
-      title: 'Crop', 
+      title: 'Обрезать', 
       prop: 'overflow', 
       type: 'cb',
     },
     { 
-      title: 'Z-index', 
+      title: 'Положение элемента', 
       prop: 'zIndex', 
       type: 'number',
       min: -100,
