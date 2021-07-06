@@ -58,8 +58,8 @@ function ButtonMenu(props) {
           open={Boolean(state)}
           onClose={handleClose}
         >
-          <MenuItem key="1" onClick={handleLink}>Link</MenuItem>
-          <MenuItem key="2" onClick={handleUnlink}>Unlink</MenuItem>
+          <MenuItem key="1" onClick={handleLink}>Привязать</MenuItem>
+          <MenuItem key="2" onClick={handleUnlink}>Отвязать</MenuItem>
         </Menu>
         <div style={props.dividerOff ? styles.divideroff : styles.divider} />
         <IconButton className="nb" style={styles.buttonMini2} onClick={(e) => handleClick(e, props.icon)} size="small" >

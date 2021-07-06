@@ -237,7 +237,7 @@ class DroplistLink extends PureComponent {
           template: {
             noclose: true,
             type: 'form',
-            title: 'Binding Settings',
+            title: ' Параметры привязки',
             options: options(list),
             data: { 
               p1: { bind: { ...item  } }, 
@@ -255,9 +255,9 @@ class DroplistLink extends PureComponent {
           template: {
             noclose: true,
             noscroll: true,
-            title: 'Binding Settings',
+            title: ' Параметры привязки',
             type: 'tree',
-            id: this.props.route.dialog ? 'elementsAndAny': 'elements',
+            id: this.props.route.dialog ? 'elementsAndAny': 'elementsAndAny',
             selectnodeid: this.props.data.did,
             tempalte: this.props.data.template,
             selectId: this.props.data.prop,

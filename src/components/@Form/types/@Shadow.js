@@ -123,7 +123,7 @@ function Shadow(props) {
           template: {
             noclose: true,
             type: 'form',
-            title: 'Binding Settings',
+            title: ' Параметры привязки',
             options: options(list),
             data: { 
               p1: { bind: { ...item  } }, 
@@ -141,9 +141,9 @@ function Shadow(props) {
           template: {
             noclose: true,
             noscroll: true,
-            title: 'Binding Settings',
+            title: ' Параметры привязки',
             type: 'tree',
-            id: props.route.dialog ? 'elementsAndAny': 'elements',
+            id: props.route.dialog ? 'elementsAndAny': 'elementsAndAny',
             template: props.data.template,
             selectnodeid: props.data.did,
             selectId: props.data.prop,
