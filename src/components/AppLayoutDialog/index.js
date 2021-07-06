@@ -131,17 +131,11 @@ class AppLayoutDialog extends Component {
       }, this.realtimeDialog);
     }
     core
-    .request({ method: 'applayout_dialog', params: { id, contextId } })
+    .request({ 
+      method: 'applayout_dialog', 
+      params: { id, contextId, layoutId: this.props.route.layout, username: this.props.app.auth.name } 
+    })
     .ok(data => {
-      try {
-        data.states.__syslocal_layout = {};
-        data.states.__syslocal_username = {};
-        data.states.__syslocal_layout.layout = params.layoutId;
-        data.states.__syslocal_username.username = this.props.app.auth.name;
-      } catch {
-
-      }
-
       this.lastId = id;
       core.tunnel.sub({ 
         method: 'sub',
@@ -184,9 +178,10 @@ class AppLayoutDialog extends Component {
 
 
 const mapStateToProps = createSelector(
+  state => state.app.route,
   state => state.layoutDialog,
   state => state.app,
-  (state, app) => ({ state, app })
+  (route, state, app) => ({ route, state, app })
 )
 
 export default connect(mapStateToProps)(withStyles(classes)(AppLayoutDialog));

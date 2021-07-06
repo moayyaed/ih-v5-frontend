@@ -28,6 +28,15 @@ function preparationData(data, clearAnimation = true) {
           });
       });
 
+    try {
+      data.states.__syslocal_layout = {};
+      data.states.__syslocal_username = {};
+      data.states.__syslocal_layout.layout = data.layoutId;
+      data.states.__syslocal_username.username = data.username;
+    } catch {
+
+    }
+
    // set local vars 
 
   // clear animation
@@ -418,7 +427,9 @@ core.network.response('applayout', (answer, res, context) => {
     containers: res[1].data,
     templates: res[2].data,
     states: mergeData(res[3].data, res[4].data),
-    widgets: mergeData(res[5].data, res[6].data), 
+    widgets: mergeData(res[5].data, res[6].data),
+    layoutId: context.params.layoutId,
+    username: context.params.username,
   }));
 })
 

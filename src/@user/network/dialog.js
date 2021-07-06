@@ -20,6 +20,15 @@ function preparationData(data) {
   const itemsY2 = {};
 
 
+  try {
+    data.static.__syslocal_layout = {};
+    data.static.__syslocal_username = {};
+    data.static.__syslocal_layout.layout = data.layoutId;
+    data.static.__syslocal_username.username = data.username;
+  } catch {
+
+  }
+
   // clear chart
    core.cache.chart.d = null;
   // clear chart
@@ -231,5 +240,7 @@ core.network.response('applayout_dialog', (answer, res, context) => {
     static: res[1].data,
     widgets: res[2].data,
     contextId: context.params.contextId,
+    layoutId: context.params.layoutId,
+    username: context.params.username,
   }));
 })

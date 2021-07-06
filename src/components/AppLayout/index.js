@@ -174,6 +174,7 @@ class AppLayout extends Component {
   request = () => {
     const params = {
       layoutId: this.props.route.layout || this.props.app.auth.layout,
+      username: this.props.app.auth.name,
     };
 
     if (this.props.state.layoutId !== null) {
@@ -200,17 +201,6 @@ class AppLayout extends Component {
     core
       .request({ method: 'applayout', params })
       .ok(data => {
-        data.layoutId = params.layoutId;
-
-        try {
-          data.states.__syslocal_layout = {};
-          data.states.__syslocal_username = {};
-          data.states.__syslocal_layout.layout = params.layoutId;
-          data.states.__syslocal_username.username = this.props.app.auth.name;
-        } catch {
-
-        }
-
         core.actions.layout.data(data);
         core.tunnel.sub({ 
           method: 'sub',
