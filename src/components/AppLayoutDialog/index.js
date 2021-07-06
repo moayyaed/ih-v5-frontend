@@ -133,6 +133,15 @@ class AppLayoutDialog extends Component {
     core
     .request({ method: 'applayout_dialog', params: { id, contextId } })
     .ok(data => {
+      try {
+        data.states.__syslocal_layout = {};
+        data.states.__syslocal_username = {};
+        data.states.__syslocal_layout.layout = params.layoutId;
+        data.states.__syslocal_username.username = this.props.app.auth.name;
+      } catch {
+
+      }
+
       this.lastId = id;
       core.tunnel.sub({ 
         method: 'sub',

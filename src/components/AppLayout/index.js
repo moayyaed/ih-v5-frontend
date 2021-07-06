@@ -203,9 +203,10 @@ class AppLayout extends Component {
         data.layoutId = params.layoutId;
 
         try {
-        // data.states.__layout = {};
-        // data.states.__layout.layoutid = params.layoutId;
-        // data.states.__layout.username = this.props.app.auth.name;
+          data.states.__syslocal_layout = {};
+          data.states.__syslocal_username = {};
+          data.states.__syslocal_layout.layout = params.layoutId;
+          data.states.__syslocal_username.username = this.props.app.auth.name;
         } catch {
 
         }
