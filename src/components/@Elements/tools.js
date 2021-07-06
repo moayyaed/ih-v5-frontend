@@ -67,19 +67,19 @@ export function getVscriptParams(command, props) {
   
   const context = {
     user: store.app.auth.name,
-    defaultLayoutId: store.app.auth.layout,
-    currentLayoutId: store.layout.layoutId,
+    start_layoutid: store.app.auth.layout,
+    layoutid: store.layout.layoutId,
   };
   const source = { 
     id: props.id,
     type: props.item.type,
-    layoutId: props.layoutId || null, 
-    containerId: props.containerId || null,
-    templateId: props.templateId || null,
-    dialogId: props.dialogId || null,
+    layoutid: props.layoutId || null, 
+    containerid: props.containerId || null,
+    templateid: props.templateId || null,
+    dialogid: props.dialogId || null,
   };
   const elements = {};
   const local = core.cache.vars;
   
-  return { context, source, elements, local };
+  return { id: command.id, context, source, elements, local };
 }
