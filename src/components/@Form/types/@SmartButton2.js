@@ -78,7 +78,6 @@ class SmartButton2 extends PureComponent {
       select: this.props.data.prop,
       data: this.props.data,
     }
-  
     core.transfer.sub('form_dialog', this.handleDialogClick);
     core.actions.appdialog.data({ 
       open: true, 
