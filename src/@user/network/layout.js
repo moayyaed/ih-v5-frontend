@@ -254,6 +254,11 @@ function preparationData(data, clearAnimation = true) {
           if (data.templates[templateId]) {
             data.templates[templateId].listState.forEach(stateId => {
               const item = data.containers[key].elements[id].links[stateId];
+              if (item && item.did === '__device') {
+                if (contextIds[key] !== undefined) {
+                  item.did = contextIds[key];
+                }
+              }
               if (item && data.states[item.did] && data.states[item.did][item.prop] !== undefined) {
                 data.containers[key].elements[id].states[stateId] = data.states[item.did][item.prop] || 0;
               } else {
