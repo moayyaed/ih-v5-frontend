@@ -14,6 +14,8 @@ function mergeData(data1, data2) {
 }
 
 function preparationData(data, clearAnimation = true) {
+  const contextIds = {};
+  
   // set local vars 
     Object
       .keys(core.cache.vars)
@@ -68,6 +70,18 @@ function preparationData(data, clearAnimation = true) {
   Object
     .keys(data.layout.elements)
     .forEach(id => {
+      if (data.layout.elements[id].type === 'container') {
+        if (
+          data.layout.elements[id].widgetlinks && 
+          data.layout.elements[id].widgetlinks.link &&
+          data.layout.elements[id].widgetlinks.link.value.device &&
+          data.layout.elements[id].widgetlinks.link.value.device &&
+          data.layout.elements[id].widgetlinks.link.value.device.id
+        ) {
+          contextIds[data.layout.elements[id].widgetlinks.link.id] = data.layout.elements[id].widgetlinks.link.value.device.id;
+        }
+      }
+
       Object
       .keys(data.layout.elements[id])
       .forEach(propId => {
@@ -364,8 +378,14 @@ function preparationData(data, clearAnimation = true) {
             }
           }
           // bind
+      
           if (item && item.enabled) {
             try {
+              if (item.did === '__device') {
+                if (contextIds[key] !== undefined) {
+                  item.did = contextIds[key];
+                }
+              }
               data.containers[key].elements[id][propId].func = createValueFunc(item.func).body;
               if (data.states[item.did] && data.states[item.did][item.prop] !== undefined) {
                 if (propId === 'w2' || propId === 'h2') {

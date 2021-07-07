@@ -188,13 +188,13 @@ class AppLayout extends Component {
       this.props.state.layout.list.forEach(id => {
         
         if (this.props.state.layout.elements[id].type === 'container') {
-          const devicecontext = this.props.state.layout.elements[id].widgetlinks.link && this.props.state.layout.elements[id].widgetlinks.link.value && this.props.state.layout.elements[id].widgetlinks.link.value.device && this.props.state.layout.elements[id].widgetlinks.link.value.device.id;
+          const contextId = this.props.state.layout.elements[id].widgetlinks.link && this.props.state.layout.elements[id].widgetlinks.link.value && this.props.state.layout.elements[id].widgetlinks.link.value.device && this.props.state.layout.elements[id].widgetlinks.link.value.device.id;
           core.tunnel.unsub({ 
             method: 'unsub',
             type: 'container',
             uuid: id,
             id: this.props.state.layout.elements[id].widgetlinks.link.id,
-            devicecontext,
+            contextId,
           }, this.subs[this.props.state.layout.elements[id].widgetlinks.link.id]);
           delete this.subs[this.props.state.layout.elements[id].widgetlinks.link.id]
         }
@@ -214,14 +214,14 @@ class AppLayout extends Component {
 
         data.layout.list.forEach(id => {
           if (data.layout.elements[id].type === 'container') {
-            const devicecontext = data.layout.elements[id].widgetlinks.link && data.layout.elements[id].widgetlinks.link.value && data.layout.elements[id].widgetlinks.link.value.device && data.layout.elements[id].widgetlinks.link.value.device.id;
+            const contextId = data.layout.elements[id].widgetlinks.link && data.layout.elements[id].widgetlinks.link.value && data.layout.elements[id].widgetlinks.link.value.device && data.layout.elements[id].widgetlinks.link.value.device.id;
             this.subs[data.layout.elements[id].widgetlinks.link.id] = (realtime) => this.realtimeContainer(data.layout.elements[id].widgetlinks.link.id, realtime)
             core.tunnel.sub({ 
               method: 'sub',
               type: 'container',
               uuid: id,
               id: data.layout.elements[id].widgetlinks.link.id,
-              devicecontext,
+              contextId,
             }, this.subs[data.layout.elements[id].widgetlinks.link.id]);
           }
         });
