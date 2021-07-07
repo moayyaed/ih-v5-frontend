@@ -695,12 +695,12 @@ class Chart extends PureComponent {
       }
     }
     data.series.forEach((i, k) => {
-      const id = `l_${id}_line`;
-      if (this.ctx.litems && this.ctx.litems.hasOwnProperty(id)) {
+      const _id = `l_${id}_line`;
+      if (this.ctx.litems && this.ctx.litems.hasOwnProperty(_id)) {
         if (typeof i.y === 'number') {
-          this.ctx.litems[id].innerHTML = i.y;
+          this.ctx.litems[_id].innerHTML = i.y;
         } else {
-          this.ctx.litems[id].innerHTML = '&nbsp;';
+          this.ctx.litems[_id].innerHTML = '&nbsp;';
         }
       }
     });
