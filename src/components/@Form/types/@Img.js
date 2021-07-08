@@ -90,7 +90,7 @@ class Img extends PureComponent {
             noscroll: true,
             title: ' Параметры привязки',
             type: 'tree',
-            id: this.props.route.dialog ? 'elementsAndAny': 'elementsAndAny',
+            id: this.props.route.layout ? 'elements': 'elementsAndAny',
             selectnodeid: this.props.data.did,
             tempalte: this.props.data.template,
             selectId: this.props.data.prop,

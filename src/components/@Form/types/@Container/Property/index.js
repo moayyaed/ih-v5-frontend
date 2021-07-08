@@ -7,7 +7,7 @@ import CompactForm from 'components/@Form/Compact';
 import scheme from 'components/schemes';
 
 
-const route = {}
+const route = { container: true }
 const cache = {}
 
 const LEFT = [

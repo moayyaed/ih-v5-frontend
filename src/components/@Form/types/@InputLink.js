@@ -72,6 +72,7 @@ class InputLink extends PureComponent {
         });
       } else {
         core.transfer.sub('form_dialog', this.handleDialogClick3);
+        console.log(this.props.route)
         core.actions.appdialog.data({
           id: 'animation', 
           open: true, 
@@ -81,7 +82,7 @@ class InputLink extends PureComponent {
             noscroll: true,
             title: ' Параметры привязки',
             type: 'tree',
-            id: this.props.route.dialog ? 'elementsAndAny': 'elementsAndAny',
+            id: this.props.route.layout ? 'elements': 'elementsAndAny',
             selectnodeid: this.props.data.did,
             tempalte: this.props.data.template,
             selectId: this.props.data.prop,

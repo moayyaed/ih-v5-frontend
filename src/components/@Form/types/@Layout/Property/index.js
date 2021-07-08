@@ -7,7 +7,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 import scheme from 'components/schemes';
 
-const route = {}
+const route = { layout: true };
 const cache = {}
 
 
@@ -90,7 +90,7 @@ class Property extends PureComponent {
             prop: key,
             title: key,
             type: 'smartbutton2',
-            params: scheme.dynamic[this.props.elementData.type],
+            params: scheme.dynamic_layout[this.props.elementData.type],
           }));
         map = [{ title: 'Data', prop: 'bind', type: 'divider' }]
         .concat(map)

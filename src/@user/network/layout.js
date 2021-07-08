@@ -14,7 +14,7 @@ function mergeData(data1, data2) {
 }
 
 function preparationData(data, clearAnimation = true) {
-  const contextIds = {};
+  core.cache.contexts = {};
   
   // set local vars 
     Object
@@ -78,7 +78,7 @@ function preparationData(data, clearAnimation = true) {
           data.layout.elements[id].widgetlinks.link.value.device &&
           data.layout.elements[id].widgetlinks.link.value.device.id
         ) {
-          contextIds[data.layout.elements[id].widgetlinks.link.id] = data.layout.elements[id].widgetlinks.link.value.device.id;
+          core.cache.contexts[data.layout.elements[id].widgetlinks.link.id] = data.layout.elements[id].widgetlinks.link.value.device.id;
         }
       }
 
@@ -255,8 +255,8 @@ function preparationData(data, clearAnimation = true) {
             data.templates[templateId].listState.forEach(stateId => {
               const item = data.containers[key].elements[id].links[stateId];
               if (item && item.did === '__device') {
-                if (contextIds[key] !== undefined) {
-                  item.did = contextIds[key];
+                if (core.cache.contexts[key] !== undefined) {
+                  item.did = core.cache.contexts[key];
                 }
               }
               if (item && data.states[item.did] && data.states[item.did][item.prop] !== undefined) {
@@ -387,8 +387,8 @@ function preparationData(data, clearAnimation = true) {
           if (item && item.enabled) {
             try {
               if (item.did === '__device') {
-                if (contextIds[key] !== undefined) {
-                  item.did = contextIds[key];
+                if (core.cache.contexts[key] !== undefined) {
+                  item.did = core.cache.contexts[key];
                 }
               }
               data.containers[key].elements[id][propId].func = createValueFunc(item.func).body;

@@ -230,7 +230,7 @@ function Animation(props) {
             noscroll: true,
             title: ' Параметры привязки',
             type: 'tree',
-            id: props.route.dialog ? 'elementsAndAny': 'elementsAndAny',
+            id: props.route.layout ? 'elements': 'elementsAndAny',
             template: props.data.template,
             selectnodeid: props.data.did,
             selectId: props.data.prop,

@@ -5,7 +5,7 @@ import shortid from 'shortid';
 
 import core from 'core';
 
-import { transform, getElementsLocalVars, getVscriptParams } from './tools';
+import { transform, getElementsLocalVars, getElementsOtherVar, getVscriptParams } from './tools';
 
 
 const styles = {
@@ -28,10 +28,23 @@ const styles = {
 }
 
 
+function getCommand(cmd) {
+  if (cmd === 'device_any') {
+    return 'device';
+  }
+  if (cmd === 'setval_any') {
+    return 'setval';
+  }
+  return cmd;
+}
+
 function getParams(item, props) {
   let contextId = null;
 
-  if (item.command === 'device') {
+  if (item.command === 'device' || item.command === 'device_any') {
+    if (item.did === '__device') {
+      return { did: core.cache.contexts[props.containerId], prop: item.prop, contextId, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.templateId }
+    }
     return { did: item.did, prop: item.prop, contextId, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.templateId }
   }
   if (item.command === 'dialog') {
@@ -84,7 +97,8 @@ class Action extends PureComponent {
                       core.transfer.send('close_dialog_command');
                     }
                   } else {
-                    if (command === 'setval') {
+                    if (command === 'setval' || command === 'setval_any') {
+                      /*
                       const store = core.store.getState().layout;
                       const data = getElementsLocalVars(store, item)
       
@@ -92,6 +106,21 @@ class Action extends PureComponent {
                       Object
                         .keys(store.containers)
                         .forEach(containerId => core.actions.layout.updateElementsContainer(containerId, data))
+                        */
+
+                      const _item = { 
+                        ...item, 
+                        did: item.did === '__device' ? (props.dialogId ? core.store.getState().layoutDialog.contextId : core.cache.contexts[props.containerId]) : item.did 
+                      }
+                      core.tunnel.command({
+                        uuid: shortid.generate(),
+                        method: 'action',
+                        type:'command',
+                        command: item.command === 'setval_any' ? 'setval' : item.command,
+                        did: _item.did,
+                        prop: item.prop,
+                        value: getElementsOtherVar(core.store.getState(), _item)
+                      });
                     } else if (item.command === 'visscript') {
                       core.tunnel.command({
                         uuid: shortid.generate(),
@@ -105,7 +134,7 @@ class Action extends PureComponent {
                         uuid: shortid.generate(),
                         method: 'action',
                         type:'command',
-                        command: item.command,
+                        command: getCommand(item.command),
                         ...getParams(item, props)
                       });
                     }

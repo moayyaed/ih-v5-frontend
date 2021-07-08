@@ -460,11 +460,11 @@ function Actions(props) {
         ]
       }
       return [
-        <MenuItem key="2" onClick={() => handleClickOption('device')}>Команда устройства</MenuItem>,
+        <MenuItem key="2" onClick={() => handleClickOption(route.container ? 'device_any' : 'device')}>Команда устройства</MenuItem>,
         <MenuItem key="3" onClick={() => handleClickOption('plugin')}>Команда плагина</MenuItem>,
         <MenuItem key="4" onClick={() => handleClickOption('script')}>Запуск сценария</MenuItem>,
         <MenuItem key="5" onClick={() => handleClickOption('layout')}>Переход на экран</MenuItem>,
-        <MenuItem key="6" onClick={() => handleClickOption('setval')}>Установить значение</MenuItem>,
+        <MenuItem key="6" onClick={() => handleClickOption(route.container ? 'setval_any' : 'setval')}>Установить значение</MenuItem>,
         <MenuItem key="7" onClick={() => handleClickOption('dialog')}>Показать диалог</MenuItem>,
         <MenuItem key="8" onClick={() => handleClickOption('visscript')}>Скрипт визуализации</MenuItem>,
         <Divider key="-" />,

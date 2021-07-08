@@ -245,10 +245,12 @@ function ButtonEgine(props, state) {
 function getParams(item, props) {
   let contextId = null;
   const store = core.store.getState().layoutDialog;
-
   if (item.command === 'device' || item.command === 'device_any') {
     if (item.did === '__device') {
-      return { did: store.contextId, prop: item.prop, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id }
+      if (props.dialogId) {
+        return { did: store.contextId, prop: item.prop, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id }
+      }
+      return { did: core.cache.contexts[props.containerId], prop: item.prop, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id }
     }
     return { did: item.did, prop: item.prop, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id }
   }
@@ -353,7 +355,10 @@ class Button extends PureComponent {
                     .keys(store.containers)
                     .forEach(containerId => core.actions.layout.updateElementsContainer(containerId, data))
                 } else {
-                  const _item = { ...item, did: item.did === '__device' ? core.store.getState().layoutDialog.contextId : item.did }
+                  const _item = { 
+                    ...item, 
+                    did: item.did === '__device' ? (props.dialogId ? core.store.getState().layoutDialog.contextId : core.cache.contexts[props.containerId]) : item.did 
+                  }
                   core.tunnel.command({
                     uuid: shortid.generate(),
                     method: 'action',
