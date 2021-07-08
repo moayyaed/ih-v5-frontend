@@ -74,7 +74,7 @@ function preparationData(data, clearAnimation = true) {
         if (
           data.layout.elements[id].widgetlinks && 
           data.layout.elements[id].widgetlinks.link &&
-          data.layout.elements[id].widgetlinks.link.value.device &&
+          data.layout.elements[id].widgetlinks.link.value &&
           data.layout.elements[id].widgetlinks.link.value.device &&
           data.layout.elements[id].widgetlinks.link.value.device.id
         ) {

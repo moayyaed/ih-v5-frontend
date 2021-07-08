@@ -135,12 +135,13 @@ const styles = {
 const COMMANDS = {
   device: 'devcmd',
   device_any: 'devcmdAndAny',
+  setval: 'setitems',
   setval_any: 'setitemsAndAny',
+  dialog: 'dialog',
+  dialog_any: 'dialogAndAny',
   layout: 'layoutx',
   plugin: 'pluginx',
   script: 'scriptx',
-  setval: 'setitems',
-  dialog: 'dialog',
   visscript: 'visscriptx',
 }
 
@@ -465,7 +466,7 @@ function Actions(props) {
         <MenuItem key="4" onClick={() => handleClickOption('script')}>Запуск сценария</MenuItem>,
         <MenuItem key="5" onClick={() => handleClickOption('layout')}>Переход на экран</MenuItem>,
         <MenuItem key="6" onClick={() => handleClickOption(route.container ? 'setval_any' : 'setval')}>Установить значение</MenuItem>,
-        <MenuItem key="7" onClick={() => handleClickOption('dialog')}>Показать диалог</MenuItem>,
+        <MenuItem key="7" onClick={() => handleClickOption(route.container ? 'dialog_any' : 'dialog')}>Показать диалог</MenuItem>,
         <MenuItem key="8" onClick={() => handleClickOption('visscript')}>Скрипт визуализации</MenuItem>,
         <Divider key="-" />,
         <MenuItem key="9" onClick={() => handleClickOption('fullscreen')}>Полный экран</MenuItem>,

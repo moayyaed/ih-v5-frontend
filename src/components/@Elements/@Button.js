@@ -260,11 +260,15 @@ function getParams(item, props) {
     }
     return { ...item.value, id: item.id, contextId: store.contextId };
   }
-  if (item.command === 'dialog') {
+  if (item.command === 'dialog' || item.command === 'dialog_any') {
     if (item.value && item.value.device && item.value.device.id) {
-      contextId = item.value.device.id;
+      if (item.value.device.id === '__device') {
+        contextId = core.cache.contexts[props.containerId];
+      } else {
+        contextId = item.value.device.id;
+      }
     }
-    return { id: item.id, contextId, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id };
+    return { command: 'dialog', id: item.id, contextId, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id };
   }
   return { ...item.value, id: item.id, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id };
 }

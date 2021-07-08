@@ -66,7 +66,7 @@ export function getVscriptParams(command, props) {
   const store = core.store.getState();
   
   const context = {
-    user: store.app.auth.name,
+    username: store.app.auth.name,
     start_layoutid: store.app.auth.layout,
     layoutid: store.layout.layoutId,
   };
