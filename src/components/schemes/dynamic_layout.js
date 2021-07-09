@@ -15,7 +15,7 @@ const dynamic_layout = {
   slider_pretto: { variant: 'tree', title: 'Выберите свойство', id: 'devprops', save: false },
   slider_airbnb: { variant: 'tree', title: 'Выберите свойство', id: 'devprops', save: false },
   checkbox: { variant: 'tree', title: 'Выберите свойство', id: 'devprops', save: false },
-  container: { variant: 'tree', title: 'Выберите контейнер', id: 'viscontx' },
+  container: { variant: 'options', title: 'Выберите контейнер', id: 'viscontx' },
   journal: { variant: 'tree', title: 'Выберите журнал', id: 'journals' },
   alertlog: { variant: 'tree', title: 'Выберите журнал тревог', id: 'alertjournals' },
 };
