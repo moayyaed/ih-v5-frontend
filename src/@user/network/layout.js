@@ -14,7 +14,12 @@ function mergeData(data1, data2) {
 }
 
 function preparationData(data, clearAnimation = true) {
-  core.cache.contexts = {};
+
+  if (data.contextId != undefined) {
+    core.cache.contexts[data.contextContainerId] = data.contextId;
+  } else {
+    core.cache.contexts = {};
+  }
   
   // set local vars 
     Object
@@ -254,7 +259,7 @@ function preparationData(data, clearAnimation = true) {
           if (data.templates[templateId]) {
             data.templates[templateId].listState.forEach(stateId => {
               const item = data.containers[key].elements[id].links[stateId];
-              if (item && item.did === '__device') {
+              if (item && (item.did === '__device' || item.did === '__devstat')) {
                 if (core.cache.contexts[key] !== undefined) {
                   item.did = core.cache.contexts[key];
                 }
@@ -386,7 +391,7 @@ function preparationData(data, clearAnimation = true) {
       
           if (item && item.enabled) {
             try {
-              if (item.did === '__device') {
+              if (item && (item.did === '__device' || item.did === '__devstat')) {
                 if (core.cache.contexts[key] !== undefined) {
                   item.did = core.cache.contexts[key];
                 }
@@ -454,17 +459,17 @@ core.network.response('applayout', (answer, res, context) => {
     states: mergeData(res[3].data, res[4].data),
     widgets: mergeData(res[5].data, res[6].data),
     layoutId: context.params.layoutId,
-    username: context.params.username,
+    username: context.params.username, 
   }));
 })
 
 
 core.network.request('get_container', (send, context) => {
   send([
-    { api: 'container',  id: context.params },
-    { api: 'templates', containerid: context.params },
-    { api: 'container',  id: context.params, rt: 1 },
-    { api: 'container',  id: context.params, widgetdata: 1 },
+    { api: 'container',  id: context.params.containerId },
+    { api: 'templates', containerid: context.params.containerId },
+    { api: 'container',  id: context.params.containerId, contextId: context.params.contextId, rt: 1 },
+    { api: 'container',  id: context.params.containerId, contextId: context.params.contextId, widgetdata: 1 },
   ]);
 })
 
@@ -472,9 +477,11 @@ core.network.request('get_container', (send, context) => {
 core.network.response('get_container', (answer, res, context) => {
   answer(preparationData({
     layout: { list: [], elements: {} },
-    containers: { [context.params]: res[0].data } ,
+    containers: { [context.params.containerId]: res[0].data } ,
     templates: res[1].data,
     states: res[2].data,
-    widgets: { [context.params]: res[3].data },
+    widgets: { [context.params.containerId]: res[3].data },
+    contextContainerId: context.params.containerId,
+    contextId: context.params.contextId, 
   }, false));
 })

@@ -76,30 +76,42 @@ class AppLayout extends Component {
   commandLayout = (data) => {
     if (data.command === 'gotolayout') {
       if (this.props.state.layoutId === data.id) {
-        if (data.target_container_id && data.target_frame) {
-          core
-          .request({ method: 'get_container', params: data.target_container_id })
-          .ok(res => {
-            const container = this.props.state.layout.elements[data.target_frame];
-            if (container) {
-              core.tunnel.unsub({ 
-                method: 'unsub',
-                type: 'container',
-                uuid: container.widgetlinks.link.id,
-                id: container.widgetlinks.link.id,
-              }, this.subs[container.widgetlinks.link.id]);
-              delete this.subs[container.widgetlinks.link.id]
-
-              this.subs[data.target_container_id] = (realtime) => this.realtimeContainer(data.target_container_id, realtime)
-              core.tunnel.sub({ 
-                method: 'sub',
-                type: 'container',
-                uuid: data.target_container_id,
-                id: data.target_container_id,
-              }, this.subs[data.target_container_id]);
-              core.actions.layout.changeContainer(data.target_frame, data.target_container_id, res);
-            }
-          });
+        if (data.context && data.context.frames) {
+          Object
+            .keys(data.context.frames)
+            .forEach(key => {
+              core
+              .request({ 
+                method: 'get_container', 
+                params: {
+                  frameId: key,
+                  containerId : data.context.frames[key].container_id,
+                  contextId: data.context.frames[key].device || null,
+                }
+              })
+              .ok(res => {
+                const container = this.props.state.layout.elements[key];
+                if (container) {
+                  core.tunnel.unsub({ 
+                    method: 'unsub',
+                    type: 'container',
+                    uuid: container.widgetlinks.link.id,
+                    id: container.widgetlinks.link.id,
+                  }, this.subs[container.widgetlinks.link.id]);
+                  delete this.subs[container.widgetlinks.link.id]
+    
+                  this.subs[data.context.frames[key].container_id] = (realtime) => this.realtimeContainer(data.context.frames[key].container_id, realtime)
+                  core.tunnel.sub({ 
+                    method: 'sub',
+                    type: 'container',
+                    uuid: data.context.frames[key].container_id,
+                    id: data.context.frames[key].container_id,
+                    contextId: data.context.frames[key].device || null,
+                  }, this.subs[data.context.frames[key].container_id]);
+                  core.actions.layout.changeContainer(key, data.context.frames[key].container_id, res);
+                }
+              });
+            });
         }
       } else {
         core.route(data.id);
