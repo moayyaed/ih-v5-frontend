@@ -387,8 +387,13 @@ function preparationData(data, clearAnimation = true) {
               console.warn('Animation not work, wrong css styles!')
             }
           }
+
+          // link
+          if (item && item.link && item.link.id === '__device') {
+            item.link.id = core.cache.contexts[key];
+          }
+
           // bind
-      
           if (item && item.enabled) {
             try {
               if (item && (item.did === '__device' || item.did === '__devstat')) {
