@@ -75,8 +75,19 @@ class AppLayout extends Component {
 
   commandLayout = (data) => {
     if (data.command === 'gotolayout') {
+      let params = '';
+      if (data.context && data.context.frames) {
+        const temp = [];
+        Object
+          .keys(data.context.frames)
+          .forEach(key => {
+            temp.push(`${key},${data.context.frames[key].container_id || ''},${data.context.frames[key].device || ''}`);
+          });
+          params = temp.join(';');
+      }
       if (this.props.state.layoutId === data.id) {
         if (data.context && data.context.frames) {
+          core.route(`${data.id}/${params}`);
           Object
             .keys(data.context.frames)
             .forEach(key => {
@@ -114,7 +125,7 @@ class AppLayout extends Component {
             });
         }
       } else {
-        core.route(data.id);
+        core.route(`${data.id}/${params}`);
       }
     }
     if (data.command === 'showdialog') {
@@ -187,6 +198,8 @@ class AppLayout extends Component {
     const params = {
       layoutId: this.props.route.layout || this.props.app.auth.layout,
       username: this.props.app.auth.name,
+      frames: this.props.route.frames,
+      uframes: this.props.route.uframes,
     };
 
     if (this.props.state.layoutId !== null) {

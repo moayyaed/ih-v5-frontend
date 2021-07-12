@@ -84,6 +84,9 @@ function preparationData(data, clearAnimation = true) {
           data.layout.elements[id].widgetlinks.link.value.device.id
         ) {
           core.cache.contexts[data.layout.elements[id].widgetlinks.link.id] = data.layout.elements[id].widgetlinks.link.value.device.id;
+          if (data.context.frames && data.context.frames[id] && data.context.frames[id].contextid) {
+            core.cache.contexts[data.context.frames[id].containerid] = data.context.frames[id].contextid;
+          }
         }
       }
 
@@ -445,13 +448,13 @@ function preparationData(data, clearAnimation = true) {
 
 core.network.request('applayout', (send, context) => {
   send([
-    { api: 'layout', id: context.params.layoutId },
-    { api: 'containers', layoutid: context.params.layoutId },
-    { api: 'templates', layoutid: context.params.layoutId },
-    { api: 'containers', layoutid: context.params.layoutId, rt: 1 },
-    { api: 'layout', id: context.params.layoutId, rt: 1 },
-    { api: 'layout', id: context.params.layoutId, widgetdata: 1 },
-    { api: 'containers', layoutid: context.params.layoutId, widgetdata: 1 },
+    { api: 'layout', id: context.params.layoutId, frames: context.params.uframes },
+    { api: 'containers', layoutid: context.params.layoutId, frames: context.params.uframes },
+    { api: 'templates', layoutid: context.params.layoutId, frames: context.params.uframes },
+    { api: 'containers', layoutid: context.params.layoutId, frames: context.params.uframes, rt: 1 },
+    { api: 'layout', id: context.params.layoutId, frames: context.params.uframes, rt: 1 },
+    { api: 'layout', id: context.params.layoutId, frames: context.params.uframes, widgetdata: 1 },
+    { api: 'containers', layoutid: context.params.layoutId, frames: context.params.uframes, widgetdata: 1 },
   ]);
 })
 
@@ -464,7 +467,8 @@ core.network.response('applayout', (answer, res, context) => {
     states: mergeData(res[3].data, res[4].data),
     widgets: mergeData(res[5].data, res[6].data),
     layoutId: context.params.layoutId,
-    username: context.params.username, 
+    username: context.params.username,
+    context: { frames: context.params.frames }, 
   }));
 })
 
