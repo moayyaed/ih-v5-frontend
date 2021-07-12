@@ -623,16 +623,27 @@ class Template extends PureComponent {
         return 'Шаблон';
       }
       if (this.props.data.mode === 'vars') {
-        return `Переменная - ${this.props.data.state[this.props.data.selectState].title}: ${this.props.data.state[this.props.data.selectState].curent}, Элемент - ${this.props.data.elements[this.props.data.selectOne]._label}`
+        if (this.props.data.selectOne !== this.props.data.elements[this.props.data.selectOne]._label) {
+          return `Переменная - ${this.props.data.state[this.props.data.selectState].title}: ${this.props.data.state[this.props.data.selectState].curent}, Элемент - ${this.props.data.selectOne} ▪︎ ${this.props.data.elements[this.props.data.selectOne]._label}`
+        }
+        return `Переменная - ${this.props.data.state[this.props.data.selectState].title}: ${this.props.data.state[this.props.data.selectState].curent}, Элемент - ${this.props.data.selectOne}`
       }
-      return this.props.data.elements[this.props.data.selectOne]._label;
+      if (this.props.data.selectOne !== this.props.data.elements[this.props.data.selectOne]._label) {
+        return `${this.props.data.selectOne} ▪︎ ${this.props.data.elements[this.props.data.selectOne]._label}`;
+      }
+      return this.props.data.selectOne;
     }
     if (!this.props.data.selectOne) {
       if (this.props.data.mode === 'vars') {
         if (this.props.data.selectType === 'some') {
           const temp = Object
           .keys(this.props.data.selects)
-          .map(i => this.props.data.elements[i]._label)
+          .map(i => {
+            if (i !== this.props.data.elements[i]._label) {
+              return `${i} ▪︎ ${this.props.data.elements[i]._label}`;
+            }
+            return i;
+          })
           .join(', ');
           return `Переменная - ${this.props.data.state[this.props.data.selectState].title}: ${this.props.data.state[this.props.data.selectState].curent}, Элементы - ${temp}`
         }

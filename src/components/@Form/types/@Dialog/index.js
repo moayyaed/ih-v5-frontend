@@ -336,6 +336,34 @@ class Dialog extends PureComponent {
     this.save();
   }
 
+  getTitleSelect = () => {
+    if (this.props.data.selectOne) {
+      if (this.props.data.selectOne === 'content') {
+        return 'Контейнер';
+      }
+      if (this.props.data.selectOne !== this.props.data.elements[this.props.data.selectOne]._label) {
+        return `${this.props.data.selectOne} ▪︎ ${this.props.data.elements[this.props.data.selectOne]._label}`
+      }
+      return this.props.data.selectOne;
+    }
+    return Object
+      .keys(this.props.data.selects)
+      .map(i => {
+        if (i !== this.props.data.elements[i]._label) {
+          return `${i} ▪︎ ${this.props.data.elements[i]._label}`;
+        }
+        return i;
+      })
+      .join(', ');
+  }
+
+  getTitle = (id) => {
+    if (id === 'sheet') {
+      return this.getTitleSelect();
+    }
+    return TITLES[id];
+  }
+
   renderComponent = (id) => {
     if (id === 'sheet' && this.props.data.settings) {
       return (
@@ -402,7 +430,7 @@ class Dialog extends PureComponent {
                 key={id}
                 className={id}
                 draggable={false}
-                title={TITLES[id]}
+                title={this.getTitle(id)}
                 additionalControls={EMPTY_ARRAY}
                 path={path}
                 renderToolbar={null}

@@ -350,14 +350,19 @@ class Container extends PureComponent {
       if (this.props.data.selectOne === 'content') {
         return 'Контейнер';
       }
-      if (this.props.data.elements[this.props.data.selectOne].type === 'template' && this.props.data.elements[this.props.data.selectOne].templateTitle) {
-        return `${this.props.data.elements[this.props.data.selectOne]._label} - ${this.props.data.elements[this.props.data.selectOne].templateTitle}`;
+      if (this.props.data.selectOne !== this.props.data.elements[this.props.data.selectOne]._label) {
+        return `${this.props.data.selectOne} ▪︎ ${this.props.data.elements[this.props.data.selectOne]._label}`
       }
-      return this.props.data.elements[this.props.data.selectOne]._label;
+      return this.props.data.selectOne;
     }
     return Object
       .keys(this.props.data.selects)
-      .map(i => this.props.data.elements[i]._label)
+      .map(i => {
+        if (i !== this.props.data.elements[i]._label) {
+          return `${i} ▪︎ ${this.props.data.elements[i]._label}`;
+        }
+        return i;
+      })
       .join(', ');
   }
 

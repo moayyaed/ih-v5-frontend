@@ -339,14 +339,19 @@ class Layout extends PureComponent {
         return 'Экран';
       } 
       const item = this.props.data.elements[this.props.data.selectOne];
-      if (item.type === 'container' && item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.title) {
-        return `${item._label} - ${item.widgetlinks.link.title}`;
+      if (this.props.data.selectOne !== item._label) {
+        return `${this.props.data.selectOne} ▪︎ ${item._label}`;
       }
-      return item._label;
+      return this.props.data.selectOne;
     }
     return Object
       .keys(this.props.data.selects)
-      .map(i => this.props.data.elements[i]._label)
+      .map(i => {
+        if (i !== this.props.data.elements[i]._label) {
+          return `${i} ▪︎ ${this.props.data.elements[i]._label}`;
+        }
+        return i;
+      })
       .join(', ');
   }
 
