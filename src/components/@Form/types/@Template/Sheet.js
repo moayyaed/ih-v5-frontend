@@ -982,15 +982,15 @@ class Sheet extends Component {
     ]
     const scheme = {
       main: [
-        { id: '0', check: '1', title: 'Add Element', children: list },
-        { id: '-', type: 'divider' },
-        { id: '1', check: '4', title: 'Group', click: this.handleClickGroupElements },
-        { id: '2', check: '4', title: 'Ungroup', click: () => this.handleClickUnGroupElement(elementId) },
-        { id: '3', type: 'divider' },
-        { id: '4', check: 'isSelect', title: 'Copy', click: this.handleClickCopyElements },
-        { id: '5', check: 'isPaste', title: 'Paste', click: () => this.handleClickPasteElements(e) },
+        { id: '0', check: '1', title: 'Добавить элемент', children: list },
+        { id: '1', type: 'divider' },
+        { id: '4', check: '4', title: 'Сгруппировать', click: this.handleClickGroupElements },
+        { id: '5', check: '4', title: 'Разгруппировать', click: () => this.handleClickUnGroupElement(elementId) },
         { id: '6', type: 'divider' },
-        { id: '7', check: '5', title: 'Delete', click: () => this.handleDeleteElement(elementId) }
+        { id: '7', check: 'isSelect', title: 'Копировать', click: this.handleClickCopyElements },
+        { id: '8', check: 'isPaste', title: 'Вставить', click: () => this.handleClickPasteElements(e) },
+        { id: '9', type: 'divider' },
+        { id: '10', check: '5', title: 'Удалить', click: () => this.handleDeleteElement(elementId) }
       ]
     }
 

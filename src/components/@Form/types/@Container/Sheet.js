@@ -776,25 +776,31 @@ class Sheet extends Component {
   
     const scheme = {
       main: [
-        { id: '1', title: 'Add Element', children: listElemnts },
-        { id: '2', title: 'Add Template', type: 'remote', popupid: 'vistemplate', command: 'addTemplate' },
-        { id: '3', type: 'divider' },      
-        { id: '4', check: 'isSelect', title: 'Group', click: this.handleClickGroupElements },
-        { id: '5', check: 'isSelect', title: 'Ungroup', click: () => this.handleClickUnGroupElement(elementId) },
-        { id: '6', type: 'divider' },
-        { id: '7', check: 'isSelect', title: 'Copy', click: this.handleClickCopyElements },
-        { id: '8', check: 'isPaste', title: 'Paste', click: () => this.handleClickPasteElements(e) },
-        { id: '9', type: 'divider' },
-        { id: '10', check: 'checkCopyStyle', title: 'Copy Style', click: this.handleCopyStyle},
-        { id: '11', check: 'checkPasteStyle', title: 'Paste Style', click: this.handlePasteStyle },
-        { id: '12', type: 'divider' },
-        { id: '13', check: 'isSelect', title: 'Delete', click: () => this.handleDeleteElement(elementId) },
+        { id: '1', title: 'Добавить элемент', children: listElemnts },
+        { id: '2', title: 'Добавить шаблон', type: 'remote', popupid: 'vistemplate', command: 'addTemplate' },
+        { id: '3', type: 'divider' }, 
+        { id: '4', check: '4', title: 'Перепривязать', click: () => this.handleAutoLinkElement(elementId) },
+        { id: '5', type: 'divider' },     
+        { id: '6', check: 'isSelect', title: 'Сгруппировать', click: this.handleClickGroupElements },
+        { id: '7', check: 'isSelect', title: 'Разгруппировать', click: () => this.handleClickUnGroupElement(elementId) },
+        { id: '8', type: 'divider' },
+        { id: '9', check: 'isSelect', title: 'Копировать', click: this.handleClickCopyElements },
+        { id: '10', check: 'isPaste', title: 'Вставить', click: () => this.handleClickPasteElements(e) },
+        { id: '11', type: 'divider' },
+        { id: '12', check: 'checkCopyStyle', title: 'Копирвоать стиль', click: this.handleCopyStyle},
+        { id: '13', check: 'checkPasteStyle', title: 'Вставить стиль', click: this.handlePasteStyle },
         { id: '14', type: 'divider' },
-        { id: '15', check: 'isTemplate', title: 'Edit Template', click: this.handleClickEditTemplate },
+        { id: '15', check: 'isSelect', title: 'Удалить', click: () => this.handleDeleteElement(elementId) },
+        { id: '16', type: 'divider' },
+        { id: '17', check: 'isTemplate', title: 'Редактировать шаблон', click: this.handleClickEditTemplate },
       ]
     }
 
     ContextMenu.show(<Menu disabled={disabled} commands={commands} scheme={scheme} />, pos);
+  }
+
+  handleAutoLinkElement = (elementId) => {
+    console.log(elementId);
   }
 
   handleCopyStyle = () => {

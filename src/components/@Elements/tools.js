@@ -49,6 +49,7 @@ export function getElementsLocalVars(store, item) {
       }
       core.cache.vars[item.did][item.prop] = value;
       store.states[item.did][item.prop] = value;
+      sessionStorage.setItem('local', JSON.stringify(core.cache.vars));
     } catch {
       console.warn('Error: Action function wrong!')
     }

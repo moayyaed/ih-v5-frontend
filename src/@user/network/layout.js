@@ -22,6 +22,16 @@ function preparationData(data, clearAnimation = true) {
   }
   
   // set local vars 
+    
+    if (core.cache.vars === null) {
+      const local = sessionStorage.getItem('local');
+      if (local) {
+        core.cache.vars = JSON.parse(local);
+      } else {
+        core.cache.vars = {};
+      }
+    }
+
     Object
       .keys(core.cache.vars)
       .forEach(key => {
