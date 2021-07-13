@@ -64,6 +64,9 @@ const styles = {
 
 
 function Row(props) {
+  if (props.context && props.context.template && props.context.template.disableOptions) {
+    return null;
+  }
   const select = props.params.select || (props.context.template.selectnodeid === props.params.result.value.did && props.context.template.select === props.params.result.value.prop);
   return (
     <div style={styles.row}>

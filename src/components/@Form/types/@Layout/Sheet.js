@@ -779,24 +779,97 @@ class Sheet extends Component {
         { id: '1', title: 'Добавить элемент', children: listElemnts },
         { id: '2', title: 'Добавить контейнер', type: 'remote', popupid: 'viscont', command: 'addContainer' },
         // { id: '2', title: 'Add Template', type: 'remote', popupid: 'vistemplate', command: 'addTemplate' },
-        { id: '3', type: 'divider' },      
-        { id: '4', check: 'isSelect', title: 'Сгруппировать', click: this.handleClickGroupElements },
-        { id: '5', check: 'isSelect', title: 'Разгруппировать', click: () => this.handleClickUnGroupElement(elementId) },
-        { id: '6', type: 'divider' },
-        { id: '7', check: 'isSelect', title: 'Копировать', click: this.handleClickCopyElements },
-        { id: '8', check: 'isPaste', title: 'Вставить', click: () => this.handleClickPasteElements(e) },
-        { id: '9', type: 'divider' },
-        { id: '10', check: 'checkCopyStyle', title: 'Копирвоать стиль', click: this.handleCopyStyle},
-        { id: '11', check: 'checkPasteStyle', title: 'Вставить стиль', click: this.handlePasteStyle },
-        { id: '12', type: 'divider' },
-        { id: '13', check: 'isSelect', title: 'Удалить', click: () => this.handleDeleteElement(elementId) },
+        { id: '3', type: 'divider' },
+        { id: '4', check: 'isSelect', title: 'Перепривязать', click: () => this.handleDialogAutoLink(elementId) },
+        { id: '5', type: 'divider' },        
+        { id: '6', check: 'isSelect', title: 'Сгруппировать', click: this.handleClickGroupElements },
+        { id: '7', check: 'isSelect', title: 'Разгруппировать', click: () => this.handleClickUnGroupElement(elementId) },
+        { id: '8', type: 'divider' },
+        { id: '9', check: 'isSelect', title: 'Копировать', click: this.handleClickCopyElements },
+        { id: '10', check: 'isPaste', title: 'Вставить', click: () => this.handleClickPasteElements(e) },
+        { id: '11', type: 'divider' },
+        { id: '12', check: 'checkCopyStyle', title: 'Копирвоать стиль', click: this.handleCopyStyle},
+        { id: '13', check: 'checkPasteStyle', title: 'Вставить стиль', click: this.handlePasteStyle },
         { id: '14', type: 'divider' },
-        { id: '15', check: 'isContainer', title: 'Редактировать контейнер', click: this.handleClickEditContainer },
+        { id: '15', check: 'isSelect', title: 'Удалить', click: () => this.handleDeleteElement(elementId) },
+        { id: '16', type: 'divider' },
+        { id: '17', check: 'isContainer', title: 'Редактировать контейнер', click: this.handleClickEditContainer },
       ]
     }
 
     ContextMenu.show(<Menu disabled={disabled} commands={commands} scheme={scheme} />, pos);
   }
+
+  handleAutoLinkElement = (data, context) => {
+    if (data === ':exit:') {
+      core.transfer.unsub('form_dialog', this.handleAutoLinkElement);
+    } else {
+      core.transfer.unsub('form_dialog', this.handleAutoLinkElement);
+      core.actions.appdialog.close();
+      if (context.component.list && context.component.list.length) {
+        const links = {};
+        context.component.list.forEach(item => {
+          if (item.result && item.result.value) {
+            links[item.result.value.prop] = { 
+              did: item.result.value.did, 
+              title: item.result.title 
+            };
+          }
+        });
+        const selects = getAllElementsByGroup(Object.keys(this.props.selects), this.props.elements)
+        const elements = Object
+          .keys(this.props.elements)
+          .reduce((p, c) => {
+            if (selects[c]) {
+              if (typeof this.props.elements[c] === 'string') {
+                return { ...p, [c]: this.props.elements[c] };
+              }
+              return { 
+                ...p, 
+                [c]: Object
+                  .keys(this.props.elements[c])
+                  .reduce((p2, c2) => {
+                    const item = this.props.elements[c][c2];
+                    if (item && item.enabled) {
+                      if (item.did !== '__device' && item.did !== '__devstat' && links[item.prop]) {
+                        return { 
+                          ...p2, 
+                          [c2]: { 
+                            ...this.props.elements[c][c2], 
+                            did: links[item.prop].did,
+                            title: links[item.prop].title,  
+                          }  
+                        }
+                      }
+                    }
+                    return { ...p2, [c2]: this.props.elements[c][c2] }
+                  }, {})
+              };
+            }
+            return { ...p, [c]: this.props.elements[c] }
+          }, {})
+        core.actions.layout.data(this.props.id, this.props.prop, { elements });
+      }
+    }
+  }
+
+  handleDialogAutoLink = (elementId) => {
+    const params = {
+      disabledSave: false,
+      disableOptions: true, 
+      type: 'tree',
+      title: 'Выберите устройство', 
+      id: 'devices', 
+    };
+    
+    core.transfer.sub('form_dialog', this.handleAutoLinkElement);
+    core.actions.appdialog.data({ 
+      open: true, 
+      transferid: 'form_dialog',
+      template: params,
+    });
+  }
+
 
   handleCopyStyle = () => {
     const disabled = {
