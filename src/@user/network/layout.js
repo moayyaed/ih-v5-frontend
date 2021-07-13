@@ -392,7 +392,7 @@ function preparationData(data, clearAnimation = true) {
           }
 
           // link
-          if (item && item.link && item.link.id === '__device') {
+          if (item && item.link && (item.link.id === '__device' || item.did === '__devstat')) {
             item.link.id = core.cache.contexts[key];
           }
 
