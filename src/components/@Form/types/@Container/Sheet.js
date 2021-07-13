@@ -779,7 +779,7 @@ class Sheet extends Component {
         { id: '1', title: 'Добавить элемент', children: listElemnts },
         { id: '2', title: 'Добавить шаблон', type: 'remote', popupid: 'vistemplate', command: 'addTemplate' },
         { id: '3', type: 'divider' }, 
-        { id: '4', check: '4', title: 'Перепривязать', click: () => this.handleAutoLinkElement(elementId) },
+        // { id: '4', check: '4', title: 'Перепривязать', click: () => this.handleAutoLinkElement(elementId) },
         { id: '5', type: 'divider' },     
         { id: '6', check: 'isSelect', title: 'Сгруппировать', click: this.handleClickGroupElements },
         { id: '7', check: 'isSelect', title: 'Разгруппировать', click: () => this.handleClickUnGroupElement(elementId) },
