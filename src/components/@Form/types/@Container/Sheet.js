@@ -780,8 +780,6 @@ class Sheet extends Component {
       main: [
         { id: '1', title: 'Добавить элемент', children: listElemnts },
         { id: '2', title: 'Добавить шаблон', type: 'remote', popupid: 'vistemplate', command: 'addTemplate' },
-        { id: '3', type: 'divider' }, 
-        { id: '4', check: 'isSelect', title: 'Перепривязать', click: () => this.handleDialogAutoLink(elementId) },
         { id: '5', type: 'divider' },     
         { id: '6', check: 'isSelect', title: 'Сгруппировать', click: this.handleClickGroupElements },
         { id: '7', check: 'isSelect', title: 'Разгруппировать', click: () => this.handleClickUnGroupElement(elementId) },
@@ -789,12 +787,14 @@ class Sheet extends Component {
         { id: '9', check: 'isSelect', title: 'Копировать', click: this.handleClickCopyElements },
         { id: '10', check: 'isPaste', title: 'Вставить', click: () => this.handleClickPasteElements(e) },
         { id: '11', type: 'divider' },
-        { id: '12', check: 'checkCopyStyle', title: 'Копирвоать стиль', click: this.handleCopyStyle},
+        { id: '12', check: 'checkCopyStyle', title: 'Копировать стиль', click: this.handleCopyStyle},
         { id: '13', check: 'checkPasteStyle', title: 'Вставить стиль', click: this.handlePasteStyle },
         { id: '14', type: 'divider' },
         { id: '15', check: 'isSelect', title: 'Удалить', click: () => this.handleDeleteElement(elementId) },
         { id: '16', type: 'divider' },
-        { id: '17', check: 'isTemplate', title: 'Редактировать шаблон', click: this.handleClickEditTemplate },
+        { id: '17', check: 'isSelect', title: 'Перепривязать', click: () => this.handleDialogAutoLink(elementId) },
+        { id: '18', type: 'divider' }, 
+        { id: '19', check: 'isTemplate', title: 'Редактировать шаблон', click: this.handleClickEditTemplate },
       ]
     }
 
