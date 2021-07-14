@@ -12,6 +12,8 @@ import Menu from 'components/Menu';
 import elemets from 'components/@Elements';
 import getDefaultParamsElement from 'components/@Elements/default';
 
+import { linkAllProps } from 'components/@Form/types/@Layout/tools';
+
 import shortid from 'shortid';
 
 const method2 = window.document.body.style.zoom === undefined;
@@ -805,49 +807,28 @@ class Sheet extends Component {
     } else {
       core.transfer.unsub('form_dialog', this.handleAutoLinkElement);
       core.actions.appdialog.close();
-      if (context.component.list && context.component.list.length) {
-        const links = {};
-        context.component.list.forEach(item => {
-          if (item.result && item.result.value) {
-            links[item.result.value.prop] = { 
-              did: item.result.value.did, 
-              title: item.result.title 
-            };
-          }
-        });
+      if (context.component.id) {
+        const link = {
+          did: context.component.id,
+          dn: context.component.dn,  
+          title: context.component.title.split(' ▪︎ ')[0],
+          titleOriginal: context.component.title 
+        };
+    
         const selects = getAllElementsByGroup(Object.keys(this.props.selects), this.props.elements)
         const elements = Object
           .keys(this.props.elements)
           .reduce((p, c) => {
             if (selects[c]) {
-              if (typeof this.props.elements[c] === 'string') {
-                return { ...p, [c]: this.props.elements[c] };
-              }
               return { 
                 ...p, 
-                [c]: Object
-                  .keys(this.props.elements[c])
-                  .reduce((p2, c2) => {
-                    const item = this.props.elements[c][c2];
-                    if (item && item.enabled) {
-                      if (item.did !== '__device' && item.did !== '__devstat' && links[item.prop]) {
-                        return { 
-                          ...p2, 
-                          [c2]: { 
-                            ...this.props.elements[c][c2], 
-                            did: links[item.prop].did,
-                            title: links[item.prop].title,  
-                          }  
-                        }
-                      }
-                    }
-                    return { ...p2, [c2]: this.props.elements[c][c2] }
-                  }, {})
+                [c]: linkAllProps(this.props.elements[c], link) 
               };
             }
             return { ...p, [c]: this.props.elements[c] }
           }, {})
         core.actions.container.data(this.props.id, this.props.prop, { elements });
+        this.props.save();
       }
     }
   }

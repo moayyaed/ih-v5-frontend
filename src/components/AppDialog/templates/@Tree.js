@@ -69,7 +69,7 @@ function handleClickNode(item, component, nodeid, context) {
       rootid = context.options.roots[item.path[0]];
     }
   }
-  core.actions.appdialog.component({ title: item.node.title, type: component, id: nodeid, rootid });
+  core.actions.appdialog.component({ title: item.node.title, type: component, id: nodeid, dn: item.node.dn, rootid });
 }
 
 function TemplateTree({ state }) {
