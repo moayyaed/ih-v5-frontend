@@ -52,12 +52,15 @@ class SmartButton extends PureComponent {
     this.props.onChange(this.props.id, this.props.options, null, value)
   }
 
-  handleDialogClick = (value) => {
+  handleDialogClick = (value, context) => {
     if (value === ':exit:') {
       core.transfer.unsub('form_dialog', this.handleDialogClick);
     } else if (value === null) {
       this.handleAfterClick(value)
     } else {
+      if (context && context.component && context.component.id) {
+        core.cache.dialogDevice = context.component.id;
+      }
       core.transfer.unsub('form_dialog', this.handleDialogClick);
       core.actions.appdialog.close();
       this.handleAfterClick(value)
@@ -88,7 +91,7 @@ class SmartButton extends PureComponent {
         ...this.props.options.params,
         anchor: this.props.data.anchor,
         nodeid: this.props.route.channel,
-        selectnodeid: this.props.data.dialognodeid,
+        selectnodeid: this.props.data.dialognodeid || core.cache.dialogDevice,
         disabledSave: true,
        }
     
