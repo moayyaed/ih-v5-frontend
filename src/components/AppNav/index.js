@@ -473,7 +473,7 @@ class AppNav extends Component {
     
     input.type = 'file';
     input.multiple = true;
-    input.accept="image/*, .zip, .rar"
+    // input.accept="image/*, .zip, .rar"
 
     input.onchange = (e) => {
       const list = [];  

@@ -169,7 +169,7 @@ function handleUpload (props) {
   const uuid = shortid.generate();
   
   input.type = 'file';
-  input.accept=".ihpack, .zip"
+  // input.accept=".ihpack, .zip"
 
   input.onchange = (e) => {
     const list = [];  
