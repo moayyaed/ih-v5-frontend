@@ -50,11 +50,11 @@ function linkCommands(list, link) {
           value: {
             ...i.value,
             targetFrameTable: i.value.targetFrameTable.map(v => {
-              if (v.device && v.device.id && (v.device.id !== '__device' || v.device.id !== '__devstat')) {
+              if (v.device_id && v.device_id.id && (v.device_id.id !== '__device' || v.device_id.id !== '__devstat')) {
                 return {
                   ...v,
-                  device: {
-                    ...v.device,
+                  device_id: {
+                    ...v.device_id,
                     id: link.did,
                     title: link.titleOriginal
                   }

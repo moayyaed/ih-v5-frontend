@@ -81,7 +81,7 @@ class AppLayout extends Component {
         Object
           .keys(data.context.frames)
           .forEach(key => {
-            temp.push(`${key},${data.context.frames[key].container_id || ''},${data.context.frames[key].device || ''}`);
+            temp.push(`${key},${data.context.frames[key].container_id || ''},${data.context.frames[key].device_id || ''}`);
           });
           params = temp.join(';');
       }
@@ -97,7 +97,7 @@ class AppLayout extends Component {
                 params: {
                   frameId: key,
                   containerId : data.context.frames[key].container_id,
-                  contextId: data.context.frames[key].device || null,
+                  contextId: data.context.frames[key].device_id || null,
                 }
               })
               .ok(res => {
@@ -117,7 +117,7 @@ class AppLayout extends Component {
                     type: 'container',
                     uuid: data.context.frames[key].container_id,
                     id: data.context.frames[key].container_id,
-                    contextId: data.context.frames[key].device || null,
+                    contextId: data.context.frames[key].device_id || null,
                   }, this.subs[data.context.frames[key].container_id]);
                   core.actions.layout.changeContainer(key, data.context.frames[key].container_id, res);
                 }
