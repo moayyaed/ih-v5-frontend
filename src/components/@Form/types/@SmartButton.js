@@ -128,7 +128,7 @@ class SmartButton extends PureComponent {
         anchor: this.props.data.anchor,
         nodeid: this.props.route.channel,
         selectnodeid: this.props.data.dialognodeid,
-        selectnodeid: this.props.data.did,
+        selectnodeid: this.props.data.did || core.cache.dialogDevice,
         tempalte: this.props.data.template,
         select: this.props.data.prop,
         }

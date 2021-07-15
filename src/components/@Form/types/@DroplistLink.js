@@ -258,7 +258,7 @@ class DroplistLink extends PureComponent {
             title: ' Параметры привязки',
             type: 'tree',
             id: this.props.route.layout ? 'elements': 'elementsAndAny',
-            selectnodeid: this.props.data.did,
+            selectnodeid: this.props.data.did || core.cache.dialogDevice,
             tempalte: this.props.data.template,
             selectId: this.props.data.prop,
             selectTitle: this.props.data.title,
@@ -276,6 +276,7 @@ class DroplistLink extends PureComponent {
       const title = data.title;
       const func = data.func;
       const template = data.template;
+      core.cache.dialogDevice = did;
 
       if (prop) {
         const obj = createValueFunc(func);

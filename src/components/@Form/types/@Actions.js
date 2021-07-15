@@ -340,7 +340,7 @@ function Actions(props) {
         type: (command === 'device' || command === 'device_any' || command === 'setval' || command === 'setval_any') ? 'tree' : 'options',
         id: COMMANDS[command] || 'null',
         dialog: 'channellink',
-        selectnodeid: did,
+        selectnodeid: did || core.cache.dialogDevice,
         selectId: prop,
         selectTitle: title,
         select: prop,

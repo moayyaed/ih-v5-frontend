@@ -72,7 +72,6 @@ class InputLink extends PureComponent {
         });
       } else {
         core.transfer.sub('form_dialog', this.handleDialogClick3);
-        console.log(this.props.route)
         core.actions.appdialog.data({
           id: 'animation', 
           open: true, 
@@ -83,7 +82,7 @@ class InputLink extends PureComponent {
             title: ' Параметры привязки',
             type: 'tree',
             id: this.props.route.layout ? 'elements': 'elementsAndAny',
-            selectnodeid: this.props.data.did,
+            selectnodeid: this.props.data.did || core.cache.dialogDevice,
             tempalte: this.props.data.template,
             selectId: this.props.data.prop,
             selectTitle: this.props.data.title,
@@ -101,7 +100,7 @@ class InputLink extends PureComponent {
       const title = data.title;
       const func = data.func;
       const template = data.template;
-
+      core.cache.dialogDevice = did;
       if (prop) {
         const obj = createValueFunc(func);
 
@@ -114,7 +113,7 @@ class InputLink extends PureComponent {
 
             core.transfer.unsub('form_dialog', this.handleDialogClick3);
             core.actions.appdialog.close();
-      
+
             this.props.onChange(this.props.id, this.props.options, null, params)
           } catch(e) {
             core.actions.app.alertOpen('warning', 'Function error: ' + e.message);

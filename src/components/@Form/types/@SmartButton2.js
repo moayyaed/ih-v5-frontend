@@ -74,7 +74,7 @@ class SmartButton2 extends PureComponent {
       disabledSave: this.props.options.params.save !== undefined ? !this.props.options.params.save : false,
       ...this.props.options.params,
       type: this.props.options.params.variant,
-      selectnodeid: this.props.data.id || this.props.data.did,
+      selectnodeid: this.props.data.id || this.props.data.did || core.cache.dialogDevice,
       select: this.props.data.prop,
       data: this.props.data,
     }

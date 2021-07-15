@@ -162,7 +162,7 @@ function Color(props) {
             type: 'tree',
             id: props.route.layout ? 'elements': 'elementsAndAny',
             template: props.data.template,
-            selectnodeid: props.data.did,
+            selectnodeid: props.data.did || core.cache.dialogDevice,
             selectId: props.data.prop,
             selectTitle: props.data.title,
             func: props.data.func || defaultFunction,
@@ -179,6 +179,7 @@ function Color(props) {
       const title = data.title;
       const func = data.func;
       const template = data.template;
+      core.cache.dialogDevice = did;
 
       if (prop) {
         const obj = createValueFunc(func);

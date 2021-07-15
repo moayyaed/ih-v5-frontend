@@ -80,6 +80,7 @@ const core = {
       c: {},
     },
     dialogRelink: null,
+    dialogDevice: null,
   },
   whois: Bowser.parse(window.navigator.userAgent),
   restart: false,
