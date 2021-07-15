@@ -79,6 +79,7 @@ const core = {
       d: null,
       c: {},
     },
+    dialogRelink: null,
   },
   whois: Bowser.parse(window.navigator.userAgent),
   restart: false,

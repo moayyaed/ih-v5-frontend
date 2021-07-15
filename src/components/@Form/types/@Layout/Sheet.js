@@ -810,6 +810,7 @@ class Sheet extends Component {
       core.transfer.unsub('form_dialog', this.handleAutoLinkElement);
       core.actions.appdialog.close();
       if (context.component.id) {
+        core.cache.dialogRelink = context.component.id;
         const link = {
           did: context.component.id,
           dn: context.component.dn,  
@@ -841,7 +842,8 @@ class Sheet extends Component {
       disableOptions: true, 
       type: 'tree',
       title: 'Выберите устройство', 
-      id: 'devices', 
+      id: 'devices',
+      selectnodeid: core.cache.dialogRelink, 
     };
     
     core.transfer.sub('form_dialog', this.handleAutoLinkElement);
