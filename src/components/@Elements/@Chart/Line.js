@@ -286,8 +286,8 @@ class Chart extends PureComponent {
 
     const statics = data.lines.filter(i => i.type !== 0);
     const legend = data || {};
-    const isDidProp = props.item.widgetlinks.link.id === '__device';
-    const dn = props.mode === 'user' ? ((isDidProp ? core.store.getState().layoutDialog.contextId : (props.item.widgetlinks.link.dn || props.item.widgetlinks.link.id)) + '.' + props.item.widgetlinks.link.prop) : 'line';
+    const isDidProp = (props.item.widgetlinks.link.id === '__device' || props.item.widgetlinks.link.id !== undefined);
+    const dn = props.mode === 'user' ? ((isDidProp ? (props.item.widgetlinks.link.id === '__device' ? core.store.getState().layoutDialog.contextId : props.item.widgetlinks.link.id) : props.item.widgetlinks.link.dn) + '.' + props.item.widgetlinks.link.prop) : 'line';
     const alias = [].reduce((l, n) => ({ ...l, [n.dn]: n.id }), {});
     const { start, end } = getZoomInterval(props.item.interval.value.id);
     this.ctx = createContext(
