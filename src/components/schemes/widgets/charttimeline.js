@@ -41,6 +41,11 @@ const charttimeline = {
       ],
     },
     { 
+      title: 'Show Legend', 
+      prop: 'legend', 
+      type: 'cb',
+    },
+    { 
       title: 'Moveable', 
       prop: 'moveable', 
       type: 'cb',

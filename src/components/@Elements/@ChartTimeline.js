@@ -146,7 +146,7 @@ class ChartTimeline extends Component {
       moveable: this.props.item.moveable.value,
       showMajorLabels: this.props.item.axisBottomTime.value,
       showMinorLabels: this.props.item.axisBottomDate.value,
-      start, end
+      start, end,
     };
  
     this.timelineData = new DataSet([]);
@@ -157,6 +157,12 @@ class ChartTimeline extends Component {
     this.timeline.body.dom.bottom.style.borderRight = '0px';
     this.timeline.body.dom.bottom.children[0].style.borderLeft = '1px solid ' + this.props.item.gridColor.value;
     this.timeline.body.dom.left.style.color = this.props.item.textColor.value;
+
+    if (this.props.item.legend.value) {
+      this.timeline.body.dom.left.style.display = 'block';
+    } else {
+      this.timeline.body.dom.left.style.display = 'none';
+    }
 
     this.getData();
   }
@@ -188,6 +194,12 @@ class ChartTimeline extends Component {
     this.timeline.body.dom.bottom.children[0].style.borderLeft = '1px solid ' + props.item.gridColor.value;
     this.timeline.body.dom.left.style.color = props.item.textColor.value;
 
+    if (props.item.legend.value) {
+      this.timeline.body.dom.left.style.display = 'block';
+    } else {
+      this.timeline.body.dom.left.style.display = 'none';
+    }
+
     this.timeline.setOptions(options);
   }
 
@@ -204,6 +216,44 @@ class ChartTimeline extends Component {
           items: json.data
         })
       });
+  }
+
+  cacheEvent = () => {
+    const times = this.timeline.getWindow();
+    const data = { 
+      command: this.props.dialogId ? 'synccharts_dialog' : 'synccharts',
+      range: [times.start.getTime(), times.end.getTime()],
+      realtime: this.state.realtime,
+      layoutId: this.props.layoutId, 
+      containerId: this.props.containerId, 
+    };
+    if (this.props.dialogId) {
+      core.cache.chart.d = data
+    } else if (this.props.containerId) {
+      core.cache.chart.c[this.props.containerId] = data
+    } else {
+      core.cache.chart.l = data
+    }
+  }
+
+  handleDate = () => {
+    this.setState({ calendar: true })
+  }
+
+  handleChandeDate = (v) => {
+    const date = new Date(v.unix() * 1000);
+    date.setHours(0, 0, 0, 0);
+
+    this.setState({ realtime: false, calendar: false });
+
+    const times = this.timeline.getWindow();
+    const d = times.end.getTime() - times.start.getTime();
+    this.timeline.setWindow(date.getTime(), date.getTime() + d, { animation: false });
+    this.cacheEvent();
+  }
+
+  handleChandeDateClose = () => {
+    this.setState({ calendar: false })
   }
 
   linked = (e) => {

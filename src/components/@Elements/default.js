@@ -444,6 +444,7 @@ const CHART_TIMELINE = {
   axisBottomDate: { value: true },
   axisBottomTime: { value: true },
   interval: { value: { id: 'hour', title: 'Hour' } },
+  legend: { value: true },
   moveable: { value: true },
   gridColor: { value: 'rgba(191, 191, 191, 1)' },
   textColor: { value: 'rgba(77, 77, 77, 1)' },
