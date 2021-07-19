@@ -47,7 +47,7 @@ function reducer(state = defaultState, action) {
           elements: Object
           .keys(state.layout.elements)
           .reduce((p, c) => {
-            if (state.layout.elements[c].type === 'chart' || state.layout.elements[c].type === 'chart_multi') {
+            if (state.layout.elements[c].type === 'chart_timeline' || state.layout.elements[c].type === 'chart' || state.layout.elements[c].type === 'chart_multi') {
               return { 
                 ...p, 
                 [c]: {
@@ -75,7 +75,7 @@ function reducer(state = defaultState, action) {
             elements: Object
               .keys(state.containers[action.containerId].elements)
               .reduce((p, c) => {
-                if (state.containers[action.containerId].elements[c].type === 'chart' || state.containers[action.containerId].elements[c].type === 'chart_multi') {
+                if (state.containers[action.containerId].elements[c].type === 'chart_timeline' || state.containers[action.containerId].elements[c].type === 'chart' || state.containers[action.containerId].elements[c].type === 'chart_multi') {
                   return { 
                     ...p, 
                     [c]: {
@@ -102,7 +102,7 @@ function reducer(state = defaultState, action) {
           elements: Object
           .keys(state.layout.elements)
           .reduce((p, c) => {
-            if (state.layout.elements[c].type === 'chart' || state.layout.elements[c].type === 'chart_multi') {
+            if (state.layout.elements[c].type === 'chart_timeline' || state.layout.elements[c].type === 'chart' || state.layout.elements[c].type === 'chart_multi') {
               var ns, ne, forceRealtime;
               if (typeof action.position === 'string') {
                 forceRealtime = false;
@@ -157,7 +157,7 @@ function reducer(state = defaultState, action) {
             elements: Object
               .keys(state.containers[action.containerId].elements)
               .reduce((p, c) => {
-                if (state.containers[action.containerId].elements[c].type === 'chart' || state.containers[action.containerId].elements[c].type === 'chart_multi') {
+                if (state.containers[action.containerId].elements[c].type === 'chart_timeline' || state.containers[action.containerId].elements[c].type === 'chart' || state.containers[action.containerId].elements[c].type === 'chart_multi') {
                   var ns, ne, forceRealtime;
                   if (typeof action.position === 'string') {
                     forceRealtime = false;

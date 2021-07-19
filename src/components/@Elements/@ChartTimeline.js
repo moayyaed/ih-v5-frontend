@@ -164,12 +164,21 @@ class ChartTimeline extends Component {
       this.timeline.body.dom.left.style.display = 'none';
     }
 
+    this.props.item.data.range = [start, end];
+
+    this.timeline.on('rangechange', this.handleRangeChange);
+
     this.getData();
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.item !== nextProps.item) {
+    if (JSON.stringify(this.props.item) !== JSON.stringify(nextProps.item)) {
       this.updateOptions(nextProps);
+    }
+
+    if (nextProps.item.data.triger !== undefined && nextProps.item.data.triger !== this.props.item.data.triger) {
+      this.setState({ realtime: nextProps.item.data.forceRealtime });
+      this.timeline.setWindow(nextProps.item.data.range[0], nextProps.item.data.range[1], { animation: false });
     }
   }
 
@@ -236,8 +245,46 @@ class ChartTimeline extends Component {
     }
   }
 
+  handleRangeChange = ({ start, end}) => {
+    this.props.item.data.range = [start.getTime(), end.getTime()];
+  }
+
+  handleSync = () => {
+    const times = this.timeline.getWindow();
+    core.transfer.send('command_layout', { 
+      command: this.props.dialogId ? 'synccharts_dialog' : 'synccharts',
+      range: [times.start.getTime(), times.end.getTime()],
+      realtime: this.state.realtime,
+      layoutId: this.props.layoutId, 
+      containerId: this.props.containerId, 
+    })
+    this.cacheEvent();
+  };
+
   handleDate = () => {
     this.setState({ calendar: true })
+  }
+
+  handleNavBefore = () => {
+    const times = this.timeline.getWindow();
+    const s = times.start.getTime();
+    const e = times.end.getTime();
+    const i = e - s;
+    const ns = s - i;
+    const ne = e - i;
+    this.timeline.setWindow(ns, ne, { animation: false });
+    this.cacheEvent();
+  }
+
+  handleNavNext = () => {
+    const times = this.timeline.getWindow();
+    const s = times.start.getTime();
+    const e = times.end.getTime();
+    const i = e - s;
+    const ns = e;
+    const ne = e + i;
+    this.timeline.setWindow(ns, ne, { animation: false });
+    this.cacheEvent();
   }
 
   handleChandeDate = (v) => {
@@ -254,6 +301,15 @@ class ChartTimeline extends Component {
 
   handleChandeDateClose = () => {
     this.setState({ calendar: false })
+  }
+
+  handleHome = () => {
+    this.setState({ realtime: true });
+    const times = this.timeline.getWindow();
+    const d = times.end.getTime() - times.start.getTime();
+    const now = Date.now();
+    this.timeline.setWindow(now, now + d, { animation: false });
+    this.cacheEvent();
   }
 
   linked = (e) => {
