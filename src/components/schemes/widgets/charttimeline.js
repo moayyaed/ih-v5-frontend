@@ -41,11 +41,6 @@ const charttimeline = {
       ],
     },
     { 
-      title: 'Show Legend', 
-      prop: 'legend', 
-      type: 'cb',
-    },
-    { 
       title: 'Moveable', 
       prop: 'moveable', 
       type: 'cb',
@@ -59,6 +54,16 @@ const charttimeline = {
       title: 'Text Color', 
       prop: 'textColor', 
       type: 'color',
+    },
+    { 
+      title: 'Legend', 
+      prop: 'axisleft', 
+      type: 'divider',
+    },
+    { 
+      title: 'Width', 
+      prop: 'legendWidth', 
+      type: 'number',
     },
     { 
       title: 'Axis Bottom', 

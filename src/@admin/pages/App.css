@@ -331,3 +331,13 @@ input.core:focus {
 .vis-grid, .vis-panel {
   border-color: unset!important;
 }
+
+/*
+.vis-panel.vis-left {
+  overflow: unset!important;
+}
+
+.vis-labelset {
+  overflow: unset!important;
+}
+*/

@@ -69,6 +69,7 @@ const styles = {
 
 const groups = [
   { id: 'TEST_Sensor_001.state', content: 'TEST_Sensor_001' },
+  { id: 'TEST_Sensor_002.state', content: 'TEST_Sensor_002' },
 ];
 
 function EndIcon(props) {
@@ -158,11 +159,7 @@ class ChartTimeline extends Component {
     this.timeline.body.dom.bottom.children[0].style.borderLeft = '1px solid ' + this.props.item.gridColor.value;
     this.timeline.body.dom.left.style.color = this.props.item.textColor.value;
 
-    if (this.props.item.legend.value) {
-      this.timeline.body.dom.left.style.display = 'block';
-    } else {
-      this.timeline.body.dom.left.style.display = 'none';
-    }
+    this.timeline.body.dom.left.style.width = this.props.item.legendWidth.value + 6 + 'px';
 
     this.props.item.data.range = [start, end];
 
@@ -203,11 +200,7 @@ class ChartTimeline extends Component {
     this.timeline.body.dom.bottom.children[0].style.borderLeft = '1px solid ' + props.item.gridColor.value;
     this.timeline.body.dom.left.style.color = props.item.textColor.value;
 
-    if (props.item.legend.value) {
-      this.timeline.body.dom.left.style.display = 'block';
-    } else {
-      this.timeline.body.dom.left.style.display = 'none';
-    }
+    this.timeline.body.dom.left.style.width = props.item.legendWidth.value + 6 + 'px';
 
     this.timeline.setOptions(options);
   }
@@ -247,6 +240,7 @@ class ChartTimeline extends Component {
 
   handleRangeChange = ({ start, end}) => {
     this.props.item.data.range = [start.getTime(), end.getTime()];
+    this.cacheEvent();
   }
 
   handleSync = () => {
@@ -340,6 +334,7 @@ class ChartTimeline extends Component {
             ...styles.root, 
             color: this.props.item.gridColor.value, 
             height: getHeight(item), 
+            width: 'calc(100% - 6px)',
             pointerEvents: this.props.mode === 'user' ? 'all' : 'none',
           }}
         />
