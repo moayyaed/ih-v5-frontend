@@ -119,3 +119,14 @@ input.core:focus {
   -webkit-transition: background-color .3s ease-out;
   -o-transition: background-color .3s ease-out;
 }
+
+.vis-timeline {
+  border: unset!important;
+}
+
+.vis-text, .vis-label {
+  color: unset!important;
+}
+.vis-grid, .vis-panel {
+  border-color: unset!important;
+}

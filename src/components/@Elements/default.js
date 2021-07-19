@@ -441,6 +441,19 @@ const CHART_TIMELINE = {
     link: { }
   },
   data: { },
+  axisBottomDate: { value: true },
+  axisBottomTime: { value: true },
+  interval: { value: { id: 'hour', title: 'Hour' } },
+  moveable: { value: true },
+  gridColor: { value: 'rgba(191, 191, 191, 1)' },
+  textColor: { value: 'rgba(77, 77, 77, 1)' },
+  buttonSync: { value: true },
+  buttonHome: { value: true },
+  buttonDate: { value: true },
+  buttonDiscrete: { value: true },
+  buttonNavigate: { value: true },
+  buttonSize: { value: 100 },
+  buttonsColor: { value: 'rgba(64, 81, 181, 1)' },
 }
 
 const CHART_BAR = {
