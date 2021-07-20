@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import core from 'core';
-import { transform } from './tools';
+import { transform } from '../tools';
 
 import { Timeline, DataSet } from 'vis-timeline/standalone';
 
@@ -16,6 +16,12 @@ import lime from "@material-ui/core/colors/lime";
 
 import { createMuiTheme } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/styles";
+
+import {
+  getZoomInterval,
+  render,
+  createContext,
+} from './utils';
 
 const MIN_DATE = new Date(1451606400 * 1000);
 const MAX_DATE = new Date(2524694399 * 1000);
@@ -64,13 +70,21 @@ const styles = {
   datePicker: {
     display: 'none',
   },
-
+  spiner: {
+    display: 'none',
+    position: 'absolute',
+    width: '52',
+    height: '18',
+    backgroundColor: 'rgba(247,252,255,.65)',
+    fontSize: 10,
+    top: 4,
+    right: 5,
+    border: '1px solid #b3b3b3',
+    boxShadow: '2px 2px 10px rgba(154,154,154,.55)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 }
-
-const groups = [
-  { id: 'TEST_Sensor_001.state', content: 'TEST_Sensor_001' },
-  { id: 'TEST_Sensor_002.state', content: 'TEST_Sensor_002' },
-];
 
 function EndIcon(props) {
   return (
@@ -102,27 +116,6 @@ function CalendarIcon(props) {
       <path d="M19.356,10.211 L19.356,11.373 Q18.854,11.868 18.021,13.097 Q17.188,14.326 16.548,15.747 Q15.915,17.131 15.588,18.271 Q15.377,19.003 15.042,20.632 L13.595,20.632 Q14.089,17.597 15.777,14.592 Q16.773,12.831 17.872,11.55 L12.111,11.55 L12.111,10.211 z" /> 
     </SvgIcon>
   )
-}
-
-
-export function getZoomInterval(type) {
-  const end = Date.now();
-  switch (type) {
-    case '1970':
-      return { start: 0, end: 3600000 };
-    case 'minute':
-      return { start: end - (1000 * 60), end };
-    case 'hour':
-      return { start: end - (1000 * 60 * 60), end };
-    case 'day':
-      return { start: end - (1000 * 60 * 60 * 24), end };
-    case 'week':
-      return { start: end - (1000 * 60 * 60 * 24 * 7), end };
-    case 'mount':
-      return { start: end - (1000 * 60 * 60 * 24 * 31), end };
-    default:
-      return { start: end - (1000 * 60), end };
-  }
 }
 
 function getHeight(item) {
@@ -157,9 +150,15 @@ class ChartTimeline extends Component {
       showMinorLabels: Boolean(this.props.item.axisBottomDate.value),
       start: ns, end: ne,
     };
- 
+    
+    const dn = this.props.item.data.lines.map(i => i.dn_prop).join(',');
+    const alias = this.props.item.data.lines.reduce((l, n) => ({ ...l, [n.dn_prop]: n.dn_prop }), {});
+    const group = this.props.item.data.lines.map(i => {
+      return { id: i.dn_prop, content: i.dn_prop }
+    });
+
     this.timelineData = new DataSet([]);
-    this.timeline = new Timeline(this.link, this.timelineData, groups, options);
+    this.timeline = new Timeline(this.link, this.timelineData, group, options);
 
     this.timeline.body.dom.bottom.style.color = this.props.item.textColor.value;
     this.timeline.body.dom.bottom.style.borderLeft = '0px';
@@ -173,7 +172,18 @@ class ChartTimeline extends Component {
 
     this.timeline.on('rangechange', this.handleRangeChange);
 
-    this.getData();
+    this.ctx = createContext(
+      this.timeline,
+      this.timelineData,
+      'legend',
+      this.spiner,
+      'fetch',
+      { start: ns, end: ne },
+      { id: 'timeline_1', dn, alias, items: [], legend: 'legend' },
+      'panel',
+    );
+
+    render(this.ctx, this.timeline);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -221,21 +231,6 @@ class ChartTimeline extends Component {
     this.timeline.setOptions(options);
   }
 
-  getData = () => {
-    const fetch = window.__ihp2p ? window.__ihp2p : window.fetch;
-
-    fetch('/timeline?id=11&start=1626434056646&dn_prop=TEST_Sensor_001.state', { headers: { token: core.cache.token } })
-      .then(res => res.json())
-      .then(json => {
-        json.data.forEach(i => {
-          i.group = `${i.dn}.${i.prop}`;
-        });
-        this.timeline.setData({
-          items: json.data
-        })
-      });
-  }
-
   cacheEvent = () => {
     const times = this.timeline.getWindow();
     const data = { 
@@ -254,9 +249,10 @@ class ChartTimeline extends Component {
     }
   }
 
-  handleRangeChange = ({ start, end}) => {
-    this.props.item.data.range = [start.getTime(), end.getTime()];
+  handleRangeChange = (e) => {
+    this.props.item.data.range = [e.start.getTime(), e.end.getTime()];
     this.cacheEvent();
+    render(this.ctx, e);
   }
 
   handleSync = () => {
@@ -328,6 +324,10 @@ class ChartTimeline extends Component {
     this.cacheEvent();
   }
 
+  linkedSpiner = (e) => {
+    this.spiner = e;
+  }
+
   linked = (e) => {
     this.link = e;
   }
@@ -352,6 +352,7 @@ class ChartTimeline extends Component {
           visibility: item.visible && item.visible.value == false ? 'hidden' : 'unset',
         }}
       >
+        <div ref={this.linkedSpiner} style={styles.spiner} >LOADING</div>
         <div ref={this.linked} style={{ 
             ...styles.root, 
             color: this.props.item.gridColor.value, 

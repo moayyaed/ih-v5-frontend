@@ -1,7 +1,7 @@
 const dynamic = {
   chart: { variant: 'tree', title: 'Выберите свойство', id: 'devpropsAndAny', save: false },
   chart_multi: { variant: 'options',title: 'Выберите график', id: 'charts' },
-  chart_timeline: { variant: 'options',title: 'Выберите график', id: 'charts' },
+  chart_timeline: { variant: 'tree',title: 'Выберите график', id: 'timelinecharts' },
   devicelog: { variant: 'tree',title: 'Выберите свойство', id: 'devicesAndAny' },
   devicesettings: { variant: 'tree',title: 'Выберите свойство', id: 'devicesAndAny' },
   input: { variant: 'tree',title: 'Выберите свойство', id: 'devpropsAndAny', save: false },
