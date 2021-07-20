@@ -12,6 +12,7 @@ import {
   APP_LAYOUT_CHANGE_CONTAINER,
 } from './constants';
 
+import { getZoomInterval } from 'components/@Elements/@Chart/utils';
 
 const defaultState = {
   layoutId: null,
@@ -122,9 +123,23 @@ function reducer(state = defaultState, action) {
                 } else {
                   forceRealtime = false;
                 }
-                const [s, e] = state.layout.elements[c].data.range;
-                const pp = action.position ? state.layout.elements[c].positionCurentTime.value : 0;
-                const n = action.position ? Date.now() : action.date;
+
+                let s, e, pp, n;
+
+                if (action.position) {
+                  const { start, end } = getZoomInterval(state.layout.elements[c].interval.value.id);
+                  s = start;
+                  e = end;
+                  pp = state.layout.elements[c].positionCurentTime.value;
+                  n = Date.now();
+                } else {
+                  const times = state.layout.elements[c].data.range;
+                  s = times[0];
+                  e = times[1];
+                  pp = 0;
+                  n = action.date;
+                }
+            
                 const i = e - s;
                 const d = (i / 100) * pp;
                 ns = n - d;
@@ -177,9 +192,23 @@ function reducer(state = defaultState, action) {
                     } else {
                       forceRealtime = false;
                     }
-                    const [s, e] = state.containers[action.containerId].elements[c].data.range;
-                    const pp = action.position ? state.containers[action.containerId].elements[c].positionCurentTime.value : 0;
-                    const n = action.position ? Date.now() : action.date;
+
+                    let s, e, pp, n;
+
+                    if (action.position) {
+                      const { start, end } = getZoomInterval(state.containers[action.containerId].elements[c].interval.value.id);
+                      s = start;
+                      e = end;
+                      pp = state.containers[action.containerId].elements[c].positionCurentTime.value;
+                      n = Date.now();
+                    } else {
+                      const times = state.containers[action.containerId].elements[c].data.range;
+                      s = times[0];
+                      e = times[1];
+                      pp = 0;
+                      n = action.date;
+                    }
+      
                     const i = e - s;
                     const d = (i / 100) * pp;
                     ns = n - d;

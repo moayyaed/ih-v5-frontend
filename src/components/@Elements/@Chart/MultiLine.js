@@ -33,6 +33,7 @@ import {
   discrete,
   getBarFormatDate,
 } from './utils';
+import { dateAxisLabelFormatter } from './utils2';
 
 require('intl/locale-data/jsonp/en');
 require('intl/locale-data/jsonp/ru');
@@ -715,7 +716,7 @@ class Chart extends PureComponent {
       return `<span style="white-space:nowrap;color:${item.textColor.value}">${v}</span>`;
     }
     const item = this.props.item;
-    const v = Dygraph.dateAxisLabelFormatter(a, b, c, d);
+    const v = dateAxisLabelFormatter(a, b, c, d);
     return `<span style="color:${item.textColor.value}">${v}</span>`;
   }
 
@@ -749,7 +750,16 @@ class Chart extends PureComponent {
   handleHome = () => {
     this.setState({ realtime: true });
     renderRealTime(this.ctx);
-    this.setWindow(Date.now(), this.props.item.positionCurentTime.value);
+    const { start, end } = getZoomInterval(this.props.item.interval.value.id);
+    const s = start;
+    const e = end;
+    const p = this.props.item.positionCurentTime.value;
+    const n = Date.now();
+    const i = e - s;
+    const d = (i / 100) * p;
+    const ns = n - d;
+    const ne = n + i - d;
+    this.ctx.chart.updateOptions({ dateWindow: [ns, ne] });
     this.cacheEvent();
   }
 

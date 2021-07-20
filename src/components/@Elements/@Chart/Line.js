@@ -714,7 +714,16 @@ class Chart extends PureComponent {
   handleHome = () => {
     this.setState({ realtime: true });
     renderRealTime(this.ctx);
-    this.setWindow(Date.now(), this.props.item.positionCurentTime.value);
+    const { start, end } = getZoomInterval(this.props.item.interval.value.id);
+    const s = start;
+    const e = end;
+    const p = this.props.item.positionCurentTime.value;
+    const n = Date.now();
+    const i = e - s;
+    const d = (i / 100) * p;
+    const ns = n - d;
+    const ne = n + i - d;
+    this.ctx.chart.updateOptions({ dateWindow: [ns, ne] });
     this.cacheEvent();
   }
 

@@ -5,6 +5,7 @@ import {
   APP_LAYOUT_DIALOG_SYNC_CHARTS_LAYOUT_HOME_ALL,
 } from './constants';
 
+import { getZoomInterval } from 'components/@Elements/@Chart/utils';
 
 const defaultState = {
   open: false,
@@ -120,9 +121,22 @@ function reducer(state = defaultState, action) {
               } else {
                 forceRealtime = false;
               }
-              const [s, e] = state.elements[c].data.range;
-              const pp = action.position ? state.elements[c].positionCurentTime.value : 0;
-              const n = action.position ? Date.now() : action.date;
+              let s, e, pp, n;
+
+              if (action.position) {
+                const { start, end } = getZoomInterval(state.elements[c].interval.value.id);
+                s = start;
+                e = end;
+                pp = state.elements[c].positionCurentTime.value;
+                n = Date.now();
+              } else {
+                const times = state.elements[c].data.range;
+                s = times[0];
+                e = times[1];
+                pp = 0;
+                n = action.date;
+              }
+
               const i = e - s;
               const d = (i / 100) * pp;
               ns = n - d;

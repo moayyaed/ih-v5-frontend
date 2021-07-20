@@ -315,11 +315,11 @@ class ChartTimeline extends Component {
 
   handleHome = () => {
     this.setState({ realtime: true });
-    const times = this.timeline.getWindow();
+    const { start, end } = getZoomInterval(this.props.item.interval.value.id);
     const n = Date.now();
     const p = this.props.item.positionCurentTime.value;
-    const s = times.start;
-    const e = times.end;
+    const s = start;
+    const e = end;
     const i = e - s;
     const d = (i / 100) * p;
     const ns = n - d;
