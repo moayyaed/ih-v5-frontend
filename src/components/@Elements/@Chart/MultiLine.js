@@ -319,6 +319,7 @@ class Chart extends PureComponent {
     const dn = items.map(i => i.dn_prop).join(',');
     const alias = [].reduce((l, n) => ({ ...l, [n.dn]: n.id }), {});
     const { start, end } = getZoomInterval(props.item.interval.value.id);
+    
     this.ctx = createContext(
       this.chart,
       this.spiner,

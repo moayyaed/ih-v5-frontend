@@ -41,6 +41,11 @@ const charttimeline = {
       ],
     },
     { 
+      title: 'Position Curent Time', 
+      prop: 'positionCurentTime', 
+      type: 'number',
+    },
+    { 
       title: 'Moveable', 
       prop: 'moveable', 
       type: 'cb',

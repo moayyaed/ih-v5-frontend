@@ -137,6 +137,14 @@ class ChartTimeline extends Component {
   
   componentDidMount() {
     const { start, end } = getZoomInterval(this.props.item.interval.value.id);
+    const s = start;
+    const e = end;
+    const n = Date.now();
+    const p = this.props.item.positionCurentTime.value;
+    const i = e - s;
+    const d = (i / 100) * p;
+    const ns = n - d;
+    const ne = n + i - d;
 
     const options = {
       width: '100%',
@@ -144,10 +152,10 @@ class ChartTimeline extends Component {
       stack: false,
       groupHeightMode: 'fixed',
       showCurrentTime: false,
-      moveable: this.props.item.moveable.value,
-      showMajorLabels: this.props.item.axisBottomTime.value,
-      showMinorLabels: this.props.item.axisBottomDate.value,
-      start, end,
+      moveable: Boolean(this.props.item.moveable.value),
+      showMajorLabels: Boolean(this.props.item.axisBottomTime.value),
+      showMinorLabels: Boolean(this.props.item.axisBottomDate.value),
+      start: ns, end: ne,
     };
  
     this.timelineData = new DataSet([]);
@@ -181,6 +189,14 @@ class ChartTimeline extends Component {
 
   updateOptions = (props = this.props) => {
     const { start, end } = getZoomInterval(props.item.interval.value.id);
+    const s = start;
+    const e = end;
+    const n = Date.now();
+    const p = props.item.positionCurentTime.value;
+    const i = e - s;
+    const d = (i / 100) * p;
+    const ns = n - d;
+    const ne = n + i - d;
 
     const options = {
       width: '100%',
@@ -191,7 +207,7 @@ class ChartTimeline extends Component {
       moveable: Boolean(props.item.moveable.value),
       showMajorLabels: Boolean(props.item.axisBottomTime.value),
       showMinorLabels: Boolean(props.item.axisBottomDate.value),
-      start, end
+      start: ns, end: ne,
     };
 
     this.timeline.body.dom.bottom.style.color = props.item.textColor.value;
@@ -300,9 +316,15 @@ class ChartTimeline extends Component {
   handleHome = () => {
     this.setState({ realtime: true });
     const times = this.timeline.getWindow();
-    const d = times.end.getTime() - times.start.getTime();
-    const now = Date.now();
-    this.timeline.setWindow(now, now + d, { animation: false });
+    const n = Date.now();
+    const p = this.props.item.positionCurentTime.value;
+    const s = times.start;
+    const e = times.end;
+    const i = e - s;
+    const d = (i / 100) * p;
+    const ns = n - d;
+    const ne = n + i - d;
+    this.timeline.setWindow(ns, ne, { animation: false })
     this.cacheEvent();
   }
 

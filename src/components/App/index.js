@@ -91,6 +91,7 @@ class App extends Component {
     }
   }
   handleKeyDown = (e) => {
+    /*
     if (e.keyCode == '27') {
       if (isElectron()) {
         const electron = window.require('electron');
@@ -119,6 +120,7 @@ class App extends Component {
         }
       }
     }
+    */
   }
 
   handleCloseAlert = () => {
