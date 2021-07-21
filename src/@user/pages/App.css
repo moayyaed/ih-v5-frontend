@@ -132,10 +132,28 @@ input.core:focus {
 }
 
 .vis-panel.vis-left {
+  white-space: nowrap;
   overflow: unset!important;
 }
 
 .vis-labelset {
+  white-space: nowrap;
   overflow: unset!important;
 }
+
+.vis-item-content {
+  width: 100%!important;
+  height: 20px!important;
+  padding: 0px!important;
+  display: block!important;
+}
+
+.vis-item {
+  color: unset!important;;
+  border-color: unset!important;;
+  border-width: 0px!important;;
+  background-color: unset!important;;
+}
+
+
 

@@ -22,6 +22,8 @@ import {
   render,
   createContext,
 } from './utils';
+import { numberAxisLabelFormatter } from 'dygraphs/src/dygraph-utils';
+import { valueTable } from 'components/@Form/actions';
 
 const MIN_DATE = new Date(1451606400 * 1000);
 const MAX_DATE = new Date(2524694399 * 1000);
@@ -86,6 +88,14 @@ const styles = {
   },
 }
 
+const demo = { lines: [
+  {
+    colorgroup: 'test',
+    dn_prop: 'temp1.value',
+    legend: 'Demo temp1'
+  }
+], colors: { test: { 1 : 'rgba(74,144,226,1)' } } };
+
 function EndIcon(props) {
   return (
     <SvgIcon  viewBox="0 0 24 24"  {...props}>
@@ -149,13 +159,16 @@ class ChartTimeline extends Component {
       showMajorLabels: Boolean(this.props.item.axisBottomTime.value),
       showMinorLabels: Boolean(this.props.item.axisBottomDate.value),
       start: ns, end: ne,
+      template: this.renderItem,
     };
-    
-    const dn = this.props.item.data.lines.map(i => i.dn_prop).join(',');
-    const alias = this.props.item.data.lines.reduce((l, n) => ({ ...l, [n.dn_prop]: n.dn_prop }), {});
-    const group = this.props.item.data.lines.map(i => {
-      return { id: i.dn_prop, content: i.dn_prop }
+
+    const data = this.props.mode === 'user' ? this.props.item.data : demo;
+    const dn = data.lines.map(i => i.dn_prop).join(',');
+    const alias = data.lines.reduce((l, n) => ({ ...l, [n.dn_prop]: n.dn_prop }), {});
+    const group = data.lines.map(i => {
+      return { id: i.dn_prop, content: i.legend }
     });
+    const colors = data.lines.reduce((l, n) => ({ ...l, [n.dn_prop]: n.colorgroup }), {});
 
     this.timelineData = new DataSet([]);
     this.timeline = new Timeline(this.link, this.timelineData, group, options);
@@ -175,15 +188,22 @@ class ChartTimeline extends Component {
     this.ctx = createContext(
       this.timeline,
       this.timelineData,
-      'legend',
+      null,
       this.spiner,
-      'fetch',
+      null,
       { start: ns, end: ne },
-      { id: 'timeline_1', dn, alias, items: [], legend: 'legend' },
-      'panel',
+      { id: 'timeline_1', dn, alias, items: [], legend: null, colors, mode: this.props.mode },
+      null
     );
 
     render(this.ctx, this.timeline);
+  }
+
+  componentWillUnmount() {
+    this.timeline.off('rangechange', this.handleRangeChange);
+    this.timeline = null;
+    this.timelineData = null;
+    this.ctx = null;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -191,9 +211,13 @@ class ChartTimeline extends Component {
       this.updateOptions(nextProps);
     }
 
-    if (nextProps.item.data.triger !== undefined && nextProps.item.data.triger !== this.props.item.data.triger) {
-      this.setState({ realtime: nextProps.item.data.forceRealtime });
-      this.timeline.setWindow(nextProps.item.data.range[0], nextProps.item.data.range[1], { animation: false });
+    if (nextProps.item.widgetlinks.link.id !== this.props.item.widgetlinks.link.id) {
+     
+    } else {
+      if (nextProps.item.data.triger !== undefined && nextProps.item.data.triger !== this.props.item.data.triger) {
+        this.setState({ realtime: nextProps.item.data.forceRealtime });
+        this.timeline.setWindow(nextProps.item.data.range[0], nextProps.item.data.range[1], { animation: false });
+      }
     }
   }
 
@@ -247,6 +271,22 @@ class ChartTimeline extends Component {
     } else {
       core.cache.chart.l = data
     }
+  }
+
+  renderItem = (item) => {
+    const data = this.props.mode === 'user' ? this.props.item.data : demo;
+    if (this.ctx.params.colors[item.group]) {
+      const colorgroup = this.ctx.params.colors[item.group];
+      const value = item[item.prop];
+      if (data.colors[colorgroup] && data.colors[colorgroup][value]) {
+        const div = document.createElement("div");
+        div.style.width = '100%';
+        div.style.height = '100%';
+        div.style.background = data.colors[colorgroup][value];
+        return div;
+      }
+    }
+    return '';
   }
 
   handleRangeChange = (e) => {

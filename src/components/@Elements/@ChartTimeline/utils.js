@@ -129,16 +129,20 @@ function loadingItem(context, item) {
 }
 
 function requestWS(context, item) {
-  const fetch = window.__ihp2p ? window.__ihp2p : window.fetch;
+  if (context.params.mode === 'user') {
+    const fetch = window.__ihp2p ? window.__ihp2p : window.fetch;
 
-  return fetch(`/timeline?id=${context.params.id}&start=${item.s}&end=${item.e}&dn_prop=${context.params.dn}`, { headers: { token: core.cache.token } })
-    .then(res => res.json())
-    .then(json => {
-      json.data.forEach(i => {
-        i.group = `${i.dn}.${i.prop}`;
+    return fetch(`/timeline?id=${context.params.id}&start=${item.s}&end=${item.e}&dn_prop=${context.params.dn}`, { headers: { token: core.cache.token } })
+      .then(res => res.json())
+      .then(json => {
+        json.data.forEach(i => {
+          i.group = `${i.dn}.${i.prop}`;
+        });
+        return { set: json.data };
       });
-      return { set: json.data };
-    });
+  } else {
+    return Promise.resolve({ set: [{ start: item.s, end: item.e, group: 'temp1.value', prop: 'value', value: 1 }] })
+  }
 }
 
 function requestHTTP(context, item) {
@@ -161,7 +165,6 @@ function generateData(context, list) {
 function renderData(context, list) {
   if (list.length) {
     const temp = generateData(context, list);
-    console.log(temp)
     if (temp.length) {
       context.chart.setData({
         items: temp
