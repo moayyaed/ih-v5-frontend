@@ -91,6 +91,9 @@ class App extends Component {
     }
   }
   handleKeyDown = (e) => {
+    if (e.keyCode === 32) {
+      core.cache.variant2 = !core.cache.variant2
+    }
     /*
     if (e.keyCode == '27') {
       if (isElectron()) {

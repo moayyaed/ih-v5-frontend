@@ -484,6 +484,8 @@ core.network.response('applayout', (answer, res, context) => {
 
 
 core.network.request('get_container', (send, context) => {
+ //// console.log('Запрос данных контейнера', Date.now() - core.cache.time)
+  core.cache.time = Date.now();
   send([
     { api: 'container',  id: context.params.containerId },
     { api: 'templates', containerid: context.params.containerId },
@@ -494,6 +496,8 @@ core.network.request('get_container', (send, context) => {
 
 
 core.network.response('get_container', (answer, res, context) => {
+ //// console.log('Получение данных контейнера', Date.now() - core.cache.time)
+  core.cache.time = Date.now();
   answer(preparationData({
     layout: { list: [], elements: {} },
     containers: { [context.params.containerId]: res[0].data } ,

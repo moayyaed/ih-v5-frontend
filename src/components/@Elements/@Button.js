@@ -279,7 +279,6 @@ class Button extends PureComponent {
 
   componentDidMount() {
     if (this.link) {
-      
       this.mc = new Hammer.Manager(this.link);
 
       this.mc.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
@@ -323,6 +322,8 @@ class Button extends PureComponent {
   }
 
   handleAction = (props, event, actions) => {
+    //// console.log('Обработчик клика', Date.now() - core.cache.time)
+    core.cache.time = Date.now();
     Object
     .keys(actions)
     .forEach(key => {
@@ -350,15 +351,21 @@ class Button extends PureComponent {
               }
             } else {
               if (item.command === 'setval' || item.command === 'setval_any') {
+                //// console.log('Обработчик локал', Date.now() - core.cache.time)
+                core.cache.time = Date.now();
                 const store = core.store.getState().layout;
                 if (item.local) {
                   const data = getElementsLocalVars(store, item)
-  
+                  //// console.log('Сохранение данных', Date.now() - core.cache.time)
+                  core.cache.time = Date.now();
                   core.actions.layout.updateElementsLayout(data);
                   Object
                     .keys(store.containers)
                     .forEach(containerId => core.actions.layout.updateElementsContainer(containerId, data))
+                    //// console.log('Перерисовка локал', Date.now() - core.cache.time)
+                    core.cache.time = Date.now();
                 } else {
+                  
                   const _item = { 
                     ...item, 
                     did: item.did === '__device' ? (props.dialogId ? core.store.getState().layoutDialog.contextId : core.cache.contexts[props.containerId]) : item.did 
@@ -374,6 +381,8 @@ class Button extends PureComponent {
                   });
                 }
               } else if (item.command === 'visscript') {
+                //// console.log('Отпрака команды на сервер', Date.now() - core.cache.time)
+                core.cache.time = Date.now();
                 core.tunnel.command({
                   uuid: shortid.generate(),
                   method: 'action',
@@ -382,6 +391,7 @@ class Button extends PureComponent {
                   ...getVscriptParams(item, props)
                 });
               } else {
+                core.cache.time3 = Date.now();
                 core.tunnel.command({
                   uuid: shortid.generate(),
                   method: 'action',
@@ -397,27 +407,34 @@ class Button extends PureComponent {
   }
 
   handleSingleTap = () => {
+    core.cache.time = Date.now();
+    core.cache.time2 = Date.now();
     const name = 'singleClickLeft';
+    //// console.log('Клик', name)
     this.handleAction(this.props, name, this.props.item.actions);
   }
 
   handleDoubleTap = () => {
     const name = 'doubleClickLeft';
+    //// console.log('Клик', name)
     this.handleAction(this.props, name, this.props.item.actions);
   }
 
   handleLongTap = () => {
     const name = 'longClickLeft';
+    //// console.log('Клик', name)
     this.handleAction(this.props, name, this.props.item.actions);
   }
 
   handlePressDown = () => {
     const name = 'mouseDownLeft';
+    //// console.log('Клик', name)
     this.handleAction(this.props, name, this.props.item.actions);
   }
 
   handlePressUp = () => {
     const name = 'mouseUpLeft';
+    //// console.log('Клик', name)
     this.handleAction(this.props, name, this.props.item.actions);
   }
 
@@ -433,6 +450,7 @@ class Button extends PureComponent {
     e.preventDefault();
 
     const name = 'singleClickRight';
+    //// console.log('Клик', name)
     this.handleAction(this.props, name, this.props.item.actions);
   }
 

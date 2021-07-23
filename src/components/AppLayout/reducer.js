@@ -1,6 +1,7 @@
 import actions from 'core/actions';
 import { 
-  APP_LAYOUT_SET_DATA, 
+  APP_LAYOUT_SET_DATA,
+  APP_LAYOUT_UPDATE_ELEMENTS_ALL,
   APP_LAYOUT_UPDATE_TEMPLATES, 
   APP_LAYOUT_UPDATE_ELEMENTS,
   APP_LAYOUT_SYNC_CHARTS_LAYOUT,
@@ -232,6 +233,12 @@ function reducer(state = defaultState, action) {
           }
         }
       };
+    case APP_LAYOUT_UPDATE_ELEMENTS_ALL:
+      return {
+        ...state,
+        ...reducer(state, { type: APP_LAYOUT_UPDATE_ELEMENTS, data: action.data }),
+        ...reducer(state, { type: APP_LAYOUT_UPDATE_TEMPLATES, data: action.data }),
+      }
     case APP_LAYOUT_UPDATE_ELEMENTS:
       return { 
         ...state,
@@ -308,7 +315,7 @@ function reducer(state = defaultState, action) {
         containers: Object
           .keys(state.containers)
           .reduce((p, c) => {
-            if (c === action.containerId) {
+            if (action.containerId === undefined || c === action.containerId) {
               return { 
                 ...p, [c]: {
                   ...state.containers[c],
