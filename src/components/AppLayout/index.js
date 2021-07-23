@@ -54,15 +54,11 @@ class AppLayout extends Component {
   }
 
   realtimeLayout = (data) => {
-    core.cache.time = Date.now();
     core.actions.layout.updateElementsLayout(data);
-    //// console.log('Перерисовка экрана: ', Date.now() - core.cache.time)
   }
 
   realtimeContainer = (containerId, data) => {
-    core.cache.time = Date.now();
     core.actions.layout.updateElementsContainer(containerId, data);
-    //// console.log('Перерисовка контейнра: ' + containerId, Date.now() - core.cache.time)
   }
 
   realtimeCharts = (data) => {
@@ -78,8 +74,6 @@ class AppLayout extends Component {
   }
 
   commandLayout = (data) => {
-    //// console.log('Ответ от сервера', Date.now() - core.cache.time)
-    core.cache.time = Date.now();
     if (data.command === 'gotolayout') {
       let params = '';
       if (data.context && data.context.frames) {
@@ -90,14 +84,10 @@ class AppLayout extends Component {
             temp.push(`${key},${data.context.frames[key].container_id || ''},${data.context.frames[key].device_id || ''}`);
           });
           params = temp.join(';');
-          //// console.log('Обработка контекста', Date.now() - core.cache.time)
-          core.cache.time = Date.now();
       }
       if (this.props.state.layoutId === data.id) {
         if (data.context && data.context.frames) {
           core.route(`${data.id}/${params}`);
-          //// console.log('Замена маршрута URL', Date.now() - core.cache.time)
-          core.cache.time = Date.now();
           Object
             .keys(data.context.frames)
             .forEach(key => {
@@ -111,8 +101,6 @@ class AppLayout extends Component {
                 }
               })
               .ok(res => {
-                //// console.log('Обработка данных 1', Date.now() - core.cache.time)
-                core.cache.time = Date.now();
                 const container = this.props.state.layout.elements[key];
                 if (container) {
                   core.tunnel.unsub({ 
@@ -131,24 +119,7 @@ class AppLayout extends Component {
                     id: data.context.frames[key].container_id,
                     contextId: data.context.frames[key].device_id || null,
                   }, this.subs[data.context.frames[key].container_id]);
-                  //// console.log('Обработка данных 2', Date.now() - core.cache.time)
-                  core.cache.time = Date.now();
                   core.actions.layout.changeContainer(key, data.context.frames[key].container_id, res);
-                  const x = Date.now() - core.cache.time2;
-                  //// console.log('Перерисовка контейнера', Date.now() - core.cache.time)
-                  //// console.log('Общее: ', x)
-                  core.cache.time = Date.now();
-                  core.cache.time2 = Date.now();
-                  if (core.cache.variant2) {
-                    if (core.cache.variant) {
-                      core.cache.variant = 0;
-                      core.tunnel.command(JSON.parse('{"uuid":"1Q0O1DVRy","method":"action","type":"command","command":"visscript","id":"vs0002","context":{"username":"Admin","start_layoutid":"l025","layoutid":"l022"},"source":{"id":"button_4","type":"button","layoutid":"l022","containerid":"vc038","templateid":null,"dialogid":null},"elements":{},"local":{"local002":{"left_menu":2},"local006":{"subsystem":1}}}'));
-                    } else {
-                      core.cache.variant = 1;
-                      core.tunnel.command(JSON.parse('{"uuid":"rmP5rwnRV","method":"action","type":"command","command":"visscript","id":"vs0002","context":{"username":"Admin","start_layoutid":"l025","layoutid":"l022"},"source":{"id":"button_2","type":"button","layoutid":"l022","containerid":"vc038","templateid":null,"dialogid":null},"elements":{},"local":{"local002":{"left_menu":2},"local006":{"subsystem":2}}}'));
-                    }
-                  }
-
                 }
               });
             });
