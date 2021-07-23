@@ -280,7 +280,7 @@ class Button extends PureComponent {
   componentDidMount() {
     if (this.link) {
       this.mc = new Hammer.Manager(this.link);
-
+      
       this.mc.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
       this.mc.add(new Hammer.Tap({ event: 'singletap', interval: this.props.item.doubleClickLeft === '' ? 100 : 200 }));
       this.mc.add(new Hammer.Press({ event: 'press', time: 400 }));
@@ -292,8 +292,7 @@ class Button extends PureComponent {
       this.mc.on('singletap', this.handleSingleTap);
       this.mc.on('doubletap', this.handleDoubleTap);
       this.mc.on('press', this.handleLongTap);
-      this.mc.on('pressup', this.handlePress);
-      
+      this.mc.on('pressup', this.handlePress);      
     }
 
     if (window.__ihp2p) {
@@ -303,6 +302,10 @@ class Button extends PureComponent {
   }
 
   componentWillUnmount() {
+    if (this.mc) {
+      this.mc.destroy();
+    }
+
     if (this.uuid) {
       window.__ihp2p.image(this.uuid, null);
       this.uuid = null;

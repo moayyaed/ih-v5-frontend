@@ -84,6 +84,12 @@ class Action extends PureComponent {
     }
   }
 
+  componentWillUnmount() {
+    if (this.mc) {
+      this.mc.destroy();
+    }
+  }
+
   handleAction = (props, event, actions) => {
     Object
       .keys(actions)
