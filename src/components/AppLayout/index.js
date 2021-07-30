@@ -54,11 +54,17 @@ class AppLayout extends Component {
   }
 
   realtimeLayout = (data) => {
-    core.actions.layout.updateElementsLayout(data);
+    const x = Date.now();
+    core.actions.layout.updateElementsAll2(data);
+    console.log(Date.now() - x)
+    // core.actions.layout.updateElementsLayout(data);
   }
 
   realtimeContainer = (containerId, data) => {
-    core.actions.layout.updateElementsContainer(containerId, data);
+    const x = Date.now();
+    core.actions.layout.updateElementsAll2(data);
+    console.log(Date.now() - x)
+    // core.actions.layout.updateElementsContainer(containerId, data);
   }
 
   realtimeCharts = (data) => {
@@ -278,28 +284,11 @@ class AppLayout extends Component {
             visibility: item.visible && item.visible.value == false ? 'hidden' : 'unset',
           }}
         >
-          {item.elements.map(cid => this.handleRender(cid, this.props.state.layout.elements[cid], scaleW, scaleH))}
+          {item.elements.map(cid => this.handleRender(cid, this.props.state.elements[cid], scaleW, scaleH))}
         </div>
       )
     }
-    if (item.type === 'template') {
-      return (
-        <div
-          key={id}
-          style={{ 
-            position: 'absolute', 
-            left: item.x.value,
-            top: item.y.value,
-            width: item.w.value,
-            height: item.h.value,
-            zIndex: item.zIndex.value,
-            animation: item.animation && item.animation.active ? item.animation.value : 'unset',
-          }}
-        >
-          {elemets(this.props.state.layout.elements[id].type, { mode: 'user', item: this.props.state.layout.elements[id], template: this.props.state.templates[item.templateId] })}
-        </div>
-      )
-    }
+
     if (item.type === 'container') {
       return (
         <div
@@ -314,7 +303,15 @@ class AppLayout extends Component {
             animation: item.animation && item.animation.active ? item.animation.value : 'unset',
           }}
         >
-          {elemets(this.props.state.layout.elements[id].type, { id, layoutId: this.props.state.layoutId, mode: 'user', item: this.props.state.layout.elements[id], container: this.props.state.containers[this.props.state.layout.elements[id].widgetlinks.link.id], templates: this.props.state.templates, scaleW, scaleH })}
+          {elemets(this.props.state.elements[id].type, { 
+            id, 
+            layoutId: this.props.state.layoutId, 
+            mode: 'user', 
+            item: this.props.state.elements[id], 
+            container: this.props.state.containers[this.props.state.elements[id].widgetlinks.link.id], 
+            templates: this.props.state.templates, scaleW, scaleH,
+            elements: this.props.state.elements,
+          })}
         </div>
       )
     }
@@ -331,7 +328,12 @@ class AppLayout extends Component {
           animation: item.animation && item.animation.active ? item.animation.value : 'unset',
         }}
       >
-        {elemets(this.props.state.layout.elements[id].type, { id, layoutId: this.props.state.layoutId, mode: 'user', item: item })}
+        {elemets(this.props.state.elements[id].type, { 
+          id, 
+          layoutId: this.props.state.layoutId, 
+          mode: 'user', 
+          item: item 
+        })}
       </div>
     )
   }
@@ -371,7 +373,7 @@ class AppLayout extends Component {
                 }}
               >
                 <div style={{ width: '100%', height: '100%', background: state.layout.settings.overlayColor.value }}>
-                  {state.layout.list.map(id => this.handleRender(id, state.layout.elements[id], width / state.layout.settings.w.value, height / state.layout.settings.h.value))}
+                  {state.list.map(id => this.handleRender(id, state.elements[id], width / state.layout.settings.w.value, height / state.layout.settings.h.value))}
                 </div>
               </div>
             )

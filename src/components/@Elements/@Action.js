@@ -94,7 +94,7 @@ class Action extends PureComponent {
     Object
       .keys(actions)
       .forEach(key => {
-        if (typeof actions[key] === 'object' && props.id === key) {
+        if (typeof actions[key] === 'object') {
           Object
           .keys(actions[key])
           .forEach(key2 => {

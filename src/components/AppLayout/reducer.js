@@ -11,6 +11,7 @@ import {
   APP_LAYOUT_SYNC_CHARTS_CONTAINER_HOME_ALL,
 
   APP_LAYOUT_CHANGE_CONTAINER,
+  APP_LAYOUT_UPDATE_ELEMENTS_ALL_2,
 } from './constants';
 
 import { getZoomInterval } from 'components/@Elements/@Chart/utils';
@@ -21,6 +22,9 @@ const defaultState = {
   containers: {},
   templates: {},
 };
+
+const ELEMENT_LINK = 1;
+const TEMPLATE_LINK = 2;
 
 function mergeStates(c3, p3, s, v) {
   if (s[v[c3]]) {
@@ -36,11 +40,204 @@ function mergeStates(c3, p3, s, v) {
   return p3;
 }
 
+function createElement(item, values, links, templates) {
+  if (links[item.uuid] !== undefined || templates[item.uuid]) {
+    return Object
+    .keys(item)
+    .reduce((p, id) => {
+      const prop = item[id];
+      if (templates[item.uuid] && templates[item.uuid][id]) {
+        return { ...p, [id]: { ...prop, value: templates[item.uuid][id].value } };
+      }
+
+      if (prop && prop.enabled && values[prop.did] && values[prop.did][prop.prop] !== undefined) {
+        try {
+          return { ...p, [id]: { ...prop, value: prop.func(values[prop.did][prop.prop], {}) } };
+        } catch {
+          
+        }
+      }
+      return { ...p, [id]: prop };
+    }, {});
+  }
+  return item;
+}
+
+function updateElementsAll(state, action) {
+  let isChange = false;
+
+  const elements = {};
+  const linksElements = {};
+  const linksTemplates = [];
+  const changesValues = {};
+
+  const list = Object.keys(state.elements);
+  const values = action.data;
+  
+
+  Object
+    .keys(values)
+    .forEach(did => {
+      let isChangeDid = false;
+      Object
+      .keys(values[did])
+      .forEach(propid => {
+        if (state.states[did][propid] !== values[did][propid]) {
+          isChange = true;
+          isChangeDid = true;
+          
+          if (changesValues[did] === undefined) {
+            changesValues[did] = {};
+          }
+
+          state.states[did][propid] = values[did][propid];
+          changesValues[did][propid] = values[did][propid];
+        }
+      });
+
+      if (isChangeDid && state.links[did]) {
+        Object
+          .keys(state.links[did])
+          .forEach(uuid => {
+            if (state.links[did][uuid] === ELEMENT_LINK) {
+              linksElements[uuid] = true;
+            }
+            if (state.links[did][uuid] === TEMPLATE_LINK ) {
+              linksTemplates.push(uuid);
+            }
+          });
+      }
+    });
+  
+  if (isChange === false) {
+    return state;
+  }
+
+  const changesTemplates = {};
+
+  linksTemplates.forEach(id => {
+    const item = state.elements[id];
+    const template = state.templates[item.templateid];
+
+    const masterLayer = template.masterLayer;
+    const changesLayers = template.changesLayers;
+
+    Object
+      .keys(masterLayer)
+      .forEach(id => {
+        Object
+        .keys(masterLayer[id])
+        .forEach(propid => {
+          const elementid = item.containerid + '_' + item.id + '_' + id;
+          if (state.elements[elementid][propid] !== masterLayer[id][propid]) {
+           if (state.elements[elementid][propid].value !== masterLayer[id][propid].value) {
+            if (changesTemplates[elementid] === undefined) {
+              changesTemplates[elementid] = {}
+            }
+            changesTemplates[elementid][propid] = { value: masterLayer[id][propid].value };
+           }
+          }
+        })
+      })
+
+    template.listState.forEach(stateid => {
+      if (item.links[stateid].did) {
+          const did = item.links[stateid].did;
+          const propid = item.links[stateid].prop;
+          if (changesValues[did] !== undefined && changesValues[did][propid] !== undefined) {
+            const uuid = stateid + '_' + changesValues[did][propid];
+            if (changesLayers[uuid] !== undefined) {
+              Object
+                .keys(changesLayers[uuid])
+                .forEach(id => {
+                  Object
+                    .keys(changesLayers[uuid][id])
+                    .forEach(propid => {
+                      const elementid = item.containerid + '_' + item.id + '_' + id;
+                      if (changesTemplates[elementid] === undefined) {
+                        changesTemplates[elementid] = {}
+                      }
+                      changesTemplates[elementid][propid] = changesLayers[uuid][id][propid];
+                    })
+                })
+            }
+          }
+      }
+    });
+  });
+  
+
+  list.forEach(id => {
+    elements[id] = createElement(state.elements[id], action.data, linksElements, changesTemplates);
+  });
+  
+  return { ...state, elements };
+}
 
 function reducer(state = defaultState, action) {
   switch (action.type) {
     case APP_LAYOUT_SET_DATA:
       return { ...state, ...action.data };
+    case APP_LAYOUT_UPDATE_ELEMENTS_ALL_2:
+      const x = Date.now();
+      const temp = updateElementsAll(state, action);
+      console.log('data', Date.now() - x)
+      return temp;
+    case APP_LAYOUT_UPDATE_ELEMENTS:
+      return { 
+        ...state,
+        states: Object
+          .keys(state.states)
+          .reduce((p, c) => {
+            return { 
+              ...p, 
+              [c]: Object
+                .keys(state.states[c])
+                .reduce((p2, c2) => {
+                  if (action.data[c] && action.data[c][c2] !== undefined) {
+                    return { ...p2, [c2]: action.data[c][c2] }
+                  }
+                  return { ...p2, [c2]: state.states[c][c2] }
+                }, {})
+            }
+          }, {}),
+        layout: {
+          ...state.layout,
+          elements: Object
+          .keys(state.layout.elements)
+          .reduce((p2, c2) => {
+            return  { 
+              ...p2, 
+              [c2]: Object
+                .keys(state.layout.elements[c2])
+                .reduce((p3, c3) => {
+                  if (c3 === 'data' && state.layout.elements[c2].type === 'devicelog' && action.data[c2]) {
+                    return { ...p3, [c3]: action.data[c2].concat(state.layout.elements[c2][c3]) }
+                  }
+                  if (
+                    state.layout.elements[c2][c3] &&
+                    state.layout.elements[c2][c3].enabled && 
+                    action.data[state.layout.elements[c2][c3].did] &&
+                    action.data[state.layout.elements[c2][c3].did][state.layout.elements[c2][c3].prop] !== undefined 
+                  ) {
+                    try  {
+                      return { 
+                        ...p3, 
+                        [c3]: {
+                          ...state.layout.elements[c2][c3],
+                          value: state.layout.elements[c2][c3].func.call(null, action.data[state.layout.elements[c2][c3].did][state.layout.elements[c2][c3].prop], {}),
+                        }
+                      }
+                    } catch (e) {
+                      return { ...p3, [c3]: state.layout.elements[c2][c3] }
+                    }
+                  }
+                  return { ...p3, [c3]: state.layout.elements[c2][c3] }
+                }, {}),
+            }
+          }, {}),
+        },
+      };
     case APP_LAYOUT_SYNC_CHARTS_LAYOUT:
       return { 
         ...state,
@@ -239,61 +436,6 @@ function reducer(state = defaultState, action) {
         ...reducer(state, { type: APP_LAYOUT_UPDATE_ELEMENTS, data: action.data }),
         ...reducer(state, { type: APP_LAYOUT_UPDATE_TEMPLATES, data: action.data }),
       }
-    case APP_LAYOUT_UPDATE_ELEMENTS:
-      return { 
-        ...state,
-        states: Object
-          .keys(state.states)
-          .reduce((p, c) => {
-            return { 
-              ...p, 
-              [c]: Object
-                .keys(state.states[c])
-                .reduce((p2, c2) => {
-                  if (action.data[c] && action.data[c][c2] !== undefined) {
-                    return { ...p2, [c2]: action.data[c][c2] }
-                  }
-                  return { ...p2, [c2]: state.states[c][c2] }
-                }, {})
-            }
-          }, {}),
-        layout: {
-          ...state.layout,
-          elements: Object
-          .keys(state.layout.elements)
-          .reduce((p2, c2) => {
-            return  { 
-              ...p2, 
-              [c2]: Object
-                .keys(state.layout.elements[c2])
-                .reduce((p3, c3) => {
-                  if (c3 === 'data' && state.layout.elements[c2].type === 'devicelog' && action.data[c2]) {
-                    return { ...p3, [c3]: action.data[c2].concat(state.layout.elements[c2][c3]) }
-                  }
-                  if (
-                    state.layout.elements[c2][c3] &&
-                    state.layout.elements[c2][c3].enabled && 
-                    action.data[state.layout.elements[c2][c3].did] &&
-                    action.data[state.layout.elements[c2][c3].did][state.layout.elements[c2][c3].prop] !== undefined 
-                  ) {
-                    try  {
-                      return { 
-                        ...p3, 
-                        [c3]: {
-                          ...state.layout.elements[c2][c3],
-                          value: state.layout.elements[c2][c3].func.call(null, action.data[state.layout.elements[c2][c3].did][state.layout.elements[c2][c3].prop], {}),
-                        }
-                      }
-                    } catch (e) {
-                      return { ...p3, [c3]: state.layout.elements[c2][c3] }
-                    }
-                  }
-                  return { ...p3, [c3]: state.layout.elements[c2][c3] }
-                }, {}),
-            }
-          }, {}),
-        },
-      };
     case APP_LAYOUT_UPDATE_TEMPLATES:
       return {
         ...state,

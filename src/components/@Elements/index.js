@@ -1,5 +1,5 @@
 import React from 'react';
-
+import core from 'core';
 
 import Block from './@Block';
 import Text from './@Text';
@@ -12,6 +12,8 @@ import Expand from './@Expand';
 
 import Container from './@Container';
 import Template from './@Template';
+import ContainerProd from './@ContainerProd';
+import TemplateProd from './@TemplateProd';
 import Chart from './@Chart';
 import ChartTimeline from './@ChartTimeline';
 import CCTV from './@CCTV';
@@ -30,6 +32,14 @@ import Iframe from './@Iframe';
 
 
 function getElementByType(type) {
+  if (core.options.type === 'user') {
+    switch (type) {
+      case 'container':
+        return ContainerProd;
+      case 'template':
+        return TemplateProd;
+    }
+  }
   switch (type) {
     case 'text':
       return Text;

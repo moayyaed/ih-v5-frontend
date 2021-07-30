@@ -26,7 +26,7 @@ function getScale(item, settings, scaleW, scaleH, mode) {
 }
 
 
-class Container extends PureComponent {
+class ContainerProd extends PureComponent {
 
   state = { name: '', img: '' }
 
@@ -66,7 +66,7 @@ class Container extends PureComponent {
             visibility: item.visible && item.visible.value == false ? 'hidden' : 'unset',
           }}
         >
-          {item.elements.map(cid => this.handleRender(cid, this.props.container.elements[cid], mode))}
+          {item.elements.map(cid => this.handleRender(cid, this.props.elements[cid], mode))}
         </div>
       )
     }
@@ -84,19 +84,20 @@ class Container extends PureComponent {
             animation: item.animation && item.animation.active ? item.animation.value : 'unset',
           }}
         >
-          {elemets(this.props.container.elements[id].type, { 
+          {elemets(this.props.elements[id].type, { 
             id, 
             containerId: this.props.item.widgetlinks.link.id, 
             layoutId: this.props.layoutId, 
             mode: this.props.mode, 
             item: { 
-              ...this.props.container.elements[id],
+              ...this.props.elements[id],
               x: { value: item.x.value * scale },
               y: { value: item.y.value * scale },
               w: { value: item.w.value * scale },
               h: { value: item.h.value * scale },
             }, 
-            template: this.props.templates[item.templateId] 
+            template: this.props.templates[item.templateId],
+            elements: this.props.elements,
           })}
         </div>
       )
@@ -114,7 +115,15 @@ class Container extends PureComponent {
           animation: item.animation && item.animation.active ? item.animation.value : 'unset',
         }}
       >
-        {elemets(this.props.container.elements[id].type, { id, dialogId: this.props.item.dialogId, scale, containerId: this.props.item.widgetlinks && this.props.item.widgetlinks.link.id, layoutId: this.props.layoutId, mode: this.props.mode, item: this.props.container.elements[id] })}
+        {elemets(this.props.elements[id].type, { 
+          id, 
+          dialogId: this.props.item.dialogId, 
+          scale, 
+          containerId: this.props.item.widgetlinks && this.props.item.widgetlinks.link.id, 
+          layoutId: this.props.layoutId, 
+          mode: this.props.mode, 
+          item: this.props.elements[id], 
+        })}
       </div>
     )
   }
@@ -192,7 +201,7 @@ class Container extends PureComponent {
                 flexShrink: 0,
               }}
             >
-              {this.props.container.list.map(id => this.handleRender(id, this.props.container.elements[id], this.props.mode))}
+              {this.props.item.list.map(id => this.handleRender(id, this.props.elements[id], this.props.mode))}
             </div>
           </div>
         </Scrollbars2>
@@ -201,4 +210,4 @@ class Container extends PureComponent {
   }
 }
 
-export default Container;
+export default ContainerProd;

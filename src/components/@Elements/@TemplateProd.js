@@ -7,7 +7,7 @@ import { transform } from './tools';
 const method = window.document.body.style.zoom === undefined;
 
 
-class Template extends PureComponent {
+class TemplateProd extends PureComponent {
 
   handleRender = (id, item) => {
     if (item.type === 'group') {
@@ -27,7 +27,7 @@ class Template extends PureComponent {
             visibility: item.visible && item.visible.value == false ? 'hidden' : 'unset',
           }}
         >
-          {item.elements.map(cid => this.handleRender(cid, this.props.item.elements ? this.props.item.elements[cid] : this.props.template.elements[cid]))}
+          {item.elements.map(cid => this.handleRender(cid, this.props.item.elements ? this.props.item.elements[cid] : this.props.elements[cid]))}
         </div>
       )
     }
@@ -44,13 +44,12 @@ class Template extends PureComponent {
           animation: item.animation && item.animation.active ? item.animation.value : 'unset',
         }}
       >
-        {elemets(this.props.template.elements[id].type, { id, layoutId: this.props.layoutId, containerId: this.props.containerId, templateId: this.props.id, mode: this.props.mode, item: this.props.item.elements ? this.props.item.elements[id] : this.props.template.elements[id], actions: this.props.item.actions })}
+        {elemets(this.props.elements[id].type, { id, layoutId: this.props.layoutId, containerId: this.props.containerId, templateId: this.props.id, mode: this.props.mode, item: this.props.item.elements ? this.props.item.elements[id] : this.props.elements[id], actions: this.props.item.actions })}
       </div>
     )
   }
 
   render() {
-    // background: this.props.template.settings.overlayColor.value
     const type = this.props.item.backgroundColor.type;
     const color = type === 'fill' ? '' : ', ' + this.props.item.backgroundColor.value;
     const src =  '';
@@ -88,11 +87,11 @@ class Template extends PureComponent {
           zoom: method ? 'unset' : scale,
           }}
         >
-          {this.props.template.list.map(id => this.handleRender(id, this.props.item.elements ? this.props.item.elements[id] : this.props.template.elements[id]))}
+          {this.props.item.list.map(id => this.handleRender(id, this.props.item.elements ? this.props.item.elements[id] : this.props.elements[id]))}
         </div>
       </div>
     )
   }
 }
 
-export default Template;
+export default TemplateProd;
