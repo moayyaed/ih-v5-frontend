@@ -355,12 +355,8 @@ class Button extends PureComponent {
                 const store = core.store.getState().layout;
                 if (item.local) {
                   const data = getElementsLocalVars(store, item)
-                  core.actions.layout.updateElementsLayout(data);
-                  Object
-                    .keys(store.containers)
-                    .forEach(containerId => core.actions.layout.updateElementsContainer(containerId, data))
+                  core.actions.layout.updateElementsAll(data);
                 } else {
-                  
                   const _item = { 
                     ...item, 
                     did: item.did === '__device' ? (props.dialogId ? core.store.getState().layoutDialog.contextId : core.cache.contexts[props.containerId]) : item.did 

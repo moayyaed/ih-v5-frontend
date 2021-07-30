@@ -110,11 +110,7 @@ class Action extends PureComponent {
                     if (command === 'setval' || command === 'setval_any') {
                       const store = core.store.getState().layout;
                       const data = getElementsLocalVars(store, item)
-      
-                      core.actions.layout.updateElementsLayout(data);
-                      Object
-                        .keys(store.containers)
-                        .forEach(containerId => core.actions.layout.updateElementsContainer(containerId, data))  
+                      core.actions.layout.updateElementsAll(data);
                       const _item = { 
                         ...item, 
                         did: item.did === '__device' ? (props.dialogId ? core.store.getState().layoutDialog.contextId : core.cache.contexts[props.containerId]) : item.did 

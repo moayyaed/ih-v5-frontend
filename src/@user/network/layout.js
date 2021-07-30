@@ -30,7 +30,7 @@ function preparationData(data, clearAnimation = true) {
     .forEach(key => {
       elements[key] = createElement(elements[key], data.states, links, clearAnimation);
     });
-  console.log(Date.now() - x, )
+  console.log('layout render', Date.now() - x, )
   return { ...data, list, elements, links };
 }
 

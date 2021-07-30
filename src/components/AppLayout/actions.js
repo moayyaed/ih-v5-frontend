@@ -24,10 +24,14 @@ export function data(data) {
 }
 
 export function updateElementsAll(data) {
-  return {
-    type: APP_LAYOUT_UPDATE_ELEMENTS_ALL,
-    data,
-  };
+  return (dispatch) => {
+    const x = Date.now();
+    dispatch({
+      type: APP_LAYOUT_UPDATE_ELEMENTS_ALL,
+      data,
+    });
+    console.log('elements render', Date.now() - x)
+  }
 }
 
 export function updateElementsLayout(data) {
