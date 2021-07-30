@@ -1,25 +1,23 @@
 import core from 'core';
-import css from 'css';
 
-import { createValueFunc, options } from 'components/tools';
-import { getLayoutElements, getContainersElements, createElement } from './tools';
+import {
+  getLayoutSettings, 
+  getLayoutElements, 
+  getContainersElements, 
+  createElement,
+  mergeData,
+} from './tools';
 
-function mergeData(data1, data2) {
-  const temp = { ...data1, ...data2 };
-  Object
-    .keys(temp)
-    .forEach(key => {
-      temp[key] = {  ...data1[key], ...data2[key] };
-    });
-  return temp;
-}
 
-function preparationData(data, clearAnimation = true) { 
-  const x = Date.now();
-  const layoutid = data.layoutId;
+function preparationDataLayout(data, params, context) { 
+  const layoutid = params.layoutid;
 
+  const templates = data.templates;
+  const values = data.states;
+
+  const settings = getLayoutSettings(data.layout.settings);
   const layoutElements = getLayoutElements(layoutid, data.layout, data.containers);
-  const containersElements = getContainersElements(layoutid, data.containers, data.templates, data.states);
+  const containersElements = getContainersElements(layoutid, data.containers, templates, values);
 
   const list = data.layout.list.map(id =>  layoutid + '_' + id);
   const elements = { ...layoutElements, ...containersElements };
@@ -28,38 +26,51 @@ function preparationData(data, clearAnimation = true) {
   Object
     .keys(elements)
     .forEach(key => {
-      elements[key] = createElement(elements[key], data.states, links, clearAnimation);
+      elements[key] = createElement(elements[key], values, links);
     });
-  console.log('layout render', Date.now() - x, )
-  return { ...data, list, elements, links };
+  return { layoutid, settings, list, elements, templates, values, links };
 }
 
+function preparationDataContainer(data) {
+  const layoutid = data.layoutid;
+  const containerid = data.contextContainerId;
 
-core.network.request('applayout', (send, context) => {
+  const links = {};
+
+  const list = data.containers[containerid].list.map(id => containerid + '_' + id);
+  const elements = getContainersElements(layoutid, data.containers, data.templates, data.states);
+  
+  Object
+    .keys(elements)
+    .forEach(key => {
+      elements[key] = createElement(elements[key], data.states, links);
+    });
+  return { ...data, list, elements };
+}
+
+core.network.request('GET_LAYOUT', (send, { context, params }) => {
   send([
-    { api: 'layout', id: context.params.layoutId, frames: context.params.uframes },
-    { api: 'containers', layoutid: context.params.layoutId, frames: context.params.uframes },
-    { api: 'templates', layoutid: context.params.layoutId, frames: context.params.uframes },
-    { api: 'containers', layoutid: context.params.layoutId, frames: context.params.uframes, rt: 1 },
-    { api: 'layout', id: context.params.layoutId, frames: context.params.uframes, rt: 1 },
-    { api: 'layout', id: context.params.layoutId, frames: context.params.uframes, widgetdata: 1 },
-    { api: 'containers', layoutid: context.params.layoutId, frames: context.params.uframes, widgetdata: 1 },
+    { api: 'layout', id: params.layoutid, frames: context.uframes },
+    { api: 'containers', layoutid: params.layoutid, frames: context.uframes },
+    { api: 'templates', layoutid: params.layoutid, frames: context.uframes },
+    { api: 'containers', layoutid: params.layoutid, frames: context.uframes, rt: 1 },
+    { api: 'layout', id: params.layoutid, frames: context.uframes, rt: 1 },
+    { api: 'layout', id: params.layoutid, frames: context.uframes, widgetdata: 1 },
+    { api: 'containers', layoutid: params.layoutid, frames: context.uframes, widgetdata: 1 },
   ]);
 })
 
-
-core.network.response('applayout', (answer, res, context) => {
-  answer(preparationData({
+core.network.response('GET_LAYOUT', (answer, res, { context, params }) => {
+  answer(preparationDataLayout({
     layout: res[0].data,
     containers: res[1].data,
     templates: res[2].data,
     states: mergeData(res[3].data, res[4].data),
     widgets: mergeData(res[5].data, res[6].data),
-    layoutId: context.params.layoutId,
-    username: context.params.username,
-    context: { frames: context.params.frames }, 
-  }));
+  }, params, context));
 })
+
+
 
 
 core.network.request('get_container', (send, context) => {
@@ -73,13 +84,12 @@ core.network.request('get_container', (send, context) => {
 
 
 core.network.response('get_container', (answer, res, context) => {
-  answer(preparationData({
-    layout: { list: [], elements: {} },
-    containers: { [context.params.containerId]: res[0].data } ,
+  answer(preparationDataContainer({
+    containers: { [context.params.containerId]: res[0].data },
     templates: res[1].data,
     states: res[2].data,
-    widgets: { [context.params.containerId]: res[3].data },
+    widgets: res[3].data,
     contextContainerId: context.params.containerId,
     contextId: context.params.contextId, 
-  }, false));
+  }));
 })

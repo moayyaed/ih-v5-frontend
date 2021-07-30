@@ -355,7 +355,11 @@ class Button extends PureComponent {
                 const store = core.store.getState().layout;
                 if (item.local) {
                   const data = getElementsLocalVars(store, item)
-                  core.actions.layout.updateElementsAll(data);
+                  if (window.requestAnimationFrame !== undefined) {
+                    window.requestAnimationFrame(() => core.actions.layout.updateElementsAll(data));
+                  } else {
+                    core.actions.layout.updateElementsAll(data);
+                  }
                 } else {
                   const _item = { 
                     ...item, 

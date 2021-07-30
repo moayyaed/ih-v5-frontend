@@ -18,7 +18,17 @@ function cloneObject(i) {
   return i;
 }
 
-function createContainerList(item, containers) {
+export function mergeData(data1, data2) {
+  const temp = { ...data1, ...data2 };
+  Object
+    .keys(temp)
+    .forEach(key => {
+      temp[key] = {  ...data1[key], ...data2[key] };
+    });
+  return temp;
+}
+
+export function createContainerList(item, containers) {
   if (
     item.widgetlinks && 
     item.widgetlinks.link && 
@@ -164,24 +174,6 @@ function createChangesLayers(template) {
   }  
 }
 
-function createTemplateVariants(list, data) {
-  const variants = {};
-  const layers = [...list].reverse()
-
-  layers
-    .forEach(stateid => {
-      const layer = data[stateid].values;
-      Object
-        .keys(layer)
-        .forEach(value => {
-          variants[stateid + '_' + value] = layer[value];
-        });
-    });
-
-  console.log(variants)
-
-}
-
 function createAnimation(uuid, prop) {
  if (prop.active && prop.keyframes && prop.value) {
   const params = prop.value.split(' ');
@@ -292,6 +284,15 @@ export function createElement(item, values, links) {
   return item;
 }
 
+export function getLayoutSettings(settings) {
+  const src = settings.backgroundImage.value;
+  const type = settings.backgroundColor.type;
+  const colorback = type === 'fill' ? '' : ', ' + settings.backgroundColor.value;
+  const colorfront = settings.overlayColor.value;
+  const image = encodeURI(src.indexOf('://') !== -1 ? src : '/images/' + src);
+
+  return { image, colorback, colorfront, w: settings.w.value, h: settings.h.value };
+}
 
 export function getLayoutElements(id, data, containers) {
   const temp = {};

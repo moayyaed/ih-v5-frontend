@@ -140,21 +140,6 @@ class ContainerProd extends PureComponent {
   }
 
   render() {
-    if (this.props.container === undefined) {
-      return (
-        <div
-          style={{
-            width: '100%', 
-            height: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          {this.props.item.widgetlinks.link.id ? <CircularProgress /> : null}
-        </div>
-      )
-    }
     const img = window.__ihp2p ? this.state.img : this.props.container.settings.backgroundImage.value;
     const scale = getScale(this.props.item, this.props.container.settings, this.props.scaleW, this.props.scaleH, this.props.mode)
     const type = this.props.container.settings.backgroundColor.type;
