@@ -21,7 +21,7 @@ export function getElementsOtherVar(store, item) {
     }
     return value
   } else {
-    if (store.layoutDialog.static[item.did] && store.layoutDialog.static[item.did][item.prop] !== undefined) {
+    if (store.layoutDialog.static && store.layoutDialog.static[item.did] && store.layoutDialog.static[item.did][item.prop] !== undefined) {
       const checkValue = Number(store.layoutDialog.static[item.did][item.prop])
       let value = checkValue !== NaN ? checkValue : store.layoutDialog.static[item.did][item.prop];
       try {

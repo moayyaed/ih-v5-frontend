@@ -1,7 +1,8 @@
-import actions from 'core/actions';
 import { 
   APP_LAYOUT_SET_DATA,
   APP_LAYOUT_UPDATE_ELEMENTS_ALL,
+
+
   APP_LAYOUT_UPDATE_TEMPLATES, 
   APP_LAYOUT_UPDATE_ELEMENTS,
   APP_LAYOUT_SYNC_CHARTS_LAYOUT,
@@ -11,7 +12,6 @@ import {
   APP_LAYOUT_SYNC_CHARTS_CONTAINER_HOME_ALL,
 
   APP_LAYOUT_CHANGE_CONTAINER,
-  APP_LAYOUT_UPDATE_ELEMENTS_ALL_2,
 } from './constants';
 
 import { getZoomInterval } from 'components/@Elements/@Chart/utils';
@@ -178,7 +178,7 @@ function reducer(state = defaultState, action) {
   switch (action.type) {
     case APP_LAYOUT_SET_DATA:
       return { ...state, ...action.data };
-    case APP_LAYOUT_UPDATE_ELEMENTS_ALL_2:
+    case APP_LAYOUT_UPDATE_ELEMENTS_ALL:
       const x = Date.now();
       const temp = updateElementsAll(state, action);
       console.log('data', Date.now() - x)

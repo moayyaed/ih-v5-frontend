@@ -55,14 +55,14 @@ class AppLayout extends Component {
 
   realtimeLayout = (data) => {
     const x = Date.now();
-    core.actions.layout.updateElementsAll2(data);
+    core.actions.layout.updateElementsAll(data);
     console.log(Date.now() - x)
     // core.actions.layout.updateElementsLayout(data);
   }
 
   realtimeContainer = (containerId, data) => {
     const x = Date.now();
-    core.actions.layout.updateElementsAll2(data);
+    core.actions.layout.updateElementsAll(data);
     console.log(Date.now() - x)
     // core.actions.layout.updateElementsContainer(containerId, data);
   }
