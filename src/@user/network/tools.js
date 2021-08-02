@@ -42,7 +42,7 @@ export function createContainerList(item, containers) {
 }
 
 function createTemplateList(item, templates) {
-  item.list = templates[item.templateid].list
+  item.list = templates[item.linkid].list
     .map(id => item.containerid + '_' + item.id + '_' + id)
 }
 
@@ -326,13 +326,13 @@ export function getLayoutElements(id, data, containers) {
       const item = data.elements[key];
 
       item.layoutid = id;
-      item.containerid = item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id;
+      item.linkid = item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id;
       item.id = key;
       item.uuid = id + '_' + key;
       
       if (item.type === 'container') {
         createContainerList(item, containers);
-        item.settings = getItemSettings(containers[item.containerid].settings)
+        item.settings = getItemSettings(containers[item.linkid].settings)
       }
 
       temp[id + '_' + key] = item;;
@@ -352,12 +352,12 @@ export function getContainersElements(layoutid, data, templates, values) {
 
           item.layoutid = layoutid;
           item.containerid = containerid;
-          item.templateid = item.templateId
+          item.linkid = item.templateId
           item.id = key;
           item.uuid = containerid + '_' + key;
 
           if (item.type === 'template') {
-            const template = templates[item.templateid];
+            const template = templates[item.linkid];
 
             createTemplateList(item, templates);
             createItemLinks(item, template);

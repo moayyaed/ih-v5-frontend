@@ -53,7 +53,7 @@ class ContainerProd extends PureComponent {
     if (item.type === 'template') {
       params.scale = scale;
       params.item = item;
-      params.template = this.props.templates[item.templateid];
+      params.template = this.props.templates[item.linkid];
       params.elements = elements;
     }
 
@@ -106,7 +106,6 @@ class ContainerProd extends PureComponent {
                 justifyContent: item.alignW.value.id,
                 alignItems: item.alignH.value.id,
                 background: item.settings.colorfront,
-            
               }}
             >
               <div
