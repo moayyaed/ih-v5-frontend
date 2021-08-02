@@ -76,7 +76,7 @@ function updateElementsAll(state, action) {
       Object
       .keys(values[did])
       .forEach(propid => {
-        if (state.states[did][propid] !== values[did][propid]) {
+        if (state.values[did][propid] !== values[did][propid]) {
           isChange = true;
           isChangeDid = true;
           
@@ -84,7 +84,7 @@ function updateElementsAll(state, action) {
             changesValues[did] = {};
           }
 
-          state.states[did][propid] = values[did][propid];
+          state.values[did][propid] = values[did][propid];
           changesValues[did][propid] = values[did][propid];
         }
       });
@@ -111,7 +111,7 @@ function updateElementsAll(state, action) {
 
   linksTemplates.forEach(id => {
     const item = state.elements[id];
-    const template = state.templates[item.templateid];
+    const template = state.templates[item.linkid];
 
     const masterLayer = template.masterLayer;
     const changesLayers = template.changesLayers;

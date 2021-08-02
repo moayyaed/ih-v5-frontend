@@ -22,13 +22,14 @@ function preparationDataLayout(data, params, context) {
   const list = data.layout.list.map(id =>  layoutid + '_' + id);
   const elements = { ...layoutElements, ...containersElements };
   const links = {};
+  const realtime = [];
 
   Object
     .keys(elements)
     .forEach(key => {
-      elements[key] = createElement(elements[key], values, links);
+      elements[key] = createElement(elements[key], values, links, realtime);
     });
-  return { layoutid, settings, list, elements, templates, values, links };
+  return { layoutid, settings, list, elements, templates, values, links, realtime };
 }
 
 function preparationDataContainer(data) {

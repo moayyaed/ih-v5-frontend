@@ -29,6 +29,10 @@ class AppLayout extends Component {
   
   }
 
+  realtime = (data) => {
+    core.actions.layout.updateElementsAll(data);
+  }
+
   resize = (e) => {
     const state = this.props.state;
     const settings = state.settings || e;

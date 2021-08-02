@@ -262,8 +262,12 @@ function createBindW2H2(name, item, values) {
   }
 }
 
-export function createElement(item, values, links) {
+export function createElement(item, values, links, realtime) {
   checkItemProps(item);
+
+  if (item.type === 'container' && item.linkid) {
+    realtime.push(item.linkid)
+  }
   
   if (item.type === 'template') {
     Object
