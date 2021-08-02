@@ -6,18 +6,24 @@ import { createSelector } from 'reselect';
 
 import element from 'components/@Elements';
 
-import { requestDefaultLayout } from './requests';
+import { requestDefaultLayout, requestChangeContainer } from './requests';
+import { layoutCommand } from './commands';
 
 class AppLayout extends Component {
 
   state = { name: '', img: '', rw: 1, rh: 1 }
 
   requestDefaultLayout = requestDefaultLayout;
+  requestChangeContainer = requestChangeContainer;
+
+  command = layoutCommand;
 
   componentDidMount() {
     this.root = document.getElementById('root');
     window.addEventListener('resize', this.resize);
 
+    core.transfer.sub('command_layout', this.command.bind(this));
+    
     this.requestDefaultLayout();
   }
 

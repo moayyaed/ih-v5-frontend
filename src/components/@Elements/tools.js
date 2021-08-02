@@ -10,9 +10,9 @@ export function transform({ flipH, flipV, rotate }) {
 }
 
 export function getElementsOtherVar(store, item) {
-  if (store.layout.states[item.did] && store.layout.states[item.did][item.prop] !== undefined) {
-    const checkValue = Number(store.layout.states[item.did][item.prop])
-    let value = checkValue !== NaN ? checkValue : store.layout.states[item.did][item.prop];
+  if (store.layout.values[item.did] && store.layout.values[item.did][item.prop] !== undefined) {
+    const checkValue = Number(store.layout.values[item.did][item.prop])
+    let value = checkValue !== NaN ? checkValue : store.layout.values[item.did][item.prop];
     try {
       const func = createValueFunc(item.func).body;
       value = func.call(null, value)
@@ -37,9 +37,9 @@ export function getElementsOtherVar(store, item) {
 }
 
 export function getElementsLocalVars(store, item) {
-  if (store.states[item.did] && store.states[item.did][item.prop] !== undefined) {
-    const checkValue = Number(store.states[item.did][item.prop])
-    let value = checkValue !== NaN ? checkValue : store.states[item.prop];
+  if (store.values[item.did] && store.values[item.did][item.prop] !== undefined) {
+    const checkValue = Number(store.values[item.did][item.prop])
+    let value = checkValue !== NaN ? checkValue : store.values[item.prop];
   
     try {
       const func = createValueFunc(item.func).body;
@@ -48,7 +48,7 @@ export function getElementsLocalVars(store, item) {
         core.cache.vars[item.did] = {}
       }
       core.cache.vars[item.did][item.prop] = value;
-      store.states[item.did][item.prop] = value;
+      store.values[item.did][item.prop] = value;
       sessionStorage.setItem('local', JSON.stringify(core.cache.vars));
     } catch {
       console.warn('Error: Action function wrong!')

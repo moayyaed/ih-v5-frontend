@@ -43,3 +43,20 @@ export function requestDefaultLayout() {
       console.log('layout render', Date.now() - x)
     });
 }
+
+export function requestChangeContainer(params) {
+  if (params.frames) {
+    const context = getContext(this.props);
+    const layoutid = context.layoutid;
+    const elementid = layoutid + '_' + 'frame_4';
+    const containerid = 'vc040';
+    
+    core
+      .request({ method: 'GET_CONTAINER', context, params: { containerid } })
+      .ok(data => {
+        const x = Date.now();
+        core.actions.layout.changeContainer(elementid, containerid, data);
+        console.log('container render', Date.now() - x)
+      });
+  }
+}

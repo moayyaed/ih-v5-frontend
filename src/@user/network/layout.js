@@ -32,9 +32,12 @@ function preparationDataLayout(data, params, context) {
   return { layoutid, settings, list, elements, templates, values, links, realtime };
 }
 
-function preparationDataContainer(data) {
-  const layoutid = data.layoutid;
-  const containerid = data.contextContainerId;
+function preparationDataContainer(data, params, context) {
+  const layoutid = context.layoutid;
+  const containerid = params.containerid;
+
+  const templates = data.templates;
+  const values = data.states;
 
   const links = {};
 
@@ -46,7 +49,7 @@ function preparationDataContainer(data) {
     .forEach(key => {
       elements[key] = createElement(elements[key], data.states, links);
     });
-  return { ...data, list, elements };
+  return { ...data, list, elements, templates };
 }
 
 core.network.request('GET_LAYOUT', (send, { context, params }) => {
@@ -72,25 +75,21 @@ core.network.response('GET_LAYOUT', (answer, res, { context, params }) => {
 })
 
 
-
-
-core.network.request('get_container', (send, context) => {
+core.network.request('GET_CONTAINER', (send, { context, params }) => {
   send([
-    { api: 'container',  id: context.params.containerId },
-    { api: 'templates', containerid: context.params.containerId },
-    { api: 'container',  id: context.params.containerId, contextId: context.params.contextId, rt: 1 },
-    { api: 'container',  id: context.params.containerId, contextId: context.params.contextId, widgetdata: 1 },
+    { api: 'container',  id: params.containerid },
+    { api: 'templates', containerid: params.containerid },
+    { api: 'container',  id: params.containerid, contextId: params.contextid, rt: 1 },
+    { api: 'container',  id: params.containerid, contextId: params.contextid, widgetdata: 1 },
   ]);
 })
 
 
-core.network.response('get_container', (answer, res, context) => {
+core.network.response('GET_CONTAINER', (answer, res, { context, params }) => {
   answer(preparationDataContainer({
-    containers: { [context.params.containerId]: res[0].data },
+    containers: { [params.containerid]: res[0].data },
     templates: res[1].data,
     states: res[2].data,
     widgets: res[3].data,
-    contextContainerId: context.params.containerId,
-    contextId: context.params.contextId, 
-  }));
+  }, params, context));
 })

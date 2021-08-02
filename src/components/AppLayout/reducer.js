@@ -170,7 +170,6 @@ function updateElementsAll(state, action) {
 
 function changeContainer(state, action) {  
   const item = state.elements[action.elementid];
- 
   return { 
     ...state, 
     elements: { 
@@ -178,9 +177,13 @@ function changeContainer(state, action) {
       ...action.data.elements,
       [action.elementid]: {
         ...item,
-        widgetlinks: { link: { id: action.containerid } },
+        linkid: action.containerid,
         list: action.data.list,
       } 
+    },
+    templates: {
+      ...state.templates,
+      ...action.data.templates
     } 
   };
 }
