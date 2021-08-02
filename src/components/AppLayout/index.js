@@ -45,20 +45,20 @@ class AppLayout extends Component {
 
   elementRender = (id) => {
     const elements = this.props.state.elements;
-    const item = {
-      ...elements[id],
-      x: { value: elements[id].x.value * this.state.rw },
-      y: { value: elements[id].y.value * this.state.rh },
-      w: { value: elements[id].w.value * this.state.rw },
-      h: { value: elements[id].h.value * this.state.rh },
-    };
+    const templates = this.props.state.templates;
+    const item = elements[id];
+
+    const params = { id, mode: 'user', item };
 
     if (item.type === 'group') {
       return <div key={id} />
     }
 
     if (item.type === 'container') {
-      return <div key={id} />
+      params.rw = this.state.rw;
+      params.rh = this.state.rh;
+      params.elements = elements;
+      params.templates = templates;
     }
 
     return (
@@ -66,21 +66,21 @@ class AppLayout extends Component {
         key={id}
         style={{ 
           position: 'absolute', 
-          left: item.x.value,
-          top: item.y.value,
-          width: item.w.value,
-          height: item.h.value,
+          left: item.x.value * this.state.rw,
+          top: item.y.value * this.state.rh,
+          width: item.w.value * this.state.rw,
+          height: item.h.value * this.state.rh,
           zIndex: item.zIndex.value,
-          animation: item.animation && item.animation.active ? item.animation.value : 'unset',
+          animation: item.animation.active ? item.animation.value : 'unset',
         }}
       >
-        {element(elements[id].type, { id, mode: 'user', item: item })}
+        {element(elements[id].type, params)}
       </div>
     )
 
   }
   
-  render({ id, route, state, auth, classes } = this.props) {
+  render({ state } = this.props) {
     if (state.layoutid) {
       return (
         <div
@@ -88,7 +88,7 @@ class AppLayout extends Component {
             width: '100%',
             height: '100%',
             backgroundColor: state.settings.colorback,
-            backgroundImage:  `url(${window.__ihp2p ? this.state.img : state.settings.image})${state.settings.colorback}`,
+            backgroundImage:  `url(${window.__ihp2p ? this.state.img : state.settings.image})${state.settings.colorback2}`,
             backgroundSize: 'cover',
             backgroundPosition: 'center center',
           }}

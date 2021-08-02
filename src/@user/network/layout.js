@@ -1,7 +1,7 @@
 import core from 'core';
 
 import {
-  getLayoutSettings, 
+  getItemSettings, 
   getLayoutElements, 
   getContainersElements, 
   createElement,
@@ -15,7 +15,7 @@ function preparationDataLayout(data, params, context) {
   const templates = data.templates;
   const values = data.states;
 
-  const settings = getLayoutSettings(data.layout.settings);
+  const settings = getItemSettings(data.layout.settings);
   const layoutElements = getLayoutElements(layoutid, data.layout, data.containers);
   const containersElements = getContainersElements(layoutid, data.containers, templates, values);
 

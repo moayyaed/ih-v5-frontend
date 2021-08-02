@@ -174,6 +174,24 @@ function createChangesLayers(template) {
   }  
 }
 
+function checkItemProps(item) {
+  if (item.visible === undefined) {
+    item.visible = {};
+  }
+
+  if (item.boxShadow === undefined) {
+    item.boxShadow = {};
+  }
+
+  if (item.animation === undefined) {
+    item.animation = {};
+  }
+
+  if (item.overflow === undefined) {
+    item.overflow = {};
+  }
+}
+
 function createAnimation(uuid, prop) {
  if (prop.active && prop.keyframes && prop.value) {
   const params = prop.value.split(' ');
@@ -242,9 +260,11 @@ function createBindW2H2(name, item, values) {
   } catch {
     console.warn('Bind function failed!')
   }
- }
+}
 
 export function createElement(item, values, links) {
+  checkItemProps(item);
+  
   if (item.type === 'template') {
     Object
       .keys(item.links)
@@ -284,14 +304,18 @@ export function createElement(item, values, links) {
   return item;
 }
 
-export function getLayoutSettings(settings) {
-  const src = settings.backgroundImage.value;
-  const type = settings.backgroundColor.type;
-  const colorback = type === 'fill' ? '' : ', ' + settings.backgroundColor.value;
-  const colorfront = settings.overlayColor.value;
-  const image = encodeURI(src.indexOf('://') !== -1 ? src : '/images/' + src);
-
-  return { image, colorback, colorfront, w: settings.w.value, h: settings.h.value };
+export function getItemSettings(settings) {
+  if (settings) {
+    const src = settings.backgroundImage.value;
+    const type = settings.backgroundColor.type;
+    const colorback = settings.backgroundColor.value; 
+    const colorback2 = type === 'fill' ? '' : ', ' + settings.backgroundColor.value;
+    const colorfront = settings.overlayColor.value;
+    const image = encodeURI(src.indexOf('://') !== -1 ? src : '/images/' + src);
+  
+    return { image, colorback, colorback2, colorfront, w: settings.w.value, h: settings.h.value };
+  }
+  return null;
 }
 
 export function getLayoutElements(id, data, containers) {
@@ -302,11 +326,13 @@ export function getLayoutElements(id, data, containers) {
       const item = data.elements[key];
 
       item.layoutid = id;
+      item.containerid = item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id;
       item.id = key;
       item.uuid = id + '_' + key;
       
       if (item.type === 'container') {
         createContainerList(item, containers);
+        item.settings = getItemSettings(containers[item.containerid].settings)
       }
 
       temp[id + '_' + key] = item;;
