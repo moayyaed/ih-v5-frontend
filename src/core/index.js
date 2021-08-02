@@ -66,6 +66,7 @@ const core = {
   session: {},
   cache: {
     token: window.localStorage.getItem('token'),
+    subs: {},
     vars: null,
     requests: {},
     componentsParams: {},
