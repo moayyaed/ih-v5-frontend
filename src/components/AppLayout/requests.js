@@ -48,15 +48,20 @@ export function requestChangeContainer(params) {
   if (params.frames) {
     const context = getContext(this.props);
     const layoutid = context.layoutid;
-    const elementid = layoutid + '_' + 'frame_4';
-    const containerid = 'vc040';
-    
-    core
-      .request({ method: 'GET_CONTAINER', context, params: { containerid } })
-      .ok(data => {
-        const x = Date.now();
-        core.actions.layout.changeContainer(elementid, containerid, data);
-        console.log('container render', Date.now() - x)
+
+    Object
+      .keys(params.frames)
+      .forEach(id => {
+        const elementid = layoutid + '_' + id;
+        const containerid = params.frames[id].container_id;
+
+        core
+        .request({ method: 'GET_CONTAINER', context, params: { containerid } })
+        .ok(data => {
+          const x = Date.now();
+          core.actions.layout.changeContainer(elementid, containerid, data);
+          console.log('container render', Date.now() - x)
+        });
       });
   }
 }
