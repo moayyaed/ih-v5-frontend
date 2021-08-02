@@ -49,7 +49,7 @@ function preparationDataContainer(data, params, context) {
     .forEach(key => {
       elements[key] = createElement(elements[key], data.states, links);
     });
-  return { ...data, list, elements, templates };
+  return { list, elements, templates, values, links };
 }
 
 core.network.request('GET_LAYOUT', (send, { context, params }) => {

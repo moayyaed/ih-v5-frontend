@@ -111,53 +111,55 @@ function updateElementsAll(state, action) {
 
   linksTemplates.forEach(id => {
     const item = state.elements[id];
-    const template = state.templates[item.linkid];
+    if (item !== undefined) {
+      const template = state.templates[item.linkid];
 
-    const masterLayer = template.masterLayer;
-    const changesLayers = template.changesLayers;
-
-    Object
-      .keys(masterLayer)
-      .forEach(id => {
-        Object
-        .keys(masterLayer[id])
-        .forEach(propid => {
-          const elementid = item.containerid + '_' + item.id + '_' + id;
-          if (state.elements[elementid][propid] !== masterLayer[id][propid]) {
-           if (state.elements[elementid][propid].value !== masterLayer[id][propid].value) {
-            if (changesTemplates[elementid] === undefined) {
-              changesTemplates[elementid] = {}
+      const masterLayer = template.masterLayer;
+      const changesLayers = template.changesLayers;
+  
+      Object
+        .keys(masterLayer)
+        .forEach(id => {
+          Object
+          .keys(masterLayer[id])
+          .forEach(propid => {
+            const elementid = item.containerid + '_' + item.id + '_' + id;
+            if (state.elements[elementid][propid] !== masterLayer[id][propid]) {
+             if (state.elements[elementid][propid].value !== masterLayer[id][propid].value) {
+              if (changesTemplates[elementid] === undefined) {
+                changesTemplates[elementid] = {}
+              }
+              changesTemplates[elementid][propid] = { value: masterLayer[id][propid].value };
+             }
             }
-            changesTemplates[elementid][propid] = { value: masterLayer[id][propid].value };
-           }
-          }
+          })
         })
-      })
-
-    template.listState.forEach(stateid => {
-      if (item.links[stateid].did) {
-          const did = item.links[stateid].did;
-          const propid = item.links[stateid].prop;
-          if (changesValues[did] !== undefined && changesValues[did][propid] !== undefined) {
-            const uuid = stateid + '_' + changesValues[did][propid];
-            if (changesLayers[uuid] !== undefined) {
-              Object
-                .keys(changesLayers[uuid])
-                .forEach(id => {
-                  Object
-                    .keys(changesLayers[uuid][id])
-                    .forEach(propid => {
-                      const elementid = item.containerid + '_' + item.id + '_' + id;
-                      if (changesTemplates[elementid] === undefined) {
-                        changesTemplates[elementid] = {}
-                      }
-                      changesTemplates[elementid][propid] = changesLayers[uuid][id][propid];
-                    })
-                })
+  
+      template.listState.forEach(stateid => {
+        if (item.links[stateid].did) {
+            const did = item.links[stateid].did;
+            const propid = item.links[stateid].prop;
+            if (changesValues[did] !== undefined && changesValues[did][propid] !== undefined) {
+              const uuid = stateid + '_' + changesValues[did][propid];
+              if (changesLayers[uuid] !== undefined) {
+                Object
+                  .keys(changesLayers[uuid])
+                  .forEach(id => {
+                    Object
+                      .keys(changesLayers[uuid][id])
+                      .forEach(propid => {
+                        const elementid = item.containerid + '_' + item.id + '_' + id;
+                        if (changesTemplates[elementid] === undefined) {
+                          changesTemplates[elementid] = {}
+                        }
+                        changesTemplates[elementid][propid] = changesLayers[uuid][id][propid];
+                      })
+                  })
+              }
             }
-          }
-      }
-    });
+        }
+      });
+    }
   });
   
 
@@ -169,11 +171,46 @@ function updateElementsAll(state, action) {
 }
 
 function changeContainer(state, action) {  
+  const elements = {};
   const item = state.elements[action.elementid];
+
+  Object.keys(state.elements)
+    .forEach(id => {
+      if (item.linkid === state.elements[id].containerid) {
+        // if (state.templates[state.elements[id].linkid] !== undefined) {
+        //  delete state.templates[state.elements[id].linkid];
+        // }
+      } else {
+        elements[id] = state.elements[id];
+      }    
+    });
+
+  Object.keys(action.data.values)
+    .forEach(did => {
+      Object.keys(action.data.values)
+        .forEach(propid => {
+          if (state.values[did] === undefined) {
+            state.values[did] = {}
+          }
+          state.values[did][propid] = action.data.values[did][propid];
+        });
+    });
+ 
+  Object.keys(action.data.links)
+    .forEach(did => {
+      Object.keys(action.data.links[did])
+      .forEach(id => {
+        if (state.links[did] === undefined) {
+          state.links[did] = {}
+        }
+        state.links[did][id] = action.data.links[did][id];
+      });
+    });
+
   return { 
     ...state, 
     elements: { 
-      ...state.elements, 
+      ...elements, 
       ...action.data.elements,
       [action.elementid]: {
         ...item,
