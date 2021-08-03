@@ -5,7 +5,7 @@ function checkValue(value) {
   return null;
 }
 
-function parseFrames(value) {
+function parseFrames(layoutid, value) {
   if (value && value !== '') {
     return value
       .split(';')
@@ -14,7 +14,7 @@ function parseFrames(value) {
         if (values[0]) {
           return { 
             ...p, 
-            [values[0]]: {
+            [layoutid + '_' + values[0]]: {
               containerid: values[1] || null,
               linkid: values[2] || null,
             } 
@@ -38,7 +38,7 @@ function routeParse(pathname) {
   const params = pathname.split('/');
   const base = {
     layout: checkValue(params[1]),
-    frames: parseFrames(params[2]),
+    frames: parseFrames(checkValue(params[1]), params[2]),
     uframes: checkValue(params[2]),
   }
   const componentParams = getComponentParams(base.componentid, params);

@@ -372,7 +372,7 @@ export function getContainersElements(layoutid, layoutElements, containers, temp
         Object
           .keys(data.elements)
           .forEach(key => {
-            const item = data.elements[key];
+            const item = cloneObject(data.elements[key]);
 
             item.layoutid = layoutid;
             item.containerid = containerid;

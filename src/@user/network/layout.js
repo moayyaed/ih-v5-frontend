@@ -35,14 +35,22 @@ function preparationDataLayout(data, params, context) {
 function preparationDataContainer(data, params, context) {
   const layoutid = context.layoutid;
   const containerid = params.containerid;
+  const elementid = params.elementid;
 
   const templates = data.templates;
   const values = data.states;
 
   const links = {};
+  const layoutElements = {
+    [elementid]: { 
+      type: 'container', 
+      uuid: elementid, 
+      linkid: containerid
+    }
+  };
 
-  const list = data.containers[containerid].list.map(id => containerid + '_' + id);
-  const elements = getContainersElements(layoutid, data.containers, data.templates, data.states);
+  const list = data.containers[containerid].list.map(id => elementid + '_' + containerid + '_' + id);
+  const elements = getContainersElements(layoutid, layoutElements, data.containers, data.templates, data.states);
   
   Object
     .keys(elements)

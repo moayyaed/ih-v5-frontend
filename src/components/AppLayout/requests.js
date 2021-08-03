@@ -51,7 +51,6 @@ function subrealtimelayout(layoutid, list, cb) {
 }
 
 function subrealtimecontainer(containerid, context, cb) {
-  console.log(context)
   if (containerid) {
     if (core.cache.subs[containerid] === undefined) {
       core.cache.subs[containerid] = 0;
@@ -117,14 +116,16 @@ export function requestChangeContainer(params) {
         const elementid = layoutid + '_' + id;
         const containerid = params.frames[id].container_id;
         const item = this.props.state.elements[elementid];
+        
+        core.cache.context[elementid] = params.frames[id].device_id
 
         core
-        .request({ method: 'GET_CONTAINER', context, params: { containerid } })
+        .request({ method: 'GET_CONTAINER', context, params: { elementid, containerid } })
         .ok(data => {
           const x = Date.now();
           unsubrealtimecontainer(item.linkid, this.realtime);
           core.actions.layout.changeContainer(elementid, containerid, data);
-          subrealtimecontainer(containerid, context.frames[id], this.realtime)
+          subrealtimecontainer(containerid, context.frames[elementid], this.realtime)
           console.log('container render', Date.now() - x)
         });
       });
