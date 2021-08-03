@@ -67,7 +67,7 @@ function getCurentLayer(item, template, values) {
     .concat('master')
     .reverse()
     .forEach(id => {
-      let value = null;
+      let value = 0;
 
       if (id === 'master') {
         value = 0;
@@ -84,7 +84,7 @@ function getCurentLayer(item, template, values) {
       }
 
       const layer = template.state[id].values[value];
-      
+      console.log(id, value, layer)
       if (layer) {
         Object
         .keys(layer)

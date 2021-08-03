@@ -136,7 +136,7 @@ function updateElementsAll(state, action) {
         })
   
       template.listState.forEach(stateid => {
-        if (item.links[stateid].did) {
+        if (item.links[stateid] && item.links[stateid].did) {
             const did = item.links[stateid].did;
             const propid = item.links[stateid].prop;
             if (changesValues[did] !== undefined && changesValues[did][propid] !== undefined) {
@@ -177,9 +177,6 @@ function changeContainer(state, action) {
   Object.keys(state.elements)
     .forEach(id => {
       if (item.linkid === state.elements[id].containerid) {
-        // if (state.templates[state.elements[id].linkid] !== undefined) {
-        //  delete state.templates[state.elements[id].linkid];
-        // }
       } else {
         elements[id] = state.elements[id];
       }    
