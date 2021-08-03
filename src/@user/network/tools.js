@@ -32,12 +32,8 @@ export function mergeData(data1, data2) {
 }
 
 export function createContainerList(item, containers) {
-  if (
-    item.widgetlinks && 
-    item.widgetlinks.link && 
-    item.widgetlinks.link.id
-  ) {
-    item.list = containers[item.widgetlinks.link.id].list
+  if (item.linkid) {
+    item.list = containers[item.linkid].list
       .map(id => item.widgetlinks.link.id + '_' + id);
   } else {
     item.list = [];
@@ -351,7 +347,7 @@ export function getLayoutElements(id, data, containers) {
             item.linkid = item.widgetlinks.link.id;
           }
           if (item.widgetlinks.link.value && item.widgetlinks.link.value.device && item.widgetlinks.link.value.device.id) {
-            core.cache.context[item.linkid] = item.widgetlinks.link.value.device.id;
+            core.cache.context[item.uuid] = item.widgetlinks.link.value.device.id;
           }
         }
         createContainerList(item, containers);
