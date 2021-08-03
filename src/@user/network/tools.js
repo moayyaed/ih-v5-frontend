@@ -1,5 +1,8 @@
+import core from 'core';
+
 import css from 'css';
 import { createValueFunc, options } from 'components/tools';
+
 
 const ELEMENT_LINK = 1;
 const TEMPLATE_LINK = 2;
@@ -53,6 +56,11 @@ function createItemLinks(item, template) {
       .keys(item.links)
       .forEach(stateid => {
         if (item.links[stateid].value !== undefined) {
+          if (item.links[stateid].value.did === '__device' || item.links[stateid].value.did === '__devstat') {
+            if (core.cache.context[item.containerid] !== undefined) {
+              item.links[stateid].value.did = core.cache.context[item.containerid];
+            }
+          }
           links[stateid] = item.links[stateid].value;
         }
       })
@@ -292,6 +300,11 @@ export function createElement(item, values, links, realtime) {
         }
 
         if (prop.enabled) {
+          if (prop.did === '__device' || prop.did === '__devstat') {
+            if (core.cache.context[item.containerid] !== undefined) {
+              prop.did = core.cache.context[item.containerid];
+            }
+          }
           if (links[prop.did] === undefined) {
             links[prop.did] = {};
           } 
@@ -329,11 +342,18 @@ export function getLayoutElements(id, data, containers) {
       const item = data.elements[key];
 
       item.layoutid = id;
-      item.linkid = item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id;
       item.id = key;
       item.uuid = id + '_' + key;
       
       if (item.type === 'container') {
+        if (item.widgetlinks && item.widgetlinks.link) {
+          if (item.widgetlinks.link.id) {
+            item.linkid = item.widgetlinks.link.id;
+          }
+          if (item.widgetlinks.link.value && item.widgetlinks.link.value.device && item.widgetlinks.link.value.device.id) {
+            core.cache.context[item.linkid] = item.widgetlinks.link.value.device.id;
+          }
+        }
         createContainerList(item, containers);
         item.settings = getItemSettings(containers[item.linkid].settings)
       }
