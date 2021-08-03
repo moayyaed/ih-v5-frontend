@@ -84,7 +84,6 @@ function getCurentLayer(item, template, values) {
       }
 
       const layer = template.state[id].values[value];
-      console.log(id, value, layer)
       if (layer) {
         Object
         .keys(layer)

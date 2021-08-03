@@ -40,16 +40,15 @@ function createElement(item, values, links, templates) {
     .keys(item)
     .reduce((p, id) => {
       const prop = item[id];
-      if (templates[item.uuid] && templates[item.uuid][id]) {
-        return { ...p, [id]: { ...prop, value: templates[item.uuid][id].value } };
-      }
-
       if (prop && prop.enabled && values[prop.did] && values[prop.did][prop.prop] !== undefined) {
         try {
           return { ...p, [id]: { ...prop, value: prop.func(values[prop.did][prop.prop], {}) } };
         } catch {
           
         }
+      }
+      if (templates[item.uuid] && templates[item.uuid][id]) {
+        return { ...p, [id]: { ...prop, value: templates[item.uuid][id].value } };
       }
       return { ...p, [id]: prop };
     }, {});
