@@ -250,7 +250,7 @@ function getParams(item, props) {
       if (props.dialogId) {
         return { did: store.contextId, prop: item.prop, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id }
       }
-      return { did: core.cache.context[props.item.containerid], prop: item.prop, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id }
+      return { did: core.cache.context[props.item.frameid], prop: item.prop, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id }
     }
     return { did: item.did, prop: item.prop, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id }
   }
@@ -263,7 +263,7 @@ function getParams(item, props) {
   if (item.command === 'dialog' || item.command === 'dialog_any') {
     if (item.value && item.value.device && item.value.device.id) {
       if (item.value.device.id === '__device') {
-        contextId = core.cache.context[props.item.containerid];
+        contextId = core.cache.context[props.item.frameid];
       } else {
         contextId = item.value.device.id;
       }
@@ -363,7 +363,7 @@ class Button extends PureComponent {
                 } else {
                   const _item = { 
                     ...item, 
-                    did: item.did === '__device' ? (props.dialogId ? core.store.getState().layoutDialog.contextId : core.cache.context[props.item.containerid]) : item.did 
+                    did: item.did === '__device' ? (props.dialogId ? core.store.getState().layoutDialog.contextId : core.cache.context[props.item.frameid]) : item.did 
                   }
                   core.tunnel.command({
                     uuid: shortid.generate(),

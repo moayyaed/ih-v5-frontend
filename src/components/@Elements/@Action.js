@@ -43,7 +43,7 @@ function getParams(item, props) {
 
   if (item.command === 'device' || item.command === 'device_any') {
     if (item.did === '__device') {
-      return { did: core.cache.context[props.item.containerid], prop: item.prop, contextId, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.templateId }
+      return { did: core.cache.context[props.item.frameid], prop: item.prop, contextId, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.templateId }
     }
     return { did: item.did, prop: item.prop, contextId, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.templateId }
   }
@@ -117,7 +117,7 @@ class Action extends PureComponent {
                       }
                       const _item = { 
                         ...item, 
-                        did: item.did === '__device' ? (props.dialogId ? core.store.getState().layoutDialog.contextId : core.cache.context[props.item.containerid]) : item.did 
+                        did: item.did === '__device' ? (props.dialogId ? core.store.getState().layoutDialog.contextId : core.cache.context[props.item.frameid]) : item.did 
                       }
                       core.tunnel.command({
                         uuid: shortid.generate(),

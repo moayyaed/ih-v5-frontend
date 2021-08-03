@@ -122,7 +122,7 @@ function updateElementsAll(state, action) {
           Object
           .keys(masterLayer[id])
           .forEach(propid => {
-            const elementid = item.containerid + '_' + item.id + '_' + id;
+            const elementid = item.frameid + '_' + item.containerid + '_' + item.id + '_' + id;
             if (state.elements[elementid][propid] !== masterLayer[id][propid]) {
              if (state.elements[elementid][propid].value !== masterLayer[id][propid].value) {
               if (changesTemplates[elementid] === undefined) {
@@ -147,7 +147,7 @@ function updateElementsAll(state, action) {
                     Object
                       .keys(changesLayers[uuid][id])
                       .forEach(propid => {
-                        const elementid = item.containerid + '_' + item.id + '_' + id;
+                        const elementid = item.frameid + '_' + item.containerid + '_' + item.id + '_' + id;
                         if (changesTemplates[elementid] === undefined) {
                           changesTemplates[elementid] = {}
                         }

@@ -17,7 +17,7 @@ function preparationDataLayout(data, params, context) {
 
   const settings = getItemSettings(data.layout.settings);
   const layoutElements = getLayoutElements(layoutid, data.layout, data.containers);
-  const containersElements = getContainersElements(layoutid, data.containers, templates, values);
+  const containersElements = getContainersElements(layoutid, layoutElements, data.containers, templates, values);
 
   const list = data.layout.list.map(id =>  layoutid + '_' + id);
   const elements = { ...layoutElements, ...containersElements };

@@ -34,7 +34,7 @@ export function mergeData(data1, data2) {
 export function createContainerList(item, containers) {
   if (item.linkid) {
     item.list = containers[item.linkid].list
-      .map(id => item.widgetlinks.link.id + '_' + id);
+      .map(id => item.uuid + '_' + item.linkid + '_' + id);
   } else {
     item.list = [];
   }
@@ -42,7 +42,7 @@ export function createContainerList(item, containers) {
 
 function createTemplateList(item, templates) {
   item.list = templates[item.linkid].list
-    .map(id => item.containerid + '_' + item.id + '_' + id)
+    .map(id => item.frameid + '_' + item.containerid + '_' + item.id + '_' + id)
 }
 
 function createItemLinks(item, template) {
@@ -53,8 +53,8 @@ function createItemLinks(item, template) {
       .forEach(stateid => {
         if (item.links[stateid].value !== undefined) {
           if (item.links[stateid].value.did === '__device' || item.links[stateid].value.did === '__devstat') {
-            if (core.cache.context[item.containerid] !== undefined) {
-              item.links[stateid].value.did = core.cache.context[item.containerid];
+            if (core.cache.context[item.frameid] !== undefined) {
+              item.links[stateid].value.did = core.cache.context[item.frameid];
             }
           }
           links[stateid] = item.links[stateid].value;
@@ -297,8 +297,8 @@ export function createElement(item, values, links, realtime) {
 
         if (prop.enabled) {
           if (prop.did === '__device' || prop.did === '__devstat') {
-            if (core.cache.context[item.containerid] !== undefined) {
-              prop.did = core.cache.context[item.containerid];
+            if (core.cache.context[item.frameid] !== undefined) {
+              prop.did = core.cache.context[item.frameid];
             }
           }
           if (links[prop.did] === undefined) {
@@ -359,63 +359,71 @@ export function getLayoutElements(id, data, containers) {
   return temp;
 }
 
-export function getContainersElements(layoutid, data, templates, values) {
+export function getContainersElements(layoutid, layoutElements, containers, templates, values) {
   const temp = {};
+  
   Object
-    .keys(data)
-    .forEach(containerid => {
-      Object
-        .keys(data[containerid].elements)
-        .forEach(key => {
-          const item = data[containerid].elements[key];
+    .keys(layoutElements)
+    .forEach(id => {
+      const element = layoutElements[id];
+      if (element.type === 'container' && containers[element.linkid] !== undefined) {
+        const data = containers[element.linkid];
+        const containerid = element.linkid;
+        Object
+          .keys(data.elements)
+          .forEach(key => {
+            const item = data.elements[key];
 
-          item.layoutid = layoutid;
-          item.containerid = containerid;
-          item.linkid = item.templateId
-          item.id = key;
-          item.uuid = containerid + '_' + key;
+            item.layoutid = layoutid;
+            item.containerid = containerid;
+            item.frameid = element.uuid;
+            item.linkid = item.templateId
+            item.id = key;
+            item.uuid = item.frameid + '_' + containerid + '_' + key;
 
-          if (item.type === 'template') {
-            const template = templates[item.linkid];
+            if (item.type === 'template') {
+              const template = templates[item.linkid];
 
-            createTemplateList(item, templates);
-            createItemLinks(item, template);
+              createTemplateList(item, templates);
+              createItemLinks(item, template);
 
-            createMasterLayer(template);            
-            createChangesLayers(template);
+              createMasterLayer(template);            
+              createChangesLayers(template);
 
-            const curentLayer = getCurentLayer(item, template, values);
-          
-            Object
-            .keys(curentLayer)
-            .forEach(id => {
-              const item2 = cloneObject(curentLayer[id]);
+              const curentLayer = getCurentLayer(item, template, values);
+              
               Object
-                .keys(item2)
-                .forEach(id => {
-                  const prop = item2[id];
+              .keys(curentLayer)
+              .forEach(id => {
+                const item2 = cloneObject(curentLayer[id]);
+                Object
+                  .keys(item2)
+                  .forEach(id => {
+                    const prop = item2[id];
 
-                  if (prop && prop.enabled) {
-                    if (item.links[prop._bind] !== undefined) {
-                      prop.did = item.links[prop._bind].did;
-                      prop.prop = item.links[prop._bind].prop;
-                    } else {
-                      prop.enabled = false;
+                    if (prop && prop.enabled) {
+                      if (item.links[prop._bind] !== undefined) {
+                        prop.did = item.links[prop._bind].did;
+                        prop.prop = item.links[prop._bind].prop;
+                      } else {
+                        prop.enabled = false;
+                      }
                     }
-                  }
-                })   
+                  })   
 
-              item2.layoutid = layoutid;
-              item2.containerid = containerid;
-              item2.id = key;
-              item2.uuid = containerid + '_' + key + '_' + id;
+                item2.layoutid = layoutid;
+                item2.containerid = containerid;
+                item2.frameid = element.uuid;
+                item2.id = key;
+                item2.uuid = item.frameid + '_' + containerid + '_' + key + '_' + id;
 
-              temp[containerid + '_' + key + '_' + id] = item2;
-            });
-          }
+                temp[item2.uuid] = item2;
+              });
+            }
 
-          temp[containerid + '_' + key] = item;
-        });
+            temp[item.uuid] = item;
+          });
+      }
     });
   return temp;
 }
