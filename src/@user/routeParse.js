@@ -16,7 +16,7 @@ function parseFrames(value) {
             ...p, 
             [values[0]]: {
               containerid: values[1] || null,
-              contextid: values[2] || null,
+              linkid: values[2] || null,
             } 
           };
         }

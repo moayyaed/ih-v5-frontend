@@ -1,8 +1,20 @@
 import core from 'core';
 
 
+function getContextString(frames) {
+  if (frames) {
+    const temp = [];
+    Object
+      .keys(frames)
+      .forEach(key => {
+        temp.push(`${key},${frames[key].container_id || ''},${frames[key].device_id || ''}`);
+      });
+  return temp.join(';')
+  }
+  return '';
+}
 
-function getContext(props) {
+function getContext(props, frames) {
   const context = {
     layoutid: props.route.layout || props.app.auth.layout,
     username: props.app.auth.name,
@@ -38,7 +50,8 @@ function subrealtimelayout(layoutid, list, cb) {
   });
 }
 
-function subrealtimecontainer(containerid, cb) {
+function subrealtimecontainer(containerid, context, cb) {
+  console.log(context)
   if (containerid) {
     if (core.cache.subs[containerid] === undefined) {
       core.cache.subs[containerid] = 0;
@@ -50,6 +63,7 @@ function subrealtimecontainer(containerid, cb) {
         type: 'container',
         uuid: containerid,
         id: containerid,
+        contextId: (context && context.linkid) || null,
       }, cb);
     }
 
@@ -90,6 +104,10 @@ export function requestDefaultLayout() {
 
 export function requestChangeContainer(params) {
   if (params.frames) {
+    const prevContext = getContext(this.props);
+
+    core.route(`${prevContext.layoutid}/${getContextString(params.frames)}`);
+
     const context = getContext(this.props);
     const layoutid = context.layoutid;
 
@@ -106,7 +124,7 @@ export function requestChangeContainer(params) {
           const x = Date.now();
           unsubrealtimecontainer(item.linkid, this.realtime);
           core.actions.layout.changeContainer(elementid, containerid, data);
-          subrealtimecontainer(containerid, this.realtime)
+          subrealtimecontainer(containerid, context.frames[id], this.realtime)
           console.log('container render', Date.now() - x)
         });
       });
