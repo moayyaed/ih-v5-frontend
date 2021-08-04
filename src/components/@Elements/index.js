@@ -47,6 +47,7 @@ function getElementByType(type) {
       return Image;
     case 'button':
       return Button;
+    case 'dialog':
     case 'container':
       return Container;
     case 'template':

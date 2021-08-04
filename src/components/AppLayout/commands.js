@@ -10,5 +10,9 @@ export function layoutCommand(data) {
       this.requestChangeContainer(data.context)
     }
   }
+
+  if (data.command === 'showdialog') {
+    core.transfer.send('show_dialog_command', data);
+  }
 }
 
