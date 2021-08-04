@@ -19,11 +19,14 @@ class AppLayout extends Component {
   command = layoutCommand;
 
   componentDidMount() {
+    this.cache = {};
+    
     this.root = document.getElementById('root');
     window.addEventListener('resize', this.resize);
 
     core.transfer.sub('command_layout', this.command.bind(this));
-    
+    core.transfer.sub('chartdata', this.realtimecharts);
+
     this.requestDefaultLayout();
   }
 
@@ -38,6 +41,19 @@ class AppLayout extends Component {
   realtime = (data) => {
     core.actions.layout.updateElementsAll(data);
   }
+
+  realtimecharts = (data) => {
+    Object
+    .keys(data)
+    .forEach(key => {
+      const json = JSON.stringify(data[key]);
+      if (this.cache[key] !== json) {
+        this.cache[key] = json;
+        core.transfer.send('realtime_charts', { [key]: data[key]});
+      }
+    })
+  }
+
 
   resize = (e) => {
     const state = this.props.state;

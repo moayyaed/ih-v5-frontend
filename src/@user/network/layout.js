@@ -14,6 +14,7 @@ function preparationDataLayout(data, params, context) {
 
   const templates = data.templates;
   const values = data.states;
+  const widgets = data.widgets;
 
   const settings = getItemSettings(data.layout.settings);
   const layoutElements = getLayoutElements(layoutid, data.layout, data.containers, context);
@@ -28,7 +29,7 @@ function preparationDataLayout(data, params, context) {
     .forEach(key => {
       elements[key] = createElement(elements[key], values, links );
     });
-  return { layoutid, settings, list, elements, templates, values, links };
+  return { layoutid, settings, list, elements, templates, values, links, widgets };
 }
 
 function preparationDataContainer(data, params, context) {
@@ -38,6 +39,7 @@ function preparationDataContainer(data, params, context) {
 
   const templates = data.templates;
   const values = data.states;
+  const widgets = data.widgets;
 
   const links = {};
   const layoutElements = {
@@ -56,7 +58,7 @@ function preparationDataContainer(data, params, context) {
     .forEach(key => {
       elements[key] = createElement(elements[key], data.states, links);
     });
-  return { list, elements, templates, values, links };
+  return { list, elements, templates, values, links, widgets };
 }
 
 core.network.request('GET_LAYOUT', (send, { context, params }) => {

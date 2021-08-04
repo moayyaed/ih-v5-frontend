@@ -242,7 +242,11 @@ function changeContainer(state, action) {
     templates: {
       ...state.templates,
       ...action.data.templates
-    } 
+    },
+    widgets: {
+      ...state.widgets,
+      ...action.data.widgets
+    }  
   };
 }
 

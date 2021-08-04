@@ -266,7 +266,6 @@ function createBindW2H2(name, item, values) {
 
 export function createElement(item, values, links) {
   checkItemProps(item);
-  
   if (item.type === 'template') {
     Object
       .keys(item.links)
@@ -278,6 +277,18 @@ export function createElement(item, values, links) {
           links[item.links[id].did][item.uuid] = TEMPLATE_LINK; 
         }
       })
+  }
+
+  if (item.link) {
+    if (item.link.id === '__device') {
+      item.link.id = core.cache.context[item.frameid];
+    }
+  }
+  
+  if (item.widgetlinks && item.widgetlinks.link) {
+    if (item.widgetlinks.link.id === '__device') {
+      item.widgetlinks.link.id = core.cache.context[item.frameid];
+    }
   }
 
   Object
