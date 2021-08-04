@@ -91,12 +91,6 @@ class App extends Component {
     }
   }
   handleKeyDown = (e) => {
-    if (e.keyCode === 32) {
-      const x = Date.now();
-      core.actions.layout.updateElementsAll2({ vc012_template_23_image_1: true });
-      const z = Date.now() - x;
-      console.log(z);
-    }
     /*
     if (e.keyCode == '27') {
       if (isElectron()) {

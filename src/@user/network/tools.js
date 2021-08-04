@@ -235,7 +235,6 @@ function createAnimation(uuid, prop) {
 function createBind(prop, values) {
   try {
     prop.func = createValueFunc(prop.func).body;
-
     if (values[prop.did] && values[prop.did][prop.prop] !== undefined) {
       prop.value = prop.func(values[prop.did][prop.prop], {});
     }
@@ -265,12 +264,8 @@ function createBindW2H2(name, item, values) {
   }
 }
 
-export function createElement(item, values, links, realtime) {
+export function createElement(item, values, links) {
   checkItemProps(item);
-
-  if (item.type === 'container' && item.linkid) {
-    realtime.push(item.linkid)
-  }
   
   if (item.type === 'template') {
     Object
@@ -330,7 +325,7 @@ export function getItemSettings(settings) {
   return null;
 }
 
-export function getLayoutElements(id, data, containers) {
+export function getLayoutElements(id, data, containers, context) {
   const temp = {};
   Object
     .keys(data.elements)
@@ -347,7 +342,12 @@ export function getLayoutElements(id, data, containers) {
             item.linkid = item.widgetlinks.link.id;
           }
           if (item.widgetlinks.link.value && item.widgetlinks.link.value.device && item.widgetlinks.link.value.device.id) {
-            core.cache.context[item.uuid] = item.widgetlinks.link.value.device.id;
+            item.contextid = item.widgetlinks.link.value.device.id;
+            if (context.frames && context.frames[item.uuid]) {
+              core.cache.context[item.uuid] = context.frames[item.uuid].linkid;
+            } else {
+              core.cache.context[item.uuid] = item.contextid ;
+            }
           }
         }
         createContainerList(item, containers);

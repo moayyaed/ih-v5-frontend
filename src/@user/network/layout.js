@@ -16,20 +16,19 @@ function preparationDataLayout(data, params, context) {
   const values = data.states;
 
   const settings = getItemSettings(data.layout.settings);
-  const layoutElements = getLayoutElements(layoutid, data.layout, data.containers);
+  const layoutElements = getLayoutElements(layoutid, data.layout, data.containers, context);
   const containersElements = getContainersElements(layoutid, layoutElements, data.containers, templates, values);
 
   const list = data.layout.list.map(id =>  layoutid + '_' + id);
   const elements = { ...layoutElements, ...containersElements };
   const links = {};
-  const realtime = [];
 
   Object
     .keys(elements)
     .forEach(key => {
-      elements[key] = createElement(elements[key], values, links, realtime);
+      elements[key] = createElement(elements[key], values, links );
     });
-  return { layoutid, settings, list, elements, templates, values, links, realtime };
+  return { layoutid, settings, list, elements, templates, values, links };
 }
 
 function preparationDataContainer(data, params, context) {
