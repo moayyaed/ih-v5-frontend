@@ -21,6 +21,35 @@ function cloneObject(i) {
   return i;
 }
 
+export function mergeLocal(values, context) {
+  if (core.cache.vars === null) {
+    const local = sessionStorage.getItem('local');
+    if (local) {
+      core.cache.vars = JSON.parse(local);
+    } else {
+      core.cache.vars = {};
+    }
+  }
+
+  Object
+    .keys(core.cache.vars)
+    .forEach(key => {
+      Object
+        .keys(core.cache.vars[key])
+        .forEach(prop => {
+          if (values[key] === undefined) {
+            values[key] = {}
+          }
+          values[key][prop] = core.cache.vars[key][prop]
+        });
+    });
+    
+    values.__syslocal_layout = {};
+    values.__syslocal_username = {};
+    values.__syslocal_layout.layout = context.layoutid;
+    values.__syslocal_username.username = context.username;
+}
+
 export function mergeData(data1, data2) {
   const temp = { ...data1, ...data2 };
   Object

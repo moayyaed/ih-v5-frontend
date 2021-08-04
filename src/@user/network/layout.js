@@ -6,6 +6,7 @@ import {
   getContainersElements, 
   createElement,
   mergeData,
+  mergeLocal,
 } from './tools';
 
 
@@ -23,6 +24,8 @@ function preparationDataLayout(data, params, context) {
   const list = data.layout.list.map(id =>  layoutid + '_' + id);
   const elements = { ...layoutElements, ...containersElements };
   const links = {};
+
+  mergeLocal(values, context);
 
   Object
     .keys(elements)
