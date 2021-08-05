@@ -46,8 +46,10 @@ export function mergeLocal(values, context) {
     
     values.__syslocal_layout = {};
     values.__syslocal_username = {};
+    values.__syslocal_network = {};
     values.__syslocal_layout.layout = context.layoutid;
     values.__syslocal_username.username = context.username;
+    values.__syslocal_network.network = 'online';
 }
 
 export function mergeData(data1, data2) {

@@ -5,24 +5,17 @@ import {
 } from './constants';
 
 
-const defaultState = { layoutid: null };
+const defaultState = { 
+  layoutid: null, 
+  elements: {}, 
+  list: [],
+  values: {},
+  links: {}, 
+};
 
 const ELEMENT_LINK = 1;
 const TEMPLATE_LINK = 2;
 
-function mergeStates(c3, p3, s, v) {
-  if (s[v[c3]]) {
-    return Object
-    .keys(p3)
-    .reduce((p4, c4) => {
-      if (s[v[c3]][c4]) {
-        return { ...p4, [c4]: { ...p3[c4], ...s[v[c3]][c4] } }
-      }
-      return { ...p4, [c4]: p3[c4] }
-    }, {});
-  }
-  return p3;
-}
 
 function createElement(item, values, links, templates) {
   if (links[item.uuid] !== undefined || templates[item.uuid]) {
@@ -64,6 +57,9 @@ function updateElementsAll(state, action) {
       Object
       .keys(values[did])
       .forEach(propid => {
+        if (state.values[did] === undefined) {
+          state.values[did] = {};
+        }
         if (state.values[did][propid] !== values[did][propid]) {
           isChange = true;
           isChangeDid = true;

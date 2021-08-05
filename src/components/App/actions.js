@@ -51,10 +51,20 @@ export function restart(mode) {
 }
 
 export function network(status) {
-  return {
-    type: APP_STATUS_NETWORK,
-    status,
-  };
+  return (dispatch, getState) => {
+    // const store = getState();
+
+    dispatch({
+      type: APP_STATUS_NETWORK,
+      status,
+    });
+    
+    dispatch({
+      type: 'APP_LAYOUT_UPDATE_ELEMENTS_ALL',
+      data: { __syslocal_network: { network: status ? 'online': 'offline' } },
+    });
+    
+  }
 }
 
 
