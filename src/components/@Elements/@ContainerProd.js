@@ -47,7 +47,22 @@ class ContainerProd extends PureComponent {
     const params = { id, mode: 'user', item: elements[id], scale };
 
     if (item.type === 'group') {
-      return <div key={id} />
+      return (
+        <div
+          key={id}
+          style={{ 
+            position: 'absolute', 
+            left: item.x.value * scale,
+            top: item.y.value * scale,
+            width: item.w.value * scale,
+            height: item.h.value * scale,
+            zIndex: item.zIndex.value,
+            animation: item.animation.active ? item.animation.value : 'unset',
+          }}
+        >
+          {item.list.map(this.elementRender)}
+        </div>
+      )
     }
 
     if (item.type === 'template') {

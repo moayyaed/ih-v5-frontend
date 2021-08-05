@@ -376,6 +376,10 @@ export function getLayoutElements(id, data, containers, context) {
       item.id = key;
       item.uuid = id + '_' + key;
       
+      if (item.type === 'group') {
+        item.list = item.elements.map(id => item.layoutid + '_' + id);
+      }
+
       if (item.type === 'container') {
         if (item.widgetlinks && item.widgetlinks.link) {
           if (item.widgetlinks.link.id) {
@@ -420,6 +424,10 @@ export function getContainersElements(layoutid, layoutElements, containers, temp
             item.linkid = item.templateId
             item.id = key;
             item.uuid = item.frameid + '_' + containerid + '_' + key;
+
+            if (item.type === 'group') {
+              item.list = item.elements.map(id => item.frameid + '_' + containerid + '_' + id);
+            }
 
             if (item.type === 'template') {
               const template = templates[item.linkid];

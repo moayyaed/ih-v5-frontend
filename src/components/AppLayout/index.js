@@ -12,7 +12,6 @@ import {
   requestDefaultLayout, 
   requestChangeLayout, 
   requestChangeContainer,
-  parseUrlParams, 
 } from './requests';
 import { layoutCommand } from './commands';
 
@@ -120,7 +119,22 @@ class AppLayout extends Component {
     const params = { id, mode: 'user', item };
 
     if (item.type === 'group') {
-      return <div key={id} />
+      return (
+        <div
+          key={id}
+          style={{ 
+            position: 'absolute', 
+            left: item.x.value * this.state.rw,
+            top: item.y.value * this.state.rh,
+            width: item.w.value * this.state.rw,
+            height: item.h.value * this.state.rh,
+            zIndex: item.zIndex.value,
+            animation: item.animation.active ? item.animation.value : 'unset',
+          }}
+        >
+          {item.list.map(this.elementRender)}
+        </div>
+      )
     }
 
     if (item.type === 'container') {
@@ -146,7 +160,6 @@ class AppLayout extends Component {
         {element(elements[id].type, params)}
       </div>
     )
-
   }
   
   render({ state } = this.props) {
