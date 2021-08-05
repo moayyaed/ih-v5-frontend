@@ -56,7 +56,6 @@ function updateElementsAll(state, action) {
 
   const list = Object.keys(state.elements);
   const values = action.data;
-  
 
   Object
     .keys(values)
