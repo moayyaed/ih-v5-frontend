@@ -3,8 +3,6 @@ import React, { Component, PureComponent } from 'react';
 import Scrollbars2 from 'libs/Scrllbars2';
 import element from 'components/@Elements';
 
-import shortid from 'shortid';
-
 
 function getScale(item, rw, rh) {
   if (item.fitW.value && item.fitH.value) {

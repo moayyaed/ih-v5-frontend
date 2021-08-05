@@ -95,6 +95,23 @@ function unsubrealtimecontainer(elementid, containerid, contextid, cb) {
   }, cb);
 }
 
+function clearAnimation() {
+  const temp = []
+
+  Object
+    .keys(document.styleSheets[0].rules)
+    .forEach(id => {
+      if (document.styleSheets[0].rules[id].type === CSSRule.KEYFRAMES_RULE) {
+        temp.push(id)
+      }
+    })
+  temp
+    .reverse()
+    .forEach(id => {
+      document.styleSheets[0].deleteRule(id);
+   })
+}
+
 
 export function requestDefaultLayout() {
   const context = getContext(this.props);
@@ -121,6 +138,7 @@ export function requestChangeLayout(layoutid, params) {
     .ok(data => {
       const x = Date.now();
       unsubrealtimelayout(this.props.state.layoutid, this.props.state.elements, this.realtime);
+      clearAnimation();
       core.actions.layout.data(data);
       subrealtimelayout(layoutid, data.elements, this.realtime)
       console.log('layout render', Date.now() - x)
