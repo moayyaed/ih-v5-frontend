@@ -312,139 +312,134 @@ function reducer(state = defaultState, action) {
     case APP_LAYOUT_SYNC_CHARTS_LAYOUT_HOME_ALL:
       return { 
         ...state,
-        layout: {
-          ...state.layout,
-          elements: Object
-          .keys(state.layout.elements)
+        elements: Object
+          .keys(state.elements)
           .reduce((p, c) => {
-            if (state.layout.elements[c].type === 'chart_timeline' || state.layout.elements[c].type === 'chart' || state.layout.elements[c].type === 'chart_multi') {
-              var ns, ne, forceRealtime;
-              if (typeof action.position === 'string') {
-                forceRealtime = false;
-                const [s, e] = state.layout.elements[c].data.range;
-                if (action.position === 'next') {
-                  const i = e - s;
-                  ns = e;
-                  ne = e + i;
-                } else {
-                  const i = e - s;
-                  ns = s - i;
-                  ne = e - i;
-                }
-              } else {
-                if (action.position) {
-                  forceRealtime = true;
-                } else {
+            if (state.elements[c].containerid === undefined) {
+              if (state.elements[c].type === 'chart_timeline' || state.elements[c].type === 'chart' || state.elements[c].type === 'chart_multi') {
+                var ns, ne, forceRealtime;
+                if (typeof action.position === 'string') {
                   forceRealtime = false;
-                }
-
-                let s, e, pp, n;
-
-                if (action.position) {
-                  const { start, end } = getZoomInterval(state.layout.elements[c].interval.value.id);
-                  s = start;
-                  e = end;
-                  pp = state.layout.elements[c].positionCurentTime.value;
-                  n = Date.now();
+                  const [s, e] = state.elements[c].data.range;
+                  if (action.position === 'next') {
+                    const i = e - s;
+                    ns = e;
+                    ne = e + i;
+                  } else {
+                    const i = e - s;
+                    ns = s - i;
+                    ne = e - i;
+                  }
                 } else {
-                  const times = state.layout.elements[c].data.range;
-                  s = times[0];
-                  e = times[1];
-                  pp = 0;
-                  n = action.date;
+                  if (action.position) {
+                    forceRealtime = true;
+                  } else {
+                    forceRealtime = false;
+                  }
+  
+                  let s, e, pp, n;
+  
+                  if (action.position) {
+                    const { start, end } = getZoomInterval(state.elements[c].interval.value.id);
+                    s = start;
+                    e = end;
+                    pp = state.elements[c].positionCurentTime.value;
+                    n = Date.now();
+                  } else {
+                    const times = state.elements[c].data.range;
+                    s = times[0];
+                    e = times[1];
+                    pp = 0;
+                    n = action.date;
+                  }
+              
+                  const i = e - s;
+                  const d = (i / 100) * pp;
+                  ns = n - d;
+                  ne = n + i - d;
                 }
-            
-                const i = e - s;
-                const d = (i / 100) * pp;
-                ns = n - d;
-                ne = n + i - d;
-              }
-              return { 
-                ...p, 
-                [c]: {
-                  ...state.layout.elements[c],
-                  data: {
-                    ...state.layout.elements[c].data,
-                    range: [ns, ne],
-                    forceRealtime: forceRealtime,
-                    triger: Date.now(),
+                return { 
+                  ...p, 
+                  [c]: {
+                    ...state.elements[c],
+                    data: {
+                      ...state.elements[c].data,
+                      range: [ns, ne],
+                      forceRealtime: forceRealtime,
+                      triger: Date.now(),
+                    }
                   }
                 }
               }
             }
-            return { ...p, [c]: state.layout.elements[c] }
+            return { ...p, [c]: state.elements[c] }
           }, {}),
-        }
       };
     case APP_LAYOUT_SYNC_CHARTS_CONTAINER_HOME_ALL:
       return { 
         ...state,
-        containers: {
-          ...state.containers,
-          [action.containerId]: {
-            ...state.containers[action.containerId],
-            elements: Object
-              .keys(state.containers[action.containerId].elements)
-              .reduce((p, c) => {
-                if (state.containers[action.containerId].elements[c].type === 'chart_timeline' || state.containers[action.containerId].elements[c].type === 'chart' || state.containers[action.containerId].elements[c].type === 'chart_multi') {
-                  var ns, ne, forceRealtime;
-                  if (typeof action.position === 'string') {
-                    forceRealtime = false;
-                    const [s, e] = state.containers[action.containerId].elements[c].data.range;
-                    if (action.position === 'next') {
-                      const i = e - s;
-                      ns = e;
-                      ne = e + i;
-                    } else {
-                      const i = e - s;
-                      ns = s - i;
-                      ne = e - i;
-                    }
-                  } else {
-                    if (action.position) {
-                      forceRealtime = true;
-                    } else {
-                      forceRealtime = false;
-                    }
-
-                    let s, e, pp, n;
-
-                    if (action.position) {
-                      const { start, end } = getZoomInterval(state.containers[action.containerId].elements[c].interval.value.id);
-                      s = start;
-                      e = end;
-                      pp = state.containers[action.containerId].elements[c].positionCurentTime.value;
-                      n = Date.now();
-                    } else {
-                      const times = state.containers[action.containerId].elements[c].data.range;
-                      s = times[0];
-                      e = times[1];
-                      pp = 0;
-                      n = action.date;
-                    }
-      
+        elements: Object
+          .keys(state.elements)
+          .reduce((p, c) => {
+            if (state.elements[c].frameid === action.containerId) {
+              if (state.elements[c].type === 'chart_timeline' || state.elements[c].type === 'chart' || state.elements[c].type === 'chart_multi') {
+                var ns, ne, forceRealtime;
+                if (typeof action.position === 'string') {
+                  forceRealtime = false;
+                  const [s, e] = state.elements[c].data.range;
+                  if (action.position === 'next') {
                     const i = e - s;
-                    const d = (i / 100) * pp;
-                    ns = n - d;
-                    ne = n + i - d;
+                    ns = e;
+                    ne = e + i;
+                  } else {
+                    const i = e - s;
+                    ns = s - i;
+                    ne = e - i;
                   }
-                  return { 
-                    ...p, 
-                    [c]: {
-                      ...state.containers[action.containerId].elements[c],
-                      data: {
-                        ...state.containers[action.containerId].elements[c].data,
-                        range: [ns, ne],
-                        forceRealtime: forceRealtime,
-                        triger: Date.now(),
-                      }
+                } else {
+                  if (action.position) {
+                    forceRealtime = true;
+                  } else {
+                    forceRealtime = false;
+                  }
+  
+                  let s, e, pp, n;
+  
+                  if (action.position) {
+                    const { start, end } = getZoomInterval(state.elements[c].interval.value.id);
+                    s = start;
+                    e = end;
+                    pp = state.elements[c].positionCurentTime.value;
+                    n = Date.now();
+                  } else {
+                    const times = state.elements[c].data.range;
+                    s = times[0];
+                    e = times[1];
+                    pp = 0;
+                    n = action.date;
+                  }
+  
+                  const i = e - s;
+                  const d = (i / 100) * pp;
+                  ns = n - d;
+                  ne = n + i - d;
+                }
+                return { 
+                  ...p, 
+                  [c]: {
+                    ...state.elements[c],
+                    data: {
+                      ...state.elements[c].data,
+                      range: [ns, ne],
+                      forceRealtime: forceRealtime,
+                      triger: Date.now(),
                     }
                   }
                 }
-                return { ...p, [c]: state.containers[action.containerId].elements[c] }
-              }, {}),
-          }
-        }
+              } 
+            }
+            return { ...p, [c]: state.elements[c] }
+          }, {}),
       };
     default:
       return state;

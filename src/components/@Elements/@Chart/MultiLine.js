@@ -287,13 +287,13 @@ class Chart extends PureComponent {
       command: this.props.dialogId ? 'synccharts_dialog' : 'synccharts',
       range: this.ctx.chart.dateWindow_,
       realtime: this.state.realtime,
-      layoutId: this.props.layoutId, 
-      containerId: this.props.containerId, 
+      layoutId: this.props.item.layoutid, 
+      containerId: this.props.item.frameid, 
     };
     if (this.props.dialogId) {
       core.cache.chart.d = data
-    } else if (this.props.containerId) {
-      core.cache.chart.c[this.props.containerId] = data
+    } else if (this.props.item.frameid) {
+      core.cache.chart.c[this.props.item.frameid] = data
     } else {
       core.cache.chart.l = data
     }
@@ -781,8 +781,8 @@ class Chart extends PureComponent {
       command: this.props.dialogId ? 'synccharts_dialog' : 'synccharts',
       range: this.ctx.chart.dateWindow_,
       realtime: this.state.realtime,
-      layoutId: this.props.layoutId, 
-      containerId: this.props.containerId, 
+      layoutId: this.props.item.layoutid, 
+      containerId: this.props.item.frameid, 
     })
     this.cacheEvent();
   };

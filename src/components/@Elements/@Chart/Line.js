@@ -258,13 +258,13 @@ class Chart extends PureComponent {
       command: this.props.dialogId ? 'synccharts_dialog' : 'synccharts',
       range: this.ctx.chart.dateWindow_,
       realtime: this.state.realtime,
-      layoutId: this.props.layoutId, 
-      containerId: this.props.containerId, 
+      layoutId: this.props.item.layoutid, 
+      containerId: this.props.item.frameid, 
     };
     if (this.props.dialogId) {
       core.cache.chart.d = data
-    } else if (this.props.containerId) {
-      core.cache.chart.c[this.props.containerId] = data
+    } else if (this.props.item.frameid) {
+      core.cache.chart.c[this.props.item.frameid] = data
     } else {
       core.cache.chart.l = data
     }
@@ -685,7 +685,7 @@ class Chart extends PureComponent {
   }
 
   setLegend = (data) => {
-    const id = `${this.props.layoutId}_${this.props.containerId || 'null'}_${this.props.dialogId || 'null'}_${this.props.id}`
+    const id = `${this.props.item.uuid}_${this.props.dialogId || 'null'}_${this.props.id}`
     if (data.x) {
       const x = new Date(data.x);
       if (this.ctx.params.legend.chart_type === 'bar') {
@@ -781,7 +781,7 @@ class Chart extends PureComponent {
   }
 
   generateLegend = (props = this.props) => {
-    const id = `${props.layoutId}_${props.containerId || 'null'}_${props.dialogId || 'null'}_${props.id}`
+    const id = `${props.item.uuid}_${props.dialogId || 'null'}_${props.id}`
     const color = props.item.textColor.value;
 
     const legendLabel = props.item.legendLabel !== undefined ? props.item.legendLabel.value : 'Demo temp1';

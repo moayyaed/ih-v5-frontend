@@ -109,8 +109,8 @@ class ChartBar extends Component {
 
     if (this.props.dialogId && core.cache.chart.d) {
       data = core.cache.chart.d;
-    } else if (this.props.containerId && core.cache.chart.c[this.props.containerId]) {
-      data = core.cache.chart.c[this.props.containerId];
+    } else if (this.props.item.frameid && core.cache.chart.c[this.props.item.frameid]) {
+      data = core.cache.chart.c[this.props.item.frameid];
     } else {
       if (core.cache.chart.l) {
         data = core.cache.chart.l
@@ -136,8 +136,8 @@ class ChartBar extends Component {
     this.setState({ realtime: false, calendar: false });
     core.transfer.send('command_layout', { 
       command: this.props.dialogId ? 'synccharts_date_all_dialog' : 'synccharts_date_all',
-      layoutId: this.props.layoutId, 
-      containerId: this.props.containerId, 
+      layoutId: this.props.item.layoutid, 
+      containerId: this.props.item.frameid, 
       date: date.getTime(),
     })
   }
@@ -149,24 +149,24 @@ class ChartBar extends Component {
   handleNavBefore = () => {
     core.transfer.send('command_layout', { 
       command: this.props.dialogId ? 'synccharts_before_all_dialog' : 'synccharts_before_all',
-      layoutId: this.props.layoutId, 
-      containerId: this.props.containerId, 
+      layoutId: this.props.item.layoutid, 
+      containerId: this.props.item.frameid, 
     })
   }
 
   handleNavNext = () => {
     core.transfer.send('command_layout', { 
       command: this.props.dialogId ? 'synccharts_next_all_dialog' : 'synccharts_next_all',
-      layoutId: this.props.layoutId, 
-      containerId: this.props.containerId, 
+      layoutId: this.props.item.layoutid, 
+      containerId: this.props.item.frameid, 
     })
   }
 
   handleHome = () => {
     core.transfer.send('command_layout', { 
       command: this.props.dialogId ? 'synccharts_home_all_dialog' : 'synccharts_home_all',
-      layoutId: this.props.layoutId, 
-      containerId: this.props.containerId, 
+      layoutId: this.props.item.layoutid, 
+      containerId: this.props.item.frameid, 
     })
   }
 
