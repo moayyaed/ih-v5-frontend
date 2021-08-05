@@ -248,11 +248,11 @@ function getParams(item, props) {
   if (item.command === 'device' || item.command === 'device_any') {
     if (item.did === '__device') {
       if (props.dialogId) {
-        return { did: store.contextId, prop: item.prop, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id }
+        return { did: store.contextId, prop: item.prop }
       }
-      return { did: core.cache.context[props.item.frameid], prop: item.prop, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id }
+      return { did: core.cache.context[props.item.frameid], prop: item.prop }
     }
-    return { did: item.did, prop: item.prop, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id }
+    return { did: item.did, prop: item.prop }
   }
   if (store.open && store.contextId) {
     if (item.value && item.value.device && item.value.device.id && item.value.device.id !== '-') {
@@ -268,9 +268,9 @@ function getParams(item, props) {
         contextId = item.value.device.id;
       }
     }
-    return { command: 'dialog', id: item.id, contextId, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id };
+    return { command: 'dialog', id: item.id, contextId };
   }
-  return { ...item.value, id: item.id, layoutId: props.layoutId, containerId: props.containerId || null, elementId: props.id };
+  return { ...item.value, id: item.id};
 }
 
 

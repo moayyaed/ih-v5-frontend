@@ -65,22 +65,20 @@ export function getElementsLocalVars(store, item) {
 
 export function getVscriptParams(command, props) {
   const store = core.store.getState();
-  
   const context = {
     username: store.app.auth.name,
     start_layoutid: store.app.auth.layout,
-    layoutid: store.layout.layoutId,
+    layoutid: store.layout.layoutid,
   };
   const source = { 
-    id: props.id,
+    id: props.item.id,
     type: props.item.type,
-    layoutid: props.layoutId || null, 
-    containerid: props.containerId || null,
-    templateid: props.templateId || null,
+    layoutid: props.item.layoutid || null, 
+    containerid: props.item.frameid.replace(props.item.layoutid + '_','') || null,
+    templateid: props.item.templateid || null,
     dialogid: props.dialogId || null,
   };
   const elements = {};
   const local = core.cache.vars;
-  
   return { id: command.id, context, source, elements, local };
 }
