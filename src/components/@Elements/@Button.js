@@ -399,7 +399,6 @@ class Button extends PureComponent {
   }
 
   handleSingleTap = () => {
-    core.cache.time = Date.now();
     const name = 'singleClickLeft';
     this.handleAction(this.props, name, this.props.item.actions);
   }

@@ -3,17 +3,10 @@ import {
   APP_LAYOUT_UPDATE_ELEMENTS_ALL,
   APP_LAYOUT_CHANGE_CONTAINER,
 
-
-  APP_LAYOUT_UPDATE_TEMPLATES, 
-  APP_LAYOUT_UPDATE_ELEMENTS,
   APP_LAYOUT_SYNC_CHARTS_LAYOUT,
   APP_LAYOUT_SYNC_CHARTS_CONTAINER,
-
   APP_LAYOUT_SYNC_CHARTS_LAYOUT_HOME_ALL,
   APP_LAYOUT_SYNC_CHARTS_CONTAINER_HOME_ALL,
-
-
-
 } from './constants';
 
 
@@ -25,13 +18,9 @@ export function data(data) {
 }
 
 export function updateElementsAll(data) {
-  return (dispatch) => {
-    const x = Date.now();
-    dispatch({
-      type: APP_LAYOUT_UPDATE_ELEMENTS_ALL,
-      data,
-    });
-    console.log('elements render', Date.now() - x)
+  return {
+    type: APP_LAYOUT_UPDATE_ELEMENTS_ALL,
+    data,
   }
 }
 
@@ -42,21 +31,6 @@ export function changeContainer(elementid, containerid, contextid, data) {
     containerid, 
     contextid,
     data, 
-  };
-}
-
-export function updateElementsLayout(data) {
-  return {
-    type: APP_LAYOUT_UPDATE_ELEMENTS,
-    data,
-  };
-}
-
-export function updateElementsContainer(containerId, data) {
-  return {
-    type: APP_LAYOUT_UPDATE_TEMPLATES,
-    containerId,
-    data,
   };
 }
 
@@ -99,9 +73,6 @@ export default {
   data,
   updateElementsAll,
   changeContainer,
-  
-  updateElementsLayout,
-  updateElementsContainer,
   syncChartsLayout,
   syncChartsContainer,
   syncChartsLayoutHomeAll,

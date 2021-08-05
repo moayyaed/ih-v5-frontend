@@ -120,11 +120,9 @@ export function requestDefaultLayout() {
   core
     .request({ method: 'GET_LAYOUT', context, params: { layoutid } })
     .ok(data => {
-      const x = Date.now();
       this.resize(data.settings);
       core.actions.layout.data(data);
       subrealtimelayout(layoutid, data.elements, this.realtime)
-      console.log('layout render', Date.now() - x)
     });
 }
 
