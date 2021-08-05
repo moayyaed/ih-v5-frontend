@@ -361,8 +361,9 @@ export function getItemSettings(settings) {
     const colorback2 = type === 'fill' ? '' : ', ' + settings.backgroundColor.value;
     const colorfront = settings.overlayColor.value;
     const image = encodeURI(src.indexOf('://') !== -1 ? src : '/images/' + src);
+    const image2 = { ...settings.backgroundImage, value: src };
   
-    return { image, colorback, colorback2, colorfront, w: settings.w.value, h: settings.h.value };
+    return { image, image2, colorback, colorback2, colorfront, w: settings.w.value, h: settings.h.value };
   }
   return null;
 }
@@ -398,6 +399,7 @@ export function getLayoutElements(id, data, containers, context) {
         }
         createContainerList(item, containers);
         item.settings = getItemSettings(containers[item.linkid].settings)
+        temp['__' + item.uuid] = { linkid: item.uuid, image: { uuid: '__' + item.uuid, ...item.settings.image2 } }
       }
 
       temp[id + '_' + key] = item;;

@@ -163,13 +163,15 @@ class AppLayout extends Component {
   
   render({ state } = this.props) {
     if (state.layoutid) {
+      const img = window.__ihp2p ? this.state.img : state.elements.__layout.image.value;
+      const src =  img.indexOf('://') !== -1 ? img : '/images/' + img;
       return (
         <div
           style={{
             width: '100%',
             height: '100%',
             backgroundColor: state.settings.colorback,
-            backgroundImage:  `url(${window.__ihp2p ? this.state.img : state.settings.image})${state.settings.colorback2}`,
+            backgroundImage:  `url(${encodeURI(src)})${state.settings.colorback2}`,
             backgroundSize: 'cover',
             backgroundPosition: 'center center',
           }}

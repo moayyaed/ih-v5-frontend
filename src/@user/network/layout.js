@@ -22,7 +22,15 @@ function preparationDataLayout(data, params, context) {
   const containersElements = getContainersElements(layoutid, layoutElements, data.containers, templates, values);
 
   const list = data.layout.list.map(id =>  layoutid + '_' + id);
-  const elements = { ...layoutElements, ...containersElements };
+  const __layout = {
+    uuid: '__layout',
+    image: settings.image2,
+  }
+  const elements = { 
+    ...layoutElements, 
+    ...containersElements,
+    __layout,
+  };
   const links = {};
 
   mergeLocal(values, context);
@@ -41,7 +49,7 @@ function preparationDataContainer(data, params, context) {
   const elementid = params.elementid;
 
   const templates = data.templates;
-  const values = data.states;
+  const values = { ...data.states, ...core.cache.vars}
   const widgets = data.widgets;
 
   const links = {};
@@ -53,15 +61,23 @@ function preparationDataContainer(data, params, context) {
     }
   };
 
+  const settings = getItemSettings(data.containers[containerid].settings);
   const list = data.containers[containerid].list.map(id => elementid + '_' + containerid + '_' + id);
   const elements = getContainersElements(layoutid, layoutElements, data.containers, data.templates, data.states);
+  
+  elements['__' + elementid] = {
+    uuid: '__' + elementid,
+    linkid: elementid, 
+    image: settings.image2 
+  } 
   
   Object
     .keys(elements)
     .forEach(key => {
-      elements[key] = createElement(elements[key], data.states, links);
+      elements[key] = createElement(elements[key], values, links);
     });
-  return { list, elements, templates, values, links, widgets };
+
+  return { settings, list, elements, templates, values, links, widgets };
 }
 
 core.network.request('GET_LAYOUT', (send, { context, params }) => {

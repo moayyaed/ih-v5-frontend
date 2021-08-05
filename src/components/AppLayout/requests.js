@@ -134,12 +134,10 @@ export function requestChangeLayout(layoutid, params) {
   core
     .request({ method: 'GET_LAYOUT', context, params: { layoutid } })
     .ok(data => {
-      const x = Date.now();
       unsubrealtimelayout(this.props.state.layoutid, this.props.state.elements, this.realtime);
       clearAnimation();
       core.actions.layout.data(data);
       subrealtimelayout(layoutid, data.elements, this.realtime)
-      console.log('layout render', Date.now() - x)
     });
 }
 
@@ -161,18 +159,14 @@ export function requestChangeContainer(params) {
         const contextid = params.frames[id].device_id;
         
         core.cache.context[elementid] = contextid
-        const xx = Date.now();
+
         core
-        .request({ method: 'GET_CONTAINER', context, params: { contextid, elementid, containerid } })
-        .ok(data => {
-          console.log('network', Date.now() - xx)
-          const x = Date.now();
-          unsubrealtimecontainer(item.uuid, item.linkid, item.contextid, this.realtime);
-          core.actions.layout.changeContainer(elementid, containerid, contextid, data);
-          subrealtimecontainer(elementid, containerid, contextid, this.realtime);
-          console.log('container render', Date.now() - x)
-          console.log('total', Date.now() - core.cache.time)
-        });
+          .request({ method: 'GET_CONTAINER', context, params: { contextid, elementid, containerid } })
+          .ok(data => {
+            unsubrealtimecontainer(item.uuid, item.linkid, item.contextid, this.realtime);
+            core.actions.layout.changeContainer(elementid, containerid, contextid, data);
+            subrealtimecontainer(elementid, containerid, contextid, this.realtime);
+          });
       });
   }
 }

@@ -227,7 +227,7 @@ function changeContainer(state, action) {
         state.links[did][id] = action.data.links[did][id];
       });
     });
-
+  
   return { 
     ...state, 
     elements: { 
@@ -235,10 +235,11 @@ function changeContainer(state, action) {
       ...action.data.elements,
       [action.elementid]: {
         ...item,
+        settings: action.data.settings,
         contextid: action.contextid,
         linkid: action.containerid,
         list: action.data.list,
-      } 
+      },
     },
     templates: {
       ...state.templates,
@@ -247,7 +248,7 @@ function changeContainer(state, action) {
     widgets: {
       ...state.widgets,
       ...action.data.widgets
-    }  
+    },  
   };
 }
 

@@ -89,16 +89,18 @@ class ContainerProd extends PureComponent {
 
   }
 
-  render({ item } = this.props) {
+  render({ item, elements } = this.props) {
     if (item.settings) {
       const scale = getScale(item, this.props.rw, this.props.rh);
+      const img = window.__ihp2p ? this.state.img : elements['__' + item.uuid].image.value;
+      const src =  img.indexOf('://') !== -1 ? img : '/images/' + img;
       return (
         <div
           style={{
             width: '100%',
             height: '100%',
             backgroundColor: item.settings.colorback,
-            backgroundImage:  `url(${window.__ihp2p ? this.state.img : item.settings.image})${item.settings.colorback2}`,
+            backgroundImage:  `url(${encodeURI(src)})${item.settings.colorback2}`,
             backgroundSize: 'cover',
             backgroundPosition: 'center center',
             opacity: item.opacity.value / 100,
