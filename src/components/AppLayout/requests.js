@@ -49,6 +49,32 @@ function subrealtimelayout(layoutid, elements, cb) {
     });
 }
 
+function unsubrealtimelayout(layoutid, elements, cb) {
+  core.tunnel.unsub({ 
+    method: 'unsub',
+    type: 'layout',
+    uuid: layoutid,
+    id: layoutid,
+  }, cb);
+
+  Object
+    .keys(elements)
+    .forEach(id => {
+      const element = elements[id];
+
+      if (element.type === 'container' && element.linkid) {
+        core.tunnel.unsub({ 
+          method: 'unsub',
+          type: 'container',
+          uuid: element.uuid,
+          id: element.linkid,
+          contextId: element.contextid || null,
+        }, cb);
+      }
+    });
+}
+
+
 function subrealtimecontainer(elementid, containerid, contextid, cb) {
   core.tunnel.sub({ 
     method: 'sub',
@@ -79,6 +105,22 @@ export function requestDefaultLayout() {
     .ok(data => {
       const x = Date.now();
       this.resize(data.settings);
+      core.actions.layout.data(data);
+      subrealtimelayout(layoutid, data.elements, this.realtime)
+      console.log('layout render', Date.now() - x)
+    });
+}
+
+export function requestChangeLayout(layoutid, params) {
+  core.route(`${layoutid}/${getContextString(params.frames)}`);
+
+  const context = getContext(this.props);
+  
+  core
+    .request({ method: 'GET_LAYOUT', context, params: { layoutid } })
+    .ok(data => {
+      const x = Date.now();
+      unsubrealtimelayout(this.props.state.layoutid, this.props.state.elements, this.realtime);
       core.actions.layout.data(data);
       subrealtimelayout(layoutid, data.elements, this.realtime)
       console.log('layout render', Date.now() - x)

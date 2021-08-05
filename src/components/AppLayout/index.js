@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
 import core from 'core';
 
+import shortid from 'shortid';
+
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
 import element from 'components/@Elements';
 
-import { requestDefaultLayout, requestChangeContainer } from './requests';
+import { 
+  requestDefaultLayout, 
+  requestChangeLayout, 
+  requestChangeContainer,
+  parseUrlParams, 
+} from './requests';
 import { layoutCommand } from './commands';
 
 class AppLayout extends Component {
@@ -14,6 +21,7 @@ class AppLayout extends Component {
   state = { name: '', img: '', rw: 1, rh: 1 }
 
   requestDefaultLayout = requestDefaultLayout;
+  requestChangeLayout = requestChangeLayout;
   requestChangeContainer = requestChangeContainer;
 
   command = layoutCommand;
@@ -35,7 +43,42 @@ class AppLayout extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    if (this.props.route.user === false) {
+      if (prevProps.route.layout !== this.props.route.layout) {
+        this.usercommand(this.props.route.layout, this.props.route.frames);
+      } else {
+        if (prevProps.route.uframes !== this.props.route.uframes) {
+          console.log()
+          this.usercommand(this.props.route.layout, this.props.route.frames);
+        }
+      }
+    }
+  }
   
+  usercommand = (layoutid, frames) => {
+    const targetFrameTable = [];
+
+    if (frames) {
+      Object
+        .keys(frames)
+        .forEach(key => {
+          const params = frames[key];
+          const target_frame = { id: key.replace(layoutid + '_', '')}
+          const container_id = { id: params.containerid }
+          const device_id = { id: params.linkid }
+
+          targetFrameTable.push({ target_frame, container_id, device_id });
+        })
+    }
+
+    core.tunnel.command({
+      uuid: shortid.generate(),
+      type: 'command',
+      method: 'action',
+      command: 'layout',
+      id: layoutid,
+      targetFrameTable,
+    });
   }
 
   realtime = (data) => {

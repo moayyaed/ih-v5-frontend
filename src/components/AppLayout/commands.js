@@ -8,6 +8,8 @@ export function layoutCommand(data) {
 
     if (prevlayoutid === nextlayoutid) {
       this.requestChangeContainer(data.context)
+    } else {
+      this.requestChangeLayout(nextlayoutid, data.context)
     }
   }
 
