@@ -47,7 +47,6 @@ class AppLayout extends Component {
         this.usercommand(this.props.route.layout, this.props.route.frames);
       } else {
         if (prevProps.route.uframes !== this.props.route.uframes) {
-          console.log()
           this.usercommand(this.props.route.layout, this.props.route.frames);
         }
       }
