@@ -38,8 +38,8 @@ const useStyles = makeStyles({
     }
     return {
       position: 'relative',
-      minHeight: '80vh',
-      maxHeight: '80vh',
+      minHeight: '85vh',
+      maxHeight: '85vh',
     }
   },
 });

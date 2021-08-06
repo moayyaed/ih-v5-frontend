@@ -66,7 +66,7 @@ function Row(props) {
   return (
     <div style={styles.row}>
       <Typography variant="subtitle2" >
-        {props.params.prop.toUpperCase()}
+        {props.params.prop}
       </Typography>
       <div style={styles.select}>{props.params.select ? <SelectIcon style={styles.selectIcon} /> : null}</div>
       <div style={styles.body}>

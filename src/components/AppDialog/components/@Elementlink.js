@@ -24,11 +24,11 @@ const styles = {
     color: '#9E9E9E',
   },
   container1: {
-    height: '50%',
+    height: '65%',
     padding: 20,
   },
   container2: {
-    height: '50%',
+    height: '35%',
     padding: 15,
     paddingTop: 5,
   },
@@ -90,14 +90,15 @@ function handleClickCheckBox(item, select, params) {
 }
 
 function Row(props) {
+  console.log(props.params)
   return (
     <div style={styles.row}>
       <Typography variant="subtitle2" >
-        {props.params.prop.toUpperCase()}
+        {props.params.prop}
       </Typography>
       <div style={styles.select}>{props.params.select ? <SelectIcon style={styles.selectIcon} /> : null}</div>
       <div style={styles.body}>
-        <div style={styles.text}>{props.params.link}</div>
+        <div style={styles.text}>{props.params.title2}</div>
         <div style={styles.buttons}>
         <Checkbox
           checked={(props.params.result.value && props.params.result.value.did === props.select.did && props.params.result.value.prop === props.select.prop)}
@@ -164,7 +165,7 @@ class Elementlink extends Component {
       return (
         <div style={styles.root2} >
           <InboxOutlinedIcon style={{ fontSize: '6em', margin: 6, color: '#B0BEC5' }} />
-          <Typography variant="h5">It's empty is here</Typography>
+          <Typography variant="h5">Нет данных</Typography>
         </div>
       )
     }
