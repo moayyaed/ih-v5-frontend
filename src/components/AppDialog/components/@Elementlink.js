@@ -90,7 +90,6 @@ function handleClickCheckBox(item, select, params) {
 }
 
 function Row(props) {
-  console.log(props.params)
   return (
     <div style={styles.row}>
       <Typography variant="subtitle2" >
@@ -160,7 +159,7 @@ class Elementlink extends Component {
     this.link = e;
   }
   
-  render({ state } = this.props) {
+  render({ state, search } = this.props) {
     if (state.component.res && state.component.list.length === 0) {
       return (
         <div style={styles.root2} >
@@ -175,7 +174,21 @@ class Elementlink extends Component {
           <Paper style={styles.paper}>
             <Scrollbars ref={this.linked} >
               <div style={styles.body1}>
-                {state.component.list.map(i => 
+                {state.component.list
+                  .filter(i => {
+                    if (search) {
+                      if (i.title2 && i.title2.indexOf(search) !== -1) {
+                        return true;
+                      }
+                      if (i.result && i.result.prop.indexOf(search) !== -1) {
+                        return true;
+                      }
+                    } else {
+                      return true;
+                    }
+                    return false;
+                  })
+                  .map(i => 
                   <Row 
                     key={i.prop}
                     params={i}
