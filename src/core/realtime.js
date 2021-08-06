@@ -59,7 +59,7 @@ function openTunnel() {
 }
 
 function messageTunnel(e) {
-
+  try {
     const json = JSON.parse(e.data);
     if (json.method) {
       if (json.method === 'syscommand') {
@@ -97,7 +97,10 @@ function messageTunnel(e) {
         core.actions.app.alertOpen('warning', 'Real-time: ' + json.error);
       }
     }
-
+   } catch (ev) {
+    console.log(ev.message, e.data)
+    core.actions.app.alertOpen('error', ev.message);
+  }
 }
 
 function errorTunnel() {

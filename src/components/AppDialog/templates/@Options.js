@@ -47,7 +47,6 @@ const styles = {
 }
 
 function getFormValue(id, key, form, old = {}, def) {
-  console.log(id, key, form, old, def)
   if (form[id] !== undefined && form[id][key] !== undefined) {
     return form[id][key];
   }
