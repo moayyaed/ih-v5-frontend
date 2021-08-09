@@ -32,6 +32,7 @@ const styles = {
     borderBottom: '1px solid #e8e8e8',
     backgroundColor: '#fafafa',
     paddingLeft: 20,
+    paddingRight: 4,
     justifyContent: 'space-between',
   },
   body: {
