@@ -177,10 +177,10 @@ class Elementlink extends Component {
                 {state.component.list
                   .filter(i => {
                     if (search) {
-                      if (i.title2 && i.title2.indexOf(search) !== -1) {
+                      if (i.title2 && i.title2.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
                         return true;
                       }
-                      if (i.result && i.result.prop.indexOf(search) !== -1) {
+                      if (i.result && i.result.prop.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
                         return true;
                       }
                     } else {

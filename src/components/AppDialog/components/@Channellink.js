@@ -123,13 +123,13 @@ class ChannelLink extends Component {
         {state.component.list
         .filter(i => {
           if (search) {
-            if (i.title2 && i.title2.indexOf(search) !== -1) {
+            if (i.title2 && i.title2.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
               return true;
             }
-            if (i.prop.indexOf(search) !== -1) {
+            if (i.prop && i.prop.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
               return true;
             }
-            if (i.link.indexOf(search) !== -1) {
+            if (i.link && i.link.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
               return true;
             }
           } else {
