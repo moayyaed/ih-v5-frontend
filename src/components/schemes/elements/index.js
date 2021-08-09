@@ -66,7 +66,7 @@ const elements = {
           },
           {
             id: 'right',
-            title: 'Спарва'
+            title: 'Справа'
           },
         ]
       },
