@@ -114,7 +114,7 @@ class Devicelink extends Component {
   }
   
 
-  render({ state } = this.props) {
+  render({ state, search } = this.props) {
     if (state.component.res && state.component.list.length === 0) {
       return (
         <div style={styles.root2} >
@@ -125,7 +125,21 @@ class Devicelink extends Component {
     }
     return (
       <div style={styles.root} >
-        {state.component.list.map(i => 
+        {state.component.list
+        .filter(i => {
+          if (search) {
+            if (i.title2 && i.title2.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
+              return true;
+            }
+            if (i.result && i.result.prop.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
+              return true;
+            }
+          } else {
+            return true;
+          }
+          return false;
+        })
+        .map(i => 
           <Row 
             key={i.prop} 
             params={i}
