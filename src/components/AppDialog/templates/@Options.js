@@ -7,7 +7,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 import AppNav from 'components/AppNav';
 import Form from 'components/@Form';
-import { getValue } from 'react-base-table/lib/utils';
+
 
 const styles = {
   root: {
