@@ -188,7 +188,7 @@ function updateElementsAll(state, action) {
   });
 
   list.forEach(id => {
-    elements[id] = createElement(state.elements[id], action.data, linksElements, changesTemplates);
+    elements[id] = createElement(state.elements[id], state.values, linksElements, changesTemplates);
   });
   
   return { ...state, elements };
