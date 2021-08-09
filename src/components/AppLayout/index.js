@@ -64,8 +64,20 @@ class AppLayout extends Component {
           const target_frame = { id: key.replace(layoutid + '_', '')}
           const container_id = { id: params.containerid }
           const device_id = { id: params.linkid }
+          const multichart_id = { id: params.multichartid };
+          const timelinechart_id = { id: params.timelineid };
+          const journal_id = { id: params.journalid };
+          const alertjournal_id = { id: params.alertjournalid };
 
-          targetFrameTable.push({ target_frame, container_id, device_id });
+          targetFrameTable.push({ 
+            target_frame, 
+            container_id, 
+            device_id, 
+            multichart_id, 
+            timelinechart_id, 
+            journal_id, 
+            alertjournal_id 
+          });
         })
     }
 

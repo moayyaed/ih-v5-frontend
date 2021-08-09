@@ -7,7 +7,14 @@ function getContextString(frames) {
     Object
       .keys(frames)
       .forEach(key => {
-        temp.push(`${key},${frames[key].container_id || ''},${frames[key].device_id || ''}`);
+        const txt = key + ',' 
+        + (frames[key].container_id || '') + ','
+        + (frames[key].device_id || '') + ','
+        + (frames[key].multichart_id || '') + ','
+        + (frames[key].timelinechart_id || '') + ','
+        + (frames[key].journal_id || '') + ','
+        + (frames[key].alertjournal_id || '')
+        temp.push(txt);
       });
   return temp.join(';')
   }

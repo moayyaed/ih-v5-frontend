@@ -81,6 +81,7 @@ const core = {
       c: {},
     },
     context: {},
+    context2: {},
     dialogRelink: null,
     dialogDevice: null,
   },

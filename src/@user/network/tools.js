@@ -295,7 +295,7 @@ function createBindW2H2(name, item, values) {
   }
 }
 
-export function createElement(item, values, links) {
+export function createElement(item, values, widgets, links) {
   checkItemProps(item);
   if (item.type === 'template') {
     Object
@@ -319,6 +319,14 @@ export function createElement(item, values, links) {
   if (item.widgetlinks && item.widgetlinks.link) {
     if (item.widgetlinks.link.id === '__device') {
       item.widgetlinks.link.id = core.cache.context[item.frameid];
+    }
+    if (core.cache.context2[item.frameid] !== undefined) {
+      if (item.widgetlinks.link.id === '__chart') {
+        item.widgetlinks.link.id = core.cache.context2[item.frameid].multichartid;
+      }
+      if (item.widgetlinks.link.id === '__timelinechart') {
+        item.widgetlinks.link.id = core.cache.context2[item.frameid].timelineid;
+      }
     }
   }
 
@@ -368,7 +376,7 @@ export function getItemSettings(settings) {
   return null;
 }
 
-export function getLayoutElements(id, data, containers, context) {
+export function getLayoutElements(id, data, containers, widgets, context) {
   const temp = {};
   Object
     .keys(data.elements)
@@ -378,6 +386,10 @@ export function getLayoutElements(id, data, containers, context) {
       item.layoutid = id;
       item.id = key;
       item.uuid = id + '_' + key;
+
+      if (widgets[key]) {
+        item.data = widgets[key];
+      }
       
       if (item.type === 'group') {
         item.list = item.elements.map(id => item.layoutid + '_' + id);
@@ -393,8 +405,20 @@ export function getLayoutElements(id, data, containers, context) {
             if (context.frames && context.frames[item.uuid]) {
               core.cache.context[item.uuid] = context.frames[item.uuid].linkid;
             } else {
-              core.cache.context[item.uuid] = item.contextid ;
+              core.cache.context[item.uuid] = item.contextid;
             }
+          }
+          if (item.widgetlinks.link.value) {
+            core.cache.context2[item.uuid] = {
+              linkid: item.widgetlinks.link.value.device.id || null,
+              multichartid: item.widgetlinks.link.value.multichart_id.id || null,
+              timelineid: item.widgetlinks.link.value.timelinechart_id.id || null,
+              journalid: item.widgetlinks.link.value.journal_id.id || null,
+              alertjournalid: item.widgetlinks.link.value.alertjournal_id.id || null,
+            };
+          }
+          if (context.frames && context.frames[item.uuid]) {
+            core.cache.context2[item.uuid] = context.frames[item.uuid];
           }
         }
         createContainerList(item, containers);
@@ -407,7 +431,7 @@ export function getLayoutElements(id, data, containers, context) {
   return temp;
 }
 
-export function getContainersElements(layoutid, layoutElements, containers, templates, values) {
+export function getContainersElements(layoutid, layoutElements, containers, templates, values, widgets) {
   const temp = {};
   
   Object
@@ -428,6 +452,10 @@ export function getContainersElements(layoutid, layoutElements, containers, temp
             item.linkid = item.templateId
             item.id = key;
             item.uuid = item.frameid + '_' + containerid + '_' + key;
+
+            if (widgets[containerid] !== undefined && widgets[containerid][key] !== undefined) {
+              item.data = widgets[containerid][key];
+            }
 
             if (item.type === 'group') {
               item.list = item.elements.map(id => item.frameid + '_' + containerid + '_' + id);

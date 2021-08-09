@@ -163,6 +163,11 @@ class ChartTimeline extends Component {
     };
 
     const data = this.props.mode === 'user' ? this.props.item.data : demo;
+    
+    if (data.lines === undefined) {
+      data.lines = [];
+    }
+
     const dn = data.lines.map(i => i.dn_prop).join(',');
     const alias = data.lines.reduce((l, n) => ({ ...l, [n.dn_prop]: n.dn_prop }), {});
     const group = data.lines.map(i => {

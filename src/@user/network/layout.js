@@ -16,10 +16,10 @@ function preparationDataLayout(data, params, context) {
   const templates = data.templates;
   const values = data.states;
   const widgets = data.widgets;
-
+  
   const settings = getItemSettings(data.layout.settings);
-  const layoutElements = getLayoutElements(layoutid, data.layout, data.containers, context);
-  const containersElements = getContainersElements(layoutid, layoutElements, data.containers, templates, values);
+  const layoutElements = getLayoutElements(layoutid, data.layout, data.containers, widgets, context);
+  const containersElements = getContainersElements(layoutid, layoutElements, data.containers, templates, values, widgets);
 
   const list = data.layout.list.map(id =>  layoutid + '_' + id);
   const __layout = {
@@ -63,7 +63,7 @@ function preparationDataContainer(data, params, context) {
 
   const settings = getItemSettings(data.containers[containerid].settings);
   const list = data.containers[containerid].list.map(id => elementid + '_' + containerid + '_' + id);
-  const elements = getContainersElements(layoutid, layoutElements, data.containers, data.templates, data.states);
+  const elements = getContainersElements(layoutid, layoutElements, data.containers, data.templates, data.states, data.widgets);
   
   elements['__' + elementid] = {
     uuid: '__' + elementid,

@@ -17,6 +17,10 @@ function parseFrames(layoutid, value) {
             [layoutid + '_' + values[0]]: {
               containerid: values[1] || null,
               linkid: values[2] || null,
+              multichartid: values[3] || null,
+              timelineid: values[4] || null,
+              journalid: values[5] || null,
+              alertjournalid: values[6] || null,
             } 
           };
         }
