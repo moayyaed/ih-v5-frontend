@@ -197,7 +197,7 @@ class ChartTimeline extends Component {
       this.spiner,
       null,
       { start: ns, end: ne },
-      { id: 'timeline_1', dn, alias, items: [], legend: null, colors, mode: this.props.mode },
+      { id: this.props.item.uuid, dn, alias, items: [], legend: null, colors, mode: this.props.mode },
       null
     );
 
@@ -288,7 +288,7 @@ class ChartTimeline extends Component {
       this.spiner,
       null,
       { start: ns, end: ne },
-      { id: 'timeline_1', dn, alias, items: [], legend: null, colors, mode: props.mode },
+      { id: props.item.uuid, dn, alias, items: [], legend: null, colors, mode: props.mode },
       null
     );
 
