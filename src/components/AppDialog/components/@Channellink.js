@@ -66,7 +66,7 @@ function Row(props) {
   return (
     <div style={styles.row}>
       <Typography variant="subtitle2" >
-        {props.params.prop.toUpperCase()}
+        {props.params.prop}
       </Typography>
       <div style={styles.select}>{props.params.select ? <SelectIcon style={styles.selectIcon} /> : null}</div>
       <div style={styles.body}>
@@ -109,7 +109,7 @@ class ChannelLink extends Component {
   }
   
 
-  render({ state } = this.props) {
+  render({ state, search } = this.props) {
     if (state.component.res && state.component.list.length === 0) {
       return (
         <div style={styles.root2} >
@@ -120,7 +120,24 @@ class ChannelLink extends Component {
     }
     return (
       <div style={styles.root} >
-        {state.component.list.map(i => 
+        {state.component.list
+        .filter(i => {
+          if (search) {
+            if (i.title2 && i.title2.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
+              return true;
+            }
+            if (i.prop && i.prop.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
+              return true;
+            }
+            if (i.link && i.link.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
+              return true;
+            }
+          } else {
+            return true;
+          }
+          return false;
+        })
+        .map(i => 
           <Row 
             key={i.prop} 
             params={i}
