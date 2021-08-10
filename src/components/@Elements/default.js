@@ -590,6 +590,11 @@ const IFRAME = {
   url: { value: 'http://'},
 }
 
+const HTML = {
+  ...BLOCK,
+}
+
+
 
 function getDefaultParams(type) {
   switch (type) {
@@ -657,6 +662,8 @@ function getDefaultParams(type) {
       return ALERTLOG;
     case 'iframe':
       return IFRAME;
+    case 'html':
+      return HTML;
     default:
       return BLOCK;
   }

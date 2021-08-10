@@ -29,7 +29,7 @@ import AlertLog from './@AlertLog';
 
 import ChartBar from './@ChartBar';
 import Iframe from './@Iframe';
-
+import Html from './@Html';
 
 function getElementByType(type) {
   if (core.options.type === 'user') {
@@ -93,6 +93,8 @@ function getElementByType(type) {
       return ChartBar;
     case 'iframe':
       return Iframe;
+    case 'html':
+      return Html;
     default:
       return Block;
   }

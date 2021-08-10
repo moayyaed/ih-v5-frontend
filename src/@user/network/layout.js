@@ -38,7 +38,7 @@ function preparationDataLayout(data, params, context) {
   Object
     .keys(elements)
     .forEach(key => {
-      elements[key] = createElement(elements[key], values, links );
+      elements[key] = createElement(elements[key], values, widgets, links );
     });
   return { layoutid, settings, list, elements, templates, values, links, widgets };
 }
@@ -74,7 +74,7 @@ function preparationDataContainer(data, params, context) {
   Object
     .keys(elements)
     .forEach(key => {
-      elements[key] = createElement(elements[key], values, links);
+      elements[key] = createElement(elements[key], values, widgets, links);
     });
 
   return { settings, list, elements, templates, values, links, widgets };
