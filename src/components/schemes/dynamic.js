@@ -16,8 +16,8 @@ const dynamic = {
   slider_airbnb: { variant: 'tree',title: 'Выберите свойство', id: 'devpropsAndAny', save: false },
   checkbox: { variant: 'tree',title: 'Выберите свойство', id: 'devpropsAndAny', save: false },
   container: { variant: 'options', title: 'Выберите контейнер', id: 'viscontx' },
-  journal: { variant: 'tree', title: 'Выберите журнал', id: 'journals' },
-  alertlog: { variant: 'tree', title: 'Выберите журнал тревог', id: 'alertjournals' },
+  journal: { variant: 'tree', title: 'Выберите журнал', id: 'journalsAndAny' },
+  alertlog: { variant: 'tree', title: 'Выберите журнал тревог', id: 'alertjournalsAndAny' },
 };
 
 
