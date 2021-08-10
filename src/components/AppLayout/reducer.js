@@ -107,7 +107,7 @@ function updateElementsAll(state, action) {
       const masterLayer = template.masterLayer;
       const curentLayer = {};
       const changesLayers = template.changesLayers;
-
+      
       template.listState.forEach(stateid => {
         let value = 0;
         const link = item.links[stateid];

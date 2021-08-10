@@ -145,9 +145,7 @@ function createMasterLayer(template) {
   if (template.masterLayer === undefined) {
     const masterLayer = {};
 
-    template.listState
-    .concat('master')
-    .reverse()
+    ['master']
       .forEach(id => {
         const layer = template.state[id].values[0];
 
@@ -409,12 +407,17 @@ export function getLayoutElements(id, data, containers, widgets, context) {
             }
           }
           if (item.widgetlinks.link.value) {
+            const d = item.widgetlinks.link.value.device;
+            const m = item.widgetlinks.link.value.multichart_id;
+            const t = item.widgetlinks.link.value.timelinechart_id;
+            const j = item.widgetlinks.link.value.journal_id;
+            const a = item.widgetlinks.link.value.alertjournal_id;
             core.cache.context2[item.uuid] = {
-              linkid: item.widgetlinks.link.value.device.id || null,
-              multichartid: item.widgetlinks.link.value.multichart_id.id || null,
-              timelineid: item.widgetlinks.link.value.timelinechart_id.id || null,
-              journalid: item.widgetlinks.link.value.journal_id.id || null,
-              alertjournalid: item.widgetlinks.link.value.alertjournal_id.id || null,
+              linkid: d && d.id || null,
+              multichartid: m && m.id || null,
+              timelineid: t && t.id || null,
+              journalid: j && j.id || null,
+              alertjournalid: a && a.id || null,
             };
           }
           if (context.frames && context.frames[item.uuid]) {
@@ -494,7 +497,7 @@ export function getContainersElements(layoutid, layoutElements, containers, temp
                 item2.layoutid = layoutid;
                 item2.containerid = containerid;
                 item2.frameid = element.uuid;
-                item2.id = key;
+                item2.id = id;
                 item2.uuid = item.frameid + '_' + containerid + '_' + key + '_' + id;
 
                 temp[item2.uuid] = item2;
