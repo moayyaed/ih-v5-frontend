@@ -167,6 +167,20 @@ export function requestChangeContainer(params) {
         
         core.cache.context[elementid] = contextid
 
+        const d = params.frames[id].device_id;
+        const m = params.frames[id].multichart_id;
+        const t = params.frames[id].timelinechart_id;
+        const j = params.frames[id].journal_id;
+        const a = params.frames[id].alertjournal_id;
+
+        core.cache.context2[elementid] = {
+          linkid: d,
+          multichartid: m,
+          timelineid: t,
+          journalid: j,
+          alertjournalid: a,
+        };
+  
         core
           .request({ method: 'GET_CONTAINER', context, params: { contextid, elementid, containerid } })
           .ok(data => {

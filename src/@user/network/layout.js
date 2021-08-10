@@ -57,13 +57,14 @@ function preparationDataContainer(data, params, context) {
     [elementid]: { 
       type: 'container', 
       uuid: elementid, 
-      linkid: containerid
+      linkid: containerid,
+      id: elementid,
     }
   };
-
+  
   const settings = getItemSettings(data.containers[containerid].settings);
   const list = data.containers[containerid].list.map(id => elementid + '_' + containerid + '_' + id);
-  const elements = getContainersElements(layoutid, layoutElements, data.containers, data.templates, data.states, data.widgets);
+  const elements = getContainersElements(layoutid, layoutElements, data.containers, data.templates, data.states, { [elementid]: data.widgets});
   
   elements['__' + elementid] = {
     uuid: '__' + elementid,

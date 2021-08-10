@@ -251,7 +251,7 @@ class Chart extends PureComponent {
     if (nextProps.network !== this.props.network && nextProps.network) {
       this.getData(nextProps);
     }
-
+ 
     if (nextProps.item.widgetlinks.link.id !== this.props.item.widgetlinks.link.id) {
       this.getData(nextProps);
     } else {

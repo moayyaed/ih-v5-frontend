@@ -24,6 +24,7 @@ import Animation from './@Animation';
 import Actions from './@Actions';
 import Combine from './@Combine';
 import Debug from './@Debug';
+import Html from './@Html';
 
 import Layout from './@Layout';
 import Container from './@Container';
@@ -127,6 +128,8 @@ function getComponentByType(type) {
       return Webconsole;
     case 'debug':
       return Debug;
+    case 'html':
+      return Html;
     default:
       return Text;
   }

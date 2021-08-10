@@ -436,7 +436,7 @@ export function getLayoutElements(id, data, containers, widgets, context) {
 
 export function getContainersElements(layoutid, layoutElements, containers, templates, values, widgets) {
   const temp = {};
-  
+
   Object
     .keys(layoutElements)
     .forEach(id => {
