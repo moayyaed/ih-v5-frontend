@@ -88,7 +88,6 @@ core.network.request('GET_LAYOUT', (send, { context, params }) => {
     { api: 'containers', layoutid: params.layoutid, frames: context.uframes, rt: 1 },
     { api: 'layout', id: params.layoutid, frames: context.uframes, rt: 1 },
     { api: 'layout', id: params.layoutid, frames: context.uframes, widgetdata: 1 },
-    { api: 'containers', layoutid: params.layoutid, frames: context.uframes, widgetdata: 1 },
   ]);
 })
 
@@ -98,7 +97,7 @@ core.network.response('GET_LAYOUT', (answer, res, { context, params }) => {
     containers: res[1].data,
     templates: res[2].data,
     states: mergeData(res[3].data, res[4].data),
-    widgets: mergeData(res[5].data, res[6].data),
+    widgets: res[5].data,
   }, params, context));
 })
 
@@ -107,8 +106,8 @@ core.network.request('GET_CONTAINER', (send, { context, params }) => {
   send([
     { api: 'container',  id: params.containerid },
     { api: 'templates', containerid: params.containerid },
-    { api: 'container',  id: params.containerid, contextId: params.contextid, rt: 1 },
-    { api: 'container',  id: params.containerid, contextId: params.contextid, widgetdata: 1 },
+    { api: 'container',  id: params.containerid, contextId: params.contextid || null, rt: 1 },
+    { api: 'container',  id: params.containerid, contextId: params.contextid || null, frames: context.uframes, widgetdata: 1 },
   ]);
 })
 

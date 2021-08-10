@@ -456,8 +456,8 @@ export function getContainersElements(layoutid, layoutElements, containers, temp
             item.id = key;
             item.uuid = item.frameid + '_' + containerid + '_' + key;
 
-            if (widgets[containerid] !== undefined && widgets[containerid][key] !== undefined) {
-              item.data = widgets[containerid][key];
+            if (widgets[element.id] !== undefined && widgets[element.id][key] !== undefined) {
+              item.data = widgets[element.id][key];
             }
 
             if (item.type === 'group') {
