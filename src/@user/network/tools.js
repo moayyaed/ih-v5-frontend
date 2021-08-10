@@ -325,6 +325,9 @@ export function createElement(item, values, widgets, links) {
       if (item.widgetlinks.link.id === '__timelinechart') {
         item.widgetlinks.link.id = core.cache.context2[item.frameid].timelineid;
       }
+      if (item.widgetlinks.link.id === '__journal') {
+        item.widgetlinks.link.id = core.cache.context2[item.frameid].journalid;
+      }
     }
   }
 

@@ -19,8 +19,9 @@ import 'react-base-table/styles.css'
 
 function getInitState(mode, item) {
   const id = item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id;
+
   if (mode === 'user') {
-    if (id) {
+    if (id && id !== '__journal') {
       return {
         columns: createColumns(id, item.data.columns),
         data: [],
@@ -63,7 +64,8 @@ class Journal extends Component {
     if (this.props.mode === 'user') {
       const item = this.props.item;
       const id = item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id;
-      if (id) {
+  
+      if (id && id !== '__journal') {
         this.loadData();
       }
     }
