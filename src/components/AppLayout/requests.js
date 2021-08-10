@@ -82,23 +82,25 @@ function unsubrealtimelayout(layoutid, elements, cb) {
 }
 
 
-function subrealtimecontainer(elementid, containerid, contextid, cb) {
+function subrealtimecontainer(elementid, containerid, contextid, context, cb) {
   core.tunnel.sub({ 
     method: 'sub',
     type: 'container',
     uuid: elementid,
     id: containerid,
     contextId: contextid || null,
+    frames: context.uframes|| null,
   }, cb);
 }
 
-function unsubrealtimecontainer(elementid, containerid, contextid, cb) {
+function unsubrealtimecontainer(elementid, containerid, contextid, context, cb) {
   core.tunnel.unsub({ 
     method: 'unsub',
     type: 'container',
     uuid: elementid,
     id: containerid,
     contextId: contextid || null,
+    frames: context.uframes|| null,
   }, cb);
 }
 
@@ -184,9 +186,9 @@ export function requestChangeContainer(params) {
         core
           .request({ method: 'GET_CONTAINER', context, params: { contextid, elementid, containerid } })
           .ok(data => {
-            unsubrealtimecontainer(item.uuid, item.linkid, item.contextid, this.realtime);
+            unsubrealtimecontainer(item.uuid, item.linkid, item.contextid, prevContext, this.realtime);
             core.actions.layout.changeContainer(elementid, containerid, contextid, data);
-            subrealtimecontainer(elementid, containerid, contextid, this.realtime);
+            subrealtimecontainer(elementid, containerid, contextid, context, this.realtime);
           });
       });
   }

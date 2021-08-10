@@ -206,6 +206,7 @@ class ChartTimeline extends Component {
 
   componentWillUnmount() {
     this.timeline.off('rangechange', this.handleRangeChange);
+    this.timeline.destroy();
     this.timeline = null;
     this.timelineData = null;
     this.ctx = null;
@@ -217,7 +218,7 @@ class ChartTimeline extends Component {
     }
 
     if (nextProps.item.widgetlinks.link.id !== this.props.item.widgetlinks.link.id) {
-     
+     this.getData(nextProps);
     } else {
       if (nextProps.item.data.triger !== undefined && nextProps.item.data.triger !== this.props.item.data.triger) {
         this.setState({ realtime: nextProps.item.data.forceRealtime });
@@ -225,6 +226,75 @@ class ChartTimeline extends Component {
       }
     }
   }
+
+  getData = (props = this.props) => {
+    const { start, end } = getZoomInterval(props.item.interval.value.id);
+    const s = start;
+    const e = end;
+    const n = Date.now();
+    const p = props.item.positionCurentTime.value;
+    const i = e - s;
+    const d = (i / 100) * p;
+    const ns = n - d;
+    const ne = n + i - d;
+
+    const options = {
+      width: '100%',
+      height: '100%',
+      stack: false,
+      groupHeightMode: 'fixed',
+      showCurrentTime: false,
+      moveable: Boolean(props.item.moveable.value),
+      showMajorLabels: Boolean(props.item.axisBottomTime.value),
+      showMinorLabels: Boolean(props.item.axisBottomDate.value),
+      start: ns, end: ne,
+      template: this.renderItem,
+    };
+
+    const data = props.mode === 'user' ? props.item.data : demo;
+    
+    if (data.lines === undefined) {
+      data.lines = [];
+    }
+
+    const dn = data.lines.map(i => i.dn_prop).join(',');
+    const alias = data.lines.reduce((l, n) => ({ ...l, [n.dn_prop]: n.dn_prop }), {});
+    const group = data.lines.map(i => {
+      return { id: i.dn_prop, content: i.legend }
+    });
+    const colors = data.lines.reduce((l, n) => ({ ...l, [n.dn_prop]: n.colorgroup }), {});
+
+   
+
+    this.timeline.setData({ items: [], groups: group });
+    this.timeline.setOptions(options);
+    
+    this.timeline.body.dom.bottom.style.color = props.item.textColor.value;
+    this.timeline.body.dom.bottom.style.borderLeft = '0px';
+    this.timeline.body.dom.bottom.style.borderRight = '0px';
+    this.timeline.body.dom.bottom.children[0].style.borderLeft = '1px solid ' + props.item.gridColor.value;
+    this.timeline.body.dom.left.style.color = props.item.textColor.value;
+
+    this.timeline.body.dom.left.style.width = props.item.legendWidth.value + 6 + 'px';
+
+    props.item.data.range = [start, end];
+
+    this.timeline.on('rangechange', this.handleRangeChange);
+
+    this.ctx = createContext(
+      this.timeline,
+      this.timelineData,
+      null,
+      this.spiner,
+      null,
+      { start: ns, end: ne },
+      { id: 'timeline_1', dn, alias, items: [], legend: null, colors, mode: props.mode },
+      null
+    );
+
+    render(this.ctx, this.timeline);
+  }
+    
 
   updateOptions = (props = this.props) => {
     const { start, end } = getZoomInterval(props.item.interval.value.id);
