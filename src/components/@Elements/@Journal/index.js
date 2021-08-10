@@ -69,9 +69,25 @@ class Journal extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.mode === 'user' && nextProps.item.widgetlinks.link.id !== this.props.item.widgetlinks.link.id) {
+        const item = nextProps.item;
+        const id = item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id;
+        if (id) {
+          this.setState({
+            columns: createColumns(id, item.data.columns),
+            data: [],
+            loading: true, 
+            loadingMore: false, 
+            loadedAll: false 
+           });
+           this.getData(nextProps);
+        }
+    }
+  }
 
-  loadData = () => {
-    const item = this.props.item;
+  loadData = (props = this.props) => {
+    const item = props.item;
     const id = item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id;
     const params = {
       type: 'journal',
