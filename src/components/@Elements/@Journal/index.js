@@ -72,7 +72,6 @@ class Journal extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.item.data)
     if (this.props.mode === 'user' && nextProps.item.widgetlinks.link.id !== this.props.item.widgetlinks.link.id) {
         const item = nextProps.item;
         const id = item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id;
@@ -226,8 +225,8 @@ class Journal extends Component {
         <BaseTable
           fixed
           rowHeight={35}
-          width={props.item.w.value - (props.item.borderSize.value * 2)}
-          height={props.item.h.value - (props.item.borderSize.value * 2)}
+          width={props.item.w.value * props.scale - (props.item.borderSize.value * 2 * props.scale)}
+          height={props.item.h.value * props.scale - (props.item.borderSize.value * 2 * props.scale)}
           data={this.state.data}
           disabled={this.state.loading}
           loadingMore={this.state.loadingMore}
