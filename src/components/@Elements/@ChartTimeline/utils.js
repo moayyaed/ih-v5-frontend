@@ -130,7 +130,7 @@ function loadingItem(context, item) {
 
 function requestWS(context, item) {
   if (context.params.mode === 'user') {
-    const fetch = window.__ihp2p ? window.__ihp2p : window.fetch;
+    const fetch = window.__ihp2p ? window.__ihp2p.fetch : window.fetch;
 
     return fetch(`/timeline?id=${context.params.id}&start=${item.s}&end=${item.e}&dn_prop=${context.params.dn}`, { headers: { token: core.cache.token } })
       .then(res => res.json())
