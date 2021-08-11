@@ -1,3 +1,5 @@
+import css from 'css';
+
 import { 
   APP_LAYOUT_SET_DATA,
   APP_LAYOUT_UPDATE_ELEMENTS_ALL,
@@ -22,6 +24,63 @@ const defaultState = {
 const ELEMENT_LINK = 1;
 const TEMPLATE_LINK = 2;
 
+function clearAnimation(uuid) {
+  const temp = []
+
+  Object
+    .keys(document.styleSheets[0].rules)
+    .forEach(id => {
+      if (document.styleSheets[0].rules[id].type === CSSRule.KEYFRAMES_RULE) {
+        temp.push({ id, uuid: document.styleSheets[0].rules[id].name })
+      }
+    })
+  temp
+    .reverse()
+    .forEach(i => {
+      if (i.uuid === uuid) {
+        document.styleSheets[0].deleteRule(i.id);
+      }
+   })
+}
+
+function createAnimation(uuid, prop) {
+  if (prop.active && prop.keyframes && prop.value) {
+   const params = prop.value.split(' ');
+   const oldid = params[0];
+   const newid = uuid;
+
+   clearAnimation(uuid);
+
+   params[0] = newid;
+    
+   const styles = css.parse(prop.keyframes);
+   try {  
+     styles.stylesheet.rules
+       .forEach(style => {
+         style.name = newid;
+         if (style.type === 'keyframes') {
+           const styletext = css.stringify({
+             stylesheet: {
+               rules: [style]
+             },
+             type: 'stylesheet',
+           });
+           try {
+             document.styleSheets[0].insertRule(styletext, document.styleSheets[0].cssRules.length);
+           } catch {
+           }
+         }
+       });
+   } catch {
+     console.warn('Animation function failed!')
+   }
+
+   return params.join(' ');
+  }
+  clearAnimation(uuid);
+  return '';
+ }
+
 
 function createElement(item, values, links, templates) {
   if (links[item.uuid] !== undefined || templates[item.uuid]) {
@@ -37,6 +96,9 @@ function createElement(item, values, links, templates) {
         }
       }
       if (templates[item.uuid] && templates[item.uuid][id]) {
+        if (id === 'animation') {
+          return { ...p, [id]: { ...prop, active: templates[item.uuid][id].active, value: createAnimation(item.uuid, templates[item.uuid][id]) } };
+        }
         return { ...p, [id]: { ...prop, value: templates[item.uuid][id].value } };
       }
       return { ...p, [id]: prop };
@@ -127,7 +189,7 @@ function updateElementsAll(state, action) {
                 if (curentLayer[elementid] === undefined) {
                   curentLayer[elementid] = {}
                 }
-                curentLayer[elementid][propid] = { value: changesLayers[uuid][elementid][propid].value };
+                curentLayer[elementid][propid] = changesLayers[uuid][elementid][propid];
               });
             });
         }  
@@ -145,7 +207,7 @@ function updateElementsAll(state, action) {
                 if (changesTemplates[elementid] === undefined) {
                   changesTemplates[elementid] = {}
                 }
-                changesTemplates[elementid][propid] = { value: curentLayer[id][propid].value };
+                changesTemplates[elementid][propid] = curentLayer[id][propid];
               }
             } else {
               if (state.elements[elementid][propid] !== masterLayer[id][propid]) {
@@ -153,7 +215,7 @@ function updateElementsAll(state, action) {
                   if (changesTemplates[elementid] === undefined) {
                     changesTemplates[elementid] = {}
                   }
-                  changesTemplates[elementid][propid] = { value: masterLayer[id][propid].value };
+                  changesTemplates[elementid][propid] = masterLayer[id][propid];
                 }
               }
             }

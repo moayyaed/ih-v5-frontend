@@ -22,6 +22,7 @@ function getInitState(mode, item) {
 
   if (mode === 'user') {
     if (id && id !== '__journal') {
+      console.log(item.data)
       return {
         columns: createColumns(id, item.data.columns),
         data: [],
@@ -72,6 +73,7 @@ class Journal extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps.item.data)
     if (this.props.mode === 'user' && nextProps.item.widgetlinks.link.id !== this.props.item.widgetlinks.link.id) {
         const item = nextProps.item;
         const id = item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id;
