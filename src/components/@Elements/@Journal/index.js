@@ -22,7 +22,6 @@ function getInitState(mode, item) {
 
   if (mode === 'user') {
     if (id && id !== '__journal') {
-      console.log(item.data)
       return {
         columns: createColumns(id, item.data.columns),
         data: [],
@@ -85,7 +84,7 @@ class Journal extends Component {
             loadingMore: false, 
             loadedAll: false 
            });
-           this.getData(nextProps);
+           this.loadData(nextProps);
         }
     }
   }
