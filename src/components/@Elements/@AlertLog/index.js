@@ -22,7 +22,7 @@ import 'react-base-table/styles.css'
 function getInitState(mode, item) {
   const id = item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id;
   if (mode === 'user') {
-    if (id) {
+    if (id && id !== '__alertjournal') {
       return {
         columns: createColumns(id, item.data.columns),
         data: [],
@@ -81,12 +81,15 @@ function getInitState(mode, item) {
 }
 
 function colorOpacity(str) {
-  const temp = str.slice(5, str.length - 1).split(',');
-  if (temp.length === 4) {
-    temp[3] = '0.16';
-    return 'rgba(' + temp.join(',') + ')';
+  if (str) {
+    const temp = str.slice(5, str.length - 1).split(',');
+    if (temp.length === 4) {
+      temp[3] = '0.16';
+      return 'rgba(' + temp.join(',') + ')';
+    }
+    return str;
   }
-  return str;
+  return 'unset';
 }
 
 function getColor(colors, row) {
@@ -108,7 +111,7 @@ class AlertLog extends Component {
     if (this.props.mode === 'user') {
       const item = this.props.item;
       const id = item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id;
-      if (id) {
+      if (id && id !== '__alertjournal') {
         core.transfer.sub('realtime_alert', this.realtimeAlert);
         this.loadData();
       }
@@ -117,6 +120,23 @@ class AlertLog extends Component {
 
   componentWillUnmount() {
     core.transfer.unsub('realtime_alert', this.realtimeAlert);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.mode === 'user' && nextProps.item.widgetlinks.link.id !== this.props.item.widgetlinks.link.id) {
+        const item = nextProps.item;
+        const id = item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id;
+        if (id) {
+          this.setState({
+            columns: createColumns(id, item.data.columns),
+            data: [],
+            loading: true, 
+            loadingMore: false, 
+            loadedAll: true 
+           });
+           this.loadData(nextProps);
+        }
+    }
   }
 
   realtimeAlert = (data) => {
@@ -157,8 +177,8 @@ class AlertLog extends Component {
   }
 
 
-  loadData = () => {
-    const item = this.props.item;
+  loadData = (props = this.props) => {
+    const item = props.item;
     const id = item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id;
     const params = {
       type: 'alertlog',
@@ -311,8 +331,8 @@ class AlertLog extends Component {
         <BaseTable
           fixed
           rowHeight={35}
-          width={props.item.w.value - (props.item.borderSize.value * 2)}
-          height={props.item.h.value - (props.item.borderSize.value * 2)}
+          width={props.item.w.value * props.scale - (props.item.borderSize.value * 2 * props.scale)}
+          height={props.item.h.value * props.scale - (props.item.borderSize.value * 2 * props.scale)}
           data={this.state.data}
           options={this.props.item.data}
           disabled={this.state.loading}

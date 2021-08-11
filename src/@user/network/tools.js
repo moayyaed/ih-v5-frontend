@@ -328,6 +328,9 @@ export function createElement(item, values, widgets, links) {
       if (item.widgetlinks.link.id === '__journal') {
         item.widgetlinks.link.id = core.cache.context2[item.frameid].journalid;
       }
+      if (item.widgetlinks.link.id === '__alertjournal') {
+        item.widgetlinks.link.id = core.cache.context2[item.frameid].alertjournalid;
+      }
     }
   }
 
