@@ -39,7 +39,7 @@ function checkSingle({ left, right }) {
     Object
     .keys(right)
     .forEach(key => {
-      if (right[key].action !== 'singleClickRight' && left[key].command !== undefined) {
+      if (right[key].action !== 'singleClickRight' && right[key].command !== undefined) {
         check = false;
       }
     });

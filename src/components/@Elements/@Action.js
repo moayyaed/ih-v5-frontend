@@ -27,6 +27,32 @@ const styles = {
   }
 }
 
+function checkSingle(itemid, actions) {
+  let check = true;
+
+  Object
+      .keys(actions)
+      .forEach(id => {
+        if (typeof actions[id] === 'object' && itemid === id) {
+          Object
+          .keys(actions[id].left)
+          .forEach(key => {
+            if (actions[id].left[key].action !== 'singleClickLeft' && actions[id].left[key].command !== undefined) {
+              check = false;
+            }
+          });
+          Object
+          .keys(actions[id].right)
+          .forEach(key => {
+            if (actions[id].right[key].action !== 'singleClickRight' && actions[id].right[key].command !== undefined) {
+              check = false;
+            }
+          });
+        }
+      });    
+  return check;
+}
+
 
 function getCommand(cmd) {
   if (cmd === 'device_any') {
@@ -68,19 +94,23 @@ class Action extends PureComponent {
       
       this.mc = new Hammer.Manager(this.link);
 
-      this.mc.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
-      this.mc.add(new Hammer.Tap({ event: 'singletap', interval: this.props.item.doubleClickLeft === '' ? 100 : 200 }));
-      this.mc.add(new Hammer.Press({ event: 'press', time: 400 }));
-      this.mc.add(new Hammer.Press({ event: 'pressup' }));
-
-      this.mc.get('doubletap').recognizeWith('singletap');
-      this.mc.get('singletap').requireFailure('doubletap');
-    
-      this.mc.on('singletap', this.handleSingleTap);
-      this.mc.on('doubletap', this.handleDoubleTap);
-      this.mc.on('press', this.handleLongTap);
-      this.mc.on('pressup', this.handlePress);
+      if (checkSingle(this.props.item.id, this.props.actions)) {
+        this.mc.add(new Hammer.Tap({ event: 'singletap', interval: 0 }));
+        this.mc.on('singletap', this.handleSingleTap);
+      } else {
+        this.mc.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
+        this.mc.add(new Hammer.Tap({ event: 'singletap', interval: 200 }));
+        this.mc.add(new Hammer.Press({ event: 'press', time: 400 }));
+        this.mc.add(new Hammer.Press({ event: 'pressup' }));
+  
+        this.mc.get('doubletap').recognizeWith('singletap');
+        this.mc.get('singletap').requireFailure('doubletap');
       
+        this.mc.on('singletap', this.handleSingleTap);
+        this.mc.on('doubletap', this.handleDoubleTap);
+        this.mc.on('press', this.handleLongTap);
+        this.mc.on('pressup', this.handlePress);
+      }
     }
   }
 
