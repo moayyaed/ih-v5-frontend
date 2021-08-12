@@ -21,6 +21,19 @@ function getContextString(frames) {
   return '';
 }
 
+function getContextStringOne(itemid, params) {
+  if (params) {
+    return (itemid || '') + ','
+    + (params.containerid || '') + ','
+    + (params.linkid || '') + ','
+    + (params.multichartid || '') + ','
+    + (params.timelineid || '') + ','
+    + (params.journalid || '') + ','
+    + (params.alertjournalid || '');
+  }
+  return null;
+}
+
 function getContext(props, frames) {
   const context = {
     layoutid: props.route.layout || props.app.auth.layout,
@@ -83,13 +96,16 @@ function unsubrealtimelayout(layoutid, elements, cb) {
 
 
 function subrealtimecontainer(elementid, containerid, contextid, context, cb) {
+  const itemid = elementid.replace(context.layoutid + '_', '')
   core.tunnel.sub({ 
     method: 'sub',
     type: 'container',
     uuid: elementid,
     id: containerid,
     contextId: contextid || null,
-    frames: context.uframes|| null,
+    layoutid: context.layoutid,
+    elementid: itemid,
+    frames: getContextStringOne(itemid, context.frames[elementid]),
   }, cb);
 }
 
@@ -182,7 +198,6 @@ export function requestChangeContainer(params) {
           journalid: j,
           alertjournalid: a,
         };
-  
         core
           .request({ method: 'GET_CONTAINER', context, params: { contextid, elementid, containerid } })
           .ok(data => {

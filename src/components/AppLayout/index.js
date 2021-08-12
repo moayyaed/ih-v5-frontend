@@ -26,6 +26,9 @@ class AppLayout extends Component {
   command = layoutCommand;
 
   componentDidMount() {
+    if (window.__ihp2p) {
+      this.uuid = shortid.generate();
+    }
     this.cache = {};
     
     this.root = document.getElementById('root');
@@ -35,10 +38,6 @@ class AppLayout extends Component {
     core.transfer.sub('chartdata', this.realtimecharts);
 
     this.requestDefaultLayout();
-  }
-
-  componentWillUnmount() {
-
   }
 
   componentDidUpdate(prevProps) {
@@ -51,6 +50,18 @@ class AppLayout extends Component {
         }
       }
     }
+
+    if (window.__ihp2p) {
+      const prevImg = prevProps.state.elements.__layout ? prevProps.state.elements.__layout.image.value : ''
+      const nextImg = this.props.state.elements.__layout ? this.props.state.elements.__layout.image.value : ''  
+      if (prevImg !== nextImg) {
+        window.__ihp2p.image(this.uuid, nextImg, this.handleLoadImage);
+      }
+    }
+  }
+
+  handleLoadImage = (name, url) => {
+    this.setState({ name, img: url })
   }
   
   usercommand = (layoutid, frames) => {

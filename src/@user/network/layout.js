@@ -9,6 +9,18 @@ import {
   mergeLocal,
 } from './tools';
 
+function getContextStringOne(itemid, params) {
+  if (params) {
+    return (itemid || '') + ','
+    + (params.containerid || '') + ','
+    + (params.linkid || '') + ','
+    + (params.multichartid || '') + ','
+    + (params.timelineid || '') + ','
+    + (params.journalid || '') + ','
+    + (params.alertjournalid || '');
+  }
+  return null;
+}
 
 function preparationDataLayout(data, params, context) { 
   const layoutid = params.layoutid;
@@ -104,11 +116,12 @@ core.network.response('GET_LAYOUT', (answer, res, { context, params }) => {
 
 
 core.network.request('GET_CONTAINER', (send, { context, params }) => {
+  const itemid = params.elementid.replace(context.layoutid + '_', '')
   send([
     { api: 'container',  id: params.containerid },
     { api: 'templates', containerid: params.containerid },
     { api: 'container',  id: params.containerid, contextId: params.contextid || null, rt: 1 },
-    { api: 'container',  id: params.containerid, contextId: params.contextid || null, frames: context.uframes, widgetdata: 1 },
+    { api: 'container',  id: params.containerid, contextId: params.contextid || null, frames: getContextStringOne(itemid, context.frames[params.elementid]), widgetdata: 1 },
   ]);
 })
 

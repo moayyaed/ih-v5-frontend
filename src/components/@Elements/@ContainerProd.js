@@ -1,5 +1,7 @@
 import React, { Component, PureComponent } from 'react';
 
+import shortid from 'shortid';
+
 import Scrollbars2 from 'libs/Scrllbars2';
 import element from 'components/@Elements';
 
@@ -26,16 +28,34 @@ class ContainerProd extends PureComponent {
   state = { name: '', img: '' }
 
   componentDidMount() {
-
+    if (window.__ihp2p) {
+      this.uuid = shortid.generate();
+      const img = this.props.elements['__' + this.props.item.uuid] ? this.props.elements['__' + this.props.item.uuid].image.value : ''
+      window.__ihp2p.image(this.uuid, img, this.handleLoadImage);  
+    }
   }
 
   componentWillUnmount() {
-
+    if (this.uuid) {
+      window.__ihp2p.image(this.uuid, null);
+      this.uuid = null;
+    }
   }
 
   componentDidUpdate(prevProps) {
-
+    if (window.__ihp2p) {
+      const prevImg = prevProps.elements['__' + prevProps.item.uuid] ? prevProps.elements['__' + this.props.item.uuid].image.value : ''
+      const nextImg = this.props.elements['__' + this.props.item.uuid] ? this.props.elements['__' + this.props.item.uuid].image.value : ''  
+      if (prevImg !== nextImg) {
+        window.__ihp2p.image(this.uuid, nextImg, this.handleLoadImage);
+      }
+    }
   }
+
+  handleLoadImage = (name, url) => {
+    this.setState({ name, img: url })
+  }
+
 
   elementRender = (id) => {
     const scale = getScale(this.props.item, this.props.rw, this.props.rh);
