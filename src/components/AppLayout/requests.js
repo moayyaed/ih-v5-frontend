@@ -16,6 +16,11 @@ function getContextString(frames) {
         + (frames[key].alertjournal_id || '')
         temp.push(txt);
       });
+  if (temp.length === 1) {
+    if (temp[0].replace(RegExp('-', 'g'), '').replace(RegExp(',', 'g'), '') === '') {
+      return '';
+    }
+  }
   return temp.join(';')
   }
   return '';
@@ -152,7 +157,9 @@ export function requestDefaultLayout() {
 }
 
 export function requestChangeLayout(layoutid, params) {
-  core.route(`${layoutid}/${getContextString(params.frames)}`);
+  const strcontext = getContextString(params.frames);
+
+  core.route(`${layoutid}/${strcontext}`);
 
   const context = getContext(this.props);
   
@@ -168,43 +175,47 @@ export function requestChangeLayout(layoutid, params) {
 
 export function requestChangeContainer(params) {
   if (params.frames) {
-    const prevContext = getContext(this.props);
+    const strcontext = getContextString(params.frames);
 
-    core.route(`${prevContext.layoutid}/${getContextString(params.frames)}`);
+    if (strcontext) {
+      const prevContext = getContext(this.props);
 
-    const context = getContext(this.props);
-    const layoutid = context.layoutid;
-
-    Object
-      .keys(params.frames)
-      .forEach(id => {
-        const elementid = layoutid + '_' + id;
-        const containerid = params.frames[id].container_id;
-        const item = this.props.state.elements[elementid];
-        const contextid = params.frames[id].device_id;
-        
-        core.cache.context[elementid] = contextid
-
-        const d = params.frames[id].device_id;
-        const m = params.frames[id].multichart_id;
-        const t = params.frames[id].timelinechart_id;
-        const j = params.frames[id].journal_id;
-        const a = params.frames[id].alertjournal_id;
-
-        core.cache.context2[elementid] = {
-          linkid: d,
-          multichartid: m,
-          timelineid: t,
-          journalid: j,
-          alertjournalid: a,
-        };
-        core
-          .request({ method: 'GET_CONTAINER', context, params: { contextid, elementid, containerid } })
-          .ok(data => {
-            unsubrealtimecontainer(item.uuid, item.linkid, item.contextid, prevContext, this.realtime);
-            core.actions.layout.changeContainer(elementid, containerid, contextid, data);
-            subrealtimecontainer(elementid, containerid, contextid, context, this.realtime);
-          });
-      });
+      core.route(`${prevContext.layoutid}/${strcontext}`);
+  
+      const context = getContext(this.props);
+      const layoutid = context.layoutid;
+  
+      Object
+        .keys(params.frames)
+        .forEach(id => {
+          const elementid = layoutid + '_' + id;
+          const containerid = params.frames[id].container_id;
+          const item = this.props.state.elements[elementid];
+          const contextid = params.frames[id].device_id;
+          
+          core.cache.context[elementid] = contextid
+  
+          const d = params.frames[id].device_id;
+          const m = params.frames[id].multichart_id;
+          const t = params.frames[id].timelinechart_id;
+          const j = params.frames[id].journal_id;
+          const a = params.frames[id].alertjournal_id;
+  
+          core.cache.context2[elementid] = {
+            linkid: d,
+            multichartid: m,
+            timelineid: t,
+            journalid: j,
+            alertjournalid: a,
+          };
+          core
+            .request({ method: 'GET_CONTAINER', context, params: { contextid, elementid, containerid } })
+            .ok(data => {
+              unsubrealtimecontainer(item.uuid, item.linkid, item.contextid, prevContext, this.realtime);
+              core.actions.layout.changeContainer(elementid, containerid, contextid, data);
+              subrealtimecontainer(elementid, containerid, contextid, context, this.realtime);
+            });
+        });
+    }
   }
 }

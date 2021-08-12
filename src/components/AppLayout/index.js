@@ -97,7 +97,7 @@ class AppLayout extends Component {
       type: 'command',
       method: 'action',
       command: 'layout',
-      id: layoutid,
+      id: layoutid || this.props.app.auth.layout,
       targetFrameTable,
     });
   }
