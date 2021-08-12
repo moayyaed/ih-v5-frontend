@@ -49,7 +49,7 @@ function getContext(props, frames) {
   return context;
 }
 
-function subrealtimelayout(layoutid, elements, cb) {
+function subrealtimelayout(layoutid, elements, context, cb) {
   core.tunnel.sub({ 
     method: 'sub',
     type: 'layout',
@@ -69,12 +69,15 @@ function subrealtimelayout(layoutid, elements, cb) {
           uuid: element.uuid,
           id: element.linkid,
           contextId: element.contextid || null,
+          layoutid: layoutid,
+          elementid: element.id,
+          frames: getContextStringOne(element.id, context.frames[element.uuid]),
         }, cb);
       }
     });
 }
 
-function unsubrealtimelayout(layoutid, elements, cb) {
+function unsubrealtimelayout(layoutid, elements, context, cb) {
   core.tunnel.unsub({ 
     method: 'unsub',
     type: 'layout',
@@ -94,6 +97,9 @@ function unsubrealtimelayout(layoutid, elements, cb) {
           uuid: element.uuid,
           id: element.linkid,
           contextId: element.contextid || null,
+          layoutid: layoutid,
+          elementid: element.id,
+          frames: getContextStringOne(element.id, context.frames[element.uuid]),
         }, cb);
       }
     });
@@ -115,6 +121,7 @@ function subrealtimecontainer(elementid, containerid, contextid, context, cb) {
 }
 
 function unsubrealtimecontainer(elementid, containerid, contextid, context, cb) {
+  const itemid = elementid.replace(context.layoutid + '_', '')
   core.tunnel.unsub({ 
     method: 'unsub',
     type: 'container',
@@ -122,6 +129,9 @@ function unsubrealtimecontainer(elementid, containerid, contextid, context, cb) 
     id: containerid,
     contextId: contextid || null,
     frames: context.uframes|| null,
+    layoutid: context.layoutid,
+    elementid: itemid,
+    frames: getContextStringOne(itemid, context.frames[elementid]),
   }, cb);
 }
 
@@ -152,12 +162,13 @@ export function requestDefaultLayout() {
     .ok(data => {
       this.resize(data.settings);
       core.actions.layout.data(data);
-      subrealtimelayout(layoutid, data.elements, this.realtime)
+      subrealtimelayout(layoutid, data.elements, context, this.realtime)
     });
 }
 
 export function requestChangeLayout(layoutid, params) {
   const strcontext = getContextString(params.frames);
+  const prevContext = getContext(this.props);
 
   core.route(`${layoutid}/${strcontext}`);
 
@@ -166,10 +177,10 @@ export function requestChangeLayout(layoutid, params) {
   core
     .request({ method: 'GET_LAYOUT', context, params: { layoutid } })
     .ok(data => {
-      unsubrealtimelayout(this.props.state.layoutid, this.props.state.elements, this.realtime);
+      unsubrealtimelayout(this.props.state.layoutid, this.props.state.elements, prevContext, this.realtime);
       clearAnimation();
       core.actions.layout.data(data);
-      subrealtimelayout(layoutid, data.elements, this.realtime)
+      subrealtimelayout(layoutid, data.elements, context, this.realtime)
     });
 }
 
