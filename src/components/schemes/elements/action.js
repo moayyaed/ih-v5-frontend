@@ -32,46 +32,6 @@ const action = {
   ],
   actions: [
       { 
-        title: 'Левая кнопка мыши', 
-        prop: 'mouseleft', 
-        type: 'divider',
-      },
-      { 
-        title: 'Одиночный клик', 
-        prop: 'singleClickLeft', 
-        type: 'input',
-      },
-      { 
-        title: 'Двойной клик', 
-        prop: 'doubleClickLeft', 
-        type: 'input',
-      },
-      { 
-        title: 'Долгое нажатие', 
-        prop: 'longClickLeft', 
-        type: 'input',
-      },
-      { 
-        title: 'Кнопка нажата', 
-        prop: 'mouseDownLeft', 
-        type: 'input',
-      },
-      { 
-        title: 'Кнопка отпущена', 
-        prop: 'mouseUpLeft', 
-        type: 'input',
-      },
-      { 
-        title: 'Правая кнопка мыши', 
-        prop: 'mouseright', 
-        type: 'divider',
-      },
-      { 
-        title: 'Одиночный клик', 
-        prop: 'singleClickRight', 
-        type: 'input',
-      },
-      { 
         title: 'Эффекты', 
         prop: 'effect', 
         type: 'divider',
