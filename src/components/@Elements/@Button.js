@@ -27,6 +27,19 @@ const styles = {
   }
 }
 
+function isElectron() {
+  if (typeof window !== 'undefined' && typeof window.process === 'object' && window.process.type === 'renderer') {
+      return true;
+  }
+  if (typeof process !== 'undefined' && typeof process.versions === 'object' && !!process.versions.electron) {
+      return true;
+  }
+  if (typeof navigator === 'object' && typeof navigator.userAgent === 'string' && navigator.userAgent.indexOf('Electron') >= 0) {
+      return true;
+  }
+  return false;
+}
+
 function checkSingle({ left, right }) {
   let check = true;
   Object
@@ -347,6 +360,65 @@ class Button extends PureComponent {
     this.setState({ name, img: url })
   }
 
+  otherCommand = (command) => {
+    if (command === 'exit') {
+      if (isElectron()) {
+        const electron = window.require('electron');
+        const ipcRenderer  = electron.ipcRenderer;
+    
+        ipcRenderer.send('exit')
+      } else {
+        window.localStorage.removeItem('token');
+        window.localStorage.removeItem('rememberme');
+        window.sessionStorage.removeItem('key');
+        window.sessionStorage.removeItem('target');
+      
+        if (window.__ihp2p) {
+          clearTimeout(window.__ihp2p.timer);
+          window.__ihp2p.close = null;
+          window.location.href = "/";
+        } else {
+          core.network.realtime.destroy();
+          core.actions.app.auth(false);
+      
+          if (core.options.type === 'user') {
+            window.location.href = "/";
+          } else {
+            window.location.href = "/admin";
+          }
+        }
+      }
+    }
+    if (command === 'fullscreen') {
+      if (
+        !document.fullscreenElement &&
+        !document.mozFullScreenElement &&
+        !document.webkitFullscreenElement
+      ) {
+        if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen();
+        } else if (document.documentElement.mozRequestFullScreen) {
+          document.documentElement.mozRequestFullScreen();
+        } else if (document.documentElement.webkitRequestFullscreen) {
+          document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+        }
+      } else {
+        if (document.cancelFullScreen) {
+          document.cancelFullScreen();
+        } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+        } else if (document.webkitCancelFullScreen) {
+          document.webkitCancelFullScreen();
+        }
+      }
+    }
+    if (command === 'refresh') {
+      document.location.reload();
+    }
+  }
+
+
+
   handleAction = (props, event, actions) => {
     Object
     .keys(actions)
@@ -358,8 +430,7 @@ class Button extends PureComponent {
             if (command === 'fullscreen' || command === 'refresh' || command === 'exit' || command === 'close' || command === 'initdialog') {
               if (command === 'close') {
                 core.transfer.send('close_dialog_command');
-              }
-              if (command === 'initdialog') {
+              } else if (command === 'initdialog') {
                 const store = core.store.getState().layoutDialog
                 if (store.parentId) {
                   const params = getParams({ id: store.parentId, value: {} }, props);
@@ -372,7 +443,9 @@ class Button extends PureComponent {
                     ...params,
                   });
                 }
-              }
+              } else {
+                this.otherCommand(command);
+              }      
             } else {
               if (item.command === 'setval' || item.command === 'setval_any') {
                 const store = core.store.getState().layout;
