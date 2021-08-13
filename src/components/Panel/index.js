@@ -93,6 +93,10 @@ class Panel extends Component {
   }
 
   handleDrag = (e, data) => {
+    const h = document.getElementById('__help');
+    if (h) {
+      h.style.pointerEvents = 'none';
+    }
     if (this.state.position === 'left') {
       this.box.style.width = Math.abs(data.x) + 5 + 'px';
     }
@@ -102,6 +106,10 @@ class Panel extends Component {
   }
 
   handleDragStop = (e, data) => {
+    const h = document.getElementById('__help');
+    if (h) {
+      h.style.pointerEvents = 'all';
+    }
     if (this.state.position === 'left') {
       this.width = this.width - data.x;
       this.setState((state) => {

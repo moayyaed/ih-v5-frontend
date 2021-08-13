@@ -30,7 +30,7 @@ class AppHelp extends PureComponent {
   render() {
     return (
       <div style={styles.root}>
-        <iframe key={this.props.id} style={styles.frame} src={`${window.location.protocol}//${getUrl()}/ru_${this.props.id}`} />
+        <iframe id="__help" key={this.props.id} style={styles.frame} src={`${window.location.protocol}//${getUrl()}/ru_${this.props.id}`} />
       </div>)
     ;
   }
