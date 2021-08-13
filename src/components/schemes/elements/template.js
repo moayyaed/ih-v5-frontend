@@ -47,7 +47,7 @@ const template = {
       type: 'divider',
     },
     { 
-      title: 'Отразить по горизонтале', 
+      title: 'Отразить по горизонтали', 
       prop: 'flipH', 
       type: 'cb',
     },
