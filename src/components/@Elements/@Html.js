@@ -13,7 +13,11 @@ class Html extends Component {
     this.link.innerHTML = this.props.item.code.value;
     const codes = this.link.getElementsByTagName('script');
     for (let i = 0; i < codes.length; i++) {
-      window.eval(codes[i].text);
+      try {
+        window.eval(codes[i].text);
+      } catch {
+
+      }
     }
   }
 
@@ -22,7 +26,11 @@ class Html extends Component {
       this.link.innerHTML = this.props.item.code.value;
       const codes = this.link.getElementsByTagName('script');
       for (let i = 0; i < codes.length; i++) {
-        window.eval(codes[i].text);
+        try {
+          window.eval(codes[i].text);
+        } catch {
+
+        }
       }
     }
   }
