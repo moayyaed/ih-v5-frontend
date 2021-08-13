@@ -1043,8 +1043,37 @@ class Sheet extends Component {
     
     data.w.value = data.w.value - data.x.value;
     data.h.value = data.h.value - data.y.value;
-    
+
+    const checks = {};
+
     if (Object.keys(elements).length) {
+      clone.list.forEach(key => {
+        const item = clone.elements[key];
+        if (item && item.type === 'container') {
+          const id = item.widgetlinks && item.widgetlinks.link && item.widgetlinks.link.id
+          if (id && checks[id] === undefined && this.props.containers[id] === undefined) {
+            checks[id] = true;
+            core
+            .request({ method: 'get_container', params: id })
+            .ok(res => {
+              core.actions.layout
+              .data(
+                this.props.id, this.props.prop,
+                { 
+                  containers: {
+                    ...this.props.containers,
+                    [id]: res.container,
+                  },
+                  templates: {
+                    ...this.props.templates,
+                    ...res.templates,
+                  },
+                }
+              );
+            });
+          }
+        }
+      });
       core.actions.layout
         .data(
           this.props.id, this.props.prop,

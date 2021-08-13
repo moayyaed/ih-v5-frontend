@@ -26,15 +26,15 @@ function getContextString(frames) {
   return '';
 }
 
-function getContextStringOne(itemid, params) {
-  if (params) {
+function getContextStringOne(itemid, id, params) {
+  if (params && params[id]) {
     return (itemid || '') + ','
-    + (params.containerid || '') + ','
-    + (params.linkid || '') + ','
-    + (params.multichartid || '') + ','
-    + (params.timelineid || '') + ','
-    + (params.journalid || '') + ','
-    + (params.alertjournalid || '');
+    + (params[id].containerid || '') + ','
+    + (params[id].linkid || '') + ','
+    + (params[id].multichartid || '') + ','
+    + (params[id].timelineid || '') + ','
+    + (params[id].journalid || '') + ','
+    + (params[id].alertjournalid || '');
   }
   return null;
 }
@@ -71,7 +71,7 @@ function subrealtimelayout(layoutid, elements, context, cb) {
           contextId: element.contextid || null,
           layoutid: layoutid,
           elementid: element.id,
-          frames: getContextStringOne(element.id, context.frames[element.uuid]),
+          frames: getContextStringOne(element.id, element.uuid, context.frames),
         }, cb);
       }
     });
@@ -99,7 +99,7 @@ function unsubrealtimelayout(layoutid, elements, context, cb) {
           contextId: element.contextid || null,
           layoutid: layoutid,
           elementid: element.id,
-          frames: getContextStringOne(element.id, context.frames[element.uuid]),
+          frames: getContextStringOne(element.id, element.uuid, context.frames),
         }, cb);
       }
     });
@@ -116,7 +116,7 @@ function subrealtimecontainer(elementid, containerid, contextid, context, cb) {
     contextId: contextid || null,
     layoutid: context.layoutid,
     elementid: itemid,
-    frames: getContextStringOne(itemid, context.frames[elementid]),
+    frames: getContextStringOne(itemid, elementid, context.frames),
   }, cb);
 }
 
@@ -131,7 +131,7 @@ function unsubrealtimecontainer(elementid, containerid, contextid, context, cb) 
     frames: context.uframes|| null,
     layoutid: context.layoutid,
     elementid: itemid,
-    frames: getContextStringOne(itemid, context.frames[elementid]),
+    frames: getContextStringOne(itemid, elementid, context.frames),
   }, cb);
 }
 

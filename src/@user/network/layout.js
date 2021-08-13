@@ -9,15 +9,15 @@ import {
   mergeLocal,
 } from './tools';
 
-function getContextStringOne(itemid, params) {
-  if (params) {
+function getContextStringOne(itemid, id, params) {
+  if (params && params[id]) {
     return (itemid || '') + ','
-    + (params.containerid || '') + ','
-    + (params.linkid || '') + ','
-    + (params.multichartid || '') + ','
-    + (params.timelineid || '') + ','
-    + (params.journalid || '') + ','
-    + (params.alertjournalid || '');
+    + (params[id].containerid || '') + ','
+    + (params[id].linkid || '') + ','
+    + (params[id].multichartid || '') + ','
+    + (params[id].timelineid || '') + ','
+    + (params[id].journalid || '') + ','
+    + (params[id].alertjournalid || '');
   }
   return null;
 }
@@ -121,7 +121,7 @@ core.network.request('GET_CONTAINER', (send, { context, params }) => {
     { api: 'container',  id: params.containerid },
     { api: 'templates', containerid: params.containerid },
     { api: 'container',  id: params.containerid, contextId: params.contextid || null, rt: 1 },
-    { api: 'container',  id: params.containerid, contextId: params.contextid || null, frames: getContextStringOne(itemid, context.frames[params.elementid]), widgetdata: 1 },
+    { api: 'container',  id: params.containerid, contextId: params.contextid || null, frames: getContextStringOne(itemid, params.elementid, context.frames), widgetdata: 1 },
   ]);
 })
 
