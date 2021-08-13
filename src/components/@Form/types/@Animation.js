@@ -156,7 +156,7 @@ function Animation(props) {
       transferid: 'form_dialog',
       template: {
         type: 'form',
-        title: 'Animation Settings',
+        title: 'Настройка анимации',
         options: getOptions2(props.data.enabled),
         data: { 
           p1: { value: props.data.enabled ? props.data.func : props.data.value ? props.data.value : defaultAnimation }, 

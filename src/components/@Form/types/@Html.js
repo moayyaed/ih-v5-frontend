@@ -141,7 +141,7 @@ function Html(props) {
       transferid: 'form_dialog',
       template: {
         type: 'form',
-        title: 'Code Editor',
+        title: 'Редактор кода',
         options: getOptions2(props.data.enabled),
         data: { 
           p1: { value: props.data.enabled ? props.data.func : props.data.value ? props.data.value : defaultValue }, 

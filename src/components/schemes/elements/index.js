@@ -110,7 +110,7 @@ const elements = {
         type: 'divider',
       },
       { 
-        title: 'code', 
+        title: 'Код', 
         prop: 'code', 
         type: 'html',
       },
