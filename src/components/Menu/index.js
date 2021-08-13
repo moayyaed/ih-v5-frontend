@@ -39,7 +39,6 @@ function itemMenu(i, disabled, click, command, target) {
         key={i.id} 
         text={i.title} 
         disabled={disabled[i.check] !== undefined ? disabled[i.check] : i.disabled} 
-        onClick={(e) => click(i, command, e)}
       >{i.children.map(x => itemMenu(x, disabled, click, command, target))}</MenuItem>
     )
   }
@@ -93,7 +92,7 @@ class RemoteItem extends PureComponent {
         labelElement={this.state.i.children !== undefined ? <div style={styles.stub} /> : <CircularProgress style={styles.progress} color="inherit" size={16} />}
         text={this.state.i.title} 
         disabled={disabled[this.state.i.check] !== undefined ? disabled[this.state.i.check] : false} 
-        onClick={(e) => click(this.state.i, command, e)}
+    
       >{itemMenu(this.state.i.children, disabled, click, this.state.i.command)}</MenuItem>
     )
   }
