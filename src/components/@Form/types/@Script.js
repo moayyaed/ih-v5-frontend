@@ -60,6 +60,11 @@ class Script extends PureComponent {
               value={props.data}
               setOptions={{ useWorker: false }}
               readOnly={disabled}
+              setOptions={{ 
+                useWorker: false,
+                tabSize: 2,
+                useSoftTabs: true
+              }}
               onChange={(value) => props.onChange(props.id, props.options, null, value)}
             />}
         </ReactResizeDetector>

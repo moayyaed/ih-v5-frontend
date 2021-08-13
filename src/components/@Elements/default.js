@@ -592,7 +592,17 @@ const IFRAME = {
 
 const HTML = {
   ...BLOCK,
-  code: { value: '<div>Hello World!</div>' },
+  code: { 
+    value: `<style type="text/css">
+
+</style>
+
+<script type="text/javascript">
+
+</script>
+
+<div>Hello World!</div>`,
+  },
 }
 
 

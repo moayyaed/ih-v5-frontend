@@ -98,7 +98,15 @@ const styles = {
 }
 
 
-const defaultValue = '<div>Hello World!</div>'
+const defaultValue = `<style type="text/css">
+
+</style>
+
+<script type="text/javascript">
+
+</script>
+
+<div>Hello World!</div>`;
 
 const defaultFunction = "return `<div>${inData}</div>`;";
 
