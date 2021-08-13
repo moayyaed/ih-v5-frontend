@@ -748,7 +748,7 @@ class Sheet extends Component {
           ]
         },
       { id: '8', title: 'Checkbox', click: () => this.handleAddElement(e, 'checkbox') },
-      { id: '9', title: 'Device Settings', click: () => this.handleAddElement(e, 'devicesettings') },
+      // { id: '9', title: 'Device Settings', click: () => this.handleAddElement(e, 'devicesettings') },
       { id: '10', title: 'Device Log', click: () => this.handleAddElement(e, 'devicelog') },
       { id: '11', title: 'Charts', 
         children: [

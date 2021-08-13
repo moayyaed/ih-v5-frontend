@@ -553,7 +553,7 @@ class Submenu extends PureComponent {
     const channelview = item.node.component ? item.node.component : this.state.options.common[type].defaultComponent;
 
     if (replace) {
-      core.history.replace(`${route.menuid}/${route.rootid}/${route.componentid}/${route.nodeid}/${route.tab}/${channelview}/${item.node.id}`);
+      core.history.replace(`/admin/${route.menuid}/${route.rootid}/${route.componentid}/${route.nodeid}/${route.tab}/${channelview}/${item.node.id}`);
     } else {
       core.route(`${route.menuid}/${route.rootid}/${route.componentid}/${route.nodeid}/${route.tab}/${channelview}/${item.node.id}`);
     }
