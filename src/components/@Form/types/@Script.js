@@ -10,7 +10,7 @@ import {
 import 'ace-builds/src-noconflict/theme-tomorrow';
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/mode-text';
-
+import 'ace-builds/src-noconflict/mode-html';
 import 'ace-builds/src-noconflict/mode-css';
 
 import 'react-mosaic-component/react-mosaic-component.css';

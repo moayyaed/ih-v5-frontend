@@ -59,6 +59,7 @@ const styles = {
     display: 'none',
   },
   checkBoxMini: {
+    display: 'none',
     width: 16,
     height: 16,
     padding: 0,
@@ -97,13 +98,9 @@ const styles = {
 }
 
 
-const defaultAnimation = 'spin 4s linear infinite'
-const defaultKeyframes = `
-@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
-@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
-@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
-`
-const defaultFunction = "return `spin ${4 / inData}s linear infinite`";
+const defaultValue = '<div>Hello World!</div>'
+
+const defaultFunction = "return `<div>${inData}</div>`;";
 
 function getOptions2(enabled) {
   return {
@@ -113,29 +110,17 @@ function getOptions2(enabled) {
         id: 'p1',
         xs: 12,
         class: 'main',
-      },
-      {
-        id: 'p2',
-        xs: 12,
-        class: 'main',
         height: "fill",
-        calc: -130,
+        calc: 32,
         padding: 4,
       },
     ],
     p1: [
       {
         prop: 'value',
-        title: 'Animation',
-        type: enabled ? 'text' : 'input'
-      },
-    ],
-    p2: [
-      {
-        prop: 'keyframes',
-        title: '@keyframes',
+        title: 'HTML',
         type: 'script',
-        mode: 'css',
+        mode: 'html',
         theme: 'tomorrow',
       },
     ],
@@ -151,16 +136,15 @@ function Html(props) {
 
     core.transfer.sub('form_dialog', handleDialogClick2);
     core.actions.appdialog.data({
-      id: 'animation', 
+      id: 'html', 
       open: true, 
       transferid: 'form_dialog',
       template: {
         type: 'form',
-        title: 'Animation Settings',
+        title: 'Code Editor',
         options: getOptions2(props.data.enabled),
         data: { 
-          p1: { value: props.data.enabled ? props.data.func : props.data.value ? props.data.value : defaultAnimation }, 
-          p2: { keyframes: props.data.keyframes ? props.data.keyframes : defaultKeyframes },
+          p1: { value: props.data.enabled ? props.data.func : props.data.value ? props.data.value : defaultValue }, 
         },
         cache: { p1: {}, p2: {} },
       },
@@ -187,15 +171,13 @@ function Html(props) {
   const handleChange = (e) => {
       props.onChange(props.id, props.options, null, { 
         ...props.data, 
-        active: e.target.checked,
-        value: props.data.value ? props.data.value : defaultAnimation,
-        keyframes: props.data.keyframes ? props.data.keyframes : defaultKeyframes
+        value: props.data.value ? props.data.value : defaultValue,
       })
   }
 
   const handleClickButton = (value) => {
     if (value === null) {
-      props.onChange(props.id, props.options, null, { ...props.data, ...props.data.animation, enabled: false, animation: {} })
+      props.onChange(props.id, props.options, null, { ...props.data, ...props.data.code, enabled: false, code: {} })
     } else {
       if (props.route.type) {
         const store = core.store.getState().apppage.data.p1.template;
@@ -204,7 +186,7 @@ function Html(props) {
         
         core.transfer.sub('form_dialog', handleDialogClick);
         core.actions.appdialog.data({
-          id: 'animation', 
+          id: 'html', 
           open: true, 
           transferid: 'form_dialog',
           template: {
@@ -214,15 +196,14 @@ function Html(props) {
             options: options(list),
             data: { 
               p1: { bind: { ...item  } }, 
-              p2: { func: props.data.func || defaultFunction },
             },
-            cache: { p1: {}, p2: {} },
+            cache: { p1: {} },
           },
         });
       } else {
         core.transfer.sub('form_dialog', handleDialogClick3);
         core.actions.appdialog.data({
-          id: 'animation', 
+          id: 'html', 
           open: true, 
           transferid: 'form_dialog',
           template: {
@@ -259,7 +240,7 @@ function Html(props) {
         } else { 
           try {
             const v = obj.body.call(null, 0, {})           
-            const params = {  keyframes: props.data.keyframes ? props.data.keyframes : defaultKeyframes, value: props.data.value ? props.data.value : v, ...props.data, active: true, enabled: true, did, prop, title, template, func };
+            const params = {  value: props.data.value ? props.data.value : v, ...props.data, enabled: true, did, prop, title, template, func };
 
             core.transfer.unsub('form_dialog', handleDialogClick3);
             core.actions.appdialog.close();
@@ -310,7 +291,7 @@ function Html(props) {
 
             const data = { ...props.data, uuid, _bind: id, title, func };
             
-            props.onChange(props.id, props.options, null, {  keyframes: props.data.keyframes ? props.data.keyframes : defaultKeyframes, ...props.data, active: true, enabled: true, uuid, _bind: id, title, value: v, func, animation: data })
+            props.onChange(props.id, props.options, null, {  ...props.data, enabled: true, uuid, _bind: id, title, value: v, func, code: data })
           } catch (e) {
             core.actions.app.alertOpen('warning', 'Function error: ' + e.message);
           }
@@ -318,7 +299,7 @@ function Html(props) {
       }  else {
         core.transfer.unsub('form_dialog', handleDialogClick);
         core.actions.appdialog.close();
-        props.onChange(props.id, props.options, null, { ...props.data, ...props.data.animation, enabled: false, _bind: null, title: null, animation: null, func })
+        props.onChange(props.id, props.options, null, { ...props.data, ...props.data.code, enabled: false, _bind: null, title: null, code: null, func })
       }
     } else {
       core.transfer.unsub('form_dialog', handleDialogClick);
@@ -326,7 +307,7 @@ function Html(props) {
   }
 
   const handleClear = (e) => {
-    props.onChange(props.id, props.options, null, { ...props.data, ...props.data.animation, did: null, enabled: false, _bind: null, title: null, animation: null, func: props.data.func })
+    props.onChange(props.id, props.options, null, { ...props.data, ...props.data.code, did: null, enabled: false, _bind: null, title: null, code: null, func: props.data.func })
   }
   
   const open = Boolean(anchorEl);

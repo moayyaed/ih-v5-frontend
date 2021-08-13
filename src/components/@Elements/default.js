@@ -592,6 +592,7 @@ const IFRAME = {
 
 const HTML = {
   ...BLOCK,
+  code: { value: '<div>Hello World!</div>' },
 }
 
 

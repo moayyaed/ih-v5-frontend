@@ -104,6 +104,16 @@ const elements = {
     main: main, 
     move: move,
     element: [
+      { 
+        title: 'Html', 
+        prop: '_html', 
+        type: 'divider',
+      },
+      { 
+        title: 'code', 
+        prop: 'code', 
+        type: 'html',
+      },
     ] 
   },
   group: group,
