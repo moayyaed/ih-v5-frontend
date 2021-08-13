@@ -255,7 +255,7 @@ class Sheet extends Component {
       }
     }
     // delete
-    if ((e.keyCode === 46 || e.keyCode === 8 && checkTarget(e.target.tagName))) {
+    if (((e.keyCode === 46 || e.keyCode === 8) && checkTarget(e.target.tagName))) {
       if (!(this.props.selectOne === 'content' || Object.keys(this.props.selects).length === 0)) {
         this.handleDeleteElement(null);
       }
