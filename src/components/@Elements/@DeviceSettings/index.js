@@ -131,7 +131,7 @@ const EMPTY = {
 function Devicesettings(props) {
   const settings = props.mode === 'user' ? (props.item.data.schema === undefined ? EMPTY : props.item.data) : temp
   const onChange = (type, item, value) => {
-    const id = props.widgetlinks && props.widgetlinks.link && props.widgetlinks.link.id;
+    const id = props.item.widgetlinks && props.item.widgetlinks.link && props.item.widgetlinks.link.id;
     if (id !== undefined && item.prop !== undefined) {
       core.tunnel.command({
         uuid: shortid.generate(),
