@@ -1,6 +1,7 @@
 import React from 'react';
 import { transform } from './tools';
 
+
 function CCTV(props) {
   return (
     <div 
@@ -17,9 +18,7 @@ function CCTV(props) {
         overflow: props.item.overflow && props.item.overflow.value ? 'hidden' : 'unset',
         visibility: props.item.visible && props.item.visible.value == false ? 'hidden' : 'unset',
       }}
-    >
-      CCTV
-    </div>
+    />
   );
 }
 

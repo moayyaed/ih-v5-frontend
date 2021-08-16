@@ -731,6 +731,7 @@ class Sheet extends Component {
       { id: '5', title: 'Button', click: () => this.handleAddElement(e, 'button') },
       { id: '51', title: 'Iframe', click: () => this.handleAddElement(e, 'iframe') },
       { id: '52', title: 'HTML', click: () => this.handleAddElement(e, 'html') },
+      { id: '53', title: 'CCTV', click: () => this.handleAddElement(e, 'cctv') },
       { id: '-', type: 'divider' },
       { id: '6', title: 'Inputs', 
         children: [

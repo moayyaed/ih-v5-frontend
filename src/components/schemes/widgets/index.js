@@ -17,6 +17,7 @@ import devicesettings from './devicesettings';
 import container from './container';
 import journal from './journal';
 import alertlog from './alertlog';
+import cctv from './cctv';
 
 
 const widgets = {
@@ -42,7 +43,8 @@ const widgets = {
   
   container,
   journal,
-  alertlog: alertlog, 
+  alertlog,
+  cctv, 
 };
 
 
