@@ -9,14 +9,6 @@ import Form from './Form';
 import { transform } from '../tools';
 
 
-const styles = {
-  root: {
-    position: 'absolute',
-    top: 30,
-    left: 10,
-  },
-};
-
 const temp = {
   style: {
     margin: 8,
@@ -126,11 +118,20 @@ const temp = {
   },
 };
 
+const EMPTY = {
+  style: {
+    margin: 8,
+    padding: 16,
+  },
+  schema: [],
+  data: {},
+}
+
 
 function Devicesettings(props) {
-  const settings = props.mode === 'user' ? props.item.data : temp
-
+  const settings = props.mode === 'user' ? (props.item.data.schema === undefined ? EMPTY : props.item.data) : temp
   const onChange = (type, item, value) => {
+    const id = props.widgetlinks && props.widgetlinks.link && props.widgetlinks.link.id;
     if (item.did !== undefined && item.prop !== undefined) {
       core.tunnel.command({
         uuid: shortid.generate(),
@@ -155,7 +156,6 @@ function Devicesettings(props) {
         opacity: props.item.opacity.value / 100,
         boxShadow: props.item.boxShadow.active ? props.item.boxShadow.value : 'unset',
         transform: transform(props.item),
-        // animation: props.item.animation.active ? props.item.animation.value : 'unset',
         overflow: props.item.overflow && props.item.overflow.value ? 'hidden' : 'unset',
         visibility: props.item.visible && props.item.visible.value == false ? 'hidden' : 'unset',
       }}
