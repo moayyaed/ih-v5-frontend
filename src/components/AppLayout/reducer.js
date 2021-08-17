@@ -270,7 +270,7 @@ function changeContainer(state, action) {
 
   Object.keys(action.data.values)
     .forEach(did => {
-      Object.keys(action.data.values)
+      Object.keys(action.data.values[did])
         .forEach(propid => {
           if (state.values[did] === undefined) {
             state.values[did] = {}
