@@ -18,6 +18,7 @@ const dynamic = {
   container: { variant: 'options', title: 'Выберите контейнер', id: 'viscontx' },
   journal: { variant: 'tree', title: 'Выберите журнал', id: 'journalsAndAny' },
   alertlog: { variant: 'tree', title: 'Выберите журнал тревог', id: 'alertjournalsAndAny' },
+  cctv: { variant: 'tree', title: 'Выберите камеру', id: 'channelsx', nodeid: 'cctv' },
 };
 
 

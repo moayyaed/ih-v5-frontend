@@ -17,6 +17,7 @@ const dynamic_dialog = {
   checkbox: { variant: 'tree',title: 'Выберите свойство', id: 'devpropsAndAny', save: false },
   journal: { variant: 'tree', title: 'Выберите журнал', id: 'journals' },
   alertlog: { variant: 'tree', title: 'Выберите журнал тревог', id: 'alertjournals' },
+  cctv: { variant: 'tree', title: 'Выберите камеру', id: 'channelsx', nodeid: 'cctv' },
 };
 
 

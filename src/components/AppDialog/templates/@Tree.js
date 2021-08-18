@@ -126,6 +126,7 @@ function TemplateTree({ state }) {
         stateid="msgboxtree"
         positionPanel="right2"
         requestId={state.template.id}
+        nodeId={state.template.nodeid}
         onClickNode={handleClickNode}
         defaultSelectNodeId={state.template.selectnodeid}
         defaultSelectChildren

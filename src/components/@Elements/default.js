@@ -605,6 +605,16 @@ const HTML = {
   },
 }
 
+const CCTV = {
+  ...BLOCK,
+  widget: true,
+  expand: { value: true },
+  widgetlinks: {
+    link: { }
+  },
+  data: [],
+}
+
 
 
 function getDefaultParams(type) {
@@ -675,6 +685,8 @@ function getDefaultParams(type) {
       return IFRAME;
     case 'html':
       return HTML;
+    case 'cctv':
+      return CCTV;
     default:
       return BLOCK;
   }

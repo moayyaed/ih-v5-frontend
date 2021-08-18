@@ -209,7 +209,8 @@ class AppNav extends Component {
 
   handleChangeRoute = (type, rootid, item, tab) => {
     const { state, route } = this.props;
-    const componentid = item.node.component || (item.node.root !== undefined ? state.options[rootid]['root'].defaultComponent : state.options[rootid][type].defaultComponent);
+
+    const componentid = rootid === undefined ? 'undefined' : (item.node.component || (item.node.root !== undefined ? state.options[rootid]['root'].defaultComponent : state.options[rootid][type].defaultComponent));
 
     if (this.props.disabledRoute) {
       core.actions.appnav.clickNode(this.props.stateid, componentid, item.node.id);

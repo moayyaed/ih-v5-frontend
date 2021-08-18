@@ -1,24 +1,11 @@
 /* eslint-disable */
-
+import core from 'core';
 import EventEmitter from 'events';
 import uuidv4 from 'uuid/v4';
 import Peer from 'simple-peer';
 
 import { stringToBinary, bynaryToString } from './utils';
 
-const ws = new WebSocket(`ws://127.0.0.1:9999`);
-ws.onmessage = (e) => {
-  const json = JSON.parse(e.data);
-  trasferdata_message(json.payload);
-};
-
-function fetch(a,b) {
-  if (a === 'transferdata') {
-    b.type = 'transferdata';
-    ws.send(JSON.stringify(b));
-  }
-  return new Promise(() => {});
-}
 
 const STORE = {
   uuid: `CCTV_CORE_${uuidv4()}`,
@@ -232,35 +219,39 @@ function unsubcam(camid, uuid) {
 }
 
 function trasferdata_send(data) {
-  fetch('transferdata', {
-    id: STORE.uuid,
-    route: { unit: 'cctv', id: STORE.uuid },
+  core.tunnel.command({
+    method: 'transferdata',
+    uuid: STORE.uuid,
+    unit: 'cctv',
     payload: data,
-  });
+  })
 }
 
-function trasferdata_message(data) {
-  switch (data.method) {
-    case 'channel_settings':
-      channel_settings(data.params);
-      break;
-    case 'cam_ok':
-      sub_cam_response(data.params);
-      break;
-    case 'rtsp_ok':
-      rtsp_response(data.params);
-      break;
-    case 'cam_close':
-      sub_cam_close(data.params);
-      break;
-    case 'cam_error':
-      sub_cam_error(data.params);
-      break;
-    case 'p2p_params':
-      p2p_params(data.params);
-      break;
-    default:
-      break;
+function trasferdata_message(msg) {
+  if (msg.payload) {
+    const data = msg.payload;
+    switch (data.method) {
+      case 'channel_settings':
+        channel_settings(data.params);
+        break;
+      case 'cam_ok':
+        sub_cam_response(data.params);
+        break;
+      case 'rtsp_ok':
+        rtsp_response(data.params);
+        break;
+      case 'cam_close':
+        sub_cam_close(data.params);
+        break;
+      case 'cam_error':
+        sub_cam_error(data.params);
+        break;
+      case 'p2p_params':
+        p2p_params(data.params);
+        break;
+      default:
+        break;
+    }
   }
 }
 
@@ -268,6 +259,7 @@ function subtransferdata() {
   if (STORE.system.enabled === false) {
     STORE.system.enabled = true;
     STORE.system.timer = setInterval(systemCheck, SYSTEM_CHECK_INTERVAL);
+    /*
     fetch('sub', {
       id: STORE.uuid,
       route: { event: 'transferdata', filter: { unit: 'cctv', id: STORE.uuid } },
@@ -276,6 +268,13 @@ function subtransferdata() {
       STORE.system.sub = response.sub
       STORE.system.sub.on(STORE.uuid, trasferdata_message);
     });
+    */
+    core.tunnel.sub({
+      method: 'sub',
+      uuid: STORE.uuid,
+      unit: 'cctv',
+      type: 'transferdata',
+    }, trasferdata_message);
   }
 }
 

@@ -18,6 +18,7 @@ const dynamic_layout = {
   container: { variant: 'options', title: 'Выберите контейнер', id: 'viscontx' },
   journal: { variant: 'tree', title: 'Выберите журнал', id: 'journals' },
   alertlog: { variant: 'tree', title: 'Выберите журнал тревог', id: 'alertjournals' },
+  cctv: { variant: 'tree', title: 'Выберите камеру', id: 'channelsx', nodeid: 'cctv' },
 };
 
 

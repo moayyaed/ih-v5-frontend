@@ -15,10 +15,18 @@ function transformData(list, meta) {
 
 
 core.network.request('appnav', (send, context) => {
-  send([
-    { method: 'get', type: 'tree', id: context.props.requestId },
-    { method: 'getmeta', type: 'tree', id: context.props.requestId },
-  ]);
+  if (context.props.nodeId) {
+    send([
+      { method: 'get', type: 'tree', id: context.props.requestId, nodeid: context.props.nodeId },
+      { method: 'getmeta', type: 'tree', id: context.props.requestId, nodeid: context.props.nodeId },
+    ]);
+  } else {
+    send([
+      { method: 'get', type: 'tree', id: context.props.requestId },
+      { method: 'getmeta', type: 'tree', id: context.props.requestId },
+    ]);
+  }
+
 })
 
 

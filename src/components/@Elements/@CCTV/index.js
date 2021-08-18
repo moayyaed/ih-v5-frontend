@@ -50,34 +50,29 @@ class CCTV extends Component {
   state = { text: '' }
 
   componentDidMount() {
-    this.nuuid = uuidv4();
-    subnotifications(this.nuuid, this.notifications);
-    this.getData();
+    if (this.props.mode === 'user') {
+      this.nuuid = uuidv4();
+      subnotifications(this.nuuid, this.notifications);
+      this.getData();
+    }
   }
 
   getData = () => {
     if (this.state.text === '')  {
       this.setState({ text: 'CONNECT', color: '#FFC107', err: null });
     }
-    const config = {
-      id:"118", 
-      settings:[
-        { 
-          settings_type:"snap",
-          snap_url:"http://admin:123456@192.168.0.64:80/ISAPI/Streaming/channels/101/picture?snapShotImageType=JPEG",
-          snap_timeout:30
+    const id = this.props.item.widgetlinks && this.props.item.widgetlinks.link && this.props.item.widgetlinks.link.id;
+    
+    if (id) {
+      core
+      .request({ method: 'cctv', params: {} })
+      .ok(data => {
+        const config = data.find(i => i.id === id);
+        if (config) {
+          this.createPlayer(config)
         }
-      ],
-      unit:"cctv",
-      transport:"p2p",
-      name:"Hik",
-      order:0,
-      url:"rtsp://admin:hikvision662412@192.168.0.64:554/stream1",
-      txt:"hik",
-      protocol:"udp",
-      type:"rtsp/h264",
-    };
-    this.createPlayer(config)
+      });
+    }
   }
 
   notifications = (type, params) => {
