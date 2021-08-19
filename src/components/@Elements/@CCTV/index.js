@@ -57,7 +57,6 @@ class CCTV extends Component {
     }
   }
 
-
   getData = () => {
     if (this.state.text === '')  {
       this.setState({ text: 'CONNECT', color: '#FFC107', err: null });
@@ -70,7 +69,7 @@ class CCTV extends Component {
         let config = null;
         data.forEach((v, i) => {
           if (v.id === id) {
-            config = { ...v, id: i };
+            config = { ...v, id: i.toString() };
           }
         });
         if (config) {

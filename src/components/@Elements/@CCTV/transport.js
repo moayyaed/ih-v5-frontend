@@ -313,6 +313,7 @@ function camstream_ws(camid, data) {
 }
 
 function camstream_p2p(camid, data) {
+  console.log(camid);
   STORE.system.p2p.activity = Date.now();
 
   if (STORE.cams[camid] !== undefined) {
