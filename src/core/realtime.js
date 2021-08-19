@@ -4,7 +4,7 @@ import core from 'core';
 
 function trasportWS() {
   const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-  const host = window.location.host === 'localhost:3000' ? 'v5.ih-systems.com:3000' : window.location.host;
+  const host = window.location.host === 'localhost:3000' ? '192.168.0.245:8088' : window.location.host;
   const token = core.cache.token;
 
   if (window.__ihp2p) {

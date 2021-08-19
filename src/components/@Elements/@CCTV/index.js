@@ -57,17 +57,22 @@ class CCTV extends Component {
     }
   }
 
+
   getData = () => {
     if (this.state.text === '')  {
       this.setState({ text: 'CONNECT', color: '#FFC107', err: null });
     }
     const id = this.props.item.widgetlinks && this.props.item.widgetlinks.link && this.props.item.widgetlinks.link.id;
-    
     if (id) {
       core
       .request({ method: 'cctv', params: {} })
       .ok(data => {
-        const config = data.find(i => i.id === id);
+        let config = null;
+        data.forEach((v, i) => {
+          if (v.id === id) {
+            config = { ...v, id: i };
+          }
+        });
         if (config) {
           this.createPlayer(config)
         }
