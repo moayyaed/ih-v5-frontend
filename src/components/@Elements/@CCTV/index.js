@@ -140,6 +140,30 @@ class CCTV extends Component {
   }
 
   render({ props } = this) {
+    if (this.props.mode === 'user') {
+      return (
+        <div 
+          style={{
+            position: 'absolute', 
+            width: '100%', 
+            height: '100%', 
+            background: props.item.backgroundColor.value,
+            border: `${props.item.borderSize.value * (props.scale || 1)}px ${props.item.borderStyle.value.id} ${props.item.borderColor.value}`,
+            borderRadius: (Math.min(props.item.w.value, props.item.h.value) / 2 / 100) * props.item.borderRadius.value * (props.scale || 1),
+            opacity: props.item.opacity.value / 100,
+            boxShadow: props.item.boxShadow.active ? props.item.boxShadow.value : 'unset',
+            transform: transform(props.item),
+            overflow: props.item.overflow && props.item.overflow.value ? 'hidden' : 'unset',
+            visibility: props.item.visible && props.item.visible.value == false ? 'hidden' : 'unset',
+          }}
+        >
+          <div ref={this.handleLink} style={styles.video} />
+          <div style={{ ...styles.text, color: this.state.color }}>{this.state.text}</div>
+          {this.state.err && <div style={styles.containerError}><div style={styles.textError}>{this.state.err}</div></div>}
+        </div>
+      );
+    }
+
     return (
       <div 
         style={{
@@ -156,10 +180,8 @@ class CCTV extends Component {
           visibility: props.item.visible && props.item.visible.value == false ? 'hidden' : 'unset',
         }}
       >
-        <div ref={this.handleLink} style={styles.video} />
-        <div style={{ ...styles.text, color: this.state.color }}>{this.state.text}</div>
-        {this.state.err && <div style={styles.containerError}><div style={styles.textError}>{this.state.err}</div></div>}
-      </div>
+        <video style={{ pointerEvents: 'none' }} width="100%" height="100%" controls autoPlay />
+    </div>
     );
   }
 }
