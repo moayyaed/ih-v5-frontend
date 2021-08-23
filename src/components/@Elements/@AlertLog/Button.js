@@ -33,9 +33,12 @@ function handleClick(row) {
 }
 
 function TableButtonComponent(props) {
+  if (props.rowData.hide) {
+    return <div style={styles.root} className={props.className} />
+  }
   return (
     <div style={styles.root} className={props.className}>
-      <Button disabled={props.rowData.state === 0} style={styles.button} variant="contained" color="primary" onClick={() => handleClick(props.rowData)}>
+      <Button disabled={props.rowData.disabled} style={styles.button} variant="contained" color="primary" onClick={() => handleClick(props.rowData)}>
         {'Подтвердить' || props.cellData.title}
       </Button>
     </div>

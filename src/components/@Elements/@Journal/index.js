@@ -160,7 +160,7 @@ class Journal extends Component {
     if (this.state.loading) {
       return null;
     }
-    return <Empty>No data available</Empty>
+    return <Empty>Нет данных</Empty>
   }
 
   headerRenderer = ({ cells, columns }) => {
