@@ -33,7 +33,7 @@ function handleClick(row) {
 }
 
 function TableButtonComponent(props) {
-  if (props.rowData.hide) {
+  if (props.cellData.hide) {
     return <div style={styles.root} className={props.className} />
   }
   return (
