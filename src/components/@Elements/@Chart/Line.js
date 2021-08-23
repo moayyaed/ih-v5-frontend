@@ -295,7 +295,14 @@ class Chart extends PureComponent {
       this.spiner,
       props.fetch,
       { start, end },
-      { id: props.id, type: props.item.type, chartid: dn, dn, alias, items, legend, statics, mode: props.mode, isDidProp },
+      { id: props.id, 
+        type: props.item.type, 
+        chartid: dn, dn, alias, items, legend, statics, 
+        mode: props.mode, isDidProp,
+        variant: props.item.lineType,
+        period: props.item.period,
+        function: props.item.function,
+      },
       this.panel,
     );
     const genlegend = this.generateLegend();

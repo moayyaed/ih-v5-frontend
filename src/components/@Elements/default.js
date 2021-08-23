@@ -373,6 +373,8 @@ const CHART = {
   },
   data: { lines: [] },
   interval: { value: { id: 'day', title: 'Day' } },
+  period: { value: { id: '-', title: '-' } },
+  function: { value: { id: '-', title: '-' } },
   positionCurentTime: { value: 95 },
   legendHeight: { value: 60 },
   gridColor: { value: 'rgba(191, 191, 191, 1)' },

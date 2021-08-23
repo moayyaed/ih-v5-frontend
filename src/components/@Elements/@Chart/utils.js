@@ -177,7 +177,10 @@ function getTypeChart(type) {
 function requestHTTP(context, item) {
   context.worker.req = context.worker.req + 1;
   const alias = Object.keys(context.params.alias).map(i => `${i}:${context.params.alias[i]}`).join(',');
-  const url = `/${getTypeChart(context.params.legend.chart_type)}?id=${context.params.chartid}&${context.params.isDidProp ? 'did_prop' : 'dn_prop'}=${context.params.dn}&start=${item.s}&end=${item.e}&alias=${alias}&discrete=${context.params.legend.discrete}`;
+  const variant = context.params.variant ? context.params.variant.value.id : 'null';
+  const period = context.params.period ? context.params.period.value.id : 'null';
+  const func =  context.params.function ? context.params.function.value.id : 'null';
+  const url = `/${getTypeChart(context.params.legend.chart_type)}?id=${context.params.chartid}&${context.params.isDidProp ? 'did_prop' : 'dn_prop'}=${context.params.dn}&start=${item.s}&end=${item.e}&alias=${alias}&discrete=${context.params.legend.discrete}&variant=${variant}&period=${period}&function=${func}`;
   if (window.ihp2p) {
     return window.ihp2p.http(url)
     .then(res => JSON.parse(res))

@@ -104,6 +104,50 @@ const chart = {
       type: 'color',
     },
     { 
+      title: 'Aggregate', 
+      prop: '_aggregate', 
+      type: 'divider',
+    },
+    { 
+      title: 'Period', 
+      prop: 'period', 
+      type: 'droplistlink',
+      data: [
+        {
+          id: '-',
+          title: '-'
+        },
+        {
+          id: 'minute',
+          title: 'Minute'
+        },
+        {
+          id: 'hour',
+          title: 'Hour'
+        },
+        {
+          id: 'day',
+          title: 'Day'
+        },
+        {
+          id: 'mount',
+          title: 'Month'
+        }
+      ],
+    },
+    { 
+      title: 'Function', 
+      prop: 'function', 
+      type: 'droplistlink',
+      data: [
+        { id: '-', title: '-' },
+        { id: 'sum', title: 'Sum' },
+        { id: 'min', title: 'Min' },
+        { id: 'max', title: 'Max' },
+        { id: 'mean', title: 'Mean' }      
+      ],
+    },
+    { 
       title: 'Legend', 
       prop: 'legenddivider', 
       type: 'divider',
