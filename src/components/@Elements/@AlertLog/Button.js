@@ -22,12 +22,12 @@ const styles = {
 }
 
 
-function handleClick(row) {
+function handleClick(row, data) {
   core.tunnel.command({
     uuid: shortid.generate(),
     method: 'row_command',
     type:'command',
-    command: row._command,
+    command: data.command,
     id: row.id,
   });
 }
@@ -38,7 +38,7 @@ function TableButtonComponent(props) {
   }
   return (
     <div style={styles.root} className={props.className}>
-      <Button disabled={props.cellData.disabled} style={styles.button} variant="contained" color="primary" onClick={() => handleClick(props.rowData)}>
+      <Button disabled={props.cellData.disabled} style={styles.button} variant="contained" color="primary" onClick={() => handleClick(props.rowData, props.cellData)}>
         {props.cellData.title || 'Подтвердить'}
       </Button>
     </div>
