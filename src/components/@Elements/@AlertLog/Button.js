@@ -38,7 +38,7 @@ function TableButtonComponent(props) {
   }
   return (
     <div style={styles.root} className={props.className}>
-      <Button disabled={props.rowData.disabled} style={styles.button} variant="contained" color="primary" onClick={() => handleClick(props.rowData)}>
+      <Button disabled={props.cellData.disabled} style={styles.button} variant="contained" color="primary" onClick={() => handleClick(props.rowData)}>
         {props.cellData.title || 'Подтвердить'}
       </Button>
     </div>
