@@ -22,6 +22,23 @@ function getContextStringOne(itemid, id, params) {
   return null;
 }
 
+function clearAnimation() {
+  const temp = []
+
+  Object
+    .keys(document.styleSheets[0].rules)
+    .forEach(id => {
+      if (document.styleSheets[0].rules[id].type === CSSRule.KEYFRAMES_RULE) {
+        temp.push(id)
+      }
+    })
+  temp
+    .reverse()
+    .forEach(id => {
+      document.styleSheets[0].deleteRule(id);
+   })
+}
+
 function preparationDataLayout(data, params, context) { 
   const layoutid = params.layoutid;
 
@@ -105,6 +122,7 @@ core.network.request('GET_LAYOUT', (send, { context, params }) => {
 })
 
 core.network.response('GET_LAYOUT', (answer, res, { context, params }) => {
+  clearAnimation();
   answer(preparationDataLayout({
     layout: res[0].data,
     containers: res[1].data,
