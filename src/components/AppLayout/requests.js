@@ -135,24 +135,6 @@ function unsubrealtimecontainer(elementid, containerid, contextid, context, cb) 
   }, cb);
 }
 
-function clearAnimation() {
-  const temp = []
-
-  Object
-    .keys(document.styleSheets[0].rules)
-    .forEach(id => {
-      if (document.styleSheets[0].rules[id].type === CSSRule.KEYFRAMES_RULE) {
-        temp.push(id)
-      }
-    })
-  temp
-    .reverse()
-    .forEach(id => {
-      document.styleSheets[0].deleteRule(id);
-   })
-}
-
-
 export function requestDefaultLayout() {
   const context = getContext(this.props);
   const layoutid = context.layoutid;
@@ -178,7 +160,6 @@ export function requestChangeLayout(layoutid, params) {
     .request({ method: 'GET_LAYOUT', context, params: { layoutid } })
     .ok(data => {
       unsubrealtimelayout(this.props.state.layoutid, this.props.state.elements, prevContext, this.realtime);
-      clearAnimation();
       core.actions.layout.data(data);
       subrealtimelayout(layoutid, data.elements, context, this.realtime)
     });
