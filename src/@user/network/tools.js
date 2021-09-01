@@ -392,6 +392,7 @@ export function getLayoutElements(id, data, containers, widgets, context) {
       item.uuid = id + '_' + key;
 
       if (widgets[key]) {
+        item.key = item.uuid + Date.now();
         item.data = widgets[key];
       }
       
@@ -463,6 +464,7 @@ export function getContainersElements(layoutid, layoutElements, containers, temp
             item.uuid = item.frameid + '_' + containerid + '_' + key;
 
             if (widgets[element.id] !== undefined && widgets[element.id][key] !== undefined) {
+              item.key = item.uuid + Date.now();
               item.data = widgets[element.id][key];
             }
 

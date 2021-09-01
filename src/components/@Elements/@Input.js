@@ -252,6 +252,7 @@ function getClasses2(item, classes) {
 
 
 function getInput(props, data, onChange) {
+
   if (props.item.type === 'input' || props.item.type === 'input_classic') {
     return (
       <InputBase

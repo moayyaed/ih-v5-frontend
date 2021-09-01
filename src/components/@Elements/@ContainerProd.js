@@ -92,7 +92,7 @@ class ContainerProd extends PureComponent {
 
     return (
       <div
-        key={id}
+        key={item.control !== undefined ? item.key : id}
         style={{ 
           position: 'absolute', 
           left: item.x.value * scale,
