@@ -107,6 +107,10 @@ input.core:focus {
   overflow: hidden;
 }
 
+.BaseTable__table, .BaseTable {
+  background-color: unset!important;
+}
+
 .BaseTable__header-cell {
   padding-left: 15px!important;
   padding-right: 32px!important;

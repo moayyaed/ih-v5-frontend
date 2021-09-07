@@ -331,8 +331,8 @@ class AlertLog extends Component {
         <BaseTable
           fixed
           rowHeight={35}
-          width={props.item.w.value * props.scale - (props.item.borderSize.value * 2 * props.scale)}
-          height={props.item.h.value * props.scale - (props.item.borderSize.value * 2 * props.scale)}
+          width={props.item.w.value * (props.scale || 1) - (props.item.borderSize.value * 2 * (props.scale || 1))}
+          height={props.item.h.value * (props.scale || 1) - (props.item.borderSize.value * 2 * (props.scale || 1))}
           data={this.state.data}
           options={this.props.item.data}
           disabled={this.state.loading}
