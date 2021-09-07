@@ -99,6 +99,9 @@ function createElement(item, values, links, templates) {
         if (id === 'animation') {
           return { ...p, [id]: { ...prop, active: templates[item.uuid][id].active, value: createAnimation(item.uuid, templates[item.uuid][id]) } };
         }
+        if (id === 'boxShadow') {
+          return { ...p, [id]: { ...prop, active: templates[item.uuid][id].active, value: templates[item.uuid][id].value } };
+        }
         return { ...p, [id]: { ...prop, value: templates[item.uuid][id].value } };
       }
       return { ...p, [id]: prop };

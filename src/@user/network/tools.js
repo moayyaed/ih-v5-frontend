@@ -134,6 +134,9 @@ function getCurentLayer(item, template, values) {
               curentLayer[id][propid] = {};
             }
             curentLayer[id][propid] = { ...curentLayer[id][propid], ...layer[id][propid] }
+            if (propid === 'boxShadow' && !curentLayer[id][propid].active) {
+              curentLayer[id][propid].value = 'unset';
+            }
           });
         })
       }
@@ -164,6 +167,9 @@ function createMasterLayer(template) {
                 masterLayer[id][propid] = {};
               }
               masterLayer[id][propid] = { ...masterLayer[id][propid], ...layer[id][propid] }
+              if (propid === 'boxShadow' && !masterLayer[id][propid].active) {
+                masterLayer[id][propid].value = 'unset';
+              }
             });
           })
         }
@@ -198,6 +204,9 @@ function createChangesLayers(template) {
                     temp[uuid][itemid] = {};
                   }
                   temp[uuid][itemid][propid] = layer[itemid][propid];
+                  if (propid === 'boxShadow' && !layer[itemid][propid].active) {
+                    layer[itemid][propid].value = 'unset';
+                  }
                 });
               });
           });
