@@ -237,7 +237,7 @@ function createAnimation(uuid, prop) {
  if (prop.active && prop.keyframes && prop.value) {
   const params = prop.value.split(' ');
   const oldid = params[0];
-  const newid = uuid;
+  const newid = uuid.replace('@', '');
   
   params[0] = newid;
   prop.value = params.join(' ');
