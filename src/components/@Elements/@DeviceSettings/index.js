@@ -133,15 +133,28 @@ function Devicesettings(props) {
   const onChange = (type, item, value) => {
     const id = props.item.widgetlinks && props.item.widgetlinks.link && props.item.widgetlinks.link.id;
     if (id !== undefined && item.prop !== undefined) {
-      core.tunnel.command({
-        uuid: shortid.generate(),
-        method: 'action',
-        type:'command',
-        command: 'setval',
-        did: id,
-        prop: item.prop,
-        value,
-      });
+      if (id === '__device') {
+        const id = core.store.getState().layoutDialog.contextId;
+        core.tunnel.command({
+          uuid: shortid.generate(),
+          method: 'action',
+          type:'command',
+          command: 'setval',
+          did: id,
+          prop: item.prop,
+          value,
+        });
+      } else {
+        core.tunnel.command({
+          uuid: shortid.generate(),
+          method: 'action',
+          type:'command',
+          command: 'setval',
+          did: id,
+          prop: item.prop,
+          value,
+        });
+      }
     }
   }
   return (
