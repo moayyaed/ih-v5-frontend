@@ -31,6 +31,16 @@ const P2P_TIMEOUT = 1000 * 20;
 const CHANNELS_AUTO_CLOSE_TIME = 1500;
 const RESTART_TIMEOUT = 1000 * 7;
 
+const config = { 
+  iceServers: [
+    { urls: ['stun:stun.l.google.com:19302', 'stun:global.stun.twilio.com:3478'] },
+    {
+      urls: 'turn:turn.ih-systems.com:47000',
+      username: 'ihv5',
+      credential: '136d2723b0ac',
+    },
+  ]
+}
 
 function createchannel(type) {
   if (type === 'p2p') {
@@ -290,7 +300,7 @@ function channel_settings(params) {
   }
 
   if (params.type === 'p2p') {
-    STORE.system.p2p.socket = new Peer({ initiator: true })
+    STORE.system.p2p.socket = new Peer({ config, initiator: true })
     STORE.system.p2p.socket.on('signal', p2p_signal);
     STORE.system.p2p.socket.on('connect', p2p_connect);
     STORE.system.p2p.socket.on('data', p2p_data);
