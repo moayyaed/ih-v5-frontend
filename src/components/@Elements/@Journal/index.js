@@ -225,8 +225,8 @@ class Journal extends Component {
         <BaseTable
           fixed
           rowHeight={35}
-          width={props.item.w.value * props.scale - (props.item.borderSize.value * 2 * props.scale)}
-          height={props.item.h.value * props.scale - (props.item.borderSize.value * 2 * props.scale)}
+          width={props.item.w.value * (props.scale || props.rw || 1) - (props.item.borderSize.value * 2 * (props.scale || 1))}
+          height={props.item.h.value * (props.scale || props.rh || 1) - (props.item.borderSize.value * 2 * (props.scale || 1))}
           data={this.state.data}
           disabled={this.state.loading}
           loadingMore={this.state.loadingMore}

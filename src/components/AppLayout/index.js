@@ -140,6 +140,9 @@ class AppLayout extends Component {
 
     const params = { id, mode: 'user', item };
 
+    params.rw = this.state.rw;
+    params.rh = this.state.rh;
+    
     if (item.type === 'group') {
       return (
         <div
@@ -160,8 +163,6 @@ class AppLayout extends Component {
     }
 
     if (item.type === 'container') {
-      params.rw = this.state.rw;
-      params.rh = this.state.rh;
       params.elements = elements;
       params.templates = templates;
     }
