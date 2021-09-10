@@ -11,7 +11,7 @@ const styles = {
   },
   container: {
     display: 'flex',
-    height: 38,
+    minHeight: 38,
     width: '100%',
     alignItems: 'center',
   },
@@ -50,7 +50,8 @@ function Time(props) {
         fontStyle: props.item.titleItalic ? 'italic' : 'unset',
         marginTop: props.item.offsetTop,
         marginBottom: props.item.offsetBottom, 
-        width: props.itemortion, 
+        width: props.itemortion,
+        whiteSpace: 'pre',  
         ...props.item.style 
       }}>
         {props.item.title}

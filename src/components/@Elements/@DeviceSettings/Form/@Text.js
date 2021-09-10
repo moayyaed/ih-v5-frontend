@@ -10,8 +10,9 @@ function Text(props) {
       fontWeight: props.item.titleBold ? 600 : 'unset',
       fontStyle: props.item.titleItalic ? 'italic' : 'unset',
       marginTop: props.item.offsetTop,
-      marginBottom: props.item.offsetBottom, 
-      ...props.item.style
+      marginBottom: props.item.offsetBottom,
+      whiteSpace: 'pre', 
+      ...props.item.style,
     }}>
       {props.item.title}
     </div>

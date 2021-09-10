@@ -22,7 +22,7 @@ const styles = {
   },
   container: {
     display: 'flex',
-    height: 22,
+    minHeight: 22,
     width: '100%',
     alignItems: 'center',
   },
@@ -134,7 +134,8 @@ function _Number(props) {
         fontStyle: props.item.titleItalic ? 'italic' : 'unset',
         marginTop: props.item.offsetTop,
         marginBottom: props.item.offsetBottom, 
-        width: props.itemortion, 
+        width: props.itemortion,
+        whiteSpace: 'pre',  
         ...props.item.style 
       }}>
         {props.item.title}
