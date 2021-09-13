@@ -27,7 +27,7 @@ const styles = {
     display: 'flex',
     minHeight: 58,
     width: '100%',
-    alignItems: 'end',
+    alignItems: 'flex-end',
   },
   buttonLeft: {
     marginBottom: 3,
