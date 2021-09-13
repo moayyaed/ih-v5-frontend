@@ -11,7 +11,7 @@ function Text(props) {
       fontStyle: props.item.titleItalic ? 'italic' : 'unset',
       marginTop: props.item.offsetTop,
       marginBottom: props.item.offsetBottom,
-      whiteSpace: 'pre', 
+      // whiteSpace: 'pre', 
       ...props.item.style,
     }}>
       {props.item.title}
