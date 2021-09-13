@@ -5,7 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
-import Slider from '@material-ui/core/Slider';
+import { CircleSlider } from 'libs/circle-slider';
 import Tooltip from '@material-ui/core/Tooltip';
 
 
@@ -25,9 +25,10 @@ const styles = {
   },
   container: {
     display: 'flex',
-    minHeight: 58,
+    minHeight: 80,
     width: '100%',
-    alignItems: 'end',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonLeft: {
     marginBottom: 3,
@@ -134,6 +135,7 @@ function _Slider(props) {
     setValue(value)
     props.onChange(type, prop, value);
   };
+
   return (
     <div style={styles.container}>
       <div style={{ 
@@ -151,26 +153,18 @@ function _Slider(props) {
       }}>
         {props.item.title}
       </div>
-      <Button
-        type="left" 
-        step={props.item.step}
-        onClick={(v) => onChangeCommitted('slider', props.item, checkValue(value - v, value, props.item))}
-      />
-      <Slider
-        valueLabelDisplay="on"
+      <CircleSlider
+        stepSize={props.item.step}
+        showTooltip={true}
         min={props.item.min}
-        max={props.item.max} 
-        value={value} 
-        marks={props.item.marks} 
-        step={props.item.step} 
-        ValueLabelComponent={ValueLabelComponent}
-        onChange={(e, v) => onChange('slider', props.item, checkValue(v, value, props.item))}
-        onChangeCommitted={(e, v) => onChangeCommitted('slider', props.item, checkValue(v, value, props.item))}
-      />
-      <Button
-        type="right" 
-        step={props.item.step}
-        onClick={(v) => onChangeCommitted('slider', props.item, checkValue(value + v, value, props.item))}
+        max={props.item.max ? props.item.max + 1 : 100} 
+        value={value}
+        size={props.item.size || 180}
+        knobRadius={15}
+        progressWidth={10}
+        circleWidth={25}
+        progressColor={props.item.color || '#6AB6E1'}
+        onChange={(v) => onChangeCommitted('slider', props.item, checkValue(v, value, props.item))}
       />
     </div>
   )

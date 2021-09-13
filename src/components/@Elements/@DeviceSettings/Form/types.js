@@ -5,6 +5,7 @@ import Text from './@Text';
 import _Number from './@Number';
 import CheckBox from './@CheckBox';
 import Slider from './@Slider';
+import SliderCircle from './@SliderCircle';
 import Time from './@Time';
 
 import Divider from './@Divider';
@@ -20,6 +21,8 @@ function getComponentByType(type) {
         return CheckBox;
       case 'slider':
         return Slider;
+      case 'slider2':
+        return SliderCircle;
       case 'time':
         return Time;
       case 'divider':
