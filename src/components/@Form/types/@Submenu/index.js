@@ -931,7 +931,7 @@ class Submenu extends PureComponent {
 
   handleTransferData = (button) => {
     const { channelview, channel } = this.props.route;
-    const params = { component: channelview, curent: channel, rowid: this.rowid };
+    const params = { component: channelview, curent: channel, rowid: this.rowid, navnodeid: this.nodeid };
     if (this.id) {
       params.component = this.id;
     }

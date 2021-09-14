@@ -42,6 +42,7 @@ import Submenu from './@Submenu';
 import PortalAuth from './@PortalAuth';
 import Frame from './@Frame';
 import Webconsole from './@Webconsole';
+import Markdown from './@Markdown';
 
 
 function getComponentByType(type) {
@@ -130,10 +131,8 @@ function getComponentByType(type) {
       return Debug;
     case 'html':
       return Html;
-    case 'markdown-edit':
-      return Script;
-    case 'markdown-view':
-      return Script;
+    case 'markdown':
+      return Markdown;
     default:
       return Text;
   }

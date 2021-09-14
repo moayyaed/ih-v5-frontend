@@ -36,8 +36,8 @@ core.network.response('subtree_form', (answer, res, context) => {
 
 core.network.request('subtree_form_update', (send, context) => {
   send([
-    { method: 'getmeta', type: 'form', id: context.params.id, nodeid: context.params.nodeid, rowid: context.params.rowid },
-    { method: 'get', type: 'form', id: context.params.id, nodeid: context.params.nodeid, rowid: context.params.rowid },
+    { method: 'getmeta', type: 'form', id: context.params.id, navnodeid: context.params.navnodeid, nodeid: context.params.nodeid, rowid: context.params.rowid },
+    { method: 'get', type: 'form', id: context.params.id, navnodeid: context.params.navnodeid, nodeid: context.params.nodeid, rowid: context.params.rowid },
   ]);
 })
 
@@ -55,6 +55,7 @@ core.network.request('subtree_form_save', (send, context) => {
     method: 'update', 
     type: 'form',
     id: context.params.component,
+    navnodeid: context.params.navnodeid,
     nodeid: context.params.curent,
     rowid: context.params.rowid,
     payload: context.payload,
