@@ -168,7 +168,16 @@ class Submenu extends PureComponent {
           return { ...state, ...res };
         }, () => {
           if (res.list.length) {
-            this.handleChangeRoute({ node: res.list[0] }, true);
+            if (core.cache.submenuid) {
+              const item = res.list.find(i => i.id === core.cache.submenuid);
+              if (item) {
+                this.handleChangeRoute({ node: item }, true);
+              } else {
+                this.handleChangeRoute({ node: res.list[0] }, true);
+              }
+            } else {
+              this.handleChangeRoute({ node: res.list[0] }, true);
+            }
           }
         });
       });
@@ -557,6 +566,7 @@ class Submenu extends PureComponent {
     } else {
       core.route(`${route.menuid}/${route.rootid}/${route.componentid}/${route.nodeid}/${route.tab}/${channelview}/${item.node.id}`);
     }
+    core.cache.submenuid = item.node.id;
   }
 
   handleCheckChild = (node) => {
