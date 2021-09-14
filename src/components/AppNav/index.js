@@ -63,6 +63,23 @@ const classes = theme => ({
 });
 
 
+function copyStringToClipboard (str) {
+  // Create new element
+  var el = document.createElement('textarea');
+  // Set value (string to be copied)
+  el.value = str;
+  // Set non-editable to avoid focus and move outside of view
+  el.setAttribute('readonly', '');
+  el.style = {position: 'absolute', left: '-9999px'};
+  document.body.appendChild(el);
+  // Select text inside element
+  el.select();
+  // Copy text to clipboard
+  document.execCommand('copy');
+  // Remove temporary element
+  document.body.removeChild(el);
+}
+
 class AppNav extends Component {
   state = { contextMenu: { main: [] } };
 
@@ -326,6 +343,7 @@ class AppNav extends Component {
       export: (menuItem) => this.handleExport(item, menuItem),
       newtab: (menuItem) => this.handleClickNode(null, item),
       send: (menuItem) => this.handleServerCommand(item, menuItem),
+      copylink: () => copyStringToClipboard(item.node.copylink),
     };
 
     let scheme = { main: [] };
