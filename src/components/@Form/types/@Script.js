@@ -8,10 +8,12 @@ import {
 } from 'react-mosaic-component';
 
 import 'ace-builds/src-noconflict/theme-tomorrow';
+import 'ace-builds/src-noconflict/theme-textmate';
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/mode-text';
 import 'ace-builds/src-noconflict/mode-html';
 import 'ace-builds/src-noconflict/mode-css';
+import 'ace-builds/src-noconflict/mode-markdown';
 
 import 'react-mosaic-component/react-mosaic-component.css';
 import './@Code/code.css';
