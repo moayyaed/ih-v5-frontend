@@ -130,6 +130,10 @@ function getComponentByType(type) {
       return Debug;
     case 'html':
       return Html;
+    case 'markdown-edit':
+      return Script;
+    case 'markdown-view':
+      return Script;
     default:
       return Text;
   }

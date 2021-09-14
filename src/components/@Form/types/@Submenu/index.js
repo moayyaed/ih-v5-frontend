@@ -139,12 +139,12 @@ class Submenu extends PureComponent {
       splitPercentage: 25,
     },
     scrollTop: 0,
-    width: 250,
+    width: this.props.options.width || 250,
   };
 
   componentDidMount() {
     this.nodeid = this.props.route.nodeid;
-
+ 
     const params = { id: this.props.options.data, navnodeid: this.props.route.nodeid };
     core
       .request({ method: 'subtree', params })
@@ -426,7 +426,7 @@ class Submenu extends PureComponent {
               data={state.data}
               cache={state.cache}
               onChange={this.handleChangeForm}
-              heightOffset={230}
+              heightOffset={159}
             />
           </div>
         </Scrollbars>
@@ -488,7 +488,7 @@ class Submenu extends PureComponent {
       this.save = null;
       core.actions.apppage.data({ save: false });
     }
-    const params = { component: channelview, curent: nodeid };
+    const params = { component: channelview, curent: nodeid, navnodeid: this.nodeid };
     core
       .request({ method: 'subtree_form', params })
       .ok(this.setData);
@@ -930,7 +930,6 @@ class Submenu extends PureComponent {
   }
 
   handleTransferData = (button) => {
-    console.log(button)
     const { channelview, channel } = this.props.route;
     const params = { component: channelview, curent: channel, rowid: this.rowid };
     if (this.id) {

@@ -20,8 +20,8 @@ core.network.response('subtree', (answer, res, context) => {
 
 core.network.request('subtree_form', (send, context) => {
   send([
-    { method: 'getmeta', type: 'form', id: context.params.component, nodeid: context.params.curent },
-    { method: 'get', type: 'form', id: context.params.component, nodeid: context.params.curent },
+    { method: 'getmeta', type: 'form', id: context.params.component, navnode: context.params.navnodeid, nodeid: context.params.curent },
+    { method: 'get', type: 'form', id: context.params.component, navnode: context.params.navnodeid, nodeid: context.params.curent },
   ]);
 })
 

@@ -14,6 +14,8 @@ import ScriptsIcon from './Scripts';
 import VisIcon from './Vis';
 import PortalIcon from './Portal';
 
+import MenuBookIcon from '@material-ui/icons/MenuBook';
+
 
 function icon(name, style) {
   switch(name) {
@@ -43,6 +45,8 @@ function icon(name, style) {
       return React.createElement(ScriptsIcon, { style })
     case 'vis':
       return React.createElement(VisIcon, { style })
+    case 'docs':
+      return React.createElement(MenuBookIcon, { style })
     default:
       return null;
   }
