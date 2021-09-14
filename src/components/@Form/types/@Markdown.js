@@ -70,11 +70,10 @@ const styles = (theme) => ({
   },
 });
 
-const test = "# Установка системы\n\n## Linux и macOS\n\n### Установка\n\nСистему IntraSCADA можно установить на любой компьютер с операционными системами Linux (x64, arm64, armv7l) и macOS (x64)\n\nДля установки системы наберите в терминале команду:\n\n```bash\ncurl -sL https://git.io/JYAeq | sudo -E bash\n```\n\nВ комплекте устанавливаются:\n\n- База данных SQLite\n- Плагин Emulator\n\n\n### Удаление\n\nСистема IntraSCADA размещается в двух папках:\n\nВ папке /opt/ih-v5 находится сама система\nВ папке /var/lib/ih-v5 находятся проекты и плагины\n\nДля удаления системы IntraSCADA выполнить команду:\n\n```bash\nsudo systemctl disable ih-v5\n```\n\nИ удалить папки:\n\n```bash\nsudo rm -R /opt/ih-v5\nsudo rm -R /var/lib/ih-v5\n```\n---\n\n## Windows\n\n### Установка\n\nСистему IntraSCADA можно установить на любой компьютер с операционными системами Windows 10 x64\n\nДля установки системы  IntraSCADA откройте Командную строку под Администратором и наберите команду:\n\n```bash\npowershell -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command \"$l=\'ru\';iex ((New-Object System.Net.WebClient).DownloadString(\'https://git.io/JYpbW\'))\"\n```\n> Установка IntraSCADA на операционную систему Windows 10 рекомендуется только для тестирования или для разработки проектов.  \n> Для систем, работающих в режиме 24/7 рекомендуется операционная система Linux"
 
 function Markdown(props) {
   const classes = props.classes;
-  const value = test || props.data;
+  const value = props.data;
   return (
     <Scrollbars>
       <MarkdownDocsContents markdown={value} markdownLocation={undefined}>
