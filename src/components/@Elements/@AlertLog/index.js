@@ -102,6 +102,12 @@ function getColor(colors, row) {
   return 'unset';
 }
 
+function getColor2(colors, row) {
+  if (colors) {
+    return colors[row.level] || 'unset';
+  }
+  return 'unset';
+}
 
 class AlertLog extends Component {
 
@@ -302,9 +308,10 @@ class AlertLog extends Component {
   renderRow = ({ key, index, children, rowid, ...rest }) => {
     const row = this.state.data[index];
     const colors = this.props.item.data.color;
-
+    const fontcolor = this.props.item.data.fontcolor;
+    
     return (
-      <div key={key} index={index} {...rest} style={{ ...rest.style, background: getColor(colors, row) }} >
+      <div key={key} index={index} {...rest} style={{ ...rest.style, background: getColor(colors, row), color: getColor2(fontcolor, row) }} >
         {children}
       </div>
     )

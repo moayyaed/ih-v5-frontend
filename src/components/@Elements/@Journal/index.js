@@ -56,6 +56,20 @@ function getInitState(mode, item) {
 }
 
 
+function getColor(colors, row) {
+  if (colors) {
+    return colors[row.level] || 'unset';
+  }
+  return 'unset';
+}
+
+function getColor2(colors, row) {
+  if (colors) {
+    return colors[row.level] || 'unset';
+  }
+  return 'unset';
+}
+
 class Journal extends Component {
 
   state = getInitState(this.props.mode, this.props.item)
@@ -204,6 +218,26 @@ class Journal extends Component {
     }
   }
 
+  rowProps = (props) => {
+    return {
+      tagName: this.renderRow,
+      rowid: props.rowData.id,
+      index: props.rowIndex,
+    }
+  }
+
+  renderRow = ({ key, index, children, rowid, ...rest }) => {
+    const row = this.state.data[index];
+    const colors = this.props.item.data.color;
+    const fontcolor = this.props.item.data.fontcolor;
+
+    return (
+      <div key={key} index={index} {...rest} style={{ ...rest.style, background: getColor(colors, row), color: getColor2(fontcolor, row) }} >
+        {children}
+      </div>
+    )
+  }
+
   render(props = this.props) {
     return (
       <div 
@@ -235,6 +269,7 @@ class Journal extends Component {
           emptyRenderer={this.renderEmpty}
           headerRenderer={this.headerRenderer}
           onColumnResizeEnd={this.handleColumnResizeEnd}
+          rowProps={this.rowProps}
         >
           {this.state.columns.map(i => 
             <Column
