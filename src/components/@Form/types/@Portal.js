@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import core from 'core';
 
 
@@ -20,9 +20,22 @@ function getUrl() {
   return 'portal.intrahouse.ru';
 }
 
-function Portal(props) {
-  return <iframe style={styles.frame} src={`${window.location.protocol}//${getUrl()}/ru_changelog`} />
+class Portal extends Component {
+  componentDidMount() {
+    window.onmessage = (e) => {
+      console.log('root:', e.data);
+    };
+    this.link.contentWindow.postMessage('hello', '*');
+  }
+
+  linked = (e) => {
+    this.link = e;
+  }
+
+  render() {
+    return <iframe ref={this.linked} style={styles.frame} src={`${window.location.protocol}//${getUrl()}/ru_changelog`} />
+  }
 }
 
 
-export default React.memo(Portal);
+export default Portal;
