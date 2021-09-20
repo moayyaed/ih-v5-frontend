@@ -43,6 +43,7 @@ import PortalAuth from './@PortalAuth';
 import Frame from './@Frame';
 import Webconsole from './@Webconsole';
 import Markdown from './@Markdown';
+import Portal from './@Portal';
 
 
 function getComponentByType(type) {
@@ -133,6 +134,8 @@ function getComponentByType(type) {
       return Html;
     case 'markdown':
       return Markdown;
+    case 'portal':
+      return Portal;
     default:
       return Text;
   }

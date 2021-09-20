@@ -19,9 +19,10 @@ core.network.request('login', (send, context) => {
 
 
 core.network.response('login', (answer, res, context) => {
-
   core.session = res;
   core.cache.conf = res.conf;
+  core.cache.docs = res.docs;
+  core.cache.portal = res.portal;
   core.cache.project =  res.project;
   core.cache.modules =  res.modules;
   
