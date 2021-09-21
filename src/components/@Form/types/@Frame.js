@@ -21,7 +21,7 @@ function getUrl() {
 }
 
 function Frame(props) {
-  return <iframe style={styles.frame} src={`${window.location.protocol}//${getUrl()}/ru_changelog`} />
+  return <iframe style={styles.frame} src={`${window.location.protocol}//${getUrl()}/${core.cache.lang}/changelog`} />
 }
 
 
