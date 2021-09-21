@@ -453,11 +453,12 @@ function Actions(props) {
       if (route.dialog) {
         return [
           <MenuItem key="0" onClick={() => handleClickOption('device_any')}>Команда устройства</MenuItem>,
-          <MenuItem key="1" onClick={() => handleClickOption('setval_any')}>Установить значение</MenuItem>,
-          <MenuItem key="2" onClick={() => handleClickOption('dialog')}>Показать диалог</MenuItem>,
+          <MenuItem key="1" onClick={() => handleClickOption('script')}>Запуск сценария</MenuItem>,
+          <MenuItem key="2" onClick={() => handleClickOption('setval_any')}>Установить значение</MenuItem>,
+          <MenuItem key="3" onClick={() => handleClickOption('dialog')}>Показать диалог</MenuItem>,
           <Divider key="-" />,
-          <MenuItem key="3" onClick={() => handleClickOption('initdialog')}>Начальный диалог</MenuItem>,
-          <MenuItem key="4" onClick={() => handleClickOption('close')}>Закрыть диалог</MenuItem>,
+          <MenuItem key="4" onClick={() => handleClickOption('initdialog')}>Начальный диалог</MenuItem>,
+          <MenuItem key="5" onClick={() => handleClickOption('close')}>Закрыть диалог</MenuItem>,
         ]
       }
       return [
