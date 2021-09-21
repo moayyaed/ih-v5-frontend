@@ -124,7 +124,7 @@ class AppMenu extends Component {
 
   render({ id, route, state, classes } = this.props) {
     return (
-      <div style={{ ...styles.box, backgroundColor: (core.cache.docs || core.cache.portal) ? '#795548' : '#607D8B'}}>
+      <div style={styles.box}>
         {state.list
           .map((item) =>
             <Button 

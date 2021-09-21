@@ -403,13 +403,13 @@ function AppBar(props) {
     <>
       { state.open ? <SnapForm state={state} onClose={handleClose} /> : null}
       <div style={styles.box}>
-        <div style={{ ...styles.stub, backgroundColor: (core.cache.docs || core.cache.portal) ? '#795548' : '#607D8B'}}/>
+        <div style={styles.stub}/>
         <div style={styles.logo}>
           <IconButton onClick={handleClick}>
             {icon('logo2', styles.icon)}
           </IconButton>
         </div>
-        <div style={{ ...styles.container, backgroundColor: (core.cache.docs || core.cache.portal) ? '#795548' : '#607D8B' }}>
+        <div style={styles.container}>
           <div style={styles.title}>{getTitle()}</div>
           <div style={styles.title2}>{core.cache.project}</div>
           {isElectron() ? null : <LightTooltip title="user interface">
