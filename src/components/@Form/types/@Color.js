@@ -319,7 +319,7 @@ function Color(props) {
         </Popover>
       </div>
       <ButtonMenu
-        enabled={props.options.bind !== undefined ? props.options.bind : props.route.type} 
+        enabled={props.mini ? (props.options.bind !== undefined ? props.options.bind : props.route.type) : false} 
         icon={props.data.enabled}
         mode={props.mode} 
         onChange={handleClickButton}

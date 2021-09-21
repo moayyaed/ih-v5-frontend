@@ -185,9 +185,15 @@ class Img extends PureComponent {
 
   handleDialogClick4 = (data) => {
     if (data !== null && data !== ':exit:') {
-      core.transfer.unsub('form_dialog', this.handleDialogClick4);
-      core.actions.appdialog.close();
-      this.props.onChange(this.props.id, this.props.options, null, { ...this.props.data, ...data} )
+      if (this.props.mini) {
+        core.transfer.unsub('form_dialog', this.handleDialogClick4);
+        core.actions.appdialog.close();
+        this.props.onChange(this.props.id, this.props.options, null, { ...this.props.data, ...data} )
+      } else {
+        core.transfer.unsub('form_dialog', this.handleDialogClick4);
+        core.actions.appdialog.close();
+        this.props.onChange(this.props.id, this.props.options, null, data.value )
+      }
     } else {
       core.transfer.unsub('form_dialog', this.handleDialogClick4);
     }
@@ -243,7 +249,7 @@ class Img extends PureComponent {
         </>
       )
     }
-
+    
     return (
       <TextField
         id={this.props.options.id} 
@@ -252,17 +258,13 @@ class Img extends PureComponent {
         disabled={Boolean(this.props.data.enabled)}
         InputProps={{
           endAdornment: (
-            <ButtonMenu
-              enabled={this.props.route.type} 
-              icon={this.props.data.enabled}
-              mode={this.props.mode} 
-              onChange={this.handleClickButton}
-              onClear={this.handleClear}
-            />
+            <IconButton size="small" onClick={this.handleClick}>
+              <InsertPhotoOutlinedIcon fontSize="inherit" />
+            </IconButton>
           )
         }}
         InputLabelProps={{ shrink: true, style: this.props.getStyle(this.props) }} 
-        value={this.props.data.enabled ? this.props.data.title : this.props.data.value}
+        value={this.props.data}
         error={this.props.cache && this.props.cache.error}
         helperText={this.props.cache && this.props.cache.error}
         onChange={this.handleChangeText}
