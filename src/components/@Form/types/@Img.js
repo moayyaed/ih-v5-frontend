@@ -53,6 +53,11 @@ class Img extends PureComponent {
     this.props.onChange(this.props.id, this.props.options, null, { ...this.props.data, value: e.target.value })
   }
 
+  handleChangeText2 = (e) => {
+    this.props.onChange(this.props.id, this.props.options, null, e.target.value);
+  }
+
+
   handleClickButton = (value) => {
     if (value === null) {
       this.props.onChange(this.props.id, this.props.options, null, { ...this.props.data, enabled: false, text: null, value: this.props.data.text || '' })
@@ -267,7 +272,7 @@ class Img extends PureComponent {
         value={this.props.data}
         error={this.props.cache && this.props.cache.error}
         helperText={this.props.cache && this.props.cache.error}
-        onChange={this.handleChangeText}
+        onChange={this.handleChangeText2}
       />
     )
   }
