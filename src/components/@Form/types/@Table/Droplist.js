@@ -203,7 +203,7 @@ class TableDroplistComponent extends Component {
         const options = this.props.container.props.options;
         const column = this.props.column;
         const row = this.props.rowData;
-        this.props.container.props.onChange(id, options, { op: 'edit', column, row }, { id: '-' })
+        this.props.container.props.onChange(id, options, { op: 'edit', column, row }, { id: '-', title: '-' })
       }
     }
   }

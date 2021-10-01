@@ -232,6 +232,8 @@ const langs = {
   actions: 'Действия',
   no_props: 'No properties',
   no_data: "It's empty is here",
+  console: 'Console',
+  controls: 'Controls',
   _aggregate: "Aggregate",
   _axis: "Axis Left / Right",
   _axis_bottom: "Axis Bottom",
