@@ -212,18 +212,38 @@ class Login extends Component {
   componentDidMount() {
     const params = getParams(window.location.search)
 
-    if (params.username) {
-      this.requestAuth({ 
-        username: params.username, 
-        password: params.password, 
-        memberme: false 
-      })
-    } else {
-      if (core.cache.token) {
-        this.requestAuth({ rememberme: true, token: true })
+    this.requestLangs(() => {
+      if (params.username) {
+        this.requestAuth({ 
+          username: params.username, 
+          password: params.password, 
+          memberme: false 
+        })
       } else {
-        this.requestInfo();
+        if (core.cache.token) {
+          this.requestAuth({ rememberme: true, token: true })
+        } else {
+          this.requestInfo();
+        }
       }
+    })
+  }
+
+  requestLangs = (cb) => {
+    if (core.options.type === 'admin') {
+      const fetch = window.__ihp2p ? window.__ihp2p.fetch : window.fetch;
+  
+      fetch('/messages')
+        .then(res => res.json())
+        .then(json => {
+          core.cache.langs = json.data || {};
+          cb();
+        })
+        .catch(() => {
+          cb();
+        })
+    } else {
+      cb();
     }
   }
 
