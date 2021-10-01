@@ -439,40 +439,40 @@ function Actions(props) {
 
     if (state.type === 'menu-left' || state.type === 'menu-right') {
       return [
-        <MenuItem key="-2" onClick={(e) => handleClickMenu('link', e)}>Привязать</MenuItem>,
-        <MenuItem key="-1" onClick={(e) => handleClickMenu('unlink', e)}>Отвязать</MenuItem>,
+        <MenuItem key="-2" onClick={(e) => handleClickMenu('link', e)}>{core.lang({ lang: 'prop_link'})}</MenuItem>,
+        <MenuItem key="-1" onClick={(e) => handleClickMenu('unlink', e)}>{core.lang({ lang: 'prop_unlink'})}</MenuItem>,
         <Divider key="0" />,
-        <MenuItem key="1" onClick={(e) => handleClickMenu('up', e)}>Вверх</MenuItem>,
-        <MenuItem key="2" onClick={(e) => handleClickMenu('down', e)}>Вниз</MenuItem>,
+        <MenuItem key="1" onClick={(e) => handleClickMenu('up', e)}>{core.lang({ lang: 'prop_up'})}</MenuItem>,
+        <MenuItem key="2" onClick={(e) => handleClickMenu('down', e)}>{core.lang({ lang: 'prop_down'})}</MenuItem>,
         <Divider key="3" />,
-        <MenuItem key="4" onClick={(e) => handleClickMenu('delete', e)}>Удалить</MenuItem>,
+        <MenuItem key="4" onClick={(e) => handleClickMenu('delete', e)}>{core.lang({ lang: 'prop_del'})}</MenuItem>,
       ]
     }
 
     if (state.type === 'option-left' || state.type === 'option-right') {
       if (route.dialog) {
         return [
-          <MenuItem key="0" onClick={() => handleClickOption('device_any')}>Команда устройства</MenuItem>,
-          <MenuItem key="1" onClick={() => handleClickOption('script')}>Запуск сценария</MenuItem>,
-          <MenuItem key="2" onClick={() => handleClickOption('setval_any')}>Установить значение</MenuItem>,
-          <MenuItem key="3" onClick={() => handleClickOption('dialog')}>Показать диалог</MenuItem>,
+          <MenuItem key="0" onClick={() => handleClickOption('device_any')}>{core.lang({ lang: 'cmd_dev'})}</MenuItem>,
+          <MenuItem key="1" onClick={() => handleClickOption('script')}>{core.lang({ lang: 'run_script'})}</MenuItem>,
+          <MenuItem key="2" onClick={() => handleClickOption('setval_any')}>{core.lang({ lang: 'set_val'})}</MenuItem>,
+          <MenuItem key="3" onClick={() => handleClickOption('dialog')}>{core.lang({ lang: 'show_dialog'})}</MenuItem>,
           <Divider key="-" />,
-          <MenuItem key="4" onClick={() => handleClickOption('initdialog')}>Начальный диалог</MenuItem>,
-          <MenuItem key="5" onClick={() => handleClickOption('close')}>Закрыть диалог</MenuItem>,
+          <MenuItem key="4" onClick={() => handleClickOption('initdialog')}>{core.lang({ lang: 'init_dialog'})}</MenuItem>,
+          <MenuItem key="5" onClick={() => handleClickOption('close')}>{core.lang({ lang: 'close_dialog'})}</MenuItem>,
         ]
       }
       return [
-        <MenuItem key="2" onClick={() => handleClickOption(route.container ? 'device_any' : 'device')}>Команда устройства</MenuItem>,
-        <MenuItem key="3" onClick={() => handleClickOption('plugin')}>Команда плагина</MenuItem>,
-        <MenuItem key="4" onClick={() => handleClickOption('script')}>Запуск сценария</MenuItem>,
-        <MenuItem key="5" onClick={() => handleClickOption('layout')}>Переход на экран</MenuItem>,
-        <MenuItem key="6" onClick={() => handleClickOption(route.container ? 'setval_any' : 'setval')}>Установить значение</MenuItem>,
-        <MenuItem key="7" onClick={() => handleClickOption(route.container ? 'dialog_any' : 'dialog')}>Показать диалог</MenuItem>,
-        <MenuItem key="8" onClick={() => handleClickOption('visscript')}>Скрипт визуализации</MenuItem>,
+        <MenuItem key="2" onClick={() => handleClickOption(route.container ? 'device_any' : 'device')}>{core.lang({ lang: 'cmd_dev'})}</MenuItem>,
+        <MenuItem key="3" onClick={() => handleClickOption('plugin')}>{core.lang({ lang: 'сmd_plugin'})}</MenuItem>,
+        <MenuItem key="4" onClick={() => handleClickOption('script')}>{core.lang({ lang: 'run_script'})}</MenuItem>,
+        <MenuItem key="5" onClick={() => handleClickOption('layout')}>{core.lang({ lang: 'go_layout'})}</MenuItem>,
+        <MenuItem key="6" onClick={() => handleClickOption(route.container ? 'setval_any' : 'setval')}>{core.lang({ lang: 'set_val'})}</MenuItem>,
+        <MenuItem key="7" onClick={() => handleClickOption(route.container ? 'dialog_any' : 'dialog')}>{core.lang({ lang: 'show_dialog'})}</MenuItem>,
+        <MenuItem key="8" onClick={() => handleClickOption('visscript')}>{core.lang({ lang: 'run_vscript'})}</MenuItem>,
         <Divider key="-" />,
-        <MenuItem key="9" onClick={() => handleClickOption('fullscreen')}>Полный экран</MenuItem>,
-        <MenuItem key="10" onClick={() => handleClickOption('refresh')}>Обновить экран</MenuItem>,
-        <MenuItem key="11" onClick={() => handleClickOption('exit')}>Выход</MenuItem>,
+        <MenuItem key="9" onClick={() => handleClickOption('fullscreen')}>{core.lang({ lang: 'full_screen'})}</MenuItem>,
+        <MenuItem key="10" onClick={() => handleClickOption('refresh')}>{core.lang({ lang: 'refresh_layout'})}</MenuItem>,
+        <MenuItem key="11" onClick={() => handleClickOption('exit')}>{core.lang({ lang: 'exit'})}</MenuItem>,
       ]
     }
     return null;

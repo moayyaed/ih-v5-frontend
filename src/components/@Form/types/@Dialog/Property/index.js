@@ -58,7 +58,7 @@ class Property extends PureComponent {
       let map = scheme[this.props.elementData.type][this.props.type];
       let data = this.props.elementData;
       if (map === undefined) {
-        return <div style={styles.stub}>No properties</div>;
+        return <div style={styles.stub}>{core.lang({ lang: 'no_props'})}</div>;
       }
       if (this.props.templateData && this.props.type === 'link') {
         const list = this.props.templateData.list

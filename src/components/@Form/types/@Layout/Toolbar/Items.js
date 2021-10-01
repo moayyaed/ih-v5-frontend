@@ -1,5 +1,5 @@
 import React from 'react';
-
+import core from 'core';
 
 import TreeItem from '@material-ui/lab/TreeItem';
 
@@ -90,7 +90,7 @@ export function ElementsItems(props) {
   return (
     <BasicItem 
       nodeId="content" 
-      label="Экран"
+      label={core.lang({ lang: 'layout'})}
       onIconClick={(e) => props.onClickIcon(e, 'content')} 
       onLabelClick={(e) => props.onClickLabel(e, 'content')} 
     >

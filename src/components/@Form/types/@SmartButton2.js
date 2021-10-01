@@ -77,6 +77,7 @@ class SmartButton2 extends PureComponent {
       selectnodeid: this.props.data.id || this.props.data.did || core.cache.dialogDevice,
       select: this.props.data.prop,
       data: this.props.data,
+      title: core.lang(this.props.options.params),
     }
     core.transfer.sub('form_dialog', this.handleDialogClick);
     core.actions.appdialog.data({ 

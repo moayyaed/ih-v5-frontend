@@ -1,12 +1,12 @@
 const scheme = {
   settings: [
     { 
-      title: 'Настройки разработки', 
-      prop: 'settings', 
+      
+      prop: '_settings_dev', 
       type: 'divider',
     },
     { 
-      title: 'Сетка', 
+      
       prop: 'grid', 
       type: 'number',
       step: 1,
@@ -15,7 +15,7 @@ const scheme = {
       bind: false,
     },
     { 
-      title: 'Масштаб', 
+      
       prop: 'scale', 
       type: 'number',
       step: 0.1,
@@ -24,7 +24,7 @@ const scheme = {
       bind: false,
     },
     {
-      title: 'Фон',
+     
       prop: 'devBackgroundColor',
       type: 'color',
       bind: false,

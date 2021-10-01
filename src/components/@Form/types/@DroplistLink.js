@@ -128,9 +128,9 @@ function generateList(data) {
   if (data) {
     return data.map(i => {
       if (i.hide !== undefined) {
-        return { ...i, hide: createHideFunction(i.hide) };
+        return { ...i, hide: createHideFunction(i.hide), title: core.lang(i) };
       }
-      return i;
+      return { ...i, title: core.lang(i) };
     });
   }
   return [];

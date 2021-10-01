@@ -10,7 +10,7 @@ import tunnel from './tunnel';
 import transfer from './transfer';
 import network from './network';
 import tools from './tools';
-
+import lang from './lang';
 
 function settings(options) {
   core.options = options;
@@ -56,6 +56,7 @@ const core = {
   network,
   tools,
   route,
+  lang,
   buffer: {},
   styleBuffer: null,
   progress: {
@@ -84,6 +85,7 @@ const core = {
     context2: {},
     dialogRelink: null,
     dialogDevice: null,
+    langs: {},
   },
   whois: Bowser.parse(window.navigator.userAgent),
   restart: false,

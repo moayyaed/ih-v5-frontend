@@ -1,30 +1,30 @@
 const action = {
   move: [
     { 
-      title: 'Позиция', 
-      prop: 'position', 
+      
+      prop: '_position', 
       type: 'divider',
     },
     { 
-      title: 'X', 
+      
       prop: 'x', 
       type: 'number',
       bind: false,
     },
     { 
-      title: 'Y', 
+      
       prop: 'y', 
       type: 'number',
       bind: false,
     },
     { 
-      title: 'Ширина', 
+      
       prop: 'w', 
       type: 'number',
       bind: false,
     },
     { 
-      title: 'Высота', 
+      
       prop: 'h', 
       type: 'number',
       bind: false,
@@ -32,17 +32,17 @@ const action = {
   ],
   actions: [
       { 
-        title: 'Эффекты', 
-        prop: 'effect', 
+        
+        prop: '_effects', 
         type: 'divider',
       },
       { 
-        title: 'Цвет наведении', 
+        
         prop: 'colorHover', 
         type: 'color',
       },
       { 
-        title: 'Цвет пульсации', 
+        
         prop: 'colorRipple', 
         type: 'color',
       },

@@ -1,4 +1,5 @@
 import React from 'react';
+import core from 'core';
 import components from './types';
 
 
@@ -97,7 +98,7 @@ function CompactForm({ scheme, data, cache, route, onChange, getStyle, mode }) {
       return (
         <div key={i.prop} style={styles.divider} >
           <div style={styles.dividerItem} >
-            {i.title}
+            {core.lang(i)}
           </div>
         </div>
       )
@@ -111,7 +112,7 @@ function CompactForm({ scheme, data, cache, route, onChange, getStyle, mode }) {
     }
     return (
       <div key={i.prop} style={styles.basic} >
-        <div style={q & 1 ? styles.basicItemLabel2: styles.basicItemLabel}>{i.title}</div>
+        <div style={q & 1 ? styles.basicItemLabel2: styles.basicItemLabel}>{core.lang(i)}</div>
         <div style={q & 1 ? styles.basicItemValue2: styles.basicItemValue}>{components(i.prop, i, data[i.prop] || {}, cache[i.prop], data, route, onChange, getStyle, true, mode)}</div>
       </div>
     )

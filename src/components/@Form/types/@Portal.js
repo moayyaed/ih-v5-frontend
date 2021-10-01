@@ -23,9 +23,9 @@ function getUrl() {
 class Portal extends Component {
   componentDidMount() {
     window.onmessage = (e) => {
-      console.log('root:', e.data);
+      console.log(e.data);
+      this.link.contentWindow.postMessage('hello iframe', '*');
     };
-    this.link.contentWindow.postMessage('hello', '*');
   }
 
   linked = (e) => {

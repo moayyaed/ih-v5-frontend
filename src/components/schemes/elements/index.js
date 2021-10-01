@@ -39,39 +39,39 @@ const elements = {
     main: main,
     element: [  
       { 
-        title: 'Кнопка', 
+        
         prop: '_button', 
         type: 'divider', //ratio
       },
       {
         prop: 'imgPosition',
-        title: 'Ориентация',
+       
         type: 'droplistlink',
         data: [
           {
             id: 'top',
-            title: 'Сверху'
+           
           },
           {
             id: 'bottom',
-            title: 'Снизу'
+           
           },
           {
             id: 'center',
-            title: 'Центр'
+           
           },
           {
             id: 'left',
-            title: 'Слева'
+           
           },
           {
             id: 'right',
-            title: 'Справа'
+           
           },
         ]
       },
       { 
-        title: 'Соотношение', 
+        
         prop: 'imgRatio', 
         type: 'number',
         step: 5,
@@ -89,12 +89,12 @@ const elements = {
     move: move,
     element: [
       { 
-        title: 'Iframe', 
+        
         prop: '_iframe', 
         type: 'divider',
       },
       { 
-        title: 'Url', 
+        
         prop: 'url', 
         type: 'inputlink',
       },
@@ -105,12 +105,12 @@ const elements = {
     move: move,
     element: [
       { 
-        title: 'Html', 
+        
         prop: '_html', 
         type: 'divider',
       },
       { 
-        title: 'Код', 
+        
         prop: 'code', 
         type: 'html',
       },

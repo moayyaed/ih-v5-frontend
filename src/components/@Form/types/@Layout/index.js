@@ -336,7 +336,7 @@ class Layout extends PureComponent {
   getTitleSelect = () => {
     if (this.props.data.selectOne) {
       if (this.props.data.selectOne === 'content') {
-        return 'Экран';
+        return core.lang({ lang: 'layout'});
       } 
       const item = this.props.data.elements[this.props.data.selectOne];
       if (this.props.data.selectOne !== item._label) {

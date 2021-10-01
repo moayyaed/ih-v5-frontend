@@ -50,7 +50,7 @@ class Property extends PureComponent {
       let map = scheme[this.props.elementData.type][this.props.type];
       let data = this.props.elementData;
       if (map === undefined) {
-        return <div style={styles.stub}>No properties</div>;
+        return <div style={styles.stub}>{core.lang({ lang: 'no_props'})}</div>;
       }
       if (this.props.templateData) {
         data = this.props.templateData.listState
@@ -73,7 +73,7 @@ class Property extends PureComponent {
               dialog: 'channellink'
             }
           }));
-        // map = [{ type: 'button', title: 'link all'}].concat(map);
+        // map = [{ type: 'button'}].concat(map);
       }
       if (this.props.elementData.widget && this.props.type === 'link') {
         data = Object
@@ -98,7 +98,8 @@ class Property extends PureComponent {
       return (
         <Scrollbars style={styles.scroll}>
           <div style={styles.container}>
-            <CompactForm 
+            <CompactForm
+              lang 
               key={this.props.elementId || 'property'}
               debug={false} 
               scheme={map}

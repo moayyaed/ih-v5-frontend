@@ -620,13 +620,13 @@ class Template extends PureComponent {
   getTitleSelect = () => {
     if (this.props.data.selectOne) {
       if (this.props.data.selectOne === 'content') {
-        return 'Шаблон';
+        return core.lang({ lang: 'template'});
       }
       if (this.props.data.mode === 'vars') {
         if (this.props.data.selectOne !== this.props.data.elements[this.props.data.selectOne]._label) {
-          return `Переменная - ${this.props.data.state[this.props.data.selectState].title}: ${this.props.data.state[this.props.data.selectState].curent}, Элемент - ${this.props.data.selectOne} ▪︎ ${this.props.data.elements[this.props.data.selectOne]._label}`
+          return `${core.lang({ lang: 'var'})} - ${this.props.data.state[this.props.data.selectState].title}: ${this.props.data.state[this.props.data.selectState].curent}, Элемент - ${this.props.data.selectOne} ▪︎ ${this.props.data.elements[this.props.data.selectOne]._label}`
         }
-        return `Переменная - ${this.props.data.state[this.props.data.selectState].title}: ${this.props.data.state[this.props.data.selectState].curent}, Элемент - ${this.props.data.selectOne}`
+        return `${core.lang({ lang: 'var'})} - ${this.props.data.state[this.props.data.selectState].title}: ${this.props.data.state[this.props.data.selectState].curent}, Элемент - ${this.props.data.selectOne}`
       }
       if (this.props.data.selectOne !== this.props.data.elements[this.props.data.selectOne]._label) {
         return `${this.props.data.selectOne} ▪︎ ${this.props.data.elements[this.props.data.selectOne]._label}`;
@@ -650,7 +650,7 @@ class Template extends PureComponent {
         return `Переменная - ${this.props.data.state[this.props.data.selectState].title}: ${this.props.data.state[this.props.data.selectState].curent}`
       }
       if (this.props.data.mode === 'events') {
-        return `Действия`
+        return core.lang({ lang: 'actions'})
       }
     }
 

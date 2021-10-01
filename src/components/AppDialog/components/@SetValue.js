@@ -169,7 +169,7 @@ class Setvalue extends Component {
       return (
         <div style={styles.root2} >
           <InboxOutlinedIcon style={{ fontSize: '6em', margin: 6, color: '#B0BEC5' }} />
-          <Typography variant="h5">It's empty is here</Typography>
+          <Typography variant="h5">{core.lang({ lang: 'no_data' })}</Typography>
         </div>
       )
     }

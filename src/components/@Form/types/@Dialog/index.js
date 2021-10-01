@@ -339,7 +339,7 @@ class Dialog extends PureComponent {
   getTitleSelect = () => {
     if (this.props.data.selectOne) {
       if (this.props.data.selectOne === 'content') {
-        return 'Контейнер';
+        return core.lang({ lang: 'container'});
       }
       if (this.props.data.selectOne !== this.props.data.elements[this.props.data.selectOne]._label) {
         return `${this.props.data.selectOne} ▪︎ ${this.props.data.elements[this.props.data.selectOne]._label}`

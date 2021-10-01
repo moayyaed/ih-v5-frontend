@@ -1,5 +1,5 @@
 import React from 'react';
-
+import core from 'core';
 
 import TreeItem from '@material-ui/lab/TreeItem';
 
@@ -81,7 +81,7 @@ export function EventsItems(props) {
   return (
     <BasicItem 
       nodeId="events" 
-      label="Действия"
+      label={core.lang({ lang: 'actions' })}
       onIconClick={(e) => props.onClickIcon(e, 'events')} 
       onLabelClick={(e) => props.onClickLabel(e, 'events')} 
     >
@@ -94,7 +94,7 @@ export function ElementsItems(props) {
   return (
     <BasicItem 
       nodeId="content" 
-      label="Шаблон"
+      label={core.lang({ lang: 'template'})}
       onIconClick={(e) => props.onClickIcon(e, 'content')} 
       onLabelClick={(e) => props.onClickLabel(e, 'content')} 
     >
@@ -140,7 +140,7 @@ export function AnimationItems(props) {
   return (
     <BasicItem 
       nodeId="variables" 
-      label={<StyleItem {...props} label="Переменные" />}
+      label={<StyleItem {...props} label={core.lang({ lang: 'vars' })} />}
       onIconClick={(e) => props.onClickIcon(e, 'variables')} 
       onLabelClick={(e) => props.onClickLabel(e, 'variables')} 
     >

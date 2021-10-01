@@ -412,46 +412,46 @@ function AppBar(props) {
         <div style={styles.container}>
           <div style={styles.title}>{getTitle()}</div>
           <div style={styles.title2}>{core.cache.project}</div>
-          {isElectron() ? null : <LightTooltip title="user interface">
+          {isElectron() ? null : <LightTooltip title={core.lang({lang: 'appbar_ui' })}>
             <IconButton style={styles.button} size="small" onClick={handleClickUserInterface}>
               <WebIcon fontSize="small" />
             </IconButton>
           </LightTooltip>}
-          <LightTooltip title="server settings">
+          <LightTooltip title={core.lang({lang: 'appbar_settings' })}>
             <IconButton style={styles.button} size="small" onClick={() => handleClickSettings(props.menuid)}>
               <SettingsIcon style={{ color: props.menuid === 'settings' ? '#03A9F4' : 'unset' }} fontSize="small" />
             </IconButton>
           </LightTooltip>
 
-          <LightTooltip title="import">
+          <LightTooltip title={core.lang({lang: 'appbar_import' })}>
             <IconButton style={styles.button2} size="small" onClick={() => handleUpload(props)}>
               <PublishIcon fontSize="small" />
             </IconButton>
           </LightTooltip>
           <Divider orientation="vertical" flexItem style={styles.divider} />
-          <LightTooltip title="Сообщить о проблеме">
+          <LightTooltip title={core.lang({lang: 'appbar_bug' })}>
             <IconButton style={styles.button} size="small" onClick={handleSnap}>
               <AdbIcon fontSize="small" />
             </IconButton>
           </LightTooltip>      
           <Divider orientation="vertical" flexItem style={styles.divider} />
-          <LightTooltip title="help">
+          <LightTooltip title={core.lang({lang: 'appbar_help' })}>
             <IconButton style={styles.button} size="small" onClick={handleClickHelp}>
               <HelpOutlineIcon fontSize="small" />
             </IconButton>
           </LightTooltip>
           <IconButton style={styles.button} size="small">
             {props.network ? 
-              <TooltipGood title="connection established">
+              <TooltipGood title={core.lang({lang: 'appbar_network_ok' })}>
                 <WifiIcon fontSize="small" />
               </TooltipGood> 
               :
-              <TooltipBad title="connection disconnected">
+              <TooltipBad title={core.lang({lang: 'appbar_network_err' })}>
                 <WifiOffIcon fontSize="small" style={styles.icon2} />
               </TooltipBad> 
             }
           </IconButton>
-          <LightTooltip title="exit">
+          <LightTooltip title={core.lang({lang: 'appbar_exit' })}>
             <IconButton style={styles.button} size="small" onClick={handleClickExit}>
               <ExitToAppIcon fontSize="small" />
             </IconButton>

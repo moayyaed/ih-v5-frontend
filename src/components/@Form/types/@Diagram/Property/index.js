@@ -48,7 +48,7 @@ class Property extends PureComponent {
   render() {
     if (this.props.elementId && this.props.data.type) {
       if (scheme[this.props.data.type] === undefined) {
-        return <div style={styles.stub}>No properties</div>;
+        return <div style={styles.stub}>{core.lang({ lang: 'no_props'})}</div>;
       }
       return (
         <Scrollbars style={styles.scroll}>

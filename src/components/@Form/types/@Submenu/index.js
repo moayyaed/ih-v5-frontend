@@ -359,8 +359,8 @@ class Submenu extends PureComponent {
     if (id === 'tree' && this.props.options.toolbar) {
       const scheme = {
         main: [
-          { id: '1', title: 'Console', click: () => this.handleShowWindow('console') },
-          { id: '2', title: 'Controls', click: () => this.handleShowWindow('controls') },
+          { id: '1', click: () => this.handleShowWindow('console') },
+          { id: '2', click: () => this.handleShowWindow('controls') },
         ]
       }
       return (
