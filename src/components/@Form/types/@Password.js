@@ -4,6 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 import Input from '@material-ui/core/Input';
 
+import FormHelperText from '@material-ui/core/FormHelperText';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
@@ -40,7 +41,7 @@ function Password(props) {
   });
 
   return (
-    <FormControl style={styles.text} >
+    <FormControl error={props.cache && props.cache.error} style={styles.text} >
       <InputLabel>{props.options.title}</InputLabel>
       <Input
         autoComplete="off"
@@ -58,6 +59,7 @@ function Password(props) {
           </InputAdornment>
         }
       />
+      <FormHelperText >{props.cache && props.cache.error}</FormHelperText>
     </FormControl>
   )
 }

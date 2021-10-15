@@ -1,4 +1,5 @@
 import React from 'react';
+import core from 'core';
 
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
@@ -10,7 +11,7 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 
-const options = ['Восстановить'];
+const options = ['RESTORE'];
 
 
 function SplitButton(props) {
@@ -50,7 +51,7 @@ function SplitButton(props) {
           variant="contained" 
           color="primary" 
         >
-          <Button onClick={handleClick}>Сохранить</Button>
+          <Button onClick={handleClick}>{core.lang({ lang: 'SAVE' })}</Button>
           <Button
             color="primary"
             size="small"
@@ -81,7 +82,7 @@ function SplitButton(props) {
                         selected={index === selectedIndex}
                         onClick={event => handleMenuItemClick(event, index)}
                       >
-                        {option}
+                        {core.lang({ lang: option })}
                       </MenuItem>
                     ))}
                   </MenuList>
