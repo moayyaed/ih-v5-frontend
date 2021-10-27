@@ -44,7 +44,7 @@ import Frame from './@Frame';
 import Webconsole from './@Webconsole';
 import Markdown from './@Markdown';
 import Portal from './@Portal';
-
+import QRCodeHAP from './@QRCodeHAP';
 
 function getComponentByType(type) {
   switch (type) {
@@ -136,6 +136,8 @@ function getComponentByType(type) {
       return Markdown;
     case 'portal':
       return Portal;
+    case 'qrcodehap':
+      return QRCodeHAP;
     default:
       return Text;
   }
