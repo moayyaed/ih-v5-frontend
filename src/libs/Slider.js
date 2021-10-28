@@ -571,7 +571,8 @@ const Slider = /*#__PURE__*/React.forwardRef(function Slider(props, ref) {
     
     const bounding = slider.getBoundingClientRect();
 
-    const s = zoom === undefined ? 1 : window.document.body.style.zoom === undefined ? 1 : zoom;
+    // const s = zoom === undefined ? 1 : window.document.body.style.zoom === undefined ? 1 : zoom;
+    const s = 1;
     
     const width = bounding.width * s;
     const height = bounding.height * s;
