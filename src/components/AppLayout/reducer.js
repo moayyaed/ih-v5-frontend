@@ -105,6 +105,7 @@ function createElement(item, values, links, templates) {
               [name]: { ...item[name], value: value },
             };
           }
+        
           return { ...p, [id]: { ...prop, value: prop.func(values[prop.did][prop.prop], {}) } };
         } catch {
           
@@ -116,22 +117,6 @@ function createElement(item, values, links, templates) {
         }
         if (id === 'boxShadow') {
           return { ...p, [id]: { ...prop, active: templates[item.uuid][id].active, value: templates[item.uuid][id].value } };
-        }
-
-        if (id === 'w2' || id === 'h2') {
-          const name = id;
-          const name1 = name === 'w2' ? 'x': 'y';
-          const name2 = name === 'w2' ? 'w': 'h';
-
-          const value = templates[item.uuid][id].value;
-          const delta = value - item[name2].value;
-
-          return { 
-            ...p,
-            [name1]: { ...item[name1], value: item[name1].value - delta },
-            [name2]: { ...item[name2], value: value },
-            [name]: { ...item[name], value: value },
-          };
         }
         return { ...p, [id]: { ...prop, value: templates[item.uuid][id].value } };
       }
