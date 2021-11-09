@@ -18,6 +18,7 @@ import AdbIcon from '@material-ui/icons/Adb';
 import WifiIcon from '@material-ui/icons/Wifi';
 import WifiOffIcon from '@material-ui/icons/WifiOff';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import RefreshIcon from '@material-ui/icons/Refresh';
 
 import SnapForm from './SnapForm';
 
@@ -286,6 +287,11 @@ function handleUpload (props) {
   input.click();
 }
 
+function handleRefresh(props) {
+  core.transfer.send('refresh_nav');
+  core.transfer.send('refresh_page');
+}
+
 function handleClick() {
   core.route('');
 }
@@ -412,6 +418,12 @@ function AppBar(props) {
         <div style={styles.container}>
           <div style={styles.title}>{getTitle()}</div>
           <div style={styles.title2}>{core.cache.project}</div>
+          <LightTooltip title={core.lang({lang: 'appbar_refresh' })}>
+            <IconButton style={styles.button2} size="small" onClick={() => handleRefresh(props)}>
+              <RefreshIcon fontSize="small" />
+            </IconButton>
+          </LightTooltip>
+          <Divider orientation="vertical" flexItem style={styles.divider} />
           {isElectron() ? null : <LightTooltip title={core.lang({lang: 'appbar_ui' })}>
             <IconButton style={styles.button} size="small" onClick={handleClickUserInterface}>
               <WebIcon fontSize="small" />

@@ -886,13 +886,53 @@ class Subtree extends PureComponent {
     }
   }
 
-  handleTransferAppend = (node, data) => {
-    const list = insertNodes(this.state.list, node, data);
-    this.setData({ list });
+  handleTransferAppend = (node, data, refresh) => {
+    if (data && data.length) {
+      if (refresh) {
+        const params = { id: this.props.options.data, navnodeid: this.props.route.nodeid };
+        core
+          .request({ method: 'subtree', params })
+          .ok((res) => {
+            const expandeds = {};
+  
+            function preparation(items) {
+              items.forEach(item => {
+                if (item.expanded) {
+                  expandeds[item.id] = true;
+                }
+  
+                if (item.children) {
+                  preparation(item.children)
+                }
+              })
+            }
+  
+  
+            function preparation2(items) {
+              items.forEach(item => {
+                if (expandeds[item.id]) {
+                  item.expanded = true;
+                }
+  
+                if (item.children) {
+                  preparation2(item.children)
+                }
+              })
+            }
+  
+            preparation(this.state.list);
+            preparation2(res.list);
+  
+            this.setData({ list: res.list });
+          });
+      } else {
+        const list = insertNodes(this.state.list, node, data);
+        this.setData({ list });
+      }
+    }
   }
 
   handleTransferData = (button) => {
-    console.log(button)
     const { channelview, channel } = this.props.route;
     const params = { component: channelview, curent: channel, rowid: this.rowid };
     if (this.id) {

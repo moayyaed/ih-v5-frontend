@@ -124,7 +124,7 @@ class AppBrowse extends Component {
     core
     .request({ method: 'browse_submit', params, payload })
     .ok((res) => {
-      core.transfer.send('subtree_append', { id: params.nodeid }, res.data);
+      core.transfer.send('subtree_append', { id: params.nodeid }, res.data, res.refresh);
       core.actions.appbrowse.data({ open: false, parms: {} });
     }); 
   }

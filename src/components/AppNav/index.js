@@ -84,6 +84,43 @@ class AppNav extends Component {
   state = { contextMenu: { main: [] } };
 
   componentDidMount() {
+    this.getTree();
+
+    if (this.props.stateid === 'appnav') {
+      core.transfer.sub('refresh_nav', this.refreshNav);
+    }
+  }
+
+  componentWillUnmount() {
+    if (!this.props.disabledRoute) {
+      core.actions.apppage.clear();
+    } else {
+      core.actions.appnav.clear(this.props.stateid)
+    }
+
+    if (this.props.stateid === 'appnav') {
+      core.transfer.unsub('refresh_nav', this.refreshNav);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.route.nodeid !== this.props.route.nodeid && this.props.route.nodeid && this.props.route.user === false) {
+      const nodeid = this.props.route.nodeid;
+      const path = core.history.location.pathname.replace(`${core.options.routePrefix}/`, '');
+      const node = findNode(this.props.state.list, nodeid);
+      if (node) {
+        core.actions.apptabs.oneTab(prevProps.route.nodeid, { ...node, path });
+      } else {
+        core.actions.apptabs.oneTab(prevProps.route.nodeid, { id: nodeid, title: nodeid, path });
+      }
+    } else {
+      if (prevProps.route.nodeid !== this.props.route.nodeid && !this.props.route.nodeid){
+        core.actions.apptabs.data({ list: [] });
+      }
+    }
+  }
+
+  getTree = () => {
     this.props.route.menuid && core
     .request({ method: 'appnav', props: this.props })
     .ok((res) => {
@@ -130,29 +167,8 @@ class AppNav extends Component {
     });
   }
 
-  componentWillUnmount() {
-    if (!this.props.disabledRoute) {
-      core.actions.apppage.clear();
-    } else {
-      core.actions.appnav.clear(this.props.stateid)
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.route.nodeid !== this.props.route.nodeid && this.props.route.nodeid && this.props.route.user === false) {
-      const nodeid = this.props.route.nodeid;
-      const path = core.history.location.pathname.replace(`${core.options.routePrefix}/`, '');
-      const node = findNode(this.props.state.list, nodeid);
-      if (node) {
-        core.actions.apptabs.oneTab(prevProps.route.nodeid, { ...node, path });
-      } else {
-        core.actions.apptabs.oneTab(prevProps.route.nodeid, { id: nodeid, title: nodeid, path });
-      }
-    } else {
-      if (prevProps.route.nodeid !== this.props.route.nodeid && !this.props.route.nodeid){
-        core.actions.apptabs.data({ list: [] });
-      }
-    }
+  refreshNav = () => {
+    this.getTree();
   }
 
   handleChange = (list) => {

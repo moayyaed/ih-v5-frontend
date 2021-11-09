@@ -25,11 +25,13 @@ class ComponentTabs extends Component {
     this.saveData = { };
 
     document.addEventListener('keydown', this.handleKeyDown);
+    core.transfer.sub('refresh_page', this.refreshPage);
   }
 
   componentWillUnmount() {
     this.saveData = null;
     document.removeEventListener('keydown', this.handleKeyDown);
+    core.transfer.unsub('refresh_page', this.refreshPage);
   }
 
   handleKeyDown = (e) => {
@@ -39,6 +41,11 @@ class ComponentTabs extends Component {
         this.handleToolbarClick('save');
       }
     }
+  }
+
+  refreshPage = () => {
+    const { route, scheme, state } = this.props;
+    this.handleRequest(route, scheme, true);
   }
 
   handleClickTab = (e, value) => {
