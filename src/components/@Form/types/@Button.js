@@ -29,7 +29,7 @@ function handleClick(props) {
     id: store.component[0].id,
   };
   core
-  .request({ method: 'button_command', params, payload: store.data })
+  .request({ method: 'button_command', params, payload: props.global })
   .ok(res => {
     if (res.alert) {
       core.actions.app.alertOpen(res.alert || 'info', res.message || '');
