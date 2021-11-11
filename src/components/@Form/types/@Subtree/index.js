@@ -800,7 +800,9 @@ class Subtree extends PureComponent {
     if (component.type === 'droplist') {
       temp = value.id;
     }
-    this.save[id][component.prop] = temp;
+    if (!component.nosave) {
+      this.save[id][component.prop] = temp;
+    }
     this.valueBasic(id, component.prop, value);
   }
 
@@ -870,13 +872,16 @@ class Subtree extends PureComponent {
         value = value.result;
       }
     }
-    if (!this.save) {
-      this.save = {};
-      core.actions.apppage.data({ save: 'subtree' })
-    }
 
-    if (this.save[id] === undefined) {
-      this.save[id] = {}
+    if (!component.nosave) {
+      if (!this.save) {
+        this.save = {};
+        core.actions.apppage.data({ save: 'subtree' })
+      }
+  
+      if (this.save[id] === undefined) {
+        this.save[id] = {}
+      }
     }
 
     if (target) {
