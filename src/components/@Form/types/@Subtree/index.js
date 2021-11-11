@@ -441,7 +441,7 @@ class Subtree extends PureComponent {
       this.save = null;
       core.actions.apppage.data({ save: false });
     }
-    const params = { component: channelview, curent: nodeid };
+    const params = { component: channelview, curent: nodeid, navnodeid: this.props.route.nodeid };
     core
       .request({ method: 'subtree_form', params })
       .ok(this.setData);
@@ -934,7 +934,7 @@ class Subtree extends PureComponent {
 
   handleTransferData = (button) => {
     const { channelview, channel } = this.props.route;
-    const params = { component: channelview, curent: channel, rowid: this.rowid };
+    const params = { component: channelview, curent: channel, rowid: this.rowid, navnodeid: this.props.route.nodeid };
     if (this.id) {
       params.component = this.id;
     }
