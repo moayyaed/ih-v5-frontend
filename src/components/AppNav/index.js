@@ -208,6 +208,11 @@ class AppNav extends Component {
     const style = {};
     const id = rowinfo.node.id;
 
+    if (rowinfo.node.strike) {
+      style.textDecoration = 'line-through';
+      style.textDecorationColor = '#616161';
+    }
+
     if (this.props.disabledRoute) {
       if (this.props.state.click.id === id) {
         // style.backgroundColor = 'rgba(158, 158, 158, 0.2)';
