@@ -412,6 +412,13 @@ class Subtree extends PureComponent {
   generateNodeProps = (rowinfo) => {
     const style = {};
     const id = rowinfo.node.id;
+
+    if (rowinfo.node.strike) {
+      style.textDecoration = 'line-through';
+      style.textDecorationColor = '#616161';
+    }
+
+    
     if (this.props.route.channel === id) {
       // style.backgroundColor = 'rgba(158, 158, 158, 0.2)';
       style.fontWeight = 'bold';
