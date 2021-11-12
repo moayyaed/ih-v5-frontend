@@ -156,8 +156,8 @@ class ChartTimeline extends Component {
       groupHeightMode: 'fixed',
       showCurrentTime: false,
       moveable: Boolean(this.props.item.moveable.value),
-      showMajorLabels: Boolean(this.props.item.axisBottomTime.value),
-      showMinorLabels: Boolean(this.props.item.axisBottomDate.value),
+      showMinorLabels: Boolean(this.props.item.axisBottomTime.value),
+      showMajorLabels: Boolean(this.props.item.axisBottomDate.value),
       start: ns, end: ne,
       template: this.renderItem,
     };
@@ -177,12 +177,19 @@ class ChartTimeline extends Component {
 
     this.timelineData = new DataSet([]);
     this.timeline = new Timeline(this.link, this.timelineData, group, options);
-
     this.timeline.body.dom.bottom.style.color = this.props.item.textColor.value;
     this.timeline.body.dom.bottom.style.borderLeft = '0px';
     this.timeline.body.dom.bottom.style.borderRight = '0px';
     this.timeline.body.dom.bottom.children[0].style.borderLeft = '1px solid ' + this.props.item.gridColor.value;
     this.timeline.body.dom.left.style.color = this.props.item.textColor.value;
+
+    for (let i of this.timeline.itemSet.dom.foreground.children) {
+      i.style.borderBottomColor = this.props.item.gridColor.value;
+    }
+
+    for (let i of this.timeline.itemSet.dom.labelSet.children) {
+      i.style.borderBottomColor = this.props.item.gridColor.value;
+    }
 
     this.timeline.body.dom.left.style.width = this.props.item.legendWidth.value + 6 + 'px';
 
@@ -245,8 +252,8 @@ class ChartTimeline extends Component {
       groupHeightMode: 'fixed',
       showCurrentTime: false,
       moveable: Boolean(props.item.moveable.value),
-      showMajorLabels: Boolean(props.item.axisBottomTime.value),
-      showMinorLabels: Boolean(props.item.axisBottomDate.value),
+      showMinorLabels: Boolean(props.item.axisBottomTime.value),
+      showMajorLabels: Boolean(props.item.axisBottomDate.value),
       start: ns, end: ne,
       template: this.renderItem,
     };
@@ -274,6 +281,14 @@ class ChartTimeline extends Component {
     this.timeline.body.dom.bottom.style.borderRight = '0px';
     this.timeline.body.dom.bottom.children[0].style.borderLeft = '1px solid ' + props.item.gridColor.value;
     this.timeline.body.dom.left.style.color = props.item.textColor.value;
+
+    for (let i of this.timeline.itemSet.dom.foreground.children) {
+      i.style.borderBottomColor = props.item.gridColor.value;
+    }
+
+    for (let i of this.timeline.itemSet.dom.labelSet.children) {
+      i.style.borderBottomColor = props.item.gridColor.value;
+    }
 
     this.timeline.body.dom.left.style.width = props.item.legendWidth.value + 6 + 'px';
 
@@ -314,16 +329,24 @@ class ChartTimeline extends Component {
       groupHeightMode: 'fixed',
       showCurrentTime: false,
       moveable: Boolean(props.item.moveable.value),
-      showMajorLabels: Boolean(props.item.axisBottomTime.value),
-      showMinorLabels: Boolean(props.item.axisBottomDate.value),
+      showMinorLabels: Boolean(props.item.axisBottomTime.value),
+      showMajorLabels: Boolean(props.item.axisBottomDate.value),
       start: ns, end: ne,
     };
-
+    
     this.timeline.body.dom.bottom.style.color = props.item.textColor.value;
     this.timeline.body.dom.bottom.style.borderLeft = '0px';
     this.timeline.body.dom.bottom.style.borderRight = '0px';
     this.timeline.body.dom.bottom.children[0].style.borderLeft = '1px solid ' + props.item.gridColor.value;
     this.timeline.body.dom.left.style.color = props.item.textColor.value;
+
+    for (let i of this.timeline.itemSet.dom.foreground.children) {
+      i.style.borderBottomColor = this.props.item.gridColor.value;
+    }
+
+    for (let i of this.timeline.itemSet.dom.labelSet.children) {
+      i.style.borderBottomColor = this.props.item.gridColor.value;
+    }
 
     this.timeline.body.dom.left.style.width = props.item.legendWidth.value + 6 + 'px';
 
