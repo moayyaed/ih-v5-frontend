@@ -35,7 +35,11 @@ function handleClick(props) {
       core.actions.app.alertOpen(res.alert || 'info', res.message || '');
     }
     if (res.refresh) {
-      core.transfer.send('refresh_content');
+      if (store.data !== props.global) {
+        core.transfer.send('refresh_sub_tree_content');
+      } else {
+        core.transfer.send('refresh_content');
+      }
     }
     if (res.restart) {
       core.actions.app.restart(true);
