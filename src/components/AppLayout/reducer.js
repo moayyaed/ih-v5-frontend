@@ -23,6 +23,7 @@ const defaultState = {
 
 const ELEMENT_LINK = 1;
 const TEMPLATE_LINK = 2;
+const ALL_LINK = 3;
 
 function clearAnimation(uuid) {
   const temp = []
@@ -168,6 +169,11 @@ function updateElementsAll(state, action) {
               linksElements[uuid] = true;
             }
             if (state.links[did][uuid] === TEMPLATE_LINK ) {
+              linksTemplates.push(uuid);
+            }
+
+            if (state.links[did][uuid] === ALL_LINK) {
+              linksElements[uuid] = true;
               linksTemplates.push(uuid);
             }
           });

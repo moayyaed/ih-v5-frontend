@@ -6,6 +6,7 @@ import { createValueFunc, options } from 'components/tools';
 
 const ELEMENT_LINK = 1;
 const TEMPLATE_LINK = 2;
+const ALL_LINK = 3
 
 function cloneObject(i) {
   if ((!!i) && (i.constructor === Object)) {
@@ -312,7 +313,11 @@ export function createElement(item, values, widgets, links) {
           if (links[item.links[id].did] === undefined) {
             links[item.links[id].did] = {};
           }
-          links[item.links[id].did][item.uuid] = TEMPLATE_LINK; 
+          if (links[item.links[id].did][item.uuid] !== undefined) {
+            links[item.links[id].did][item.uuid] = ALL_LINK; 
+          } else {
+            links[item.links[id].did][item.uuid] = TEMPLATE_LINK; 
+          }
         }
       })
   }
@@ -361,8 +366,12 @@ export function createElement(item, values, widgets, links) {
           }
           if (links[prop.did] === undefined) {
             links[prop.did] = {};
-          } 
-          links[prop.did][item.uuid] = ELEMENT_LINK; 
+          }
+          if (links[prop.did][item.uuid] !== undefined) {
+            links[prop.did][item.uuid] = ALL_LINK; 
+          } else {
+            links[prop.did][item.uuid] = ELEMENT_LINK; 
+          }
           if (id === 'w2' || id === 'h2') {
             createBindW2H2(id, item, values)
           } else {
