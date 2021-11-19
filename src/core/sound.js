@@ -52,7 +52,7 @@ function sound(uuid, files) {
         });
   
         item.audio.addEventListener('error', (e) => {
-          list[i].error = true;
+          list[index].error = true;
           if (i === index) {
             next();
           }
