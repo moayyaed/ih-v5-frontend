@@ -2,6 +2,10 @@ import core from 'core';
 
 
 export function layoutCommand(data) {
+  if (data.command === 'playsound') {
+    core.sound(data.uuid, data.files);
+  }
+
   if (data.command === 'gotolayout') {
     const prevlayoutid = this.props.state.layoutid;
     const nextlayoutid = data.id;

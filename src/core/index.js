@@ -9,6 +9,7 @@ import request from './request';
 import tunnel from './tunnel';
 import transfer from './transfer';
 import network from './network';
+import sound from './sound';
 import tools from './tools';
 import lang from './lang';
 
@@ -49,6 +50,7 @@ window.onerror = function(message, source, lineno, colno, error) {
 */
 
 const core = {
+  sound,
   settings,
   request,
   tunnel,
