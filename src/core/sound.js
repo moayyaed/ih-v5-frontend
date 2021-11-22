@@ -31,7 +31,7 @@ function sound(uuid, files) {
   }
 
   list.forEach((item, index) => {
-    checkP2P(`/sounds/${encodeURI(item.file)}`, (file) => {
+    checkP2P(`/sounds/${item.file}`, (file) => {
       item.file = file;
 
       if (file === false) {
@@ -85,7 +85,7 @@ function checkP2P(url, cb) {
         }
     }
   } else {
-    cb(url)
+    cb(encodeURI(url))
   }
 }
 
