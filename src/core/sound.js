@@ -78,7 +78,7 @@ function checkP2P(url, cb) {
   
     xhr.onload = () => {
         if (xhr.status === 200) {
-          const url = URL.createObjectURL(xhr.response)
+          const url = URL.createObjectURL(new Blob([xhr.response]))
           cb(url);
         } else {
           cb(false);
