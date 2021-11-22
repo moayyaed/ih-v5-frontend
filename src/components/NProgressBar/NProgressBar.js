@@ -36,7 +36,7 @@ const styles = theme => {
         backgroundColor: '#e0e0e0',
         '& .nprogress-bar': {
           position: 'fixed',
-          backgroundColor: '#212121', // theme.palette.primary.main,
+          backgroundColor: '#2196f3', // theme.palette.primary.main,
           top: 0,
           left: 0,
           right: 0,
