@@ -188,7 +188,7 @@ function updateElementsAll(state, action) {
 
   linksTemplates.forEach(id => {
     const item = state.elements[id];
-    if (item !== undefined) {
+    if (item !== undefined && item.linkid !== undefined) {
       const template = state.templates[item.linkid];
 
       const masterLayer = template.masterLayer;
