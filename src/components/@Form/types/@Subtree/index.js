@@ -941,6 +941,10 @@ class Subtree extends PureComponent {
         const list = insertNodes(this.state.list, node, data);
         this.setData({ list });
       }
+    } else {
+      if (refresh) {
+        core.transfer.send('refresh_page');
+      }
     }
   }
 

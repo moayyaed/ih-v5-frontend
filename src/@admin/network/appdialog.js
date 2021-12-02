@@ -1,6 +1,6 @@
 import core from 'core';
-import { generateOptions, generateCache } from './tools';
 
+import { generateOptions, generateCache, generateMasterData } from './tools';
 
 core.network.request('appdialog_devlink', (send, context) => {
   send({ 
@@ -78,6 +78,23 @@ core.network.request('appdialog_imagegrid', (send, context) => {
 
 core.network.response('appdialog_imagegrid', (answer, res, context) => {
   answer(res);
+})
+
+
+
+core.network.request('browse_form', (send, context) => {
+  send([
+    { method: 'getmeta', type: context.params.type, id: context.params.id, nodeid: context.params.nodeid },
+    { method: 'get', type: context.params.type, id: context.params.id, nodeid: context.params.nodeid },
+  ]);
+})
+
+core.network.response('browse_form', (answer, res, context) => {
+  answer({ 
+    options: generateOptions(res[0].data), 
+    data: res[1].data,
+    cache: generateCache(res[0].data)
+  });
 })
 
 

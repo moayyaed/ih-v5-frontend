@@ -7,11 +7,9 @@ import { ContextMenu } from "@blueprintjs/core";
 import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-import shortid from 'shortid';
-
 import { SortableTreeWithoutDndContext as SortableTree } from 'react-sortable-tree';
 import theme from 'components/AppNav/theme';
-import { editNodes, insertNodes2 } from 'components/AppNav/utils';
+import { editNodes, insertNodes2, removeCildrenNode } from 'components/AppNav/utils';
 
 
 import 'react-sortable-tree/style.css'; 
@@ -57,7 +55,6 @@ class SubTree extends Component {
   componentDidMount() {
     this.struct = {}
     this.animations = {};
-    this.uuid = shortid.generate();
 
     this.link.addEventListener('animationend', this.animationend);
   }
@@ -68,8 +65,7 @@ class SubTree extends Component {
     if ( this.state.scan) {
       this.scanStop();
     }
-    this.uuid = null;
-    this.animations = null;
+    this.animations = {};
   }
 
   animationend = (e) => {
@@ -83,11 +79,12 @@ class SubTree extends Component {
   }
 
   scanStart = () => {
+    this.props.onFormUpdate(null);
     core.tunnel.sub({ 
       method: 'sub',
       type: 'scan',
-      uuid: this.uuid,
-      params: { unit: this.props.params.unit }
+      uuid: this.props.uuid,
+      params: { unit: this.props.params.unit, start: true }
     }, this.realtimeData);
     this.animations = {};
     this.setState({ scan: true, tree: [], loading: true })
@@ -97,8 +94,8 @@ class SubTree extends Component {
     core.tunnel.unsub({ 
       method: 'unsub',
       type: 'scan',
-      uuid: this.uuid,
-      params: { unit: this.props.params.unit }
+      uuid: this.props.uuid,
+      params: { unit: this.props.params.unit, stop: true }
     }, this.realtimeData);
 
     this.setState({ scan: false, loading: false })
@@ -108,6 +105,32 @@ class SubTree extends Component {
     if (json.error) {
       this.setState({ scan: false, loading: false })
     } else {
+      if (json.op === 'alert') {
+        core.actions.app.alertOpen(json.variant || 'info', json.message || '');
+      }
+      if (json.op === 'expand') {
+        const tree = editNodes(this.state.tree, (row) => {
+          if (json.nodeid === row.id) {
+            return { ...row, expanded: true }
+          }
+          return row;
+        });
+        this.setState({ tree, loading: false })
+      }
+      if (json.op === 'clear') {
+        const tree = removeCildrenNode(this.state.tree, json.nodeid);
+        this.setState({ tree, loading: false })
+      }
+      if (json.op === 'form_update') {
+        const tree = editNodes(this.state.tree, (row) => {
+          if (json.nodeid === row.id) {
+            return { ...row, payload: { ...row.payload, ...json.data } }
+          }
+          return row;
+        });
+        this.setState({ tree, loading: false })
+        this.props.onFormUpdate(json.nodeid, json.data)
+      }
       if (json.op === 'meta') {
         this.props.onAddColumns(json.data.columns)
       }
@@ -220,7 +243,8 @@ class SubTree extends Component {
       return {
         id: row.node.id,
         className: 'tree-text-pulse' + this.animations[row.node.id].a,
-        onDoubleClick: (e) => this.handleClickNode(e, row.node),
+        onClick: (e) => this.handleClickNode(e, row.node),
+        onDoubleClick: (e) => this.handleDoubleClickNode(e, row.node),
         onContextMenu: (e) => this.handleContextMenuNode(e, row.node)
       };
     }
@@ -229,13 +253,15 @@ class SubTree extends Component {
       return {
         id: row.node.id,
         className: 'tree-text-pulse' + this.animations[row.node.id].a,
-        onDoubleClick: (e) => this.handleClickNode(e, row.node),
+        onClick: (e) => this.handleClickNode(e, row.node),
+        onDoubleClick: (e) => this.handleDoubleClickNode(e, row.node),
         onContextMenu: (e) => this.handleContextMenuNode(e, row.node)
       };
     }
     return { 
       id: row.node.id, 
-      onDoubleClick: (e) => this.handleClickNode(e, row.node),
+      onClick: (e) => this.handleClickNode(e, row.node),
+      onDoubleClick: (e) => this.handleDoubleClickNode(e, row.node),
       onContextMenu: (e) => this.handleContextMenuNode(e, row.node)
     };
   }
@@ -248,7 +274,7 @@ class SubTree extends Component {
     const disabled = {  add: !node.channel };
 
     const commands = {
-      add: () => this.handleClickNode(null, node), 
+      add: () => this.handleDoubleClickNode(null, node), 
     };
 
     let scheme = { main: [{ id: 'add', check: 'add', title: 'Добавить', command: 'add' }] };
@@ -261,8 +287,16 @@ class SubTree extends Component {
         />, 
         pos, () => {});
   }
-  
+
   handleClickNode = (e, node) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    this.props.onClick(node)
+  }
+  
+  handleDoubleClickNode = (e, node) => {
     if (e) {
       e.preventDefault();
       e.stopPropagation();

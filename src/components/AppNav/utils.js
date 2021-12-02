@@ -364,3 +364,15 @@ export function removeNodes(data, list) {
   return temp;
 }
 
+export function removeCildrenNode(data, nodeid) {
+  const temp = data.reduce((p, c) => {
+    if (c.id === nodeid) {
+      return p.concat({ ...c, children: [] });
+    }
+    if (c.children !== undefined) {
+      return p.concat({ ...c, children: removeCildrenNode(c.children, nodeid) });
+    }
+    return p.concat(c);
+  }, []);
+  return temp;
+}

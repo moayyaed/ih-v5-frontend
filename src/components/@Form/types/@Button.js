@@ -2,6 +2,7 @@ import React from 'react';
 import core from 'core';
 
 import ButtonMui from '@material-ui/core/Button';
+import { purple, green, red, orange, blue } from '@material-ui/core/colors';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
@@ -20,7 +21,9 @@ const classes = theme => ({
 });
 
 function handleClick(props) {
-  if (props.options.command === 'playsound') {
+  if (props.options.command === 'scandata') {
+    props.onChange(props.id, props.options, props.options.command, props.global)
+  } else if (props.options.command === 'playsound') {
     core.sound(null, [props.global.p1._id]);
   } else {
     const store = core.store.getState().apppage;
@@ -51,11 +54,29 @@ function handleClick(props) {
   }
 }
 
+const colors = { purple, green, red, orange, blue };
+
+const ColorButton = withStyles((theme) => ({
+  root: props => {
+    if (colors[props.forcecolor]) {
+      const color = colors[props.forcecolor];
+      return {
+        backgroundColor: color[400],
+        '&:hover': {
+          backgroundColor: color[600],
+        },
+      };
+    }
+    return null;
+  },
+}))(ButtonMui);
+
+
 function Button(props) {
   return (
-    <ButtonMui style={styles.root} variant="contained" color="primary" onClick={() => handleClick(props)}>
+    <ColorButton style={styles.root} forcecolor={props.options.color} variant="contained" color="primary" onClick={() => handleClick(props)}>
       {props.options.title}
-    </ButtonMui>
+    </ColorButton>
   )
 }
 
