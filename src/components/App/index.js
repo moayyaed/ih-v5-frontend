@@ -52,7 +52,6 @@ class App extends Component {
 
     document.addEventListener('keydown', this.handleKeyDown);
     this.handleChageRoute(history.location);
-    core.actions.appbrowse.data(JSON.parse('{"open":true,"params":{"variant":"subtree","unit":"applehomekit","nodeid":"applehomekit_all"}}'));
   }
 
   static getDerivedStateFromError(error) {
