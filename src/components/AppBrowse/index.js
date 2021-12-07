@@ -264,6 +264,9 @@ class AppBrowse extends Component {
   }
 
   render() {
+    if (this.props.state.open == false) {
+      return null;
+    }
     return (
       <Dialog 
         fullWidth 

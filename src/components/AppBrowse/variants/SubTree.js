@@ -62,7 +62,7 @@ class SubTree extends Component {
   componentWillUnmount() {
     this.link.removeEventListener('animationend', this.animationend);
 
-    if ( this.state.scan) {
+    if (this.state.scan) {
       this.scanStop();
     }
     this.animations = {};
