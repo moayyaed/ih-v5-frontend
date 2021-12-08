@@ -100,7 +100,6 @@ class AppBrowse extends Component {
   }
 
   handleAddChannel = (channel) => {
-    console.log(channel)
     this.setState({ data: this.state.data.concat({ ...channel, id: shortid.generate() })});
   }
 
