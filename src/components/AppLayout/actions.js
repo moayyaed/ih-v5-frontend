@@ -1,5 +1,6 @@
 import { 
   APP_LAYOUT_SET_DATA,
+  APP_LAYOUT_UPDATE_WIDGETS_ALL,
   APP_LAYOUT_UPDATE_ELEMENTS_ALL,
   APP_LAYOUT_CHANGE_CONTAINER,
 
@@ -15,6 +16,15 @@ export function data(data) {
     type: APP_LAYOUT_SET_DATA,
     data,
   };
+}
+
+export function updateWidgetsAll(widgettype, ts, data) {
+  return {
+    type: APP_LAYOUT_UPDATE_WIDGETS_ALL,
+    widgettype,
+    ts,
+    data,
+  }
 }
 
 export function updateElementsAll(data) {
@@ -71,6 +81,7 @@ export function syncChartsContainerHomeAll(containerId, position, date) {
 
 export default {
   data,
+  updateWidgetsAll,
   updateElementsAll,
   changeContainer,
   syncChartsLayout,

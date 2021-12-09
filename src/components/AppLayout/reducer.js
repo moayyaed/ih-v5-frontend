@@ -2,6 +2,7 @@ import css from 'css';
 
 import { 
   APP_LAYOUT_SET_DATA,
+  APP_LAYOUT_UPDATE_WIDGETS_ALL,
   APP_LAYOUT_UPDATE_ELEMENTS_ALL,
   APP_LAYOUT_CHANGE_CONTAINER,
 
@@ -12,6 +13,7 @@ import {
 } from './constants';
 
 import { getZoomInterval } from 'components/@Elements/@Chart/utils';
+import widgets from 'components/schemes/widgets';
 
 const defaultState = { 
   layoutid: null, 
@@ -125,6 +127,29 @@ function createElement(item, values, links, templates) {
     }, {});
   }
   return item;
+}
+
+function updateWidgetsAll(state, action) {
+  const elements = {};
+  
+  Object
+    .keys(state.elements)
+    .forEach(id => {
+      const element = state.elements[id];
+
+      if (element.type === action.widgettype) {
+        const link = element.widgetlinks && element.widgetlinks.link && element.widgetlinks.link.id;
+        
+        if (action.data[link] !== undefined && element.ts !== action.ts) {
+          element.ts = action.ts;
+          element.data = action.data[link].concat(element.data);
+        }
+      }
+
+      elements[id] = element;
+    })
+
+  return { ...state, elements};
 }
 
 function updateElementsAll(state, action) {
@@ -343,6 +368,8 @@ function reducer(state = defaultState, action) {
   switch (action.type) {
     case APP_LAYOUT_SET_DATA:
       return { ...state, ...action.data };
+    case APP_LAYOUT_UPDATE_WIDGETS_ALL:
+      return updateWidgetsAll(state, action);
     case APP_LAYOUT_UPDATE_ELEMENTS_ALL:
       return updateElementsAll(state, action);
     case APP_LAYOUT_CHANGE_CONTAINER:

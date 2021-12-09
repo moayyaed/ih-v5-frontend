@@ -102,8 +102,12 @@ class AppLayout extends Component {
     });
   }
 
-  realtime = (data) => {
-    core.actions.layout.updateElementsAll(data);
+  realtime = (data, raw) => {
+    if (raw && raw.widgettype) {
+      core.actions.layout.updateWidgetsAll(raw.widgettype, raw.ts, data);
+    } else {
+      core.actions.layout.updateElementsAll(data);
+    }
   }
 
   realtimecharts = (data) => {
