@@ -140,8 +140,8 @@ const content3 = {
       type: 'divider',
     },
     {
-      prop: 'Позиция',
-     
+      prop: 'position',
+  
       type: 'droplistlink',
       bind: false,
       data: [
@@ -227,7 +227,7 @@ const content3 = {
       type: 'divider',
     },
     {
-      prop: 'Позиция',
+      prop: 'position',
      
       type: 'droplistlink',
       bind: false,
