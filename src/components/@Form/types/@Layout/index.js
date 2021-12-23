@@ -119,7 +119,7 @@ class Layout extends PureComponent {
       const propertyType = this.props.data.propertyType || 'element';
       const item = this.props.data.elements[this.props.data.selectOne];
 
-      if (item.widget && propertyType === 'link') {
+      if (item.widget && item.widgetlinks && propertyType === 'link') {
         if (item.type === 'container' && value.id) {
           this.handleChangeContainer(value.id)
         }

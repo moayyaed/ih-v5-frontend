@@ -8,6 +8,7 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 
 import CompactForm from 'components/@Form/Compact'
 import { keys } from '@material-ui/core/styles/createBreakpoints';
+import core from 'core';
 
 
 const styles = {
@@ -108,7 +109,7 @@ function Combine(props) {
     <>
       <div style={styles.divider} >
         <div style={styles.dividerTitle} >
-          {props.options.title}
+          {core.lang(props.options)}
         </div>
         <IconButton className="nb2" style={styles.button} onClick={() => handleClickAdd(props)} size="small" >
           <AddIcon fontSize="small" />

@@ -22,6 +22,7 @@ import Images from './@Images';
 import Shadow from './@Shadow';
 import Animation from './@Animation';
 import Actions from './@Actions';
+import Actions2 from './@Actions2';
 import Combine from './@Combine';
 import Debug from './@Debug';
 import Html from './@Html';
@@ -94,6 +95,8 @@ function getComponentByType(type) {
       return Animation;
     case 'actions':
       return Actions;
+    case 'actions2':
+      return Actions2;
     case 'combine':
       return Combine;
       

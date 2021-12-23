@@ -75,7 +75,7 @@ class Property extends PureComponent {
           }));
         // map = [{ type: 'button'}].concat(map);
       }
-      if (this.props.elementData.widget && this.props.type === 'link') {
+      if (this.props.elementData.widget && this.props.type === 'link' && this.props.elementData.widgetlinks) {
         data = Object
           .keys(this.props.elementData.widgetlinks)
           .reduce((p, c) => {

@@ -103,7 +103,7 @@ function CompactForm({ scheme, data, cache, route, onChange, getStyle, mode }) {
         </div>
       )
     }
-    if (i.type === 'actions' || i.type === 'combine') {
+    if (i.type === 'actions' || i.type === 'actions2' || i.type === 'combine') {
       return (
         <div key={i.prop} style={styles.basic2} >
           {components(i.prop, i, data[i.prop] || {}, cache[i.prop], data, route, onChange, getStyle, true, mode)}

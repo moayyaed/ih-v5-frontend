@@ -354,6 +354,14 @@ const JOURNAL = {
   data: [],
 }
 
+const REPORT = {
+  ...BLOCK,
+  widget: true,
+  expand: { value: true },
+  actions2: [],
+  data: [],
+}
+
 const ALERTLOG = {
   ...BLOCK,
   widget: true,
@@ -681,6 +689,8 @@ function getDefaultParams(type) {
       return CHECKBOX;
     case 'journal':
       return JOURNAL;
+    case 'report':
+      return REPORT;
     case 'alertlog':
       return ALERTLOG;
     case 'iframe':

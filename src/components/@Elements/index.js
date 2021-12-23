@@ -26,6 +26,7 @@ import Checkbox from './@Checkbox';
 
 import Journal from './@Journal';
 import AlertLog from './@AlertLog';
+import Report from './@Report';
 
 import ChartBar from './@ChartBar';
 import Iframe from './@Iframe';
@@ -89,6 +90,8 @@ function getElementByType(type) {
       return Journal;
     case 'alertlog':
       return AlertLog;
+    case 'report':
+      return Report;
     case 'chart_bar':
       return ChartBar;
     case 'iframe':
