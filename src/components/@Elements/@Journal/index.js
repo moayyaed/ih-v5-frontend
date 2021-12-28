@@ -174,7 +174,7 @@ class Journal extends Component {
     if (this.state.loading) {
       return null;
     }
-    return <Empty>Нет данных</Empty>
+    return <Empty>{core.cache.lang === 'ru' ? 'Нет данных' : 'Table is empty'}</Empty>
   }
 
   headerRenderer = ({ cells, columns }) => {

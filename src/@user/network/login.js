@@ -19,6 +19,7 @@ core.network.request('login', (send, context) => {
 
 
 core.network.response('login', (answer, res, context) => {
+  core.cache.lang = res.lang;
   core.cache.conf = res.conf;
   core.cache.docs = res.docs;
   core.cache.portal = res.portal;

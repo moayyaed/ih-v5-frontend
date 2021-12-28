@@ -4,8 +4,15 @@ core.network.request('journal', (send, context) => {
   send({ api: 'get',  ...context.params });
 })
 
-
 core.network.response('journal', (answer, res, context) => {
+  answer(res.data);
+})
+
+core.network.request('report', (send, context) => {
+  send({ api: 'get',  ...context.params });
+})
+
+core.network.response('report', (answer, res, context) => {
   answer(res.data);
 })
 
