@@ -31,6 +31,7 @@ import Layout from './@Layout';
 import Container from './@Container';
 import Template from './@Template';
 import Dialog from './@Dialog';
+import PDF from './@PDF';
 import Button from './@Button';
 import SmartButton from './@SmartButton';
 import SmartButton2 from './@SmartButton2';
@@ -103,7 +104,7 @@ function getComponentByType(type) {
     case 'layout':
       return Layout;
     case 'container':
-      return Container;
+      return PDF || Container;
     case 'template':
       return Template;
     case 'dialog':

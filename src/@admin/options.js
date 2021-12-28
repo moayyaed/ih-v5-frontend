@@ -39,6 +39,10 @@ import reducerTemplate from 'components/@Form/types/@Template/reducer';
 import actionsDialog from 'components/@Form/types/@Dialog/actions';
 import reducerDialog from 'components/@Form/types/@Dialog/reducer';
 
+import actionsPDF from 'components/@Form/types/@Container/actions';
+import reducerPDF from 'components/@Form/types/@Container/reducer';
+
+
 import Tabs from 'components/@Tabs';
 
 import './network';
@@ -64,6 +68,7 @@ const options = {
     container: actionsContainer,
     template: actionsTemplate,
     dialog: actionsDialog,
+    pdf: actionsPDF,
     appbrowse: actionsAppBrowse,
   },
   reducers: {
@@ -71,7 +76,7 @@ const options = {
     appmenu: reducerAppMenu,
     appnav: reducerAppNav,
     apptabs: reducerAppTabs,
-    apppage: [{}, reducerAppPage, reducerForm, reducerLayout, reducerContainer, reducerTemplate, reducerDialog],
+    apppage: [{}, reducerAppPage, reducerForm, reducerLayout, reducerContainer, reducerTemplate, reducerDialog, reducerPDF],
     appdialog: reducerAppDialog,
     appprogress: reducerAppProgress,
     appbrowse: reducerAppBrowse,
