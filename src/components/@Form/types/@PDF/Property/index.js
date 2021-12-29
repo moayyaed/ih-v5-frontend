@@ -4,7 +4,7 @@ import core from 'core';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import CompactForm from 'components/@Form/Compact';
-import scheme from 'components/schemes';
+import scheme from '../schemes';
 
 
 const route = { container: true }

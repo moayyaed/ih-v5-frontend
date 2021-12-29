@@ -30,7 +30,6 @@ function Element(props) {
           width: props.item.w.value, 
           height: props.item.h.value, 
           outline: props.select ? '2px dashed #ff00ff' : '2px dashed transparent',
-          zIndex: props.item.zIndex.value,
         }}
         elementid={props.id}
         onClick={(e) => props.isGroup || props.onClick(e, props.id)}

@@ -86,7 +86,7 @@ function getParentGroupId(id, elements) {
   return id;
 }
 
-function reducerContainer(state, action) {
+function reducerPDF(state, action) {
   switch (action.type) {
     case PDF_SET_DATA:
       return { ...state, ...action.data };
@@ -431,7 +431,7 @@ function reducer(state, action) {
           ...state.data,
           [action.id]: {
             ...state.data[action.id],
-            [action.prop]: reducerContainer(state.data[action.id][action.prop], action),
+            [action.prop]: reducerPDF(state.data[action.id][action.prop], action),
           }
         }
       };

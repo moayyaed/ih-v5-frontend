@@ -39,8 +39,8 @@ import reducerTemplate from 'components/@Form/types/@Template/reducer';
 import actionsDialog from 'components/@Form/types/@Dialog/actions';
 import reducerDialog from 'components/@Form/types/@Dialog/reducer';
 
-import actionsPDF from 'components/@Form/types/@Container/actions';
-import reducerPDF from 'components/@Form/types/@Container/reducer';
+import actionsPDF from 'components/@Form/types/@PDF/actions';
+import reducerPDF from 'components/@Form/types/@PDF/reducer';
 
 
 import Tabs from 'components/@Tabs';

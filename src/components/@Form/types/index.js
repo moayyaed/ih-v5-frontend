@@ -104,9 +104,11 @@ function getComponentByType(type) {
     case 'layout':
       return Layout;
     case 'container':
-      return PDF || Container;
+      return Container;
     case 'template':
       return Template;
+    case 'reportmakeup':
+      return PDF;
     case 'dialog':
       return Dialog;
     case 'smartbutton':

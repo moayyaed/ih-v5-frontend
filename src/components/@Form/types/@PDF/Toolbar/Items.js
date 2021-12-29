@@ -91,7 +91,7 @@ export function ElementsItems(props) {
   return (
     <BasicItem 
       nodeId="content" 
-      label={core.lang({ lang: 'container'})}
+      label={core.lang({ lang: 'pdf'})}
       onIconClick={(e) => props.onClickIcon(e, 'content')} 
       onLabelClick={(e) => props.onClickLabel(e, 'content')} 
     >

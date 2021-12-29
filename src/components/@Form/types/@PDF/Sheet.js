@@ -9,12 +9,13 @@ import Draggable from 'libs/Draggable';
 import Element from './Element';
 import Menu from 'components/Menu';
 
-import elemets from 'components/@Elements';
-import getDefaultParamsElement from 'components/@Elements/default';
+import elemets from './elements';
 
 import { linkAllProps } from 'components/@Form/types/@Layout/tools';
 
 import shortid from 'shortid';
+
+import getDefaultParamsElement from './elements/default';
 
 const method2 = window.document.body.style.zoom === undefined;
 
@@ -257,7 +258,7 @@ class Sheet extends Component {
     // paste
     if (e.keyCode == '86' && (e.ctrlKey || e.metaKey) && checkTarget(e.target.tagName)) {
       e.preventDefault();
-      if (core.buffer.class === 'graph') {
+      if (core.buffer.class === 'pdf') {
         this.handleClickPasteElements(null);
       }
     }
@@ -571,7 +572,7 @@ class Sheet extends Component {
                     data.y.value = Math.min(data.y.value, element.y.value); 
                     data.w.value = Math.max(data.w.value, element.x.value + element.w.value); 
                     data.h.value = Math.max(data.h.value, element.y.value + element.h.value); 
-                    data.zIndex.value = Math.max(data.zIndex.value, element.zIndex.value); 
+                    // data.zIndex.value = Math.max(data.zIndex.value, element.zIndex.value); 
                   });
               data.w.value = data.w.value - data.x.value;
               data.h.value = data.h.value - data.y.value;
@@ -711,7 +712,7 @@ class Sheet extends Component {
 
     const disabled = {
       isSelect: Object.keys(this.props.selects).length === 0 || this.props.selectOne === 'content',
-      isPaste: !(core.buffer.class === 'graph'),
+      isPaste: !(core.buffer.class === 'pdf'),
       isTemplate: this.props.selectOne ? !(this.props.selectOne && this.props.elements[this.props.selectOne] && this.props.elements[this.props.selectOne] && this.props.elements[this.props.selectOne].type === 'template') : false,
       checkCopyStyle: !(this.props.selectType === 'one' && this.props.selectOne  !== 'content'),
       checkPasteStyle: !(core.styleBuffer && this.props.selectOne !== 'content' && Object.keys(this.props.selects).length !== 0),
@@ -727,64 +728,16 @@ class Sheet extends Component {
       { id: '1', title: 'Circle', click: () => this.handleAddElement(e, 'circle') },
       { id: '2', title: 'Text', click: () => this.handleAddElement(e, 'text') },
       { id: '3', title: 'Image', click: () => this.handleAddElement(e, 'image') },
-      // { id: '4', title: 'Text & Image', click: () => this.handleAddElement(e, 'text_image') },
-      { id: '5', title: 'Button', click: () => this.handleAddElement(e, 'button') },
-      { id: '51', title: 'Iframe', click: () => this.handleAddElement(e, 'iframe') },
-      { id: '52', title: 'HTML', click: () => this.handleAddElement(e, 'html') },
-      { id: '53', title: 'CCTV', click: () => this.handleAddElement(e, 'cctv') },
-      { id: '-', type: 'divider' },
-      { id: '6', title: 'Inputs', 
-        children: [
-          { id: '1', title: 'Input Classic', click: () => this.handleAddElement(e, 'input_classic') },
-          { id: '2', title: 'Input Modern', click: () => this.handleAddElement(e, 'input_modern') },
-          { id: '3', title: 'Input Filled', click: () => this.handleAddElement(e, 'input_filled') },
-          { id: '4', title: 'Input Outlined', click: () => this.handleAddElement(e, 'input_outlined') },
-        ]
-      },
-      { id: '7', title: 'Sliders', 
-        children: [
-            { id: '1', title: 'Slider Android', click: () => this.handleAddElement(e, 'slider_android') },
-            { id: '2', title: 'Slider iOS', click: () => this.handleAddElement(e, 'slider_ios') },
-            { id: '3', title: 'Slider Pretto', click: () => this.handleAddElement(e, 'slider_pretto') },
-            { id: '4', title: 'Slider Airbnb', click: () => this.handleAddElement(e, 'slider_airbnb') },
-          ]
-        },
-      { id: '8', title: 'Checkbox', click: () => this.handleAddElement(e, 'checkbox') },
-      { id: '9', title: 'Device Settings', click: () => this.handleAddElement(e, 'devicesettings') },
-      { id: '10', title: 'Device Log', click: () => this.handleAddElement(e, 'devicelog') },
-      { id: '11', title: 'Charts', 
-        children: [
-          { id: '1', title: 'Chart Line', click: () => this.handleAddElement(e, 'chart') },
-          { id: '2', title: 'Chart Multiline', click: () => this.handleAddElement(e, 'chart_multi') },
-          { id: '3', title: 'Chart Timeline', click: () => this.handleAddElement(e, 'chart_timeline') },
-          { id: '4', type: 'divider' },
-          { id: '5', title: 'Chart Bar', click: () => this.handleAddElement(e, 'chart_bar') },
-        ]
-      },
-      { id: '12', title: 'Journal', click: () => this.handleAddElement(e, 'journal') },
-      { id: '13', title: 'Alert Journal', click: () => this.handleAddElement(e, 'alertlog') },
+      { id: '4', title: 'Table', click: () => this.handleAddElement(e, 'table') },
     ]
-
-    listElemnts.forEach((i, k) => {
-      if (core.cache.conf !== 2) {
-        if (i.title === 'Journal' || i.title === 'Alert Journal') {
-          delete listElemnts[k];
-        }
-      }
-
-      if (i.title === 'Charts' && !core.cache.modules.multichart) {
-        listElemnts[k] = { id: '11', title: 'Chart Line', click: () => this.handleAddElement(e, 'chart') }
-      }
-    });
-
   
     const scheme = {
       main: [
         { id: '1', title: core.lang({ lang: 'add_elem'}), children: listElemnts },
-        { id: '2', title: core.lang({ lang: 'add_template'}), type: 'remote', popupid: 'vistemplate', command: 'addTemplate' },
+        // { id: '2', title: core.lang({ lang: 'add_template'}), type: 'remote', popupid: 'vistemplate', command: 'addTemplate' },
         { id: '3', type: 'divider' }, 
-        { id: '4', check: 'isSelect', title: core.lang({ lang: 'relink'}), click: () => this.handleDialogAutoLink(elementId) },
-        { id: '5', type: 'divider' }, 
+        // { id: '4', check: 'isSelect', title: core.lang({ lang: 'relink'}), click: () => this.handleDialogAutoLink(elementId) },
+        // { id: '5', type: 'divider' }, 
         { id: '7', check: 'isSelect', title: core.lang({ lang: 'group'}), click: this.handleClickGroupElements },
         { id: '8', check: 'isSelect', title: core.lang({ lang: 'ungroup'}), click: () => this.handleClickUnGroupElement(elementId) },
         { id: '9', type: 'divider' },
@@ -1007,7 +960,7 @@ class Sheet extends Component {
           }
         })
 
-      core.buffer = { class: 'graph', type: 'container', data: { list, elements, templates, offsetX: x, offsetY: y } };
+      core.buffer = { class: 'pdf', type: 'container', data: { list, elements, templates, offsetX: x, offsetY: y } };
   }
 
   handleClickPasteElements = (e) => {

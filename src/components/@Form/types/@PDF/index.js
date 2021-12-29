@@ -54,6 +54,93 @@ class PDF extends PureComponent {
   state = state;
 
   componentDidMount() {
+    if (this.props.data.settings === undefined) {
+      const data = {
+        "containers": {},
+        "templates": {},
+        "selectType": "one",
+        "selectContainer": null,
+        "selects": {
+          "content": true
+        },
+        "settings": {
+          "x": {
+            "value": 10
+          },
+          "y": {
+            "value": 10
+          },
+          "w": {
+            "value": 595
+          },
+          "h": {
+            "value": 841
+          },
+          "scale": {
+            "value": 1
+          },
+          "grid": {
+            "value": 10
+          },
+          "devBackgroundColor": {
+            "value": "rgba(0,0,0,0.25)"
+          },
+          "backgroundColor": {
+            "type": "fill",
+            "value": "rgba(255,255,255,1)",
+            "fill": "rgba(255,255,255,1)",
+            "angle": 90,
+            "shape": "circle",
+            "positionX": 50,
+            "positionY": 50,
+            "extent": "closest-side",
+            "palette": [
+              {
+                "offset": "0.00",
+                "color": "#4A90E2",
+                "opacity": 1
+              },
+              {
+                "offset": "1.00",
+                "color": "#9013FE",
+                "opacity": 1
+              }
+            ]
+          },
+          "backgroundImage": {
+            "value": "unset"
+          },
+          "overlayColor": {
+            "type": "fill",
+            "value": "transparent",
+            "fill": "transparent",
+            "angle": 90,
+            "shape": "circle",
+            "positionX": 50,
+            "positionY": 50,
+            "extent": "closest-side",
+            "palette": [
+              {
+                "offset": "0.00",
+                "color": "#4A90E2",
+                "opacity": 1
+              },
+              {
+                "offset": "1.00",
+                "color": "#9013FE",
+                "opacity": 1
+              }
+            ]
+          }
+        },
+        "list": [],
+        "elements": {},
+        "selectOne": "content"
+      }
+      
+      core.actions.pdf.data(this.props.id, this.props.options.prop, data);
+    }
+
     core.transfer.sub('pdf', this.handleTransferData);
   }
 
@@ -222,14 +309,6 @@ class PDF extends PureComponent {
       const select = this.props.data.propertyType || 'element';
       return [
         <Button 
-          key="1"
-          minimal
-          active={select === 'element'} 
-          icon="highlight"  
-          onClick={() => this.handleChangeProperty('element')} 
-        />,
-        <Separator key="2" />,
-        <Button 
           key="3"
           minimal
           active={select === 'main'} 
@@ -243,14 +322,6 @@ class PDF extends PureComponent {
           active={select === 'move'} 
           icon={IconMove}  
           onClick={() => this.handleChangeProperty('move')}
-        />,
-        <Separator key="6" />,
-        <Button 
-          key="7"
-          minimal
-          active={select === 'link'} 
-          icon="link"  
-          onClick={() => this.handleChangeProperty('link')} 
         />,
       ];
     }
@@ -346,6 +417,9 @@ class PDF extends PureComponent {
   }
 
   getTitleSelect = () => {
+    if (this.props.data.settings === undefined) {
+      return null;
+    }
     if (this.props.data.selectOne) {
       if (this.props.data.selectOne === 'content') {
         return core.lang({ lang: 'pdf'});
@@ -427,6 +501,9 @@ class PDF extends PureComponent {
   }
 
   render() {
+    if (this.props.data.settings === undefined) {
+      return null;
+    }
     return (
       <div style={styles.root} >
         <Mosaic
